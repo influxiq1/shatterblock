@@ -17,6 +17,7 @@ import { BranddashbordComponent } from './branddashbord/branddashbord.component'
 import { InfluencersdashbordComponent } from './influencersdashbord/influencersdashbord.component';
 import { Resolveservice } from '../app/resolveservice';
 import { ApiService } from '../app/api.service';
+import { AuthGuard } from './auth.guard';
 //import { ResolvecomponentComponent } from './resolvecomponent/resolvecomponent.component';
 
 @NgModule({
@@ -40,7 +41,7 @@ import { ApiService } from '../app/api.service';
     HttpClientModule,
     FormsModule, ReactiveFormsModule
   ],
-  providers: [CookieService,Resolveservice,ApiService],
+  providers: [CookieService,Resolveservice,ApiService,AuthGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

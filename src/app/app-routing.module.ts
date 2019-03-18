@@ -8,6 +8,7 @@ import {InfluencersdashbordComponent} from "./influencersdashbord/influencersdas
 import {BranddashbordComponent} from "./branddashbord/branddashbord.component";
 import {AdmindashbordComponent} from "./admindashbord/admindashbord.component";
 import {Resolveservice} from "./resolveservice";
+import { AuthGuard } from './auth.guard';
 
 const routes: Routes = [
   { path: "admin", component: AdminmanagementComponent },
@@ -17,7 +18,7 @@ const routes: Routes = [
   { path: "influencers", component: InfluencersmanagementComponent },
   { path: "influencersdashbord", component: InfluencersdashbordComponent },
   { path: "branddashbord", component: BranddashbordComponent,resolve: {results: Resolveservice},data: { object: 'users' }},
-  { path: "admindashbord", component: AdmindashbordComponent,resolve: {results: Resolveservice},data: { source: 'users',condition:{} } },
+  { path: "admindashbord", component: AdmindashbordComponent,canActivate: [AuthGuard],resolve: {results: Resolveservice},data: { source: 'users',condition:{} } },
 ];
 
 @NgModule({

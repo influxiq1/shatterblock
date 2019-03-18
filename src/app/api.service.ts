@@ -5,6 +5,7 @@ import { environment } from '../environments/environment';
 import { HttpClient,HttpHeaders} from '@angular/common/http';
 //import { JwtHelperService } from '@auth0/angular-jwt';
 //import { LoggedinService } from '../loggedin.service';
+import { CookieService } from 'ngx-cookie-service';
 
 @Injectable()
 export class ApiService {
@@ -14,6 +15,7 @@ export class ApiService {
   
   constructor(private _http: HttpClient, 
               private _authHttp: HttpClient,
+              private cookieService: CookieService
               //public jwtHelper: JwtHelperService,
               //private loggedinService: LoggedinService
               ){
@@ -41,15 +43,16 @@ export class ApiService {
 
     const httpOptions = {
       headers: new HttpHeaders({
-        'Content-Type':  'application/json'
-        //'Authorization': localStorage.getItem('id_token')
+        'Content-Type':  'application/json',
+        'Authorization': this.cookieService.get('jwttoken')
       })
     };
     console.log('endpoint');
     console.log(endpoint);
+    console.log(this.cookieService.get('jwttoken'));
 
     //this.isTokenExpired()
-    var result = this._http.post(this._url+'datalist',httpOptions).pipe(map(res => res));
+    var result = this._http.post(this._url+'datalist',endpoint,httpOptions).pipe(map(res => res));
 
     return result;
   }

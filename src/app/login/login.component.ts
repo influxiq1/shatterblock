@@ -33,37 +33,30 @@ public myForm: any;
         .subscribe( res => {
           let result: any = {};
           result = res;
-          console.log('result:');
-          console.log(result);
-          console.log(result.status);
-          console.log(result.item);
-          console.log(result.item[0]);
-          console.log(result.item[0]._id);
-            console.log('result.status');
             // console.log(result.item[0].type);
             console.log("result.item");
             console.log(result.item);
             // console.log(result.item.type);
             console.log(result.item[0]);
-            this.cookieService.set('username', result.item.username);
-            this.cookieService.set('password', result.item.password);
-            this.cookieService.set('id', result.item._id);
+            if(result.status=='success') {
+                this.cookieService.set('username', result.item[0].username);
+                this.cookieService.set('password', result.item[0].password);
+                this.cookieService.set('id', result.item[0]._id);
+                this.cookieService.set('jwttoken', result.token);
 
-            if (result.status == 'success' && result.item[0].type == 'admin') {
-                this.router.navigate(['/admin']);
+                if (result.status == 'success' && result.item[0].type == 'admin') {
+                    this.router.navigate(['/admin']);
+                }
+                else if (result.status == 'success' && result.item[0].type == 'brand') {
+                    this.router.navigate(['/brand']);
+                }
+                else if (result.status == 'success' && result.item[0].type == 'influencers') {
+                    this.router.navigate(['/influencers']);
+                } else {
+                    console.log('Password not mach');
+                }
             }
-            else if (result.status == 'success' && result.item[0].type == 'brand') {
-                this.router.navigate(['/brand']);
-            }
-            else if (result.status == 'success' && result.item[0].type == 'influencers') {
-                this.router.navigate(['/influencers']);
-            } else {
-                console.log('Password not mach');
-            }
-            console.log('result.res:');
-            console.log(result.res);
-            console.log('data');
-            console.log(data);
+
 
         }, error => {
             console.log('Oooops!');
