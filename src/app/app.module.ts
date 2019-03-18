@@ -12,6 +12,12 @@ import { LoginComponent } from './login/login.component';
 import { BrandmanagementComponent } from './brandmanagement/brandmanagement.component';
 import { AdminmanagementComponent } from './adminmanagement/adminmanagement.component';
 import { InfluencersmanagementComponent } from './influencersmanagement/influencersmanagement.component';
+import { AdmindashbordComponent } from './admindashbord/admindashbord.component';
+import { BranddashbordComponent } from './branddashbord/branddashbord.component';
+import { InfluencersdashbordComponent } from './influencersdashbord/influencersdashbord.component';
+import { Resolveservice } from '../app/resolveservice';
+import { ApiService } from '../app/api.service';
+//import { ResolvecomponentComponent } from './resolvecomponent/resolvecomponent.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +26,11 @@ import { InfluencersmanagementComponent } from './influencersmanagement/influenc
     LoginComponent,
     BrandmanagementComponent,
     AdminmanagementComponent,
-    InfluencersmanagementComponent
+    InfluencersmanagementComponent,
+    AdmindashbordComponent,
+    BranddashbordComponent,
+    InfluencersdashbordComponent,
+    //Resolveservice,
   ],
   imports: [
     BrowserModule,
@@ -30,7 +40,7 @@ import { InfluencersmanagementComponent } from './influencersmanagement/influenc
     HttpClientModule,
     FormsModule, ReactiveFormsModule
   ],
-  providers: [CookieService],
+  providers: [CookieService,Resolveservice,ApiService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
