@@ -1,0 +1,16 @@
+<mat-card-subtitle [formGroup]="myForm" (autocomplete)="off">
+
+  <mat-form-field>
+    <input matInput placeholder="Username" [formControl]="myForm.controls['username']" >
+    <span  *ngIf="!myForm.controls['username'].valid && myForm.controls['username'].touched">Username field can not be blank</span>
+  </mat-form-field>
+<br>
+  <mat-form-field>
+    <input matInput placeholder="Password" type="password" [formControl]="myForm.controls['password']" >
+    <span  *ngIf="!myForm.controls['password'].valid && myForm.controls['password'].touched">Username field can not be blank</span>
+  </mat-form-field>
+  <br>
+  <button mat-button [disabled]="!myForm.valid" (click)="onSubmit()" color="primary">Login</button>
+
+
+</mat-card-subtitle>
