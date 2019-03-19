@@ -3,6 +3,6 @@
  */
 export const environment = {
     production: false,
-    API_URL: "",
+    API_URL: 'http://nodessl.influxiq.com:6012/',
     environment: "local"
 };

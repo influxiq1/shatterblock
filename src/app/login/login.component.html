@@ -1,8 +1,14 @@
+<mat-card class="mat-card">
+  <mat-card-title>Login</mat-card-title>
+  <mat-card-subtitle>Welcome back</mat-card-subtitle>
+
+
+
 <mat-card-subtitle [formGroup]="myForm" (autocomplete)="on">
 
   <mat-form-field>
-    <input matInput placeholder="Username" [formControl]="myForm.controls['username']" >
-    <span  *ngIf="!myForm.controls['username'].valid && myForm.controls['username'].touched">Username field can not be blank</span>
+    <input matInput placeholder="Username" [formControl]="myForm.controls['email']" >
+    <span  *ngIf="!myForm.controls['email'].valid && myForm.controls['email'].touched">Username field can not be blank</span>
   </mat-form-field>
 <br>
   <mat-form-field>
@@ -14,3 +20,4 @@
 
 
 </mat-card-subtitle>
+</mat-card>

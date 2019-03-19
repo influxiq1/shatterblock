@@ -58,7 +58,7 @@ app.use(function(req, res, next) {
     //allow cross origin requests
     res.setHeader("Access-Control-Allow-Methods", "POST, PUT, OPTIONS, DELETE, GET");
     res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type,Authorization, Accept");
     next();
 });
 
@@ -143,13 +143,18 @@ app.post('/login',function (req, resp) {
         .digest('hex');
     var collection = db2.collection('users');
 
-    collection.find({username: req.body.username}).toArray(function (err, items) {
+    collection.find({email: req.body.email}).toArray(function (err, items) {
+        if(items.length==0){
+            resp.send(JSON.stringify({'status':'error','msg':'Email does not exists'}));
+            return;
+        }
 
-        if(items.length>0 && items[0].password!=hash){
+        if( items[0].password!=hash){
             resp.send(JSON.stringify({'status':'error','msg':'Password not match'}));
             return;
         } else {
-            resp.send(JSON.stringify({'status': 'success', "item":items, 'msg': 'password match'}));
+            var token=createjwttoken();
+            resp.send(JSON.stringify({'status': 'success', "item":items, 'msg': 'passworh match',ic:items.length,token:token}));
             return;
         }
     });
@@ -498,7 +503,7 @@ app.post('/contactto', function (req, resp) {
 
 
   app.post('/datalist', function (req, resp) {
-    var token = req.body.token || req.query.token || req.headers['x-access-token'];
+    var token = req.body.token || req.query.token || req.headers['authorization'];
     verifytoken(token);
     console.log('tokenstatus');
     console.log(tokenstatus);
@@ -507,7 +512,7 @@ app.post('/contactto', function (req, resp) {
     var bval;
     var ck;
     if (tokenstatus != true) {
-      resp.send(JSON.stringify({'status': 'error', token: token, errormessage: tokenstatus}));
+      resp.send(JSON.stringify({'status': 'error', token: req.headers['authorization'], errormessage: tokenstatus}));
       return;
     }
 
@@ -828,40 +833,56 @@ app.post('/sendemail', function (req,resp){
 });
 app.post('/sendforgotpasswordemail', function (req,resp){
     var collection=db.collection('users');
-    var _id = new mongodb.ObjectID(req.body._id);
-    collection.find({_id:_id}).toArray(function(err, items) {
+    var collection1=db.collection('apikey');
+/*    var _id = new mongodb.ObjectID(req.body._id);*/
+    collection.find({email:req.body.email}).toArray(function(err, items) {
         if (err) {
-            resp.send(JSON.stringify({'status':'error'}));
+            resp.send(JSON.stringify({'status':'error1'}));
         } else {
-
-           /* resp.send(JSON.stringify({'status': 'success', 'item': items}));*/
-            const sgMail = require('@sendgrid/mail');
-            sgMail.setApiKey('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');/*items[0].email,*/
-            const msg = {
-                to:'rupanjana.influxiq@gmail.com',
-                from: 'support@artistxp.com',
-                subject: 'You have a new Follower on ArtistXP.com',
-                text: 'and easy to do anywhere, even with Node.js',
-                html: '<div style="max-width: 600px; margin: 0 auto; background: #000;  font-family: Arial; text-align: center;">\
-       \ <div style="width: auto;  padding: 10px;">\
+          /*  resp.send(JSON.stringify({'status': 'success', 'item': items}));*/
+            collection1.find().toArray(function(error , result){
+               if(error){
+                   resp.send(JSON.stringify({'status': 'error2'}));
+               } else{
+                  /*  resp.send(JSON.stringify({'status': 'success', 'item':items,'result': result}));*/
+                   const sgMail = require('@sendgrid/mail');
+                   var api=result[0].apikey;
+                   sgMail.setApiKey(api);/*result[0].apikey*/
+                  /* resp.send(JSON.stringify({'status': 'success', 'item':items,'result': api}));*/
+                   /*items[0].email,'debasiskar007@gmail.com',*/
+                   var msg={
+                       to:items[0].email,
+                       from:'support@audiodeadline.com',
+                       subject:'You have a forget password msg on Shatterproof.com',
+                       text:'and easy to do anywhere, even with Node.js',
+                       html: ' <div style="max-width: 600px; margin: 0 auto; background: #141220;  font-family: Arial; text-align: center;">\
+           \ <div style="width: auto;  padding: 10px;">\
             \<div style=" font-family: Arial; text-align: center;   background: #111;">\
-            \<div style=" border: solid 10px #333; padding: 5px;">\
-       \<img src="https://artistxp.com/assets/images/artistheaderlogo.png"  style="width: 260px; display: block; margin: 20px auto; max-width: 80%;">\
-        \<span style="display: block;  font-size: 36px; text-transform: uppercase;   color: #fd8f00; font-weight: bold;"> <span style="display: inline-block;">You have a new Follower on</span> ArtistXP.com</span>\
-        \<div style="text-align: center; font-size: 22px; color: #fff; padding: 15px 0;">\
-        <span style=" font-weight: bold;"><a  href="javascript:void(0)" style="color: #fff; text-decoration: none;  ">' + items[0].firstname + ' ' + items[0].lastname + '</a></span>\
-    \has followed you!</div>\
-        \<a  href="' + mainurl + '/userprofile/' + items[0]._id + '/' + items[0].username + '"  style="display: block; text-decoration: none; background:#f17200 ;  color: #fff; width: 160px; padding: 10px 2px; display: block; margin: 0 auto; font-weight: bold; font-size: 22px;">View Fan</a>\
-        \<span style="font-size: 18px; color: #fff; padding: 15px 0; display: block;"> This message was sent from  <a  href="' + mainurl + '" style="color: #1978f9; text-decoration: none;" target="_blank">artistXP.com</a>. If you don’t want to receive notification emails in the future, please change your notification settings in your <a  href="' + accounturl + '" style="color: #1978f9; text-decoration: none;">Account Settings</a>.</span>\
-        \</div>\
-    \</div>\
-        \</div>\
-        \</div>',
-            };
-
-            var x = sgMail.send(msg);
-            resp.send(JSON.stringify({'status': 'success', 'item': items}));
+             \<div style=" border: solid 10px #333; padding: 5px;">\
+        \<img src="http://shatterblock.influxiq.com/assets/images/shaterblockLogo.png"  style="width: 260px; display: block; margin: 20px auto; max-width: 80%;">\
+        \<span style="display: block;  font-size: 20px; text-transform: uppercase;   color: #e23584; font-weight: bold;">\
+       \<span style="display: inline-block; font-size: 20px;">Forgotten Password on Shop shatterblock</span>\
+               </span>\
+        \  <span style="display: block;  font-size: 16px; text-transform: capitalize; color: #dcdcdc; font-weight: bold; line-height: 29px;">\
+		 \  <span style="display: inline-block; width:100%;">userID:+ items[0]._id</span>\
+             \  <span style="display: inline-block; width:100%;">username:items[0].username</span>\
+               \</span>\
+                \<a  href="" style="display: block; text-decoration: none; background:#faa318 ;  color: #fff; width: 80%; padding: 10px 2px; display: block; margin: 0 auto; margin-top: 10px; font-weight: bold; font-size: 18px;">Please follow this link to reset your password</a>\
+              \ <span style="font-size: 18px; color: #fff; padding: 15px 65px; display: block;">\
+                \ This link is only valid for 24 hours. If you can not click the above url to continue please copy and paste the url into your browser.\
+                  \ </span>\
+               \</div>\
+               \</div>\
+               \</div>\
+               \</div> ',
+                   };
+                   /*   resp.send(JSON.stringify({'status': 'success', 'item': items,'result':result,'result1': result[0].apikey,'x':x,'msg':msg}));*/
+          var x=sgMail.send(msg);
+            resp.send(JSON.stringify({'status': 'success', 'item': items,'result':result,'result1': result[0].apikey,'x':x,'msg':msg}));
             return;
-        }
+               }
+
+            });/**/
+        }/**/
     });
 });
