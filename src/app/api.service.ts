@@ -2,9 +2,9 @@ import { Injectable } from '@angular/core';
 import { Observable, interval, pipe } from 'rxjs';
 import { switchMap, map, takeWhile } from 'rxjs/operators';
 import { environment } from '../environments/environment';
-import { HttpClient,HttpHeaders} from '@angular/common/http';
-//import { JwtHelperService } from '@auth0/angular-jwt';
-//import { LoggedinService } from '../loggedin.service';
+import { HttpClient, HttpHeaders} from '@angular/common/http';
+// import { JwtHelperService } from '@auth0/angular-jwt';
+// import { LoggedinService } from '../loggedin.service';
 import { CookieService } from 'ngx-cookie-service';
 
 @Injectable()
@@ -12,34 +12,33 @@ export class ApiService {
 
   public domain =  environment["API_URL"];
   public _url = environment["API_URL"];
-  
-  constructor(private _http: HttpClient, 
+
+  constructor(private _http: HttpClient,
               private _authHttp: HttpClient,
               private cookieService: CookieService
-              //public jwtHelper: JwtHelperService,
-              //private loggedinService: LoggedinService
-              ){
+              // public jwtHelper: JwtHelperService,
+              // private loggedinService: LoggedinService
+              ) {
     console.log('this.domain');
     console.log(this.domain);
-
   }
 
 
-  isTokenExpired(){
+  isTokenExpired() {
 
-    //const helper = new JwtHelperService();
-    //const decodedToken = helper.decodeToken(localStorage.getItem('id_token'));
-    //var isIdTokenExpired = helper.isTokenExpired(localStorage.getItem('id_token'));
-    //console.log('refresh_token',localStorage.getItem('refresh_token'))
-    //const isRefreshTokenExpired = helper.isTokenExpired(localStorage.getItem('refresh_token'));
-    //console.log('id_token isExpired:',isIdTokenExpired)
-    //console.log('refresh_token isExpired:',isRefreshTokenExpired)
+    // const helper = new JwtHelperService();
+    // const decodedToken = helper.decodeToken(localStorage.getItem('id_token'));
+    // var isIdTokenExpired = helper.isTokenExpired(localStorage.getItem('id_token'));
+    // console.log('refresh_token',localStorage.getItem('refresh_token'))
+    // const isRefreshTokenExpired = helper.isTokenExpired(localStorage.getItem('refresh_token'));
+    // console.log('id_token isExpired:',isIdTokenExpired)
+    // console.log('refresh_token isExpired:',isRefreshTokenExpired)
 
 
 
   }
 
-  getData(endpoint:any){
+  getData(endpoint: any) {
 
     const httpOptions = {
       headers: new HttpHeaders({
@@ -51,18 +50,17 @@ export class ApiService {
     console.log(endpoint);
     console.log(this.cookieService.get('jwttoken'));
 
-    //this.isTokenExpired()
-    var result = this._http.post(this._url+'datalist',endpoint,httpOptions).pipe(map(res => res));
+    // this.isTokenExpired()
+    var result = this._http.post(this._url + 'datalist', endpoint, httpOptions).pipe(map(res => res));
 
     return result;
   }
 
 
 
-  private getEndpointUrl(endpoint:string){
+
+  private getEndpointUrl(endpoint: string) {
       return this._url + endpoint;
   }
-  
-
 
 }

@@ -1,3 +1,4 @@
+<!--
 <mat-card class="mat-card">
   <mat-card-title>Login</mat-card-title>
   <mat-card-subtitle>Welcome back</mat-card-subtitle>
@@ -21,3 +22,41 @@
 
 </mat-card-subtitle>
 </mat-card>
+-->
+<mat-card class="s_getmyoffer">
+
+  <img src="../../assets/images/shaterblockLogo.png" alt="#" class="s_shatter_logo" style="box-shadow: none;">
+
+  <mat-card-content class="s_getmyoffer_login_wrapper">
+    <mat-card-subtitle [formGroup]="myForm" (autocomplete)="off">
+
+      <h1>Login</h1>
+      <p>welcome back!</p>
+      <span class="error" *ngIf="errormg!=''">{{errormg}}</span>
+
+      <mat-form-field class="form-group">
+        <input matInput placeholder="Username" [formControl]="myForm.controls['email']" >
+        <span  *ngIf="!myForm.controls['email'].valid && myForm.controls['email'].touched">Email field can not be blank</span>
+        <span></span>
+      </mat-form-field>
+
+      <mat-form-field class="form-group">
+        <input matInput placeholder="Password" type="password" [formControl]="myForm.controls['password']" >
+        <span  *ngIf="!myForm.controls['password'].valid && myForm.controls['password'].touched">Password field can not be blank</span>
+      </mat-form-field>
+<mat-card-content >
+      <button mat-button [disabled]="!myForm.valid" (click)="onSubmit()" class="s_getmyoffer_login_button"  >Login</button>
+</mat-card-content>
+
+      <mat-card-content class="form-group-forgetPass">
+        <button mat-button (click)="onForgetPassword()"  class="shatter_block_forgetPass">forget Password?</button>
+      </mat-card-content>
+
+
+
+
+    </mat-card-subtitle>
+  </mat-card-content>
+
+</mat-card>
+

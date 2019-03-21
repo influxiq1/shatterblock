@@ -9,16 +9,24 @@ import {BranddashbordComponent} from "./branddashbord/branddashbord.component";
 import {AdmindashbordComponent} from "./admindashbord/admindashbord.component";
 import {Resolveservice} from "./resolveservice";
 import { AuthGuard } from './auth.guard';
+import {ForgatepasswordComponent} from './forgatepassword/forgatepassword.component';
+import {ChangepasswordComponent} from './changepassword/changepassword.component';
 
 const routes: Routes = [
   { path: "admin", component: AdminmanagementComponent },
-  { path: "login", component: LoginComponent },
-  { path: "", component: LoginComponent },
+  { path: "login", component: LoginComponent},
+  { path: "", component: LoginComponent},
   { path: "brand", component: BrandmanagementComponent },
   { path: "influencers", component: InfluencersmanagementComponent },
-  { path: "influencersdashbord", component: InfluencersdashbordComponent },
-  { path: "branddashbord", component: BranddashbordComponent,resolve: {results: Resolveservice},data: { object: 'users' }},
-  { path: "admindashbord", component: AdmindashbordComponent,canActivate: [AuthGuard],resolve: {results: Resolveservice},data: { source: 'users',condition:{} } },
+  { path: "influencersdashbord", component: InfluencersdashbordComponent, canActivate: [AuthGuard], resolve: {results: Resolveservice}, data: { source: 'users', condition: {} }},
+  { path: "branddashbord", component: BranddashbordComponent, canActivate: [AuthGuard], resolve: {results: Resolveservice}, data: { source: 'users', condition: {} }},
+  { path: "admindashbord", component: AdmindashbordComponent, canActivate: [AuthGuard], resolve: {results: Resolveservice}, data: { source: 'users', condition: {} }},
+
+
+
+
+  { path: 'forgatepassword', component: ForgatepasswordComponent},
+  { path: 'changepassword', component: ChangepasswordComponent},
 ];
 
 @NgModule({

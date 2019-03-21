@@ -18,6 +18,8 @@ import { InfluencersdashbordComponent } from './influencersdashbord/influencersd
 import { Resolveservice } from '../app/resolveservice';
 import { ApiService } from '../app/api.service';
 import { AuthGuard } from './auth.guard';
+import { ForgatepasswordComponent } from './forgatepassword/forgatepassword.component';
+import { ChangepasswordComponent } from './changepassword/changepassword.component';
 //import { ResolvecomponentComponent } from './resolvecomponent/resolvecomponent.component';
 
 @NgModule({
@@ -31,6 +33,8 @@ import { AuthGuard } from './auth.guard';
     AdmindashbordComponent,
     BranddashbordComponent,
     InfluencersdashbordComponent,
+    ForgatepasswordComponent,
+    ChangepasswordComponent,
     //Resolveservice,
   ],
   imports: [
