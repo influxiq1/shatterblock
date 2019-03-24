@@ -16,17 +16,13 @@ export class Resolveservice implements Resolve<EndpointComponent> {
 
     constructor(private _apiService: ApiService, private router: Router) {}
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> | Promise<any> | any {
-        // let id = route.params['id'];
+         // let id = route.params['id'];
         console.log('resolve route data');
         console.log(route.data);
         console.log(state);
         let endpoint = route.data.object;
-        console.log('endpoint!!!!!');
-        console.log(endpoint);
         return new Promise((resolve) => {
             this._apiService.getData(route.data).subscribe(api_object => {
-                console.log('api_object  !!!!');
-                console.log(api_object);
                 if (api_object) {
                     return resolve(api_object);
                 } else { // id not found
