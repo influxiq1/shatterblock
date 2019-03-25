@@ -21,7 +21,7 @@ import { AuthGuard } from './auth.guard';
 import { ForgatepasswordComponent } from './forgatepassword/forgatepassword.component';
 import { ChangepasswordComponent } from './changepassword/changepassword.component';
 import { AdminlistComponent } from './adminlist/adminlist.component';
-import { AmingridlistComponent } from './amingridlist/amingridlist.component';
+// import { AmingridlistComponent } from './amingridlist/amingridlist.component';
 import { AdminleftpanelComponent } from './adminleftpanel/adminleftpanel.component';
 //import { ResolvecomponentComponent } from './resolvecomponent/resolvecomponent.component';
 
@@ -39,7 +39,7 @@ import { AdminleftpanelComponent } from './adminleftpanel/adminleftpanel.compone
     ForgatepasswordComponent,
     ChangepasswordComponent,
     AdminlistComponent,
-    AmingridlistComponent,
+    // AmingridlistComponent,
     AdminleftpanelComponent,
 
     //Resolveservice,

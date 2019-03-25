@@ -61,7 +61,7 @@ export class LoginComponent implements OnInit {
             // console.log(result.item[0].type);
             console.log('result.item');
             console.log(result.item);
-            // console.log(result.item);
+            console.log(result.status);
             // console.log(result.item.type);
             // console.log(result.item[0]);
             if (result.status == 'success') {
