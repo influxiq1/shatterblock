@@ -3,8 +3,6 @@ import { Observable, interval, pipe } from 'rxjs';
 import { switchMap, map, takeWhile } from 'rxjs/operators';
 import { environment } from '../environments/environment';
 import { HttpClient, HttpHeaders} from '@angular/common/http';
-// import { JwtHelperService } from '@auth0/angular-jwt';
-// import { LoggedinService } from '../loggedin.service';
 import { CookieService } from 'ngx-cookie-service';
 
 @Injectable()
