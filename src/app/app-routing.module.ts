@@ -25,7 +25,7 @@ const routes: Routes = [
 
 
 
-  { path: 'forgatepassword', component: ForgatepasswordComponent, canActivate: [AuthGuard], resolve: {results: Resolveservice}, data: { source: 'users', condition: {}}},
+  { path: 'forgatepassword', component: ForgatepasswordComponent},
   { path: 'changepassword', component: ChangepasswordComponent},
 ];
 

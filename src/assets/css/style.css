@@ -154,6 +154,21 @@ font-family: 'Noteworthy';
     font-size: 55px;
 }
 
+.s_getmyoffer_login_wrapper h2 { margin: 0; padding: 0;
+    width: 100%;
+    font-family: 'RobotoBold';
+    text-align: center;
+    background: #a4a4a4;
+    text-transform: uppercase;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    border-image: linear-gradient(to top left, #13141b 0%, #1d1e24 30%, #000000 100%);
+    border-bottom: 4px solid transparent;
+    border-image-slice: 1;
+    padding-bottom: 20px;
+    font-size: 40px;
+}
+
 
 .s_getmyoffer_login_wrapper p {
     text-align: center;

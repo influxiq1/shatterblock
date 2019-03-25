@@ -1,14 +1,10 @@
-
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import {ActivatedRouteSnapshot, Router} from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 import { ApiService } from '../../app/api.service';
-import { ActivatedRoute } from '@angular/router';
-/*
-import { Resolveservice } from "../../app/resolveservice";
-*/
+import { Resolveservice } from '../../app/resolveservice';
 
 
 @Component({
@@ -21,30 +17,18 @@ export class LoginComponent implements OnInit {
     public endpoint = 'login';
     public myForm: any;
     public result: any;
-    public url1: any = '';
-    public serverurl: any = '';
+    // public url1: any = '';
+    // public serverurl: any = '';
     public errormg: any = '';
-    public end: any;
-    // public result: any = {};
-    constructor(
-        public fb: FormBuilder,
-        private cookieService: CookieService,
-        public http: HttpClient,
-        private apiService: ApiService,
-        private router: Router,
-        private activatedroute: ActivatedRoute,
 
-    ) {
-        this.url1 = apiService.domain;
+    constructor(public fb: FormBuilder, private cookieService: CookieService, public http: HttpClient, private apiService: ApiService, private router: Router, public resolveservice: Resolveservice) {
+        // this.url1 = apiService.domain;
         // console.log("url");
         // console.log(this.url1);
-        this.serverurl = (this.url1 + this.endpoint);
+        // this.serverurl = (this.url1 + this.endpoint);
         // console.log(this.serverurl);
         // console.log('this.serverurl');
-        console.log(this.serverurl);
-        this.activatedroute.data.subscribe(data => this.end = data);
-        console.log('data');
-        console.log(this.end.results);
+        // console.log(this.serverurl);
     }
 
     ngOnInit() {
@@ -52,8 +36,6 @@ export class LoginComponent implements OnInit {
             email: ['', Validators.compose([Validators.required, Validators.pattern(/^\s*[\w\-\+_]+(\.[\w\-\+_]+)*\@[\w\-\+_]+\.[\w\-\+_]+(\.[\w\-\+_]+)*\s*$/)])],
             password: ['', Validators.required]
         });
-
-
     }
     onForgetPassword() {
 
@@ -77,8 +59,8 @@ export class LoginComponent implements OnInit {
                 this.errormg = result.msg;
             }
             // console.log(result.item[0].type);
-            // console.log('result.item');
-            // console.log(result.item);
+            console.log('result.item');
+            console.log(result.item);
             // console.log(result.item);
             // console.log(result.item.type);
             // console.log(result.item[0]);
@@ -105,8 +87,7 @@ export class LoginComponent implements OnInit {
         }, error => {
             console.log('Oooops!');
         });
-
-       /* this.http.post(this.serverurl, data)
+        /*this.http.post(this.serverurl, data)
             .subscribe(res => {
                 let result: any = {};
                 result = res;
@@ -114,8 +95,8 @@ export class LoginComponent implements OnInit {
                     this.errormg = result.msg;
                 }
                 // console.log(result.item[0].type);
-                // console.log('result.item');
-                // console.log(result.item);
+                console.log('result.item');
+                console.log(result.item);
                 // console.log(result.item);
                 // console.log(result.item.type);
                 // console.log(result.item[0]);
@@ -142,6 +123,7 @@ export class LoginComponent implements OnInit {
             }, error => {
                 console.log('Oooops!');
             });*/
+
 
     }
 

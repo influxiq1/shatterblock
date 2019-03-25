@@ -20,18 +20,33 @@ export class ChangepasswordComponent implements OnInit {
     this.url1 = apiService.domain;
     // console.log("url");
     // console.log(this.url1);
-    this.serverurl = (this.url1 + this.endpoint);
-    console.log(this.serverurl);
+    // this.serverurl = (this.url1 + this.endpoint);
+    // console.log(this.serverurl);
   }
 
   ngOnInit() {
     this.myForm = this.fb.group({
       password: ['', Validators.compose([Validators.required, Validators.minLength(8)])],
-      confirmpassword: ['', Validators.required]});
+      confirmpassword: ['', Validators.required]},
+        {validator: this.machpassword('password', 'confirmpassword')});
+  }
+  machpassword(passwordkye: string, confirmpasswordkye: string) {
+    return (group: FormGroup) => {
+      let passwordInput = group.controls[passwordkye],
+          confirmpasswordInput = group.controls[confirmpasswordkye];
+      if (passwordInput.value !== confirmpasswordInput.value) {
+        return confirmpasswordInput.setErrors({notEquivalent: true});
+      }
+      else {
+        return confirmpasswordInput.setErrors(null);
+      }
+    };
   }
 
   onSubmit() {
-    console.log();
+    let x: any;
+    let data = this.myForm.value;
+    console.log(data);
     console.log(this.myForm.value.password);
     console.log(this.myForm.value.confirmpassword);
     if (this.myForm.value.password != this.myForm.value.confirmpassword) {
