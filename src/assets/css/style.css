@@ -217,6 +217,11 @@ font-family: 'Noteworthy';
 }
 
 
+/*left pannel*/
+
+.left_nav{ background: #13141b; width: 240px; }
+.left_nav .mat-list-item-content{ color: #fff; cursor: pointer; }
+
 
 
 
