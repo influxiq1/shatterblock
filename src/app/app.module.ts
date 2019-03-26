@@ -21,6 +21,8 @@ import { ForgatepasswordComponent } from './forgatepassword/forgatepassword.comp
 import { ChangepasswordComponent } from './changepassword/changepassword.component';
 import { AdminlistComponent } from './adminlist/adminlist.component';
 
+// import { AmingridlistComponent } from './amingridlist/amingridlist.component';
+
 import { AdminleftpanelComponent } from './adminleftpanel/adminleftpanel.component';
 //import { ResolvecomponentComponent } from './resolvecomponent/resolvecomponent.component';
 

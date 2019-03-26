@@ -21,7 +21,7 @@ export class LoginComponent implements OnInit {
     // public serverurl: any = '';
     public errormg: any = '';
 
-    constructor(public fb: FormBuilder, private cookieService: CookieService, public http: HttpClient, private apiService: ApiService, private router: Router, public resolveservice: Resolveservice) {
+    constructor(public fb: FormBuilder, private cookieService: CookieService, public http: HttpClient, public apiService: ApiService, public router: Router, public resolveservice: Resolveservice) {
         // this.url1 = apiService.domain;
         // console.log("url");
         // console.log(this.url1);
@@ -61,7 +61,7 @@ export class LoginComponent implements OnInit {
             // console.log(result.item[0].type);
             console.log('result.item');
             console.log(result.item);
-            // console.log(result.item);
+            console.log(result.status);
             // console.log(result.item.type);
             // console.log(result.item[0]);
             if (result.status == 'success') {
