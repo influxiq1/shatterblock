@@ -28,7 +28,7 @@ const routes: Routes = [
 
 
   { path: 'forgatepassword', component: ForgatepasswordComponent},
-  { path: 'changepassword', component: ChangepasswordComponent},
+  { path: 'changepassword', component: ChangepasswordComponent, canActivate: [AuthGuard], resolve: {results: Resolveservice}, data: {source: 'users', condition:{}} },
 ];
 
 @NgModule({

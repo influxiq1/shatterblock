@@ -143,10 +143,10 @@
               "devServerTarget": "shatterblock:serve:production"
             },
             "development": {
-              "browserTarget": "shatterblock:build:development"
+              "browserTarget": "shatterblock:serve:development"
             },
             "local": {
-              "browserTarget": "shatterblock:build:local"
+              "browserTarget": "shatterblock:serve:local"
             }
           }
         },

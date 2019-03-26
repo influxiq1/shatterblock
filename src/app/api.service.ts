@@ -53,7 +53,7 @@ export class ApiService {
 
     return result;
   }
-  // getDataend
+  // getData end
 
   postData(endpoint:any, data) {
     const httpOptions = {
@@ -66,6 +66,21 @@ export class ApiService {
     console.log('endpoint');
     console.log(endpoint);
     var result = this._http.post(this.getEndpointUrl(endpoint), JSON.stringify(data), httpOptions).pipe(map(res => res));
+    return result;
+  } // postData end
+
+
+  putData(endpoint:any, data, id:any) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': this.cookieService.get('jwttoken')
+      })
+    };
+    console.log(this.cookieService.get('jwttoken'));
+    console.log("endpoint");
+    console.log(endpoint);
+    var result = this._http.put(this.getEndpointUrl(endpoint)+'/'+id, JSON.stringify(data), httpOptions).pipe(map(res => res));
     return result;
   }
 
