@@ -11,6 +11,9 @@ import {Resolveservice} from "./resolveservice";
 import { AuthGuard } from './auth.guard';
 import {ForgatepasswordComponent} from './forgatepassword/forgatepassword.component';
 import {ChangepasswordComponent} from './changepassword/changepassword.component';
+import {AdminlistComponent} from "./adminlist/adminlist.component";
+import {AdminformComponent} from "./adminform/adminform.component";
+import {AdminmodalformComponent} from "./adminmodalform/adminmodalform.component";
 
 const routes: Routes = [
   { path: "admin", component: AdminmanagementComponent },
@@ -27,6 +30,9 @@ const routes: Routes = [
 
   { path: 'forgatepassword', component: ForgatepasswordComponent},
   { path: 'changepassword', component: ChangepasswordComponent},
+  {path: 'adminlist', component: AdminlistComponent},
+   {path: 'adminform', component:AdminformComponent },
+  {path: 'adminmodalform', component: AdminmodalformComponent}
 ];
 
 @NgModule({

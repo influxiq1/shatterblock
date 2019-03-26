@@ -6,7 +6,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {MaterialModule} from '../material-module';
 import { LoginComponent } from './login/login.component';
 import { BrandmanagementComponent } from './brandmanagement/brandmanagement.component';
@@ -21,9 +20,26 @@ import { AuthGuard } from './auth.guard';
 import { ForgatepasswordComponent } from './forgatepassword/forgatepassword.component';
 import { ChangepasswordComponent } from './changepassword/changepassword.component';
 import { AdminlistComponent } from './adminlist/adminlist.component';
-import { AmingridlistComponent } from './amingridlist/amingridlist.component';
+
 import { AdminleftpanelComponent } from './adminleftpanel/adminleftpanel.component';
 //import { ResolvecomponentComponent } from './resolvecomponent/resolvecomponent.component';
+
+
+//MATERIAL
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {MatSidenavModule} from '@angular/material/sidenav';
+import {MatTableModule} from '@angular/material/table';
+import {MatButtonModule} from '@angular/material/button';
+import {MatDialogModule} from '@angular/material/dialog';
+import { AdminformComponent } from './adminform/adminform.component';
+import {MatCardModule} from '@angular/material/card';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import { AdminmodalformComponent } from './adminmodalform/adminmodalform.component';
+import { AdminheaderComponent } from './adminheader/adminheader.component';
+import {MatToolbarModule} from '@angular/material/toolbar';
+
+
+
 
 @NgModule({
   declarations: [
@@ -39,10 +55,17 @@ import { AdminleftpanelComponent } from './adminleftpanel/adminleftpanel.compone
     ForgatepasswordComponent,
     ChangepasswordComponent,
     AdminlistComponent,
-    AmingridlistComponent,
     AdminleftpanelComponent,
+    AdminformComponent,
+
+    AdminmodalformComponent,
+
+    AdminheaderComponent,
+
+
 
     //Resolveservice,
+
   ],
   imports: [
     BrowserModule,
@@ -50,7 +73,17 @@ import { AdminleftpanelComponent } from './adminleftpanel/adminleftpanel.compone
     AppRoutingModule,
     BrowserAnimationsModule,
     HttpClientModule,
-    FormsModule, ReactiveFormsModule
+    FormsModule, ReactiveFormsModule,
+
+
+    //MATERIAL
+    MatSidenavModule,
+    MatTableModule,
+    MatButtonModule,
+    MatDialogModule,
+    MatCardModule,
+    MatFormFieldModule,
+    MatToolbarModule
   ],
   providers: [CookieService,Resolveservice,ApiService,AuthGuard],
   bootstrap: [AppComponent]
