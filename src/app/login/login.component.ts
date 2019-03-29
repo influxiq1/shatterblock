@@ -22,7 +22,7 @@ export class LoginComponent implements OnInit {
     // public serverurl: any = '';
     public errormg: any = '';
 
-    constructor(public fb: FormBuilder, private cookieService: CookieService, public http: HttpClient, private apiService: ApiService, private router: Router, public resolveservice: Resolveservice) {
+    constructor(public fb: FormBuilder, private cookieService: CookieService, public http: HttpClient, public apiService: ApiService, public router: Router, public resolveservice: Resolveservice) {
         // this.url1 = apiService.domain;
         // console.log("url");
         // console.log(this.url1);
@@ -59,8 +59,48 @@ export class LoginComponent implements OnInit {
         for (x in this.myForm.controls) {
             this.myForm.controls[x].markAsTouched();
         }
+
         if(this.myForm.valid) {
             this.result = this.apiService.postlogin(this.endpoint, data).subscribe(res => {
+
+        this.result = this.apiService.postData(this.endpoint, data).subscribe(res => {
+            let result: any = {};
+            result = res;
+            if (result.status == 'error') {
+                this.errormg = result.msg;
+            }
+            // console.log(result.item[0].type);
+            console.log('result.item');
+            console.log(result.item);
+            console.log(result.status);
+            // console.log(result.item.type);
+            // console.log(result.item[0]);
+            if (result.status == 'success') {
+                this.cookieService.set('email', result.item[0].email);
+                this.cookieService.set('password', result.item[0].password);
+                this.cookieService.set('id', result.item[0]._id);
+                this.cookieService.set('jwttoken', result.token);
+                if (result.status = 'success') {
+                    if (result.status == 'success' && result.item[0].type == 'admin') {
+                        this.router.navigate(['/admindashbord']);
+                    } else if (result.status == 'success' && result.item[0].type == 'brand') {
+                        // this.myForm.reset();
+                        this.router.navigate(['/branddashbord']);
+                    } else if (result.status == 'success' && result.item[0].type == 'influencers') {
+                        // this.myForm.reset();
+                        this.router.navigate(['/influencersdashbord']);
+                    }
+                    this.myForm.reset();
+                }
+            }
+
+
+        }, error => {
+            console.log('Oooops!');
+        });
+        /*this.http.post(this.serverurl, data)
+            .subscribe(res => {
+>>>>>>> 0b247017e1eae781966acc63fa33cc22442ed6fd
                 let result: any = {};
                 result = res;
                 if (result.status == 'error') {

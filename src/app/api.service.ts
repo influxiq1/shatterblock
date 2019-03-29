@@ -3,8 +3,6 @@ import { Observable, interval, pipe } from 'rxjs';
 import { switchMap, map, takeWhile } from 'rxjs/operators';
 import { environment } from '../environments/environment';
 import { HttpClient, HttpHeaders} from '@angular/common/http';
-// import { JwtHelperService } from '@auth0/angular-jwt';
-// import { LoggedinService } from '../loggedin.service';
 import { CookieService } from 'ngx-cookie-service';
 
 @Injectable()
@@ -57,7 +55,7 @@ export class ApiService {
 
     return result;
   }
-  // getDataend
+  // getData end
 
   postData(endpoint:any, data) {
     const httpOptions = {
@@ -97,6 +95,21 @@ export class ApiService {
     console.log('endpoint');
     console.log(endpoint);
     var result = this._http.post(this.getEndpointUrl(endpoint), JSON.stringify(data), httpOptions).pipe(map(res => res));
+    return result;
+  } // postData end
+
+
+  putData(endpoint:any, data, id:any) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': this.cookieService.get('jwttoken')
+      })
+    };
+    console.log(this.cookieService.get('jwttoken'));
+    console.log("endpoint");
+    console.log(endpoint);
+    var result = this._http.put(this.getEndpointUrl(endpoint)+'/'+id, JSON.stringify(data), httpOptions).pipe(map(res => res));
     return result;
   }
 
