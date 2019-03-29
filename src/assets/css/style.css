@@ -217,6 +217,14 @@ font-family: 'Noteworthy';
 }
 
 
+.mat-form-field-invalid::-webkit-input-placeholder {
+    color: orange !important;
+}
 
 
+
+.mat-form-field-invalid {
+    color: white !important;
+
+}
 

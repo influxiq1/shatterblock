@@ -43,11 +43,13 @@ export class ApiService {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type':  'application/json',
-        'Authorization': this.cookieService.get('jwttoken')
+        'access-token': this.cookieService.get('jwttoken')
       })
     };
     console.log('endpoint');
     console.log(endpoint);
+    console.log('httpOptions');
+    console.log(httpOptions);
     console.log(this.cookieService.get('jwttoken'));
 
     // this.isTokenExpired()
@@ -61,7 +63,34 @@ export class ApiService {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type':  'application/json',
-        'Authorization': this.cookieService.get('jwttoken')
+        'access-token': this.cookieService.get('jwttoken')
+      })
+    };
+    console.log(this.cookieService.get('jwttoken'));
+    console.log('endpoint');
+    console.log(endpoint);
+    console.log('httpOptions');
+    console.log(httpOptions);
+    var result = this._http.post(this.getEndpointUrl(endpoint), JSON.stringify(data), httpOptions).pipe(map(res => res));
+    return result;
+  }
+  postDatawithoutToken(endpoint:any, data) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type':  'application/json'
+      })
+    };
+    console.log(this.cookieService.get('jwttoken'));
+    console.log('endpoint');
+    console.log(endpoint);
+    var result = this._http.post(this.getEndpointUrl(endpoint), JSON.stringify(data), httpOptions).pipe(map(res => res));
+    return result;
+  }
+
+  postlogin(endpoint:any, data) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type':  'application/json'
       })
     };
     console.log(this.cookieService.get('jwttoken'));

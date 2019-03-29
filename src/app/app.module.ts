@@ -20,6 +20,7 @@ import { ApiService } from '../app/api.service';
 import { AuthGuard } from './auth.guard';
 import { ForgatepasswordComponent } from './forgatepassword/forgatepassword.component';
 import { ChangepasswordComponent } from './changepassword/changepassword.component';
+import { ListingComponent } from './listing/listing.component';
 //import { ResolvecomponentComponent } from './resolvecomponent/resolvecomponent.component';
 
 @NgModule({
@@ -35,6 +36,7 @@ import { ChangepasswordComponent } from './changepassword/changepassword.compone
     InfluencersdashbordComponent,
     ForgatepasswordComponent,
     ChangepasswordComponent,
+    ListingComponent,
     //Resolveservice,
   ],
   imports: [
