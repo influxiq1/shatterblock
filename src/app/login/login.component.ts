@@ -6,7 +6,6 @@ import { CookieService } from 'ngx-cookie-service';
 import { ApiService } from '../../app/api.service';
 import { Resolveservice } from '../../app/resolveservice';
 
-
 @Component({
     selector: 'app-login',
     templateUrl: './login.component.html',
@@ -20,6 +19,7 @@ export class LoginComponent implements OnInit {
     // public url1: any = '';
     // public serverurl: any = '';
     public errormg: any = '';
+    public ipinfo: any = {};
 
     constructor(public fb: FormBuilder, private cookieService: CookieService, public http: HttpClient, public apiService: ApiService, public router: Router, public resolveservice: Resolveservice) {
         // this.url1 = apiService.domain;
@@ -35,6 +35,14 @@ export class LoginComponent implements OnInit {
         this.myForm = this.fb.group({
             email: ['', Validators.compose([Validators.required, Validators.pattern(/^\s*[\w\-\+_]+(\.[\w\-\+_]+)*\@[\w\-\+_]+\.[\w\-\+_]+(\.[\w\-\+_]+)*\s*$/)])],
             password: ['', Validators.required]
+        });
+
+
+        this.apiService.getclientip().subscribe(res => {
+
+            console.log('res');
+            console.log(res);
+            this.ipinfo=res;
         });
     }
     onForgetPassword() {
@@ -52,6 +60,7 @@ export class LoginComponent implements OnInit {
         for (x in this.myForm.controls) {
             this.myForm.controls[x].markAsTouched();
         }
+        data.ipinfo=this.ipinfo;
         this.result = this.apiService.postData(this.endpoint, data).subscribe(res => {
             let result: any = {};
             result = res;

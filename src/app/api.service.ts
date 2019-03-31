@@ -36,6 +36,17 @@ export class ApiService {
 
   }
 
+  getclientip() {
+
+    console.log('endpoint');
+
+    // this.isTokenExpired()
+    var result = this._http.get("http://ipinfo.io/?format=json&token=9797c42b93078a").pipe(map(res => res));
+
+    return result;
+  }
+
+
   getData(endpoint: any) {
 
     const httpOptions = {
