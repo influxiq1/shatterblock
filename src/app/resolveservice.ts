@@ -24,7 +24,7 @@ export class Resolveservice implements Resolve<EndpointComponent> {
         // console.log('endpoint!!!!!');
         // console.log(endpoint);
         return new Promise((resolve) => {
-            this._apiService.getData(route.data).subscribe(api_object => {
+            this._apiService.getEndpoint(route.data).subscribe(api_object => {
               /*  console.log('api_object  !!!!');
                 console.log(api_object);*/
                 if (api_object) {

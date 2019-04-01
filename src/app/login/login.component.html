@@ -35,17 +35,17 @@
       <span class="error" *ngIf="errormg!=''">{{errormg}}</span>
 
       <mat-form-field class="form-group">
-        <input matInput placeholder="Username" [formControl]="myForm.controls['email']" >
-        <span  *ngIf="!myForm.controls['email'].valid && myForm.controls['email'].touched">Email field can not be blank</span>
+        <input [class.is-invalid]="myForm.controls['email'].invalid && myForm.controls['email'].touched" matInput placeholder="Username" [formControl]="myForm.controls['email']" (blur)="inputblur('email')" >
+        <span  *ngIf="!myForm.controls['email'].valid && myForm.controls['email'].touched && issubmit==1 ">Email field can not be blank</span>
         <span></span>
       </mat-form-field>
 
       <mat-form-field class="form-group">
-        <input matInput placeholder="Password" type="password" [formControl]="myForm.controls['password']" >
-        <span  *ngIf="!myForm.controls['password'].valid && myForm.controls['password'].touched">Password field can not be blank</span>
+        <input (blur)="inputblur('password')" matInput placeholder="Password" type="password" [formControl]="myForm.controls['password']" >
+        <span  *ngIf="!myForm.controls['password'].valid && myForm.controls['password'].touched && issubmit==1">Password field can not be blank</span>
       </mat-form-field>
 <mat-card-content >
-      <button mat-button [disabled]="!myForm.valid" (click)="onSubmit()" class="s_getmyoffer_login_button"  >Login</button>
+      <button mat-button  (click)="onSubmit()" class="s_getmyoffer_login_button"  >Login</button>
 </mat-card-content>
 
       <mat-card-content class="form-group-forgetPass">

@@ -217,16 +217,30 @@ font-family: 'Noteworthy';
 }
 
 
+
+.mat-form-field-invalid::-webkit-input-placeholder {
+    color: orange !important;
+}
+
+
 /*left pannel*/
+
 
 .mat-drawer{ background: #13141b!important; width: 240px;   }
 .left_nav .mat-list-item-content{ color: #fff; cursor: pointer; }
 .left_nav a:hover{ background: #000; }
 
+
+.mat-form-field-invalid {
+    color: white !important;
+
+}
+
 /*.mat-drawer-container{height: 100vh;}*/
 .mat-drawer-container {
     display: flex!important;
     height: 100%;
+
 
 }
 .mat-drawer{ position: relative!important; }

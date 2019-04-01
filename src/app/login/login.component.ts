@@ -135,6 +135,10 @@ export class LoginComponent implements OnInit {
 
 
     }
+    inputblur(val:any){
+        console.log('on blur .....');
+        this.myForm.controls[val].markAsUntouched();
+    }
 
 }
 
