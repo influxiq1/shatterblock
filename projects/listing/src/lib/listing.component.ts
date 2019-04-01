@@ -39,15 +39,45 @@ export class ListingComponent implements OnInit {
   }
 
 
-  displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
-  dataSource = new MatTableDataSource(ELEMENT_DATA);
+  displayedColumns: string[] = [];
+  //dataSource = new MatTableDataSource(this.datasourceval);
+  dataSource = new MatTableDataSource;
 
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
   ngOnInit() {
+    for(let key in this.datasourceval){
+      for(let objkey in this.datasourceval[key]) {
+
+        this.displayedColumns.push(objkey);
+      }
+      break;
+    }
+
+    let data_list = []
+    for (let i = 0; i < this.datasourceval.length; i++) {
+      data_list.push(this.createData(this.datasourceval[i]));
+    }
+
+    this.dataSource = new MatTableDataSource(data_list);
+
+
+
+
+    console.log('this.displayedColumns');
+    console.log(this.displayedColumns);
+    console.log(this.datasourceval);
     this.dataSource.sort = this.sort;
     this.dataSource.paginator = this.paginator;
+  }
+
+  createData(point:any){
+    let data = {}
+    Object.keys(point).forEach(function (key) {
+      data[key.replace(/\s/g, "_")] = point[key];
+    })
+    return data
   }
 
   applyFilter(filterValue: string) {
