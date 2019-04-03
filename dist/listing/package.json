@@ -1,19 +1,24 @@
 {
-  "name": "listing",
-  "version": "0.0.1",
+  "name": "listing-angular7",
+  "version": "0.0.2",
+  "bugs": "https://github.com/influxiq1/shatterblock/issues",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/influxiq1/shatterblock.git"
+  },
   "peerDependencies": {
     "@angular/common": "^7.2.0",
     "@angular/core": "^7.2.0"
   },
-  "main": "bundles/listing.umd.js",
-  "module": "fesm5/listing.js",
-  "es2015": "fesm2015/listing.js",
-  "esm5": "esm5/listing.js",
-  "esm2015": "esm2015/listing.js",
-  "fesm5": "fesm5/listing.js",
-  "fesm2015": "fesm2015/listing.js",
-  "typings": "listing.d.ts",
-  "metadata": "listing.metadata.json",
+  "main": "bundles/listing-angular7.umd.js",
+  "module": "fesm5/listing-angular7.js",
+  "es2015": "fesm2015/listing-angular7.js",
+  "esm5": "esm5/listing-angular7.js",
+  "esm2015": "esm2015/listing-angular7.js",
+  "fesm5": "fesm5/listing-angular7.js",
+  "fesm2015": "fesm2015/listing-angular7.js",
+  "typings": "listing-angular7.d.ts",
+  "metadata": "listing-angular7.metadata.json",
   "sideEffects": false,
   "dependencies": {
     "tslib": "^1.9.0"

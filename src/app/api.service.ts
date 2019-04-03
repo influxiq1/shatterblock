@@ -87,6 +87,7 @@ export class ApiService {
 
     return result;
   }
+
   // getData end
 
   postData(endpoint:any, data) {

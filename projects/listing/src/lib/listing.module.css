@@ -1,7 +1,8 @@
+@import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
 .container{
     background: white;
 }
-@import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
+
 
 body {
     font-family: Roboto, Arial, sans-serif;
