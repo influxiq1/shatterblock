@@ -15,6 +15,7 @@ export class ForgatepasswordComponent implements OnInit {
   public myForm: any;
   public result: any;
   public endpoint = 'sendforgotpasswordemail';
+  public endpoint1 = 'resetpassword';
   public url1: any = '';
   public serverurl: any = '';
   public errormg: any = '';
@@ -40,6 +41,9 @@ export class ForgatepasswordComponent implements OnInit {
     for (x in this.myForm.value){
       this.myForm.controls[x].markAsTouched();
     }
+    data.websiteurl = this.apiService.resetpassword + this.endpoint1 + '/';
+    console.log('data.websiteurl');
+    console.log(data.websiteurl);
     this.result = this.apiService.postData(this.endpoint, data).subscribe(res =>{
       let result: any = {};
       result = res;

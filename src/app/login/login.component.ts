@@ -48,7 +48,7 @@ export class LoginComponent implements OnInit {
     onForgetPassword() {
 
         console.log('ok');
-        this.router.navigate((['/forgatepassword']));
+        this.router.navigate((['/forgetpassword']));
     }
 
     onSubmit() {
@@ -83,7 +83,7 @@ export class LoginComponent implements OnInit {
                         this.router.navigate(['/admindashbord']);
                     } else if (result.status == 'success' && result.item[0].type == 'brand') {
                         // this.myForm.reset();
-                        this.router.navigate(['/branddashbord']);
+                        this.router.navigate(['/admindashbord']);
                     } else if (result.status == 'success' && result.item[0].type == 'influencers') {
                         // this.myForm.reset();
                         this.router.navigate(['/influencersdashbord']);
@@ -96,42 +96,6 @@ export class LoginComponent implements OnInit {
         }, error => {
             console.log('Oooops!');
         });
-        /*this.http.post(this.serverurl, data)
-            .subscribe(res => {
-                let result: any = {};
-                result = res;
-                if (result.status == 'error') {
-                    this.errormg = result.msg;
-                }
-                // console.log(result.item[0].type);
-                console.log('result.item');
-                console.log(result.item);
-                // console.log(result.item);
-                // console.log(result.item.type);
-                // console.log(result.item[0]);
-                if (result.status == 'success') {
-                    this.cookieService.set('email', result.item[0].email);
-                    this.cookieService.set('password', result.item[0].password);
-                    this.cookieService.set('id', result.item[0]._id);
-                    this.cookieService.set('jwttoken', result.token);
-                    if (result.status = 'success') {
-                        if (result.status == 'success' && result.item[0].type == 'admin') {
-                            this.router.navigate(['/admindashbord']);
-                        } else if (result.status == 'success' && result.item[0].type == 'brand') {
-                            // this.myForm.reset();
-                            this.router.navigate(['/branddashbord']);
-                        } else if (result.status == 'success' && result.item[0].type == 'influencers') {
-                            // this.myForm.reset();
-                            this.router.navigate(['/influencersdashbord']);
-                        }
-                        this.myForm.reset();
-                    }
-                }
-
-
-            }, error => {
-                console.log('Oooops!');
-            });*/
 
 
     }

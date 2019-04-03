@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import {MatDialog} from '@angular/material';
 import {AdminformComponent} from "../adminform/adminform.component";
 import {AdminmodalformComponent} from "../adminmodalform/adminmodalform.component";
+import {ActivatedRouteSnapshot, Router} from '@angular/router';
+import { CookieService } from 'ngx-cookie-service';
+import { ApiService } from '../../app/api.service';
 
 export interface adminListData {
   name: string;
@@ -25,9 +28,7 @@ const DATA:adminListData[] =[
   {position: 11, name: 'Admin11', username: 'user1@gmail.com', address: 'H'},
   {position: 12, name: 'Admin1', username: 'user1@gmail.com', address: 'H'},
   {position: 13, name: 'Admin1', username: 'user1@gmail.com', address: 'H'},
-
 ];
-
 
 
 @Component({
@@ -47,7 +48,20 @@ const DATA:adminListData[] =[
 export class AdminlistComponent implements OnInit {
   displayedColumns: string[] = ['position', 'name', 'username', 'address', 'actions' ];
   dataSource = DATA;
-  constructor( public dialog:MatDialog) { }
+  public result: any;
+  public endpoint ='datalist';
+  constructor( public dialog:MatDialog, public apiservice: ApiService, public router :Router) {
+    this.apiservice.getData1(this.endpoint).subscribe(res=> {
+
+      this.result = res;
+      console.log('result');
+      console.log(this.result);
+      console.log(this.result.res);
+      console.log(this.dataSource);
+      this.dataSource = this.result.res;
+      console.log(this.dataSource);
+    })
+  }
 
   openDialog(){
     const dialogRef= this.dialog.open(AdminmodalformComponent);
@@ -74,10 +88,11 @@ export class AdminlistComponent implements OnInit {
   };
 
 
-/*  applyFilter( filterValue:string){
-   // this.dataSource = filterValue.trim().toLowerCase();
-  }*/
+  applyFilter( filterValue: string){
+   // this.dataSource.filter = filterValue.trim().toLowerCase();
+  }
   ngOnInit() {
+
   }
 
 }

@@ -18,7 +18,7 @@ import { Resolveservice } from '../app/resolveservice';
 import { ApiService } from '../app/api.service';
 import { AuthGuard } from './auth.guard';
 import { ForgatepasswordComponent } from './forgatepassword/forgatepassword.component';
-import { ChangepasswordComponent } from './changepassword/changepassword.component';
+import {ChangepasswordComponent, Dialogtest} from './changepassword/changepassword.component';
 
 import { ListingComponent } from './listing/listing.component';
 
@@ -43,7 +43,8 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import { AdminmodalformComponent } from './adminmodalform/adminmodalform.component';
 import { AdminheaderComponent } from './adminheader/adminheader.component';
 import {MatToolbarModule} from '@angular/material/toolbar';
-import {ListingModule} from '../../projects/listing/src/lib/listing.module';
+import {ListingModule} from 'listing-angular7';
+import { ResetpasswordComponent } from './resetpassword/resetpassword.component';
 
 
 
@@ -72,6 +73,8 @@ import {ListingModule} from '../../projects/listing/src/lib/listing.module';
 
     AdminheaderComponent,
 
+    ResetpasswordComponent,Dialogtest,
+
 
 
 
@@ -98,6 +101,9 @@ import {ListingModule} from '../../projects/listing/src/lib/listing.module';
     ListingModule
   ],
   providers: [CookieService,Resolveservice,ApiService,AuthGuard],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [
+    Dialogtest
+  ],
 })
 export class AppModule { }

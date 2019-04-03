@@ -10,6 +10,7 @@ export class ApiService {
 
   public domain =  environment["API_URL"];
   public _url = environment["API_URL"];
+  public resetpassword = environment['resetpaswordurl'];
 
   constructor(private _http: HttpClient,
               private _authHttp: HttpClient,
@@ -81,6 +82,8 @@ export class ApiService {
     console.log('httpOptions');
     console.log(httpOptions);
     console.log(this.cookieService.get('jwttoken'));
+    console.log('httpOptions');
+    console.log(httpOptions);
 
     // this.isTokenExpired()
     var result = this._http.post(this._url + 'datalist', endpoint, httpOptions).pipe(map(res => res));
@@ -88,6 +91,17 @@ export class ApiService {
     return result;
   }
   // getData end
+
+
+  getData1(endpoint: any) {
+    let data={source:"pending_and_notpending_application_view" , token:'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmb28iOiJiYXIiLCJleHAiOjE1NTQzNjEzNjQsImlhdCI6MTU1NDI3NDk2NH0.vvJHBuA8AQj5crasnbKAYW9XgRQipeGN-COLpjTnUGk'};
+    // this.isTokenExpired()
+    var result = this._http.post(this._url + 'datalist', data).pipe(map(res => res));
+
+    return result;
+  }
+
+
 
   postData(endpoint:any, data) {
     const httpOptions = {
