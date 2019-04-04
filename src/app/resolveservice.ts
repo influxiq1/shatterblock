@@ -25,12 +25,12 @@ export class Resolveservice implements Resolve<EndpointComponent> {
         // console.log(endpoint);
         return new Promise((resolve) => {
             this._apiService.getEndpoint(route.data).subscribe(api_object => {
-                /*  console.log('api_object  !!!!');
-                  console.log(api_object);*/
+                  console.log('api_object  !!!!');
+                  console.log(api_object);
                 if (api_object) {
                     return resolve(api_object);
                 } else { // id not found
-                    // this.router.navigateByUrl('login');
+                    this.router.navigateByUrl('login');
                     return true;
                 }
             });

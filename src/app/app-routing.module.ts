@@ -25,11 +25,7 @@ const routes: Routes = [
   { path: "influencersdashbord", component: InfluencersdashbordComponent},
   // { path: "adminlist", component: AdminlistComponent, canActivate: [AuthGuard], resolve: {results: Resolveservice}, data: { source: 'users', condition: {} }},
   { path: "branddashbord", component: BranddashbordComponent},
-  { path: "admindashbord", component: AdmindashbordComponent, resolve: {results: Resolveservice}, data: {source: 'admindashboard'}},
-
-
-
-
+  { path: "admindashboard", component: AdmindashbordComponent, canActivate:[AuthGuard], resolve: {results: Resolveservice}, data: {source: 'admindashboard'}},  // resolve is use for this page PRE LOAD DATA PRIOR
   { path: 'forgetpassword', component: ForgatepasswordComponent},
 
   { path: 'resetpassword/:token', component: ChangepasswordComponent},

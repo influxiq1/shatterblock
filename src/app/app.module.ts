@@ -41,10 +41,12 @@ import { AdminformComponent } from './adminform/adminform.component';
 import {MatCardModule} from '@angular/material/card';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import { AdminmodalformComponent } from './adminmodalform/adminmodalform.component';
-import { AdminheaderComponent } from './adminheader/adminheader.component';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {ListingModule} from 'listing-angular7';
 import { ResetpasswordComponent } from './resetpassword/resetpassword.component';
+import { MainNavComponent } from './main-nav/main-nav.component';
+import { LayoutModule } from '@angular/cdk/layout';
+import { MatIconModule, MatListModule } from '@angular/material';
 
 
 
@@ -62,18 +64,12 @@ import { ResetpasswordComponent } from './resetpassword/resetpassword.component'
     InfluencersdashbordComponent,
     ForgatepasswordComponent,
     ChangepasswordComponent,
-
     ListingComponent,
-
     AdminlistComponent,
     AdminleftpanelComponent,
     AdminformComponent,
-
     AdminmodalformComponent,
-
-    AdminheaderComponent,
-
-    ResetpasswordComponent,Dialogtest,
+    ResetpasswordComponent,Dialogtest, MainNavComponent,
 
 
 
@@ -98,7 +94,10 @@ import { ResetpasswordComponent } from './resetpassword/resetpassword.component'
     MatCardModule,
     MatFormFieldModule,
     MatToolbarModule,
-    ListingModule
+    ListingModule,
+    LayoutModule,
+    MatIconModule,
+    MatListModule
   ],
   providers: [CookieService,Resolveservice,ApiService,AuthGuard],
   bootstrap: [AppComponent],

@@ -1,0 +1,57 @@
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav #drawer class="sidenav" fixedInViewport="true"
+      [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+      [mode]="(isHandset$ | async) ? 'over' : 'side'"
+      [opened]="!(isHandset$ | async)">
+    <mat-toolbar>
+      <span class="s_shatter_logo_wrapper">
+          <img src="../../assets/images/shaterblockLogo.png" alt="#" >
+      </span>
+    </mat-toolbar>
+    <mat-nav-list>
+      <a mat-list-item role="listitem" [routerLink]="['/admindashboard']">Dashboard</a>
+      <mat-divider></mat-divider>
+      <a mat-list-item role="listitem">Home</a>
+      <mat-divider></mat-divider>
+      <a mat-list-item role="listitem">Home</a>
+      <mat-divider></mat-divider>
+      <a mat-list-item role="listitem">Home</a>
+      <mat-divider></mat-divider>
+      <a mat-list-item role="listitem" [routerLink]="['/adminlist']">Admin List</a>
+
+      <a mat-list-item role="listitem" [routerLink]="['/adminform']">Add Admin</a>
+      <a mat-list-item role="listitem">Home</a>
+      <a mat-list-item role="listitem">Home</a>
+      <a mat-list-item role="listitem">Home</a>
+    </mat-nav-list>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <mat-toolbar color="primary" class="topbar">
+      <button
+        type="button"
+        aria-label="Toggle sidenav"
+        mat-icon-button
+        (click)="drawer.toggle()"
+        *ngIf="isHandset$ | async">
+        <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+      </button>
+      <span>shatterblock</span>
+      <span class="example-spacer"></span>
+      <button mat-button color="primary">
+      <span class="profile_wrap">
+        <img src="http://www.titikshapublicschool.com/wp-content/uploads/2018/11/developer-api.jpg">
+      </span>
+      </button>
+      <mat-menu #appMenu="matMenu">
+        <button mat-menu-item>Settings</button>
+        <button mat-menu-item>Help</button>
+      </mat-menu>
+
+      <button mat-icon-button [matMenuTriggerFor]="appMenu">
+        <mat-icon>more_vert</mat-icon>
+      </button>
+    </mat-toolbar>
+    <!-- Add Content Here -->
+    <ng-content></ng-content>
+  </mat-sidenav-content>
+</mat-sidenav-container>
