@@ -2,34 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import {MatDialog} from '@angular/material';
 import {AdminformComponent} from "../adminform/adminform.component";
 import {AdminmodalformComponent} from "../adminmodalform/adminmodalform.component";
-import {ActivatedRouteSnapshot, Router} from '@angular/router';
+import {ActivatedRoute, ActivatedRouteSnapshot, Router} from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 import { ApiService } from '../../app/api.service';
-
-export interface adminListData {
-  name: string;
-  position: number;
-  username: string;
-  address: string;
-}
-
-
-const DATA:adminListData[] =[
-  {position: 1, name: 'Admin1', username: 'user1@gmail.com', address: 'H'},
-  {position: 2, name: 'Admin2', username: 'user1@gmail.com', address: 'H'},
-  {position: 3, name: 'Admin3', username: 'user1@gmail.com', address: 'H'},
-  {position: 4, name: 'Admin4', username: 'user1@gmail.com', address: 'H'},
-  {position: 5, name: 'Admin5', username: 'user1@gmail.com', address: 'H'},
-  {position: 6, name: 'Admin6', username: 'user1@gmail.com', address: 'H'},
-  {position: 7, name: 'Admin7', username: 'user1@gmail.com', address: 'H'},
-  {position: 8, name: 'Admin8', username: 'user1@gmail.com', address: 'H'},
-  {position: 9, name: 'Admin9', username: 'user1@gmail.com', address: 'H'},
-  {position: 10, name: 'Admin10', username: 'user1@gmail.com', address: 'H'},
-  {position: 11, name: 'Admin11', username: 'user1@gmail.com', address: 'H'},
-  {position: 12, name: 'Admin1', username: 'user1@gmail.com', address: 'H'},
-  {position: 13, name: 'Admin1', username: 'user1@gmail.com', address: 'H'},
-];
-
 
 @Component({
   selector: 'app-adminlist',
@@ -37,32 +12,33 @@ const DATA:adminListData[] =[
   styleUrls: ['./adminlist.component.css']
 })
 
-
-
-
-
-
-
-
-
 export class AdminlistComponent implements OnInit {
-  displayedColumns: string[] = ['position', 'name', 'username', 'address', 'actions' ];
-  dataSource = DATA;
+  displayedColumns: string[] = ['status', 'name', 'username', 'description', 'actions' ];
+  dataSource: any ;
+  dataSource1: any ;
   public result: any;
   public endpoint ='datalist';
-  constructor( public dialog:MatDialog, public apiservice: ApiService, public router :Router) {
-    this.apiservice.getData1(this.endpoint).subscribe(res=> {
+  constructor( public dialog:MatDialog, public apiservice: ApiService, public router :Router, public route: ActivatedRoute) {
 
-      this.result = res;
-      console.log('result');
-      console.log(this.result);
-      console.log(this.result.res);
-      console.log(this.dataSource);
-      this.dataSource = this.result.res;
-      console.log(this.dataSource);
-    })
+
+
+
+
   }
 
+  ngOnInit() {
+    this.route.data.forEach( (data) =>{
+      console.log('data in resolve');
+      console.log(data);
+      this.dataSource = data['results'].item.brand;
+      console.log('this.dataSource');
+      console.log(this.dataSource);
+      console.log(this.dataSource.length);
+      console.log(this.dataSource[0].name);
+      console.log(this.dataSource);
+
+    })
+  }
   openDialog(){
     const dialogRef= this.dialog.open(AdminmodalformComponent);
     dialogRef.afterClosed().subscribe(result => {
@@ -91,8 +67,6 @@ export class AdminlistComponent implements OnInit {
   applyFilter( filterValue: string){
    // this.dataSource.filter = filterValue.trim().toLowerCase();
   }
-  ngOnInit() {
 
-  }
 
 }

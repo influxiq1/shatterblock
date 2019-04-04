@@ -9,15 +9,15 @@ import { ApiService } from "../api.service";
 })
 export class AdmindashbordComponent implements OnInit {
   datasource:any;
-    public endpoint = 'datalist';
-    pendingmodelapplicationarray: any=[];
     pendingmodelapplicationarray1: any=[];
     brandarray: any=[];
+    // public endpoint = 'datalist';
+    pendingmodelapplicationarray: any=[];
     notpendingapplication_view: any=[];
     pendingmodelapplicationarray_skip: any= ['type','password','Contracts_Signed', 'created_at', '_id','username','email','status','date_iso_dateformat','regDate'];
-    pendingmodelapplicationarray_skip1: any= [];
-    pendingmodelapplicationarray_modify_header: any = { 'date': 'Date','age':'Age','name':'Name','Submission_Process':'Submission_Process','contracts_signed':'Contracts Signed'};
-    pendingmodelapplicationarray_modify_header1: any = { };
+    pendingmodelapplicationarray_modify_header: any = { 'date': 'Date','Age':'Age','name':'Name','submissionprocess':'Submission Process','contractssigned':'Contracts Signed'};
+    pendingmodelapplicationarray_modify_header1: any = { 'dateformat': 'Date','username':'Username','status':'Status','email':'Email' };
+    pendingmodelapplicationarray_skip1: any= ['_id'];
     adminlist:any=[];
   constructor(public router: Router,private route: ActivatedRoute, public apiservice: ApiService) {
     // this.datasource='pendingapplication_view';
@@ -28,8 +28,7 @@ export class AdmindashbordComponent implements OnInit {
           console.log(result);
           console.log(result.res);
           this.pendingmodelapplicationarray = result.res;
-          this.pendingmodelapplicationarray[0].age='';  // extera column add in matHeaderCellDef
-          this.pendingmodelapplicationarray[0].contracts_signed='';  //  extera column add in matHeaderCellDef
+          this.pendingmodelapplicationarray[0].Age='';  // extera column add in matHeaderCellDef
       });
   }
 
@@ -41,11 +40,11 @@ console.log('data in oninit');
           console.log('data from route ... !!!');
           console.log('json',data['results']);
           this.pendingmodelapplicationarray1=data['results'].item.pendingapplication_view;
+          console.log('this.pendingmodelapplicationarray1');
+          console.log(this.pendingmodelapplicationarray1);
            this.brandarray=data['results'].item.brand;
            // this.brandarray1=data['results'].item.notpendingapplication_view;
           this.notpendingapplication_view=data['results'].item.notpendingapplication_view;
-
-
       });
   }
 

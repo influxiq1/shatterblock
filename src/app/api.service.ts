@@ -65,7 +65,7 @@ export class ApiService {
 
     // this.isTokenExpired()
     var result = this._http.post(this._url + endpoint.source, {}, httpOptions).pipe(map(res => res));
-
+console.log(result)
     return result;
   }
 

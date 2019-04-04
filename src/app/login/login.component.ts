@@ -83,7 +83,7 @@ export class LoginComponent implements OnInit {
                         this.router.navigate(['/admindashbord']);
                     } else if (result.status == 'success' && result.item[0].type == 'brand') {
                         // this.myForm.reset();
-                        this.router.navigate(['/admindashbord']);
+                        this.router.navigate(['/branddashbord']);
                     } else if (result.status == 'success' && result.item[0].type == 'influencers') {
                         // this.myForm.reset();
                         this.router.navigate(['/influencersdashbord']);
