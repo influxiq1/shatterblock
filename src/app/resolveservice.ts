@@ -19,6 +19,8 @@ export class Resolveservice implements Resolve<EndpointComponent> {
         // let id = route.params['id'];
         console.log('resolve route data');
         console.log(route.data);
+        console.log(route.data.source);
+        console.log(route);
         console.log(state);
         // let endpoint = route.data.object;
         // console.log('endpoint!!!!!');

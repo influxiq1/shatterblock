@@ -13,25 +13,27 @@ import {ChangepasswordComponent} from './changepassword/changepassword.component
 import {AdminlistComponent} from "./adminlist/adminlist.component";
 import {AdminformComponent} from "./adminform/adminform.component";
 import {AdminmodalformComponent} from "./adminmodalform/adminmodalform.component";
+import {ManagedashboardComponent} from "./managedashboard/managedashboard.component";
 import {Resolveservice} from "./resolveservice";
 
 
 const routes: Routes = [
-  { path: "admin", component: AdminmanagementComponent },
+  { path: "admin", component: AdminmanagementComponent, canActivate: [AuthGuard] },
   { path: "login", component: LoginComponent},
   { path: "", component: LoginComponent},
-  { path: "brand", component: BrandmanagementComponent },
-  { path: "influencers", component: InfluencersmanagementComponent },
-  { path: "influencersdashbord", component: InfluencersdashbordComponent},
+  { path: "brand", component: BrandmanagementComponent, canActivate: [AuthGuard] },
+  { path: "influencers", component: InfluencersmanagementComponent, canActivate:[AuthGuard] },
+  { path: "influencersdashboard", component: InfluencersdashbordComponent, canActivate: [AuthGuard]},
   // { path: "adminlist", component: AdminlistComponent, canActivate: [AuthGuard], resolve: {results: Resolveservice}, data: { source: 'users', condition: {} }},
-  { path: "branddashbord", component: BranddashbordComponent, canActivate: [AuthGuard]},
+  { path: "branddashboard", component: BranddashbordComponent, canActivate: [AuthGuard], resolve: { results: Resolveservice}, data: {source: 'admindashboard'}},
   { path: "admindashboard", component: AdmindashbordComponent, canActivate:[AuthGuard], resolve: {results: Resolveservice}, data: {source: 'admindashboard'}},  // resolve is use for this page PRE LOAD DATA PRIOR
   { path: 'forgetpassword', component: ForgatepasswordComponent},
 
   { path: 'resetpassword/:token', component: ChangepasswordComponent},
   {path: 'adminlist', component: AdminlistComponent, canActivate: [AuthGuard], resolve: {results: Resolveservice}, data: { source:'admindashboard', condition:{}}},
-   {path: 'adminform', component:AdminformComponent },
-  {path: 'adminmodalform', component: AdminmodalformComponent},
+   {path: 'adminform', component:AdminformComponent, canActivate: [AuthGuard] },
+  {path: 'adminmodalform', component: AdminmodalformComponent, canActivate: [AuthGuard]},
+  {path: 'managedashboard', component: ManagedashboardComponent, canActivate: [AuthGuard]},
 
   // { path: 'changepassword', component: ChangepasswordComponent, canActivate: [AuthGuard], resolve: {results: Resolveservice}, data: {source: 'users', condition:{}} },
 

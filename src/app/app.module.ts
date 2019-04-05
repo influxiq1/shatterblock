@@ -20,16 +20,14 @@ import { AuthGuard } from './auth.guard';
 import { ForgatepasswordComponent } from './forgatepassword/forgatepassword.component';
 import {ChangepasswordComponent, Dialogtest} from './changepassword/changepassword.component';
 
-import { ListingComponent } from './listing/listing.component';
-
 import { AdminlistComponent } from './adminlist/adminlist.component';
 
 // import { AmingridlistComponent } from './amingridlist/amingridlist.component';
 
 import { AdminleftpanelComponent } from './adminleftpanel/adminleftpanel.component';
-
+import { ManagedashboardComponent, Updatetest } from './managedashboard/managedashboard.component';
 //import { ResolvecomponentComponent } from './resolvecomponent/resolvecomponent.component';
-
+import { CKEditorModule } from 'ngx-ckeditor';
 
 //MATERIAL
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
@@ -47,6 +45,7 @@ import { ResetpasswordComponent } from './resetpassword/resetpassword.component'
 import { MainNavComponent } from './main-nav/main-nav.component';
 import { LayoutModule } from '@angular/cdk/layout';
 import { MatIconModule, MatListModule } from '@angular/material';
+import {ListingComponent} from "./listing/listing.component";
 
 
 
@@ -70,7 +69,7 @@ import { MatIconModule, MatListModule } from '@angular/material';
     AdminformComponent,
     AdminmodalformComponent,
     ResetpasswordComponent,Dialogtest, MainNavComponent,
-
+    ManagedashboardComponent,Updatetest,
 
 
 
@@ -84,7 +83,7 @@ import { MatIconModule, MatListModule } from '@angular/material';
     BrowserAnimationsModule,
     HttpClientModule,
     FormsModule, ReactiveFormsModule,
-
+    CKEditorModule,
 
     //MATERIAL
     MatSidenavModule,
@@ -102,7 +101,7 @@ import { MatIconModule, MatListModule } from '@angular/material';
   providers: [CookieService,Resolveservice,ApiService,AuthGuard],
   bootstrap: [AppComponent],
   entryComponents: [
-    Dialogtest
+    Dialogtest,Updatetest
   ],
 })
 export class AppModule { }

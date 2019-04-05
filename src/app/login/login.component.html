@@ -18,7 +18,7 @@
 
       <mat-form-field class="form-group">
         <input (blur)="inputblur('password')" matInput placeholder="Password" type="password" [formControl]="myForm.controls['password']" >
-        <span  *ngIf="!myForm.controls['password'].valid && myForm.controls['password'].touched">Password field can not be blank</span>
+        <span  *ngIf="!myForm.controls[ 'password'].valid && myForm.controls['password'].touched">Password field can not be blank</span>
       </mat-form-field>
 <mat-card-content >
       <button mat-button  (click)="onSubmit()" class="s_getmyoffer_login_button"  >Login</button>
