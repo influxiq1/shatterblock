@@ -1,0 +1,25 @@
+<app-main-nav>
+
+  <mat-toolbar class="breadcrumb"> <a style="text-decoration: none;" href=""> Manage Dashboard &nbsp;&nbsp; </a> </mat-toolbar>
+
+  <mat-form-field>
+    <mat-label>Select Any one</mat-label>
+    <select matNativeControl required>
+      <option value="joqu">Joqu</option>
+      <option value="audiodeadline">Audiodeadline</option>
+    </select>
+  </mat-form-field>
+
+
+  <mat-form-field appearance="outline" class="mat-editor">
+    <ckeditor matCkeditor [editor]="ckEditor" [(ngModel)]="content"></ckeditor>
+ <!--   <ckeditor matCkeditorBalloon [toolbar]="toolbarStatus"
+              [editor]="ckEditor" (ready)="editorReady($event)" [config]="editorConfig"
+              [(ngModel)]="content">
+    </ckeditor>
+    <button matSuffix mat-icon-button type="button"
+            color="{{toolbarStatus && 'primary'}}" (click)="toolbarStatus = !toolbarStatus">
+      <mat-icon> tune </mat-icon>
+    </button>-->
+  </mat-form-field>
+</app-main-nav>
