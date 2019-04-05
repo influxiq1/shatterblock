@@ -11,13 +11,15 @@ export class ApiService {
   public domain =  environment["API_URL"];
   public _url = environment["API_URL"];
   public resetpassword = environment['resetpaswordurl'];
+  public jwttoken: any;
 
   constructor(private _http: HttpClient,
               private _authHttp: HttpClient,
-              private cookieService: CookieService
+              public cookieService: CookieService
               // public jwtHelper: JwtHelperService,
               // private loggedinService: LoggedinService
               ) {
+    this.jwttoken=this.cookieService.get('jwttoken');
     console.log('this.domain');
     console.log(this.domain);
   }
@@ -65,7 +67,7 @@ export class ApiService {
 
     // this.isTokenExpired()
     var result = this._http.post(this._url + endpoint.source, {}, httpOptions).pipe(map(res => res));
-console.log(result)
+console.log(result);
     return result;
   }
 
@@ -77,6 +79,8 @@ console.log(result)
         'access-token': this.cookieService.get('jwttoken')
       })
     };
+    console.log(this.cookieService.get('id'));
+    console.log(this.cookieService.get('id'));
     console.log('endpoint');
     console.log(endpoint);
     console.log('httpOptions');
@@ -92,14 +96,14 @@ console.log(result)
   }
   // getData end
 
-
+/*
   getData1(endpoint: any) {
     let data={source:"pending_and_notpending_application_view" , token:'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmb28iOiJiYXIiLCJleHAiOjE1NTQzNjEzNjQsImlhdCI6MTU1NDI3NDk2NH0.vvJHBuA8AQj5crasnbKAYW9XgRQipeGN-COLpjTnUGk'};
     // this.isTokenExpired()
     var result = this._http.post(this._url + 'datalist', data).pipe(map(res => res));
 
     return result;
-  }
+  }*/
 
 
 
@@ -145,7 +149,7 @@ console.log(result)
   } // postData end
 
 
-
+/*
   putData(endpoint:any, data, id:any) {
     const httpOptions = {
       headers: new HttpHeaders({
@@ -154,11 +158,33 @@ console.log(result)
       })
     };
     console.log(this.cookieService.get('jwttoken'));
+    console.log(this.cookieService.get('id'));
     console.log("endpoint");
     console.log(endpoint);
     var result = this._http.put(this.getEndpointUrl(endpoint)+'/'+id, JSON.stringify(data), httpOptions).pipe(map(res => res));
     return result;
-  }
+  }*/
+
+  putData(endpoint:any,data,id:any,is_cache_buster=true){
+
+    if (is_cache_buster==true){
+      let ran = Math.floor(Math.random() * 10000) + 1;
+      var cache_buster = '?cache=' + ran.toString();
+      endpoint = endpoint + cache_buster;
+    }
+
+    this.isTokenExpired()
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type':  'application/json',
+        // 'AutAuthorization': this.cookieService.get('jwttoken')
+      })
+    };
+    var result =this._http.put(this.getEndpointUrl(endpoint),JSON.stringify(data),httpOptions).pipe(map(res => res));
+
+    return result;
+  } //end putData
 
 
 

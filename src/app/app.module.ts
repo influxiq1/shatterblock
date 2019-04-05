@@ -20,8 +20,6 @@ import { AuthGuard } from './auth.guard';
 import { ForgatepasswordComponent } from './forgatepassword/forgatepassword.component';
 import {ChangepasswordComponent, Dialogtest} from './changepassword/changepassword.component';
 
-import { ListingComponent } from './listing/listing.component';
-
 import { AdminlistComponent } from './adminlist/adminlist.component';
 
 // import { AmingridlistComponent } from './amingridlist/amingridlist.component';
@@ -47,6 +45,10 @@ import { ResetpasswordComponent } from './resetpassword/resetpassword.component'
 import { MainNavComponent } from './main-nav/main-nav.component';
 import { LayoutModule } from '@angular/cdk/layout';
 import { MatIconModule, MatListModule } from '@angular/material';
+import {ListingComponent} from "./listing/listing.component";
+import { ContractComponent } from './contract/contract.component';
+import {AgreementComponent} from "./agreement/agreement.component";
+import {ModalComponent} from "./modal/modal.component";
 
 
 
@@ -56,6 +58,7 @@ import { MatIconModule, MatListModule } from '@angular/material';
     AppComponent,
 
     LoginComponent,
+    ModalComponent,
     BrandmanagementComponent,
     AdminmanagementComponent,
     InfluencersmanagementComponent,
@@ -64,12 +67,13 @@ import { MatIconModule, MatListModule } from '@angular/material';
     InfluencersdashbordComponent,
     ForgatepasswordComponent,
     ChangepasswordComponent,
+    AgreementComponent,
     ListingComponent,
     AdminlistComponent,
     AdminleftpanelComponent,
     AdminformComponent,
     AdminmodalformComponent,
-    ResetpasswordComponent,Dialogtest, MainNavComponent,
+    ResetpasswordComponent,Dialogtest, MainNavComponent, ContractComponent,
 
 
 
@@ -102,7 +106,7 @@ import { MatIconModule, MatListModule } from '@angular/material';
   providers: [CookieService,Resolveservice,ApiService,AuthGuard],
   bootstrap: [AppComponent],
   entryComponents: [
-    Dialogtest
+    Dialogtest,ModalComponent,
   ],
 })
 export class AppModule { }

@@ -9,6 +9,9 @@ import { ApiService } from "../api.service";
 })
 export class AdmindashbordComponent implements OnInit {
   datasource:any;
+    updateurl='addorupdatedata';
+    delurl='deletesingledata';
+    tablename='users';
     pendingmodelapplicationarray1: any=[];
     brandarray: any=[];
     // public endpoint = 'datalist';

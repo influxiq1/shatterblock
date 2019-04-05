@@ -80,13 +80,13 @@ export class LoginComponent implements OnInit {
                 this.cookieService.set('jwttoken', result.token);
                 if (result.status = 'success') {
                     if (result.status == 'success' && result.item[0].type == 'admin') {
-                        this.router.navigate(['/admindashbord']);
+                        this.router.navigate(['/admindashboard']);
                     } else if (result.status == 'success' && result.item[0].type == 'brand') {
                         // this.myForm.reset();
-                        this.router.navigate(['/branddashbord']);
+                        this.router.navigate(['/branddashboard']);
                     } else if (result.status == 'success' && result.item[0].type == 'influencers') {
                         // this.myForm.reset();
-                        this.router.navigate(['/influencersdashbord']);
+                        this.router.navigate(['/influencersdashboard']);
                     }
                     this.myForm.reset();
                 }
