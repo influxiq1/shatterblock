@@ -15,6 +15,9 @@ export class AdmindashbordComponent implements OnInit {
     brandarray:any=[];
     notpendingapplication_view:any=[];
     adminlist:any=[];
+    updateurl='addorupdatedata';
+    delurl='deletesingledata';
+    tablename='users';
 
   constructor(public router: Router,private route: ActivatedRoute,private _apiService: ApiService) {
     this.datasource='pendingapplication_view';
@@ -36,7 +39,7 @@ export class AdmindashbordComponent implements OnInit {
           //PRE LOAD DATA PRIOR
           console.log('data from route ... !!!');
           console.log('json',data['results']);
-          this.pendingmodelapplicationarray=data['results'].item.pendingapplication_view;
+          this.pendingmodelapplicationarray=data['results'].item.notpendingapplication_view;
           this.brandarray=data['results'].item.brand;
           this.notpendingapplication_view=data['results'].item.notpendingapplication_view;
 

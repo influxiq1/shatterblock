@@ -1,27 +1,16 @@
 import { Injectable } from '@angular/core';
-import { Observable, interval, pipe } from 'rxjs';
 import { switchMap, map, takeWhile } from 'rxjs/operators';
-import { environment } from '../environments/environment';
 import { HttpClient, HttpHeaders} from '@angular/common/http';
-import { CookieService } from 'ngx-cookie-service';
+
 
 @Injectable()
 export class ApiService {
-
-  public domain =  environment["API_URL"];
-  public _url = environment["API_URL"];
-  public jwttoken:any;
-
   constructor(private _http: HttpClient,
               private _authHttp: HttpClient,
-              private cookieService: CookieService
-              // public jwtHelper: JwtHelperService,
-              // private loggedinService: LoggedinService
-              ) {
-    console.log('this.domain');
-    console.log(this.domain);
-    this.jwttoken=this.cookieService.get('jwttoken');
 
+              ) {
+    //console.log('this.domain');
+    //console.log(this.domain);
   }
 
 
@@ -56,17 +45,17 @@ export class ApiService {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type':  'application/json',
-        'access-token': this.cookieService.get('jwttoken')
+        'access-token': ''
       })
     };
     console.log('endpoint');
     console.log(endpoint);
     console.log('httpOptions');
     console.log(httpOptions);
-    console.log(this.cookieService.get('jwttoken'));
+    console.log('');
 
     // this.isTokenExpired()
-    var result = this._http.post(this._url + endpoint.source, {}, httpOptions).pipe(map(res => res));
+    var result = this._http.post('' + endpoint.source, {}, httpOptions).pipe(map(res => res));
 
     return result;
   }
@@ -76,17 +65,17 @@ export class ApiService {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type':  'application/json',
-        'access-token': this.cookieService.get('jwttoken')
+        'access-token': ''
       })
     };
     console.log('endpoint');
     console.log(endpoint);
     console.log('httpOptions');
     console.log(httpOptions);
-    console.log(this.cookieService.get('jwttoken'));
+    console.log('');
 
     // this.isTokenExpired()
-    var result = this._http.post(this._url + 'datalist', endpoint, httpOptions).pipe(map(res => res));
+    var result = this._http.post('' + 'datalist', endpoint, httpOptions).pipe(map(res => res));
 
     return result;
   }
@@ -97,10 +86,10 @@ export class ApiService {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type':  'application/json',
-        'access-token': this.cookieService.get('jwttoken')
+        'access-token': ''
       })
     };
-    console.log(this.cookieService.get('jwttoken'));
+    console.log('');
     console.log('endpoint');
     console.log(endpoint);
     console.log('httpOptions');
@@ -114,7 +103,7 @@ export class ApiService {
         'Content-Type':  'application/json'
       })
     };
-    console.log(this.cookieService.get('jwttoken'));
+    console.log('');
     console.log('endpoint');
     console.log(endpoint);
     var result = this._http.post(this.getEndpointUrl(endpoint), JSON.stringify(data), httpOptions).pipe(map(res => res));
@@ -127,7 +116,7 @@ export class ApiService {
         'Content-Type':  'application/json'
       })
     };
-    console.log(this.cookieService.get('jwttoken'));
+    console.log('');
     console.log('endpoint');
     console.log(endpoint);
     var result = this._http.post(this.getEndpointUrl(endpoint), JSON.stringify(data), httpOptions).pipe(map(res => res));
@@ -140,20 +129,37 @@ export class ApiService {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
-        'Authorization': this.cookieService.get('jwttoken')
+        'Authorization': ''
       })
     };
-    console.log(this.cookieService.get('jwttoken'));
+    console.log('');
     console.log("endpoint");
     console.log(endpoint);
     var result = this._http.put(this.getEndpointUrl(endpoint)+'/'+id, JSON.stringify(data), httpOptions).pipe(map(res => res));
     return result;
   }
 
+  deteOneData(endpoint:any, data,token,source) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'access-token': token
+      })
+    };
+    console.log('------ ');
+    console.log("endpoint");
+    console.log(endpoint);
+    console.log(data);
+    let dataval:any;
+    dataval={source:source,id:data._id}
+    var result = this._http.post(endpoint,dataval, httpOptions).pipe(map(res => res));
+    return result;
+  }
+
 
 
   private getEndpointUrl(endpoint: string) {
-      return this._url + endpoint;
+      return '' + endpoint;
   }
 
 }

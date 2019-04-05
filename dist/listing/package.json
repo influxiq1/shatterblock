@@ -1,14 +1,17 @@
 {
   "name": "listing-angular7",
-  "version": "0.0.2",
-  "bugs": "https://github.com/influxiq1/shatterblock/issues",
+  "version": "0.0.22",
+  "bugs": "https://github.com/debasiskar-devel-007/angular7-listing/issues",
   "repository": {
     "type": "git",
-    "url": "https://github.com/influxiq1/shatterblock.git"
+    "url": "https://github.com/debasiskar-devel-007/angular7-listing.git"
   },
-  "peerDependencies": {
+  "devDependencies": {
     "@angular/common": "^7.2.0",
-    "@angular/core": "^7.2.0"
+    "@angular/core": "^7.2.0",
+    "@angular/material": "latest",
+    "@angular/cdk": "latest",
+    "@angular/animations": "latest"
   },
   "main": "bundles/listing-angular7.umd.js",
   "module": "fesm5/listing-angular7.js",

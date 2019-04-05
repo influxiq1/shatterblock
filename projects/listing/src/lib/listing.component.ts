@@ -1,26 +1,9 @@
-import {Component, OnInit, ViewChild, Input} from '@angular/core';
+import {Component, OnInit, ViewChild, Input, Inject} from '@angular/core';
 import {MatSort, MatTableDataSource,MatPaginator} from '@angular/material';
 import {SelectionModel} from '@angular/cdk/collections';
+import { ApiService } from './api.service';
+import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 
-export interface PeriodicElement {
-  name: string;
-  position: number;
-  weight: number;
-  symbol: string;
-}
-
-const ELEMENT_DATA: PeriodicElement[] = [
-  {position: 1, name: 'Hydrogen', weight: 1.0079, symbol: 'H'},
-  {position: 2, name: 'Helium', weight: 4.0026, symbol: 'He'},
-  {position: 3, name: 'Lithium', weight: 6.941, symbol: 'Li'},
-  {position: 4, name: 'Beryllium', weight: 9.0122, symbol: 'Be'},
-  {position: 5, name: 'Boron', weight: 10.811, symbol: 'B'},
-  {position: 6, name: 'Carbon', weight: 12.0107, symbol: 'C'},
-  {position: 7, name: 'Nitrogen', weight: 14.0067, symbol: 'N'},
-  {position: 8, name: 'Oxygen', weight: 15.9994, symbol: 'O'},
-  {position: 9, name: 'Fluorine', weight: 18.9984, symbol: 'F'},
-  {position: 10, name: 'Neon', weight: 20.1797, symbol: 'Ne'},
-];
 
 
 @Component({
@@ -32,9 +15,15 @@ export class ListingComponent implements OnInit {
 
   datasourceval:any;
   skipval:any;
+  jwttokenval:any;
+  deleteendpointval:any;
+  apiurlval:any;
+  updateendpointval:any;
   modify_header_arrayval:any;
   selection :any;
+  sourcedataval :any;
   columns :any=[];
+  olddata :any=[];
   public x :any;
 
   @Input()
@@ -50,12 +39,47 @@ export class ListingComponent implements OnInit {
     console.log('this.skipval');
     console.log(this.skipval);
   }
+
+@Input()
+  set sourcedata(sourcedata: any) {
+    this.sourcedataval = sourcedata;
+    console.log('this.sourcedataval');
+    console.log(this.sourcedataval);
+  }
+
   @Input()
   set modify_header_array(modify_header_array: any) {
     this.modify_header_arrayval = modify_header_array;
     console.log('this.modify_header_arrayval');
     console.log(this.modify_header_arrayval);
   }
+
+  @Input()
+    set deleteendpoint(deleteendpointval: any) {
+      this.deleteendpointval = deleteendpointval;
+      console.log('this.deleteendpointval');
+      console.log(this.deleteendpointval);
+    }
+
+ @Input()
+    set updateendpoint(updateendpoint: any) {
+      this.updateendpointval = updateendpoint;
+      console.log('this.updateendpointval');
+      console.log(this.updateendpointval);
+    }
+    @Input()
+    set apiurl(apiurl: any) {
+      this.apiurlval = apiurl;
+      console.log('this.apiurlval');
+      console.log(this.apiurlval);
+    }
+
+@Input()
+    set jwttoken(jwttoken: any) {
+      this.jwttokenval = jwttoken;
+      console.log('this.jwttokenval');
+      console.log(this.jwttokenval);
+    }
 
 
   displayedColumns: string[] = [];
@@ -66,6 +90,10 @@ export class ListingComponent implements OnInit {
 
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
+
+  constructor(public _apiService: ApiService,public dialog: MatDialog) {
+
+  }
 
   ngOnInit() {
 
@@ -108,6 +136,7 @@ export class ListingComponent implements OnInit {
     for (let i = 0; i < this.x.length; i++) {
       data_list.push(this.createData(x[i]));
     }
+    this.olddata=data_list;
 
     this.dataSource = new MatTableDataSource(data_list);
     this.selection = new SelectionModel(true, []);
@@ -169,5 +198,94 @@ export class ListingComponent implements OnInit {
   }
 
 
+  viewdata(data:any){
+    console.log('data');
+    console.log(data);
+
+  }
+
+  deletedata(data:any){
+    //alert(5);
+    //this._apiService.deteOneData(this.apiurlval+this.deleteendpointval,data,this.jwttokenval);
+    console.log('data 889 ---');
+    console.log(data);
+    console.log('jwttokenval');
+    console.log(this.jwttokenval);
+
+
+    const dialogRef = this.dialog.open(Confirmdialog, {
+      width: '550px',
+      data: {message: 'Are you sure to delete this record ??'}
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+      console.log(result);
+      if(result=='yes'){
+        this._apiService.deteOneData(this.apiurlval+this.deleteendpointval,data,this.jwttokenval,this.sourcedataval).subscribe(res => {
+          let result: any = {};
+          result = res;
+          if(result.status=='success'){
+
+            this.olddata = this.olddata.filter(olddata => olddata._id != data._id)
+            this.dataSource = new MatTableDataSource(this.olddata);
+
+            this.dataSource = new MatTableDataSource(this.olddata);
+            this.selection = new SelectionModel(true, []);
+            this.dataSource.paginator = this.paginator;
+            this.dataSource.sort = this.sort;
+          }
+
+        }, error => {
+          console.log('Oooops!');
+        });
+
+      }
+      //this.animal = result;
+    });
+
+
+
+    /*this._apiService.deteOneData(this.apiurlval+this.deleteendpointval,data,this.jwttokenval,this.sourcedataval).subscribe(res => {
+      let result: any = {};
+      result = res;
+      if(result.status=='success'){
+
+      }
+
+    }, error => {
+      console.log('Oooops!');
+    });*/
+
+
+  }
+
+ editdata(data:any){
+    console.log('data');
+    console.log(data);
+    console.log(this.jwttokenval);
+
+  }
+
+
+}
+
+
+@Component({
+  selector: 'confirmdialog',
+  templateUrl: 'confirm-dialog.html',
+})
+export class Confirmdialog {
+
+  constructor(
+      public dialogRef: MatDialogRef<Confirmdialog>,
+      @Inject(MAT_DIALOG_DATA) public data: any) {
+    console.log('my data ...');
+    console.log(this.data);
+  }
+
+  onNoClick(): void {
+    this.dialogRef.close();
+  }
 
 }

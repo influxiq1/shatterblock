@@ -1,12 +1,13 @@
 {
   "name": "listing-angular7",
-  "version": "0.0.002",
+  "version": "0.0.23",
   "bugs": "https://github.com/debasiskar-devel-007/angular7-listing/issues",
   "repository": {
     "type": "git",
     "url": "https://github.com/debasiskar-devel-007/angular7-listing.git"
   },
-  "peerDependencies": {
+
+  "devDependencies": {
     "@angular/common": "^7.2.0",
     "@angular/core": "^7.2.0",
     "@angular/material":"latest",
