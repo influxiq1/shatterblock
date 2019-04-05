@@ -204,6 +204,50 @@ export class ListingComponent implements OnInit {
 
   }
 
+  deletemultiple(){
+    console.log('this.selection.selected.length');
+    console.log(this.selection.selected.length);
+    console.log(this.selection);
+    console.log(this.selection.selected);
+
+    const dialogRef = this.dialog.open(Confirmdialog, {
+      width: '550px',
+      data: {message: 'Are you sure to delete selected records ??'}
+    });
+    let ids:any=[];
+    let c:any;
+    for(c in this.selection.selected){
+
+      ids.push(this.selection.selected[c]._id);
+    }
+    console.log('ids');
+    console.log(ids);
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+      console.log(result);
+      if(result=='yes'){
+        this._apiService.deteManyData(this.apiurlval+this.deleteendpointval,ids,this.jwttokenval,this.sourcedataval).subscribe(res => {
+          let result: any = {};
+          result = res;
+          if(result.status=='success'){
+            for(let c in ids){
+              this.olddata = this.olddata.filter(olddata => olddata._id != ids[c]);
+            }
+            this.dataSource = new MatTableDataSource(this.olddata);
+            this.selection = new SelectionModel(true, []);
+            this.dataSource.paginator = this.paginator;
+            this.dataSource.sort = this.sort;
+          }
+
+        }, error => {
+          console.log('Oooops!');
+        });
+
+      }
+      //this.animal = result;
+    });
+  }
   deletedata(data:any){
     //alert(5);
     //this._apiService.deteOneData(this.apiurlval+this.deleteendpointval,data,this.jwttokenval);
@@ -229,8 +273,6 @@ export class ListingComponent implements OnInit {
 
             this.olddata = this.olddata.filter(olddata => olddata._id != data._id)
             this.dataSource = new MatTableDataSource(this.olddata);
-
-            this.dataSource = new MatTableDataSource(this.olddata);
             this.selection = new SelectionModel(true, []);
             this.dataSource.paginator = this.paginator;
             this.dataSource.sort = this.sort;
@@ -243,20 +285,6 @@ export class ListingComponent implements OnInit {
       }
       //this.animal = result;
     });
-
-
-
-    /*this._apiService.deteOneData(this.apiurlval+this.deleteendpointval,data,this.jwttokenval,this.sourcedataval).subscribe(res => {
-      let result: any = {};
-      result = res;
-      if(result.status=='success'){
-
-      }
-
-    }, error => {
-      console.log('Oooops!');
-    });*/
-
 
   }
 

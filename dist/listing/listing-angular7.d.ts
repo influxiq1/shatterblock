@@ -2,4 +2,5 @@
  * Generated bundle index. Do not edit.
  */
 export * from './public-api';
-export { DemoMaterialModule as ɵa } from './lib/materialmodules';
+export { ApiService as ɵa } from './lib/api.service';
+export { DemoMaterialModule as ɵb } from './lib/materialmodules';

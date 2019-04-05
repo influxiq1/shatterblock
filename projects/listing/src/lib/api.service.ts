@@ -155,6 +155,22 @@ export class ApiService {
     var result = this._http.post(endpoint,dataval, httpOptions).pipe(map(res => res));
     return result;
   }
+  deteManyData(endpoint:any, data,token,source) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'access-token': token
+      })
+    };
+    console.log('------ ');
+    console.log("endpoint");
+    console.log(endpoint);
+    console.log(data);
+    let dataval:any;
+    dataval={source:source,ids:data}
+    var result = this._http.post(endpoint+'many',dataval, httpOptions).pipe(map(res => res));
+    return result;
+  }
 
 
 
