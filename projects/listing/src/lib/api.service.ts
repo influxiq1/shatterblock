@@ -155,6 +155,29 @@ export class ApiService {
     var result = this._http.post(endpoint,dataval, httpOptions).pipe(map(res => res));
     return result;
   }
+
+    togglestatus(endpoint:any, data,token,source) {
+      console.log(endpoint);
+      console.log(data);
+      console.log(token);
+      console.log(source);
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'access-token': token
+      })
+    };
+    console.log('------ ');
+    console.log("endpoint");
+    console.log(endpoint);
+    console.log(data);
+    let dataval:any;
+    dataval={source:source,data:data}
+    var result = this._http.post(endpoint,dataval, httpOptions).pipe(map(res => res));
+    return result;
+  }
+
   deteManyData(endpoint:any, data,token,source) {
     const httpOptions = {
       headers: new HttpHeaders({
@@ -168,6 +191,23 @@ export class ApiService {
     console.log(data);
     let dataval:any;
     dataval={source:source,ids:data}
+    var result = this._http.post(endpoint+'many',dataval, httpOptions).pipe(map(res => res));
+    return result;
+  }
+
+    togglestatusmany(endpoint:any, data,val,token,source) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'access-token': token
+      })
+    };
+    console.log('------ ');
+    console.log("endpoint");
+    console.log(endpoint);
+    console.log(data);
+    let dataval:any;
+    dataval={source:source,data:{ids:data,val:val}};
     var result = this._http.post(endpoint+'many',dataval, httpOptions).pipe(map(res => res));
     return result;
   }

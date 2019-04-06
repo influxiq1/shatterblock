@@ -3,6 +3,7 @@ import {MatSort, MatTableDataSource,MatPaginator} from '@angular/material';
 import {SelectionModel} from '@angular/cdk/collections';
 import { ApiService } from './api.service';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
+import {MatBottomSheet, MatBottomSheetRef,MAT_BOTTOM_SHEET_DATA} from '@angular/material';
 
 
 
@@ -14,6 +15,7 @@ import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 export class ListingComponent implements OnInit {
 
   datasourceval:any;
+  statusarrval:any;
   skipval:any;
   jwttokenval:any;
   deleteendpointval:any;
@@ -81,6 +83,13 @@ export class ListingComponent implements OnInit {
       console.log(this.jwttokenval);
     }
 
+    @Input()
+    set statusarr(statusarr: any) {
+      this.statusarrval = statusarr;
+      console.log('this.statusarrval');
+      console.log(this.statusarrval);
+    }
+
 
   displayedColumns: string[] = [];
   datacolumns: string[] = [];
@@ -91,7 +100,7 @@ export class ListingComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
-  constructor(public _apiService: ApiService,public dialog: MatDialog) {
+  constructor(public _apiService: ApiService,public dialog: MatDialog,private bottomSheet: MatBottomSheet) {
 
   }
 
@@ -142,6 +151,15 @@ export class ListingComponent implements OnInit {
     this.selection = new SelectionModel(true, []);
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
+  }
+
+  getstatus(val:any){
+    for(let b in this.statusarrval){
+      if(this.statusarrval[b].val==val)
+        return this.statusarrval[b].name;
+
+    }
+    return "N/A";
   }
 
   /** Whether the number of selected elements matches the total number of rows. */
@@ -203,6 +221,103 @@ export class ListingComponent implements OnInit {
     console.log(data);
 
   }
+  managestatus(data:any){
+    console.log('data');
+    console.log(data);
+    let bs=this.bottomSheet.open(BottomSheet,{data:{items:this.statusarrval}});
+
+    bs.afterDismissed().subscribe(result => {
+      console.log('The bottom sheet was closed');
+      console.log(result);
+      if(result!=null){
+        data.status = result.val;
+        data.id = data._id;
+      this._apiService.togglestatus(this.apiurlval + 'statusupdate', data, this.jwttokenval, this.sourcedataval).subscribe(res => {
+        let result: any = {};
+        result = res;
+        if (result.status == 'success') {
+          for (let c in this.olddata) {
+            //this.olddata = this.olddata.filter(olddata => olddata._id != ids[c]);
+            if (this.olddata[c]._id == data._id) {
+              console.log('in data update');
+              console.log(data);
+              this.olddata[c].status = data.status;
+            }
+          }
+          this.dataSource = new MatTableDataSource(this.olddata);
+          this.selection = new SelectionModel(true, []);
+          this.dataSource.paginator = this.paginator;
+          this.dataSource.sort = this.sort;
+
+          let dialogRef = this.dialog.open(Confirmdialog, {
+            width: '50%',
+            data: {message: 'Status updated successfully!!', isconfirmation: false}
+          });
+
+        }
+
+      }, error => {
+        console.log('Oooops!');
+      });
+    }
+      //this.animal = result;
+    });
+
+  }
+
+  managestatusmultiple(){
+
+    let ids:any=[];
+    let c:any;
+    for(c in this.selection.selected){
+
+      ids.push(this.selection.selected[c]._id);
+    }
+    console.log('ids');
+    console.log(ids);
+    //console.log('data');
+    //console.log(data);
+    let bs=this.bottomSheet.open(BottomSheet,{data:{items:this.statusarrval}});
+
+    bs.afterDismissed().subscribe(result => {
+      console.log('The bottom sheet was closed');
+      console.log(result);
+      if(result!=null){
+        //data.status = result.val;
+        //data.id = data._id;
+        let newstatus:any=result.val;
+      this._apiService.togglestatusmany(this.apiurlval + 'statusupdate', ids,result.val, this.jwttokenval, this.sourcedataval).subscribe(res => {
+        let result: any = {};
+        result = res;
+        if (result.status == 'success') {
+          for (let c in this.olddata) {
+            //this.olddata = this.olddata.filter(olddata => olddata._id != ids[c]);
+            if (ids.indexOf(this.olddata[c]._id)>-1) {
+              console.log('in data update');
+              //console.log(data);
+              this.olddata[c].status = newstatus;
+            }
+          }
+          this.dataSource = new MatTableDataSource(this.olddata);
+          this.selection = new SelectionModel(true, []);
+          this.dataSource.paginator = this.paginator;
+          this.dataSource.sort = this.sort;
+
+          let dialogRef = this.dialog.open(Confirmdialog, {
+            width: '50%',
+            data: {message: 'Status updated successfully!!', isconfirmation: false}
+          });
+
+        }
+
+      }, error => {
+        console.log('Oooops!');
+      });
+    }
+      //this.animal = result;
+    });
+
+  }
 
   deletemultiple(){
     console.log('this.selection.selected.length');
@@ -211,7 +326,7 @@ export class ListingComponent implements OnInit {
     console.log(this.selection.selected);
 
     const dialogRef = this.dialog.open(Confirmdialog, {
-      width: '550px',
+      width: '50%',
       data: {message: 'Are you sure to delete selected records ??'}
     });
     let ids:any=[];
@@ -238,6 +353,12 @@ export class ListingComponent implements OnInit {
             this.selection = new SelectionModel(true, []);
             this.dataSource.paginator = this.paginator;
             this.dataSource.sort = this.sort;
+
+            let dialogRef = this.dialog.open(Confirmdialog, {
+              width: '50%',
+              data: {message: 'Are you sure to delete this record ??',isconfirmation:false}
+            });
+
           }
 
         }, error => {
@@ -258,7 +379,8 @@ export class ListingComponent implements OnInit {
 
 
     const dialogRef = this.dialog.open(Confirmdialog, {
-      width: '550px',
+      width: '50%',
+      height: 'auto',
       data: {message: 'Are you sure to delete this record ??'}
     });
 
@@ -276,6 +398,10 @@ export class ListingComponent implements OnInit {
             this.selection = new SelectionModel(true, []);
             this.dataSource.paginator = this.paginator;
             this.dataSource.sort = this.sort;
+            let dialogRef = this.dialog.open(Confirmdialog, {
+              width: '50%',
+              data: {message: 'Record  deleted successfully !!',isconfirmation:false}
+            });
           }
 
         }, error => {
@@ -316,4 +442,22 @@ export class Confirmdialog {
     this.dialogRef.close();
   }
 
+}
+
+
+
+
+@Component({
+  selector: 'bottom-sheet',
+  templateUrl: 'bottom-sheet.html',
+})
+export class BottomSheet {
+  constructor(private bottomSheetRef: MatBottomSheetRef<BottomSheet>,@Inject(MAT_BOTTOM_SHEET_DATA) public data:any) {}
+
+  openLink(val:any): void {
+    console.log('bottomsheet data');
+    console.log(val);
+    this.bottomSheetRef.dismiss(val);
+    //event.preventDefault();
+  }
 }

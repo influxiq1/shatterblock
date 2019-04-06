@@ -11,6 +11,7 @@ export class AdmindashbordComponent implements OnInit {
   datasource:any;
     pendingmodelapplicationarray:any=[];
     pendingmodelapplicationarray_skip:any=['_id','type','password'];
+    statusarray:any=[{val:1,name:'Approve'},{val:2,name:'Decline'},{val:3,name:'Lock'}];
     pendingmodelapplicationarray_modify_header:any={'firstname':"First Name",'email':'Email Id','lastname':'Last Name','name':"Full Name"};
     brandarray:any=[];
     notpendingapplication_view:any=[];

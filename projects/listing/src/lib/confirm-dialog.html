@@ -3,6 +3,6 @@
     <p>{{data.message}}</p>
 </div>
 <div mat-dialog-actions>
-    <button mat-button (click)="onNoClick()">No Thanks</button>
+    <button mat-button *ngIf="data.isconfirmation==null ||  data.isconfirmation!=false" (click)="onNoClick()">No Thanks</button>
     <button mat-button mat-dialog-close="yes" cdkFocusInitial>Ok</button>
 </div>
