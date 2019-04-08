@@ -360,3 +360,323 @@ td.mat-cell:last-of-type, td.mat-footer-cell:last-of-type, th.mat-header-cell:la
 .sub_btn_wrapper{
     padding: 0!important;
 }
+/*CONTRACT CSS*/
+
+.newhome_header {
+    background: url(../images/new_home_top.jpg) repeat center top!important;
+    background-size: 100%;
+    position: relative;
+    z-index: 99; box-shadow: none!important; border-radius: 0px;
+}
+
+.newhome_header .newhomelogo {
+    width: 460px; max-width: 90%;
+    display: block;
+    margin: 16px auto;
+}
+
+.newpage_wrapper {
+    /*width: 1170px; max-width: 90%;*/
+    width: 100%;
+    max-width: 95%;
+    margin: 25px auto!important; padding-bottom: 30px; clear: both;
+}
+
+.newpage_wrapper h2 {
+    font-family: 'RobotoBold';
+    margin: 0;
+    padding: 0 0 16px 0;
+    font-size: 45px; line-height: 44px;
+    text-transform: uppercase;
+    background: url(../images/new_home_aboutusheader.jpg) left;
+    background-size: cover;
+    /* background: -webkit-linear-gradient(#eee, #333); */
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.newpage_wrapper h3 {
+    font-family: 'RobotoBold';
+    margin: 0;
+    padding: 16px 0;
+    font-size: 30px;
+    text-transform: uppercase;
+    color: #e31e6d;
+}
+
+.newpage_wrapper h4 {
+    font-family: 'RobotoRegular';
+    font-size: 16px;
+    color: #111;
+    line-height: 24px;
+    margin: 0px;
+    padding: 0px; font-weight: normal;
+}
+
+.newpage_wrapper h5 {
+    font-family: "RobotoRegular";
+    font-size: 16px;
+    color: #111;
+    line-height: 24px;
+    margin: 0px;
+    padding: 30px 0; font-weight:normal;
+}
+
+.ep_contractbtn {
+    background: rgba(250,163,24,1)!important;
+    background: -moz-linear-gradient(top, rgba(250,163,24,1) 0%, rgba(235,165,59,1) 50%, rgba(230,148,25,1) 51%, rgba(250,163,24,1) 100%)!important;
+    background: -webkit-gradient(left top, left bottom, color-stop(0%, rgba(250,163,24,1)), color-stop(50%, rgba(235,165,59,1)), color-stop(51%, rgba(230,148,25,1)), color-stop(100%, rgba(250,163,24,1)))!important;
+    background: -webkit-linear-gradient(top, rgba(250,163,24,1) 0%, rgba(235,165,59,1) 50%, rgba(230,148,25,1) 51%, rgba(250,163,24,1) 100%)!important;
+    background: -o-linear-gradient(top, rgba(250,163,24,1) 0%, rgba(235,165,59,1) 50%, rgba(230,148,25,1) 51%, rgba(250,163,24,1) 100%)!important;
+    background: -ms-linear-gradient(top, rgba(250,163,24,1) 0%, rgba(235,165,59,1) 50%, rgba(230,148,25,1) 51%, rgba(250,163,24,1) 100%)!important;
+    background: linear-gradient(to bottom, rgba(250,163,24,1) 0%, rgba(235,165,59,1) 50%, rgba(230,148,25,1) 51%, rgba(250,163,24,1) 100%)!important;
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#faa318', endColorstr='#faa318', GradientType=0 )!important;
+    text-align: center!important;
+    height: 45px!important;
+    text-transform: uppercase!important;
+    font-size: 22px!important;
+    font-family: 'RobotoBold'!important;
+    color: #000 !important;
+    -webkit-text-stroke-width: 1px!important;
+    -webkit-text-stroke-color: rgba(0, 0, 0, 0.2)!important;
+    margin: 0px!important;
+    border: none!important;
+    border-radius: 5px!important;
+    padding: 8px 20px!important;
+    text-decoration: none !important;
+    white-space: normal!important;
+    word-wrap: break-word!important;
+    border: none!important;
+    outline: none!important;
+    box-shadow: none!important; line-height: 32px!important;
+}
+
+
+.signherebtn {
+    background: rgba(76,76,76,1)!important;
+    background: -moz-linear-gradient(top, rgba(76,76,76,1) 0%, rgba(44,44,44,1) 50%, rgba(0,0,0,1) 51%, rgba(19,19,19,1) 100%)!important;
+    background: -webkit-gradient(left top, left bottom, color-stop(0%, rgba(76,76,76,1)), color-stop(50%, rgba(44,44,44,1)), color-stop(51%, rgba(0,0,0,1)), color-stop(100%, rgba(19,19,19,1)))!important;
+    background: -webkit-linear-gradient(top, rgba(76,76,76,1) 0%, rgba(44,44,44,1) 50%, rgba(0,0,0,1) 51%, rgba(19,19,19,1) 100%)!important;
+    background: -o-linear-gradient(top, rgba(76,76,76,1) 0%, rgba(44,44,44,1) 50%, rgba(0,0,0,1) 51%, rgba(19,19,19,1) 100%)!important;
+    background: -ms-linear-gradient(top, rgba(76,76,76,1) 0%, rgba(44,44,44,1) 50%, rgba(0,0,0,1) 51%, rgba(19,19,19,1) 100%)!important;
+    background: linear-gradient(to bottom, rgba(76,76,76,1) 0%, rgba(44,44,44,1) 50%, rgba(0,0,0,1) 51%, rgba(19,19,19,1) 100%)!important;
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#4c4c4c', endColorstr='#131313', GradientType=0 )!important;
+    text-align: center!important;
+    height: 45px!important;
+    text-transform: uppercase!important;
+    font-size: 22px!important;
+    font-family: 'RobotoBold'!important;
+    color: #fff !important;
+    -webkit-text-stroke-width: 1px!important;
+    -webkit-text-stroke-color: rgba(0, 0, 0, 0.2)!important;
+    margin: 0px!important;
+    border: none!important;
+    border-radius: 5px!important;
+    padding: 8px 20px!important;
+    text-decoration: none !important;
+    white-space: normal!important;
+    word-wrap: break-word!important;
+    border: none!important;
+    outline: none!important;
+    box-shadow: none!important; line-height: 30px!important;
+}
+
+
+.newsignmodal {
+    background-color: #fff!important;
+    border-radius: 5px !important;
+    border: 5px solid #e6bf07 !important; width: 600px; padding: 15px!important;
+}
+
+.newsignmodal h1 {
+    font-family: 'RobotoBold'!important;
+    margin: 0;
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-size: 30px;
+    text-transform: uppercase;
+    color: #fff;
+    background: rgba(77,77,77,1);
+    background: -moz-linear-gradient(top, rgba(77,77,77,1) 0%, rgba(18,12,3,1) 100%);
+    background: -webkit-gradient(left top, left bottom, color-stop(0%, rgba(77,77,77,1)), color-stop(100%, rgba(18,12,3,1)));
+    background: -webkit-linear-gradient(top, rgba(77,77,77,1) 0%, rgba(18,12,3,1) 100%);
+    background: -o-linear-gradient(top, rgba(77,77,77,1) 0%, rgba(18,12,3,1) 100%);
+    background: -ms-linear-gradient(top, rgba(77,77,77,1) 0%, rgba(18,12,3,1) 100%);
+    background: linear-gradient(to bottom, rgba(77,77,77,1) 0%, rgba(18,12,3,1) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#4d4d4d', endColorstr='#120c03', GradientType=0 );
+    margin-bottom: 15px;
+}
+
+.mat-dialog-container {
+    padding: 0!important;
+    border-radius: 4px!important;
+}
+
+.mat-card-actions, .mat-card-content, .mat-card-subtitle {
+    display: block;
+    margin-bottom: 0px!important;
+}
+
+.newsignmodal label {
+    display: block;
+    font-family: 'RobotoBold'!important;
+    font-size: 16px;
+    color: #111;
+    line-height: 24px;
+    margin: 0 ;
+    padding: 0;
+    text-transform: uppercase;
+}
+
+.newsignmodal h2 {
+    font-family: 'RobotoBold'!important;
+    margin: 0;
+    padding: 15px 0;
+    font-size: 30px;
+    text-transform: uppercase;
+    color: #e31e6d;
+}
+
+.newsignmodal h3 {
+    margin: 0 0 15px 0;
+    padding: 5px 0 5px 20px;
+    color: #000;
+    font-size: 54px;
+    font-family: 'NoteraPersonalUseOnly';
+    border-left: solid 5px #e6bf07; font-weight: normal;
+}
+
+.newsignmodal h4 {
+    font-family: 'RobotoBold'!important;
+    margin: 0;
+    padding: 0;
+    font-size: 24px;
+    text-transform: uppercase;
+    color: #111;
+}
+
+.newsignmodal h5 {
+    font-family: "RobotoRegular"; font-weight: normal;
+    margin: 0;
+    padding: 5px 0;
+    font-size: 16px;
+    line-height: 24px;
+    color: #111;
+}
+
+.newsignmodal button{ background: rgba(250,163,24,1)!important;
+    background: -moz-linear-gradient(top, rgba(250,163,24,1) 0%, rgba(235,165,59,1) 50%, rgba(230,148,25,1) 51%, rgba(250,163,24,1) 100%)!important;
+    background: -webkit-gradient(left top, left bottom, color-stop(0%, rgba(250,163,24,1)), color-stop(50%, rgba(235,165,59,1)), color-stop(51%, rgba(230,148,25,1)), color-stop(100%, rgba(250,163,24,1)))!important;
+    background: -webkit-linear-gradient(top, rgba(250,163,24,1) 0%, rgba(235,165,59,1) 50%, rgba(230,148,25,1) 51%, rgba(250,163,24,1) 100%)!important;
+    background: -o-linear-gradient(top, rgba(250,163,24,1) 0%, rgba(235,165,59,1) 50%, rgba(230,148,25,1) 51%, rgba(250,163,24,1) 100%)!important;
+    background: -ms-linear-gradient(top, rgba(250,163,24,1) 0%, rgba(235,165,59,1) 50%, rgba(230,148,25,1) 51%, rgba(250,163,24,1) 100%)!important;
+    background: linear-gradient(to bottom, rgba(250,163,24,1) 0%, rgba(235,165,59,1) 50%, rgba(230,148,25,1) 51%, rgba(250,163,24,1) 100%)!important;
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#faa318', endColorstr='#faa318', GradientType=0 )!important;
+    text-align: center!important;
+    height: 45px!important;
+    text-transform: uppercase!important;
+    font-size: 22px!important;
+    font-family: 'RobotoBold'!important;
+    color: #000 !important;
+    -webkit-text-stroke-width: 1px!important;
+    -webkit-text-stroke-color: rgba(0, 0, 0, 0.2)!important;
+    margin: 15px 15px 0 0!important;
+    border: none!important;
+    border-radius: 5px!important;
+    padding: 8px 20px!important;
+    text-decoration: none !important;
+    white-space: normal!important;
+    word-wrap: break-word!important;
+    border: none!important;
+    outline: none!important;
+    box-shadow: none!important; line-height: 32px!important;}
+
+
+.newsignmodal .mat-form-field {
+    display: block;
+    position: relative;
+    text-align: left;
+}
+
+.newsignmodal .mat-form-field-flex label{ text-transform: inherit!important; font-family: "RobotoRegular";
+    font-size: 18px; margin: 0px;}
+
+.newsignmodal  input.mat-input-element {
+    margin-top: 0.9375em;
+}
+
+.cdk-global-scrollblock{ position: relative!important; left: 0!important; top: 0!important;}
+
+.cdk-overlay-container {
+    position: absolute!important;
+    z-index: 1000;
+    /* height: 100vh; */
+}
+
+.cdk-overlay-backdrop{ position: fixed!important;}
+
+.newsignmodal  input{height: 20px;}
+
+.contract_bg_wrapper{
+    background: #fff;
+    display: block;
+}
+
+/*audio deadline agreement css*/
+
+.audiodeadline{
+    background: rgba(230,234,244,1)!important;
+    background: -moz-linear-gradient(top, rgba(230,234,244,1) 0%, rgba(183,194,200,1) 100%)!important;
+    background: -webkit-gradient(left top, left bottom, color-stop(0%, rgba(230,234,244,1)), color-stop(100%, rgba(183,194,200,1)))!important;
+    background: -webkit-linear-gradient(top, rgba(230,234,244,1) 0%, rgba(183,194,200,1) 100%)!important;
+    background: -o-linear-gradient(top, rgba(230,234,244,1) 0%, rgba(183,194,200,1) 100%)!important;
+    background: -ms-linear-gradient(top, rgba(230,234,244,1) 0%, rgba(183,194,200,1) 100%)!important;
+    background: linear-gradient(to bottom, rgba(230,234,244,1) 0%, rgba(183,194,200,1) 100%)!important;
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e6eaf4', endColorstr='#b7c2c8', GradientType=0 );
+    text-align: center;
+}
+
+
+
+.audiodeadline_wrapper h3 {
+    font-family: 'RobotoBold';
+    margin: 0;
+    padding: 16px 0;
+    font-size: 30px;
+    text-transform: uppercase;
+    color: rgb(37, 115, 175);
+}
+
+.agreementsubmitbutton{
+    background: rgb(37, 115, 175)!important;
+    color: #fff!important;
+}
+.audiodeadlinemodal{
+    border: 5px solid rgb(37, 115, 175)!important;
+}
+.audiodeadlinemodal h2{
+    color: rgb(37, 115, 175)!important;
+}
+.audiodeadlinemodal button{
+    background: rgb(37, 115, 175)!important;
+    color: #fff!important;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+@media only screen and (max-width: 991px) {
+
+    .newsignmodal {
+        width: auto !important;
+    }
+
+}
