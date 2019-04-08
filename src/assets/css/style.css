@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 body{ margin: 0; padding: 0; background: #000!important;}
 
 
@@ -360,3 +361,674 @@ td.mat-cell:last-of-type, td.mat-footer-cell:last-of-type, th.mat-header-cell:la
 .sub_btn_wrapper{
     padding: 0!important;
 }
+=======
+body{ margin: 0; padding: 0; background: #000!important;}
+
+
+@font-face {
+    font-family: 'RobotoBold';
+    src: url('../fonts/Roboto-Bold.eot');
+    src: url('../fonts/Roboto-Bold.eot?#iefix') format('embedded-opentype'),
+    url('../fonts/Roboto-Bold.woff2') format('woff2'),
+    url('../fonts/Roboto-Bold.woff') format('woff'),
+    url('../fonts/Roboto-Bold.ttf') format('truetype'),
+    url('../fonts/Roboto-Bold.svg#Roboto-Bold') format('svg');
+    font-weight: bold;
+    font-style: normal;
+}
+
+
+@font-face {
+    font-family: 'RobotoMedium';
+    src: url('../fonts/Roboto-Medium.eot');
+    src: url('../fonts/Roboto-Medium.eot?#iefix') format('embedded-opentype'),
+    url('../fonts/Roboto-Medium.woff2') format('woff2'),
+    url('../fonts/Roboto-Medium.woff') format('woff'),
+    url('../fonts/Roboto-Medium.ttf') format('truetype'),
+    url('../fonts/Roboto-Medium.svg#Roboto-Medium') format('svg');
+    font-weight: 500;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'RobotoRegular';
+    src: url('../fonts/Roboto-Regular.eot');
+    src: url('../fonts/Roboto-Regular.eot?#iefix') format('embedded-opentype'),
+    url('../fonts/Roboto-Regular.woff2') format('woff2'),
+    url('../fonts/Roboto-Regular.woff') format('woff'),
+    url('../fonts/Roboto-Regular.ttf') format('truetype'),
+    url('../fonts/Roboto-Regular.svg#Roboto-Regular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'OpenSans';
+    src: url('../fonts/OpenSans.eot');
+    src: url('../fonts/OpenSans.eot?#iefix') format('embedded-opentype'),
+    url('../fonts/OpenSans.woff2') format('woff2'),
+    url('../fonts/OpenSans.woff') format('woff'),
+    url('../fonts/OpenSans.ttf') format('truetype'),
+    url('../fonts/OpenSans.svg#OpenSans') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'OpenSansBold';
+    src: url('../fonts/OpenSans-Bold.eot');
+    src: url('../fonts/OpenSans-Bold.eot?#iefix') format('embedded-opentype'),
+    url('../fonts/OpenSans-Bold.woff2') format('woff2'),
+    url('../fonts/OpenSans-Bold.woff') format('woff'),
+    url('../fonts/OpenSans-Bold.ttf') format('truetype'),
+    url('../fonts/OpenSans-Bold.svg#OpenSans-Bold') format('svg');
+    font-weight: bold;
+    font-style: normal;
+}
+@font-face {
+url('../fonts/Noteworthy-Bold.woff.woff2') format('woff2'),
+url('../fonts/Noteworthy-Bold.woff.woff') format('woff'),
+font-family: 'Noteworthy';
+    font-weight: bold;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Ralewaybold';
+    src: url('../fonts/Raleway-Bold.woff2') format('woff2'),
+    url('../fonts/Raleway-Bold.woff') format('woff');
+    font-weight: bold;
+    font-style: normal;
+}
+
+
+@font-face {
+    font-family: 'CenturyGothic';
+    src: url('../fonts/CenturyGothic.woff2') format('woff2'),
+    url('../fonts/CenturyGothic.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'CenturyGothicBold';
+    src: url('../fonts/CenturyGothic-Bold.eot');
+    src: url('../fonts/CenturyGothic-Bold.eot?#iefix') format('embedded-opentype'),
+    url('../fonts/CenturyGothic-Bold.woff2') format('woff2'),
+    url('../fonts/CenturyGothic-Bold.woff') format('woff'),
+    url('../fonts/CenturyGothic-Bold.ttf') format('truetype'),
+    url('../fonts/CenturyGothic-Bold.svg#CenturyGothic-Bold') format('svg');
+    font-weight: bold;
+    font-style: normal;
+}
+
+
+@font-face {
+    font-family: 'ProximaNovaRegular';
+    src: url('../fonts/ProximaNova-Regular.eot');
+    src: url('../fonts/ProximaNova-Regular.eot?#iefix') format('embedded-opentype'),
+    url('../fonts/ProximaNova-Regular.woff2') format('woff2'),
+    url('../fonts/ProximaNova-Regular.woff') format('woff'),
+    url('../fonts/ProximaNova-Regular.ttf') format('truetype'),
+    url('../fonts/ProximaNova-Regular.svg#ProximaNova-Regular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+
+/*---Loader css ---*/
+
+.loader{border:16px solid #080009;border-top:16px solid #410147;border-radius:50%;width:120px;height:120px;animation:spin 2s linear infinite;margin:0 auto;}
+@keyframes spin{0%{transform:rotate(0deg);}100%{transform:rotate(360deg);}}
+
+
+
+
+.s_getmyoffer {
+    background:none!important; border-radius: 0px!important;  margin: 0!important; padding: 0!important;
+}
+
+.s_getmyoffer .s_shatter_logo {
+    width: 500px;
+    margin: 30px auto; max-width: 90%; display: block; margin-top: 100px!important;
+}
+
+.s_getmyoffer_login_wrapper {
+    width: 420px!important;
+    padding: 26px 50px!important;
+    border-radius: 4px; margin-top: 50px; margin-left: auto; margin-right: auto;
+    background: #13141b;
+    border: 10px solid rgba(68, 68, 68, 0.2);
+    box-shadow: 2px 4px 37px rgb(65, 4, 72);
+}
+
+
+.s_getmyoffer_login_wrapper h1 { margin: 0; padding: 0;
+    width: 100%;
+    font-family: 'RobotoBold';
+    text-align: center;
+    background: #a4a4a4;
+    text-transform: uppercase;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    border-image: linear-gradient(to top left, #13141b 0%, #1d1e24 30%, #000000 100%);
+    border-bottom: 4px solid transparent;
+    border-image-slice: 1;
+    padding-bottom: 20px;
+    font-size: 55px;
+}
+
+.s_getmyoffer_login_wrapper h2 { margin: 0; padding: 0;
+    width: 100%;
+    font-family: 'RobotoBold';
+    text-align: center;
+    background: #a4a4a4;
+    text-transform: uppercase;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    border-image: linear-gradient(to top left, #13141b 0%, #1d1e24 30%, #000000 100%);
+    border-bottom: 4px solid transparent;
+    border-image-slice: 1;
+    padding-bottom: 20px;
+    font-size: 40px;
+}
+
+
+.s_getmyoffer_login_wrapper p {
+    text-align: center;
+    margin: 20px 0;
+    font-size: 25px;
+    color: #fff;
+    font-family: 'RobotoBold';
+    text-transform: capitalize;
+}
+
+.s_getmyoffer_login_wrapper .form-group{ display: block; width: 100%; margin-bottom: 15px; }
+
+.s_getmyoffer_login_wrapper .form-group label{color: #b1aeae;   font-family: 'RobotoMedium'; font-size: 16px; }
+.s_getmyoffer_login_wrapper .mat-form-field-appearance-legacy .mat-form-field-infix {
+
+    border-bottom: solid 1px #fff;
+}
+
+.s_getmyoffer_login_wrapper  .error{ display: block; text-align: center;}
+
+.s_getmyoffer_login_wrapper  .ng-star-inserted{ color: #ff0000;}
+.s_getmyoffer_login_wrapper .form-group input.mat-input-element {
+    margin-top: 0.9375em; color: #fff!important;
+}
+
+.s_getmyoffer_login_wrapper .form-group-forgetPass{ display: block; width: 100%; margin: 0px; margin-top: 15px; text-align: right;}
+.s_getmyoffer_login_wrapper .form-group-forgetPass .mat-button{ background: none!important; margin: 0!important; padding: 4px!important; line-height: inherit!important; width: auto!important; height: auto!important; color: #b1aeae!important;
+    font-size: 15px!important;  text-transform: capitalize!important;  font-family: 'RobotoMedium'!important;}
+
+.s_getmyoffer_login_wrapper .s_getmyoffer_login_button {
+    background: rgba(247,231,0,1);
+    background: -moz-linear-gradient(top, rgba(247,231,0,1) 0%, rgba(219,205,15,1) 100%);
+    background: -webkit-gradient(left top, left bottom, color-stop(0%, rgba(247,231,0,1)), color-stop(100%, rgba(219,205,15,1)));
+    background: -webkit-linear-gradient(top, rgba(247,231,0,1) 0%, rgba(219,205,15,1) 100%);
+    background: -o-linear-gradient(top, rgba(247,231,0,1) 0%, rgba(219,205,15,1) 100%);
+    background: -ms-linear-gradient(top, rgba(247,231,0,1) 0%, rgba(219,205,15,1) 100%);
+    background: linear-gradient(to bottom, rgba(247,231,0,1) 0%, rgba(219,205,15,1) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f7e700', endColorstr='#dbcd0f', GradientType=0 );
+    color: #000000!important;
+    border: 0!important;
+    text-transform: uppercase;
+    font-family: 'RobotoBold';
+    border-radius: 5px;
+    font-size: 24px!important;
+    padding: 10px; display: block!important; width: 100%!important;     margin-top: 40px!important;
+}
+
+
+
+.mat-form-field-invalid::-webkit-input-placeholder {
+    color: orange !important;
+}
+
+
+/*left pannel*/
+
+
+/*.mat-drawer{ background: #13141b!important; width: 240px;   }*/
+.left_nav .mat-list-item-content{ color: #fff; cursor: pointer; }
+.left_nav a:hover{ background: #000; }
+
+
+.mat-form-field-invalid {
+    color: white !important;
+
+}
+
+/*.mat-drawer-container{height: 100vh;}*/
+
+.s_shatter_logo_wrapper{
+    width: 100%;
+    display: block;
+}
+.s_shatter_logo_wrapper img{
+    max-width: 100%;
+    height: auto;
+}
+.sidenav[_ngcontent-c3]{
+    background: #1d1e24;
+}
+.mat-list-base .mat-list-item .mat-list-item-content, .mat-list-base .mat-list-option .mat-list-item-content{
+    color: #fff;
+}
+.mat-divider{border-top-color: #676767!important;}
+
+.mat-table { width: 100%;
+    border: 1px solid #e4cde8!important;
+    border-bottom: none;}
+.filter_input{ width:100%!important;}
+.btn_wrapper  .mat-figure{ justify-content: flex-end!important;}
+
+ .mat-header-cell {
+    font-size: 14px!important;
+    color: #272727!important;
+}
+.mat-row:nth-of-type(even){
+    background: #f2f1f3;
+}
+tr.mat-header-row {
+    height: 56px;
+    background: gainsboro;
+}
+td.mat-cell:last-of-type, td.mat-footer-cell:last-of-type, th.mat-header-cell:last-of-type{ width: 11%;}
+.action_button_wrap{ display: flex; justify-content: space-around;}
+.add_button{ float: right; margin-right: 17px!important; text-transform: uppercase; width: 150px;     background: #7028a5!important;
+    color: rgb(255, 255, 255)!important;
+}
+/*.mat-form-field{display: block!important;}*/
+
+.adminform{ width: 45vw; margin: 40px auto; }
+.adminform .mat-form-field,
+.adminmodalform .mat-form-field{display: block!important;}
+.btn_wrapper .mat-figure .mat-raised-button{ margin-right: 17px!important; }
+.mat-dialog-container{ padding: 0!important;}
+.gridview_list{ height: 100%; width: 99%;}
+.gridview_list .mat-grid-tile .mat-figure{ flex-direction: column!important; align-items: flex-start;
+    padding: 10px; overflow: auto;
+    height:100%;}
+.gridview_list .mat-grid-tile { background: #ebe9ec; }
+.gridview_list .mat-grid-tile .mat-figure h5{margin: 10px 0;}
+
+.adminmodalform{ width: 35vw; margin: 0 auto; }
+
+/*HEADER*/
+.example-icon {
+    padding: 0 14px;
+}
+
+.example-spacer {
+    flex: 1 1 auto;
+}
+.mat-toolbar-row, .mat-toolbar-single-row {
+    height: auto;
+    padding: 0!important;
+}
+.mat-toolbar .mat-toolbar-row .logo_wrapper{ width: 205px; }
+.mat-toolbar .mat-toolbar-row .logo_wrapper img{ width: 100%; height: auto; }
+.main-color{
+    background-color: #000!important; color: #fff!important;
+}
+.topbar{
+    background: #000!important;
+}
+.sidenav[_ngcontent-c2] {
+    background: #000!important;
+}
+.mat-toolbar-row, .mat-toolbar-single-row {
+    height: 64px;
+    padding: 0 10px!important;
+}
+.mat-toolbar .mat-toolbar-row .mat-button{ color:#fff; }
+  .profile_wrap{     width: 40px;
+    height: 40px;
+    background: #fff;
+    display: block;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 2px solid #f7f7f7;
+}
+ .profile_wrap img{width: 100%;
+    object-fit: cover;
+    object-position: center center;
+    min-height: 100%;
+    max-height: 100%;
+}
+
+.custom_modal {  width: auto; overflow: hidden!important; padding: 50px; }
+.modal_wrapper{
+    background: rgba(166,213,202,1);
+    background: -moz-linear-gradient(-45deg, rgba(166,213,202,1) 0%, rgba(223,236,240,1) 35%, rgba(166,213,202,1) 100%);
+    background: -webkit-gradient(left top, right bottom, color-stop(0%, rgba(166,213,202,1)), color-stop(35%, rgba(223,236,240,1)), color-stop(100%, rgba(166,213,202,1)));
+    background: -webkit-linear-gradient(-45deg, rgba(166,213,202,1) 0%, rgba(223,236,240,1) 35%, rgba(166,213,202,1) 100%);
+    background: -o-linear-gradient(-45deg, rgba(166,213,202,1) 0%, rgba(223,236,240,1) 35%, rgba(166,213,202,1) 100%);
+    background: -ms-linear-gradient(-45deg, rgba(166,213,202,1) 0%, rgba(223,236,240,1) 35%, rgba(166,213,202,1) 100%);
+    background: linear-gradient(135deg, rgba(166,213,202,1) 0%, rgba(223,236,240,1) 35%, rgba(166,213,202,1) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a6d5ca', endColorstr='#a6d5ca', GradientType=1 );
+    border: 1px solid #fdcd00;
+}
+
+/*CONTRACT CSS*/
+.newhome_header {
+    background: url(../images/new_home_top.jpg) repeat center top!important;
+    background-size: 100%;
+    position: relative;
+    z-index: 99; box-shadow: none!important; border-radius: 0px;
+}
+
+.newhome_header .newhomelogo {
+    width: 460px; max-width: 90%;
+    display: block;
+    margin: 16px auto;
+}
+
+.newpage_wrapper {
+    /*width: 1170px; max-width: 90%;*/
+    width: 100%;
+    max-width: 95%;
+    margin: 25px auto!important; padding-bottom: 30px; clear: both;
+}
+
+.newpage_wrapper h2 {
+    font-family: 'RobotoBold';
+    margin: 0;
+    padding: 0 0 16px 0;
+    font-size: 45px; line-height: 44px;
+    text-transform: uppercase;
+    background: url(../images/new_home_aboutusheader.jpg) left;
+    background-size: cover;
+    /* background: -webkit-linear-gradient(#eee, #333); */
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.newpage_wrapper h3 {
+    font-family: 'RobotoBold';
+    margin: 0;
+    padding: 16px 0;
+    font-size: 30px;
+    text-transform: uppercase;
+    color: #e31e6d;
+}
+
+.newpage_wrapper h4 {
+    font-family: 'RobotoRegular';
+    font-size: 16px;
+    color: #111;
+    line-height: 24px;
+    margin: 0px;
+    padding: 0px; font-weight: normal;
+}
+
+.newpage_wrapper h5 {
+    font-family: "RobotoRegular";
+    font-size: 16px;
+    color: #111;
+    line-height: 24px;
+    margin: 0px;
+    padding: 30px 0; font-weight:normal;
+}
+
+.ep_contractbtn {
+    background: rgba(250,163,24,1)!important;
+    background: -moz-linear-gradient(top, rgba(250,163,24,1) 0%, rgba(235,165,59,1) 50%, rgba(230,148,25,1) 51%, rgba(250,163,24,1) 100%)!important;
+    background: -webkit-gradient(left top, left bottom, color-stop(0%, rgba(250,163,24,1)), color-stop(50%, rgba(235,165,59,1)), color-stop(51%, rgba(230,148,25,1)), color-stop(100%, rgba(250,163,24,1)))!important;
+    background: -webkit-linear-gradient(top, rgba(250,163,24,1) 0%, rgba(235,165,59,1) 50%, rgba(230,148,25,1) 51%, rgba(250,163,24,1) 100%)!important;
+    background: -o-linear-gradient(top, rgba(250,163,24,1) 0%, rgba(235,165,59,1) 50%, rgba(230,148,25,1) 51%, rgba(250,163,24,1) 100%)!important;
+    background: -ms-linear-gradient(top, rgba(250,163,24,1) 0%, rgba(235,165,59,1) 50%, rgba(230,148,25,1) 51%, rgba(250,163,24,1) 100%)!important;
+    background: linear-gradient(to bottom, rgba(250,163,24,1) 0%, rgba(235,165,59,1) 50%, rgba(230,148,25,1) 51%, rgba(250,163,24,1) 100%)!important;
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#faa318', endColorstr='#faa318', GradientType=0 )!important;
+    text-align: center!important;
+    height: 45px!important;
+    text-transform: uppercase!important;
+    font-size: 22px!important;
+    font-family: 'RobotoBold'!important;
+    color: #000 !important;
+    -webkit-text-stroke-width: 1px!important;
+    -webkit-text-stroke-color: rgba(0, 0, 0, 0.2)!important;
+    margin: 0px!important;
+    border: none!important;
+    border-radius: 5px!important;
+    padding: 8px 20px!important;
+    text-decoration: none !important;
+    white-space: normal!important;
+    word-wrap: break-word!important;
+    border: none!important;
+    outline: none!important;
+    box-shadow: none!important; line-height: 32px!important;
+}
+
+
+.signherebtn {
+    background: rgba(76,76,76,1)!important;
+    background: -moz-linear-gradient(top, rgba(76,76,76,1) 0%, rgba(44,44,44,1) 50%, rgba(0,0,0,1) 51%, rgba(19,19,19,1) 100%)!important;
+    background: -webkit-gradient(left top, left bottom, color-stop(0%, rgba(76,76,76,1)), color-stop(50%, rgba(44,44,44,1)), color-stop(51%, rgba(0,0,0,1)), color-stop(100%, rgba(19,19,19,1)))!important;
+    background: -webkit-linear-gradient(top, rgba(76,76,76,1) 0%, rgba(44,44,44,1) 50%, rgba(0,0,0,1) 51%, rgba(19,19,19,1) 100%)!important;
+    background: -o-linear-gradient(top, rgba(76,76,76,1) 0%, rgba(44,44,44,1) 50%, rgba(0,0,0,1) 51%, rgba(19,19,19,1) 100%)!important;
+    background: -ms-linear-gradient(top, rgba(76,76,76,1) 0%, rgba(44,44,44,1) 50%, rgba(0,0,0,1) 51%, rgba(19,19,19,1) 100%)!important;
+    background: linear-gradient(to bottom, rgba(76,76,76,1) 0%, rgba(44,44,44,1) 50%, rgba(0,0,0,1) 51%, rgba(19,19,19,1) 100%)!important;
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#4c4c4c', endColorstr='#131313', GradientType=0 )!important;
+    text-align: center!important;
+    height: 45px!important;
+    text-transform: uppercase!important;
+    font-size: 22px!important;
+    font-family: 'RobotoBold'!important;
+    color: #fff !important;
+    -webkit-text-stroke-width: 1px!important;
+    -webkit-text-stroke-color: rgba(0, 0, 0, 0.2)!important;
+    margin: 0px!important;
+    border: none!important;
+    border-radius: 5px!important;
+    padding: 8px 20px!important;
+    text-decoration: none !important;
+    white-space: normal!important;
+    word-wrap: break-word!important;
+    border: none!important;
+    outline: none!important;
+    box-shadow: none!important; line-height: 30px!important;
+}
+
+
+.newsignmodal {
+    background-color: #fff!important;
+    border-radius: 5px !important;
+    border: 5px solid #e6bf07 !important; width: 600px; padding: 15px!important;
+}
+
+.newsignmodal h1 {
+    font-family: 'RobotoBold'!important;
+    margin: 0;
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-size: 30px;
+    text-transform: uppercase;
+    color: #fff;
+    background: rgba(77,77,77,1);
+    background: -moz-linear-gradient(top, rgba(77,77,77,1) 0%, rgba(18,12,3,1) 100%);
+    background: -webkit-gradient(left top, left bottom, color-stop(0%, rgba(77,77,77,1)), color-stop(100%, rgba(18,12,3,1)));
+    background: -webkit-linear-gradient(top, rgba(77,77,77,1) 0%, rgba(18,12,3,1) 100%);
+    background: -o-linear-gradient(top, rgba(77,77,77,1) 0%, rgba(18,12,3,1) 100%);
+    background: -ms-linear-gradient(top, rgba(77,77,77,1) 0%, rgba(18,12,3,1) 100%);
+    background: linear-gradient(to bottom, rgba(77,77,77,1) 0%, rgba(18,12,3,1) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#4d4d4d', endColorstr='#120c03', GradientType=0 );
+    margin-bottom: 15px;
+}
+
+.mat-dialog-container {
+    padding: 0!important;
+    border-radius: 4px!important;
+}
+
+.mat-card-actions, .mat-card-content, .mat-card-subtitle {
+    display: block;
+    margin-bottom: 0px!important;
+}
+
+.newsignmodal label {
+    display: block;
+    font-family: 'RobotoBold'!important;
+    font-size: 16px;
+    color: #111;
+    line-height: 24px;
+    margin: 0 ;
+    padding: 0;
+    text-transform: uppercase;
+}
+
+.newsignmodal h2 {
+    font-family: 'RobotoBold'!important;
+    margin: 0;
+    padding: 15px 0;
+    font-size: 30px;
+    text-transform: uppercase;
+    color: #e31e6d;
+}
+
+.newsignmodal h3 {
+    margin: 0 0 15px 0;
+    padding: 5px 0 5px 20px;
+    color: #000;
+    font-size: 54px;
+    font-family: 'NoteraPersonalUseOnly';
+    border-left: solid 5px #e6bf07; font-weight: normal;
+}
+
+.newsignmodal h4 {
+    font-family: 'RobotoBold'!important;
+    margin: 0;
+    padding: 0;
+    font-size: 24px;
+    text-transform: uppercase;
+    color: #111;
+}
+
+.newsignmodal h5 {
+    font-family: "RobotoRegular"; font-weight: normal;
+    margin: 0;
+    padding: 5px 0;
+    font-size: 16px;
+    line-height: 24px;
+    color: #111;
+}
+
+.newsignmodal button{ background: rgba(250,163,24,1)!important;
+    background: -moz-linear-gradient(top, rgba(250,163,24,1) 0%, rgba(235,165,59,1) 50%, rgba(230,148,25,1) 51%, rgba(250,163,24,1) 100%)!important;
+    background: -webkit-gradient(left top, left bottom, color-stop(0%, rgba(250,163,24,1)), color-stop(50%, rgba(235,165,59,1)), color-stop(51%, rgba(230,148,25,1)), color-stop(100%, rgba(250,163,24,1)))!important;
+    background: -webkit-linear-gradient(top, rgba(250,163,24,1) 0%, rgba(235,165,59,1) 50%, rgba(230,148,25,1) 51%, rgba(250,163,24,1) 100%)!important;
+    background: -o-linear-gradient(top, rgba(250,163,24,1) 0%, rgba(235,165,59,1) 50%, rgba(230,148,25,1) 51%, rgba(250,163,24,1) 100%)!important;
+    background: -ms-linear-gradient(top, rgba(250,163,24,1) 0%, rgba(235,165,59,1) 50%, rgba(230,148,25,1) 51%, rgba(250,163,24,1) 100%)!important;
+    background: linear-gradient(to bottom, rgba(250,163,24,1) 0%, rgba(235,165,59,1) 50%, rgba(230,148,25,1) 51%, rgba(250,163,24,1) 100%)!important;
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#faa318', endColorstr='#faa318', GradientType=0 )!important;
+    text-align: center!important;
+    height: 45px!important;
+    text-transform: uppercase!important;
+    font-size: 22px!important;
+    font-family: 'RobotoBold'!important;
+    color: #000 !important;
+    -webkit-text-stroke-width: 1px!important;
+    -webkit-text-stroke-color: rgba(0, 0, 0, 0.2)!important;
+    margin: 15px 15px 0 0!important;
+    border: none!important;
+    border-radius: 5px!important;
+    padding: 8px 20px!important;
+    text-decoration: none !important;
+    white-space: normal!important;
+    word-wrap: break-word!important;
+    border: none!important;
+    outline: none!important;
+    box-shadow: none!important; line-height: 32px!important;}
+
+
+.newsignmodal .mat-form-field {
+    display: block;
+    position: relative;
+    text-align: left;
+}
+
+.newsignmodal .mat-form-field-flex label{ text-transform: inherit!important; font-family: "RobotoRegular";
+    font-size: 18px; margin: 0px;}
+
+.newsignmodal  input.mat-input-element {
+    margin-top: 0.9375em;
+}
+
+.cdk-global-scrollblock{ position: relative!important; left: 0!important; top: 0!important;}
+
+.cdk-overlay-container {
+    position: absolute!important;
+    z-index: 1000;
+    /* height: 100vh; */
+}
+
+.cdk-overlay-backdrop{ position: fixed!important;}
+
+.newsignmodal  input{height: 20px;}
+
+.contract_bg_wrapper{
+    background: #fff;
+    display: block;
+}
+
+/*audio deadline agreement css*/
+
+.audiodeadline{
+    background: rgba(230,234,244,1)!important;
+    background: -moz-linear-gradient(top, rgba(230,234,244,1) 0%, rgba(183,194,200,1) 100%)!important;
+    background: -webkit-gradient(left top, left bottom, color-stop(0%, rgba(230,234,244,1)), color-stop(100%, rgba(183,194,200,1)))!important;
+    background: -webkit-linear-gradient(top, rgba(230,234,244,1) 0%, rgba(183,194,200,1) 100%)!important;
+    background: -o-linear-gradient(top, rgba(230,234,244,1) 0%, rgba(183,194,200,1) 100%)!important;
+    background: -ms-linear-gradient(top, rgba(230,234,244,1) 0%, rgba(183,194,200,1) 100%)!important;
+    background: linear-gradient(to bottom, rgba(230,234,244,1) 0%, rgba(183,194,200,1) 100%)!important;
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e6eaf4', endColorstr='#b7c2c8', GradientType=0 );
+    text-align: center;
+}
+
+
+
+.audiodeadline_wrapper h3 {
+    font-family: 'RobotoBold';
+    margin: 0;
+    padding: 16px 0;
+    font-size: 30px;
+    text-transform: uppercase;
+    color: rgb(37, 115, 175);
+}
+
+.agreementsubmitbutton{
+    background: rgb(37, 115, 175)!important;
+    color: #fff!important;
+}
+.audiodeadlinemodal{
+    border: 5px solid rgb(37, 115, 175)!important;
+}
+.audiodeadlinemodal h2{
+    color: rgb(37, 115, 175)!important;
+}
+.audiodeadlinemodal button{
+    background: rgb(37, 115, 175)!important;
+    color: #fff!important;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+@media only screen and (max-width: 991px) {
+
+    .newsignmodal {
+        width: auto !important;
+    }
+
+}
+>>>>>>> 2e995745f00f364c5ddcaad6553936010ae5d503

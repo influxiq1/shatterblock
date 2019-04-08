@@ -4,7 +4,7 @@
   <img src="../../assets/images/shaterblockLogo.png" alt="#" class="s_shatter_logo" style="box-shadow: none;">
 
   <mat-card-content class="s_getmyoffer_login_wrapper">
-    <mat-card-subtitle [formGroup]="myForm">
+    <form [formGroup]="myForm" (ngSubmit)="onSubmit()">
 
       <h1>Login</h1>
       <p>welcome back!</p>
@@ -21,7 +21,7 @@
         <span  *ngIf="!myForm.controls[ 'password'].valid && myForm.controls['password'].touched">Password field can not be blank</span>
       </mat-form-field>
 <mat-card-content >
-      <button mat-button  (click)="onSubmit()" class="s_getmyoffer_login_button"  >Login</button>
+      <button mat-button   class="s_getmyoffer_login_button"  >Login</button>
 </mat-card-content>
 
       <mat-card-content class="form-group-forgetPass">
@@ -31,7 +31,7 @@
 
 
 
-    </mat-card-subtitle>
+    </form>
   </mat-card-content>
 
 </mat-card>

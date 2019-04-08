@@ -46,6 +46,14 @@ import { MainNavComponent } from './main-nav/main-nav.component';
 import { LayoutModule } from '@angular/cdk/layout';
 import { MatIconModule, MatListModule } from '@angular/material';
 import {ListingComponent} from "./listing/listing.component";
+<<<<<<< HEAD
+=======
+import { ContractComponent } from './contract/contract.component';
+import {AgreementComponent} from "./agreement/agreement.component";
+import {ModalComponent} from "./modal/modal.component";
+import { AudiodeadlinesgreementComponent } from './audiodeadlinesgreement/audiodeadlinesgreement.component';
+import { ModalaudiodeadlineComponent } from './modalaudiodeadline/modalaudiodeadline.component';
+>>>>>>> 2e995745f00f364c5ddcaad6553936010ae5d503
 
 
 
@@ -55,6 +63,7 @@ import {ListingComponent} from "./listing/listing.component";
     AppComponent,
 
     LoginComponent,
+    ModalComponent,
     BrandmanagementComponent,
     AdminmanagementComponent,
     InfluencersmanagementComponent,
@@ -63,13 +72,19 @@ import {ListingComponent} from "./listing/listing.component";
     InfluencersdashbordComponent,
     ForgatepasswordComponent,
     ChangepasswordComponent,
+    AgreementComponent,
     ListingComponent,
     AdminlistComponent,
     AdminleftpanelComponent,
     AdminformComponent,
     AdminmodalformComponent,
+<<<<<<< HEAD
     ResetpasswordComponent,Dialogtest, MainNavComponent,
     ManagedashboardComponent,Updatetest,
+=======
+    ResetpasswordComponent,Dialogtest, MainNavComponent, ContractComponent, AudiodeadlinesgreementComponent, ModalaudiodeadlineComponent,
+
+>>>>>>> 2e995745f00f364c5ddcaad6553936010ae5d503
 
 
 
@@ -101,7 +116,11 @@ import {ListingComponent} from "./listing/listing.component";
   providers: [CookieService,Resolveservice,ApiService,AuthGuard],
   bootstrap: [AppComponent],
   entryComponents: [
+<<<<<<< HEAD
     Dialogtest,Updatetest
+=======
+    Dialogtest,ModalComponent,
+>>>>>>> 2e995745f00f364c5ddcaad6553936010ae5d503
   ],
 })
 export class AppModule { }

@@ -15,6 +15,11 @@ import {AdminformComponent} from "./adminform/adminform.component";
 import {AdminmodalformComponent} from "./adminmodalform/adminmodalform.component";
 import {ManagedashboardComponent} from "./managedashboard/managedashboard.component";
 import {Resolveservice} from "./resolveservice";
+import {ContractComponent} from "./contract/contract.component";
+import {AgreementComponent} from "./agreement/agreement.component";
+import {ModalComponent} from "./modal/modal.component";
+import {AudiodeadlinesgreementComponent} from "./audiodeadlinesgreement/audiodeadlinesgreement.component";
+import {ModalaudiodeadlineComponent} from "./modalaudiodeadline/modalaudiodeadline.component";
 
 
 const routes: Routes = [
@@ -24,16 +29,30 @@ const routes: Routes = [
   { path: "brand", component: BrandmanagementComponent, canActivate: [AuthGuard] },
   { path: "influencers", component: InfluencersmanagementComponent, canActivate:[AuthGuard] },
   { path: "influencersdashboard", component: InfluencersdashbordComponent, canActivate: [AuthGuard]},
+<<<<<<< HEAD
+=======
+    { path: "contract", component: ContractComponent, canActivate: [AuthGuard]},
+>>>>>>> 2e995745f00f364c5ddcaad6553936010ae5d503
   // { path: "adminlist", component: AdminlistComponent, canActivate: [AuthGuard], resolve: {results: Resolveservice}, data: { source: 'users', condition: {} }},
   { path: "branddashboard", component: BranddashbordComponent, canActivate: [AuthGuard], resolve: { results: Resolveservice}, data: {source: 'admindashboard'}},
   { path: "admindashboard", component: AdmindashbordComponent, canActivate:[AuthGuard], resolve: {results: Resolveservice}, data: {source: 'admindashboard'}},  // resolve is use for this page PRE LOAD DATA PRIOR
   { path: 'forgetpassword', component: ForgatepasswordComponent},
+  { path: 'modal', component: ModalComponent},
 
   { path: 'resetpassword/:token', component: ChangepasswordComponent},
   {path: 'adminlist', component: AdminlistComponent, canActivate: [AuthGuard], resolve: {results: Resolveservice}, data: { source:'admindashboard', condition:{}}},
    {path: 'adminform', component:AdminformComponent, canActivate: [AuthGuard] },
   {path: 'adminmodalform', component: AdminmodalformComponent, canActivate: [AuthGuard]},
+<<<<<<< HEAD
   {path: 'managedashboard', component: ManagedashboardComponent, canActivate: [AuthGuard]},
+=======
+  {path: 'agreement', component: AgreementComponent, canActivate: [AuthGuard]},
+
+  {path: 'audioseadlineagreement', component: AudiodeadlinesgreementComponent},
+  {path: 'audiodeadlinemodal', component: ModalaudiodeadlineComponent}
+
+
+>>>>>>> 2e995745f00f364c5ddcaad6553936010ae5d503
 
   // { path: 'changepassword', component: ChangepasswordComponent, canActivate: [AuthGuard], resolve: {results: Resolveservice}, data: {source: 'users', condition:{}} },
 
