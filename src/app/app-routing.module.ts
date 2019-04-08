@@ -29,10 +29,8 @@ const routes: Routes = [
   { path: "brand", component: BrandmanagementComponent, canActivate: [AuthGuard] },
   { path: "influencers", component: InfluencersmanagementComponent, canActivate:[AuthGuard] },
   { path: "influencersdashboard", component: InfluencersdashbordComponent, canActivate: [AuthGuard]},
-<<<<<<< HEAD
-=======
+
     { path: "contract", component: ContractComponent, canActivate: [AuthGuard]},
->>>>>>> 2e995745f00f364c5ddcaad6553936010ae5d503
   // { path: "adminlist", component: AdminlistComponent, canActivate: [AuthGuard], resolve: {results: Resolveservice}, data: { source: 'users', condition: {} }},
   { path: "branddashboard", component: BranddashbordComponent, canActivate: [AuthGuard], resolve: { results: Resolveservice}, data: {source: 'admindashboard'}},
   { path: "admindashboard", component: AdmindashbordComponent, canActivate:[AuthGuard], resolve: {results: Resolveservice}, data: {source: 'admindashboard'}},  // resolve is use for this page PRE LOAD DATA PRIOR
@@ -43,16 +41,14 @@ const routes: Routes = [
   {path: 'adminlist', component: AdminlistComponent, canActivate: [AuthGuard], resolve: {results: Resolveservice}, data: { source:'admindashboard', condition:{}}},
    {path: 'adminform', component:AdminformComponent, canActivate: [AuthGuard] },
   {path: 'adminmodalform', component: AdminmodalformComponent, canActivate: [AuthGuard]},
-<<<<<<< HEAD
+
   {path: 'managedashboard', component: ManagedashboardComponent, canActivate: [AuthGuard]},
-=======
+
   {path: 'agreement', component: AgreementComponent, canActivate: [AuthGuard]},
 
   {path: 'audioseadlineagreement', component: AudiodeadlinesgreementComponent},
   {path: 'audiodeadlinemodal', component: ModalaudiodeadlineComponent}
 
-
->>>>>>> 2e995745f00f364c5ddcaad6553936010ae5d503
 
   // { path: 'changepassword', component: ChangepasswordComponent, canActivate: [AuthGuard], resolve: {results: Resolveservice}, data: {source: 'users', condition:{}} },
 
