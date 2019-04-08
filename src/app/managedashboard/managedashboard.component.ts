@@ -15,10 +15,8 @@ export interface DialogData {
   styleUrls: ['./managedashboard.component.css']
 })
 export class ManagedashboardComponent implements OnInit {
-   public endpoint = 'listofinsertsingledata';
   public endpoint1 = 'insertsingledata';
   public myForm: any;
-  public result: any;
   public modelid: any;
   public errormg: any = '';
   public ckeditorContent: any;
@@ -29,63 +27,86 @@ export class ManagedashboardComponent implements OnInit {
       type: ['',  Validators.required],
       content: ['', Validators.required]
     });
+
   }
 
   ngOnInit() {
     this.getdata();
   }
   getdata(){
-  this.apiService.getData({'source':'model_influencer_contents_viewlistin_decending'}).subscribe(res=> {
-  let result: any;
-  result = res;
-  console.log('result');
-  console.log(result);
-  this.model_influencer_list=result.res;
-  if(this.model_influencer_list.length>0){
-  this.myForm = this.fb.group({
-  type: [this.model_influencer_list[0].type,  Validators.required],
-  content: [this.model_influencer_list[0].content, Validators.required]
-});
-  this.modelid=this.model_influencer_list[0]._id;
-}
-});
+    let sourcecondition={};
+     this.apiService.getData({'source':'model_influencer_contents_viewlistin_decending',condition:sourcecondition}).subscribe(res=> {
+       let result:any;
+       result = res;
+     // console.log(result.res.length);
+      if(result.res.length>0){
+        this.myForm = this.fb.group({
+          type: [result.res[0].type,  Validators.required],
+          content: [result.res[0].content, Validators.required]
+        });
+        this.modelid=result.res[0]._id;
+        this.ckeditorContent=result.res[0].content;
+      //  this.myForm.patchValue({content: result.res[0].content});
+      }
+      this.versionlist(result.res[0].type);
+
+
+    });
   }
+  versionlist(type){
+  let  sourcecondition={type:type};
+    this.apiService.getData({'source':'model_influencer_contents_viewlistin_decending',condition:sourcecondition}).subscribe(res=> {
+      let result: any;
+      result = res;
+      console.log('result-----');
+      console.log(result);
+      if(result.res.length>0){
+        this.model_influencer_list=result.res;
+      }
+      else{
+        this.model_influencer_list=[];
+      }
+    });
+  }
+
   onSubmit(){
     this.errckeditor = false;
-    console.log('hieeeeeeeeeee');
     let data = {data:this.myForm.value};
     data.data.content=this.ckeditorContent;
-    console.log('data');
-    console.log(data);
-  /*  if (this.ckeditorContent == null) {
-      this.errckeditor = false;
+    data.data.created_by=  this.cookieService.get('id');
+    if (this.ckeditorContent == null) {
+      this.errckeditor = true;
     }
     else {
-      this.errckeditor = true;
-    }*/
+      this.errckeditor = false;
+    }
     let x;
     for (x in this.myForm.controls) {
       this.myForm.controls[x].markAsTouched();
     }
-    this.apiService.postData(this.endpoint1, data).subscribe(res => {
-      let result: any = {};
-      result = res;
-      if (result.status == 'error') {
-        this.errormg = result.msg;
-      }
-      if (result.status == 'success') {
-        this.getdata();
-        const dialogRef = this.dialog.open(Updatetest, {
-        });
-       this.myForm.reset();
-        this.myForm = this.fb.group({
-          type: [result.results.type,  Validators.required],
-          content: [result.results.content, Validators.required]
-        });
-      }
-    }, error => {
-      console.log('Oooops!');
-    });
+    console.log(data);
+    if(this.errckeditor==false && this.myForm.valid){
+      this.apiService.postData(this.endpoint1, data).subscribe(res => {
+        let result: any = {};
+        result = res;
+        if (result.status == 'error') {
+          this.errormg = result.msg;
+        }
+        if (result.status == 'success') {
+          this.getdata();
+          const dialogRef = this.dialog.open(Updatetest, {
+          });
+          this.myForm.reset();
+          this.myForm = this.fb.group({
+            type: [result.results.type,  Validators.required],
+            content: [result.results.content, Validators.required]
+          });
+          this.ckeditorContent=result.results.content;
+           }
+      }, error => {
+        console.log('Oooops!');
+      });
+    }
   }
 
   inputblur(val:any){
@@ -100,9 +121,24 @@ export class ManagedashboardComponent implements OnInit {
           type: [this.model_influencer_list[i].type,  Validators.required],
           content: [this.model_influencer_list[i].content, Validators.required]
         });
-        this.onSubmit();
+        this.ckeditorContent=this.model_influencer_list[i].content;
+     //   this.onSubmit();
       }
     }
+  }
+  changedata(){
+    this.versionlist(this.myForm.controls['type'].value);
+    setTimeout(()=>{
+      let i;
+      for (i in this.model_influencer_list){
+        this.myForm = this.fb.group({
+          type: [this.model_influencer_list[0].type,  Validators.required],
+          content: [this.model_influencer_list[0].content, Validators.required]
+        });
+        this.ckeditorContent=this.model_influencer_list[0].content;
+        // this.myForm.patchValue({content: this.model_influencer_list[0].content});
+      }
+    },3000);
   }
 }
 
@@ -123,4 +159,7 @@ export class Updatetest {
     this.dialogRef.close();
   }
 }
+
+
+/*hi*/
 

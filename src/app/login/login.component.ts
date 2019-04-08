@@ -78,7 +78,6 @@ export class LoginComponent implements OnInit {
                 this.cookieService.set('password', result.item[0].password);
                 this.cookieService.set('id', result.item[0]._id);
                 this.cookieService.set('jwttoken', result.token);
-                if (result.status = 'success') {
                     if (result.status == 'success' && result.item[0].type == 'admin') {
                         this.router.navigate(['/admindashboard']);
                     } else if (result.status == 'success' && result.item[0].type == 'brand') {
@@ -89,7 +88,7 @@ export class LoginComponent implements OnInit {
                         this.router.navigate(['/influencersdashboard']);
                     }
                     this.myForm.reset();
-                }
+
             }
 
 
