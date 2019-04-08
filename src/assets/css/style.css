@@ -609,6 +609,57 @@ td.mat-cell:last-of-type, td.mat-footer-cell:last-of-type, th.mat-header-cell:la
     display: block;
 }
 
+/*audio deadline agreement css*/
+
+.audiodeadline{
+    background: rgba(230,234,244,1)!important;
+    background: -moz-linear-gradient(top, rgba(230,234,244,1) 0%, rgba(183,194,200,1) 100%)!important;
+    background: -webkit-gradient(left top, left bottom, color-stop(0%, rgba(230,234,244,1)), color-stop(100%, rgba(183,194,200,1)))!important;
+    background: -webkit-linear-gradient(top, rgba(230,234,244,1) 0%, rgba(183,194,200,1) 100%)!important;
+    background: -o-linear-gradient(top, rgba(230,234,244,1) 0%, rgba(183,194,200,1) 100%)!important;
+    background: -ms-linear-gradient(top, rgba(230,234,244,1) 0%, rgba(183,194,200,1) 100%)!important;
+    background: linear-gradient(to bottom, rgba(230,234,244,1) 0%, rgba(183,194,200,1) 100%)!important;
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e6eaf4', endColorstr='#b7c2c8', GradientType=0 );
+    text-align: center;
+}
+
+
+
+.audiodeadline_wrapper h3 {
+    font-family: 'RobotoBold';
+    margin: 0;
+    padding: 16px 0;
+    font-size: 30px;
+    text-transform: uppercase;
+    color: rgb(37, 115, 175);
+}
+
+.agreementsubmitbutton{
+    background: rgb(37, 115, 175)!important;
+    color: #fff!important;
+}
+.audiodeadlinemodal{
+    border: 5px solid rgb(37, 115, 175)!important;
+}
+.audiodeadlinemodal h2{
+    color: rgb(37, 115, 175)!important;
+}
+.audiodeadlinemodal button{
+    background: rgb(37, 115, 175)!important;
+    color: #fff!important;
+}
+
+
+
+
+
+
+
+
+
+
+
+
 @media only screen and (max-width: 991px) {
 
     .newsignmodal {

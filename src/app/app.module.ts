@@ -49,6 +49,8 @@ import {ListingComponent} from "./listing/listing.component";
 import { ContractComponent } from './contract/contract.component';
 import {AgreementComponent} from "./agreement/agreement.component";
 import {ModalComponent} from "./modal/modal.component";
+import { AudiodeadlinesgreementComponent } from './audiodeadlinesgreement/audiodeadlinesgreement.component';
+import { ModalaudiodeadlineComponent } from './modalaudiodeadline/modalaudiodeadline.component';
 
 
 
@@ -73,7 +75,7 @@ import {ModalComponent} from "./modal/modal.component";
     AdminleftpanelComponent,
     AdminformComponent,
     AdminmodalformComponent,
-    ResetpasswordComponent,Dialogtest, MainNavComponent, ContractComponent,
+    ResetpasswordComponent,Dialogtest, MainNavComponent, ContractComponent, AudiodeadlinesgreementComponent, ModalaudiodeadlineComponent,
 
 
 

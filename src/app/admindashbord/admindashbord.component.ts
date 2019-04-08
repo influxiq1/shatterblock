@@ -19,6 +19,8 @@ export class AdmindashbordComponent implements OnInit {
     notpendingapplication_view: any=[];
     pendingmodelapplicationarray_skip: any= ['type','password','Contracts_Signed', 'created_at', '_id','username','email','status','date_iso_dateformat','regDate'];
     pendingmodelapplicationarray_modify_header: any = { 'date': 'Date','Age':'Age','name':'Name','submissionprocess':'Submission Process','contractssigned':'Contracts Signed'};
+
+    // statusarray:any=[{val:1,name:'Approve'},{val:2,name:'Decline'},{val:3,name:'Lock'}];
     pendingmodelapplicationarray_modify_header1: any = { 'dateformat': 'Date','username':'Username','status':'Status','email':'Email' };
     pendingmodelapplicationarray_skip1: any= ['_id'];
     adminlist:any=[];
