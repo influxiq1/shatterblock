@@ -679,10 +679,28 @@ td.mat-cell:last-of-type, td.mat-footer-cell:last-of-type, th.mat-header-cell:la
 
 
 
+/*BOTTOM SHEET CSS START */
 
+.mat-bottom-sheet-container-large {
+    min-width: 320px!important;
+    max-width: calc(100vw - 256px);
+}
+.mat-bottom-sheet-container .mat-list-item{
+    /*background: #000!important;*/
+    color: #000!important;
+}
+.mat-bottom-sheet-container
+.mat-list-base .mat-list-item .mat-list-item-content, .mat-list-base .mat-list-option .mat-list-item-content {
+    color: #731980!important;
+    border-bottom: 1px solid #cac7c7;
 
+}
+.mat-bottom-sheet-container {
+    border: 3px solid black!important;
+    padding: 0!important;
+}
 
-
+/*BOTTOM SHEET CSS END */
 
 @media only screen and (max-width: 991px) {
 

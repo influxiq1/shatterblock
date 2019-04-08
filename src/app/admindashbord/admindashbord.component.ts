@@ -15,10 +15,10 @@ export class AdmindashbordComponent implements OnInit {
     notpendingapplication_view: any=[];
     model_pending_and_notpending_application_view_skip: any= ['type','password','Contracts_Signed', 'created_at', '_id','username','email','status','date_iso_dateformat','regDate'];
     model_pending_and_notpending_application_view_modify_header: any = { 'date': 'Date','Age':'Age','name':'Name','submissionprocess':'Submission Process','contractssigned':'Contracts Signed'};
-    notpendingapplication_view_modify_header1: any = { 'dateformat': 'Date','username':'Username','status':'Status','email':'Email' };
-    pendingapplication_view_skip1: any= ['_id'];
+    notpendingapplication_view_modify_header1: any = { 'dateformat': 'Date','status':'Status','email':'Email', 'name':'Full Name' };
+    pendingapplication_view_skip: any= ['_id','username'];
     adminlist:any=[];
-
+    statusarray:any=[{val:1,name:'Approve'},{val:2,name:'Decline'},{val:3,name:'Lock'},{val:0,name:'Pending'}];
   constructor(public router: Router,private route: ActivatedRoute, public apiservice: ApiService) {
      /* this.apiservice.getData({'source':'model_pending_and_notpending_application_view'}).subscribe(res=> {
           let result: any;

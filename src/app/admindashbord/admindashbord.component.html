@@ -25,13 +25,15 @@
 <app-main-nav>
 
         <mat-toolbar class="breadcrumb"> <a style="text-decoration: none;"> User Table &nbsp;/&nbsp; </a> Pending model application </mat-toolbar>
+        <div class="pendinglist">
 
-        <lib-listing *ngIf="pendingapplication_view!=null && pendingapplication_view.length>0"  [datasource]="pendingapplication_view" [skip]="pendingapplication_view" [modify_header_array]="notpendingapplication_view_modify_header1" ></lib-listing>
+        <lib-listing    *ngIf="pendingapplication_view!=null && pendingapplication_view.length>0"  [datasource]="pendingapplication_view" [skip]="pendingapplication_view_skip" [modify_header_array]="notpendingapplication_view_modify_header1" [statusarr]="statusarray"></lib-listing>
 
 
         <mat-toolbar class="breadcrumb"> <a style="text-decoration: none;" href=""> User Table &nbsp;/&nbsp; </a> User List</mat-toolbar>
 
         <lib-listing *ngIf="model_pending_and_notpending_application_view!=null && model_pending_and_notpending_application_view.length>0"  [datasource]="model_pending_and_notpending_application_view" [skip]="model_pending_and_notpending_application_view_skip" [modify_header_array]="model_pending_and_notpending_application_view_modify_header" ></lib-listing>
 
+        </div>
 
 </app-main-nav>
