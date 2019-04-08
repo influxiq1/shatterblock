@@ -347,3 +347,16 @@ td.mat-cell:last-of-type, td.mat-footer-cell:last-of-type, th.mat-header-cell:la
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a6d5ca', endColorstr='#a6d5ca', GradientType=1 );
     border: 1px solid #fdcd00;
 }
+
+.adminform .mat-card-header{
+    background: #000000;
+    color: #fff;
+    padding: 10px 0 0 0;
+}
+.dbbutton{
+    color: #fff!important;
+    background: #000!important;
+}
+.sub_btn_wrapper{
+    padding: 0!important;
+}
