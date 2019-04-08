@@ -312,7 +312,7 @@ td.mat-cell:last-of-type, td.mat-footer-cell:last-of-type, th.mat-header-cell:la
 .topbar{
     background: #000!important;
 }
-.sidenav[_ngcontent-c2] {
+.sidenav{
     background: #000!important;
 }
 .mat-toolbar-row, .mat-toolbar-single-row {
@@ -663,7 +663,18 @@ td.mat-cell:last-of-type, td.mat-footer-cell:last-of-type, th.mat-header-cell:la
 }
 
 
-
+.active{
+    background: #410146!important;
+}
+.sidenav-container .mat-nav-list .mat-list-item:hover{
+    background: #410146!important;
+    color: #fff!important;
+}
+.cursor{ cursor: pointer;}
+.cursor:nth-child(1){ color: #008000;}
+.cursor:nth-child(2){ color: #ff0000;}
+.cursor:nth-child(3){ color: #410146;}
+.cursor:nth-child(4){ color: #3f51b5;}
 
 
 
