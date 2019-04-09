@@ -20,8 +20,8 @@ export class ModeldashboardComponent implements OnInit {
       console.log(data);
       console.log('data from route ... !!!');
       console.log('json',data['results']);
-      this.model_influencer_contents_viewlistin_decending_jocu=data.item.model_influencer_contents_viewlistin_decending_jocu;
-      this.model_influencer_contents_viewlistin_decending_audio=data.item.model_influencer_contents_viewlistin_decending_audio;
+      this.model_influencer_contents_viewlistin_decending_jocu=data['results'].item.model_influencer_contents_viewlistin_decending_jocu[0];
+      this.model_influencer_contents_viewlistin_decending_audio=data['results'].item.model_influencer_contents_viewlistin_decending_audio[0];
 
     });
   }

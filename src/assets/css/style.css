@@ -702,6 +702,10 @@ td.mat-cell:last-of-type, td.mat-footer-cell:last-of-type, th.mat-header-cell:la
 
 /*BOTTOM SHEET CSS END */
 
+.grid_template .mat-card{width: 100%!important;}
+ 
+
+
 @media only screen and (max-width: 991px) {
 
     .newsignmodal {
