@@ -15,7 +15,8 @@ export interface DialogData {
   styleUrls: ['./managedashboard.component.css']
 })
 export class ManagedashboardComponent implements OnInit {
-    public endpoint1 = 'insertsingledata';
+  //  public endpoint1 = 'insertsingledata';
+    public endpoint1 = 'addorupdatedata';
   public myForm: any;
   public modelid: any;
   public errormg: any = '';
@@ -26,7 +27,8 @@ export class ManagedashboardComponent implements OnInit {
   constructor(public fb: FormBuilder, private cookieService: CookieService, public http: HttpClient, public apiService: ApiService, public router: Router, public resolveservice: Resolveservice,public dialog: MatDialog) {
     this.myForm = this.fb.group({
       type: ['',  Validators.required],
-      content: ['', Validators.required]
+      content: ['', Validators.required],
+      created_by: [this.cookieService.get('id')]
     });
 
   }
@@ -43,7 +45,8 @@ export class ManagedashboardComponent implements OnInit {
       if(result.res.length>0){
         this.myForm = this.fb.group({
           type: [result.res[0].type,  Validators.required],
-          content: [result.res[0].content, Validators.required]
+          content: [result.res[0].content, Validators.required],
+          created_by: [this.cookieService.get('id')]
         });
         this.modelid=result.res[0]._id;
         this.ckeditorContent=result.res[0].content;
@@ -72,7 +75,8 @@ export class ManagedashboardComponent implements OnInit {
       if(this.model_influencer_list[i]._id==this.modelid){
         this.myForm = this.fb.group({
           type: [this.model_influencer_list[i].type,  Validators.required],
-          content: [this.model_influencer_list[i].content, Validators.required]
+          content: [this.model_influencer_list[i].content, Validators.required],
+          created_by: [this.cookieService.get('id')]
         });
         this.ckeditorContent=this.model_influencer_list[i].content;
       }
@@ -84,18 +88,22 @@ export class ManagedashboardComponent implements OnInit {
     setTimeout(()=>{
       this.myForm = this.fb.group({
           type: [this.model_influencer_list[0].type,  Validators.required],
-          content: [this.model_influencer_list[0].content, Validators.required]
+          content: [this.model_influencer_list[0].content, Validators.required],
+        created_by: [this.cookieService.get('id')]
         });
         this.ckeditorContent=this.model_influencer_list[0].content;
         // this.myForm.patchValue({content: this.model_influencer_list[0].content});
-    },500);
+    },1000);
   }
 
   onSubmit(){
+    console.log('=============================');
+    console.log(this.myForm.value);
     this.errckeditor = false;
-    let data = {data:this.myForm.value};
+    /*let data = {data:this.myForm.value};
     data.data.content=this.ckeditorContent;
-    data.data.created_by=  this.cookieService.get('id');
+    data.data.created_by=  this.cookieService.get('id');*/
+
     if (this.ckeditorContent == null) {
       this.errckeditor = true;
     }
@@ -106,9 +114,42 @@ export class ManagedashboardComponent implements OnInit {
     for (x in this.myForm.controls) {
       this.myForm.controls[x].markAsTouched();
     }
-    console.log(data);
+   // console.log(data);
     if(this.errckeditor==false && this.myForm.valid){
-      this.apiService.postData(this.endpoint1, data).subscribe(res => {
+  /*    let data1 = {data,source:'model_influencer_contents',sourceobj:['created_by']};
+      console.log(data1);
+      let data = {data:this.myForm.value};
+      console.log(data);*/
+      this.apiService.postData(this.endpoint1, {source:'model_influencer_contents',data:this.myForm.value,sourceobj:['created_by']}).subscribe( res => {
+
+     // this.apiService.postData(this.endpoint1, data).subscribe( res => {
+     //   this._http.post(link,{source:'model_influencer_contents',data:this.myForm.value,sourceobj:['created_by']})
+
+        let result: any = {};
+        result = res;
+        if (result.status == 'error') {
+          this.errormg = result.msg;
+        }
+        if (result.status == 'success') {
+          this.getdata();
+          const dialogRef = this.dialog.open(Updatetest, {
+          });
+          this.myForm.reset();
+          console.log('result');
+          console.log(result);
+     //     console.log(result.res.content);
+          this.myForm = this.fb.group({
+            type: [result.res.type,  Validators.required],
+            content: [result.res.content, Validators.required],
+            created_by: [this.cookieService.get('id')]
+          });
+          this.ckeditorContent=result.res.content;
+        }
+      }, error => {
+        console.log('Oooops!');
+      });
+
+    /*  this.apiService.postData(this.endpoint1, data).subscribe(res => {
         let result: any = {};
         result = res;
         if (result.status == 'error') {
@@ -127,14 +168,16 @@ export class ManagedashboardComponent implements OnInit {
            }
       }, error => {
         console.log('Oooops!');
-      });
+      });*/
     }
   }
 
   inputblur(val:any){
     this.myForm.controls[val].markAsUntouched();
   }
-
+  onChange(event: any) {
+    this.myForm.patchValue({content: this.ckeditorContent});
+  }
 }
 
 
