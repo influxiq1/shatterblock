@@ -8,7 +8,7 @@ import { ApiService } from "../api.service";
   styleUrls: ['./admindashbord.component.css']
 })
 export class AdmindashbordComponent implements OnInit {
- datasource:any;
+    datasource:any;
     notpendingapplication_view: any=[];
     brandarray: any=[];
     adminlist:any=[];
@@ -20,11 +20,14 @@ export class AdmindashbordComponent implements OnInit {
     model_pending_and_notpending_application_view: any=[];
     model_pending_and_notpending_application_view_skip: any= ['type','password','Contracts_Signed', 'created_at', '_id','username','email','status','date_iso_dateformat','regDate'];
     model_pending_and_notpending_application_view_modify_header: any = { 'date': 'Date','Age':'Age','name':'Name','submissionprocess':'Submission Process','contractssigned':'Contracts Signed'};
-    
     statusarray:any=[{val:1,name:'Approve'},{val:2,name:'Decline'},{val:3,name:'Lock'},{val:0,name:'Pending'}];
-    
-  constructor(public router: Router,private route: ActivatedRoute, public apiservice: ApiService) {
-     /* this.apiservice.getData({'source':'model_pending_and_notpending_application_view'}).subscribe(res=> {
+
+    updateurl='addorupdatedata';
+    delurl='deletesingledata';
+    tablename='users';
+
+    constructor(public router: Router,private route: ActivatedRoute, public apiservice: ApiService) {
+        /* this.apiservice.getData({'source':'model_pending_and_notpending_application_view'}).subscribe(res=> {
           let result: any;
           result = res;
           console.log('result');
@@ -33,23 +36,7 @@ export class AdmindashbordComponent implements OnInit {
           this.model_pending_and_notpending_application_view = result.res;
           this.model_pending_and_notpending_application_view[0].Age='';  // extera column add in matHeaderCellDef
       });*/
-  }
-
- /* ngOnInit() {
-console.log('data in oninit');
-      this.route.data.forEach((data) => {
-          // PRE LOAD DATA PRIOR
-          console.log(data);
-          console.log('data from route ... !!!');
-          console.log('json',data['results']);
-          this.pendingmodelapplicationarray1=data['results'].item.pendingapplication_view;
-          console.log('this.pendingmodelapplicationarray1');
-          console.log(this.pendingmodelapplicationarray1);
-           this.brandarray=data['results'].item.brand;
-           // this.brandarray1=data['results'].item.notpendingapplication_view;
-          this.notpendingapplication_view=data['results'].item.notpendingapplication_view;
-      });
-  }*/
+    }
 
     ngOnInit() {
         this.route.data.forEach((data) => {

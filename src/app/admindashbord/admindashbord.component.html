@@ -27,7 +27,7 @@
         <mat-toolbar class="breadcrumb"> <a style="text-decoration: none;"> User Table &nbsp;/&nbsp; </a> Pending model application </mat-toolbar>
         <div class="pendinglist">
 
-        <lib-listing    *ngIf="pendingapplication_view!=null && pendingapplication_view.length>0"  [datasource]="pendingapplication_view" [skip]="pendingapplication_view_skip" [modify_header_array]="pendingapplication_view_modify_header1" [statusarr]="statusarray"></lib-listing>
+        <lib-listing    *ngIf="pendingapplication_view!=null && pendingapplication_view.length>0"  [datasource]="pendingapplication_view" [skip]="pendingapplication_view_skip" [modify_header_array]="pendingapplication_view_modify_header1" [statusarr]="statusarray" [apiurl]="apiservice.domain" [deleteendpoint]="delurl" [updateendpoint]="updateurl" [jwttoken]="apiservice.jwttoken" [sourcedata]="tablename"></lib-listing>
 
 
         <mat-toolbar class="breadcrumb"> <a style="text-decoration: none;" href=""> User Table &nbsp;/&nbsp; </a> User List</mat-toolbar>
