@@ -16,6 +16,11 @@ export class AdmindashbordComponent implements OnInit {
     pendingapplication_view: any=[];
     pendingapplication_view_skip: any= ['_id','username','phone','city','state','ethnicity','height','haircolor','eyecolor','weight','bust','waist','hips','slim','toned','tattoos','athletic','piercings','retail','voluptuous','promotions','sales','descriptionbox','facebooklink','twitterlink','instagramlink','modelmayhemlink','type','images'];
     pendingapplication_view_modify_header1: any = { 'dateformat': 'Date','status':'Status','email':'Email', 'name':'Full Name' };
+    pendingapplication_view_detail_skip:any=['_id','email','name'];
+    pendingapplication_view_detail_datatype:any=[{key:"images",value:'image',fileurl:"http://18.222.26.198/upload/modelimages/" }];
+
+
+
 
     model_pending_and_notpending_application_view: any=[];
     model_pending_and_notpending_application_view_skip: any= ['type','password','Contracts_Signed', 'created_at', '_id','username','email','status','date_iso_dateformat','regDate'];
