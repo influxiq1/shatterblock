@@ -52,8 +52,8 @@ export class ForgatepasswordComponent implements OnInit {
       if (result.status == 'error1') {
         this.errormg = result.msg;
       }
-      if (result.status == 'error2') {
-        this.errormg = result.msg;
+      if (result.status == 'success') {
+        this.errormg = 'Successfully sent message!';
       }
     });
     /*

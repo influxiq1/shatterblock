@@ -41,7 +41,7 @@ module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "\n<app-main-nav>\n\n        <mat-toolbar class=\"breadcrumb\"> <a style=\"text-decoration: none;\"> User Table &nbsp;/&nbsp; </a> Panding model application </mat-toolbar>\n\n        <lib-listing *ngIf=\"pendingmodelapplicationarray1!=null && notpendingapplication_view.length>0\"  [datasource]=\"pendingmodelapplicationarray1\" [skip]=\"pendingmodelapplicationarray_skip1\" [modify_header_array]=\"pendingmodelapplicationarray_modify_header1\" ></lib-listing>\n\n\n        <mat-toolbar class=\"breadcrumb\"> <a style=\"text-decoration: none;\" href=\"\"> User Table &nbsp;/&nbsp; </a> User List</mat-toolbar>\n\n\n        <lib-listing *ngIf=\"pendingmodelapplicationarray!=null && pendingmodelapplicationarray.length>0\"  [datasource]=\"pendingmodelapplicationarray\" [skip]=\"pendingmodelapplicationarray_skip\" [modify_header_array]=\"pendingmodelapplicationarray_modify_header\" ></lib-listing>\n\n\n        <!--<lib-listing *ngIf=\"brandarray!=null && brandarray.length>0\"  [datasource]=\"brandarray\" [skip]=\"pendingmodelapplicationarray_skip1\" [modify_header_array]=\"pendingmodelapplicationarray_modify_header1\" ></lib-listing>\n\n-->\n\n\n\n</app-main-nav>\n\n\n<!--\n\n&lt;!&ndash;\n<lib-listing *ngIf=\"brandarray!=null && brandarray.length>0\"  [datasource]=\"brandarray\" [skip]=\"pendingmodelapplicationarray_skip\" [modify_header_array]=\"pendingmodelapplicationarray_modify_header\" ></lib-listing>\n\n\n<lib-listing *ngIf=\"notpendingapplication_view!=null && notpendingapplication_view.length>0\"  [datasource]=\"notpendingapplication_view\" [skip]=\"pendingmodelapplicationarray_skip\" [modify_header_array]=\"pendingmodelapplicationarray_modify_header\" ></lib-listing>\n&ndash;&gt;\n-->\n"
+module.exports = "<!--\r\n<app-main-nav>\r\n\r\n        <mat-toolbar class=\"breadcrumb\"> <a style=\"text-decoration: none;\"> User Table &nbsp;/&nbsp; </a> Pending model application </mat-toolbar>\r\n\r\n        <lib-listing *ngIf=\"pendingmodelapplicationarray1!=null && notpendingapplication_view.length>0\"  [datasource]=\"pendingmodelapplicationarray1\" [skip]=\"pendingmodelapplicationarray_skip1\" [modify_header_array]=\"pendingmodelapplicationarray_modify_header1\" ></lib-listing>\r\n\r\n\r\n        <mat-toolbar class=\"breadcrumb\"> <a style=\"text-decoration: none;\" href=\"\"> User Table &nbsp;/&nbsp; </a> User List</mat-toolbar>\r\n\r\n\r\n        <lib-listing *ngIf=\"pendingmodelapplicationarray!=null && pendingmodelapplicationarray.length>0\"  [datasource]=\"pendingmodelapplicationarray\" [skip]=\"pendingmodelapplicationarray_skip\" [modify_header_array]=\"pendingmodelapplicationarray_modify_header\" ></lib-listing>\r\n\r\n\r\n        &lt;!&ndash;<lib-listing *ngIf=\"brandarray!=null && brandarray.length>0\"  [datasource]=\"brandarray\" [skip]=\"pendingmodelapplicationarray_skip1\" [modify_header_array]=\"pendingmodelapplicationarray_modify_header1\" ></lib-listing>\r\n\r\n&ndash;&gt;\r\n\r\n\r\n\r\n</app-main-nav>-->\r\n\r\n\r\n\r\n<app-main-nav>\r\n\r\n        <mat-toolbar class=\"breadcrumb\"> <a style=\"text-decoration: none;\"> User Table &nbsp;/&nbsp; </a> Pending model application </mat-toolbar>\r\n        <div class=\"pendinglist\">\r\n\r\n        <lib-listing    *ngIf=\"pendingapplication_view!=null && pendingapplication_view.length>0\"  [datasource]=\"pendingapplication_view\" [skip]=\"pendingapplication_view_skip\" [modify_header_array]=\"pendingapplication_view_modify_header1\" [statusarr]=\"statusarray\" [apiurl]=\"apiservice.domain\" [deleteendpoint]=\"delurl\" [updateendpoint]=\"updateurl\" [jwttoken]=\"apiservice.jwttoken\" [sourcedata]=\"tablename\"></lib-listing>\r\n\r\n\r\n        <mat-toolbar class=\"breadcrumb\"> <a style=\"text-decoration: none;\" href=\"\"> User Table &nbsp;/&nbsp; </a> User List</mat-toolbar>\r\n\r\n        <lib-listing *ngIf=\"model_pending_and_notpending_application_view!=null && model_pending_and_notpending_application_view.length>0\"  [datasource]=\"model_pending_and_notpending_application_view\" [skip]=\"model_pending_and_notpending_application_view_skip\" [modify_header_array]=\"model_pending_and_notpending_application_view_modify_header\" ></lib-listing>\r\n\r\n        </div>\r\n\r\n</app-main-nav>\r\n"
 
 /***/ }),
 
@@ -65,45 +65,43 @@ __webpack_require__.r(__webpack_exports__);
 
 var AdmindashbordComponent = /** @class */ (function () {
     function AdmindashbordComponent(router, route, apiservice) {
-        var _this = this;
         this.router = router;
         this.route = route;
         this.apiservice = apiservice;
-        this.pendingmodelapplicationarray1 = [];
-        this.brandarray = [];
-        // public endpoint = 'datalist';
-        this.pendingmodelapplicationarray = [];
         this.notpendingapplication_view = [];
-        this.pendingmodelapplicationarray_skip = ['type', 'password', 'Contracts_Signed', 'created_at', '_id', 'username', 'email', 'status', 'date_iso_dateformat', 'regDate'];
-        this.pendingmodelapplicationarray_modify_header = { 'date': 'Date', 'Age': 'Age', 'name': 'Name', 'submissionprocess': 'Submission Process', 'contractssigned': 'Contracts Signed' };
-        this.pendingmodelapplicationarray_modify_header1 = { 'dateformat': 'Date', 'username': 'Username', 'status': 'Status', 'email': 'Email' };
-        this.pendingmodelapplicationarray_skip1 = ['_id'];
+        this.brandarray = [];
         this.adminlist = [];
-        // this.datasource='pendingapplication_view';
-        this.apiservice.getData({ 'source': 'model_pending_and_notpending_application_view' }).subscribe(function (res) {
-            var result;
-            result = res;
-            console.log('result');
-            console.log(result);
-            console.log(result.res);
-            _this.pendingmodelapplicationarray = result.res;
-            _this.pendingmodelapplicationarray[0].Age = ''; // extera column add in matHeaderCellDef
-        });
+        this.pendingapplication_view = [];
+        this.pendingapplication_view_skip = ['_id', 'username'];
+        this.pendingapplication_view_modify_header1 = { 'dateformat': 'Date', 'status': 'Status', 'email': 'Email', 'name': 'Full Name' };
+        this.model_pending_and_notpending_application_view = [];
+        this.model_pending_and_notpending_application_view_skip = ['type', 'password', 'Contracts_Signed', 'created_at', '_id', 'username', 'email', 'status', 'date_iso_dateformat', 'regDate'];
+        this.model_pending_and_notpending_application_view_modify_header = { 'date': 'Date', 'Age': 'Age', 'name': 'Name', 'submissionprocess': 'Submission Process', 'contractssigned': 'Contracts Signed' };
+        this.statusarray = [{ val: 1, name: 'Approve' }, { val: 2, name: 'Decline' }, { val: 3, name: 'Lock' }, { val: 0, name: 'Pending' }];
+        this.updateurl = 'addorupdatedata';
+        this.delurl = 'deletesingledata';
+        this.tablename = 'users';
+        /* this.apiservice.getData({'source':'model_pending_and_notpending_application_view'}).subscribe(res=> {
+          let result: any;
+          result = res;
+          console.log('result');
+          console.log(result);
+          console.log(result.res);
+          this.model_pending_and_notpending_application_view = result.res;
+          this.model_pending_and_notpending_application_view[0].Age='';  // extera column add in matHeaderCellDef
+      });*/
     }
     AdmindashbordComponent.prototype.ngOnInit = function () {
         var _this = this;
-        console.log('data in oninit');
         this.route.data.forEach(function (data) {
             // PRE LOAD DATA PRIOR
             console.log(data);
             console.log('data from route ... !!!');
             console.log('json', data['results']);
-            _this.pendingmodelapplicationarray1 = data['results'].item.pendingapplication_view;
-            console.log('this.pendingmodelapplicationarray1');
-            console.log(_this.pendingmodelapplicationarray1);
             _this.brandarray = data['results'].item.brand;
-            // this.brandarray1=data['results'].item.notpendingapplication_view;
             _this.notpendingapplication_view = data['results'].item.notpendingapplication_view;
+            _this.pendingapplication_view = data['results'].item.pendingapplication_view;
+            _this.model_pending_and_notpending_application_view = data['results'].item.model_pending_and_notpending_application_view;
         });
     };
     AdmindashbordComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
@@ -139,7 +137,7 @@ module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<app-main-nav>\n\n  <mat-toolbar>ShatterBlock Dashboard </mat-toolbar>\n  <mat-divider></mat-divider>\n  <mat-toolbar class=\"breadcrumb\"> <a style=\"text-decoration: none;\" href=\"\"> Dashboard &nbsp;/&nbsp; </a> Add</mat-toolbar>\n\n  <mat-card class=\"example-card adminform\">\n    <mat-card-header>\n\n      <mat-card-title>Go to Admin Form</mat-card-title>\n\n    </mat-card-header>\n    <mat-card-content>\n      <form #adminForm  class=\"adminform\">\n        <div class=\"example-container\">\n          <mat-form-field>\n            <input matInput placeholder=\"Input\">\n          </mat-form-field>\n\n          <mat-form-field>\n            <textarea matInput placeholder=\"Textarea\"></textarea>\n          </mat-form-field>\n\n          <mat-form-field>\n            <mat-select placeholder=\"Select\">\n              <mat-option value=\"option\">Option</mat-option>\n            </mat-select>\n          </mat-form-field>\n        </div>\n        <mat-form-field>\n          <textarea matInput placeholder=\"Textarea\"></textarea>\n        </mat-form-field>\n\n        <button mat-flat-button color=\"primary\">Add </button>\n      </form>\n    </mat-card-content>\n\n  </mat-card>\n\n</app-main-nav>\n\n"
+module.exports = "<app-main-nav>\r\n\r\n  <mat-toolbar>ShatterBlock Dashboard </mat-toolbar>\r\n  <mat-divider></mat-divider>\r\n  <mat-toolbar class=\"breadcrumb\"> <a style=\"text-decoration: none;\" href=\"\"> Dashboard &nbsp;/&nbsp; </a> Add</mat-toolbar>\r\n\r\n  <mat-card class=\"example-card adminform\">\r\n    <mat-card-header>\r\n      <mat-card-title>Go to Admin Form</mat-card-title>\r\n    </mat-card-header>\r\n    <mat-card-content>\r\n      <form #adminForm  class=\"adminform\">\r\n        <div class=\"example-container\">\r\n          <mat-form-field>\r\n            <input matInput placeholder=\"Input\">\r\n          </mat-form-field>\r\n\r\n          <mat-form-field>\r\n            <textarea matInput placeholder=\"Textarea\"></textarea>\r\n          </mat-form-field>\r\n\r\n          <mat-form-field>\r\n            <mat-select placeholder=\"Select\">\r\n              <mat-option value=\"option\">Option</mat-option>\r\n            </mat-select>\r\n          </mat-form-field>\r\n        </div>\r\n        <mat-form-field>\r\n          <textarea matInput placeholder=\"Textarea\"></textarea>\r\n        </mat-form-field>\r\n\r\n        <button mat-flat-button color=\"primary\" class=\"dbbutton\">Add </button>\r\n      </form>\r\n    </mat-card-content>\r\n\r\n  </mat-card>\r\n\r\n</app-main-nav>\r\n\r\n"
 
 /***/ }),
 
@@ -449,6 +447,118 @@ var AdminmodalformComponent = /** @class */ (function () {
 
 /***/ }),
 
+/***/ "./src/app/agreement/agreement.component.css":
+/*!***************************************************!*\
+  !*** ./src/app/agreement/agreement.component.css ***!
+  \***************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJzcmMvYXBwL2FncmVlbWVudC9hZ3JlZW1lbnQuY29tcG9uZW50LmNzcyJ9 */"
+
+/***/ }),
+
+/***/ "./src/app/agreement/agreement.component.html":
+/*!****************************************************!*\
+  !*** ./src/app/agreement/agreement.component.html ***!
+  \****************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<span class=\"contract_bg_wrapper\">\r\n<mat-card class=\"newhome_header\"> <img src=\"../../assets/images/shaterblockLogo.png\" alt=\"#\" class=\"newhomelogo\" style=\"box-shadow: none;\"></mat-card>\r\n\r\n<mat-card-content class=\"newpage_wrapper\">\r\n  <h2>THIS AGREEMENT DATE OF EXECUTION IS : 03/28/2019</h2>\r\n  <h4>This Affiliate Agreement (\"Agreement\") contains the complete terms and conditions between Shatter Blok (\"Company\") and Roxy Test, who wishes to participate in the Shatter Blok Affiliate Program (the \"Affiliate Program\") as an affiliate of Shatter Blok (an \"Affiliate\"). Both Company and Affiliate may collectively be referred to as (\"Parties\").\r\n  </h4>\r\n  <h3> DEFINITIONS </h3>\r\n  <h4>\"Affiliate\" - The business, individual, or entity applying to or participating in the Affiliate Program, or that displays Shatter Blok’s products and Services and/or promotions on its website, or other means, using an affiliate tracking code in exchange for receiving a commission from Company for sales directly resulting from such display.\r\n    <br/><br/>\r\n    \"Company's Products and Services\" – digital online community portal focused on live broadcasting services to fans, clothing, and other future opportunities presented by the company.\r\n  </h4>\r\n\r\n  <h3>AFFILIATE RELATIONSHIP</h3>\r\n\r\n  <h4>The Parties acknowledge that Affiliate will perform their obligations hereunder as an independent contractor or Affiliate and shall not be an employee of Company. It is also expressly understood that Affiliate's employees and agents, if any, are not Company's employees or agents, and have no authority to bind Company by contract or otherwise.\r\n    <br/><br/>\r\n    Affiliate agrees they are solely responsible for understanding their rights and obligations as an Affiliate in their geographic area.\r\n    <br/><br/>\r\n    Company shall not be liable for taxes, worker's compensation, unemployment insurance, employers' liability, employer's FICA, social security, withholding tax, or other taxes or withholding for or on behalf of Affiliate or any other person consulted or employed by the Affiliate in performing Services under this Agreement. All such costs shall be Affiliate's responsibility.</h4>\r\n\r\n  <h3>COMPENSATION</h3>\r\n\r\n  <h4>Affiliate will receive 10% commissions from any products or services sold to their fans/reach/clients on the Company's platform.\r\n    <br/><br/>\r\n    Affiliate will get 5% commissions from any products or services sold by any individual that signs up officially through the affiliate's links if they decided to also join as an affiliate of the company.\r\n    <br/><br/>\r\n    Commissions, as described above, will commence for the lifetime purchase of the fan/reach/client.</h4>\r\n\r\n  <h3>COMMISSION PAYMENTS</h3>\r\n\r\n  <h4>All commissions accumulated over the amount of $150 are paid out monthly. Commission amounts must be at least $150 USD at the end of the month to be paid out that following month.\r\n    <br/><br/>\r\n    Affiliate shall provide Company with a w9 form before commissions are paid to affiliate. Affiliate is responsible to providing Company with up-to-date w9 form. Company may provide this digitally or affiliate may be responsible for scanning and sending before first payment is made.</h4>\r\n\r\n  <h3>REPORTS OF QUALIFIED PURCHASES</h3>\r\n  <h4>Starting before the month of November 2018, you may log into your affiliate console to review your click through and potential Qualified Purchases statistics daily. The potential Qualified Purchases shown in this report have not been reviewed to confirm they meet all criteria for Qualified Purchases. As such, Commission Fees may not be issued for all Referred Customers that appear in the affiliate console.</h4>\r\n\r\n  <h3>FTC ENDORSEMENT COMPLIANCE</h3>\r\n\r\n\r\n  <h4>It is the intent of Company to treat all of our customers fairly. Accordingly, we require all Company Affiliates to comply with applicable laws, regulations and guidelines concerning advertising and marketing, including without limitation, the Federal Trade Commission (FTC) Endorsement Guides, which require that material connections between advertisers and endorsers be disclosed. This means that all Affiliate Sites (e.g. directories, review/rating websites, blogs, and other websites) and any email or collateral that provide an endorsement or assessment of Shatter Blok's Products and Services must prominently disclose the fact that you receive compensation.\r\n    <br/><br/>\r\n    Company reserves the right to withhold Commission Fees and cancel the affiliate relationship with you should we determine, at our sole discretion, that you are not in compliance with the previously mentioned guide or other FTC regulations or guides that we deem relevant.</h4>\r\n\r\n  <h3>NON­DISCLOSURE</h3>\r\n\r\n  <h4>The Affiliate agrees to not disclose any of the details in this agreement either implicitly, explicitly, or indirectly to any competing entity, employee of Company or subsidiary, contractor of Company or subsidiary, and client of Company or subsidiary without permission explicitly given by Company. The Affiliate agrees not to disclose details of compensation with any entity without the explicit permission of Company.\r\n    <br/><br/>\r\n    Affiliate agrees not to disclose or otherwise reveal to any third party the identities, addresses, telephone numbers, facsimile numbers, email address, telex numbers, bank codes, account number, financial reference, or any other entities introduces by Company to the Affiliate without the specific written permission of Company.\r\n    <br/><br/>\r\n    Confidential Information. The Affiliate agrees that they shall not, directly or indirectly, disclose, disseminate, use for personal benefit, lecture or write articles with respect to, or otherwise publish \"confidential information\". For purposes of this Agreement, the term \"confidential information\" means information and know­how disclosed to or known by the Affiliate which relates to the Company or any business idea under development or research by the Company or that constitutes a corporate opportunity of the Company and which information is not generally known in the relevant trade or industry, including without limitation, any document, information, website or other data requiring pass code or password access, trade secrets, proprietary data, customer lists, contractual arrangements, and product and service development. \"Confidential information\" shall also include any other document or information (whether of the Company or of any supplier or customer of the Company or of any other person with which the Company has an agreement with respect to the confidentiality of information) labeled \"confidential\", \"proprietary\", or words of similar import. Upon Termination of the Term hereof, the Affiliate shall return to or leave with the Company, without making or retaining copies thereof, all documents, records, notebooks and similar repositories containing \"confidential information\".</h4>\r\n\r\n  <h3>INDEMNIFICATION</h3>\r\n\r\n  <h4>Affiliate shall not be liable for any claim or demand made against Company by any third party. Company shall indemnify Affiliate against all claims, liabilities and costs, including reasonable attorney fees, of defending any third-party claim or suit arising out of the use of the software provided under this agreement. However, the Affiliate hereby agrees to indemnify and hold Company harmless from all liability, damage, loss, cost, expense or other charge resulting directly or indirectly from any act or omission of the Affiliate. It is understood that Affiliate is to use and only use the regulated media for promotion of any sign ups or sales and the Company is not liable for what the affiliate may present outside of these materials. These materials are all available of the website and through the affiliate back office.\r\n  </h4>\r\n\r\n  <h3>STANDARDS AND ETHICS</h3>\r\n\r\n  <h4>Affiliate will adhere to truth and integrity and will not engage in any deceptive or misleading sales practices.\r\n    <br/><br/>\r\n    Affiliate will not in any way demean or speak negatively of Company, Company's Clients, Company's Potential Clients, Any member of Company, Company's Competition, or Affiliate's Competition.\r\n    <br/><br/>\r\n    Affiliate will maintain the confidentially of information provided by any prospect or client of Company and will not reveal any such information without the proper consent or exemption of Company.</h4>\r\n\r\n  <h3>GOVERNING LAW AND FORUM</h3>\r\n\r\n  <h4>This Agreement shall be governed, construed and enforced exclusively in accordance with the laws of the State of Idaho and the laws of the United States of America, without regard to choice of laws or conflict of law provisions thereof that would result in the application of the laws of a different jurisdiction. Any arbitration or litigation between the Parties shall be conducted exclusively in Idaho, and the Parties hereby submit to such exclusive jurisdiction and venue and agree that venue shall be proper in Idaho. Each Party hereby irrevocably waives, to the fullest extent permitted by law, any objection that it may have, whether now or in the future, to the laying of venue in, or to the jurisdiction of, any and each of such courts for the purpose of any such suit, action, proceeding or judgment and further waives any claim that any such suit, action proceeding or judgment has been brought in an inconvenient forum, and each Party hereby submits to such jurisdiction.\r\n  </h4>\r\n\r\n  <h3>X. NOTICES</h3>\r\n\r\n  <h4>Any notice required or permitted to be given under this Agreement shall be sufficient if it is in writing and if it is sent by registered mail or certified mail, return receipt requested, to the Employee at his or her residence affixed above, or to the Employer’s principal place of business as affixed above.\r\n  </h4>\r\n\r\n  <h3>ENTIRE AGREEMENT</h3>\r\n\r\n  <h4>This agreement contains the entire understanding of the Parties and supersedes any and all previous verbal and written agreement or understandings. There are no other agreements, representations or warranties not set forth in this agreement. This agreement will bind, and inure to the benefit of, the Parties and their respective successor and assigns. Any modification, amendment, or waiver of any provision of this agreement may be made only in writing and signed by both Parties. The failure by any party to exercise any rights granted herein upon the occurrence of any event set forth in this agreement shall not constitute a waiver of any such rights upon the occurrence of any such event. In the event any provision of this agreement is held to be in violation of any law, statue, regulation, ordinance, or court order, this agreement shall be deemed modified accordingly and to the extent necessary to comply therewith and shall otherwise continue full force and effect.\r\n  </h4>\r\n\r\n  <h3>AGREEMENT EXECUTION</h3>\r\n\r\n  <h4>This digital signature constitutes the full legal agreement between company and affiliate. This agreement may be executed in several counterparts, each of which shall constitute one and the same instrument. Section or paragraph headings in the agreement are for convenience of reference only.<br/>\r\n    In witness whereof, the Parties hereto have caused this Agreement to be duly executed and entered into as of the date first above written.</h4>\r\n\r\n  <h3>SHATTER BLOK</h3>\r\n\r\n  <h4>By: Beto Paredes<br/>\r\n    Its: Chief Executive Officer</h4>\r\n\r\n  <h3>AFFILIATE</h3>\r\n  <button mat-button (click)=\"openDialog()\" class=\"signherebtn\">Sign Here</button>\r\n  <h5>By: {{fullname}}</h5>\r\n\r\n  <button mat-button class=\"ep_contractbtn\" (click)=\"onAgreement()\">Submit</button>\r\n\r\n\r\n</mat-card-content>\r\n\r\n</span>\r\n"
+
+/***/ }),
+
+/***/ "./src/app/agreement/agreement.component.ts":
+/*!**************************************************!*\
+  !*** ./src/app/agreement/agreement.component.ts ***!
+  \**************************************************/
+/*! exports provided: AgreementComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AgreementComponent", function() { return AgreementComponent; });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _angular_material__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/material */ "./node_modules/@angular/material/esm5/material.es5.js");
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
+/* harmony import */ var _modal_modal_component__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../modal/modal.component */ "./src/app/modal/modal.component.ts");
+/* harmony import */ var _app_api_service__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../app/api.service */ "./src/app/api.service.ts");
+/* harmony import */ var ngx_cookie_service__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ngx-cookie-service */ "./node_modules/ngx-cookie-service/index.js");
+
+
+
+
+
+
+
+var AgreementComponent = /** @class */ (function () {
+    function AgreementComponent(modal, apiservice, cookieService, router) {
+        this.modal = modal;
+        this.apiservice = apiservice;
+        this.cookieService = cookieService;
+        this.router = router;
+        this.endpoint = 'addorupdatedata';
+        console.log('id-- ' + this.cookieService.get('id'));
+    }
+    AgreementComponent.prototype.openDialog = function () {
+        var _this = this;
+        var dialogRef = this.modal.open(_modal_modal_component__WEBPACK_IMPORTED_MODULE_4__["ModalComponent"]);
+        {
+            data: {
+                myForm: this.fullname;
+            }
+        }
+        dialogRef.afterClosed().subscribe(function (result) {
+            console.log("Dialog result: " + result);
+            _this.fullname = result;
+            console.log('this.myForm');
+            console.log(_this.fullname);
+        });
+    };
+    AgreementComponent.prototype.ngOnInit = function () {
+    };
+    AgreementComponent.prototype.onAgreement = function () {
+        var _this = this;
+        console.log(this.fullname);
+        var data = {
+            shatterblok_sign: this.fullname,
+            shatterblok_agreement_date: new Date().getTime(),
+            status: 3,
+            id: this.cookieService.get('id')
+        };
+        var data1 = { data: data, source: 'users' };
+        console.log(data);
+        this.apiservice.postData(this.endpoint, data1).subscribe(function (res) {
+            var result = {};
+            result = res;
+            console.log('result');
+            console.log(result);
+            if (result.status == 'success') {
+                _this.router.navigate(['/audioseadlineagreement']);
+            }
+            else {
+                console.log('Ooops!!!');
+                _this.router.navigate(['/#']);
+            }
+        });
+    };
+    AgreementComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
+            selector: 'app-agreement',
+            template: __webpack_require__(/*! ./agreement.component.html */ "./src/app/agreement/agreement.component.html"),
+            styles: [__webpack_require__(/*! ./agreement.component.css */ "./src/app/agreement/agreement.component.css")]
+        }),
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_angular_material__WEBPACK_IMPORTED_MODULE_2__["MatDialog"], _app_api_service__WEBPACK_IMPORTED_MODULE_5__["ApiService"], ngx_cookie_service__WEBPACK_IMPORTED_MODULE_6__["CookieService"], _angular_router__WEBPACK_IMPORTED_MODULE_3__["Router"]])
+    ], AgreementComponent);
+    return AgreementComponent;
+}());
+
+
+
+/***/ }),
+
 /***/ "./src/app/api.service.ts":
 /*!********************************!*\
   !*** ./src/app/api.service.ts ***!
@@ -482,6 +592,7 @@ var ApiService = /** @class */ (function () {
         this.domain = _environments_environment__WEBPACK_IMPORTED_MODULE_3__["environment"]["API_URL"];
         this._url = _environments_environment__WEBPACK_IMPORTED_MODULE_3__["environment"]["API_URL"];
         this.resetpassword = _environments_environment__WEBPACK_IMPORTED_MODULE_3__["environment"]['resetpaswordurl'];
+        this.jwttoken = this.cookieService.get('jwttoken');
         console.log('this.domain');
         console.log(this.domain);
     }
@@ -661,8 +772,18 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _adminlist_adminlist_component__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./adminlist/adminlist.component */ "./src/app/adminlist/adminlist.component.ts");
 /* harmony import */ var _adminform_adminform_component__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./adminform/adminform.component */ "./src/app/adminform/adminform.component.ts");
 /* harmony import */ var _adminmodalform_adminmodalform_component__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./adminmodalform/adminmodalform.component */ "./src/app/adminmodalform/adminmodalform.component.ts");
-/* harmony import */ var _resolveservice__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./resolveservice */ "./src/app/resolveservice.ts");
-/* harmony import */ var _contract_contract_component__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./contract/contract.component */ "./src/app/contract/contract.component.ts");
+/* harmony import */ var _managedashboard_managedashboard_component__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./managedashboard/managedashboard.component */ "./src/app/managedashboard/managedashboard.component.ts");
+/* harmony import */ var _resolveservice__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./resolveservice */ "./src/app/resolveservice.ts");
+/* harmony import */ var _contract_contract_component__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ./contract/contract.component */ "./src/app/contract/contract.component.ts");
+/* harmony import */ var _agreement_agreement_component__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ./agreement/agreement.component */ "./src/app/agreement/agreement.component.ts");
+/* harmony import */ var _modal_modal_component__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ./modal/modal.component */ "./src/app/modal/modal.component.ts");
+/* harmony import */ var _audiodeadlinesgreement_audiodeadlinesgreement_component__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! ./audiodeadlinesgreement/audiodeadlinesgreement.component */ "./src/app/audiodeadlinesgreement/audiodeadlinesgreement.component.ts");
+/* harmony import */ var _modalaudiodeadline_modalaudiodeadline_component__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! ./modalaudiodeadline/modalaudiodeadline.component */ "./src/app/modalaudiodeadline/modalaudiodeadline.component.ts");
+
+
+
+
+
 
 
 
@@ -688,15 +809,21 @@ var routes = [
     { path: "brand", component: _brandmanagement_brandmanagement_component__WEBPACK_IMPORTED_MODULE_5__["BrandmanagementComponent"], canActivate: [_auth_guard__WEBPACK_IMPORTED_MODULE_10__["AuthGuard"]] },
     { path: "influencers", component: _influencersmanagement_influencersmanagement_component__WEBPACK_IMPORTED_MODULE_6__["InfluencersmanagementComponent"], canActivate: [_auth_guard__WEBPACK_IMPORTED_MODULE_10__["AuthGuard"]] },
     { path: "influencersdashboard", component: _influencersdashbord_influencersdashbord_component__WEBPACK_IMPORTED_MODULE_7__["InfluencersdashbordComponent"], canActivate: [_auth_guard__WEBPACK_IMPORTED_MODULE_10__["AuthGuard"]] },
-    { path: "contract", component: _contract_contract_component__WEBPACK_IMPORTED_MODULE_17__["ContractComponent"], canActivate: [_auth_guard__WEBPACK_IMPORTED_MODULE_10__["AuthGuard"]] },
+    { path: "contract", component: _contract_contract_component__WEBPACK_IMPORTED_MODULE_18__["ContractComponent"], canActivate: [_auth_guard__WEBPACK_IMPORTED_MODULE_10__["AuthGuard"]] },
     // { path: "adminlist", component: AdminlistComponent, canActivate: [AuthGuard], resolve: {results: Resolveservice}, data: { source: 'users', condition: {} }},
-    { path: "branddashboard", component: _branddashbord_branddashbord_component__WEBPACK_IMPORTED_MODULE_8__["BranddashbordComponent"], canActivate: [_auth_guard__WEBPACK_IMPORTED_MODULE_10__["AuthGuard"]], resolve: { results: _resolveservice__WEBPACK_IMPORTED_MODULE_16__["Resolveservice"] }, data: { source: 'admindashboard' } },
-    { path: "admindashboard", component: _admindashbord_admindashbord_component__WEBPACK_IMPORTED_MODULE_9__["AdmindashbordComponent"], canActivate: [_auth_guard__WEBPACK_IMPORTED_MODULE_10__["AuthGuard"]], resolve: { results: _resolveservice__WEBPACK_IMPORTED_MODULE_16__["Resolveservice"] }, data: { source: 'admindashboard' } },
+    { path: "branddashboard", component: _branddashbord_branddashbord_component__WEBPACK_IMPORTED_MODULE_8__["BranddashbordComponent"], canActivate: [_auth_guard__WEBPACK_IMPORTED_MODULE_10__["AuthGuard"]], resolve: { results: _resolveservice__WEBPACK_IMPORTED_MODULE_17__["Resolveservice"] }, data: { source: 'admindashboard' } },
+    { path: "admindashboard", component: _admindashbord_admindashbord_component__WEBPACK_IMPORTED_MODULE_9__["AdmindashbordComponent"], canActivate: [_auth_guard__WEBPACK_IMPORTED_MODULE_10__["AuthGuard"]], resolve: { results: _resolveservice__WEBPACK_IMPORTED_MODULE_17__["Resolveservice"] }, data: { source: 'admindashboard' } },
     { path: 'forgetpassword', component: _forgatepassword_forgatepassword_component__WEBPACK_IMPORTED_MODULE_11__["ForgatepasswordComponent"] },
+    { path: 'modal', component: _modal_modal_component__WEBPACK_IMPORTED_MODULE_20__["ModalComponent"] },
     { path: 'resetpassword/:token', component: _changepassword_changepassword_component__WEBPACK_IMPORTED_MODULE_12__["ChangepasswordComponent"] },
-    { path: 'adminlist', component: _adminlist_adminlist_component__WEBPACK_IMPORTED_MODULE_13__["AdminlistComponent"], canActivate: [_auth_guard__WEBPACK_IMPORTED_MODULE_10__["AuthGuard"]], resolve: { results: _resolveservice__WEBPACK_IMPORTED_MODULE_16__["Resolveservice"] }, data: { source: 'admindashboard', condition: {} } },
+    { path: 'adminlist', component: _adminlist_adminlist_component__WEBPACK_IMPORTED_MODULE_13__["AdminlistComponent"], canActivate: [_auth_guard__WEBPACK_IMPORTED_MODULE_10__["AuthGuard"]], resolve: { results: _resolveservice__WEBPACK_IMPORTED_MODULE_17__["Resolveservice"] }, data: { source: 'admindashboard', condition: {} } },
     { path: 'adminform', component: _adminform_adminform_component__WEBPACK_IMPORTED_MODULE_14__["AdminformComponent"], canActivate: [_auth_guard__WEBPACK_IMPORTED_MODULE_10__["AuthGuard"]] },
     { path: 'adminmodalform', component: _adminmodalform_adminmodalform_component__WEBPACK_IMPORTED_MODULE_15__["AdminmodalformComponent"], canActivate: [_auth_guard__WEBPACK_IMPORTED_MODULE_10__["AuthGuard"]] },
+    { path: 'managedashboard', component: _managedashboard_managedashboard_component__WEBPACK_IMPORTED_MODULE_16__["ManagedashboardComponent"], canActivate: [_auth_guard__WEBPACK_IMPORTED_MODULE_10__["AuthGuard"]] },
+    { path: 'agreement', component: _agreement_agreement_component__WEBPACK_IMPORTED_MODULE_19__["AgreementComponent"], canActivate: [_auth_guard__WEBPACK_IMPORTED_MODULE_10__["AuthGuard"]] },
+    { path: 'audioseadlineagreement', component: _audiodeadlinesgreement_audiodeadlinesgreement_component__WEBPACK_IMPORTED_MODULE_21__["AudiodeadlinesgreementComponent"] },
+    { path: 'audiodeadlinemodal', component: _modalaudiodeadline_modalaudiodeadline_component__WEBPACK_IMPORTED_MODULE_22__["ModalaudiodeadlineComponent"] }
+    // { path: 'changepassword', component: ChangepasswordComponent, canActivate: [AuthGuard], resolve: {results: Resolveservice}, data: {source: 'users', condition:{}} },
 ];
 var AppRoutingModule = /** @class */ (function () {
     function AppRoutingModule() {
@@ -801,23 +928,29 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _changepassword_changepassword_component__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ./changepassword/changepassword.component */ "./src/app/changepassword/changepassword.component.ts");
 /* harmony import */ var _adminlist_adminlist_component__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! ./adminlist/adminlist.component */ "./src/app/adminlist/adminlist.component.ts");
 /* harmony import */ var _adminleftpanel_adminleftpanel_component__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! ./adminleftpanel/adminleftpanel.component */ "./src/app/adminleftpanel/adminleftpanel.component.ts");
-/* harmony import */ var _angular_platform_browser_animations__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! @angular/platform-browser/animations */ "./node_modules/@angular/platform-browser/fesm5/animations.js");
-/* harmony import */ var _angular_material_sidenav__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! @angular/material/sidenav */ "./node_modules/@angular/material/esm5/sidenav.es5.js");
-/* harmony import */ var _angular_material_table__WEBPACK_IMPORTED_MODULE_25__ = __webpack_require__(/*! @angular/material/table */ "./node_modules/@angular/material/esm5/table.es5.js");
-/* harmony import */ var _angular_material_button__WEBPACK_IMPORTED_MODULE_26__ = __webpack_require__(/*! @angular/material/button */ "./node_modules/@angular/material/esm5/button.es5.js");
-/* harmony import */ var _angular_material_dialog__WEBPACK_IMPORTED_MODULE_27__ = __webpack_require__(/*! @angular/material/dialog */ "./node_modules/@angular/material/esm5/dialog.es5.js");
-/* harmony import */ var _adminform_adminform_component__WEBPACK_IMPORTED_MODULE_28__ = __webpack_require__(/*! ./adminform/adminform.component */ "./src/app/adminform/adminform.component.ts");
-/* harmony import */ var _angular_material_card__WEBPACK_IMPORTED_MODULE_29__ = __webpack_require__(/*! @angular/material/card */ "./node_modules/@angular/material/esm5/card.es5.js");
-/* harmony import */ var _angular_material_form_field__WEBPACK_IMPORTED_MODULE_30__ = __webpack_require__(/*! @angular/material/form-field */ "./node_modules/@angular/material/esm5/form-field.es5.js");
-/* harmony import */ var _adminmodalform_adminmodalform_component__WEBPACK_IMPORTED_MODULE_31__ = __webpack_require__(/*! ./adminmodalform/adminmodalform.component */ "./src/app/adminmodalform/adminmodalform.component.ts");
-/* harmony import */ var _angular_material_toolbar__WEBPACK_IMPORTED_MODULE_32__ = __webpack_require__(/*! @angular/material/toolbar */ "./node_modules/@angular/material/esm5/toolbar.es5.js");
-/* harmony import */ var listing_angular7__WEBPACK_IMPORTED_MODULE_33__ = __webpack_require__(/*! listing-angular7 */ "./node_modules/listing-angular7/fesm5/listing-angular7.js");
-/* harmony import */ var _resetpassword_resetpassword_component__WEBPACK_IMPORTED_MODULE_34__ = __webpack_require__(/*! ./resetpassword/resetpassword.component */ "./src/app/resetpassword/resetpassword.component.ts");
-/* harmony import */ var _main_nav_main_nav_component__WEBPACK_IMPORTED_MODULE_35__ = __webpack_require__(/*! ./main-nav/main-nav.component */ "./src/app/main-nav/main-nav.component.ts");
-/* harmony import */ var _angular_cdk_layout__WEBPACK_IMPORTED_MODULE_36__ = __webpack_require__(/*! @angular/cdk/layout */ "./node_modules/@angular/cdk/esm5/layout.es5.js");
-/* harmony import */ var _angular_material__WEBPACK_IMPORTED_MODULE_37__ = __webpack_require__(/*! @angular/material */ "./node_modules/@angular/material/esm5/material.es5.js");
-/* harmony import */ var _listing_listing_component__WEBPACK_IMPORTED_MODULE_38__ = __webpack_require__(/*! ./listing/listing.component */ "./src/app/listing/listing.component.ts");
-/* harmony import */ var _contract_contract_component__WEBPACK_IMPORTED_MODULE_39__ = __webpack_require__(/*! ./contract/contract.component */ "./src/app/contract/contract.component.ts");
+/* harmony import */ var _managedashboard_managedashboard_component__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! ./managedashboard/managedashboard.component */ "./src/app/managedashboard/managedashboard.component.ts");
+/* harmony import */ var ngx_ckeditor__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! ngx-ckeditor */ "./node_modules/ngx-ckeditor/fesm5/ngx-ckeditor.js");
+/* harmony import */ var _angular_platform_browser_animations__WEBPACK_IMPORTED_MODULE_25__ = __webpack_require__(/*! @angular/platform-browser/animations */ "./node_modules/@angular/platform-browser/fesm5/animations.js");
+/* harmony import */ var _angular_material_sidenav__WEBPACK_IMPORTED_MODULE_26__ = __webpack_require__(/*! @angular/material/sidenav */ "./node_modules/@angular/material/esm5/sidenav.es5.js");
+/* harmony import */ var _angular_material_table__WEBPACK_IMPORTED_MODULE_27__ = __webpack_require__(/*! @angular/material/table */ "./node_modules/@angular/material/esm5/table.es5.js");
+/* harmony import */ var _angular_material_button__WEBPACK_IMPORTED_MODULE_28__ = __webpack_require__(/*! @angular/material/button */ "./node_modules/@angular/material/esm5/button.es5.js");
+/* harmony import */ var _angular_material_dialog__WEBPACK_IMPORTED_MODULE_29__ = __webpack_require__(/*! @angular/material/dialog */ "./node_modules/@angular/material/esm5/dialog.es5.js");
+/* harmony import */ var _adminform_adminform_component__WEBPACK_IMPORTED_MODULE_30__ = __webpack_require__(/*! ./adminform/adminform.component */ "./src/app/adminform/adminform.component.ts");
+/* harmony import */ var _angular_material_card__WEBPACK_IMPORTED_MODULE_31__ = __webpack_require__(/*! @angular/material/card */ "./node_modules/@angular/material/esm5/card.es5.js");
+/* harmony import */ var _angular_material_form_field__WEBPACK_IMPORTED_MODULE_32__ = __webpack_require__(/*! @angular/material/form-field */ "./node_modules/@angular/material/esm5/form-field.es5.js");
+/* harmony import */ var _adminmodalform_adminmodalform_component__WEBPACK_IMPORTED_MODULE_33__ = __webpack_require__(/*! ./adminmodalform/adminmodalform.component */ "./src/app/adminmodalform/adminmodalform.component.ts");
+/* harmony import */ var _angular_material_toolbar__WEBPACK_IMPORTED_MODULE_34__ = __webpack_require__(/*! @angular/material/toolbar */ "./node_modules/@angular/material/esm5/toolbar.es5.js");
+/* harmony import */ var listing_angular7__WEBPACK_IMPORTED_MODULE_35__ = __webpack_require__(/*! listing-angular7 */ "./node_modules/listing-angular7/fesm5/listing-angular7.js");
+/* harmony import */ var _resetpassword_resetpassword_component__WEBPACK_IMPORTED_MODULE_36__ = __webpack_require__(/*! ./resetpassword/resetpassword.component */ "./src/app/resetpassword/resetpassword.component.ts");
+/* harmony import */ var _main_nav_main_nav_component__WEBPACK_IMPORTED_MODULE_37__ = __webpack_require__(/*! ./main-nav/main-nav.component */ "./src/app/main-nav/main-nav.component.ts");
+/* harmony import */ var _angular_cdk_layout__WEBPACK_IMPORTED_MODULE_38__ = __webpack_require__(/*! @angular/cdk/layout */ "./node_modules/@angular/cdk/esm5/layout.es5.js");
+/* harmony import */ var _angular_material__WEBPACK_IMPORTED_MODULE_39__ = __webpack_require__(/*! @angular/material */ "./node_modules/@angular/material/esm5/material.es5.js");
+/* harmony import */ var _listing_listing_component__WEBPACK_IMPORTED_MODULE_40__ = __webpack_require__(/*! ./listing/listing.component */ "./src/app/listing/listing.component.ts");
+/* harmony import */ var _contract_contract_component__WEBPACK_IMPORTED_MODULE_41__ = __webpack_require__(/*! ./contract/contract.component */ "./src/app/contract/contract.component.ts");
+/* harmony import */ var _agreement_agreement_component__WEBPACK_IMPORTED_MODULE_42__ = __webpack_require__(/*! ./agreement/agreement.component */ "./src/app/agreement/agreement.component.ts");
+/* harmony import */ var _modal_modal_component__WEBPACK_IMPORTED_MODULE_43__ = __webpack_require__(/*! ./modal/modal.component */ "./src/app/modal/modal.component.ts");
+/* harmony import */ var _audiodeadlinesgreement_audiodeadlinesgreement_component__WEBPACK_IMPORTED_MODULE_44__ = __webpack_require__(/*! ./audiodeadlinesgreement/audiodeadlinesgreement.component */ "./src/app/audiodeadlinesgreement/audiodeadlinesgreement.component.ts");
+/* harmony import */ var _modalaudiodeadline_modalaudiodeadline_component__WEBPACK_IMPORTED_MODULE_45__ = __webpack_require__(/*! ./modalaudiodeadline/modalaudiodeadline.component */ "./src/app/modalaudiodeadline/modalaudiodeadline.component.ts");
 
 
 
@@ -842,8 +975,14 @@ __webpack_require__.r(__webpack_exports__);
 
 // import { AmingridlistComponent } from './amingridlist/amingridlist.component';
 
+
 //import { ResolvecomponentComponent } from './resolvecomponent/resolvecomponent.component';
+
 //MATERIAL
+
+
+
+
 
 
 
@@ -869,6 +1008,7 @@ var AppModule = /** @class */ (function () {
             declarations: [
                 _app_component__WEBPACK_IMPORTED_MODULE_7__["AppComponent"],
                 _login_login_component__WEBPACK_IMPORTED_MODULE_9__["LoginComponent"],
+                _modal_modal_component__WEBPACK_IMPORTED_MODULE_43__["ModalComponent"],
                 _brandmanagement_brandmanagement_component__WEBPACK_IMPORTED_MODULE_10__["BrandmanagementComponent"],
                 _adminmanagement_adminmanagement_component__WEBPACK_IMPORTED_MODULE_11__["AdminmanagementComponent"],
                 _influencersmanagement_influencersmanagement_component__WEBPACK_IMPORTED_MODULE_12__["InfluencersmanagementComponent"],
@@ -877,41 +1017,154 @@ var AppModule = /** @class */ (function () {
                 _influencersdashbord_influencersdashbord_component__WEBPACK_IMPORTED_MODULE_15__["InfluencersdashbordComponent"],
                 _forgatepassword_forgatepassword_component__WEBPACK_IMPORTED_MODULE_19__["ForgatepasswordComponent"],
                 _changepassword_changepassword_component__WEBPACK_IMPORTED_MODULE_20__["ChangepasswordComponent"],
-                _listing_listing_component__WEBPACK_IMPORTED_MODULE_38__["ListingComponent"],
+                _agreement_agreement_component__WEBPACK_IMPORTED_MODULE_42__["AgreementComponent"],
+                _listing_listing_component__WEBPACK_IMPORTED_MODULE_40__["ListingComponent"],
                 _adminlist_adminlist_component__WEBPACK_IMPORTED_MODULE_21__["AdminlistComponent"],
                 _adminleftpanel_adminleftpanel_component__WEBPACK_IMPORTED_MODULE_22__["AdminleftpanelComponent"],
-                _adminform_adminform_component__WEBPACK_IMPORTED_MODULE_28__["AdminformComponent"],
-                _adminmodalform_adminmodalform_component__WEBPACK_IMPORTED_MODULE_31__["AdminmodalformComponent"],
-                _resetpassword_resetpassword_component__WEBPACK_IMPORTED_MODULE_34__["ResetpasswordComponent"], _changepassword_changepassword_component__WEBPACK_IMPORTED_MODULE_20__["Dialogtest"], _main_nav_main_nav_component__WEBPACK_IMPORTED_MODULE_35__["MainNavComponent"], _contract_contract_component__WEBPACK_IMPORTED_MODULE_39__["ContractComponent"],
+                _adminform_adminform_component__WEBPACK_IMPORTED_MODULE_30__["AdminformComponent"],
+                _adminmodalform_adminmodalform_component__WEBPACK_IMPORTED_MODULE_33__["AdminmodalformComponent"],
+                _resetpassword_resetpassword_component__WEBPACK_IMPORTED_MODULE_36__["ResetpasswordComponent"], _changepassword_changepassword_component__WEBPACK_IMPORTED_MODULE_20__["Dialogtest"], _main_nav_main_nav_component__WEBPACK_IMPORTED_MODULE_37__["MainNavComponent"],
+                _managedashboard_managedashboard_component__WEBPACK_IMPORTED_MODULE_23__["ManagedashboardComponent"], _managedashboard_managedashboard_component__WEBPACK_IMPORTED_MODULE_23__["Updatetest"],
+                _resetpassword_resetpassword_component__WEBPACK_IMPORTED_MODULE_36__["ResetpasswordComponent"], _changepassword_changepassword_component__WEBPACK_IMPORTED_MODULE_20__["Dialogtest"], _main_nav_main_nav_component__WEBPACK_IMPORTED_MODULE_37__["MainNavComponent"], _contract_contract_component__WEBPACK_IMPORTED_MODULE_41__["ContractComponent"], _audiodeadlinesgreement_audiodeadlinesgreement_component__WEBPACK_IMPORTED_MODULE_44__["AudiodeadlinesgreementComponent"], _modalaudiodeadline_modalaudiodeadline_component__WEBPACK_IMPORTED_MODULE_45__["ModalaudiodeadlineComponent"],
             ],
             imports: [
                 _angular_platform_browser__WEBPACK_IMPORTED_MODULE_1__["BrowserModule"],
                 _material_module__WEBPACK_IMPORTED_MODULE_8__["MaterialModule"],
                 _app_routing_module__WEBPACK_IMPORTED_MODULE_6__["AppRoutingModule"],
-                _angular_platform_browser_animations__WEBPACK_IMPORTED_MODULE_23__["BrowserAnimationsModule"],
+                _angular_platform_browser_animations__WEBPACK_IMPORTED_MODULE_25__["BrowserAnimationsModule"],
                 _angular_common_http__WEBPACK_IMPORTED_MODULE_3__["HttpClientModule"],
                 _angular_forms__WEBPACK_IMPORTED_MODULE_5__["FormsModule"], _angular_forms__WEBPACK_IMPORTED_MODULE_5__["ReactiveFormsModule"],
+                ngx_ckeditor__WEBPACK_IMPORTED_MODULE_24__["CKEditorModule"],
                 //MATERIAL
-                _angular_material_sidenav__WEBPACK_IMPORTED_MODULE_24__["MatSidenavModule"],
-                _angular_material_table__WEBPACK_IMPORTED_MODULE_25__["MatTableModule"],
-                _angular_material_button__WEBPACK_IMPORTED_MODULE_26__["MatButtonModule"],
-                _angular_material_dialog__WEBPACK_IMPORTED_MODULE_27__["MatDialogModule"],
-                _angular_material_card__WEBPACK_IMPORTED_MODULE_29__["MatCardModule"],
-                _angular_material_form_field__WEBPACK_IMPORTED_MODULE_30__["MatFormFieldModule"],
-                _angular_material_toolbar__WEBPACK_IMPORTED_MODULE_32__["MatToolbarModule"],
-                listing_angular7__WEBPACK_IMPORTED_MODULE_33__["ListingModule"],
-                _angular_cdk_layout__WEBPACK_IMPORTED_MODULE_36__["LayoutModule"],
-                _angular_material__WEBPACK_IMPORTED_MODULE_37__["MatIconModule"],
-                _angular_material__WEBPACK_IMPORTED_MODULE_37__["MatListModule"]
+                _angular_material_sidenav__WEBPACK_IMPORTED_MODULE_26__["MatSidenavModule"],
+                _angular_material_table__WEBPACK_IMPORTED_MODULE_27__["MatTableModule"],
+                _angular_material_button__WEBPACK_IMPORTED_MODULE_28__["MatButtonModule"],
+                _angular_material_dialog__WEBPACK_IMPORTED_MODULE_29__["MatDialogModule"],
+                _angular_material_card__WEBPACK_IMPORTED_MODULE_31__["MatCardModule"],
+                _angular_material_form_field__WEBPACK_IMPORTED_MODULE_32__["MatFormFieldModule"],
+                _angular_material_toolbar__WEBPACK_IMPORTED_MODULE_34__["MatToolbarModule"],
+                listing_angular7__WEBPACK_IMPORTED_MODULE_35__["ListingModule"],
+                _angular_cdk_layout__WEBPACK_IMPORTED_MODULE_38__["LayoutModule"],
+                _angular_material__WEBPACK_IMPORTED_MODULE_39__["MatIconModule"],
+                _angular_material__WEBPACK_IMPORTED_MODULE_39__["MatListModule"]
             ],
             providers: [ngx_cookie_service__WEBPACK_IMPORTED_MODULE_4__["CookieService"], _app_resolveservice__WEBPACK_IMPORTED_MODULE_16__["Resolveservice"], _app_api_service__WEBPACK_IMPORTED_MODULE_17__["ApiService"], _auth_guard__WEBPACK_IMPORTED_MODULE_18__["AuthGuard"]],
             bootstrap: [_app_component__WEBPACK_IMPORTED_MODULE_7__["AppComponent"]],
             entryComponents: [
-                _changepassword_changepassword_component__WEBPACK_IMPORTED_MODULE_20__["Dialogtest"]
+                _changepassword_changepassword_component__WEBPACK_IMPORTED_MODULE_20__["Dialogtest"], _managedashboard_managedashboard_component__WEBPACK_IMPORTED_MODULE_23__["Updatetest"],
+                _changepassword_changepassword_component__WEBPACK_IMPORTED_MODULE_20__["Dialogtest"], _modal_modal_component__WEBPACK_IMPORTED_MODULE_43__["ModalComponent"],
             ],
         })
     ], AppModule);
     return AppModule;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/audiodeadlinesgreement/audiodeadlinesgreement.component.css":
+/*!*****************************************************************************!*\
+  !*** ./src/app/audiodeadlinesgreement/audiodeadlinesgreement.component.css ***!
+  \*****************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJzcmMvYXBwL2F1ZGlvZGVhZGxpbmVzZ3JlZW1lbnQvYXVkaW9kZWFkbGluZXNncmVlbWVudC5jb21wb25lbnQuY3NzIn0= */"
+
+/***/ }),
+
+/***/ "./src/app/audiodeadlinesgreement/audiodeadlinesgreement.component.html":
+/*!******************************************************************************!*\
+  !*** ./src/app/audiodeadlinesgreement/audiodeadlinesgreement.component.html ***!
+  \******************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<span class=\"contract_bg_wrapper\">\r\n<mat-card class=\"audiodeadline\"> <img src=\"../../assets/images/logo.png\" alt=\"#\" class=\"newhomelogo\" style=\"box-shadow: none;\"></mat-card>\r\n\r\n<mat-card-content class=\"newpage_wrapper audiodeadline_wrapper \">\r\n  <h2>THIS AGREEMENT DATE OF EXECUTION IS : 04/08/2019</h2>\r\n  <h4>This Affiliate Agreement (\"Agreement\") contains the complete terms and conditions between audiodeadline (\"Company\") and Roxy Test, who wishes to participate in the audiodeadline Affiliate Program (the \"Affiliate Program\") as an affiliate of audiodeadline (an \"Affiliate\"). Both Company and Affiliate may collectively be referred to as (\"Parties\").\r\n  </h4>\r\n  <h3> DEFINITIONS </h3>\r\n  <h4>\"Affiliate\" - The business, individual, or entity applying to or participating in the Affiliate Program, or that displays audiodeadline’s products and Services and/or promotions on its website, or other means, using an affiliate tracking code in exchange for receiving a commission from Company for sales directly resulting from such display.\r\n    <br/><br/>\r\n    \"Company's Products and Services\" – digital online community portal focused on live broadcasting services to fans, clothing, and other future opportunities presented by the company.\r\n  </h4>\r\n\r\n  <h3>AFFILIATE RELATIONSHIP</h3>\r\n\r\n  <h4>The Parties acknowledge that Affiliate will perform their obligations hereunder as an independent contractor or Affiliate and shall not be an employee of Company. It is also expressly understood that Affiliate's employees and agents, if any, are not Company's employees or agents, and have no authority to bind Company by contract or otherwise.\r\n    <br/><br/>\r\n    Affiliate agrees they are solely responsible for understanding their rights and obligations as an Affiliate in their geographic area.\r\n    <br/><br/>\r\n    Company shall not be liable for taxes, worker's compensation, unemployment insurance, employers' liability, employer's FICA, social security, withholding tax, or other taxes or withholding for or on behalf of Affiliate or any other person consulted or employed by the Affiliate in performing Services under this Agreement. All such costs shall be Affiliate's responsibility.</h4>\r\n\r\n  <h3>COMPENSATION</h3>\r\n\r\n  <h4>Affiliate will receive 10% commissions from any products or services sold to their fans/reach/clients on the Company's platform.\r\n    <br/><br/>\r\n    Affiliate will get 5% commissions from any products or services sold by any individual that signs up officially through the affiliate's links if they decided to also join as an affiliate of the company.\r\n    <br/><br/>\r\n    Commissions, as described above, will commence for the lifetime purchase of the fan/reach/client.</h4>\r\n\r\n  <h3>COMMISSION PAYMENTS</h3>\r\n\r\n  <h4>All commissions accumulated over the amount of $150 are paid out monthly. Commission amounts must be at least $150 USD at the end of the month to be paid out that following month.\r\n    <br/><br/>\r\n    Affiliate shall provide Company with a w9 form before commissions are paid to affiliate. Affiliate is responsible to providing Company with up-to-date w9 form. Company may provide this digitally or affiliate may be responsible for scanning and sending before first payment is made.</h4>\r\n\r\n  <h3>REPORTS OF QUALIFIED PURCHASES</h3>\r\n  <h4>Starting before the month of November 2018, you may log into your affiliate console to review your click through and potential Qualified Purchases statistics daily. The potential Qualified Purchases shown in this report have not been reviewed to confirm they meet all criteria for Qualified Purchases. As such, Commission Fees may not be issued for all Referred Customers that appear in the affiliate console.</h4>\r\n\r\n  <h3>FTC ENDORSEMENT COMPLIANCE</h3>\r\n\r\n\r\n  <h4>It is the intent of Company to treat all of our customers fairly. Accordingly, we require all Company Affiliates to comply with applicable laws, regulations and guidelines concerning advertising and marketing, including without limitation, the Federal Trade Commission (FTC) Endorsement Guides, which require that material connections between advertisers and endorsers be disclosed. This means that all Affiliate Sites (e.g. directories, review/rating websites, blogs, and other websites) and any email or collateral that provide an endorsement or assessment of audiodeadline's Products and Services must prominently disclose the fact that you receive compensation.\r\n    <br/><br/>\r\n    Company reserves the right to withhold Commission Fees and cancel the affiliate relationship with you should we determine, at our sole discretion, that you are not in compliance with the previously mentioned guide or other FTC regulations or guides that we deem relevant.</h4>\r\n\r\n  <h3>NON­DISCLOSURE</h3>\r\n\r\n  <h4>The Affiliate agrees to not disclose any of the details in this agreement either implicitly, explicitly, or indirectly to any competing entity, employee of Company or subsidiary, contractor of Company or subsidiary, and client of Company or subsidiary without permission explicitly given by Company. The Affiliate agrees not to disclose details of compensation with any entity without the explicit permission of Company.\r\n    <br/><br/>\r\n    Affiliate agrees not to disclose or otherwise reveal to any third party the identities, addresses, telephone numbers, facsimile numbers, email address, telex numbers, bank codes, account number, financial reference, or any other entities introduces by Company to the Affiliate without the specific written permission of Company.\r\n    <br/><br/>\r\n    Confidential Information. The Affiliate agrees that they shall not, directly or indirectly, disclose, disseminate, use for personal benefit, lecture or write articles with respect to, or otherwise publish \"confidential information\". For purposes of this Agreement, the term \"confidential information\" means information and know­how disclosed to or known by the Affiliate which relates to the Company or any business idea under development or research by the Company or that constitutes a corporate opportunity of the Company and which information is not generally known in the relevant trade or industry, including without limitation, any document, information, website or other data requiring pass code or password access, trade secrets, proprietary data, customer lists, contractual arrangements, and product and service development. \"Confidential information\" shall also include any other document or information (whether of the Company or of any supplier or customer of the Company or of any other person with which the Company has an agreement with respect to the confidentiality of information) labeled \"confidential\", \"proprietary\", or words of similar import. Upon Termination of the Term hereof, the Affiliate shall return to or leave with the Company, without making or retaining copies thereof, all documents, records, notebooks and similar repositories containing \"confidential information\".</h4>\r\n\r\n  <h3>INDEMNIFICATION</h3>\r\n\r\n  <h4>Affiliate shall not be liable for any claim or demand made against Company by any third party. Company shall indemnify Affiliate against all claims, liabilities and costs, including reasonable attorney fees, of defending any third-party claim or suit arising out of the use of the software provided under this agreement. However, the Affiliate hereby agrees to indemnify and hold Company harmless from all liability, damage, loss, cost, expense or other charge resulting directly or indirectly from any act or omission of the Affiliate. It is understood that Affiliate is to use and only use the regulated media for promotion of any sign ups or sales and the Company is not liable for what the affiliate may present outside of these materials. These materials are all available of the website and through the affiliate back office.\r\n  </h4>\r\n\r\n  <h3>STANDARDS AND ETHICS</h3>\r\n\r\n  <h4>Affiliate will adhere to truth and integrity and will not engage in any deceptive or misleading sales practices.\r\n    <br/><br/>\r\n    Affiliate will not in any way demean or speak negatively of Company, Company's Clients, Company's Potential Clients, Any member of Company, Company's Competition, or Affiliate's Competition.\r\n    <br/><br/>\r\n    Affiliate will maintain the confidentially of information provided by any prospect or client of Company and will not reveal any such information without the proper consent or exemption of Company.</h4>\r\n\r\n  <h3>GOVERNING LAW AND FORUM</h3>\r\n\r\n  <h4>This Agreement shall be governed, construed and enforced exclusively in accordance with the laws of the State of Idaho and the laws of the United States of America, without regard to choice of laws or conflict of law provisions thereof that would result in the application of the laws of a different jurisdiction. Any arbitration or litigation between the Parties shall be conducted exclusively in Idaho, and the Parties hereby submit to such exclusive jurisdiction and venue and agree that venue shall be proper in Idaho. Each Party hereby irrevocably waives, to the fullest extent permitted by law, any objection that it may have, whether now or in the future, to the laying of venue in, or to the jurisdiction of, any and each of such courts for the purpose of any such suit, action, proceeding or judgment and further waives any claim that any such suit, action proceeding or judgment has been brought in an inconvenient forum, and each Party hereby submits to such jurisdiction.\r\n  </h4>\r\n\r\n  <h3>X. NOTICES</h3>\r\n\r\n  <h4>Any notice required or permitted to be given under this Agreement shall be sufficient if it is in writing and if it is sent by registered mail or certified mail, return receipt requested, to the Employee at his or her residence affixed above, or to the Employer’s principal place of business as affixed above.\r\n  </h4>\r\n\r\n  <h3>ENTIRE AGREEMENT</h3>\r\n\r\n  <h4>This agreement contains the entire understanding of the Parties and supersedes any and all previous verbal and written agreement or understandings. There are no other agreements, representations or warranties not set forth in this agreement. This agreement will bind, and inure to the benefit of, the Parties and their respective successor and assigns. Any modification, amendment, or waiver of any provision of this agreement may be made only in writing and signed by both Parties. The failure by any party to exercise any rights granted herein upon the occurrence of any event set forth in this agreement shall not constitute a waiver of any such rights upon the occurrence of any such event. In the event any provision of this agreement is held to be in violation of any law, statue, regulation, ordinance, or court order, this agreement shall be deemed modified accordingly and to the extent necessary to comply therewith and shall otherwise continue full force and effect.\r\n  </h4>\r\n\r\n  <h3>AGREEMENT EXECUTION</h3>\r\n\r\n  <h4>This digital signature constitutes the full legal agreement between company and affiliate. This agreement may be executed in several counterparts, each of which shall constitute one and the same instrument. Section or paragraph headings in the agreement are for convenience of reference only.<br/>\r\n    In witness whereof, the Parties hereto have caused this Agreement to be duly executed and entered into as of the date first above written.</h4>\r\n\r\n  <h3>audiodeadline</h3>\r\n\r\n  <h4>By: Beto Paredes<br/>\r\n    Its: Chief Executive Officer</h4>\r\n\r\n  <h3>AFFILIATE</h3>\r\n  <button mat-button (click)=\"openDialog()\" class=\"signherebtn\">Sign Here</button>\r\n  <h5>By: {{fullname}}</h5>\r\n\r\n  <button mat-button class=\"ep_contractbtn agreementsubmitbutton\" (click)=\"onAgreement()\" >Submit</button>\r\n\r\n\r\n</mat-card-content>\r\n\r\n</span>\r\n"
+
+/***/ }),
+
+/***/ "./src/app/audiodeadlinesgreement/audiodeadlinesgreement.component.ts":
+/*!****************************************************************************!*\
+  !*** ./src/app/audiodeadlinesgreement/audiodeadlinesgreement.component.ts ***!
+  \****************************************************************************/
+/*! exports provided: AudiodeadlinesgreementComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AudiodeadlinesgreementComponent", function() { return AudiodeadlinesgreementComponent; });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _angular_material__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/material */ "./node_modules/@angular/material/esm5/material.es5.js");
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
+/* harmony import */ var _modalaudiodeadline_modalaudiodeadline_component__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../modalaudiodeadline/modalaudiodeadline.component */ "./src/app/modalaudiodeadline/modalaudiodeadline.component.ts");
+/* harmony import */ var _api_service__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../api.service */ "./src/app/api.service.ts");
+/* harmony import */ var ngx_cookie_service__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ngx-cookie-service */ "./node_modules/ngx-cookie-service/index.js");
+
+
+
+
+
+
+
+var AudiodeadlinesgreementComponent = /** @class */ (function () {
+    function AudiodeadlinesgreementComponent(modal, apiservice, cookieService, router) {
+        this.modal = modal;
+        this.apiservice = apiservice;
+        this.cookieService = cookieService;
+        this.router = router;
+        this.endpoint = 'addorupdatedata';
+        console.log('id-- ' + this.cookieService.get('id'));
+    }
+    AudiodeadlinesgreementComponent.prototype.openDialog = function () {
+        var _this = this;
+        var dialogRef = this.modal.open(_modalaudiodeadline_modalaudiodeadline_component__WEBPACK_IMPORTED_MODULE_4__["ModalaudiodeadlineComponent"]);
+        {
+            data: {
+                myForm: this.fullname;
+            }
+        }
+        dialogRef.afterClosed().subscribe(function (result) {
+            console.log("Dialog result: " + result);
+            _this.fullname = result;
+            console.log('this.myForm');
+            console.log(_this.fullname);
+        });
+    };
+    AudiodeadlinesgreementComponent.prototype.ngOnInit = function () {
+    };
+    AudiodeadlinesgreementComponent.prototype.onAgreement = function () {
+        var _this = this;
+        console.log(this.fullname);
+        var data = {
+            audiodeadline_sign: this.fullname,
+            audiodeadline_agreement_date: new Date().getTime(),
+            status: 1,
+            id: this.cookieService.get('id')
+        };
+        var data1 = { data: data, source: 'users' };
+        console.log(data);
+        this.apiservice.postData(this.endpoint, data1).subscribe(function (res) {
+            var result = {};
+            result = res;
+            console.log('result');
+            console.log(result);
+            if (result.status == 'success') {
+                _this.router.navigate(['/branddashboard']);
+            }
+        });
+    };
+    AudiodeadlinesgreementComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
+            selector: 'app-audiodeadlinesgreement',
+            template: __webpack_require__(/*! ./audiodeadlinesgreement.component.html */ "./src/app/audiodeadlinesgreement/audiodeadlinesgreement.component.html"),
+            styles: [__webpack_require__(/*! ./audiodeadlinesgreement.component.css */ "./src/app/audiodeadlinesgreement/audiodeadlinesgreement.component.css")]
+        }),
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_angular_material__WEBPACK_IMPORTED_MODULE_2__["MatDialog"], _api_service__WEBPACK_IMPORTED_MODULE_5__["ApiService"], ngx_cookie_service__WEBPACK_IMPORTED_MODULE_6__["CookieService"], _angular_router__WEBPACK_IMPORTED_MODULE_3__["Router"]])
+    ], AudiodeadlinesgreementComponent);
+    return AudiodeadlinesgreementComponent;
 }());
 
 
@@ -1327,7 +1580,7 @@ module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<mat-card [formGroup]=\"myFrom\">\n <!-- <mat-form-field>\n    <input matInput type=\"number\" formControlName=\"fname\" >\n  </mat-form-field>-->\n<!--  <br>-->\n  <mat-form-field>\n    <input matInput type=\"number\" formControlName=\"status\">\n  </mat-form-field>\n  <br>\n  <mat-button-toggle (click)=\"onSubmit()\">\n    submit\n  </mat-button-toggle>\n</mat-card>\n"
+module.exports = "<mat-card [formGroup]=\"myFrom\">\r\n <!-- <mat-form-field>\r\n    <input matInput type=\"number\" formControlName=\"fname\" >\r\n  </mat-form-field>-->\r\n<!--  <br>-->\r\n  <mat-form-field>\r\n    <input matInput type=\"number\" formControlName=\"status\">\r\n  </mat-form-field>\r\n  <br>\r\n  <mat-button-toggle (click)=\"onSubmit()\">\r\n    submit\r\n  </mat-button-toggle>\r\n</mat-card>\r\n"
 
 /***/ }),
 
@@ -1369,19 +1622,17 @@ var ContractComponent = /** @class */ (function () {
         console.log(this.apiservice.cookieService.get('id'));
     };
     ContractComponent.prototype.onSubmit = function () {
+        // let data: any = {};
         var data = this.myFrom.value;
         console.log(data);
         data.id = this.id;
+        data = { data: data };
         console.log(data);
-        this.apiservice.putData(this.endpoint, data, this.id, false).subscribe(function (res) {
+        this.apiservice.postData(this.endpoint, data).subscribe(function (res) {
             var result;
             result = res;
             console.log(result);
         });
-        /*this.apiservice.getData(this.endpoint).subscribe( res =>{
-          let result: any;
-          console.log(result);
-        })*/
     };
     ContractComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
@@ -1705,7 +1956,7 @@ module.exports = "/*\n.mat-card{\n    display: block;\n    text-align: center;\n
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "\n<mat-card class=\"s_getmyoffer\">\n\n  <img src=\"../../assets/images/shaterblockLogo.png\" alt=\"#\" class=\"s_shatter_logo\" style=\"box-shadow: none;\">\n\n  <mat-card-content class=\"s_getmyoffer_login_wrapper\">\n    <form [formGroup]=\"myForm\" (ngSubmit)=\"onSubmit()\">\n\n      <h1>Login</h1>\n      <p>welcome back!</p>\n      <span class=\"error\" *ngIf=\"errormg!=''\">{{errormg}}</span>\n\n      <mat-form-field class=\"form-group\">\n        <input [class.is-invalid]=\"myForm.controls['email'].invalid && myForm.controls['email'].touched\" matInput placeholder=\"Username\" [formControl]=\"myForm.controls['email']\" (blur)=\"inputblur('email')\" >\n        <span  *ngIf=\"!myForm.controls['email'].valid && myForm.controls['email'].touched\">Email field can not be blank</span>\n        <span></span>\n      </mat-form-field>\n\n      <mat-form-field class=\"form-group\">\n        <input (blur)=\"inputblur('password')\" matInput placeholder=\"Password\" type=\"password\" [formControl]=\"myForm.controls['password']\" >\n        <span  *ngIf=\"!myForm.controls['password'].valid && myForm.controls['password'].touched\">Password field can not be blank</span>\n      </mat-form-field>\n<mat-card-content >\n      <button mat-button   class=\"s_getmyoffer_login_button\"  >Login</button>\n</mat-card-content>\n\n      <mat-card-content class=\"form-group-forgetPass\">\n        <button mat-button (click)=\"onForgetPassword()\"  class=\"shatter_block_forgetPass\">forget Password?</button>\n      </mat-card-content>\n\n\n\n\n    </form>\n  </mat-card-content>\n\n</mat-card>\n\n"
+module.exports = "\r\n<mat-card class=\"s_getmyoffer\">\r\n\r\n  <img src=\"../../assets/images/shaterblockLogo.png\" alt=\"#\" class=\"s_shatter_logo\" style=\"box-shadow: none;\">\r\n\r\n  <mat-card-content class=\"s_getmyoffer_login_wrapper\">\r\n    <form [formGroup]=\"myForm\" (ngSubmit)=\"onSubmit()\">\r\n\r\n      <h1>Login</h1>\r\n      <p>welcome back!</p>\r\n      <span class=\"error\" *ngIf=\"errormg!=''\">{{errormg}}</span>\r\n\r\n      <mat-form-field class=\"form-group\">\r\n        <input [class.is-invalid]=\"myForm.controls['email'].invalid && myForm.controls['email'].touched\" matInput placeholder=\"Username\" [formControl]=\"myForm.controls['email']\" (blur)=\"inputblur('email')\" >\r\n        <span  *ngIf=\"!myForm.controls['email'].valid && myForm.controls['email'].touched\">Email field can not be blank</span>\r\n        <span></span>\r\n      </mat-form-field>\r\n\r\n      <mat-form-field class=\"form-group\">\r\n        <input (blur)=\"inputblur('password')\" matInput placeholder=\"Password\" type=\"password\" [formControl]=\"myForm.controls['password']\" >\r\n        <span  *ngIf=\"!myForm.controls[ 'password'].valid && myForm.controls['password'].touched\">Password field can not be blank</span>\r\n      </mat-form-field>\r\n<mat-card-content >\r\n      <button mat-button   class=\"s_getmyoffer_login_button\"  >Login</button>\r\n</mat-card-content>\r\n\r\n      <mat-card-content class=\"form-group-forgetPass\">\r\n        <button mat-button (click)=\"onForgetPassword()\"  class=\"shatter_block_forgetPass\">forget Password?</button>\r\n      </mat-card-content>\r\n\r\n\r\n\r\n\r\n    </form>\r\n  </mat-card-content>\r\n\r\n</mat-card>\r\n\r\n"
 
 /***/ }),
 
@@ -1801,20 +2052,18 @@ var LoginComponent = /** @class */ (function () {
                 _this.cookieService.set('password', result.item[0].password);
                 _this.cookieService.set('id', result.item[0]._id);
                 _this.cookieService.set('jwttoken', result.token);
-                if (result.status = 'success') {
-                    if (result.status == 'success' && result.item[0].type == 'admin') {
-                        _this.router.navigate(['/admindashboard']);
-                    }
-                    else if (result.status == 'success' && result.item[0].type == 'brand') {
-                        // this.myForm.reset();
-                        _this.router.navigate(['/branddashboard']);
-                    }
-                    else if (result.status == 'success' && result.item[0].type == 'influencers') {
-                        // this.myForm.reset();
-                        _this.router.navigate(['/influencersdashboard']);
-                    }
-                    _this.myForm.reset();
+                if (result.status == 'success' && result.item[0].type == 'admin') {
+                    _this.router.navigate(['/admindashboard']);
                 }
+                else if (result.status == 'success' && result.item[0].type == 'brand') {
+                    // this.myForm.reset();
+                    _this.router.navigate(['/branddashboard']);
+                }
+                else if (result.status == 'success' && result.item[0].type == 'influencers') {
+                    // this.myForm.reset();
+                    _this.router.navigate(['/influencersdashboard']);
+                }
+                _this.myForm.reset();
             }
         }, function (error) {
             console.log('Oooops!');
@@ -1857,7 +2106,7 @@ module.exports = ".sidenav-container {\n  height: 100%;\n}\n\n.sidenav {\n  widt
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<mat-sidenav-container class=\"sidenav-container\">\n  <mat-sidenav #drawer class=\"sidenav\" fixedInViewport=\"true\"\n      [attr.role]=\"(isHandset$ | async) ? 'dialog' : 'navigation'\"\n      [mode]=\"(isHandset$ | async) ? 'over' : 'side'\"\n      [opened]=\"!(isHandset$ | async)\">\n    <mat-toolbar>\n      <span class=\"s_shatter_logo_wrapper\">\n          <img src=\"../../assets/images/shaterblockLogo.png\" alt=\"#\" >\n      </span>\n    </mat-toolbar>\n    <mat-nav-list>\n      <a mat-list-item role=\"listitem\" [routerLink]=\"['/admindashboard']\">Dashboard</a>\n      <mat-divider></mat-divider>\n      <a mat-list-item role=\"listitem\">Home</a>\n      <mat-divider></mat-divider>\n      <a mat-list-item role=\"listitem\">Home</a>\n      <mat-divider></mat-divider>\n      <a mat-list-item role=\"listitem\">Home</a>\n      <mat-divider></mat-divider>\n      <a mat-list-item role=\"listitem\" [routerLink]=\"['/adminlist']\">Admin List</a>\n\n      <a mat-list-item role=\"listitem\" [routerLink]=\"['/adminform']\">Add Admin</a>\n      <a mat-list-item role=\"listitem\">Home</a>\n      <a mat-list-item role=\"listitem\">Home</a>\n      <a mat-list-item role=\"listitem\">Home</a>\n    </mat-nav-list>\n  </mat-sidenav>\n  <mat-sidenav-content>\n    <mat-toolbar color=\"primary\" class=\"topbar\">\n      <button\n        type=\"button\"\n        aria-label=\"Toggle sidenav\"\n        mat-icon-button\n        (click)=\"drawer.toggle()\"\n        *ngIf=\"isHandset$ | async\">\n        <mat-icon aria-label=\"Side nav toggle icon\">menu</mat-icon>\n      </button>\n      <span>shatterblock</span>\n      <span class=\"example-spacer\"></span>\n      <button mat-button color=\"primary\">\n      <span class=\"profile_wrap\">\n        <img src=\"http://www.titikshapublicschool.com/wp-content/uploads/2018/11/developer-api.jpg\">\n      </span>\n      </button>\n      <mat-menu #appMenu=\"matMenu\">\n        <button mat-menu-item>Settings</button>\n        <button mat-menu-item>Help</button>\n      </mat-menu>\n\n      <button mat-icon-button [matMenuTriggerFor]=\"appMenu\">\n        <mat-icon>more_vert</mat-icon>\n      </button>\n    </mat-toolbar>\n    <!-- Add Content Here -->\n    <ng-content></ng-content>\n  </mat-sidenav-content>\n</mat-sidenav-container>\n"
+module.exports = "<mat-sidenav-container class=\"sidenav-container\">\n  <mat-sidenav #drawer class=\"sidenav\" fixedInViewport=\"true\"\n      [attr.role]=\"(isHandset$ | async) ? 'dialog' : 'navigation'\"\n      [mode]=\"(isHandset$ | async) ? 'over' : 'side'\"\n      [opened]=\"!(isHandset$ | async)\">\n    <mat-toolbar>\n      <span class=\"s_shatter_logo_wrapper\">\n          <img src=\"../../assets/images/shaterblockLogo.png\" alt=\"#\" >\n      </span>\n    </mat-toolbar>\n    <mat-nav-list>\n      <a mat-list-item role=\"listitem\" class=\"active\" [routerLink]=\"['/admindashboard']\">Dashboard</a>\n      <mat-divider></mat-divider>\n      <a mat-list-item role=\"listitem\" [routerLink]=\"['/managedashboard']\">Manage Dashboard</a>\n      <mat-divider></mat-divider>\n      <a mat-list-item role=\"listitem\">Home</a>\n      <mat-divider></mat-divider>\n      <a mat-list-item role=\"listitem\">Home</a>\n      <mat-divider></mat-divider>\n      <a mat-list-item role=\"listitem\" [routerLink]=\"['/adminlist']\">Admin List</a>\n      <mat-divider></mat-divider>\n      <a mat-list-item role=\"listitem\" [routerLink]=\"['/adminform']\">Add Admin</a>\n      <mat-divider></mat-divider>\n      <a mat-list-item role=\"listitem\">Home</a>\n      <mat-divider></mat-divider>\n      <a mat-list-item role=\"listitem\">Home</a>\n      <mat-divider></mat-divider>\n      <a mat-list-item role=\"listitem\">Home</a>\n    </mat-nav-list>\n  </mat-sidenav>\n  <mat-sidenav-content>\n    <mat-toolbar color=\"primary\" class=\"topbar\">\n      <button\n        type=\"button\"\n        aria-label=\"Toggle sidenav\"\n        mat-icon-button\n        (click)=\"drawer.toggle()\"\n        *ngIf=\"isHandset$ | async\">\n        <mat-icon aria-label=\"Side nav toggle icon\">menu</mat-icon>\n      </button>\n      <span>shatterblock</span>\n      <span class=\"example-spacer\"></span>\n      <button mat-button color=\"primary\">\n      <span class=\"profile_wrap\">\n        <img src=\"http://www.titikshapublicschool.com/wp-content/uploads/2018/11/developer-api.jpg\">\n      </span>\n      </button>\n      <mat-menu #appMenu=\"matMenu\">\n        <button mat-menu-item>Settings</button>\n        <button mat-menu-item>Help</button>\n      </mat-menu>\n\n      <button mat-icon-button [matMenuTriggerFor]=\"appMenu\">\n        <mat-icon>more_vert</mat-icon>\n      </button>\n    </mat-toolbar>\n    <!-- Add Content Here -->\n    <ng-content></ng-content>\n  </mat-sidenav-content>\n</mat-sidenav-container>\n"
 
 /***/ }),
 
@@ -1894,6 +2143,480 @@ var MainNavComponent = /** @class */ (function () {
         tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_angular_cdk_layout__WEBPACK_IMPORTED_MODULE_2__["BreakpointObserver"]])
     ], MainNavComponent);
     return MainNavComponent;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/managedashboard/managedashboard.component.css":
+/*!***************************************************************!*\
+  !*** ./src/app/managedashboard/managedashboard.component.css ***!
+  \***************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJzcmMvYXBwL21hbmFnZWRhc2hib2FyZC9tYW5hZ2VkYXNoYm9hcmQuY29tcG9uZW50LmNzcyJ9 */"
+
+/***/ }),
+
+/***/ "./src/app/managedashboard/managedashboard.component.html":
+/*!****************************************************************!*\
+  !*** ./src/app/managedashboard/managedashboard.component.html ***!
+  \****************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<app-main-nav>\r\n    <mat-toolbar class=\"breadcrumb\"> <a style=\"text-decoration: none;\" href=\"\"> Manage Dashboard &nbsp;&nbsp; </a> </mat-toolbar>\r\n<mat-card class=\"adminform\">\r\n    <mat-card-header>\r\n        <mat-card-title>Manage Dashboard</mat-card-title>\r\n    </mat-card-header>\r\n    <mat-card-content >\r\n        <form [formGroup]=\"myForm\" (ngSubmit)=\"onSubmit()\">\r\n            <mat-form-field class=\"cdk-visually-hidden\">\r\n                <input matInput formControlName=\"created_by\"  >\r\n            </mat-form-field>\r\n            <h4>Select Any one</h4>\r\n            <mat-form-field>\r\n                <select matInput formControlName=\"type\" required matNativeControl (change)=\"changedata()\">\r\n                    <option value=\"joqu\">Joqu</option>\r\n                    <option value=\"audiodeadline\">Audiodeadline</option>\r\n                </select>\r\n                <mat-error  *ngIf=\"!myForm.controls['type'].valid && myForm.controls['type'].touched\">Type field can not be blank</mat-error>\r\n            </mat-form-field>\r\n\r\n            <h4>Content</h4>\r\n               <ck-editor  skin=\"moono-lisa\" language=\"en\" [fullPage]=\"true\"  [(ngModel)]=\"ckeditorContent\" [ngModelOptions]=\"{standalone: true}\" (change)=\"onChange()\"></ck-editor>\r\n                <mat-error *ngIf =\"errckeditor\">Content field can not be blank</mat-error>\r\n                <mat-toolbar-row class=\"sub_btn_wrapper\">\r\n                <button mat-button class=\"dbbutton\">Submit</button>\r\n                </mat-toolbar-row>\r\n        </form>\r\n\r\n        <mat-form-field *ngIf=model_influencer_list?.length>\r\n            <mat-label>Versions</mat-label>\r\n            <select matInput matNativeControl (change)=\"showdata()\" [(ngModel)]=\"modelid\">\r\n                <option value={{item._id}} *ngFor=\"let item of model_influencer_list; let i = index\">{{item.version}}</option>\r\n            </select>\r\n        </mat-form-field>\r\n\r\n    </mat-card-content>\r\n</mat-card>\r\n</app-main-nav>\r\n"
+
+/***/ }),
+
+/***/ "./src/app/managedashboard/managedashboard.component.ts":
+/*!**************************************************************!*\
+  !*** ./src/app/managedashboard/managedashboard.component.ts ***!
+  \**************************************************************/
+/*! exports provided: ManagedashboardComponent, Updatetest */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ManagedashboardComponent", function() { return ManagedashboardComponent; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Updatetest", function() { return Updatetest; });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/fesm5/forms.js");
+/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
+/* harmony import */ var ngx_cookie_service__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ngx-cookie-service */ "./node_modules/ngx-cookie-service/index.js");
+/* harmony import */ var _app_api_service__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../app/api.service */ "./src/app/api.service.ts");
+/* harmony import */ var _app_resolveservice__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../app/resolveservice */ "./src/app/resolveservice.ts");
+/* harmony import */ var _angular_material__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @angular/material */ "./node_modules/@angular/material/esm5/material.es5.js");
+
+
+
+
+
+
+
+
+
+var ManagedashboardComponent = /** @class */ (function () {
+    function ManagedashboardComponent(fb, cookieService, http, apiService, router, resolveservice, dialog) {
+        this.fb = fb;
+        this.cookieService = cookieService;
+        this.http = http;
+        this.apiService = apiService;
+        this.router = router;
+        this.resolveservice = resolveservice;
+        this.dialog = dialog;
+        //  public endpoint1 = 'insertsingledata';
+        this.endpoint1 = 'addorupdatedata';
+        this.errormg = '';
+        this.model_influencer_list = [];
+        this.myForm = this.fb.group({
+            type: ['', _angular_forms__WEBPACK_IMPORTED_MODULE_2__["Validators"].required],
+            content: ['', _angular_forms__WEBPACK_IMPORTED_MODULE_2__["Validators"].required],
+            created_by: [this.cookieService.get('id')]
+        });
+    }
+    ManagedashboardComponent.prototype.ngOnInit = function () {
+        this.getdata();
+    };
+    ManagedashboardComponent.prototype.getdata = function () {
+        var _this = this;
+        var sourcecondition = {};
+        this.apiService.getData({ 'source': 'model_influencer_contents_viewlistin_decending', condition: sourcecondition }).subscribe(function (res) {
+            var result;
+            result = res;
+            if (result.res.length > 0) {
+                _this.myForm = _this.fb.group({
+                    type: [result.res[0].type, _angular_forms__WEBPACK_IMPORTED_MODULE_2__["Validators"].required],
+                    content: [result.res[0].content, _angular_forms__WEBPACK_IMPORTED_MODULE_2__["Validators"].required],
+                    created_by: [_this.cookieService.get('id')]
+                });
+                _this.modelid = result.res[0]._id;
+                _this.ckeditorContent = result.res[0].content;
+            }
+            _this.versionlist(result.res[0].type);
+        });
+    };
+    ManagedashboardComponent.prototype.versionlist = function (type) {
+        var _this = this;
+        var sourcecondition = { type: type };
+        this.apiService.getData({ 'source': 'model_influencer_contents_viewlistin_decending', condition: sourcecondition }).subscribe(function (res) {
+            var result;
+            result = res;
+            if (result.res.length > 0) {
+                _this.model_influencer_list = result.res;
+            }
+            else {
+                _this.model_influencer_list = [];
+            }
+        });
+    };
+    ManagedashboardComponent.prototype.showdata = function () {
+        var i;
+        for (i in this.model_influencer_list) {
+            if (this.model_influencer_list[i]._id == this.modelid) {
+                this.myForm = this.fb.group({
+                    type: [this.model_influencer_list[i].type, _angular_forms__WEBPACK_IMPORTED_MODULE_2__["Validators"].required],
+                    content: [this.model_influencer_list[i].content, _angular_forms__WEBPACK_IMPORTED_MODULE_2__["Validators"].required],
+                    created_by: [this.cookieService.get('id')]
+                });
+                this.ckeditorContent = this.model_influencer_list[i].content;
+            }
+        }
+    };
+    ManagedashboardComponent.prototype.changedata = function () {
+        var _this = this;
+        this.versionlist(this.myForm.controls['type'].value);
+        setTimeout(function () {
+            _this.myForm = _this.fb.group({
+                type: [_this.model_influencer_list[0].type, _angular_forms__WEBPACK_IMPORTED_MODULE_2__["Validators"].required],
+                content: [_this.model_influencer_list[0].content, _angular_forms__WEBPACK_IMPORTED_MODULE_2__["Validators"].required],
+                created_by: [_this.cookieService.get('id')]
+            });
+            _this.ckeditorContent = _this.model_influencer_list[0].content;
+            // this.myForm.patchValue({content: this.model_influencer_list[0].content});
+        }, 1000);
+    };
+    ManagedashboardComponent.prototype.onSubmit = function () {
+        var _this = this;
+        console.log('=============================');
+        console.log(this.myForm.value);
+        this.errckeditor = false;
+        /*let data = {data:this.myForm.value};
+        data.data.content=this.ckeditorContent;
+        data.data.created_by=  this.cookieService.get('id');*/
+        if (this.ckeditorContent == null) {
+            this.errckeditor = true;
+        }
+        else {
+            this.errckeditor = false;
+        }
+        var x;
+        for (x in this.myForm.controls) {
+            this.myForm.controls[x].markAsTouched();
+        }
+        // console.log(data);
+        if (this.errckeditor == false && this.myForm.valid) {
+            /*    let data1 = {data,source:'model_influencer_contents',sourceobj:['created_by']};
+                console.log(data1);
+                let data = {data:this.myForm.value};
+                console.log(data);*/
+            this.apiService.postData(this.endpoint1, { source: 'model_influencer_contents', data: this.myForm.value, sourceobj: ['created_by'] }).subscribe(function (res) {
+                // this.apiService.postData(this.endpoint1, data).subscribe( res => {
+                //   this._http.post(link,{source:'model_influencer_contents',data:this.myForm.value,sourceobj:['created_by']})
+                var result = {};
+                result = res;
+                if (result.status == 'error') {
+                    _this.errormg = result.msg;
+                }
+                if (result.status == 'success') {
+                    _this.getdata();
+                    var dialogRef = _this.dialog.open(Updatetest, {});
+                    _this.myForm.reset();
+                    console.log('result');
+                    console.log(result);
+                    //     console.log(result.res.content);
+                    _this.myForm = _this.fb.group({
+                        type: [result.res.type, _angular_forms__WEBPACK_IMPORTED_MODULE_2__["Validators"].required],
+                        content: [result.res.content, _angular_forms__WEBPACK_IMPORTED_MODULE_2__["Validators"].required],
+                        created_by: [_this.cookieService.get('id')]
+                    });
+                    _this.ckeditorContent = result.res.content;
+                }
+            }, function (error) {
+                console.log('Oooops!');
+            });
+            /*  this.apiService.postData(this.endpoint1, data).subscribe(res => {
+                let result: any = {};
+                result = res;
+                if (result.status == 'error') {
+                  this.errormg = result.msg;
+                }
+                if (result.status == 'success') {
+                  this.getdata();
+                  const dialogRef = this.dialog.open(Updatetest, {
+                  });
+                  this.myForm.reset();
+                  this.myForm = this.fb.group({
+                    type: [result.results.type,  Validators.required],
+                    content: [result.results.content, Validators.required]
+                  });
+                  this.ckeditorContent=result.results.content;
+                   }
+              }, error => {
+                console.log('Oooops!');
+              });*/
+        }
+    };
+    ManagedashboardComponent.prototype.inputblur = function (val) {
+        this.myForm.controls[val].markAsUntouched();
+    };
+    ManagedashboardComponent.prototype.onChange = function (event) {
+        this.myForm.patchValue({ content: this.ckeditorContent });
+    };
+    ManagedashboardComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
+            selector: 'app-managedashboard',
+            template: __webpack_require__(/*! ./managedashboard.component.html */ "./src/app/managedashboard/managedashboard.component.html"),
+            styles: [__webpack_require__(/*! ./managedashboard.component.css */ "./src/app/managedashboard/managedashboard.component.css")]
+        }),
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_angular_forms__WEBPACK_IMPORTED_MODULE_2__["FormBuilder"], ngx_cookie_service__WEBPACK_IMPORTED_MODULE_5__["CookieService"], _angular_common_http__WEBPACK_IMPORTED_MODULE_3__["HttpClient"], _app_api_service__WEBPACK_IMPORTED_MODULE_6__["ApiService"], _angular_router__WEBPACK_IMPORTED_MODULE_4__["Router"], _app_resolveservice__WEBPACK_IMPORTED_MODULE_7__["Resolveservice"], _angular_material__WEBPACK_IMPORTED_MODULE_8__["MatDialog"]])
+    ], ManagedashboardComponent);
+    return ManagedashboardComponent;
+}());
+
+var Updatetest = /** @class */ (function () {
+    function Updatetest(dialogRef, data) {
+        this.dialogRef = dialogRef;
+        this.data = data;
+    }
+    Updatetest.prototype.onNoClick = function () {
+        this.dialogRef.close();
+    };
+    Updatetest = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
+            selector: 'updatetest',
+            template: __webpack_require__(/*! ./updatemodal.html */ "./src/app/managedashboard/updatemodal.html"),
+        }),
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__param"](1, Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Inject"])(_angular_material__WEBPACK_IMPORTED_MODULE_8__["MAT_DIALOG_DATA"])),
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_angular_material__WEBPACK_IMPORTED_MODULE_8__["MatDialogRef"], Object])
+    ], Updatetest);
+    return Updatetest;
+}());
+
+/*
+
+public model_influencer_list: any=[];
+
+public model_influencer_list_change: any=[];
+changedata(){
+
+  this.model_influencer_list=[];
+
+  for (let i in this.model_influencer_list_change){
+
+    if(this.model_influencer_list_change[i].type==this.myForm.controls['type'].value){
+
+      this.model_influencer_list.push(this.model_influencer_list_change[i]);
+
+    }
+
+  }
+
+  this.myForm = this.fb.group({
+
+    type: [this.model_influencer_list[0].type,  Validators.required],
+
+    content: [this.model_influencer_list[0].content, Validators.required]
+
+  });
+
+  this.ckeditorContent=this.model_influencer_list[0].content;
+
+}
+
+getdata(){
+
+  let sourcecondition={};
+
+  this.apiService.getData({'source':'model_influencer_contents_viewlistin_decending',condition:sourcecondition}).subscribe(res=> {
+
+    let result:any;
+        
+       result = res;
+
+    if(result.res.length>0){
+
+      this.myForm = this.fb.group({
+
+        type: [result.res[0].type,  Validators.required],
+
+        content: [result.res[0].content, Validators.required]
+
+      });
+
+      this.modelid=result.res[0]._id;
+
+      this.ckeditorContent=result.res[0].content;
+
+
+      this.model_influencer_list_change=result.res;
+
+      for (let i in this.model_influencer_list_change){
+
+        if(this.model_influencer_list_change[i].type==result.res[0].type){
+
+          this.model_influencer_list.push(this.model_influencer_list_change[i]);
+
+        }
+
+      }
+
+    }
+
+  });
+
+}*/
+
+
+/***/ }),
+
+/***/ "./src/app/managedashboard/updatemodal.html":
+/*!**************************************************!*\
+  !*** ./src/app/managedashboard/updatemodal.html ***!
+  \**************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<div class=\"custom_modal modal_wrapper\">\n    <div mat-dialog-content >\n        <!--    <mat-dialog-content>user can't be verified</mat-dialog-content>-->\n        <mat-dialog-content  class=\"error_msg\">Data inserted successfully.</mat-dialog-content>\n    </div>\n    <div mat-dialog-actions class=\"action_btn\">\n        <!--    <button mat-button (click)=\"onNoClick()\">No Thanks</button>-->\n        <button class=\"cancel_button\" mat-button [mat-dialog-close] cdkFocusInitial>Ok</button>\n    </div>\n\n</div>\n\n"
+
+/***/ }),
+
+/***/ "./src/app/modal/modal.component.css":
+/*!*******************************************!*\
+  !*** ./src/app/modal/modal.component.css ***!
+  \*******************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJzcmMvYXBwL21vZGFsL21vZGFsLmNvbXBvbmVudC5jc3MifQ== */"
+
+/***/ }),
+
+/***/ "./src/app/modal/modal.component.html":
+/*!********************************************!*\
+  !*** ./src/app/modal/modal.component.html ***!
+  \********************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<mat-card-content class=\"newsignmodal\">\r\n\r\n<h1>Digital Signature</h1>\r\n    <label>Full name</label>\r\n    <form class=\"example-form\" [formGroup]=\"myForm\" (ngSubmit)=\"onSubmit()\">\r\n        <mat-form-field class=\"example-full-width\">\r\n            <input matInput placeholder=\"Sign Here\" formControlName=\"fullname\">\r\n        </mat-form-field>\r\n\r\n        <h2>DIGITALLY SIGNED BY:</h2>\r\n\r\n        <h3 *ngIf=\"myForm.controls['fullname'].value\"> {{myForm.controls['fullname'].value}}</h3>\r\n\r\n        <h4>MAR 28, 2019</h4>\r\n\r\n        <h5>By selecting “agree”, the parties agree that this agreement may be electronically signed. The parties agree that the electronic signatures appearing on this agreement are the same as handwritten signatures for the purposes of validity, enforceability, and admissibility.</h5>\r\n\r\n        <button mat-button [mat-dialog-close]=\"myForm.controls['fullname'].value\" cdkFocusInitial>Agree</button>\r\n        <button mat-button mat-dialog-close>Cancel</button>\r\n\r\n    </form>\r\n</mat-card-content>\r\n"
+
+/***/ }),
+
+/***/ "./src/app/modal/modal.component.ts":
+/*!******************************************!*\
+  !*** ./src/app/modal/modal.component.ts ***!
+  \******************************************/
+/*! exports provided: ModalComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ModalComponent", function() { return ModalComponent; });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _angular_material__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/material */ "./node_modules/@angular/material/esm5/material.es5.js");
+/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/fesm5/forms.js");
+
+
+
+
+var ModalComponent = /** @class */ (function () {
+    function ModalComponent(modal, bf) {
+        this.modal = modal;
+        this.bf = bf;
+        this.myForm = this.bf.group({
+            fullname: ['', _angular_forms__WEBPACK_IMPORTED_MODULE_3__["Validators"].required],
+        });
+    }
+    /*  openDialog() {
+        console.log('-------------------');
+        const dialogRef = this.modal.open(AgreementComponent);
+    
+        dialogRef.afterClosed().subscribe(result => {
+        //  console.log(`Dialog result: ${result}`);
+          console.log(`Dialog result:hie`);
+    
+        });
+      }*/
+    ModalComponent.prototype.ngOnInit = function () {
+    };
+    ModalComponent.prototype.onSubmit = function () {
+        var data = this.myForm.value;
+        console.log(data);
+    };
+    ModalComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
+            selector: 'app-modal',
+            template: __webpack_require__(/*! ./modal.component.html */ "./src/app/modal/modal.component.html"),
+            styles: [__webpack_require__(/*! ./modal.component.css */ "./src/app/modal/modal.component.css")]
+        }),
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_angular_material__WEBPACK_IMPORTED_MODULE_2__["MatDialog"], _angular_forms__WEBPACK_IMPORTED_MODULE_3__["FormBuilder"]])
+    ], ModalComponent);
+    return ModalComponent;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/modalaudiodeadline/modalaudiodeadline.component.css":
+/*!*********************************************************************!*\
+  !*** ./src/app/modalaudiodeadline/modalaudiodeadline.component.css ***!
+  \*********************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJzcmMvYXBwL21vZGFsYXVkaW9kZWFkbGluZS9tb2RhbGF1ZGlvZGVhZGxpbmUuY29tcG9uZW50LmNzcyJ9 */"
+
+/***/ }),
+
+/***/ "./src/app/modalaudiodeadline/modalaudiodeadline.component.html":
+/*!**********************************************************************!*\
+  !*** ./src/app/modalaudiodeadline/modalaudiodeadline.component.html ***!
+  \**********************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<mat-card-content class=\"newsignmodal audiodeadlinemodal\">\r\n\r\n  <h1>Digital Signature</h1>\r\n  <label>Full name</label>\r\n  <form class=\"example-form\" [formGroup]=\"myForm\" (ngSubmit)=\"onSubmit()\">\r\n    <mat-form-field class=\"example-full-width\">\r\n      <input matInput placeholder=\"Sign Here\" formControlName=\"fullname\">\r\n    </mat-form-field>\r\n\r\n    <h2>DIGITALLY SIGNED BY:</h2>\r\n\r\n    <h3 *ngIf=\"myForm.controls['fullname'].value\"> {{myForm.controls['fullname'].value}}</h3>\r\n\r\n    <h4>MAR 28, 2019</h4>\r\n\r\n    <h5>By selecting “agree”, the parties agree that this agreement may be electronically signed. The parties agree that the electronic signatures appearing on this agreement are the same as handwritten signatures for the purposes of validity, enforceability, and admissibility.</h5>\r\n\r\n    <button mat-button [mat-dialog-close]=\"myForm.controls['fullname'].value\" cdkFocusInitial>Agree</button>\r\n    <button mat-button mat-dialog-close>Cancel</button>\r\n\r\n  </form>\r\n</mat-card-content>\r\n"
+
+/***/ }),
+
+/***/ "./src/app/modalaudiodeadline/modalaudiodeadline.component.ts":
+/*!********************************************************************!*\
+  !*** ./src/app/modalaudiodeadline/modalaudiodeadline.component.ts ***!
+  \********************************************************************/
+/*! exports provided: ModalaudiodeadlineComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ModalaudiodeadlineComponent", function() { return ModalaudiodeadlineComponent; });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/fesm5/forms.js");
+/* harmony import */ var _angular_material__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/material */ "./node_modules/@angular/material/esm5/material.es5.js");
+
+
+
+
+var ModalaudiodeadlineComponent = /** @class */ (function () {
+    function ModalaudiodeadlineComponent(modal, bf) {
+        this.modal = modal;
+        this.bf = bf;
+        this.myForm = this.bf.group({
+            fullname: ['', _angular_forms__WEBPACK_IMPORTED_MODULE_2__["Validators"].required],
+        });
+    }
+    ModalaudiodeadlineComponent.prototype.ngOnInit = function () {
+    };
+    ModalaudiodeadlineComponent.prototype.onSubmit = function () {
+        var data = this.myForm.value;
+        console.log(data);
+    };
+    ModalaudiodeadlineComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
+            selector: 'app-modalaudiodeadline',
+            template: __webpack_require__(/*! ./modalaudiodeadline.component.html */ "./src/app/modalaudiodeadline/modalaudiodeadline.component.html"),
+            styles: [__webpack_require__(/*! ./modalaudiodeadline.component.css */ "./src/app/modalaudiodeadline/modalaudiodeadline.component.css")]
+        }),
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_angular_material__WEBPACK_IMPORTED_MODULE_3__["MatDialog"], _angular_forms__WEBPACK_IMPORTED_MODULE_2__["FormBuilder"]])
+    ], ModalaudiodeadlineComponent);
+    return ModalaudiodeadlineComponent;
 }());
 
 
@@ -2170,7 +2893,7 @@ var MaterialModule = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! /home/influxiq-4/angular/shatterblock/src/main.ts */"./src/main.ts");
+module.exports = __webpack_require__(/*! E:\JetBrains\projects\shatterblock\src\main.ts */"./src/main.ts");
 
 
 /***/ })

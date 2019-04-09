@@ -20,6 +20,7 @@ import {AgreementComponent} from "./agreement/agreement.component";
 import {ModalComponent} from "./modal/modal.component";
 import {AudiodeadlinesgreementComponent} from "./audiodeadlinesgreement/audiodeadlinesgreement.component";
 import {ModalaudiodeadlineComponent} from "./modalaudiodeadline/modalaudiodeadline.component";
+import {ModeldashboardComponent} from "./modeldashboard/modeldashboard.component";
 
 
 const routes: Routes = [
@@ -47,7 +48,8 @@ const routes: Routes = [
   {path: 'agreement', component: AgreementComponent, canActivate: [AuthGuard]},
 
   {path: 'audioseadlineagreement', component: AudiodeadlinesgreementComponent},
-  {path: 'audiodeadlinemodal', component: ModalaudiodeadlineComponent}
+  {path: 'audiodeadlinemodal', component: ModalaudiodeadlineComponent},
+  {path: 'modeldashboard', component: ModeldashboardComponent,canActivate:[AuthGuard], resolve: {results: Resolveservice}, data: {source: 'modeldashboard'}},
 
 
   // { path: 'changepassword', component: ChangepasswordComponent, canActivate: [AuthGuard], resolve: {results: Resolveservice}, data: {source: 'users', condition:{}} },

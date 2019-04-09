@@ -36,7 +36,7 @@ public endpoint = 'addorupdatedata';
       let data = {
           shatterblok_sign: this.fullname,
           shatterblok_agreement_date: new Date().getTime(),
-          status: 3,
+          status: 2,
           id: this.cookieService.get('id')
       };
       let data1 = {data: data,source:'users'};

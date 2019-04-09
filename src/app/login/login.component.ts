@@ -84,8 +84,21 @@ export class LoginComponent implements OnInit {
                         // this.myForm.reset();
                         this.router.navigate(['/branddashboard']);
                     } else if (result.status == 'success' && result.item[0].type == 'influencers') {
-                        // this.myForm.reset();
                         this.router.navigate(['/influencersdashboard']);
+                    } else if (result.status == 'success' && result.item[0].type == 'model') {
+                        if(result.item[0].status==1){
+                            this.router.navigate(['/agreement']);
+                        }
+                        if(result.item[0].status==2){
+                            this.router.navigate(['/audioseadlineagreement']);
+                        }
+                        if(result.item[0].status==3){
+                            this.router.navigate(['/modeldashboard']);
+                        }
+                        if(result.item[0].status==4){
+                            this.errormg = 'BLocked';
+                        }
+                      //  this.router.navigate(['/modeldashboard']);
                     }
                     this.myForm.reset();
 

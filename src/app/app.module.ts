@@ -52,6 +52,7 @@ import {AgreementComponent} from "./agreement/agreement.component";
 import {ModalComponent} from "./modal/modal.component";
 import { AudiodeadlinesgreementComponent } from './audiodeadlinesgreement/audiodeadlinesgreement.component';
 import { ModalaudiodeadlineComponent } from './modalaudiodeadline/modalaudiodeadline.component';
+import { ModeldashboardComponent } from './modeldashboard/modeldashboard.component';
 
 
 
@@ -78,7 +79,7 @@ import { ModalaudiodeadlineComponent } from './modalaudiodeadline/modalaudiodead
     AdminmodalformComponent,
     ResetpasswordComponent,Dialogtest, MainNavComponent,
     ManagedashboardComponent,Updatetest,
-    ResetpasswordComponent,Dialogtest, MainNavComponent, ContractComponent, AudiodeadlinesgreementComponent, ModalaudiodeadlineComponent,
+    ResetpasswordComponent,Dialogtest, MainNavComponent, ContractComponent, AudiodeadlinesgreementComponent, ModalaudiodeadlineComponent, ModeldashboardComponent,
 
 
 

@@ -35,7 +35,7 @@ export class AudiodeadlinesgreementComponent implements OnInit {
     let data = {
       audiodeadline_sign: this.fullname,
       audiodeadline_agreement_date: new Date().getTime(),
-      status: 1,
+      status: 3,
       id: this.cookieService.get('id')
     };
     let data1 = {data: data,source:'users'};
@@ -46,7 +46,7 @@ export class AudiodeadlinesgreementComponent implements OnInit {
       console.log('result');
       console.log(result);
       if (result.status == 'success') {
-        this.router.navigate(['/branddashboard']);
+        this.router.navigate(['/modeldashboard']);
       }
     })
   }
