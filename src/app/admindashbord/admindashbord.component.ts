@@ -14,7 +14,7 @@ export class AdmindashbordComponent implements OnInit {
     adminlist:any=[];
 
     pendingapplication_view: any=[];
-    pendingapplication_view_skip: any= ['_id','username'];
+    pendingapplication_view_skip: any= ['_id','username','phone','city','state','ethnicity','height','haircolor','eyecolor','weight','bust','waist','hips','slim','toned','tattoos','athletic','piercings','retail','voluptuous','promotions','sales','descriptionbox','facebooklink','twitterlink','instagramlink','modelmayhemlink','type','images'];
     pendingapplication_view_modify_header1: any = { 'dateformat': 'Date','status':'Status','email':'Email', 'name':'Full Name' };
 
     model_pending_and_notpending_application_view: any=[];
