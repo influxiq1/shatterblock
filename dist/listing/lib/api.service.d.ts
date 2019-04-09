@@ -12,5 +12,8 @@ export declare class ApiService {
     postlogin(endpoint: any, data: any): import("rxjs").Observable<Object>;
     putData(endpoint: any, data: any, id: any): import("rxjs").Observable<Object>;
     deteOneData(endpoint: any, data: any, token: any, source: any): import("rxjs").Observable<Object>;
+    togglestatus(endpoint: any, data: any, token: any, source: any): import("rxjs").Observable<Object>;
+    deteManyData(endpoint: any, data: any, token: any, source: any): import("rxjs").Observable<Object>;
+    togglestatusmany(endpoint: any, data: any, val: any, token: any, source: any): import("rxjs").Observable<Object>;
     private getEndpointUrl;
 }

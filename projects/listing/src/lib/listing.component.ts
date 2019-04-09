@@ -18,6 +18,8 @@ export class ListingComponent implements OnInit {
   statusarrval:any;
   skipval:any;
   jwttokenval:any;
+  detail_datatypeval:any;
+    detail_skip_arrayval:any;
   deleteendpointval:any;
   apiurlval:any;
   updateendpointval:any;
@@ -40,6 +42,18 @@ export class ListingComponent implements OnInit {
     this.skipval = skip;
     console.log('this.skipval');
     console.log(this.skipval);
+  }
+  @Input()
+  set detail_datatype(detail_datatype: any) {
+    this.detail_datatypeval = detail_datatype;
+    console.log('this.detail_datatypeval');
+    console.log(this.detail_datatypeval);
+  }
+ @Input()
+  set detail_skip_array(detail_skip_array: any) {
+    this.detail_skip_arrayval = detail_skip_array;
+    console.log('this.detail_skip_arrayval');
+    console.log(this.detail_skip_arrayval);
   }
 
 @Input()
@@ -220,6 +234,81 @@ export class ListingComponent implements OnInit {
     console.log('data');
     console.log(data);
 
+
+    //let b:any=0;
+    for(let v in this.detail_skip_arrayval){
+            delete data[this.detail_skip_arrayval[v]];
+            console.log('this.detail_skip_arrayval[v]');
+            console.log(this.detail_skip_arrayval[v]);
+    }
+
+    //<img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu">
+
+
+
+
+      for (let key in data) {
+        let flagk:any='';
+          if (data.hasOwnProperty(key)) {
+              console.log(key + " -> " + data[key]+"--->"+typeof (data[key]));
+              if(typeof (data[key])=='boolean') {
+                  if(data[key]==true) data[key]='Yes';
+                  if(data[key]==false) data[key]='No';
+              }
+
+              if(typeof (data[key])=='object') {
+                  let tempdata:any=[];
+                  for(let k in data[key]){
+                      console.log('key');
+                      console.log(key);
+                      console.log(this.detail_datatypeval);
+                      for(let p in this.detail_datatypeval){
+                          console.log('p');
+                          console.log(p);
+                          console.log(key);
+                          console.log(data[key][k]);
+                          if(this.detail_datatypeval[p].key==key && this.detail_datatypeval[p].value=='image'){
+
+                              let imgval:any=this.detail_datatypeval[p].fileurl+data[key][k].replace(/'/g, '');
+                              console.log('imgval');
+                              console.log('imgval');
+                              console.log(imgval);
+                              console.log(data[key][k].replace(/'/g, ''));
+                              tempdata.push("<img mat-card-image src="+imgval+"><br/>");
+                             // tempdata.push("<span>"+data[key][k]+"</span><br/>")
+
+
+                          }
+                          if(this.detail_datatypeval[p].key==key && this.detail_datatypeval[p].value!='image'){
+                              //tempdata.push("<img mat-card-image src="+data[key][k]+"><br/>")
+                              tempdata.push("<span>"+data[key][k]+"</span><br/>");
+
+
+                          }
+                      }
+
+                  }
+                  data[key]=tempdata;
+              }
+          }
+      }
+
+      console.log('data');
+      console.log(data);
+      let res = Object.entries(data);
+    console.log('this.detail_skip_array');
+    console.log(this.detail_skip_arrayval);
+    console.log(this.detail_datatypeval);
+
+    console.log('res');
+    console.log(res);
+
+    const dialogRef = this.dialog.open(Confirmdialog, {
+      height: 'auto',
+      panelClass: 'custom-modalbox',
+      data: {isconfirmation:false,data:res}
+    });
+
   }
   managestatus(data:any){
     console.log('data');
@@ -250,7 +339,7 @@ export class ListingComponent implements OnInit {
           this.dataSource.sort = this.sort;
 
           let dialogRef = this.dialog.open(Confirmdialog, {
-            width: '50%',
+            panelClass: 'custom-modalbox',
             data: {message: 'Status updated successfully!!', isconfirmation: false}
           });
 
@@ -304,7 +393,7 @@ export class ListingComponent implements OnInit {
           this.dataSource.sort = this.sort;
 
           let dialogRef = this.dialog.open(Confirmdialog, {
-            width: '50%',
+            panelClass: 'custom-modalbox',
             data: {message: 'Status updated successfully!!', isconfirmation: false}
           });
 
@@ -326,7 +415,7 @@ export class ListingComponent implements OnInit {
     console.log(this.selection.selected);
 
     const dialogRef = this.dialog.open(Confirmdialog, {
-      width: '50%',
+      panelClass: 'custom-modalbox',
       data: {message: 'Are you sure to delete selected records ??'}
     });
     let ids:any=[];
@@ -355,7 +444,7 @@ export class ListingComponent implements OnInit {
             this.dataSource.sort = this.sort;
 
             let dialogRef = this.dialog.open(Confirmdialog, {
-              width: '50%',
+              panelClass: 'custom-modalbox',
               data: {message: 'Are you sure to delete this record ??',isconfirmation:false}
             });
 
@@ -379,7 +468,7 @@ export class ListingComponent implements OnInit {
 
 
     const dialogRef = this.dialog.open(Confirmdialog, {
-      width: '50%',
+      panelClass: 'custom-modalbox',
       height: 'auto',
       data: {message: 'Are you sure to delete this record ??'}
     });
@@ -399,7 +488,7 @@ export class ListingComponent implements OnInit {
             this.dataSource.paginator = this.paginator;
             this.dataSource.sort = this.sort;
             let dialogRef = this.dialog.open(Confirmdialog, {
-              width: '50%',
+              panelClass: 'custom-modalbox',
               data: {message: 'Record  deleted successfully !!',isconfirmation:false}
             });
           }

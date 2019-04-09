@@ -11,6 +11,8 @@ export class AdmindashbordComponent implements OnInit {
   datasource:any;
     pendingmodelapplicationarray:any=[];
     pendingmodelapplicationarray_skip:any=['_id','type','password'];
+    pendingmodelapplicationarray_detail_skip:any=['_id','email','name'];
+    pendingmodelapplicationarray_detail_datatype:any=[{key:"images",value:'image',fileurl:"http://18.222.26.198/upload/brandimages/" },{x:'boolean'}];
     statusarray:any=[{val:1,name:'Approve'},{val:2,name:'Decline'},{val:3,name:'Lock'}];
     pendingmodelapplicationarray_modify_header:any={'firstname':"First Name",'email':'Email Id','lastname':'Last Name','name':"Full Name"};
     brandarray:any=[];
@@ -40,7 +42,7 @@ export class AdmindashbordComponent implements OnInit {
           //PRE LOAD DATA PRIOR
           console.log('data from route ... !!!');
           console.log('json',data['results']);
-          this.pendingmodelapplicationarray=data['results'].item.notpendingapplication_view;
+          this.pendingmodelapplicationarray=data['results'].item.pendingapplication_view;
           this.brandarray=data['results'].item.brand;
           this.notpendingapplication_view=data['results'].item.notpendingapplication_view;
 

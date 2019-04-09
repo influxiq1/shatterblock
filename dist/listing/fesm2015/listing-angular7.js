@@ -10,7 +10,7 @@ import { CdkStepperModule } from '@angular/cdk/stepper';
 import { CdkTableModule } from '@angular/cdk/table';
 import { CdkTreeModule } from '@angular/cdk/tree';
 import { Injectable, NgModule, Component, ViewChild, Input, Inject, defineInjectable } from '@angular/core';
-import { MatSort, MatTableDataSource, MatPaginator, MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatAutocompleteModule, MatBadgeModule, MatBottomSheetModule, MatButtonModule, MatButtonToggleModule, MatCardModule, MatCheckboxModule, MatChipsModule, MatDatepickerModule, MatDialogModule, MatDividerModule, MatExpansionModule, MatGridListModule, MatIconModule, MatInputModule, MatListModule, MatMenuModule, MatNativeDateModule, MatPaginatorModule, MatProgressBarModule, MatProgressSpinnerModule, MatRadioModule, MatRippleModule, MatSelectModule, MatSidenavModule, MatSliderModule, MatSlideToggleModule, MatSnackBarModule, MatSortModule, MatStepperModule, MatTableModule, MatTabsModule, MatToolbarModule, MatTooltipModule, MatTreeModule } from '@angular/material';
+import { MatSort, MatTableDataSource, MatPaginator, MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatBottomSheet, MatBottomSheetRef, MAT_BOTTOM_SHEET_DATA, MatAutocompleteModule, MatBadgeModule, MatBottomSheetModule, MatButtonModule, MatButtonToggleModule, MatCardModule, MatCheckboxModule, MatChipsModule, MatDatepickerModule, MatDialogModule, MatDividerModule, MatExpansionModule, MatGridListModule, MatIconModule, MatInputModule, MatListModule, MatMenuModule, MatNativeDateModule, MatPaginatorModule, MatProgressBarModule, MatProgressSpinnerModule, MatRadioModule, MatRippleModule, MatSelectModule, MatSidenavModule, MatSliderModule, MatSlideToggleModule, MatSnackBarModule, MatSortModule, MatStepperModule, MatTableModule, MatTabsModule, MatToolbarModule, MatTooltipModule, MatTreeModule } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 /**
@@ -252,6 +252,101 @@ class ApiService {
         return result;
     }
     /**
+     * @param {?} endpoint
+     * @param {?} data
+     * @param {?} token
+     * @param {?} source
+     * @return {?}
+     */
+    togglestatus(endpoint, data, token, source) {
+        console.log(endpoint);
+        console.log(data);
+        console.log(token);
+        console.log(source);
+        /** @type {?} */
+        const httpOptions = {
+            headers: new HttpHeaders({
+                'Content-Type': 'application/json',
+                'access-token': token
+            })
+        };
+        console.log('------ ');
+        console.log("endpoint");
+        console.log(endpoint);
+        console.log(data);
+        /** @type {?} */
+        let dataval;
+        dataval = { source: source, data: data };
+        /** @type {?} */
+        var result = this._http.post(endpoint, dataval, httpOptions).pipe(map((/**
+         * @param {?} res
+         * @return {?}
+         */
+        res => res)));
+        return result;
+    }
+    /**
+     * @param {?} endpoint
+     * @param {?} data
+     * @param {?} token
+     * @param {?} source
+     * @return {?}
+     */
+    deteManyData(endpoint, data, token, source) {
+        /** @type {?} */
+        const httpOptions = {
+            headers: new HttpHeaders({
+                'Content-Type': 'application/json',
+                'access-token': token
+            })
+        };
+        console.log('------ ');
+        console.log("endpoint");
+        console.log(endpoint);
+        console.log(data);
+        /** @type {?} */
+        let dataval;
+        dataval = { source: source, ids: data };
+        /** @type {?} */
+        var result = this._http.post(endpoint + 'many', dataval, httpOptions).pipe(map((/**
+         * @param {?} res
+         * @return {?}
+         */
+        res => res)));
+        return result;
+    }
+    /**
+     * @param {?} endpoint
+     * @param {?} data
+     * @param {?} val
+     * @param {?} token
+     * @param {?} source
+     * @return {?}
+     */
+    togglestatusmany(endpoint, data, val, token, source) {
+        /** @type {?} */
+        const httpOptions = {
+            headers: new HttpHeaders({
+                'Content-Type': 'application/json',
+                'access-token': token
+            })
+        };
+        console.log('------ ');
+        console.log("endpoint");
+        console.log(endpoint);
+        console.log(data);
+        /** @type {?} */
+        let dataval;
+        dataval = { source: source, data: { ids: data, val: val } };
+        /** @type {?} */
+        var result = this._http.post(endpoint + 'many', dataval, httpOptions).pipe(map((/**
+         * @param {?} res
+         * @return {?}
+         */
+        res => res)));
+        return result;
+    }
+    /**
      * @private
      * @param {?} endpoint
      * @return {?}
@@ -277,10 +372,12 @@ class ListingComponent {
     /**
      * @param {?} _apiService
      * @param {?} dialog
+     * @param {?} bottomSheet
      */
-    constructor(_apiService, dialog) {
+    constructor(_apiService, dialog, bottomSheet) {
         this._apiService = _apiService;
         this.dialog = dialog;
+        this.bottomSheet = bottomSheet;
         this.columns = [];
         this.olddata = [];
         this.displayedColumns = [];
@@ -306,6 +403,24 @@ class ListingComponent {
         this.skipval = skip;
         console.log('this.skipval');
         console.log(this.skipval);
+    }
+    /**
+     * @param {?} detail_datatype
+     * @return {?}
+     */
+    set detail_datatype(detail_datatype) {
+        this.detail_datatypeval = detail_datatype;
+        console.log('this.detail_datatypeval');
+        console.log(this.detail_datatypeval);
+    }
+    /**
+     * @param {?} detail_skip_array
+     * @return {?}
+     */
+    set detail_skip_array(detail_skip_array) {
+        this.detail_skip_arrayval = detail_skip_array;
+        console.log('this.detail_skip_arrayval');
+        console.log(this.detail_skip_arrayval);
     }
     /**
      * @param {?} sourcedata
@@ -360,6 +475,15 @@ class ListingComponent {
         this.jwttokenval = jwttoken;
         console.log('this.jwttokenval');
         console.log(this.jwttokenval);
+    }
+    /**
+     * @param {?} statusarr
+     * @return {?}
+     */
+    set statusarr(statusarr) {
+        this.statusarrval = statusarr;
+        console.log('this.statusarrval');
+        console.log(this.statusarrval);
     }
     /**
      * @return {?}
@@ -421,6 +545,17 @@ class ListingComponent {
         this.selection = new SelectionModel(true, []);
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
+    }
+    /**
+     * @param {?} val
+     * @return {?}
+     */
+    getstatus(val) {
+        for (let b in this.statusarrval) {
+            if (this.statusarrval[b].val == val)
+                return this.statusarrval[b].name;
+        }
+        return "N/A";
     }
     /**
      * Whether the number of selected elements matches the total number of rows.
@@ -505,6 +640,260 @@ class ListingComponent {
     viewdata(data) {
         console.log('data');
         console.log(data);
+        //let b:any=0;
+        for (let v in this.detail_skip_arrayval) {
+            delete data[this.detail_skip_arrayval[v]];
+            console.log('this.detail_skip_arrayval[v]');
+            console.log(this.detail_skip_arrayval[v]);
+        }
+        //<img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu">
+        for (let key in data) {
+            if (data.hasOwnProperty(key)) {
+                console.log(key + " -> " + data[key] + "--->" + typeof (data[key]));
+                if (typeof (data[key]) == 'boolean') {
+                    if (data[key] == true)
+                        data[key] = 'Yes';
+                    if (data[key] == false)
+                        data[key] = 'No';
+                }
+                if (typeof (data[key]) == 'object') {
+                    /** @type {?} */
+                    let tempdata = [];
+                    for (let k in data[key]) {
+                        console.log('key');
+                        console.log(key);
+                        console.log(this.detail_datatypeval);
+                        for (let p in this.detail_datatypeval) {
+                            console.log('p');
+                            console.log(p);
+                            console.log(key);
+                            console.log(data[key][k]);
+                            if (this.detail_datatypeval[p].key == key && this.detail_datatypeval[p].value == 'image') {
+                                /** @type {?} */
+                                let imgval = this.detail_datatypeval[p].fileurl + data[key][k].replace(/'/g, '');
+                                console.log('imgval');
+                                console.log('imgval');
+                                console.log(imgval);
+                                console.log(data[key][k].replace(/'/g, ''));
+                                tempdata.push("<img mat-card-image src=" + imgval + "><br/>");
+                                // tempdata.push("<span>"+data[key][k]+"</span><br/>")
+                            }
+                            if (this.detail_datatypeval[p].key == key && this.detail_datatypeval[p].value != 'image') {
+                                //tempdata.push("<img mat-card-image src="+data[key][k]+"><br/>")
+                                tempdata.push("<span>" + data[key][k] + "</span><br/>");
+                            }
+                        }
+                    }
+                    data[key] = tempdata;
+                }
+            }
+        }
+        console.log('data');
+        console.log(data);
+        /** @type {?} */
+        let res = Object.entries(data);
+        console.log('this.detail_skip_array');
+        console.log(this.detail_skip_arrayval);
+        console.log(this.detail_datatypeval);
+        console.log('res');
+        console.log(res);
+        /** @type {?} */
+        const dialogRef = this.dialog.open(Confirmdialog, {
+            height: 'auto',
+            panelClass: 'custom-modalbox',
+            data: { isconfirmation: false, data: res }
+        });
+    }
+    /**
+     * @param {?} data
+     * @return {?}
+     */
+    managestatus(data) {
+        console.log('data');
+        console.log(data);
+        /** @type {?} */
+        let bs = this.bottomSheet.open(BottomSheet, { data: { items: this.statusarrval } });
+        bs.afterDismissed().subscribe((/**
+         * @param {?} result
+         * @return {?}
+         */
+        result => {
+            console.log('The bottom sheet was closed');
+            console.log(result);
+            if (result != null) {
+                data.status = result.val;
+                data.id = data._id;
+                this._apiService.togglestatus(this.apiurlval + 'statusupdate', data, this.jwttokenval, this.sourcedataval).subscribe((/**
+                 * @param {?} res
+                 * @return {?}
+                 */
+                res => {
+                    /** @type {?} */
+                    let result = {};
+                    result = res;
+                    if (result.status == 'success') {
+                        for (let c in this.olddata) {
+                            //this.olddata = this.olddata.filter(olddata => olddata._id != ids[c]);
+                            if (this.olddata[c]._id == data._id) {
+                                console.log('in data update');
+                                console.log(data);
+                                this.olddata[c].status = data.status;
+                            }
+                        }
+                        this.dataSource = new MatTableDataSource(this.olddata);
+                        this.selection = new SelectionModel(true, []);
+                        this.dataSource.paginator = this.paginator;
+                        this.dataSource.sort = this.sort;
+                        /** @type {?} */
+                        let dialogRef = this.dialog.open(Confirmdialog, {
+                            panelClass: 'custom-modalbox',
+                            data: { message: 'Status updated successfully!!', isconfirmation: false }
+                        });
+                    }
+                }), (/**
+                 * @param {?} error
+                 * @return {?}
+                 */
+                error => {
+                    console.log('Oooops!');
+                }));
+            }
+            //this.animal = result;
+        }));
+    }
+    /**
+     * @return {?}
+     */
+    managestatusmultiple() {
+        /** @type {?} */
+        let ids = [];
+        /** @type {?} */
+        let c;
+        for (c in this.selection.selected) {
+            ids.push(this.selection.selected[c]._id);
+        }
+        console.log('ids');
+        console.log(ids);
+        //console.log('data');
+        //console.log(data);
+        /** @type {?} */
+        let bs = this.bottomSheet.open(BottomSheet, { data: { items: this.statusarrval } });
+        bs.afterDismissed().subscribe((/**
+         * @param {?} result
+         * @return {?}
+         */
+        result => {
+            console.log('The bottom sheet was closed');
+            console.log(result);
+            if (result != null) {
+                //data.status = result.val;
+                //data.id = data._id;
+                /** @type {?} */
+                let newstatus = result.val;
+                this._apiService.togglestatusmany(this.apiurlval + 'statusupdate', ids, result.val, this.jwttokenval, this.sourcedataval).subscribe((/**
+                 * @param {?} res
+                 * @return {?}
+                 */
+                res => {
+                    /** @type {?} */
+                    let result = {};
+                    result = res;
+                    if (result.status == 'success') {
+                        for (let c in this.olddata) {
+                            //this.olddata = this.olddata.filter(olddata => olddata._id != ids[c]);
+                            if (ids.indexOf(this.olddata[c]._id) > -1) {
+                                console.log('in data update');
+                                //console.log(data);
+                                this.olddata[c].status = newstatus;
+                            }
+                        }
+                        this.dataSource = new MatTableDataSource(this.olddata);
+                        this.selection = new SelectionModel(true, []);
+                        this.dataSource.paginator = this.paginator;
+                        this.dataSource.sort = this.sort;
+                        /** @type {?} */
+                        let dialogRef = this.dialog.open(Confirmdialog, {
+                            panelClass: 'custom-modalbox',
+                            data: { message: 'Status updated successfully!!', isconfirmation: false }
+                        });
+                    }
+                }), (/**
+                 * @param {?} error
+                 * @return {?}
+                 */
+                error => {
+                    console.log('Oooops!');
+                }));
+            }
+            //this.animal = result;
+        }));
+    }
+    /**
+     * @return {?}
+     */
+    deletemultiple() {
+        console.log('this.selection.selected.length');
+        console.log(this.selection.selected.length);
+        console.log(this.selection);
+        console.log(this.selection.selected);
+        /** @type {?} */
+        const dialogRef = this.dialog.open(Confirmdialog, {
+            panelClass: 'custom-modalbox',
+            data: { message: 'Are you sure to delete selected records ??' }
+        });
+        /** @type {?} */
+        let ids = [];
+        /** @type {?} */
+        let c;
+        for (c in this.selection.selected) {
+            ids.push(this.selection.selected[c]._id);
+        }
+        console.log('ids');
+        console.log(ids);
+        dialogRef.afterClosed().subscribe((/**
+         * @param {?} result
+         * @return {?}
+         */
+        result => {
+            console.log('The dialog was closed');
+            console.log(result);
+            if (result == 'yes') {
+                this._apiService.deteManyData(this.apiurlval + this.deleteendpointval, ids, this.jwttokenval, this.sourcedataval).subscribe((/**
+                 * @param {?} res
+                 * @return {?}
+                 */
+                res => {
+                    /** @type {?} */
+                    let result = {};
+                    result = res;
+                    if (result.status == 'success') {
+                        for (let c in ids) {
+                            this.olddata = this.olddata.filter((/**
+                             * @param {?} olddata
+                             * @return {?}
+                             */
+                            olddata => olddata._id != ids[c]));
+                        }
+                        this.dataSource = new MatTableDataSource(this.olddata);
+                        this.selection = new SelectionModel(true, []);
+                        this.dataSource.paginator = this.paginator;
+                        this.dataSource.sort = this.sort;
+                        /** @type {?} */
+                        let dialogRef = this.dialog.open(Confirmdialog, {
+                            panelClass: 'custom-modalbox',
+                            data: { message: 'Are you sure to delete this record ??', isconfirmation: false }
+                        });
+                    }
+                }), (/**
+                 * @param {?} error
+                 * @return {?}
+                 */
+                error => {
+                    console.log('Oooops!');
+                }));
+            }
+            //this.animal = result;
+        }));
     }
     /**
      * @param {?} data
@@ -519,7 +908,8 @@ class ListingComponent {
         console.log(this.jwttokenval);
         /** @type {?} */
         const dialogRef = this.dialog.open(Confirmdialog, {
-            width: '550px',
+            panelClass: 'custom-modalbox',
+            height: 'auto',
             data: { message: 'Are you sure to delete this record ??' }
         });
         dialogRef.afterClosed().subscribe((/**
@@ -545,10 +935,14 @@ class ListingComponent {
                          */
                         olddata => olddata._id != data._id));
                         this.dataSource = new MatTableDataSource(this.olddata);
-                        this.dataSource = new MatTableDataSource(this.olddata);
                         this.selection = new SelectionModel(true, []);
                         this.dataSource.paginator = this.paginator;
                         this.dataSource.sort = this.sort;
+                        /** @type {?} */
+                        let dialogRef = this.dialog.open(Confirmdialog, {
+                            panelClass: 'custom-modalbox',
+                            data: { message: 'Record  deleted successfully !!', isconfirmation: false }
+                        });
                     }
                 }), (/**
                  * @param {?} error
@@ -560,16 +954,6 @@ class ListingComponent {
             }
             //this.animal = result;
         }));
-        /*this._apiService.deteOneData(this.apiurlval+this.deleteendpointval,data,this.jwttokenval,this.sourcedataval).subscribe(res => {
-          let result: any = {};
-          result = res;
-          if(result.status=='success'){
-    
-          }
-    
-        }, error => {
-          console.log('Oooops!');
-        });*/
     }
     /**
      * @param {?} data
@@ -584,24 +968,28 @@ class ListingComponent {
 ListingComponent.decorators = [
     { type: Component, args: [{
                 selector: 'lib-listing',
-                template: "<div class=\"container\">\n\n\n  <mat-card>\n\n    <mat-form-field>\n      <input matInput (keyup)=\"applyFilter($event.target.value)\" placeholder=\"Filter\">\n    </mat-form-field>\n\n\n\n    <table mat-table [dataSource]=\"dataSource\" matSort class=\"mat-elevation-z8\">\n\n      <ng-container matColumnDef=\"select\">\n        <th mat-header-cell *matHeaderCellDef>\n          <mat-checkbox (change)=\"$event ? masterToggle() : null\"\n                        [checked]=\"selection.hasValue() && isAllSelected()\"\n                        [indeterminate]=\"selection.hasValue() && !isAllSelected()\">\n          </mat-checkbox>\n        </th>\n        <td mat-cell *matCellDef=\"let row\">\n          <mat-checkbox (click)=\"$event.stopPropagation()\"\n                        (change)=\"$event ? selection.toggle(row) : null\"\n                        [checked]=\"selection.isSelected(row)\">\n          </mat-checkbox>\n        </td>\n      </ng-container>\n\n      <ng-container *ngFor=\"let column of columns\" [matColumnDef]=\"column.columnDef\" >\n        <th mat-header-cell *matHeaderCellDef mat-sort-header class=\"th-header-center\">{{ column.header }}</th>\n        <td mat-cell *matCellDef=\"let row\"  [ngStyle]=\"styleCell(column,row)\" class=\"td-cell-center\">{{ column.cell(row) }}</td>\n      </ng-container>\n\n\n      <ng-container matColumnDef=\"Actions\" >\n        <th mat-header-cell *matHeaderCellDef  class=\"th-header-center\">Actions</th>\n        <td (click)=\"$event.stopPropagation()\" mat-cell  *matCellDef=\"let row\"  class=\"td-cell-center\">\n        <span class=\"cursor\" (click)=\"viewdata(row)\">\n        <i class=\"material-icons\">\n          edit\n        </i>\n        </span>\n\n          <!--For modern browsers-->\n          <span class=\"cursor\" (click)=\"deletedata(row)\" >\n        <i class=\"material-icons\">\n          delete_outline\n        </i>\n        </span>\n\n          <!--For modern browsers-->\n          <span class=\"cursor\" (click)=\"editdata(row)\" >\n          <i class=\"material-icons\">\n            pageview\n          </i>\n          </span>\n\n          <!--For modern browsers-->\n          <span class=\"cursor\" (click)=\"editdata(row)\" >\n          <i class=\"material-icons\">\n            toggle_off\n          </i>\n          </span>\n\n        </td>\n        <!--<td *ngIf=\"column.objlength==i+1\" mat-cell *matCellDef=\"i\">\n          <mat-icon>more_vert</mat-icon>\n        </td>-->\n      </ng-container>\n\n\n      <tr mat-header-row *matHeaderRowDef=\"displayedColumns\"></tr>\n      <tr mat-row *matRowDef=\"let row; columns: displayedColumns;\"></tr>\n\n    </table>\n\n    <mat-paginator [pageSizeOptions]=\"[5,10, 20, 50,100]\" showFirstLastButtons></mat-paginator>\n\n    <br>\n\n\n\n  </mat-card>\n\n</div>",
-                styles: [".container{background:#fff}body{font-family:Roboto,Arial,sans-serif;margin:0}.basic-container{padding:30px}.version-info{font-size:8pt;float:right}table{width:100%}th.mat-sort-header-sorted{color:#000}"]
+                template: "<div class=\"container\">\n\n\n  <mat-card>\n\n    <mat-form-field>\n      <input matInput (keyup)=\"applyFilter($event.target.value)\" placeholder=\"Filter\">\n    </mat-form-field>\n    <ng-container *ngIf=\"selection.selected.length!=null && selection.selected.length>0\">\n      <button mat-raised-button (click)=\"deletemultiple()\"> Delete </button>\n      <button mat-raised-button (click)=\"managestatusmultiple()\"> Update Status </button>\n    </ng-container>\n\n\n\n    <table mat-table [dataSource]=\"dataSource\" matSort class=\"mat-elevation-z8\">\n\n      <ng-container matColumnDef=\"select\">\n        <th mat-header-cell *matHeaderCellDef>\n          <mat-checkbox (change)=\"$event ? masterToggle() : null\"\n                        [checked]=\"selection.hasValue() && isAllSelected()\"\n                        [indeterminate]=\"selection.hasValue() && !isAllSelected()\">\n          </mat-checkbox>\n        </th>\n        <td mat-cell *matCellDef=\"let row\">\n          <mat-checkbox (click)=\"$event.stopPropagation()\"\n                        (change)=\"$event ? selection.toggle(row) : null\"\n                        [checked]=\"selection.isSelected(row)\">\n          </mat-checkbox>\n        </td>\n      </ng-container>\n\n      <ng-container *ngFor=\"let column of columns\" [matColumnDef]=\"column.columnDef\" >\n        <th mat-header-cell *matHeaderCellDef mat-sort-header class=\"th-header-center\">{{ column.header }}</th>\n        <td mat-cell *matCellDef=\"let row\"  [ngStyle]=\"styleCell(column,row)\" class=\"td-cell-center\">\n          <span *ngIf=\"column.columnDef=='status' \">{{ getstatus([column.cell(row)]) }}</span>\n          <span *ngIf=\"column.columnDef!='status' \">{{ column.cell(row) }}</span>\n        </td>\n      </ng-container>\n\n\n      <ng-container matColumnDef=\"Actions\"   >\n        <th mat-header-cell *matHeaderCellDef  class=\"th-header-center\">Actions</th>\n        <td (click)=\"$event.stopPropagation()\" mat-cell  *matCellDef=\"let row\"  class=\"td-cell-center\">\n          <span *ngIf=\"selection.selected.length==null || selection.selected.length==0\">\n        <span class=\"cursor\" (click)=\"editdata(row)\">\n        <i class=\"material-icons\">\n          edit\n        </i>\n        </span>\n\n          <!--For modern browsers-->\n          <span class=\"cursor\" (click)=\"deletedata(row)\" >\n        <i class=\"material-icons\">\n          delete_outline\n        </i>\n        </span>\n\n          <!--For modern browsers-->\n          <span class=\"cursor\" (click)=\"viewdata(row)\" >\n          <i class=\"material-icons\">\n            pageview\n          </i>\n          </span>\n\n          <!--For modern browsers-->\n          <span class=\"cursor\" (click)=\"managestatus(row)\" >\n          <i class=\"material-icons\">\n            toggle_off\n          </i>\n          </span>\n          </span>\n\n        </td>\n        <!--<td *ngIf=\"column.objlength==i+1\" mat-cell *matCellDef=\"i\">\n          <mat-icon>more_vert</mat-icon>\n        </td>-->\n      </ng-container>\n\n\n      <tr mat-header-row *matHeaderRowDef=\"displayedColumns\"></tr>\n      <tr mat-row *matRowDef=\"let row; columns: displayedColumns;\"></tr>\n\n    </table>\n\n    <mat-paginator [pageSizeOptions]=\"[5,10, 20, 50,100]\" showFirstLastButtons></mat-paginator>\n\n    <br>\n\n\n\n  </mat-card>\n\n</div>",
+                styles: [".container{background:#fff}body{font-family:Roboto,Arial,sans-serif;margin:0;display:none!important}.basic-container{padding:30px}.version-info{font-size:8pt;float:right}table{width:100%}th.mat-sort-header-sorted{color:#000}.custom-modalbox{display:none}"]
             }] }
 ];
 /** @nocollapse */
 ListingComponent.ctorParameters = () => [
     { type: ApiService },
-    { type: MatDialog }
+    { type: MatDialog },
+    { type: MatBottomSheet }
 ];
 ListingComponent.propDecorators = {
     datasource: [{ type: Input }],
     skip: [{ type: Input }],
+    detail_datatype: [{ type: Input }],
+    detail_skip_array: [{ type: Input }],
     sourcedata: [{ type: Input }],
     modify_header_array: [{ type: Input }],
     deleteendpoint: [{ type: Input }],
     updateendpoint: [{ type: Input }],
     apiurl: [{ type: Input }],
     jwttoken: [{ type: Input }],
+    statusarr: [{ type: Input }],
     sort: [{ type: ViewChild, args: [MatSort,] }],
     paginator: [{ type: ViewChild, args: [MatPaginator,] }]
 };
@@ -626,13 +1014,44 @@ class Confirmdialog {
 Confirmdialog.decorators = [
     { type: Component, args: [{
                 selector: 'confirmdialog',
-                template: "<h1 mat-dialog-title>Hey !</h1>\n<div mat-dialog-content>\n    <p>{{data.message}}</p>\n</div>\n<div mat-dialog-actions>\n    <button mat-button (click)=\"onNoClick()\">No Thanks</button>\n    <button mat-button mat-dialog-close=\"yes\" cdkFocusInitial>Ok</button>\n</div>\n"
+                template: "<h1 mat-dialog-title *ngIf=\"data!=null && data.message!=null\" >Hey !</h1>\n<h1 mat-dialog-title *ngIf=\"data!=null && data.data!=null\">Details </h1>\n<div mat-dialog-content>\n    <p *ngIf=\"data!=null && data.message!=null\">{{data.message}}</p>\n\n\n    <div *ngIf=\"data!=null && data.data!=null\">\n\n\n        <mat-card class=\"example-card\" *ngFor=\"let item of data.data;\">\n            <mat-card-header id=\"dialogdata{{item[0]}}\">\n                <!--<div mat-card-avatar class=\"example-header-image\"></div>-->\n                <mat-card-title>{{item[0]}}</mat-card-title>\n            </mat-card-header>\n            <!--<img mat-card-image src=\"https://material.angular.io/assets/img/examples/shiba2.jpg\" alt=\"Photo of a Shiba Inu\">-->\n            <mat-card-content id=\"dialogdata{{item[0]}}\">\n                <p [innerHtml]=\"item[1]\">\n\n                </p>\n            </mat-card-content>\n        </mat-card>\n\n\n\n    </div>\n\n\n</div>\n\n\n\n\n\n\n\n\n<div mat-dialog-actions>\n    <button mat-button *ngIf=\"data.isconfirmation==null ||  data.isconfirmation!=false\" (click)=\"onNoClick()\">No Thanks</button>\n    <button mat-button mat-dialog-close=\"yes\" cdkFocusInitial>Ok</button>\n</div>\n"
             }] }
 ];
 /** @nocollapse */
 Confirmdialog.ctorParameters = () => [
     { type: MatDialogRef },
     { type: undefined, decorators: [{ type: Inject, args: [MAT_DIALOG_DATA,] }] }
+];
+class BottomSheet {
+    /**
+     * @param {?} bottomSheetRef
+     * @param {?} data
+     */
+    constructor(bottomSheetRef, data) {
+        this.bottomSheetRef = bottomSheetRef;
+        this.data = data;
+    }
+    /**
+     * @param {?} val
+     * @return {?}
+     */
+    openLink(val) {
+        console.log('bottomsheet data');
+        console.log(val);
+        this.bottomSheetRef.dismiss(val);
+        //event.preventDefault();
+    }
+}
+BottomSheet.decorators = [
+    { type: Component, args: [{
+                selector: 'bottom-sheet',
+                template: "<mat-nav-list>\n\n\n    <a *ngFor=\"let item of data.items;\"  mat-list-item (click)=\"openLink(item)\">\n        <span mat-line></span>\n        <span mat-line>{{item.name}}</span>\n    </a>\n\n\n</mat-nav-list>\n"
+            }] }
+];
+/** @nocollapse */
+BottomSheet.ctorParameters = () => [
+    { type: MatBottomSheetRef },
+    { type: undefined, decorators: [{ type: Inject, args: [MAT_BOTTOM_SHEET_DATA,] }] }
 ];
 
 /**
@@ -698,14 +1117,14 @@ class ListingModule {
 }
 ListingModule.decorators = [
     { type: NgModule, args: [{
-                declarations: [ListingComponent, Confirmdialog],
+                declarations: [ListingComponent, Confirmdialog, BottomSheet],
                 imports: [
                     BrowserModule, BrowserAnimationsModule,
                     DemoMaterialModule
                 ],
                 exports: [ListingComponent],
                 providers: [ApiService],
-                entryComponents: [Confirmdialog],
+                entryComponents: [Confirmdialog, BottomSheet],
             },] }
 ];
 
@@ -719,6 +1138,6 @@ ListingModule.decorators = [
  * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 
-export { ListingService, ListingComponent, Confirmdialog, ListingModule, ApiService as ɵa, DemoMaterialModule as ɵb };
+export { ListingService, ListingComponent, Confirmdialog, BottomSheet, ListingModule, ApiService as ɵa, DemoMaterialModule as ɵb };
 
 //# sourceMappingURL=listing-angular7.js.map
