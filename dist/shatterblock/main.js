@@ -41,7 +41,7 @@ module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<!--\r\n<app-main-nav>\r\n\r\n        <mat-toolbar class=\"breadcrumb\"> <a style=\"text-decoration: none;\"> User Table &nbsp;/&nbsp; </a> Pending model application </mat-toolbar>\r\n\r\n        <lib-listing *ngIf=\"pendingmodelapplicationarray1!=null && notpendingapplication_view.length>0\"  [datasource]=\"pendingmodelapplicationarray1\" [skip]=\"pendingmodelapplicationarray_skip1\" [modify_header_array]=\"pendingmodelapplicationarray_modify_header1\" ></lib-listing>\r\n\r\n\r\n        <mat-toolbar class=\"breadcrumb\"> <a style=\"text-decoration: none;\" href=\"\"> User Table &nbsp;/&nbsp; </a> User List</mat-toolbar>\r\n\r\n\r\n        <lib-listing *ngIf=\"pendingmodelapplicationarray!=null && pendingmodelapplicationarray.length>0\"  [datasource]=\"pendingmodelapplicationarray\" [skip]=\"pendingmodelapplicationarray_skip\" [modify_header_array]=\"pendingmodelapplicationarray_modify_header\" ></lib-listing>\r\n\r\n\r\n        &lt;!&ndash;<lib-listing *ngIf=\"brandarray!=null && brandarray.length>0\"  [datasource]=\"brandarray\" [skip]=\"pendingmodelapplicationarray_skip1\" [modify_header_array]=\"pendingmodelapplicationarray_modify_header1\" ></lib-listing>\r\n\r\n&ndash;&gt;\r\n\r\n\r\n\r\n</app-main-nav>-->\r\n\r\n\r\n\r\n<app-main-nav>\r\n\r\n        <mat-toolbar class=\"breadcrumb\"> <a style=\"text-decoration: none;\"> User Table &nbsp;/&nbsp; </a> Pending model application </mat-toolbar>\r\n        <div class=\"pendinglist\">\r\n\r\n        <lib-listing    *ngIf=\"pendingapplication_view!=null && pendingapplication_view.length>0\"  [datasource]=\"pendingapplication_view\" [skip]=\"pendingapplication_view_skip\" [modify_header_array]=\"pendingapplication_view_modify_header1\" [statusarr]=\"statusarray\" [apiurl]=\"apiservice.domain\" [deleteendpoint]=\"delurl\" [updateendpoint]=\"updateurl\" [jwttoken]=\"apiservice.jwttoken\" [sourcedata]=\"tablename\"></lib-listing>\r\n\r\n\r\n        <mat-toolbar class=\"breadcrumb\"> <a style=\"text-decoration: none;\" href=\"\"> User Table &nbsp;/&nbsp; </a> User List</mat-toolbar>\r\n\r\n        <lib-listing *ngIf=\"model_pending_and_notpending_application_view!=null && model_pending_and_notpending_application_view.length>0\"  [datasource]=\"model_pending_and_notpending_application_view\" [skip]=\"model_pending_and_notpending_application_view_skip\" [modify_header_array]=\"model_pending_and_notpending_application_view_modify_header\" ></lib-listing>\r\n\r\n        </div>\r\n\r\n</app-main-nav>\r\n"
+module.exports = "<!--\r\n<app-main-nav>\r\n\r\n        <mat-toolbar class=\"breadcrumb\"> <a style=\"text-decoration: none;\"> User Table &nbsp;/&nbsp; </a> Pending model application </mat-toolbar>\r\n\r\n        <lib-listing *ngIf=\"pendingmodelapplicationarray1!=null && notpendingapplication_view.length>0\"  [datasource]=\"pendingmodelapplicationarray1\" [skip]=\"pendingmodelapplicationarray_skip1\" [modify_header_array]=\"pendingmodelapplicationarray_modify_header1\" ></lib-listing>\r\n\r\n\r\n        <mat-toolbar class=\"breadcrumb\"> <a style=\"text-decoration: none;\" href=\"\"> User Table &nbsp;/&nbsp; </a> User List</mat-toolbar>\r\n\r\n\r\n        <lib-listing *ngIf=\"pendingmodelapplicationarray!=null && pendingmodelapplicationarray.length>0\"  [datasource]=\"pendingmodelapplicationarray\" [skip]=\"pendingmodelapplicationarray_skip\" [modify_header_array]=\"pendingmodelapplicationarray_modify_header\" ></lib-listing>\r\n\r\n\r\n        &lt;!&ndash;<lib-listing *ngIf=\"brandarray!=null && brandarray.length>0\"  [datasource]=\"brandarray\" [skip]=\"pendingmodelapplicationarray_skip1\" [modify_header_array]=\"pendingmodelapplicationarray_modify_header1\" ></lib-listing>\r\n\r\n&ndash;&gt;\r\n\r\n\r\n\r\n</app-main-nav>-->\r\n\r\n\r\n\r\n<app-main-nav>\r\n\r\n        <mat-toolbar class=\"breadcrumb\"> <a style=\"text-decoration: none;\"> User Table &nbsp;/&nbsp; </a> Pending model application </mat-toolbar>\r\n        <div class=\"pendinglist\">\r\n\r\n        <lib-listing    *ngIf=\"pendingapplication_view!=null && pendingapplication_view.length>0\"  [datasource]=\"pendingapplication_view\" [skip]=\"pendingapplication_view_skip\" [modify_header_array]=\"pendingapplication_view_modify_header1\" [statusarr]=\"statusarray\" [apiurl]=\"apiservice.domain\" [deleteendpoint]=\"delurl\" [updateendpoint]=\"updateurl\" [jwttoken]=\"apiservice.jwttoken\" [sourcedata]=\"tablename\" [detail_datatype]=\"pendingapplication_view_detail_datatype\" [detail_skip_array]=\"pendingapplication_view_detail_skip\"></lib-listing>\r\n\r\n\r\n        <mat-toolbar class=\"breadcrumb\"> <a style=\"text-decoration: none;\" href=\"\"> User Table &nbsp;/&nbsp; </a> User List</mat-toolbar>\r\n\r\n        <lib-listing *ngIf=\"model_pending_and_notpending_application_view!=null && model_pending_and_notpending_application_view.length>0\"  [datasource]=\"model_pending_and_notpending_application_view\" [skip]=\"model_pending_and_notpending_application_view_skip\" [modify_header_array]=\"model_pending_and_notpending_application_view_modify_header\" ></lib-listing>\r\n\r\n        </div>\r\n\r\n</app-main-nav>\r\n"
 
 /***/ }),
 
@@ -72,8 +72,10 @@ var AdmindashbordComponent = /** @class */ (function () {
         this.brandarray = [];
         this.adminlist = [];
         this.pendingapplication_view = [];
-        this.pendingapplication_view_skip = ['_id', 'username'];
+        this.pendingapplication_view_skip = ['_id', 'username', 'phone', 'city', 'state', 'ethnicity', 'height', 'haircolor', 'eyecolor', 'weight', 'bust', 'waist', 'hips', 'slim', 'toned', 'tattoos', 'athletic', 'piercings', 'retail', 'voluptuous', 'promotions', 'sales', 'descriptionbox', 'facebooklink', 'twitterlink', 'instagramlink', 'modelmayhemlink', 'type', 'images'];
         this.pendingapplication_view_modify_header1 = { 'dateformat': 'Date', 'status': 'Status', 'email': 'Email', 'name': 'Full Name' };
+        this.pendingapplication_view_detail_skip = ['_id', 'email', 'name'];
+        this.pendingapplication_view_detail_datatype = [{ key: "images", value: 'image', fileurl: "http://18.222.26.198/upload/modelimages/" }];
         this.model_pending_and_notpending_application_view = [];
         this.model_pending_and_notpending_application_view_skip = ['type', 'password', 'Contracts_Signed', 'created_at', '_id', 'username', 'email', 'status', 'date_iso_dateformat', 'regDate'];
         this.model_pending_and_notpending_application_view_modify_header = { 'date': 'Date', 'Age': 'Age', 'name': 'Name', 'submissionprocess': 'Submission Process', 'contractssigned': 'Contracts Signed' };
@@ -525,7 +527,7 @@ var AgreementComponent = /** @class */ (function () {
         var data = {
             shatterblok_sign: this.fullname,
             shatterblok_agreement_date: new Date().getTime(),
-            status: 3,
+            status: 2,
             id: this.cookieService.get('id')
         };
         var data1 = { data: data, source: 'users' };
@@ -779,6 +781,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _modal_modal_component__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ./modal/modal.component */ "./src/app/modal/modal.component.ts");
 /* harmony import */ var _audiodeadlinesgreement_audiodeadlinesgreement_component__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! ./audiodeadlinesgreement/audiodeadlinesgreement.component */ "./src/app/audiodeadlinesgreement/audiodeadlinesgreement.component.ts");
 /* harmony import */ var _modalaudiodeadline_modalaudiodeadline_component__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! ./modalaudiodeadline/modalaudiodeadline.component */ "./src/app/modalaudiodeadline/modalaudiodeadline.component.ts");
+/* harmony import */ var _modeldashboard_modeldashboard_component__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! ./modeldashboard/modeldashboard.component */ "./src/app/modeldashboard/modeldashboard.component.ts");
+
 
 
 
@@ -822,8 +826,8 @@ var routes = [
     { path: 'managedashboard', component: _managedashboard_managedashboard_component__WEBPACK_IMPORTED_MODULE_16__["ManagedashboardComponent"], canActivate: [_auth_guard__WEBPACK_IMPORTED_MODULE_10__["AuthGuard"]] },
     { path: 'agreement', component: _agreement_agreement_component__WEBPACK_IMPORTED_MODULE_19__["AgreementComponent"], canActivate: [_auth_guard__WEBPACK_IMPORTED_MODULE_10__["AuthGuard"]] },
     { path: 'audioseadlineagreement', component: _audiodeadlinesgreement_audiodeadlinesgreement_component__WEBPACK_IMPORTED_MODULE_21__["AudiodeadlinesgreementComponent"] },
-    { path: 'audiodeadlinemodal', component: _modalaudiodeadline_modalaudiodeadline_component__WEBPACK_IMPORTED_MODULE_22__["ModalaudiodeadlineComponent"] }
-    // { path: 'changepassword', component: ChangepasswordComponent, canActivate: [AuthGuard], resolve: {results: Resolveservice}, data: {source: 'users', condition:{}} },
+    { path: 'audiodeadlinemodal', component: _modalaudiodeadline_modalaudiodeadline_component__WEBPACK_IMPORTED_MODULE_22__["ModalaudiodeadlineComponent"] },
+    { path: 'modeldashboard', component: _modeldashboard_modeldashboard_component__WEBPACK_IMPORTED_MODULE_23__["ModeldashboardComponent"], canActivate: [_auth_guard__WEBPACK_IMPORTED_MODULE_10__["AuthGuard"]], resolve: { results: _resolveservice__WEBPACK_IMPORTED_MODULE_17__["Resolveservice"] }, data: { source: 'modeldashboard' } },
 ];
 var AppRoutingModule = /** @class */ (function () {
     function AppRoutingModule() {
@@ -951,6 +955,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _modal_modal_component__WEBPACK_IMPORTED_MODULE_43__ = __webpack_require__(/*! ./modal/modal.component */ "./src/app/modal/modal.component.ts");
 /* harmony import */ var _audiodeadlinesgreement_audiodeadlinesgreement_component__WEBPACK_IMPORTED_MODULE_44__ = __webpack_require__(/*! ./audiodeadlinesgreement/audiodeadlinesgreement.component */ "./src/app/audiodeadlinesgreement/audiodeadlinesgreement.component.ts");
 /* harmony import */ var _modalaudiodeadline_modalaudiodeadline_component__WEBPACK_IMPORTED_MODULE_45__ = __webpack_require__(/*! ./modalaudiodeadline/modalaudiodeadline.component */ "./src/app/modalaudiodeadline/modalaudiodeadline.component.ts");
+/* harmony import */ var _modeldashboard_modeldashboard_component__WEBPACK_IMPORTED_MODULE_46__ = __webpack_require__(/*! ./modeldashboard/modeldashboard.component */ "./src/app/modeldashboard/modeldashboard.component.ts");
 
 
 
@@ -1000,6 +1005,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
 var AppModule = /** @class */ (function () {
     function AppModule() {
     }
@@ -1025,7 +1031,7 @@ var AppModule = /** @class */ (function () {
                 _adminmodalform_adminmodalform_component__WEBPACK_IMPORTED_MODULE_33__["AdminmodalformComponent"],
                 _resetpassword_resetpassword_component__WEBPACK_IMPORTED_MODULE_36__["ResetpasswordComponent"], _changepassword_changepassword_component__WEBPACK_IMPORTED_MODULE_20__["Dialogtest"], _main_nav_main_nav_component__WEBPACK_IMPORTED_MODULE_37__["MainNavComponent"],
                 _managedashboard_managedashboard_component__WEBPACK_IMPORTED_MODULE_23__["ManagedashboardComponent"], _managedashboard_managedashboard_component__WEBPACK_IMPORTED_MODULE_23__["Updatetest"],
-                _resetpassword_resetpassword_component__WEBPACK_IMPORTED_MODULE_36__["ResetpasswordComponent"], _changepassword_changepassword_component__WEBPACK_IMPORTED_MODULE_20__["Dialogtest"], _main_nav_main_nav_component__WEBPACK_IMPORTED_MODULE_37__["MainNavComponent"], _contract_contract_component__WEBPACK_IMPORTED_MODULE_41__["ContractComponent"], _audiodeadlinesgreement_audiodeadlinesgreement_component__WEBPACK_IMPORTED_MODULE_44__["AudiodeadlinesgreementComponent"], _modalaudiodeadline_modalaudiodeadline_component__WEBPACK_IMPORTED_MODULE_45__["ModalaudiodeadlineComponent"],
+                _resetpassword_resetpassword_component__WEBPACK_IMPORTED_MODULE_36__["ResetpasswordComponent"], _changepassword_changepassword_component__WEBPACK_IMPORTED_MODULE_20__["Dialogtest"], _main_nav_main_nav_component__WEBPACK_IMPORTED_MODULE_37__["MainNavComponent"], _contract_contract_component__WEBPACK_IMPORTED_MODULE_41__["ContractComponent"], _audiodeadlinesgreement_audiodeadlinesgreement_component__WEBPACK_IMPORTED_MODULE_44__["AudiodeadlinesgreementComponent"], _modalaudiodeadline_modalaudiodeadline_component__WEBPACK_IMPORTED_MODULE_45__["ModalaudiodeadlineComponent"], _modeldashboard_modeldashboard_component__WEBPACK_IMPORTED_MODULE_46__["ModeldashboardComponent"],
             ],
             imports: [
                 _angular_platform_browser__WEBPACK_IMPORTED_MODULE_1__["BrowserModule"],
@@ -1141,7 +1147,7 @@ var AudiodeadlinesgreementComponent = /** @class */ (function () {
         var data = {
             audiodeadline_sign: this.fullname,
             audiodeadline_agreement_date: new Date().getTime(),
-            status: 1,
+            status: 3,
             id: this.cookieService.get('id')
         };
         var data1 = { data: data, source: 'users' };
@@ -1152,7 +1158,7 @@ var AudiodeadlinesgreementComponent = /** @class */ (function () {
             console.log('result');
             console.log(result);
             if (result.status == 'success') {
-                _this.router.navigate(['/branddashboard']);
+                _this.router.navigate(['/modeldashboard']);
             }
         });
     };
@@ -1736,8 +1742,8 @@ var ForgatepasswordComponent = /** @class */ (function () {
             if (result.status == 'error1') {
                 _this.errormg = result.msg;
             }
-            if (result.status == 'error2') {
-                _this.errormg = result.msg;
+            if (result.status == 'success') {
+                _this.errormg = 'Successfully sent message!';
             }
         });
         /*
@@ -2060,8 +2066,22 @@ var LoginComponent = /** @class */ (function () {
                     _this.router.navigate(['/branddashboard']);
                 }
                 else if (result.status == 'success' && result.item[0].type == 'influencers') {
-                    // this.myForm.reset();
                     _this.router.navigate(['/influencersdashboard']);
+                }
+                else if (result.status == 'success' && result.item[0].type == 'model') {
+                    if (result.item[0].status == 1) {
+                        _this.router.navigate(['/agreement']);
+                    }
+                    if (result.item[0].status == 2) {
+                        _this.router.navigate(['/audioseadlineagreement']);
+                    }
+                    if (result.item[0].status == 3) {
+                        _this.router.navigate(['/modeldashboard']);
+                    }
+                    if (result.item[0].status == 4) {
+                        _this.errormg = 'BLocked';
+                    }
+                    //  this.router.navigate(['/modeldashboard']);
                 }
                 _this.myForm.reset();
             }
@@ -2617,6 +2637,80 @@ var ModalaudiodeadlineComponent = /** @class */ (function () {
         tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_angular_material__WEBPACK_IMPORTED_MODULE_3__["MatDialog"], _angular_forms__WEBPACK_IMPORTED_MODULE_2__["FormBuilder"]])
     ], ModalaudiodeadlineComponent);
     return ModalaudiodeadlineComponent;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/modeldashboard/modeldashboard.component.css":
+/*!*************************************************************!*\
+  !*** ./src/app/modeldashboard/modeldashboard.component.css ***!
+  \*************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJzcmMvYXBwL21vZGVsZGFzaGJvYXJkL21vZGVsZGFzaGJvYXJkLmNvbXBvbmVudC5jc3MifQ== */"
+
+/***/ }),
+
+/***/ "./src/app/modeldashboard/modeldashboard.component.html":
+/*!**************************************************************!*\
+  !*** ./src/app/modeldashboard/modeldashboard.component.html ***!
+  \**************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<app-main-nav>\n    <mat-grid-list cols=\"2\" rowHeight=\"1:1\" class=\"grid_template\" [gutterSize]=\"15\">\n        <mat-grid-tile>\n            <mat-card>\n                <mat-card-content>\n\n\n            <h2> {{model_influencer_contents_viewlistin_decending_jocu.type}} </h2>\n            <!--Content:{{model_influencer_contents_viewlistin_decending_jocu.content}}-->\n\n            <p>\n                Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.\n            </p>\n\n                </mat-card-content>\n            </mat-card>\n        </mat-grid-tile>\n        <mat-grid-tile>\n            <mat-card>\n                <mat-card-content>\n\n                    <h2>{{model_influencer_contents_viewlistin_decending_audio.type}}</h2>\n                    Content:{{model_influencer_contents_viewlistin_decending_audio.content}}\n                </mat-card-content>\n            </mat-card>\n        </mat-grid-tile>\n    </mat-grid-list>\n\n\n</app-main-nav>"
+
+/***/ }),
+
+/***/ "./src/app/modeldashboard/modeldashboard.component.ts":
+/*!************************************************************!*\
+  !*** ./src/app/modeldashboard/modeldashboard.component.ts ***!
+  \************************************************************/
+/*! exports provided: ModeldashboardComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ModeldashboardComponent", function() { return ModeldashboardComponent; });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
+/* harmony import */ var _api_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../api.service */ "./src/app/api.service.ts");
+
+
+
+
+var ModeldashboardComponent = /** @class */ (function () {
+    function ModeldashboardComponent(router, route, apiservice) {
+        this.router = router;
+        this.route = route;
+        this.apiservice = apiservice;
+        this.model_influencer_contents_viewlistin_decending_jocu = [];
+        this.model_influencer_contents_viewlistin_decending_audio = [];
+    }
+    ModeldashboardComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        this.route.data.forEach(function (data) {
+            // PRE LOAD DATA PRIOR
+            console.log(data);
+            console.log('data from route ... !!!');
+            console.log('json', data['results']);
+            _this.model_influencer_contents_viewlistin_decending_jocu = data['results'].item.model_influencer_contents_viewlistin_decending_jocu[0];
+            _this.model_influencer_contents_viewlistin_decending_audio = data['results'].item.model_influencer_contents_viewlistin_decending_audio[0];
+        });
+    };
+    ModeldashboardComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
+            selector: 'app-modeldashboard',
+            template: __webpack_require__(/*! ./modeldashboard.component.html */ "./src/app/modeldashboard/modeldashboard.component.html"),
+            styles: [__webpack_require__(/*! ./modeldashboard.component.css */ "./src/app/modeldashboard/modeldashboard.component.css")]
+        }),
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_angular_router__WEBPACK_IMPORTED_MODULE_2__["Router"], _angular_router__WEBPACK_IMPORTED_MODULE_2__["ActivatedRoute"], _api_service__WEBPACK_IMPORTED_MODULE_3__["ApiService"]])
+    ], ModeldashboardComponent);
+    return ModeldashboardComponent;
 }());
 
 
