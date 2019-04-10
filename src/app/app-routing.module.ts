@@ -47,6 +47,7 @@ const routes: Routes = [
 
   {path: 'agreement', component: AgreementComponent, canActivate: [AuthGuard]},
 
+
   {path: 'audioseadlineagreement', component: AudiodeadlinesgreementComponent},
   {path: 'audiodeadlinemodal', component: ModalaudiodeadlineComponent},
   {path: 'modeldashboard', component: ModeldashboardComponent,canActivate:[AuthGuard], resolve: {results: Resolveservice}, data: {source: 'modeldashboard'}},
