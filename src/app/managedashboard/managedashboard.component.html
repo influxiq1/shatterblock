@@ -19,7 +19,7 @@
             </mat-form-field>
 
             <h4>Content</h4>
-               <ck-editor  skin="moono-lisa" language="en" [fullPage]="true"  [(ngModel)]="ckeditorContent" [ngModelOptions]="{standalone: true}" (change)="onChange()"></ck-editor>
+               <ck-editor  skin="moono-lisa" language="en" [fullPage]="true"  [(ngModel)]="ckeditorContent" [ngModelOptions]="{standalone: true}" (change)="onChange($event)"></ck-editor>
                 <mat-error *ngIf ="errckeditor">Content field can not be blank</mat-error>
                 <mat-toolbar-row class="sub_btn_wrapper">
                 <button mat-button class="dbbutton">Submit</button>
