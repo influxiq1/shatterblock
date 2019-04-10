@@ -43,15 +43,7 @@ export class AdmindashbordComponent implements OnInit {
     tablename='users';
 
     constructor(public router: Router,private route: ActivatedRoute, public apiservice: ApiService) {
-        /* this.apiservice.getData({'source':'model_pending_and_notpending_application_view'}).subscribe(res=> {
-         let result: any;
-         result = res;
-         console.log('result');
-         console.log(result);
-         console.log(result.res);
-         this.model_pending_and_notpending_application_view = result.res;
-         this.model_pending_and_notpending_application_view[0].Age='';  // extera column add in matHeaderCellDef
-         });*/
+      
     }
 
     ngOnInit() {
