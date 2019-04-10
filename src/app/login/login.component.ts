@@ -94,12 +94,12 @@ export class LoginComponent implements OnInit {
                     if(result.item[0].status==3){
                         this.router.navigate(['/modeldashboard']);
                     }
-                    if(result.item[0].status==4){
-                        this.errormg = 'The user is blocked';
-                    }
+                    // if(result.item[0].status==4){
+                    //     this.errormg = 'The user is blocked';
+                    // }
                     //  this.router.navigate(['/modeldashboard']);
                 }
-                this.myForm.reset();
+              //  this.myForm.reset();
 
             }
 

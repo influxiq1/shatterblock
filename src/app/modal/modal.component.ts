@@ -16,26 +16,9 @@ public myForm: any ;
       fullname: ['', Validators.required],
     })
   }
-
-/*  openDialog() {
-    console.log('-------------------');
-    const dialogRef = this.modal.open(AgreementComponent);
-
-    dialogRef.afterClosed().subscribe(result => {
-    //  console.log(`Dialog result: ${result}`);
-      console.log(`Dialog result:hie`);
-
-    });
-  }*/
-
-
-
-
   ngOnInit() {
   }
   onSubmit() {
-   let data = this.myForm.value;
-   console.log(data);
   }
 
 }

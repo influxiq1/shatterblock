@@ -7,7 +7,7 @@ import { ApiService } from '../../app/api.service';
 import { Resolveservice } from '../../app/resolveservice';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 export interface DialogData {
-  id: string;
+  msg: string;
 }
 @Component({
   selector: 'app-managedashboard',
@@ -23,7 +23,8 @@ export class ManagedashboardComponent implements OnInit {
   public ckeditorContent: any;
   public model_influencer_list: any=[];
   public errckeditor;
-
+  
+  
   constructor(public fb: FormBuilder, private cookieService: CookieService, public http: HttpClient, public apiService: ApiService, public router: Router, public resolveservice: Resolveservice,public dialog: MatDialog) {
     this.myForm = this.fb.group({
       type: ['',  Validators.required],
@@ -132,6 +133,7 @@ export class ManagedashboardComponent implements OnInit {
         if (result.status == 'success') {
           this.getdata();
           const dialogRef = this.dialog.open(Updatetest, {
+            data: {msg: 'Data inserted successfully.'},
           });
           this.myForm.reset();
           console.log('result');
@@ -185,14 +187,17 @@ export class ManagedashboardComponent implements OnInit {
 
 @Component({
   selector: 'updatetest',
-  templateUrl: 'updatemodal.html',
+  templateUrl: '../commonmodals/updatemodal.html',
 })
 export class Updatetest {
-  public error: any;
+  public modalmsg: any;
 
   constructor(
       public dialogRef: MatDialogRef<Updatetest>,
       @Inject(MAT_DIALOG_DATA) public data: DialogData) {
+    console.log(data.msg);
+    this.modalmsg=data.msg;
+ 
   }
 
   onNoClick(): void {

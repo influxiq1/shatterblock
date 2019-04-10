@@ -18,7 +18,8 @@ import { Resolveservice } from '../app/resolveservice';
 import { ApiService } from '../app/api.service';
 import { AuthGuard } from './auth.guard';
 import { ForgatepasswordComponent } from './forgatepassword/forgatepassword.component';
-import {ChangepasswordComponent, Dialogtest} from './changepassword/changepassword.component';
+//import {ChangepasswordComponent, Dialogtest} from './changepassword/changepassword.component';
+import {ChangepasswordComponent, Updatetest1} from './changepassword/changepassword.component';
 
 import { AdminlistComponent } from './adminlist/adminlist.component';
 
@@ -69,16 +70,18 @@ import {AffilitemarketingComponent} from "./affilitemarketing/affilitemarketing.
     BranddashbordComponent,
     InfluencersdashbordComponent,
     ForgatepasswordComponent,
-    ChangepasswordComponent,
+    ChangepasswordComponent,Updatetest1,
     AgreementComponent,
     ListingComponent,
     AdminlistComponent,
     AdminleftpanelComponent,
     AdminformComponent,
     AdminmodalformComponent,
-    ResetpasswordComponent,Dialogtest, MainNavComponent,
+    ResetpasswordComponent,
+    // Dialogtest,
+    MainNavComponent,
     ManagedashboardComponent,Updatetest,
-    ResetpasswordComponent,Dialogtest, MainNavComponent, ContractComponent, AudiodeadlinesgreementComponent, ModalaudiodeadlineComponent, ModeldashboardComponent,AffilitemarketingComponent,
+    MainNavComponent, ContractComponent, AudiodeadlinesgreementComponent, ModalaudiodeadlineComponent, ModeldashboardComponent,AffilitemarketingComponent,
 
 
 
@@ -111,8 +114,11 @@ import {AffilitemarketingComponent} from "./affilitemarketing/affilitemarketing.
   providers: [CookieService,Resolveservice,ApiService,AuthGuard],
   bootstrap: [AppComponent],
   entryComponents: [
-    Dialogtest,Updatetest,
-    Dialogtest,ModalComponent,
+    // Dialogtest,
+    Updatetest,
+    Updatetest1,
+    // Dialogtest,
+    ModalComponent,
   ],
 })
 export class AppModule { }

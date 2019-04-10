@@ -6,7 +6,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 // import { CookieService } from 'ngx-cookie-service';
 import { ApiService } from '../../app/api.service';
 export interface DialogData {
-  id: string;
+  msg: string;
 }
 @Component({
   selector: 'app-changepassword',
@@ -63,9 +63,9 @@ export class ChangepasswordComponent implements OnInit {
       }
       if (result.status == 'error') {
         console.log('open dialog');
-        const dialogRef = this.dialog.open(Dialogtest, {
+        const dialogRef = this.dialog.open(Updatetest1, {
           // width: '250px',
-          data: {id: result.msg},
+          data: {msg: result.msg},
 
         });
         this.error = result.msg;
@@ -95,10 +95,7 @@ export class ChangepasswordComponent implements OnInit {
           this.router.navigate(['/login']);
         }
         if (result.status == 'error') {
-          const dialogRef = this.dialog.open(Dialogtest, {
-
-
-          });
+      //    const dialogRef = this.dialog.open(Dialogtest, {
           this.error = result.msg;
         }
         /*    // console.log(result.item);
@@ -118,7 +115,7 @@ export class ChangepasswordComponent implements OnInit {
 }
 
 
-@Component({
+/*@Component({
   selector: 'dialogtest',
   templateUrl: 'modal.html',
 })
@@ -129,6 +126,21 @@ export class Dialogtest {
       public dialogRef: MatDialogRef<Dialogtest>,
       @Inject(MAT_DIALOG_DATA) public data: DialogData) {
     this.error=data.id;
+  }*/
+
+  @Component({
+    selector: 'updatetest',
+    templateUrl: '../commonmodals/updatemodal.html',
+  })
+  export class Updatetest1 {
+  public modalmsg: any;
+
+  constructor(
+      public dialogRef: MatDialogRef<Updatetest1>,
+      @Inject(MAT_DIALOG_DATA) public data: DialogData) {
+    console.log(data.msg);
+    this.modalmsg=data.msg;
+
   }
 
   onNoClick(): void {
