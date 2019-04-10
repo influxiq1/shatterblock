@@ -16,7 +16,7 @@ export class AdmindashbordComponent implements OnInit {
     pendingapplication_view: any=[];
     pendingapplication_view_skip: any= ['_id','username','phone','city','state','ethnicity','height','haircolor','eyecolor','weight','bust','waist','hips','slim','toned','tattoos','athletic','piercings','retail','voluptuous','promotions','sales','descriptionbox','facebooklink','twitterlink','instagramlink','modelmayhemlink','type','images'];
     pendingapplication_view_modify_header1: any = { 'dateformat': 'Date','status':'Status','email':'Email', 'name':'Full Name' };
-    pendingapplication_view_detail_skip:any=['_id','email','name'];
+    pendingapplication_view_detail_skip:any=['_id','email','name','type','status'];
     pendingapplication_view_detail_datatype:any=[{key:"images",value:'image',fileurl:"http://18.222.26.198/upload/modelimages/" }];
 
 
@@ -25,7 +25,7 @@ export class AdmindashbordComponent implements OnInit {
     model_pending_and_notpending_application_view: any=[];
     model_pending_and_notpending_application_view_skip: any= ['type','password','Contracts_Signed', 'created_at', '_id','username','email','status','date_iso_dateformat','regDate'];
     model_pending_and_notpending_application_view_modify_header: any = { 'date': 'Date','Age':'Age','name':'Name','submissionprocess':'Submission Process','contractssigned':'Contracts Signed'};
-    statusarray:any=[{val:1,name:'Approve'},{val:2,name:'Decline'},{val:3,name:'Lock'},{val:0,name:'Pending'}];
+    statusarray:any=[{val:1,name:'Approve'},{val:2,name:'Decline'},{val:4,name:'Lock'},{val:0,name:'Pending'}];
 
     updateurl='addorupdatedata';
     delurl='deletesingledata';

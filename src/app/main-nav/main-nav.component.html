@@ -5,10 +5,11 @@
       [opened]="!(isHandset$ | async)">
     <mat-toolbar>
       <span class="s_shatter_logo_wrapper">
-          <img src="../../assets/images/shaterblockLogo.png" alt="#" >
+         <!-- <img src="../../assets/images/shaterblockLogo.png" alt="#" >-->
+          <img src="../../assets/images/adminshaterblockLogo.png" alt="#" >
       </span>
     </mat-toolbar>
-    <mat-nav-list>
+    <mat-nav-list class="left_nav_menu">
       <a mat-list-item role="listitem" class="active" [routerLink]="['/admindashboard']">Dashboard</a>
       <mat-divider></mat-divider>
       <a mat-list-item role="listitem" [routerLink]="['/managedashboard']">Manage Dashboard</a>

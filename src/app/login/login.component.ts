@@ -3,8 +3,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import {ActivatedRouteSnapshot, Router} from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
-import { ApiService } from '../../app/api.service';
-import { Resolveservice } from '../../app/resolveservice';
+import { ApiService } from '../api.service';
+import { Resolveservice } from '../resolveservice';
 
 @Component({
     selector: 'app-login',
@@ -70,7 +70,6 @@ export class LoginComponent implements OnInit {
             // console.log(result.item[0].type);
             console.log('result.item');
             console.log(result.item);
-            console.log(result.status);
             // console.log(result.item.type);
             // console.log(result.item[0]);
             if (result.status == 'success') {
@@ -78,29 +77,29 @@ export class LoginComponent implements OnInit {
                 this.cookieService.set('password', result.item[0].password);
                 this.cookieService.set('id', result.item[0]._id);
                 this.cookieService.set('jwttoken', result.token);
-                    if (result.status == 'success' && result.item[0].type == 'admin') {
-                        this.router.navigate(['/admindashboard']);
-                    } else if (result.status == 'success' && result.item[0].type == 'brand') {
-                        // this.myForm.reset();
-                        this.router.navigate(['/branddashboard']);
-                    } else if (result.status == 'success' && result.item[0].type == 'influencers') {
-                        this.router.navigate(['/influencersdashboard']);
-                    } else if (result.status == 'success' && result.item[0].type == 'model') {
-                        if(result.item[0].status==1){
-                            this.router.navigate(['/agreement']);
-                        }
-                        if(result.item[0].status==2){
-                            this.router.navigate(['/audioseadlineagreement']);
-                        }
-                        if(result.item[0].status==3){
-                            this.router.navigate(['/modeldashboard']);
-                        }
-                        if(result.item[0].status==4){
-                            this.errormg = 'BLocked';
-                        }
-                      //  this.router.navigate(['/modeldashboard']);
+                if (result.status == 'success' && result.item[0].type == 'admin') {
+                    this.router.navigate(['/admindashboard']);
+                } else if (result.status == 'success' && result.item[0].type == 'brand') {
+                    // this.myForm.reset();
+                    this.router.navigate(['/branddashboard']);
+                } else if (result.status == 'success' && result.item[0].type == 'influencers') {
+                    this.router.navigate(['/influencersdashboard']);
+                } else if (result.status == 'success' && result.item[0].type == 'model') {
+                    if(result.item[0].status==1){
+                        this.router.navigate(['/agreement']);
                     }
-                    this.myForm.reset();
+                    if(result.item[0].status==2){
+                        this.router.navigate(['/audioseadlineagreement']);
+                    }
+                    if(result.item[0].status==3){
+                        this.router.navigate(['/modeldashboard']);
+                    }
+                    if(result.item[0].status==4){
+                        this.errormg = 'The user is blocked';
+                    }
+                    //  this.router.navigate(['/modeldashboard']);
+                }
+                this.myForm.reset();
 
             }
 
@@ -117,5 +116,6 @@ export class LoginComponent implements OnInit {
     }
 
 }
+
 
 

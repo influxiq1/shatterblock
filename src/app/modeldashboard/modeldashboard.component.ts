@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router,ActivatedRoute } from '@angular/router';
 import { ApiService } from "../api.service";
+import {DomSanitizer} from '@angular/platform-browser';
 
 @Component({
   selector: 'app-modeldashboard',
@@ -12,7 +13,7 @@ export class ModeldashboardComponent implements OnInit {
   model_influencer_contents_viewlistin_decending_jocu: any=[];
   model_influencer_contents_viewlistin_decending_audio: any=[];
 
-  constructor(public router: Router,private route: ActivatedRoute, public apiservice: ApiService) {}
+  constructor(public router: Router,private route: ActivatedRoute, public apiservice: ApiService,public _sanitizer: DomSanitizer) {}
 
   ngOnInit() {
     this.route.data.forEach((data) => {

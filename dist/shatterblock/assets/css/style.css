@@ -249,6 +249,18 @@ font-family: 'Noteworthy';
 .sidenav[_ngcontent-c3]{
     background: #1d1e24;
 }
+.sidenav[_ngcontent-c2] .mat-toolbar[_ngcontent-c2] {
+    background: #fff!important;
+}
+.left_nav_menu .mat-list-item-content{
+    background: #000!important;
+    margin: 0px!important;
+    padding: 10px!important;
+    text-align: center;
+    font-size: 18px!important;
+    color: #fff!important;
+    border: none!important;
+}
 .mat-list-base .mat-list-item .mat-list-item-content, .mat-list-base .mat-list-option .mat-list-item-content{
     color: #fff;
 }
@@ -705,6 +717,70 @@ td.mat-cell:last-of-type, td.mat-footer-cell:last-of-type, th.mat-header-cell:la
 .grid_template .mat-card{width: 100%!important;}
 
 
+.banner_content{
+    background: url(../images/adBanner.jpg) no-repeat!important;
+    background-position: center center;
+    margin: 20px!important;
+    background-size: cover!important;
+    padding-bottom: 0!important;
+
+}
+.image_wrapper img{ width: 100%;}
+
+.banner_content .mat-card-content{
+    display: flex!important;
+
+}
+.banner_content .mat-card-content .right_part{
+    display: flex!important;
+}
+.content_wrapper{
+    width: 63%;
+    display: flex;
+    margin-top: auto!important;
+    flex-direction: column;
+}
+.right_part{
+    display: flex;
+    margin-top: auto!important;
+    width:auto;
+
+}
+
+.content_wrapper .heading span{ font-size: 16px; margin-left: 2%;}
+.content_wrapper .heading{
+    font-family: 'OpenSansBold';
+    font-size: 20px;
+    color: #fff;
+    text-transform: uppercase;
+}
+.content_wrapper .para{
+    font-family: 'OpenSans';
+    font-size: 16px;
+    line-height: 22px;
+    color: #07152b;
+}
+.middlepart{
+    display: flex;
+    align-self: flex-end;
+}
+.middlepart img{ height: 340px;}
+.knowmore_content{display: flex; justify-content: center;  margin-top: auto;
+    padding-bottom: 30px; }
+
+.knowmore_content button{
+    border-radius: 35px;
+    width: 180px;
+    margin-left: 5px;
+    font-family: 'OpenSansBold';
+    font-size: 18px!important;
+    color: #121515;
+}
+/**/
+
+.banner_content2 {
+
+}
 
 @media only screen and (max-width: 991px) {
 
