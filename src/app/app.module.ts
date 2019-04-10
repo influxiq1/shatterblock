@@ -53,8 +53,7 @@ import {ModalComponent} from "./modal/modal.component";
 import { AudiodeadlinesgreementComponent } from './audiodeadlinesgreement/audiodeadlinesgreement.component';
 import { ModalaudiodeadlineComponent } from './modalaudiodeadline/modalaudiodeadline.component';
 import { ModeldashboardComponent } from './modeldashboard/modeldashboard.component';
-
-
+import {AffilitemarketingComponent} from "./affilitemarketing/affilitemarketing.component";
 
 
 @NgModule({
@@ -79,7 +78,7 @@ import { ModeldashboardComponent } from './modeldashboard/modeldashboard.compone
     AdminmodalformComponent,
     ResetpasswordComponent,Dialogtest, MainNavComponent,
     ManagedashboardComponent,Updatetest,
-    ResetpasswordComponent,Dialogtest, MainNavComponent, ContractComponent, AudiodeadlinesgreementComponent, ModalaudiodeadlineComponent, ModeldashboardComponent,
+    ResetpasswordComponent,Dialogtest, MainNavComponent, ContractComponent, AudiodeadlinesgreementComponent, ModalaudiodeadlineComponent, ModeldashboardComponent,AffilitemarketingComponent,
 
 
 

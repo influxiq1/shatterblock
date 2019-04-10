@@ -21,7 +21,7 @@ import {ModalComponent} from "./modal/modal.component";
 import {AudiodeadlinesgreementComponent} from "./audiodeadlinesgreement/audiodeadlinesgreement.component";
 import {ModalaudiodeadlineComponent} from "./modalaudiodeadline/modalaudiodeadline.component";
 import {ModeldashboardComponent} from "./modeldashboard/modeldashboard.component";
-
+import {AffilitemarketingComponent} from "./affilitemarketing/affilitemarketing.component";
 
 const routes: Routes = [
   { path: "admin", component: AdminmanagementComponent, canActivate: [AuthGuard] },
@@ -46,6 +46,7 @@ const routes: Routes = [
   {path: 'managedashboard', component: ManagedashboardComponent, canActivate: [AuthGuard]},
 
   {path: 'agreement', component: AgreementComponent, canActivate: [AuthGuard]},
+  {path: 'affilitemarketing', component: AffilitemarketingComponent, canActivate: [AuthGuard]},
 
 
   {path: 'audioseadlineagreement', component: AudiodeadlinesgreementComponent},
