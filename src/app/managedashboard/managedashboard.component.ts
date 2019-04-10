@@ -30,7 +30,6 @@ export class ManagedashboardComponent implements OnInit {
       content: ['', Validators.required],
       created_by: [this.cookieService.get('id')]
     });
-
   }
 
   ngOnInit() {
@@ -176,7 +175,10 @@ export class ManagedashboardComponent implements OnInit {
     this.myForm.controls[val].markAsUntouched();
   }
   onChange(event: any) {
+    console.log('hie');
+    console.log(this.ckeditorContent);
     this.myForm.patchValue({content: this.ckeditorContent});
+    console.log(this.myForm.value);
   }
 }
 
@@ -196,6 +198,7 @@ export class Updatetest {
   onNoClick(): void {
     this.dialogRef.close();
   }
+
 }
 
 /*
