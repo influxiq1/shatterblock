@@ -19,6 +19,7 @@ public endpoint = 'addorupdatedata';
       console.log('id-- '+this.cookieService.get('id'));
   }
   openDialog(){
+      this.errmsg='';
       const dialogRef = this.modal.open(ModalComponent, {
          // data: {myForm: this.fullname},
       });

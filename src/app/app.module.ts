@@ -47,7 +47,7 @@ import { MainNavComponent } from './main-nav/main-nav.component';
 import { LayoutModule } from '@angular/cdk/layout';
 import { MatIconModule, MatListModule } from '@angular/material';
 import {ListingComponent} from "./listing/listing.component";
-
+import {AudiodeadlinecontentComponent} from "./audiodeadlinecontent/audiodeadlinecontent.component";
 import { ContractComponent } from './contract/contract.component';
 import {AgreementComponent} from "./agreement/agreement.component";
 import {ModalComponent} from "./modal/modal.component";
@@ -69,6 +69,7 @@ import { UpdatesigninstatusComponent } from './updatesigninstatus/updatesigninst
     InfluencersmanagementComponent,
     AdmindashbordComponent,
     BranddashbordComponent,
+    AudiodeadlinecontentComponent,
     InfluencersdashbordComponent,
     ForgatepasswordComponent,
     ChangepasswordComponent,Updatetest1,

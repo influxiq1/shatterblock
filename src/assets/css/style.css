@@ -798,7 +798,7 @@ td.mat-cell:last-of-type, td.mat-footer-cell:last-of-type, th.mat-header-cell:la
 }
 .inner_mat img{
     width: 100%;
-    margin: 0 auto; height: 280px;
+    margin: 0 auto;
 }
 .action
 {
@@ -840,3 +840,123 @@ td.mat-cell:last-of-type, td.mat-footer-cell:last-of-type, th.mat-header-cell:la
     }
 
 }
+
+
+/*----------------------amitava--------------------*/
+
+.ad_profileblockbody{ background-color: #db2351!important; margin: 20px!important; background-image: url("../images/admin_blocknew_bg1.png")!important; background-repeat: no-repeat!important; background-position: right bottom!important;}
+
+.ad_profileblockwrapper{ clear: both; overflow: hidden;}
+
+.ad_profileblock_left{ width: 50%; float: left;}
+
+.ad_profileblock_right{ width: 48%; float: right; padding-left: 2%;}
+
+.ad_profileblockbody .mat-card-subtitle:not(:first-child), .ad_profileblockbody .mat-card-title:not(:first-child){ margin-top: 0px!important;}
+
+.ad_profileblock_left_big{ width: auto;   border: solid 10px #fff; margin: 0!important; padding: 0px!important; background-color: #fff;}
+
+.ad_profileblock_left_big img{ width: 100%; box-shadow: 0 0 2px #888; margin: 0!important; padding: 0px!important;}
+
+.ad_profileblock_left_small{background-color: #fff;  border-top: solid 10px #db2351; text-align: center; padding: 5px; }
+
+.ad_profileblock_left_small ul{ margin: 0!important; padding: 0!important; clear: both; overflow: hidden;}
+.ad_profileblock_left_small ul li{ padding: 0!important; list-style: none;  width: 108px; height: 108px;  display: inline-block;
+    border: solid 8px #db2351;
+    margin: 5px 5px 4px 5px!important; }
+
+.ad_profileblock_left_small ul li span{ display: table-cell; text-align: center; vertical-align: middle; width: 108px; height: 108px;  overflow: hidden; background:  #db2351; cursor: pointer; padding-top: 1px;}
+
+.ad_profileblock_left_small img { width: 100%;  margin: 0!important; padding: 0!important; cursor: pointer; }
+
+.ad_profileblock_right h2{     margin: 0;
+    padding: 0;
+    font-size: 40px; display: block;
+    color: #fff;
+    font-family: 'OpenSansBold';
+    line-height: 48px;
+    width: 100%;
+    text-align: left;
+    text-transform: uppercase;
+    margin-bottom: 30px; display: block;  background-image: url("../images/admin_blocknew_textbg.png")!important; background-repeat:repeat-x!important; background-position: left bottom!important; }
+
+.ad_profileblock_modeldetail label {
+    margin: 0;
+    padding: 0;
+    font-size: 20px;
+    color: #4c0416;
+    font-family: 'OpenSansBold';
+    line-height: 48px;
+    text-align: left;
+    text-transform: uppercase; width: 150px; display: inline-block;
+}
+
+.ad_profileblock_modeldetail span {
+    margin: 0;
+    padding: 0;
+    font-size: 24px;
+    color: #ffcec4;
+    font-family: 'OpenSans';
+    line-height: 48px;
+    text-align: left;
+    text-transform: uppercase;
+    height: inherit;
+}
+
+.ad_profileblock_right .mat-button {border-radius: 35px;
+    width: 200px; padding: 10px 0;
+
+    font-family: 'OpenSans';
+    font-size: 22px!important;
+    background-color: #faa318;
+    color: #fff; display: block; margin: 0 auto; }
+
+
+.ad_profileblock_right h3{     margin: 0; clear: both;; overflow: hidden;
+    padding: 10px 0 40px 0;
+    display: block;
+    color: #fff;
+    width: 100%;
+    text-align: left; font-weight: normal;
+
+    margin-bottom: 40px; display: block;  background-image: url("../images/admin_blocknew_textbg.png")!important; background-repeat:repeat-x!important; background-position: left bottom!important; }
+
+.ad_profileblock_right h3 img{ display: inline-block; float: left; width: 32px; margin-right: 10px;     margin-top: 4px;}
+.ad_profileblock_right h3 a{  font-family: 'OpenSans'; color: #fff; display: inline-block; float: left; font-size: 25px; text-decoration: none; }
+
+
+.mat-card-imagecontain{ height: 374px; width: 100%; display: table-cell!important; text-align: center; vertical-align: middle; overflow: hidden; background: #ccc;}
+
+.inner_mat{ border-radius: 0px!important;}
+
+@media only screen and (max-width: 1680px) {
+    .mat-card-imagecontain{ height: 300px; }
+
+}
+
+@media only screen and (max-width: 1440px) {
+    .mat-card-imagecontain{ height: 280px; }
+
+}
+
+
+
+@media only screen and (max-width: 1199px) {
+    .ad_profileblock_left{ width: 100%; float: none;}
+
+    .ad_profileblock_right{ width: 100%; float: none; padding-left:0%; padding-top: 40px; padding-bottom: 25px;}
+
+
+    .mat-card-imagecontain{ height: 260px; }
+}
+
+@media only screen and (max-width: 350px) {
+
+    .ad_profileblock_left_small ul li{ width: 93px; height: 93px;}
+
+    .ad_profileblock_left_small ul li span{  width: 93px; height: 93px;}
+}
+
+
+
+/*-----------------amitava end--------------------------------*/

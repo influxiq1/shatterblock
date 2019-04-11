@@ -17,6 +17,7 @@ export class AudiodeadlinesgreementComponent implements OnInit {
     console.log('id-- '+this.cookieService.get('id'));
   }
   openDialog(){
+    this.errormsg='';
     const dialogRef = this.modal.open(ModalaudiodeadlineComponent);{
       data: {myForm : this.fullname}
     }

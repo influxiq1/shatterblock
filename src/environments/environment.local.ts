@@ -7,5 +7,6 @@ export const environment = {
   //  API_URL: 'http://18.222.26.198:7002/',
     API_URL: 'https://nodessl.influxiq.com:6053/',
     resetpaswordurl: 'http://localhost:4200/',
+    uplodeimg_url: 'https://shatterblok.com/upload/modelimages/',
     environment: "local"
 };

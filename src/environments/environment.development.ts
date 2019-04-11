@@ -9,5 +9,6 @@ export const environment = {
     API_URL: 'https://nodessl.influxiq.com:6053/',
    // resetpaswordurl: 'http://development.shatterblokbackend.com.s3-website.us-east-2.amazonaws.com/',
     resetpaswordurl: 'https://developmentbackoffice.shatterblok.com/',
+    uplodeimg_url: 'https://shatterblok.com/upload/modelimages/',
     environment: 'development'
 };

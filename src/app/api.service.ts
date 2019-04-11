@@ -10,6 +10,7 @@ export class ApiService {
 
   public domain =  environment["API_URL"];
   public _url = environment["API_URL"];
+  public uplodeimg_url = environment["uplodeimg_url"];
   public resetpassword = environment['resetpaswordurl'];
   public jwttoken: any;
 
