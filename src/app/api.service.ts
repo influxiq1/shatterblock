@@ -49,7 +49,18 @@ export class ApiService {
     return result;
   }
 
-
+  getDatawithouttoken(endpoint) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type':  'application/json'
+      })
+    };
+   /* console.log('httpOptions');
+    console.log(httpOptions);*/
+    // this.isTokenExpired()
+    var result = this._http.get(this._url + endpoint, httpOptions).pipe(map(res => res));
+    return result;
+  }
 
   getEndpoint(endpoint: any) {
 

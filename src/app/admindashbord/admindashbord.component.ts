@@ -16,18 +16,18 @@ export class AdmindashbordComponent implements OnInit {
 
     pendingapplication_view: any=[];
     pendingapplication_view_skip: any= ['_id','username','phone','city','state','ethnicity','height','haircolor','eyecolor','weight','bust','waist','hips','slim','toned','tattoos','athletic','piercings','retail','voluptuous','promotions','sales','descriptionbox','facebooklink','twitterlink','instagramlink','modelmayhemlink','type','images'];
-    pendingapplication_view_modify_header1: any = { 'dateformat': 'Date','status':'Status','email':'Email', 'name':'Full Name' };
+    pendingapplication_view_modify_header1: any = { 'dateformat': 'Date','status':'Status','email':'Email', 'name':'Full Name' , 'bodytype' : 'Bodytype' };
     pendingapplication_view_detail_skip:any=['_id','email','name','type','status'];
-    pendingapplication_view_detail_datatype:any=[{key:"images",value:'image',fileurl:"http://18.222.26.198/upload/modelimages/" }];
+    pendingapplication_view_detail_datatype:any=[{key:"images",value:'image',fileurl:"https://shatterblok.com/upload/modelimages/" }];
 
 
 
 
     status_gretterthan_zero: any=[];
     status_gretterthan_zero_skip: any= ['_id','username','phone','city','state','ethnicity','height','haircolor','eyecolor','weight','bust','waist','hips','slim','toned','tattoos','athletic','piercings','retail','voluptuous','promotions','sales','descriptionbox','facebooklink','twitterlink','instagramlink','modelmayhemlink','type','images'];
-    status_gretterthan_zero_modify_header: any = { 'dateformat': 'Date','status':'Status','email':'Email', 'name':'Full Name' };
+    status_gretterthan_zero_modify_header: any = { 'dateformat': 'Date','status':'Status','email':'Email', 'name':'Full Name', 'bodytype' : 'Bodytype', 'shatterblok agreement date': 'Shatterblok Agreement Date', 'audiodeadline agreement date': 'Audiodeadline Agreement Date' };
     status_gretterthan_zero_detail_skip:any=['_id','email','name','type','status'];
-    status_gretterthan_zero_detail_datatype:any=[{key:"images",value:'image',fileurl:"http://18.222.26.198/upload/modelimages/" }];
+    status_gretterthan_zero_detail_datatype:any=[{key:"images",value:'image',fileurl:"https://shatterblok.com/upload/modelimages/" }];
 
 
 

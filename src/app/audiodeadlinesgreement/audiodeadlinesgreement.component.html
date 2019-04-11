@@ -94,7 +94,7 @@
   <h5>By: {{fullname}}</h5>
 
   <button mat-button class="ep_contractbtn agreementsubmitbutton" (click)="onAgreement()" >Submit</button>
-
+<mat-error *ngIf="errormsg">{{errormsg}}</mat-error>
 
 </mat-card-content>
 

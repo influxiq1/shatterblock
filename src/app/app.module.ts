@@ -55,6 +55,7 @@ import { AudiodeadlinesgreementComponent } from './audiodeadlinesgreement/audiod
 import { ModalaudiodeadlineComponent } from './modalaudiodeadline/modalaudiodeadline.component';
 import { ModeldashboardComponent } from './modeldashboard/modeldashboard.component';
 import {AffilitemarketingComponent} from "./affilitemarketing/affilitemarketing.component";
+import { UpdatesigninstatusComponent } from './updatesigninstatus/updatesigninstatus.component';
 
 
 @NgModule({
@@ -81,7 +82,7 @@ import {AffilitemarketingComponent} from "./affilitemarketing/affilitemarketing.
     // Dialogtest,
     MainNavComponent,
     ManagedashboardComponent,Updatetest,
-    MainNavComponent, ContractComponent, AudiodeadlinesgreementComponent, ModalaudiodeadlineComponent, ModeldashboardComponent,AffilitemarketingComponent,
+    MainNavComponent, ContractComponent, AudiodeadlinesgreementComponent, ModalaudiodeadlineComponent, ModeldashboardComponent,AffilitemarketingComponent, UpdatesigninstatusComponent,
 
 
 
