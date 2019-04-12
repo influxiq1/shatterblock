@@ -37,7 +37,7 @@ export class AdmindashbordComponent implements OnInit {
 
 
 
-    statusarray:any=[{val:1,name:'Approve'},{val:2,name:'Decline'},{val:4,name:'Lock'},{val:0,name:'Pending'},{val:3,name:'Dashboard Access'}];
+    statusarray:any=[{val:1,name:'Approve'},{val:4,name:'Decline'},{val:0,name:'Pending'},{val:3,name:'Dashboard Access'}];
     updateurl='addorupdatedata';
     delurl='deletesingledata';
     tablename='users';

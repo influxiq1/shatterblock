@@ -71,9 +71,7 @@ export class ApiService {
         'Content-Type':  'application/json'
       })
     };
-    /* console.log('httpOptions');
-     console.log(httpOptions);*/
-    // this.isTokenExpired()
+
     var result = this._http.post(this.audio_img_url+endpoint,JSON.stringify(data), httpOptions).pipe(map(res => res));
 
     return result;
