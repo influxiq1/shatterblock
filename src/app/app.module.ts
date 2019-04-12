@@ -56,7 +56,7 @@ import { ModalaudiodeadlineComponent } from './modalaudiodeadline/modalaudiodead
 import { ModeldashboardComponent } from './modeldashboard/modeldashboard.component';
 import {AffilitemarketingComponent} from "./affilitemarketing/affilitemarketing.component";
 import { UpdatesigninstatusComponent } from './updatesigninstatus/updatesigninstatus.component';
-
+import { ClipboardModule } from 'ngx-clipboard';
 
 @NgModule({
   declarations: [
@@ -99,7 +99,7 @@ import { UpdatesigninstatusComponent } from './updatesigninstatus/updatesigninst
     HttpClientModule,
     FormsModule, ReactiveFormsModule,
     CKEditorModule,
-
+    ClipboardModule,
     //MATERIAL
     MatSidenavModule,
     MatTableModule,

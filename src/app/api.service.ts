@@ -14,6 +14,8 @@ export class ApiService {
   public audio_img_url = environment["audio_img_url"];
   public resetpassword = environment['resetpaswordurl'];
   public audio_img_folder_url = environment['audio_img_folder_url'];
+  public audiodeadline_php_url = environment['audiodeadline_php_url'];
+  public audiodeadline_fileurl = environment['audiodeadline_fileurl'];
   public jwttoken: any;
 
   constructor(private _http: HttpClient,

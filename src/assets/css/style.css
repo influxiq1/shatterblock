@@ -62,10 +62,20 @@ body{ margin: 0; padding: 0; background: #000!important;}
     font-style: normal;
 }
 @font-face {
+    font-family: 'NoteraPersonalUseOnly';
 url('../fonts/Noteworthy-Bold.woff.woff2') format('woff2'),
 url('../fonts/Noteworthy-Bold.woff.woff') format('woff'),
 font-family: 'Noteworthy';
     font-weight: bold;
+    font-style: normal;
+}
+
+
+@font-face {
+    font-family: 'Notera Personal Use Only';
+    src: url('../fonts/NoteraPersonalUseOnly.woff2') format('woff2'),
+    url('../fonts/NoteraPersonalUseOnly.woff') format('woff');
+    font-weight: normal;
     font-style: normal;
 }
 
@@ -554,8 +564,8 @@ td.mat-cell:last-of-type, td.mat-footer-cell:last-of-type, th.mat-header-cell:la
     padding: 5px 0 5px 20px;
     color: #000;
     font-size: 54px;
-    font-family: 'NoteraPersonalUseOnly';
-    border-left: solid 5px #e6bf07; font-weight: normal;
+    font-family: 'Notera Personal Use Only';
+    border-left: solid 5px rgb(37, 115, 175)!important; font-weight: normal;
 }
 
 .newsignmodal h4 {
@@ -844,7 +854,7 @@ td.mat-cell:last-of-type, td.mat-footer-cell:last-of-type, th.mat-header-cell:la
 
 /*----------------------amitava--------------------*/
 
-.ad_profileblockbody{ background-color: #db2351!important; margin: 20px!important; background-image: url("../images/admin_blocknew_bg1.png")!important; background-repeat: no-repeat!important; background-position: right bottom!important;}
+.ad_profileblockbody{ background-color: #db2351!important; margin: 20px!important; background-image: url("../images/admin_blocknew_bg1.png")!important; background-repeat: no-repeat!important; background-position: right bottom!important; border-radius: 0px!important; box-shadow: none!important;}
 
 .ad_profileblockwrapper{ clear: both; overflow: hidden;}
 
@@ -858,7 +868,7 @@ td.mat-cell:last-of-type, td.mat-footer-cell:last-of-type, th.mat-header-cell:la
 
 .ad_profileblock_left_big img{ width: 100%; box-shadow: 0 0 2px #888; margin: 0!important; padding: 0px!important;}
 
-.ad_profileblock_left_small{background-color: #fff;  border-top: solid 10px #db2351; text-align: center; padding: 5px; }
+.ad_profileblock_left_small{background-color: #fff;  border-top: solid 14px #db2351; text-align: center; padding: 5px; }
 
 .ad_profileblock_left_small ul{ margin: 0!important; padding: 0!important; clear: both; overflow: hidden;}
 .ad_profileblock_left_small ul li{ padding: 0!important; list-style: none;  width: 108px; height: 108px;  display: inline-block;
@@ -929,34 +939,285 @@ td.mat-cell:last-of-type, td.mat-footer-cell:last-of-type, th.mat-header-cell:la
 
 .inner_mat{ border-radius: 0px!important;}
 
+
+
+
+
+
+.ad_audiodeadlinecontent_block1body{background-image: url("../images/adBanner.jpg")!important; background-repeat:no-repeat!important; background-position: left bottom!important; background-size: cover!important;  border-radius: 0px!important; margin: 20px!important; padding: 25px 25px 0 25px!important; box-shadow: none!important; display: table; vertical-align: bottom!important;}
+
+
+
+.ad_audiodeadlinecontent_block1body_wrapper{border-radius: 0px!important; margin: 0px!important; padding: 0px!important; box-shadow: none!important; display: table-row!important; background: none!important; }
+
+.ad_audiodeadlinecontent_block1body_1st{width: 63%;  display: table-cell!important;  vertical-align: bottom!important; padding-bottom: 25px!important; }
+.ad_audiodeadlinecontent_block1body_2nd{display: table-cell!important;   vertical-align: bottom!important; text-align: center;}
+.ad_audiodeadlinecontent_block1body_3rd{display: table-cell!important; vertical-align: bottom!important; padding-bottom: 25px!important;}
+
+.ad_audiodeadlinecontent_block1body_1st .adlogo{ width: 200px; margin-top: 20px;}
+.ad_audiodeadlinecontent_block1body_1st h2{    font-family: 'OpenSansBold';
+    font-size: 48px;
+    color: #fff;
+    text-transform: uppercase; margin: 14px 0; padding: 0; line-height: 40px;}
+
+.ad_audiodeadlinecontent_block1body_1st h2 sup{ font-size: 20px; font-weight: normal;  font-family: 'OpenSans'; display: inline-block;}
+
+.ad_audiodeadlinecontent_block1body_1st p{font-family: 'OpenSans';
+    font-size: 16px;
+    line-height: 22px;
+    color: #07152b; margin: 0; padding: 0;}
+
+.ad_audiodeadlinecontent_block1body_2nd img{ margin-bottom: -4px!important;}
+
+
+.ad_audiodeadlinecontent_block1body_3rd .mat-button{border-radius: 35px;
+    width: 180px;
+    margin-left: 5px;
+    font-family: 'OpenSansBold';
+    font-size: 18px!important;
+    color: #121515; background: #fff!important; line-height: 55px;}
+
+.ad_audiodeadlinecontent_block1body_3rd img{ margin-bottom: -24px;}
+
+
+
+.ad_audiodeadlinecontent_block2body{background-image: url("../images/adBanner2.jpg")!important; background-repeat:no-repeat!important; background-position: right top!important; background-size: cover!important;  border-radius: 0px!important; margin: 20px!important; padding: 25px!important; box-shadow: none!important; display: table; vertical-align: bottom!important; height: 290px!important;}
+
+.ad_audiodeadlinecontent_block2body_wrapper{border-radius: 0px!important; margin: 0px!important; padding: 0px!important; box-shadow: none!important; display: table-row!important; background: none!important; }
+
+.ad_audiodeadlinecontent_block2body_1st{ width: 300px; height: 290px; display: table-cell!important; text-align: center; vertical-align: middle;}
+.ad_audiodeadlinecontent_block2body_2nd {
+    width: 64.5%;
+    height: 290px;
+    display: table-cell!important;
+    text-align: left;
+    vertical-align: middle;
+    padding-right: 23%;
+    padding-left: 1%;
+}
+
+
+.ad_audiodeadlinecontent_block2body_3rd{display: table-cell!important; vertical-align: bottom!important;  }
+
+
+.ad_audiodeadlinecontent_block2body_1st span{ display: block; background-image: url("../images/newjoqulogobg.png")!important; background-repeat:no-repeat!important; background-position: left top!important; width: 255px; height: 159px; margin-left: auto; margin-right: auto; }
+
+.ad_audiodeadlinecontent_block2body_1st span img{ margin: 18px auto;}
+
+
+.ad_audiodeadlinecontent_block2body_2nd h2{ margin: 0px; padding: 0px; font-size: 36px; color: #fc0100; font-style: italic;  font-family: 'RobotoBold';     line-height: 36px;}
+
+.ad_audiodeadlinecontent_block2body_2nd p{ margin: 14px 0 0 0px; padding: 0px; border-left: solid 4px #fe0600; font-size: 14px; color: #ffffff; font-family: 'RobotoRegular';}
+
+.ad_audiodeadlinecontent_block2body_2nd p span{ padding-left: 10px; display: block; font-style: italic;}
+
+
+.ad_audiodeadlinecontent_block2body_3rd .mat-button{border-radius: 35px;
+    width: 180px;
+    margin-left: 5px;
+    font-family: 'OpenSansBold';
+    font-size: 18px!important;
+    color: #fff; background: #0eb7ee!important; line-height: 55px;}
+
+.ad_audiodeadlinecontent_block2body_3rd img{ margin-bottom: -24px;}
+
+
+
+/*--------------*/
+@media only screen and (max-width: 1820px) {
+    .ad_audiodeadlinecontent_block2body_2nd {
+        width: 63.5%;
+    }
+}
+
+@media only screen and (max-width: 1800px) {
+
+    .ad_audiodeadlinecontent_block1body_1st{width: 60%;}
+
+    .ad_audiodeadlinecontent_block2body_2nd {width: 62.5%; padding-right: 20%;  }
+}
+
+
+@media only screen and (max-width: 1740px) {
+    .ad_audiodeadlinecontent_block2body_2nd {
+        width: 61.5%;
+        padding-right: 10%;
+    }
+
+}
+
+@media only screen and (max-width: 1700px) {
+    .ad_audiodeadlinecontent_block2body_2nd {
+        width: 59%;
+    }
+
+}
+
 @media only screen and (max-width: 1680px) {
     .mat-card-imagecontain{ height: 300px; }
+
+    .ad_audiodeadlinecontent_block1body_1st{width: 55%;}
+
+}
+
+
+@media only screen and (max-width: 1620px) {
+    .ad_audiodeadlinecontent_block2body_2nd {
+        width: 56%;
+    }
+
+}
+
+@media only screen and (max-width: 1530px) {
+    .ad_audiodeadlinecontent_block2body_2nd {
+        width: 54%;
+    }
+
+}
+
+@media only screen and (max-width: 1520px) {
+
+    .ad_audiodeadlinecontent_block1body_1st{width: 50%;}
+}
+
+@media only screen and (max-width: 1480px) {
+    .ad_audiodeadlinecontent_block2body_2nd {
+        width: 52%;
+    }
 
 }
 
 @media only screen and (max-width: 1440px) {
     .mat-card-imagecontain{ height: 280px; }
 
+    .ad_audiodeadlinecontent_block2body_1st {
+        width: 280px;}
+}
+
+@media only screen and (max-width: 1400px) {
+
+    .ad_audiodeadlinecontent_block1body_3rd img {
+        display: block;
+        margin: 0 0 5px 10px;
+    }
+
+    .ad_audiodeadlinecontent_block2body_3rd img {
+        display: block;
+        margin: 0 0 5px 10px;
+    }
+
+    .ad_audiodeadlinecontent_block2body_2nd {
+        width: 60%;
+        padding-right: 20%;
+    }
+
 }
 
 
+@media only screen and (max-width: 1300px) {
+    .ad_audiodeadlinecontent_block2body{height:350px!important;}
+
+
+
+    .ad_audiodeadlinecontent_block2body_1st{height:350px!important;}
+}
 
 @media only screen and (max-width: 1199px) {
+
+
+
+
     .ad_profileblock_left{ width: 100%; float: none;}
 
     .ad_profileblock_right{ width: 100%; float: none; padding-left:0%; padding-top: 40px; padding-bottom: 25px;}
 
 
     .mat-card-imagecontain{ height: 260px; }
+
+
+
+
+
+
+    .ad_audiodeadlinecontent_block1body{ padding: 25px 25px 25px 25px!important; display: block!important;}
+
+
+
+    .ad_audiodeadlinecontent_block1body_wrapper{display: block!important; }
+
+    .ad_audiodeadlinecontent_block1body_1st{width: 100%; display: block!important; padding: 0px!important; text-align: center;}
+    .ad_audiodeadlinecontent_block1body_2nd{display: block!important;   vertical-align: inherit!important; text-align: center; border-bottom: solid 1px #5bdaf2; margin-bottom: 25px!important; padding-top: 10px!important;}
+    .ad_audiodeadlinecontent_block1body_3rd{display: block!important;  vertical-align: inherit!important; padding-bottom: 0px!important; text-align: center;     width: 240px;
+        margin: 0 auto; clear: both; overflow: hidden;}
+
+    .ad_audiodeadlinecontent_block1body_3rd img {
+        display: inline-block;
+        margin: 5px 0; float: left;
+    }
+
+    .ad_audiodeadlinecontent_block1body_1st .adlogo {
+        width: auto;
+        margin-top: 0px; max-width: 100%;
+    }
+
+    .ad_audiodeadlinecontent_block1body_3rd .mat-button{  width: 170px; float: right;}
+
+    .ad_audiodeadlinecontent_block1body_2nd img{ max-width: 100%;}
+
+
+
+    .ad_audiodeadlinecontent_block2body{height:auto!important; display: block; background-image: none!important; background-color: #000000!important;}
+
+    .ad_audiodeadlinecontent_block2body_wrapper{display: block!important; }
+
+
+
+    .ad_audiodeadlinecontent_block2body_1st{width: 100%; display: block!important; padding: 0px!important; text-align: center; height:auto!important;}
+    .ad_audiodeadlinecontent_block2body_2nd{display: block!important;   vertical-align: inherit!important; text-align: center;  width: 100%; padding: 15px 0 20px 0; height: auto;}
+    .ad_audiodeadlinecontent_block2body_3rd{display: block!important;  vertical-align: inherit!important; padding-bottom: 0px!important; text-align: center;     width: 240px;
+        margin: 0 auto; clear: both; overflow: hidden;}
+
+    .ad_audiodeadlinecontent_block2body_3rd img {
+        display: inline-block;
+        margin: 5px 0; float: left;
+    }
+
+    .ad_audiodeadlinecontent_block2body_3rd .mat-button{  width: 170px; float: right;}
+
+    .ad_audiodeadlinecontent_block2body_2nd p{ border: none;}
+
+    .ad_audiodeadlinecontent_block2body_2nd p span{ padding: 0px;}
 }
+
+@media only screen and (max-width: 500px) {
+    .ad_audiodeadlinecontent_block1body_1st h2 {
+        font-size: 26px; line-height: 30px;
+    }
+    .ad_audiodeadlinecontent_block1body_1st h2 sup {
+        font-size: 14px;
+        line-height: 20px;
+        padding-top: 5px;
+    }
+
+    .ad_audiodeadlinecontent_block2body_1st span{ width: 210px; background-size: 100%;}
+
+}
+
 
 @media only screen and (max-width: 350px) {
 
     .ad_profileblock_left_small ul li{ width: 93px; height: 93px;}
 
     .ad_profileblock_left_small ul li span{  width: 93px; height: 93px;}
-}
 
+    .ad_audiodeadlinecontent_block1body_3rd{ width: 220px;}
+    .ad_audiodeadlinecontent_block1body_3rd .mat-button {
+        width: 154px;}
+
+    .ad_audiodeadlinecontent_block2body_3rd{ width: 220px;}
+    .ad_audiodeadlinecontent_block2body_3rd .mat-button {
+        width: 154px;}
+}
 
 
 /*-----------------amitava end--------------------------------*/
