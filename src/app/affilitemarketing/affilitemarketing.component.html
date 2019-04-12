@@ -10,9 +10,11 @@
 
         <!--LOOP START-->
 
-        <mat-card class="inner_mat">
+        <mat-card class="inner_mat" *ngFor="let item of afflist">
               <mat-card-content class="mat-card-imagecontain">
-          <img mat-card-image src=" https://cdn.pixabay.com/photo/2016/06/18/17/42/image-1465348_960_720.jpg">
+       <!--   <img mat-card-image src=" https://cdn.pixabay.com/photo/2016/06/18/17/42/image-1465348_960_720.jpg">-->
+
+          <img mat-card-image src="{{apiservice.audio_img_folder_url}}{{item.image}}">
               </mat-card-content>
           <mat-card-content>
             <mat-toolbar  class="action">
@@ -33,7 +35,7 @@
 
 
 
-        <mat-card class="inner_mat">
+      <!--  <mat-card class="inner_mat">
           <mat-card-content class="mat-card-imagecontain"> <img mat-card-image src=" https://helpx.adobe.com/in/stock/how-to/visual-reverse-image-search/_jcr_content/main-pars/image.img.jpg/visual-reverse-image-search-v2_1000x560.jpg"></mat-card-content>
           <mat-card-content>
             <mat-toolbar  class="action">
@@ -68,7 +70,7 @@
 
 
             </mat-card-content>
-        </mat-card>
+        </mat-card>-->
       </span>
 
 

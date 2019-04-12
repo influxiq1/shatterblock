@@ -8,5 +8,6 @@ export const environment = {
     API_URL: 'https://nodessl.influxiq.com:6053/',
     resetpaswordurl: 'http://localhost:4200/',
     uplodeimg_url: 'https://shatterblok.com/upload/modelimages/',
-    environment: "local"
+    environment: "local",
+    audio_img_folder_url: 'https://developmentapi.audiodeadline.com/nodeserver/uploads/banner/',
 };

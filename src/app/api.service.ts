@@ -11,7 +11,9 @@ export class ApiService {
   public domain =  environment["API_URL"];
   public _url = environment["API_URL"];
   public uplodeimg_url = environment["uplodeimg_url"];
+  public audio_img_url = environment["audio_img_url"];
   public resetpassword = environment['resetpaswordurl'];
+  public audio_img_folder_url = environment['audio_img_folder_url'];
   public jwttoken: any;
 
   constructor(private _http: HttpClient,
@@ -60,6 +62,20 @@ export class ApiService {
     console.log(httpOptions);*/
     // this.isTokenExpired()
     var result = this._http.get(this._url + endpoint, httpOptions).pipe(map(res => res));
+    return result;
+  }
+
+  postaffilite(endpoint: any,data) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type':  'application/json'
+      })
+    };
+    /* console.log('httpOptions');
+     console.log(httpOptions);*/
+    // this.isTokenExpired()
+    var result = this._http.post(this.audio_img_url+endpoint,JSON.stringify(data), httpOptions).pipe(map(res => res));
+
     return result;
   }
 

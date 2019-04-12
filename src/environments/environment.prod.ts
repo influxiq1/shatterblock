@@ -5,5 +5,6 @@ export const environment = {
   // resetpaswordurl: 'http://shatterblokbackend.com.s3-website.us-east-2.amazonaws.com/',
   resetpaswordurl: 'http://backoffice.shatterblok.com/',
   uplodeimg_url: 'https://shatterblok.com/upload/modelimages/',
-  environment: "production"
+  environment: "production",
+  audio_img_folder_url: 'https://developmentapi.audiodeadline.com/nodeserver/uploads/banner/'
 };
