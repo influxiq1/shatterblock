@@ -1,8 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,Inject } from '@angular/core';
 import {ApiService} from "../api.service";
 import {Router} from "@angular/router";
 import { CookieService } from 'ngx-cookie-service';
+import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 declare const FB: any;
+export interface DialogData {
+  msg: string;
+}
+
 @Component({
   selector: 'app-affilitemarketing',
   templateUrl: './affilitemarketing.component.html',
@@ -17,23 +22,32 @@ public affiliatename: any;
 public endpoint: any='datalist';
 public uploadfile: any='banner';
 
-  constructor(public apiservice: ApiService, public router: Router, private cookieService: CookieService ) {
+  constructor(public apiservice: ApiService, public router: Router, private cookieService: CookieService, public dialog: MatDialog ) {
     console.log(this.apiservice.resetpassword);
     console.log(this.apiservice.audio_img_folder_url);
+    console.log(this.cookieService.get('id'));
+    if(this.cookieService.get('id')!='' && this.cookieService.get('id')!=null )
+    {
+      this.getdata();
+    }
   }
+
   getdata(){
-    let sourcecondition={};
+    let sourcecondition={_id_object:this.cookieService.get('id')};
     this.apiservice.getData({'source':'users',condition:sourcecondition}).subscribe(res=> {
       let result:any;
       result = res;
       if(result.res.length>0){
-        console.log(result.res[0]);
+        console.log('affiliatename');
+      //  console.log(result.res);
         this.affiliatename = result.res[0].auidodeadineusername;
+        console.log(this.affiliatename);
       }
     });
   }
+
   ngOnInit() {
-    this.getdata();
+
  /*   let data2={"condition":{"type":7,"status":1}};
     this.data22 = {data: data2,source:'mediaview'};
     console.log(this.data22);
@@ -77,6 +91,11 @@ public uploadfile: any='banner';
   }
 
   showcopied(){
+    const dialogRef = this.dialog.open(Updatetest2, {
+      // width: '250px',
+      data: {msg: 'Url is copied.'},
+
+    });
   }
 
   callforcopy(item){
@@ -130,5 +149,26 @@ public uploadfile: any='banner';
     },function(response){
       // console.log(response);
     });
+  }
+}
+
+
+
+@Component({
+  selector: 'updatetest',
+  templateUrl: '../commonmodals/updatemodal.html',
+})
+export class Updatetest2 {
+  public modalmsg: any;
+
+  constructor(public dialogRef: MatDialogRef<Updatetest2>,
+              @Inject(MAT_DIALOG_DATA) public data: DialogData) {
+    console.log(data.msg);
+    this.modalmsg = data.msg;
+
+  }
+
+  onNoClick(): void {
+    this.dialogRef.close();
   }
 }

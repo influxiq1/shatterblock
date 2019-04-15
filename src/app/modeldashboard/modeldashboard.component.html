@@ -105,4 +105,34 @@
  <!--  </mat-grid-tile>-->
 <!--</mat-grid-list>-->
 
+    <mat-card class="ad_profileblockbody" *ngIf="modeldata">
+        <mat-card-subtitle class="ad_profileblockwrapper">
+            <mat-card-content class="ad_profileblock_left">
+              <!--  <mat-card-content class="ad_profileblock_left_big"> <img mat-card-image src="../../assets/images/admin_blocknewimg.jpg"></mat-card-content> -->
+                <!--<mat-card-content class="ad_profileblock_left_big"> <img mat-card-image src="{{apiservice.uplodeimg_url}}/{{modeldata.images[0]}}"></mat-card-content>-->
+                <mat-card-content class="ad_profileblock_left_big"> <img mat-card-image src="{{modelimage}}"></mat-card-content>
+                <mat-card-content class="ad_profileblock_left_small">
+                    <ul>
+                       <!-- <li><span><img src="../../assets/images/admin_blocknewimg.jpg"></span></li>-->
+                        <li *ngFor="let item of modeldata.images| slice:1" (click)="changeimg(item)"><span><img src="{{apiservice.uplodeimg_url}}/{{item}}"></span></li>
+                    </ul>
+                </mat-card-content>
+            </mat-card-content>
+            <mat-card-content class="ad_profileblock_right">
+                <h2>{{modeldata.name}}</h2>
+                <mat-card-content class="ad_profileblock_modeldetail"> <label>NAME:</label><span>{{modeldata.name}}</span> </mat-card-content>
+                <mat-card-content class="ad_profileblock_modeldetail"> <label>LOCATION:</label><span>{{modeldata.location}}</span> </mat-card-content>
+                <mat-card-content class="ad_profileblock_modeldetail"> <label>HEIGHT:</label><span>{{modeldata.height}}</span> </mat-card-content>
+                <mat-card-content class="ad_profileblock_modeldetail"> <label>WEIGHT:</label><span>{{modeldata.weight}}</span> </mat-card-content>
+                <mat-card-content class="ad_profileblock_modeldetail"> <label>BUST:</label><span>{{modeldata.bust}}</span> </mat-card-content>
+                <mat-card-content class="ad_profileblock_modeldetail"> <label>WAIST:</label><span>{{modeldata.waist}}</span> </mat-card-content>
+                <mat-card-content class="ad_profileblock_modeldetail"> <label>HIPS:</label><span>{{modeldata.hips}}</span> </mat-card-content>
+                <mat-card-content class="ad_profileblock_modeldetail"> <span>(Arabic)</span> </mat-card-content>
+                <h3>  <a href="https://www.instagram.com/thearabianprincess/" target="_blank"><img src="../../assets/images/insta-black-white_icon.png"><span>@{{modeldata.instagramlink}}</span></a></h3>
+                <button mat-button>Modify</button>
+            </mat-card-content>
+        </mat-card-subtitle>
+    </mat-card>
+
+
 </app-main-nav>

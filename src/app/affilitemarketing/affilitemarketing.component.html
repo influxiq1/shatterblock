@@ -27,7 +27,6 @@
                         <a href="https://twitter.com/intent/tweet?url=http%3A%2F%2Fapi.audiodeadline.com%2Fsharetool22.php%3Ftype%3Dticketsale%26sponsorname%3D{{item.sponsor}}%26media_id%3D{{item.name}}%26image%3D{{item.image}}%26affiliate%3D{{affiliatename}}" target="_blank"><mat-icon class="example-icon"> <i class="fab fa-twitter"></i></mat-icon></a>
 
                         <a href="https://www.linkedin.com/shareArticle?url=http%3A%2F%2Fapi.audiodeadline.com%2Fsharetool22.php%3Ftype%3Dticketsale%26sponsorname%3D{{item.sponsor}}%26media_id%3D{{item.name}}%26image%3D{{item.image}}%26affiliate%3D{{affiliatename}}" target="_blank"><mat-icon class="example-icon"> <i class="fab fa-linkedin-in"></i></mat-icon></a>
-
                         <span class="example-spacer"></span>
 
                         <input  mat-raised-button  type="button" value="GRAB URL" color="primary" class="button_grab" ngxClipboard [cbContent]= callforcopy(item) (click)="showcopied()">

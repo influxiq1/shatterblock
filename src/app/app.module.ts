@@ -54,7 +54,7 @@ import {ModalComponent} from "./modal/modal.component";
 import { AudiodeadlinesgreementComponent } from './audiodeadlinesgreement/audiodeadlinesgreement.component';
 import { ModalaudiodeadlineComponent } from './modalaudiodeadline/modalaudiodeadline.component';
 import { ModeldashboardComponent } from './modeldashboard/modeldashboard.component';
-import {AffilitemarketingComponent} from "./affilitemarketing/affilitemarketing.component";
+import {AffilitemarketingComponent, Updatetest2} from "./affilitemarketing/affilitemarketing.component";
 import { UpdatesigninstatusComponent } from './updatesigninstatus/updatesigninstatus.component';
 import { ClipboardModule } from 'ngx-clipboard';
 
@@ -83,7 +83,8 @@ import { ClipboardModule } from 'ngx-clipboard';
     // Dialogtest,
     MainNavComponent,
     ManagedashboardComponent,Updatetest,
-    MainNavComponent, ContractComponent, AudiodeadlinesgreementComponent, ModalaudiodeadlineComponent, ModeldashboardComponent,AffilitemarketingComponent, UpdatesigninstatusComponent,
+    MainNavComponent, ContractComponent, AudiodeadlinesgreementComponent, ModalaudiodeadlineComponent, ModeldashboardComponent,AffilitemarketingComponent,Updatetest2,
+    UpdatesigninstatusComponent,
 
 
 
@@ -119,6 +120,7 @@ import { ClipboardModule } from 'ngx-clipboard';
     // Dialogtest,
     Updatetest,
     Updatetest1,
+    Updatetest2,
     // Dialogtest,
     ModalComponent,
   ],
