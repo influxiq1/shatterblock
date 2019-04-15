@@ -57,6 +57,9 @@ import { ModeldashboardComponent } from './modeldashboard/modeldashboard.compone
 import {AffilitemarketingComponent, Updatetest2} from "./affilitemarketing/affilitemarketing.component";
 import { UpdatesigninstatusComponent } from './updatesigninstatus/updatesigninstatus.component';
 import { ClipboardModule } from 'ngx-clipboard';
+import { ModeleditComponent } from './modeledit/modeledit.component';
+import { UploaderComponent } from './uploader/uploader.component';
+import {NgxUploaderModule} from 'ngx-uploader';
 
 @NgModule({
   declarations: [
@@ -85,7 +88,8 @@ import { ClipboardModule } from 'ngx-clipboard';
     ManagedashboardComponent,Updatetest,
     MainNavComponent, ContractComponent, AudiodeadlinesgreementComponent, ModalaudiodeadlineComponent, ModeldashboardComponent,AffilitemarketingComponent,Updatetest2,
     UpdatesigninstatusComponent,
-
+    ModeleditComponent,
+    UploaderComponent
 
 
 
@@ -112,7 +116,8 @@ import { ClipboardModule } from 'ngx-clipboard';
     ListingModule,
     LayoutModule,
     MatIconModule,
-    MatListModule
+    MatListModule,
+    NgxUploaderModule,
   ],
   providers: [CookieService,Resolveservice,ApiService,AuthGuard],
   bootstrap: [AppComponent],

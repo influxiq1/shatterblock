@@ -24,6 +24,7 @@ import {ModeldashboardComponent} from "./modeldashboard/modeldashboard.component
 import {AffilitemarketingComponent} from "./affilitemarketing/affilitemarketing.component";
 import {UpdatesigninstatusComponent} from "./updatesigninstatus/updatesigninstatus.component";
 import {AudiodeadlinecontentComponent} from "./audiodeadlinecontent/audiodeadlinecontent.component";
+import {ModeleditComponent} from "./modeledit/modeledit.component";
 
 const routes: Routes = [
   { path: "admin", component: AdminmanagementComponent, canActivate: [AuthGuard] },
@@ -56,6 +57,8 @@ const routes: Routes = [
   {path: 'audiodeadlinemodal', component: ModalaudiodeadlineComponent},
   {path: 'modeldashboard', component: ModeldashboardComponent,canActivate:[AuthGuard], resolve: {results: Resolveservice}, data: {source: 'modeldashboard'}},
   {path: 'updatesigninstatus/:path/:userid', component: UpdatesigninstatusComponent},
+  // {path: 'modeledit/:modelid', component: ModeleditComponent},
+  {path: 'modeledit', component: ModeleditComponent},
 
   // { path: 'changepassword', component: ChangepasswordComponent, canActivate: [AuthGuard], resolve: {results: Resolveservice}, data: {source: 'users', condition:{}} },
 

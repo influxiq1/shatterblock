@@ -61,6 +61,7 @@ export class LoginComponent implements OnInit {
             this.myForm.controls[x].markAsTouched();
         }
         data.ipinfo=this.ipinfo;
+        if(this.myForm.valid){
         this.result = this.apiService.postData(this.endpoint, data).subscribe(res => {
             let result: any = {};
             result = res;
@@ -107,7 +108,7 @@ export class LoginComponent implements OnInit {
         }, error => {
             console.log('Oooops!');
         });
-
+        }
 
     }
     inputblur(val:any){

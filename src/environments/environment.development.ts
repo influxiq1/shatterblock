@@ -15,5 +15,11 @@ export const environment = {
     audio_img_folder_url: 'https://developmentapi.audiodeadline.com/nodeserver/uploads/banner/',
     audiodeadline_php_url: 'https://api.audiodeadline.com/',
     audiodeadline_fileurl : 'https://developmentapi.audiodeadline.com/nodeserver/uploads/',
-    environment: 'development'
+    environment: 'development',
+
+    brandfolder: 'brandimages',
+    modelfolder: 'modelimages',
+    Brand_Image_Url: 'https://developmentapi.audiodeadline.com/nodeserver/uploads/brandimages',
+    Model_Image_Url: 'https://developmentapi.audiodeadline.com/nodeserver/uploads/modelimages',
+    domain_for_fileupload: 'http://developmentapi.audiodeadline.com:7031/',
 };

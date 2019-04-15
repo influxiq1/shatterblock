@@ -13,7 +13,8 @@ export class ModeldashboardComponent implements OnInit {
   datasource:any;
   modeldata:any;
   modelimage:any;
-  endpoint:any='modellist';
+ // endpoint:any='modellist';
+  endpoint:any='datalist';
   model_influencer_contents_viewlistin_decending_jocu: any=[];
   model_influencer_contents_viewlistin_decending_audio: any=[];
 
@@ -35,12 +36,19 @@ export class ModeldashboardComponent implements OnInit {
     });
   }
   getmodeldata(){
-      let data = {_id:this.cookieService.get('id')};
-      this.apiservice.postDatawithoutToken(this.endpoint, data).subscribe(res => {
+
+
+
+    let data1={_id:this.cookieService.get('id')};
+    let data2 = {"condition": data1,source:'allmodellist_view'};
+      // let data = {_id:this.cookieService.get('id'),source:'allmodellist_view'};
+    //  this.apiservice.postDatawithoutToken(this.endpoint, data).subscribe(res => {
+        this.apiservice.postData(this.endpoint, data2).subscribe( res => {
       let result:any;
       result = res;
-      if(result.result1.length>0){
-        this.modeldata=result.result1[0];
+      console.log(result);
+      if(result.res.length>0){
+        this.modeldata=result.res[0];
         console.log('this.modeldata');
         console.log(this.modeldata);
         this.modelimage=this.apiservice.uplodeimg_url+'/'+this.modeldata.images[0];
@@ -48,10 +56,10 @@ export class ModeldashboardComponent implements OnInit {
     });
   }
   changeimg(imgsrc){
-    let val=this.modelimage.split('modelimages/');
-    let indexval=this.modeldata.images.indexOf(imgsrc);
-    this.modeldata.images.splice(indexval,1);
-    this.modeldata.images.push(val[1]);
+   // let val=this.modelimage.split('modelimages/');
+  //  let indexval=this.modeldata.images.indexOf(imgsrc);
+ //   this.modeldata.images.splice(indexval,1);
+  //  this.modeldata.images.push(val[1]);
     this.modelimage=this.apiservice.uplodeimg_url+'/'+imgsrc;
   }
 

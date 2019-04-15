@@ -871,13 +871,18 @@ td.mat-cell:last-of-type, td.mat-footer-cell:last-of-type, th.mat-header-cell:la
 .ad_profileblock_left_small{background-color: #fff;  border-top: solid 14px #db2351; text-align: center; padding: 5px; }
 
 .ad_profileblock_left_small ul{ margin: 0!important; padding: 0!important; clear: both; overflow: hidden;}
-.ad_profileblock_left_small ul li{ padding: 0!important; list-style: none;  width: 108px; height: 108px;  display: inline-block;
+.ad_profileblock_left_small ul li{ padding: 0!important; list-style: none;  width: 108px; height: 80px;  display: inline-block;
     border: solid 8px #db2351;
     margin: 5px 5px 4px 5px!important; overflow: hidden; }
 
-.ad_profileblock_left_small ul li span{ display: table-cell; text-align: center; vertical-align: middle; width: 108px; height: 108px;  overflow: hidden; background:  #db2351; cursor: pointer; padding-top: 1px;}
+.ad_profileblock_left_small ul li span{ display: table-cell; text-align: center; vertical-align: middle; width: 108px; height: 80px;  overflow: hidden; background:  #db2351; cursor: pointer; padding-top: 1px;}
 
-.ad_profileblock_left_small img { width: 100%;  margin: 0!important; padding: 0!important; cursor: pointer; }
+.ad_profileblock_left_small img { width: 120%;
+    margin: 0!important;
+    padding: 0!important;
+    cursor: pointer;
+
+   height: auto; min-height: 100%;}
 
 .ad_profileblock_right h2{     margin: 0;
     padding: 0;
