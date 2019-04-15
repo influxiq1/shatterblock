@@ -23,7 +23,7 @@ export class ManagedashboardComponent implements OnInit {
   public ckeditorContent: any;
   public model_influencer_list: any=[];
   public errckeditor;
-  
+
   
   constructor(public fb: FormBuilder, private cookieService: CookieService, public http: HttpClient, public apiService: ApiService, public router: Router, public resolveservice: Resolveservice,public dialog: MatDialog) {
     this.myForm = this.fb.group({
@@ -177,10 +177,10 @@ export class ManagedashboardComponent implements OnInit {
     this.myForm.controls[val].markAsUntouched();
   }
   onChange(event: any) {
-    console.log('hie');
-    console.log(this.ckeditorContent);
+ //   console.log('hie');
+   // console.log(this.ckeditorContent);
     this.myForm.patchValue({content: this.ckeditorContent});
-    console.log(this.myForm.value);
+    //console.log(this.myForm.value);
   }
 }
 
@@ -247,3 +247,25 @@ getdata(){ 
 }*/
 
 
+//
+// CKEDITOR.stylesSet.add('mystyles', [
+//
+//   { element: 'h3',      styles: { 'color': 'Blue' } },
+//   { element: 'div',      styles: { 'color': 'Blue', 'background-color':'Red' } },
+//   { name: 'Red Title',        element: 'h3',      styles: { 'color': 'Red' } },
+//
+//   // Inline Styles
+//   { name: 'Marker: Yellow',   element: 'span',    styles: { 'background-color': 'Yellow' } },
+//   { name: 'Marker: Green',    element: 'span',    styles: { 'background-color': 'Lime' } },
+//
+//   // Object Styles
+//   {
+//     name: 'Image on Left',
+//     element: 'img',
+//     attributes: {
+//       style: 'padding: 5px; margin-right: 5px',
+//       border: '2',
+//       align: 'left'
+//     }
+//   }
+// ] );
