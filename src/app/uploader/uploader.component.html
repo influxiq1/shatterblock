@@ -3,9 +3,10 @@
 <div class="uploadsection">
   <input style="display: none" type="file" accept="*" ngFileSelect [options]="apiService.options" (uploadOutput)="apiService.onUploadOutput($event,filenamevalc,uploadtypec,uploadpathc)"  [uploadInput]="apiService.uploadInput" #fileInput1 >
    <div class="progressnew">
-      <!-- <progressbar *ngIf=" apiService.progress[filenamevalc] !=null && apiService.progress[filenamevalc]>0" class="progress-striped active" max="100" [value]="apiService.progress[filenamevalc]" [type]="type">{{apiService.progress[filenamevalc]}}% </progressbar>-->
+     <!--  <progressbar *ngIf=" apiService.progress[filenamevalc] !=null && apiService.progress[filenamevalc]>0" class="progress-striped active" max="100" [value]="apiService.progress[filenamevalc]" [type]="type">{{apiService.progress[filenamevalc]}}% </progressbar>-->
+       <mat-progress-bar *ngIf=" apiService.progress[filenamevalc] !=null && apiService.progress[filenamevalc]>0" class="progress-striped active" max="100" [value]="apiService.progress[filenamevalc]">{{apiService.progress[filenamevalc]}}%</mat-progress-bar>
    </div>
-  <h3 *ngIf="nameis" style="color: white;">upload file:</h3> <button *ngIf="apiService.inprogress==null" (click)="fileInput1.click()" type="button">upload</button>
+  <h3 *ngIf="nameis" style="color: white;" >upload file:</h3> <button *ngIf="apiService.inprogress==null" (click)="fileInput1.click()" type="button" class="uploadfile">upload</button>
 
 
 </div>
@@ -16,7 +17,12 @@
 
                       <span class="uploadthumimgbox_span">
                     <img  src="{{filepathc}}/{{img}}" >
-                    <button (click)="delimage(i)">Delete</button>
+                    <button class="closepic" (click)="delimage(i)">Delete</button>
+
+                    <button class="setpic" mat-raised-button
+                            matTooltip="Set as Profile Picture">
+                           Set  picture
+                  </button>
                           </span>
                   </span>
                 </span>
