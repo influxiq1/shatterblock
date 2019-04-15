@@ -1,7 +1,7 @@
 
 
 <div class="uploadsection">
-  <input style="display: none" type="file" accept="*" ngFileSelect [options]="apiService.options" (uploadOutput)="apiService.onUploadOutput($event,filenamevalc,uploadtypec,uploadpathc,pagename)"  [uploadInput]="apiService.uploadInput" #fileInput1 >
+  <input style="display: none" type="file" accept="*" ngFileSelect [options]="apiService.options" (uploadOutput)="apiService.onUploadOutput($event,filenamevalc,uploadtypec,uploadpathc)"  [uploadInput]="apiService.uploadInput" #fileInput1 >
    <div class="progressnew">
      <!--  <progressbar *ngIf=" apiService.progress[filenamevalc] !=null && apiService.progress[filenamevalc]>0" class="progress-striped active" max="100" [value]="apiService.progress[filenamevalc]" [type]="type">{{apiService.progress[filenamevalc]}}% </progressbar>-->
        <mat-progress-bar *ngIf=" apiService.progress[filenamevalc] !=null && apiService.progress[filenamevalc]>0" class="progress-striped active" max="100" [value]="apiService.progress[filenamevalc]">{{apiService.progress[filenamevalc]}}%</mat-progress-bar>

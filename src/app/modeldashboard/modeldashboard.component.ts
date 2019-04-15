@@ -51,7 +51,11 @@ export class ModeldashboardComponent implements OnInit {
         this.modeldata=result.res[0];
         console.log('this.modeldata');
         console.log(this.modeldata);
-        this.modelimage=this.apiservice.uplodeimg_url+'/'+this.modeldata.images[0];
+        if(this.modeldata.profile_img!=null){
+        this.modelimage=this.apiservice.uplodeimg_url+'/'+this.modeldata.profile_img;
+        }else{
+          this.modelimage=this.apiservice.uplodeimg_url+'/'+this.modeldata.images[0];
+        }
       }
     });
   }

@@ -19,9 +19,7 @@ export class ModeleditComponent implements OnInit {
     artistxpprofileimageupdate:any='artistxpprofileimageupdate';
     public myForm: any;
     public modeldataimages: any;
-    public pagename: any='modeledit';
-
-
+    
     public uploader: any = 'upload';
     public modeluploadpath: any = this.apiservice.modelfolder;
     public modelfilepath: any = this.apiservice.Model_Image_Url;
@@ -163,6 +161,21 @@ export class ModeleditComponent implements OnInit {
                 }
                 if (result.status == 'success') {
                     console.log('updated successfully');
+
+
+
+                    data1.data.create_a_user = 'true';
+                    this.apiservice.postData(this.endpoint1, data1).subscribe(res => {
+                        let result: any = {};
+                        result = res;
+                        if (result.status == 'success') {
+                            console.log('updated successfully');
+                        }
+                    }, error => {
+                        console.log('Oooops!');
+                    });
+
+
                 }
             }, error => {
                 console.log('Oooops!');
@@ -170,3 +183,4 @@ export class ModeleditComponent implements OnInit {
         }
     }
 }
+

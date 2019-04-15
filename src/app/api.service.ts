@@ -256,7 +256,7 @@ console.log(result);
   private getEndpointUrl(endpoint: string) {
       return this._url + endpoint;
   }
-  onUploadOutput(output: UploadOutput,arrayval:any,uploadtypec:any,uploadpath:any,pagename:any): void {
+  onUploadOutput(output: UploadOutput,arrayval:any,uploadtypec:any,uploadpath:any): void {
     if (output.type === 'allAddedToQueue') {
       const event: UploadInput = {
         type: 'uploadAll',
@@ -344,13 +344,13 @@ console.log(result);
     console.log('this.fileservername');
     console.log(this.fileservername);
     console.log(this.uploaderror);
-    if(pagenameis=='modeledit'){
+/*    if(pagename=='modeledit'){
       let  data ={
         id:this.cookieService.get('id'),
         images:this.fileservername,
         create_a_user: "true"
       }
-
+    
       let data1 = {data: data,source:'users'};
       console.log(data1);
         this.postData('addorupdatedata', data1).subscribe( res => {
@@ -361,6 +361,6 @@ console.log(result);
           if (result.status == 'success') {
           }
         })
-    }
+    }*/
   }
 }

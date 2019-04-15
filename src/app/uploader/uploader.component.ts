@@ -19,7 +19,7 @@ export class UploaderComponent implements OnInit {
 
   public upimages;
   public endpoint;
-  public pagename;
+ // public pagename;
 
 
   /// public filenameval;
@@ -58,13 +58,13 @@ export class UploaderComponent implements OnInit {
     console.log('this.endpoint');
     console.log(this.endpoint);
   }
-  @Input()
+ /* @Input()
   set pagenameis(pagenameis: any) {
     // alert(filenameval);
     this.pagename = pagenameis;
     console.log('this.pagename');
     console.log(this.pagename);
-  }
+  }*/
   // @Output() filenamevalcChange = new EventEmitter<any>();
   // @Output() lfChange = new EventEmitter<any>();
 
