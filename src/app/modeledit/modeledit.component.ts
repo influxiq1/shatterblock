@@ -16,8 +16,10 @@ export class ModeleditComponent implements OnInit {
     public stateslist : any=[];
     endpoint:any='datalist';
     endpoint1:any='addorupdatedata';
+    artistxpprofileimageupdate:any='artistxpprofileimageupdate';
     public myForm: any;
     public modeldataimages: any;
+    public pagename: any='modeledit';
 
 
     public uploader: any = 'upload';

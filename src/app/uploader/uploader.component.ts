@@ -1,5 +1,6 @@
 import {Component, OnInit, Input, EventEmitter, Output} from '@angular/core';
 import {ApiService} from "../api.service";
+import {CookieService} from "ngx-cookie-service";
 
 @Component({
   selector: 'app-uploader',
@@ -17,6 +18,8 @@ export class UploaderComponent implements OnInit {
 
 
   public upimages;
+  public endpoint;
+  public pagename;
 
 
   /// public filenameval;
@@ -48,6 +51,20 @@ export class UploaderComponent implements OnInit {
     console.log('this.uploadtypec');
     console.log(this.uploadtypec);
   }
+  @Input()
+  set updatesourceurl(updatesourceurl: any) {
+    // alert(filenameval);
+    this.endpoint = updatesourceurl;
+    console.log('this.endpoint');
+    console.log(this.endpoint);
+  }
+  @Input()
+  set pagenameis(pagenameis: any) {
+    // alert(filenameval);
+    this.pagename = pagenameis;
+    console.log('this.pagename');
+    console.log(this.pagename);
+  }
   // @Output() filenamevalcChange = new EventEmitter<any>();
   // @Output() lfChange = new EventEmitter<any>();
 
@@ -73,7 +90,7 @@ export class UploaderComponent implements OnInit {
 
 
 
-  constructor(public apiService: ApiService) {
+  constructor(public apiService: ApiService,public cookieService: CookieService) {
     // this.filenamevalc='90';
     this.filenamevalc1='90';
     console.log('this.filenamevalc in constructor ... ');
@@ -93,6 +110,18 @@ export class UploaderComponent implements OnInit {
   }
   delimage(indexval:any){
     this.apiService.fileservername[this.filenamevalc].splice(indexval,1);
+  }
+  setprofilepictureimage(img:any){
+    let data={images:img,email:this.cookieService.get('email')}
+    this.apiService.postData(this.endpoint, data).subscribe( res => {
+      let result: any = {};
+      result = res;
+      console.log('result');
+      console.log(result);
+      if (result.status == 'success') {
+        // show a modal for update
+      }
+    })
   }
 
 }

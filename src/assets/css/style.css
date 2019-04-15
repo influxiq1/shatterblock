@@ -1292,14 +1292,22 @@ td.mat-cell:last-of-type, td.mat-footer-cell:last-of-type, th.mat-header-cell:la
 .uploadthumimgbox_span{ width: 210px; height: 210px;  display: table-cell; text-align: center; vertical-align: middle;}
 
 
-.setpic{position: absolute!important;
+.setpic {
+    position: absolute!important;
     left: 2px!important;
     top: 2px!important;
-    background:#fff url(../images/editprofile.png) center center;
-    background-size: 100%!important;
-    width: 20px;
-    height: 20px;
+    background: #fff url(../images/editprofile.png) 1px 2px no-repeat;
+    background-size: 24px!important;
+    width: 27px;
+    height: 27px;
     border: none!important;
     font-size: 0px!important;
-    cursor: pointer!important; border-radius: 100px!important;}
+    cursor: pointer!important;
+    border-radius: 100px!important;
+    padding: 0px!important;
+    min-width: inherit!important;
+}
+
+.uploadsection_wrapper .uploadthumimgbox .setpic{ display: none;}
+.uploadsection_wrapper .uploadthumimgbox:hover .setpic{ display: block;}
 /*-----------------amitava end--------------------------------*/
