@@ -53,12 +53,12 @@ import {AgreementComponent} from "./agreement/agreement.component";
 import {ModalComponent} from "./modal/modal.component";
 import { AudiodeadlinesgreementComponent } from './audiodeadlinesgreement/audiodeadlinesgreement.component';
 import { ModalaudiodeadlineComponent } from './modalaudiodeadline/modalaudiodeadline.component';
-import { ModeldashboardComponent } from './modeldashboard/modeldashboard.component';
+import { ModeldashboardComponent,Updatetest5 } from './modeldashboard/modeldashboard.component';
 import {AffilitemarketingComponent, Updatetest2} from "./affilitemarketing/affilitemarketing.component";
 import { UpdatesigninstatusComponent } from './updatesigninstatus/updatesigninstatus.component';
 import { ClipboardModule } from 'ngx-clipboard';
-import { ModeleditComponent } from './modeledit/modeledit.component';
-import { UploaderComponent } from './uploader/uploader.component';
+import { ModeleditComponent,Updatetest3 } from './modeledit/modeledit.component';
+import { UploaderComponent, Updatetest4 } from './uploader/uploader.component';
 import {NgxUploaderModule} from 'ngx-uploader';
 
 @NgModule({
@@ -86,10 +86,12 @@ import {NgxUploaderModule} from 'ngx-uploader';
     // Dialogtest,
     MainNavComponent,
     ManagedashboardComponent,Updatetest,
-    MainNavComponent, ContractComponent, AudiodeadlinesgreementComponent, ModalaudiodeadlineComponent, ModeldashboardComponent,AffilitemarketingComponent,Updatetest2,
+    MainNavComponent, ContractComponent, AudiodeadlinesgreementComponent, ModalaudiodeadlineComponent,
+    ModeldashboardComponent,Updatetest5,
+    AffilitemarketingComponent,Updatetest2,
     UpdatesigninstatusComponent,
-    ModeleditComponent,
-    UploaderComponent
+    ModeleditComponent,Updatetest3,
+    UploaderComponent, Updatetest4,
 
 
 
@@ -126,6 +128,9 @@ import {NgxUploaderModule} from 'ngx-uploader';
     Updatetest,
     Updatetest1,
     Updatetest2,
+    Updatetest3,
+    Updatetest4,
+    Updatetest5,
     // Dialogtest,
     ModalComponent,
   ],

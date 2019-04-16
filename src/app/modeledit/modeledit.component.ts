@@ -1,11 +1,14 @@
-import {Component, OnInit, EventEmitter, TemplateRef, ViewChild, ElementRef} from '@angular/core';
+import {Component, OnInit, EventEmitter, TemplateRef, ViewChild, ElementRef, Inject} from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ValidatorFn, AbstractControl, FormControl} from '@angular/forms';
 import { UploadOutput, UploadInput, UploadFile, humanizeBytes, UploaderOptions, UploadStatus } from 'ngx-uploader';
 import { Router, ActivatedRoute} from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { ApiService } from "../api.service";
 import {CookieService} from "ngx-cookie-service";
-
+import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
+export interface DialogData {
+    msg: string;
+}
 @Component({
     selector: 'app-modeledit',
     templateUrl: './modeledit.component.html',
@@ -19,13 +22,16 @@ export class ModeleditComponent implements OnInit {
     artistxpprofileimageupdate:any='artistxpprofileimageupdate';
     public myForm: any;
     public modeldataimages: any;
-    
+
+
+    public endpoint2: any="signupshatterblok";
     public uploader: any = 'upload';
     public modeluploadpath: any = this.apiservice.modelfolder;
     public modelfilepath: any = this.apiservice.Model_Image_Url;
 
 
-    constructor(  public _http: HttpClient, private router: Router, public route : ActivatedRoute, public apiservice: ApiService,public cookieService: CookieService,public fb: FormBuilder) {
+    constructor(  public _http: HttpClient, private router: Router, public route : ActivatedRoute, public apiservice: ApiService,public cookieService: CookieService,public fb: FormBuilder, public dialog: MatDialog) {
+
         this.myForm = this.fb.group({
                 id: [''],
                 firstname: ['', Validators.required],
@@ -89,6 +95,8 @@ export class ModeleditComponent implements OnInit {
                 console.log(this.modeldata);
                 console.log(this.modeldata.images);
                 this.modeldataimages = this.modeldata.images;
+                console.log('==========================');
+                console.log(this.modeldataimages.length);
                 this.myForm = this.fb.group({
                         id: [this.modeldata._id],
                         firstname: [this.modeldata.firstname, Validators.required],
@@ -160,17 +168,35 @@ export class ModeleditComponent implements OnInit {
                 if (result.status == 'error') {
                 }
                 if (result.status == 'success') {
-                    console.log('updated successfully');
-
-
-
-                    data1.data.create_a_user = 'true';
-                    this.apiservice.postData(this.endpoint1, data1).subscribe(res => {
+                  let data4= {
+                        email: this.cookieService.get('email'),
+                        images: this.apiservice.fileservername[this.uploader].slice(this.modeldataimages.length, this.apiservice.fileservername[this.uploader].length)
+                    }
+                    //getting only newly added images
+                   /* let data5 = {data: data4,source:'user'};
+                    console.log(data5);*/
+                    this.apiservice.postDatatoaudiodeadline(this.endpoint2, data4).subscribe(res => {
                         let result: any = {};
                         result = res;
-                        if (result.status == 'success') {
+                      //  if (result.status == 'success') {
                             console.log('updated successfully');
-                        }
+                            const dialogRef = this.dialog.open(Updatetest3, {
+                                data: {msg: 'Updated successfully'},
+
+                            });
+                            // just for model image update
+                            let data1={_id:this.cookieService.get('id')};
+                            let data2 = {"condition": data1,source:'users'};
+                            this.apiservice.postData(this.endpoint, data2).subscribe( res => {
+                                let result:any;
+                                result = res;
+                                console.log(result);
+                                if(result.res.length>0){
+                                    this.modeldata=result.res[0];
+                                    this.modeldataimages = this.modeldata.images;
+                                }
+                            });
+                      //  }
                     }, error => {
                         console.log('Oooops!');
                     });
@@ -184,3 +210,22 @@ export class ModeleditComponent implements OnInit {
     }
 }
 
+
+@Component({
+    selector: 'updatetest',
+    templateUrl: '../commonmodals/updatemodal.html',
+})
+export class Updatetest3 {
+    public modalmsg: any;
+
+    constructor(public dialogRef: MatDialogRef<Updatetest3>,
+                @Inject(MAT_DIALOG_DATA) public data: DialogData) {
+        console.log(data.msg);
+        this.modalmsg = data.msg;
+
+    }
+
+    onNoClick(): void {
+        this.dialogRef.close();
+    }
+}

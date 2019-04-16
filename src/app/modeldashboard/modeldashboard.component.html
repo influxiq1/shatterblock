@@ -151,7 +151,16 @@
                 <mat-card-content class="ad_profileblock_left_small">
                     <ul>
                        <!-- <li><span><img src="../../assets/images/admin_blocknewimg.jpg"></span></li>-->
-                        <li *ngFor="let item of modeldata.images" (click)="changeimg(item)"><span><img src="{{apiservice.uplodeimg_url}}/{{item}}"></span></li>
+                        <li *ngFor="let item of modeldata.images" (click)="changeimg(item)">
+                            <span><img src="{{apiservice.uplodeimg_url}}/{{item}}">  </span>
+                            <button class="setpic2" mat-raised-button
+                                    matTooltip="Set as Profile Picture" (click)="setprofilepictureimage(item)" type="button">
+                            </button>
+
+
+
+                        </li>
+
                     </ul>
                 </mat-card-content>
             </mat-card-content>

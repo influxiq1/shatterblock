@@ -1,9 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { Router,ActivatedRoute } from '@angular/router';
 import { ApiService } from "../api.service";
 import {DomSanitizer} from '@angular/platform-browser';
 import { CookieService } from 'ngx-cookie-service';
-
+import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
+export interface DialogData {
+  msg: string;
+}
 @Component({
   selector: 'app-modeldashboard',
   templateUrl: './modeldashboard.component.html',
@@ -15,10 +18,11 @@ export class ModeldashboardComponent implements OnInit {
   modelimage:any;
  // endpoint:any='modellist';
   endpoint:any='datalist';
+  endpoint1:any='artistxpprofileimageupdate';
   model_influencer_contents_viewlistin_decending_jocu: any=[];
   model_influencer_contents_viewlistin_decending_audio: any=[];
 
-  constructor(public router: Router,private route: ActivatedRoute, public apiservice: ApiService,public _sanitizer: DomSanitizer, public cookieService: CookieService) {
+  constructor(public router: Router,private route: ActivatedRoute, public apiservice: ApiService,public _sanitizer: DomSanitizer, public cookieService: CookieService, public dialog: MatDialog) {
     if(this.cookieService.get('id')!='' && this.cookieService.get('id') != null){
       this.getmodeldata();
     }
@@ -66,5 +70,40 @@ export class ModeldashboardComponent implements OnInit {
   //  this.modeldata.images.push(val[1]);
     this.modelimage=this.apiservice.uplodeimg_url+'/'+imgsrc;
   }
+  setprofilepictureimage(img:any){
+   // console.log(img);
+    let data={images:img,email:this.cookieService.get('email')}
+    this.apiservice.postData(this.endpoint1, data).subscribe( res => {
+      let result: any = {};
+      result = res;
+      console.log('result');
+      console.log(result);
+      if (result.status == 'success') {
+        // show a modal for update
+        const dialogRef = this.dialog.open(Updatetest5, {
+          data: {msg: 'Profile Image Updated'},
+        });
+      }
+    })
+  }
+}
 
+
+@Component({
+  selector: 'updatetest',
+  templateUrl: '../commonmodals/updatemodal.html',
+})
+export class Updatetest5 {
+  public modalmsg: any;
+
+  constructor(public dialogRef: MatDialogRef<Updatetest5>,
+              @Inject(MAT_DIALOG_DATA) public data: DialogData) {
+    console.log(data.msg);
+    this.modalmsg = data.msg;
+
+  }
+
+  onNoClick(): void {
+    this.dialogRef.close();
+  }
 }

@@ -13,6 +13,7 @@ export class ApiService {
 
   public domain =  environment["API_URL"];
   public _url = environment["API_URL"];
+  public Audiodeadline_API_URL = environment["Audiodeadline_API_URL"];
   public uplodeimg_url = environment["uplodeimg_url"];
   public audio_img_url = environment["audio_img_url"];
   public resetpassword = environment['resetpaswordurl'];
@@ -76,7 +77,7 @@ export class ApiService {
     console.log('endpoint');
 
     // this.isTokenExpired()
-    var result = this._http.get("http://ipinfo.io/?format=json&token=9797c42b93078a").pipe(map(res => res));
+    var result = this._http.get("https://ipinfo.io/?format=json&token=9797c42b93078a").pipe(map(res => res));
 
     return result;
   }
@@ -191,6 +192,17 @@ console.log(result);
     var result = this._http.post(this.getEndpointUrl(endpoint), JSON.stringify(data), httpOptions).pipe(map(res => res));
     return result;
   }
+  postDatatoaudiodeadline(endpoint:any, data) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type':  'application/json'
+      })
+    };
+    console.log('endpoint');
+    console.log(endpoint);
+    var result = this._http.post(this.getEndpointUrlforudiodeadline(endpoint), JSON.stringify(data), httpOptions).pipe(map(res => res));
+    return result;
+  }
 
   postlogin(endpoint:any, data) {
     const httpOptions = {
@@ -255,6 +267,9 @@ console.log(result);
 
   private getEndpointUrl(endpoint: string) {
       return this._url + endpoint;
+  }
+  private getEndpointUrlforudiodeadline(endpoint: string) {
+      return this.Audiodeadline_API_URL + endpoint;
   }
   onUploadOutput(output: UploadOutput,arrayval:any,uploadtypec:any,uploadpath:any): void {
     if (output.type === 'allAddedToQueue') {

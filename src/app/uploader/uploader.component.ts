@@ -1,7 +1,10 @@
-import {Component, OnInit, Input, EventEmitter, Output} from '@angular/core';
+import {Component, OnInit, Input, EventEmitter, Output,Inject} from '@angular/core';
 import {ApiService} from "../api.service";
 import {CookieService} from "ngx-cookie-service";
-
+import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
+export interface DialogData {
+  msg: string;
+}
 @Component({
   selector: 'app-uploader',
   templateUrl: './uploader.component.html',
@@ -90,7 +93,7 @@ export class UploaderComponent implements OnInit {
 
 
 
-  constructor(public apiService: ApiService,public cookieService: CookieService) {
+  constructor(public apiService: ApiService,public cookieService: CookieService, public dialog: MatDialog) {
     // this.filenamevalc='90';
     this.filenamevalc1='90';
     console.log('this.filenamevalc in constructor ... ');
@@ -120,8 +123,31 @@ export class UploaderComponent implements OnInit {
       console.log(result);
       if (result.status == 'success') {
         // show a modal for update
+        const dialogRef = this.dialog.open(Updatetest4, {
+          data: {msg: 'Profile Image Updated'},
+
+        });
       }
     })
   }
 
+}
+
+@Component({
+  selector: 'updatetest',
+  templateUrl: '../commonmodals/updatemodal.html',
+})
+export class Updatetest4 {
+  public modalmsg: any;
+
+  constructor(public dialogRef: MatDialogRef<Updatetest4>,
+              @Inject(MAT_DIALOG_DATA) public data: DialogData) {
+    console.log(data.msg);
+    this.modalmsg = data.msg;
+
+  }
+
+  onNoClick(): void {
+    this.dialogRef.close();
+  }
 }

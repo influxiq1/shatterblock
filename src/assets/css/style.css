@@ -877,7 +877,7 @@ td.mat-cell:last-of-type, td.mat-footer-cell:last-of-type, th.mat-header-cell:la
 .ad_profileblock_left_small ul{ margin: 0!important; padding: 0!important; clear: both; overflow: hidden;}
 .ad_profileblock_left_small ul li{ padding: 0!important; list-style: none;  width: 108px; height: 80px;  display: inline-block;
     border: solid 8px #db2351;
-    margin: 5px 5px 4px 5px!important; overflow: hidden; }
+    margin: 5px 5px 4px 5px!important; overflow: hidden; position: relative; }
 
 .ad_profileblock_left_small ul li span{ display: table-cell; text-align: center; vertical-align: middle; width: 108px; height: 80px;  overflow: hidden; background:  #db2351; cursor: pointer; padding-top: 1px;}
 
@@ -1310,4 +1310,26 @@ td.mat-cell:last-of-type, td.mat-footer-cell:last-of-type, th.mat-header-cell:la
 
 .uploadsection_wrapper .uploadthumimgbox .setpic{ display: none;}
 .uploadsection_wrapper .uploadthumimgbox:hover .setpic{ display: block;}
+
+
+.mat-button-wrapper{ background: none!important; height: 27px!important;}
+
+.setpic2 {
+    position: absolute!important;
+    left: 2px!important;
+    top: 2px!important;
+    background: #fff url(../images/editprofile.png) 2px 2px no-repeat;
+    background-size: 24px!important;
+    width: 27px;
+    height: 27px;
+    border: none!important;
+    font-size: 0px!important;
+    cursor: pointer!important;
+    border-radius: 100px!important;
+    padding: 0px!important;
+    min-width: inherit!important;
+}
+
+.ad_profileblock_left_small ul li .setpic2{ display: none;}
+.ad_profileblock_left_small ul li:hover .setpic2{ display: block;}
 /*-----------------amitava end--------------------------------*/
