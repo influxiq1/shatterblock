@@ -35,7 +35,7 @@ export class ModeleditComponent implements OnInit {
     constructor(  public _http: HttpClient, private router: Router, public route : ActivatedRoute, public apiservice: ApiService,public cookieService: CookieService,public fb: FormBuilder, public dialog: MatDialog,public prevroute: prevroute) {
 
         this.route.params.subscribe(params => {
-            this.modelid = params['modelid'];
+            this.modelid = params['pagename'];
             console.log(this.modelid);
         });
 

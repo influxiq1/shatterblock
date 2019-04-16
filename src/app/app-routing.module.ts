@@ -59,7 +59,7 @@ const routes: Routes = [
   {path: 'updatesigninstatus/:path/:userid', component: UpdatesigninstatusComponent},
   // {path: 'modeledit/:modelid', component: ModeleditComponent},
   {path: 'modeledit', component: ModeleditComponent},
-  {path: 'modeledit/:modelid', component: ModeleditComponent},
+  {path: 'modeledit/:pagename', component: ModeleditComponent},
 
   // { path: 'changepassword', component: ChangepasswordComponent, canActivate: [AuthGuard], resolve: {results: Resolveservice}, data: {source: 'users', condition:{}} },
 

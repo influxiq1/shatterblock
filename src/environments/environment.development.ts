@@ -12,7 +12,8 @@ export const environment = {
     resetpaswordurl: 'https://developmentbackoffice.shatterblok.com/',
     // uplodeimg_url: 'https://shatterblok.com/upload/modelimages/',
     uplodeimg_url: 'https://developmentapi.audiodeadline.com/nodeserver/uploads/modelimages/',
-    audio_img_url: 'http://developmentapi.audiodeadline.com:3008/',
+   // audio_img_url: 'http://developmentapi.audiodeadline.com:3008/',
+    audio_img_url: 'https://developmentapi.audiodeadline.com:6003/',
     audio_img_folder_url: 'https://developmentapi.audiodeadline.com/nodeserver/uploads/banner/',
     audiodeadline_php_url: 'https://api.audiodeadline.com/',
     audiodeadline_fileurl : 'https://developmentapi.audiodeadline.com/nodeserver/uploads/',
@@ -22,5 +23,6 @@ export const environment = {
     modelfolder: 'modelimages',
     Brand_Image_Url: 'https://developmentapi.audiodeadline.com/nodeserver/uploads/brandimages',
     Model_Image_Url: 'https://developmentapi.audiodeadline.com/nodeserver/uploads/modelimages',
-    domain_for_fileupload: 'http://developmentapi.audiodeadline.com:7031/',
+ //   domain_for_fileupload: 'http://developmentapi.audiodeadline.com:7031/',
+    domain_for_fileupload: 'https://developmentapi.audiodeadline.com:6031/',
 };

@@ -12,6 +12,7 @@ export class AdmindashbordComponent implements OnInit {
     notpendingapplication_view: any=[];
     brandarray: any=[];
     adminlist:any=[];
+    editroute1:any='modeledit';
 
 
     pendingapplication_view: any=[];
