@@ -928,7 +928,7 @@ td.mat-cell:last-of-type, td.mat-footer-cell:last-of-type, th.mat-header-cell:la
     font-family: 'OpenSans';
     font-size: 22px!important;
     background-color: #faa318;
-    color: #fff; display: block; margin: 0 auto; }
+    color: #fff; display: block; margin: 0; }
 
 
 .ad_profileblock_right h3{     margin: 0; clear: both;; overflow: hidden;

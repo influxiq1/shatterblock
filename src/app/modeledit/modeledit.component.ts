@@ -1,11 +1,13 @@
 import {Component, OnInit, EventEmitter, TemplateRef, ViewChild, ElementRef, Inject} from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ValidatorFn, AbstractControl, FormControl} from '@angular/forms';
 import { UploadOutput, UploadInput, UploadFile, humanizeBytes, UploaderOptions, UploadStatus } from 'ngx-uploader';
-import { Router, ActivatedRoute} from '@angular/router';
+import { Router, ActivatedRoute,NavigationEnd } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { ApiService } from "../api.service";
+import { prevroute } from "../prevroute";
 import {CookieService} from "ngx-cookie-service";
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
+import { filter } from 'rxjs/operators';
 export interface DialogData {
     msg: string;
 }
@@ -16,6 +18,7 @@ export interface DialogData {
 })
 export class ModeleditComponent implements OnInit {
     public modeldata : any;
+    public modelid : any;
     public stateslist : any=[];
     endpoint:any='datalist';
     endpoint1:any='addorupdatedata';
@@ -29,8 +32,12 @@ export class ModeleditComponent implements OnInit {
     public modeluploadpath: any = this.apiservice.modelfolder;
     public modelfilepath: any = this.apiservice.Model_Image_Url;
 
+    constructor(  public _http: HttpClient, private router: Router, public route : ActivatedRoute, public apiservice: ApiService,public cookieService: CookieService,public fb: FormBuilder, public dialog: MatDialog,public prevroute: prevroute) {
 
-    constructor(  public _http: HttpClient, private router: Router, public route : ActivatedRoute, public apiservice: ApiService,public cookieService: CookieService,public fb: FormBuilder, public dialog: MatDialog) {
+        this.route.params.subscribe(params => {
+            this.modelid = params['modelid'];
+            console.log(this.modelid);
+        });
 
         this.myForm = this.fb.group({
                 id: [''],
@@ -83,7 +90,13 @@ export class ModeleditComponent implements OnInit {
             console.log('Oooops!');
         });
 
-        let data1={_id:this.cookieService.get('id')};
+        let data1;
+        if(this.modelid==null){
+         data1={_id:this.cookieService.get('id')};
+        }else{
+            data1={_id:this.modelid};
+        }
+
         let data2 = {"condition": data1,source:'users'};
         this.apiservice.postData(this.endpoint, data2).subscribe( res => {
             let result:any;
@@ -153,6 +166,7 @@ export class ModeleditComponent implements OnInit {
         this.myForm.controls[val].markAsUntouched();
     }
     onSubmit() {
+        let previousurl = this.prevroute.getPreviousUrl();
         let x: any;
         let data = this.myForm.value;
         let data1 = {data: data,source:'users'};
@@ -168,24 +182,42 @@ export class ModeleditComponent implements OnInit {
                 if (result.status == 'error') {
                 }
                 if (result.status == 'success') {
-                  let data4= {
+                    let data4;
+                    if(this.modelid==null){
+                         data4= {
+                            email: this.cookieService.get('email'),
+                            images: this.apiservice.fileservername[this.uploader].slice(this.modeldataimages.length, this.apiservice.fileservername[this.uploader].length)
+                        }
+                    }else{
+                         data4= {
+                            email: this.modeldata.email,
+                            images: this.apiservice.fileservername[this.uploader].slice(this.modeldataimages.length, this.apiservice.fileservername[this.uploader].length)
+                        }
+                    }
+
+                 /* let data4= {
                         email: this.cookieService.get('email'),
                         images: this.apiservice.fileservername[this.uploader].slice(this.modeldataimages.length, this.apiservice.fileservername[this.uploader].length)
-                    }
+                    }*/
                     //getting only newly added images
                    /* let data5 = {data: data4,source:'user'};
                     console.log(data5);*/
                     this.apiservice.postDatatoaudiodeadline(this.endpoint2, data4).subscribe(res => {
                         let result: any = {};
                         result = res;
-                      //  if (result.status == 'success') {
-                            console.log('updated successfully');
+                        // this.router.navigate('[/]');
+                       this.router.navigate([previousurl]);
+                           /* console.log('updated successfully');
                             const dialogRef = this.dialog.open(Updatetest3, {
                                 data: {msg: 'Updated successfully'},
 
                             });
-                            // just for model image update
-                            let data1={_id:this.cookieService.get('id')};
+                        let data1;
+                        if(this.modelid==null){
+                            data1={_id:this.cookieService.get('id')};
+                        }else{
+                            data1={_id:this.modelid};
+                        }
                             let data2 = {"condition": data1,source:'users'};
                             this.apiservice.postData(this.endpoint, data2).subscribe( res => {
                                 let result:any;
@@ -195,8 +227,7 @@ export class ModeleditComponent implements OnInit {
                                     this.modeldata=result.res[0];
                                     this.modeldataimages = this.modeldata.images;
                                 }
-                            });
-                      //  }
+                            });*/
                     }, error => {
                         console.log('Oooops!');
                     });
@@ -208,6 +239,9 @@ export class ModeleditComponent implements OnInit {
             });
         }
     }
+
+
+
 }
 
 

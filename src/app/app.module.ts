@@ -16,6 +16,7 @@ import { BranddashbordComponent } from './branddashbord/branddashbord.component'
 import { InfluencersdashbordComponent } from './influencersdashbord/influencersdashbord.component';
 import { Resolveservice } from '../app/resolveservice';
 import { ApiService } from '../app/api.service';
+import { prevroute } from '../app/prevroute';
 import { AuthGuard } from './auth.guard';
 import { ForgatepasswordComponent } from './forgatepassword/forgatepassword.component';
 //import {ChangepasswordComponent, Dialogtest} from './changepassword/changepassword.component';
@@ -121,7 +122,7 @@ import {NgxUploaderModule} from 'ngx-uploader';
     MatListModule,
     NgxUploaderModule,
   ],
-  providers: [CookieService,Resolveservice,ApiService,AuthGuard],
+  providers: [CookieService,Resolveservice,ApiService,AuthGuard,prevroute],
   bootstrap: [AppComponent],
   entryComponents: [
     // Dialogtest,
