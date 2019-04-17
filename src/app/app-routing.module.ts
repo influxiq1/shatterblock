@@ -64,7 +64,7 @@ const routes: Routes = [
   {path: 'modeledit/:pagename', component: ModeleditComponent},
   // {path: 'joqudashboard/:id', component: JoqudashboardComponent, canActivate:[AuthGuard], resolve: {results: Resolveservice}, data: {source: 'getjoqustatus', condition: {myid:'id'}}},
   {path: 'joqudashboard', component: JoqudashboardComponent, canActivate:[AuthGuard], resolve: {results: Resolveservice}, data: {source: 'getjoqustatus', condition: {myid:'id'}}},
-  {path: 'joquprocesslist', component: JoquprocesslistComponent, canActivate:[AuthGuard], resolve: {results: Resolveservice}, data: {source: 'datalist',condition: {"condition":{"joqu_status":1},source:'joquuser'}}},
+  {path: 'joquprocesslist', component: JoquprocesslistComponent, canActivate:[AuthGuard], resolve: {results: Resolveservice}, data: {source: 'datalist',condition: {"condition":{"status":1},source:'joquuser'}}},
 
 ];
 

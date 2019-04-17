@@ -28,7 +28,7 @@ export class JoqudashboardComponent implements OnInit {
       city: ['', Validators.required],
       state: ['', Validators.required],
       instagramlink: ['', Validators.required],
-      joqu_status: [1],
+      status: [1],
     });
   }
 
@@ -50,7 +50,7 @@ export class JoqudashboardComponent implements OnInit {
             city: [this.datanew.city, Validators.required],
             state: [this.datanew.state, Validators.required],
             instagramlink: [this.datanew.instagramlink, Validators.required],
-        joqu_status: [1]
+            status: [1]
           }
       );
     });
@@ -88,6 +88,22 @@ export class JoqudashboardComponent implements OnInit {
         if (result.status == 'error') {
         }
         if (result.status == 'success') {
+          let data2 = {
+            joqu_status: 1,
+            id: this.datanew._id
+          };
+          let data3 = {data: data2,source:'users'};
+          this.apiservice.postData(this.endpoint, data3).subscribe(res => {
+            let result: any = {};
+            result = res;
+            if (result.status == 'error') {
+            }
+            if (result.status == 'success') {
+              console.log('success');
+            }
+          }, error => {
+            console.log('Oooops!');
+          });
         }
       }, error => {
         console.log('Oooops!');
