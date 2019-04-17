@@ -43,7 +43,7 @@
         <th mat-header-cell *matHeaderCellDef  class="th-header-center">Actions</th>
         <td (click)="$event.stopPropagation()" mat-cell  *matCellDef="let row"  class="td-cell-center">
           <span *ngIf="selection.selected.length==null || selection.selected.length==0">
-        <span class="cursor" (click)="editdata(row)">
+        <span class="cursor" (click)="editdata(row)" >
         <i class="material-icons">
           edit
         </i>
@@ -90,5 +90,33 @@
 
 
   </mat-card>
+
+<!--
+  <mat-card>
+
+    <div class="example-container">
+
+
+      <mat-card-content >
+        <mat-form-field class="form-group">
+            <input (blur)="inputblur('email')" matInput placeholder="email" type="email" [formControl]="myForm.controls['email']" >
+            <mat-error  *ngIf="!myForm.controls['email'].valid && myForm.controls['email'].touched && issubmit==1">email field can not be blank</mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="form-group">
+            <input (blur)="inputblur('password')" matInput placeholder="Password" type="password" [formControl]="myForm.controls['password']" >
+            <mat-error  *ngIf="!myForm.controls['password'].valid && myForm.controls['password'].touched && issubmit==1">Password field can not be blank</mat-error>
+        </mat-form-field>
+
+            <button mat-button  (click)="onSubmit()" class="s_getmyoffer_login_button"  >Login</button>
+        </mat-card-content>
+
+
+    </div>
+
+  </mat-card>-->
+  <br>
+  <br>
+
 
 </div>

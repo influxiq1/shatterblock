@@ -1,3 +1,6 @@
+@media only screen and (max-width: 840px) {
+    .registration_form{ width: 95%; }
+}
 @media only screen and (max-width: 500px) {
     .s_getmyoffer_login_wrapper {
         width:70% !important; padding: 26px 5%!important;  margin-bottom: 40px!important;

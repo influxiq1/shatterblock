@@ -3,17 +3,38 @@ import { MatSort, MatTableDataSource, MatPaginator } from '@angular/material';
 import { ApiService } from './api.service';
 import { MatDialog, MatDialogRef } from '@angular/material';
 import { MatBottomSheet, MatBottomSheetRef } from '@angular/material';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { Router } from "@angular/router";
+export interface Validator {
+    name: string;
+    validator: any;
+    message: string;
+}
+export interface FieldConfig {
+    label?: string;
+    name?: string;
+    inputType?: string;
+    options?: string[];
+    collections?: any;
+    type: string;
+    value?: any;
+    validations?: Validator[];
+}
 export declare class ListingComponent implements OnInit {
     _apiService: ApiService;
     dialog: MatDialog;
     private bottomSheet;
+    fb: FormBuilder;
+    private router;
     datasourceval: any;
     statusarrval: any;
     skipval: any;
+    errormg: any;
     jwttokenval: any;
     detail_datatypeval: any;
     detail_skip_arrayval: any;
     deleteendpointval: any;
+    editrouteval: any;
     apiurlval: any;
     updateendpointval: any;
     modify_header_arrayval: any;
@@ -22,6 +43,8 @@ export declare class ListingComponent implements OnInit {
     columns: any;
     olddata: any;
     x: any;
+    field: FieldConfig;
+    group: any;
     datasource: any;
     skip: any;
     detail_datatype: any;
@@ -33,13 +56,19 @@ export declare class ListingComponent implements OnInit {
     apiurl: any;
     jwttoken: any;
     statusarr: any;
+    editroute: any;
     displayedColumns: string[];
     datacolumns: string[];
     displayedColumnsheader: string[];
+    formarray: any;
     dataSource: MatTableDataSource<{}>;
     sort: MatSort;
     paginator: MatPaginator;
-    constructor(_apiService: ApiService, dialog: MatDialog, bottomSheet: MatBottomSheet);
+    options: FormGroup;
+    myForm: any;
+    constructor(_apiService: ApiService, dialog: MatDialog, bottomSheet: MatBottomSheet, fb: FormBuilder, router: Router);
+    onSubmit(): void;
+    inputblur(val: any): void;
     ngOnInit(): void;
     getstatus(val: any): any;
     /** Whether the number of selected elements matches the total number of rows. */
@@ -51,7 +80,7 @@ export declare class ListingComponent implements OnInit {
     createData(point: any): {};
     applyFilter(filterValue: string): void;
     styleCell(col_name: any, row: any): {};
-    viewdata(data: any): void;
+    viewdata(data1: any): void;
     managestatus(data: any): void;
     managestatusmultiple(): void;
     deletemultiple(): void;

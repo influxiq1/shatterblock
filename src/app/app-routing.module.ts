@@ -14,6 +14,9 @@ import {ChangepasswordComponent} from './changepassword/changepassword.component
 import {AdminlistComponent} from "./adminlist/adminlist.component";
 import {AdminformComponent} from "./adminform/adminform.component";
 import {AdminmodalformComponent} from "./adminmodalform/adminmodalform.component";
+import {EditrouteComponent} from "./editroute/editroute.component";
+import {DynamicFormsComponent} from "./dynamic-forms/dynamic-forms.component";
+import {DformComponent} from "./dform/dform.component";
 
 
 const routes: Routes = [
@@ -26,16 +29,15 @@ const routes: Routes = [
   // { path: "adminlist", component: AdminlistComponent, canActivate: [AuthGuard], resolve: {results: Resolveservice}, data: { source: 'users', condition: {} }},
   { path: "branddashbord", component: BranddashbordComponent, canActivate: [AuthGuard], resolve: {results: Resolveservice}, data: { source: 'users', condition: {} }},
   { path: "admindashbord", component: AdmindashbordComponent, canActivate: [AuthGuard], resolve: {results: Resolveservice}, data: { source: 'admindashboard', condition: {} }},
-
-
-
-
   { path: 'forgatepassword', component: ForgatepasswordComponent},
+  { path: 'dynamicforms', component: DynamicFormsComponent},
+  { path: 'dforms', component: DformComponent},
 
   { path: 'changepassword', component: ChangepasswordComponent},
   {path: 'adminlist', component: AdminlistComponent},
    {path: 'adminform', component:AdminformComponent },
   {path: 'adminmodalform', component: AdminmodalformComponent},
+  {path: 'editroute/:id', component: EditrouteComponent},
 
   { path: 'changepassword', component: ChangepasswordComponent, canActivate: [AuthGuard], resolve: {results: Resolveservice}, data: {source: 'users', condition:{}} },
 

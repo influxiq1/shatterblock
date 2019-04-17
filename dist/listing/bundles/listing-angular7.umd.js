@@ -1,8 +1,8 @@
 (function (global, factory) {
-    typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('@angular/cdk/collections'), require('rxjs/operators'), require('@angular/common/http'), require('@angular/platform-browser'), require('@angular/cdk/a11y'), require('@angular/cdk/drag-drop'), require('@angular/cdk/portal'), require('@angular/cdk/scrolling'), require('@angular/cdk/stepper'), require('@angular/cdk/table'), require('@angular/cdk/tree'), require('@angular/core'), require('@angular/material'), require('@angular/platform-browser/animations')) :
-    typeof define === 'function' && define.amd ? define('listing-angular7', ['exports', '@angular/cdk/collections', 'rxjs/operators', '@angular/common/http', '@angular/platform-browser', '@angular/cdk/a11y', '@angular/cdk/drag-drop', '@angular/cdk/portal', '@angular/cdk/scrolling', '@angular/cdk/stepper', '@angular/cdk/table', '@angular/cdk/tree', '@angular/core', '@angular/material', '@angular/platform-browser/animations'], factory) :
-    (factory((global['listing-angular7'] = {}),global.ng.cdk.collections,global.rxjs.operators,global.ng.common.http,global.ng.platformBrowser,global.ng.cdk.a11y,global.ng.cdk['drag-drop'],global.ng.cdk.portal,global.ng.cdk.scrolling,global.ng.cdk.stepper,global.ng.cdk.table,global.ng.cdk.tree,global.ng.core,global.ng.material,global.ng.platformBrowser.animations));
-}(this, (function (exports,collections,operators,http,platformBrowser,a11y,dragDrop,portal,scrolling,stepper,table,tree,i0,material,animations) { 'use strict';
+    typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('@angular/cdk/collections'), require('rxjs/operators'), require('@angular/common/http'), require('@angular/router'), require('@angular/platform-browser'), require('@angular/cdk/a11y'), require('@angular/cdk/drag-drop'), require('@angular/cdk/portal'), require('@angular/cdk/scrolling'), require('@angular/cdk/stepper'), require('@angular/cdk/table'), require('@angular/cdk/tree'), require('@angular/core'), require('@angular/material'), require('@angular/platform-browser/animations'), require('@angular/forms')) :
+    typeof define === 'function' && define.amd ? define('listing-angular7', ['exports', '@angular/cdk/collections', 'rxjs/operators', '@angular/common/http', '@angular/router', '@angular/platform-browser', '@angular/cdk/a11y', '@angular/cdk/drag-drop', '@angular/cdk/portal', '@angular/cdk/scrolling', '@angular/cdk/stepper', '@angular/cdk/table', '@angular/cdk/tree', '@angular/core', '@angular/material', '@angular/platform-browser/animations', '@angular/forms'], factory) :
+    (factory((global['listing-angular7'] = {}),global.ng.cdk.collections,global.rxjs.operators,global.ng.common.http,global.ng.router,global.ng.platformBrowser,global.ng.cdk.a11y,global.ng.cdk['drag-drop'],global.ng.cdk.portal,global.ng.cdk.scrolling,global.ng.cdk.stepper,global.ng.cdk.table,global.ng.cdk.tree,global.ng.core,global.ng.material,global.ng.platformBrowser.animations,global.ng.forms));
+}(this, (function (exports,collections,operators,http,router,platformBrowser,a11y,dragDrop,portal,scrolling,stepper,table,tree,i0,material,animations,forms) { 'use strict';
 
     /**
      * @fileoverview added by tsickle
@@ -424,18 +424,37 @@
      * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
      */
     var ListingComponent = /** @class */ (function () {
-        function ListingComponent(_apiService, dialog, bottomSheet) {
+        // myForm:any;
+        function ListingComponent(_apiService, dialog, bottomSheet, fb, router$$1) {
             this._apiService = _apiService;
             this.dialog = dialog;
             this.bottomSheet = bottomSheet;
+            this.fb = fb;
+            this.router = router$$1;
             this.columns = [];
             this.olddata = [];
             this.displayedColumns = [];
             this.datacolumns = [];
             this.displayedColumnsheader = [];
+            this.formarray = [];
+            //email: any ;
             //dataSource = new MatTableDataSource(this.datasourceval);
             this.dataSource = new material.MatTableDataSource;
+            this.myForm = this.fb.group({
+                email: ['', forms.Validators.compose([forms.Validators.required, forms.Validators.pattern(/^\s*[\w\-\+_]+(\.[\w\-\+_]+)*\@[\w\-\+_]+\.[\w\-\+_]+(\.[\w\-\+_]+)*\s*$/)])],
+                password: ['', forms.Validators.required]
+            });
         }
+        Object.defineProperty(ListingComponent.prototype, "group", {
+            set: /**
+             * @param {?} group
+             * @return {?}
+             */ function (group) {
+                console.log(group);
+            },
+            enumerable: true,
+            configurable: true
+        });
         Object.defineProperty(ListingComponent.prototype, "datasource", {
             set: /**
              * @param {?} datasource
@@ -568,6 +587,60 @@
             enumerable: true,
             configurable: true
         });
+        Object.defineProperty(ListingComponent.prototype, "editroute", {
+            set: /**
+             * @param {?} editroute
+             * @return {?}
+             */ function (editroute) {
+                console.log('editroute');
+                console.log(editroute);
+                this.editrouteval = editroute;
+                console.log('this.editrouteval');
+                console.log(this.editrouteval);
+            },
+            enumerable: true,
+            configurable: true
+        });
+        /*@Directive({
+          selector: '[Listing]'
+        })*/
+        /*@Directive({
+            selector: '[Listing]'
+          })*/
+        /**
+         * @return {?}
+         */
+        ListingComponent.prototype.onSubmit = /*@Directive({
+            selector: '[Listing]'
+          })*/
+            /**
+             * @return {?}
+             */
+            function () {
+                /** @type {?} */
+                var x;
+                this.errormg = '';
+                /** @type {?} */
+                var data = this.myForm.value;
+                console.log('data');
+                console.log(data);
+                console.log(this.myForm.valid);
+                for (x in this.myForm.controls) {
+                    this.myForm.controls[x].markAsTouched();
+                }
+            };
+        /**
+         * @param {?} val
+         * @return {?}
+         */
+        ListingComponent.prototype.inputblur = /**
+         * @param {?} val
+         * @return {?}
+         */
+            function (val) {
+                console.log('on blur .....');
+                this.myForm.controls[val].markAsUntouched();
+            };
         /**
          * @return {?}
          */
@@ -753,23 +826,21 @@
                 return {};
             };
         /**
-         * @param {?} data
+         * @param {?} data1
          * @return {?}
          */
         ListingComponent.prototype.viewdata = /**
-         * @param {?} data
+         * @param {?} data1
          * @return {?}
          */
-            function (data) {
+            function (data1) {
+                /** @type {?} */
+                var data;
+                data = data1;
+                /** @type {?} */
+                var data2 = [];
                 console.log('data');
                 console.log(data);
-                //let b:any=0;
-                for (var v in this.detail_skip_arrayval) {
-                    delete data[this.detail_skip_arrayval[v]];
-                    console.log('this.detail_skip_arrayval[v]');
-                    console.log(this.detail_skip_arrayval[v]);
-                }
-                //<img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu">
                 for (var key in data) {
                     if (data.hasOwnProperty(key)) {
                         console.log(key + " -> " + data[key] + "--->" + typeof (data[key]));
@@ -813,8 +884,19 @@
                 }
                 console.log('data');
                 console.log(data);
+                for (var n in data) {
+                    if (data[n] != null && data[n] != '') {
+                        data2[n] = data[n];
+                    }
+                }
+                for (var v in this.detail_skip_arrayval) {
+                    //data2[this.detail_skip_arrayval[v]]='';
+                    delete data2[this.detail_skip_arrayval[v]];
+                    console.log('this.detail_skip_arrayval[v]');
+                    console.log(this.detail_skip_arrayval[v]);
+                }
                 /** @type {?} */
-                var res = Object.entries(data);
+                var res = Object.entries(data2);
                 console.log('this.detail_skip_array');
                 console.log(this.detail_skip_arrayval);
                 console.log(this.detail_datatypeval);
@@ -840,7 +922,7 @@
                 console.log('data');
                 console.log(data);
                 /** @type {?} */
-                var bs = this.bottomSheet.open(BottomSheet, { data: { items: this.statusarrval } });
+                var bs = this.bottomSheet.open(BottomSheet, { panelClass: 'custom-bottomsheet', data: { items: this.statusarrval } });
                 bs.afterDismissed().subscribe(( /**
                  * @param {?} result
                  * @return {?}
@@ -1096,12 +1178,16 @@
             function (data) {
                 console.log('data');
                 console.log(data);
+                console.log(this.editrouteval);
+                console.log(this.editrouteval + data._id);
                 console.log(this.jwttokenval);
+                this.router.navigate([this.editrouteval, data._id]);
+                //this.na
             };
         ListingComponent.decorators = [
             { type: i0.Component, args: [{
                         selector: 'lib-listing',
-                        template: "<div class=\"container\">\n\n\n  <mat-card>\n\n    <mat-form-field>\n      <input matInput (keyup)=\"applyFilter($event.target.value)\" placeholder=\"Filter\">\n    </mat-form-field>\n    <ng-container *ngIf=\"selection.selected.length!=null && selection.selected.length>0\">\n      <button mat-raised-button (click)=\"deletemultiple()\"> Delete </button>\n      <button mat-raised-button (click)=\"managestatusmultiple()\"> Update Status </button>\n    </ng-container>\n\n\n\n    <table mat-table [dataSource]=\"dataSource\" matSort class=\"mat-elevation-z8\">\n\n      <ng-container matColumnDef=\"select\">\n        <th mat-header-cell *matHeaderCellDef>\n          <mat-checkbox (change)=\"$event ? masterToggle() : null\"\n                        [checked]=\"selection.hasValue() && isAllSelected()\"\n                        [indeterminate]=\"selection.hasValue() && !isAllSelected()\">\n          </mat-checkbox>\n        </th>\n        <td mat-cell *matCellDef=\"let row\">\n          <mat-checkbox (click)=\"$event.stopPropagation()\"\n                        (change)=\"$event ? selection.toggle(row) : null\"\n                        [checked]=\"selection.isSelected(row)\">\n          </mat-checkbox>\n        </td>\n      </ng-container>\n\n      <ng-container *ngFor=\"let column of columns\" [matColumnDef]=\"column.columnDef\" >\n        <th mat-header-cell *matHeaderCellDef mat-sort-header class=\"th-header-center\">{{ column.header }}</th>\n        <td mat-cell *matCellDef=\"let row\"  [ngStyle]=\"styleCell(column,row)\" class=\"td-cell-center\">\n          <span *ngIf=\"column.columnDef=='status' \">{{ getstatus([column.cell(row)]) }}</span>\n          <span *ngIf=\"column.columnDef!='status' \">{{ column.cell(row) }}</span>\n        </td>\n      </ng-container>\n\n\n      <ng-container matColumnDef=\"Actions\"   >\n        <th mat-header-cell *matHeaderCellDef  class=\"th-header-center\">Actions</th>\n        <td (click)=\"$event.stopPropagation()\" mat-cell  *matCellDef=\"let row\"  class=\"td-cell-center\">\n          <span *ngIf=\"selection.selected.length==null || selection.selected.length==0\">\n        <span class=\"cursor\" (click)=\"editdata(row)\">\n        <i class=\"material-icons\">\n          edit\n        </i>\n        </span>\n\n          <!--For modern browsers-->\n          <span class=\"cursor\" (click)=\"deletedata(row)\" >\n        <i class=\"material-icons\">\n          delete_outline\n        </i>\n        </span>\n\n          <!--For modern browsers-->\n          <span class=\"cursor\" (click)=\"viewdata(row)\" >\n          <i class=\"material-icons\">\n            pageview\n          </i>\n          </span>\n\n          <!--For modern browsers-->\n          <span class=\"cursor\" (click)=\"managestatus(row)\" >\n          <i class=\"material-icons\">\n            toggle_off\n          </i>\n          </span>\n          </span>\n\n        </td>\n        <!--<td *ngIf=\"column.objlength==i+1\" mat-cell *matCellDef=\"i\">\n          <mat-icon>more_vert</mat-icon>\n        </td>-->\n      </ng-container>\n\n\n      <tr mat-header-row *matHeaderRowDef=\"displayedColumns\"></tr>\n      <tr mat-row *matRowDef=\"let row; columns: displayedColumns;\"></tr>\n\n    </table>\n\n    <mat-paginator [pageSizeOptions]=\"[5,10, 20, 50,100]\" showFirstLastButtons></mat-paginator>\n\n    <br>\n\n\n\n  </mat-card>\n\n</div>",
+                        template: "<div class=\"container\">\n\n\n  <mat-card>\n\n    <mat-form-field>\n      <input matInput (keyup)=\"applyFilter($event.target.value)\" placeholder=\"Filter\">\n    </mat-form-field>\n    <ng-container *ngIf=\"selection.selected.length!=null && selection.selected.length>0\">\n      <button mat-raised-button (click)=\"deletemultiple()\"> Delete </button>\n      <button mat-raised-button (click)=\"managestatusmultiple()\"> Update Status </button>\n    </ng-container>\n\n\n\n    <table mat-table [dataSource]=\"dataSource\" matSort class=\"mat-elevation-z8\">\n\n      <ng-container matColumnDef=\"select\">\n        <th mat-header-cell *matHeaderCellDef>\n          <mat-checkbox (change)=\"$event ? masterToggle() : null\"\n                        [checked]=\"selection.hasValue() && isAllSelected()\"\n                        [indeterminate]=\"selection.hasValue() && !isAllSelected()\">\n          </mat-checkbox>\n        </th>\n        <td mat-cell *matCellDef=\"let row\">\n          <mat-checkbox (click)=\"$event.stopPropagation()\"\n                        (change)=\"$event ? selection.toggle(row) : null\"\n                        [checked]=\"selection.isSelected(row)\">\n          </mat-checkbox>\n        </td>\n      </ng-container>\n\n      <ng-container *ngFor=\"let column of columns\" [matColumnDef]=\"column.columnDef\" >\n        <th mat-header-cell *matHeaderCellDef mat-sort-header class=\"th-header-center\">{{ column.header }}</th>\n        <td mat-cell *matCellDef=\"let row\"  [ngStyle]=\"styleCell(column,row)\" class=\"td-cell-center\">\n          <span *ngIf=\"column.columnDef=='status' \">{{ getstatus([column.cell(row)]) }}</span>\n          <span *ngIf=\"column.columnDef!='status' \">{{ column.cell(row) }}</span>\n        </td>\n      </ng-container>\n\n\n      <ng-container matColumnDef=\"Actions\"   >\n        <th mat-header-cell *matHeaderCellDef  class=\"th-header-center\">Actions</th>\n        <td (click)=\"$event.stopPropagation()\" mat-cell  *matCellDef=\"let row\"  class=\"td-cell-center\">\n          <span *ngIf=\"selection.selected.length==null || selection.selected.length==0\">\n        <span class=\"cursor\" (click)=\"editdata(row)\" >\n        <i class=\"material-icons\">\n          edit\n        </i>\n        </span>\n\n          <!--For modern browsers-->\n          <span class=\"cursor\" (click)=\"deletedata(row)\" >\n        <i class=\"material-icons\">\n          delete_outline\n        </i>\n        </span>\n\n          <!--For modern browsers-->\n          <span class=\"cursor\" (click)=\"viewdata(row)\" >\n          <i class=\"material-icons\">\n            pageview\n          </i>\n          </span>\n\n          <!--For modern browsers-->\n          <span class=\"cursor\" (click)=\"managestatus(row)\" >\n          <i class=\"material-icons\">\n            toggle_off\n          </i>\n          </span>\n          </span>\n\n        </td>\n        <!--<td *ngIf=\"column.objlength==i+1\" mat-cell *matCellDef=\"i\">\n          <mat-icon>more_vert</mat-icon>\n        </td>-->\n      </ng-container>\n\n\n      <tr mat-header-row *matHeaderRowDef=\"displayedColumns\"></tr>\n      <tr mat-row *matRowDef=\"let row; columns: displayedColumns;\"></tr>\n\n    </table>\n\n    <mat-paginator [pageSizeOptions]=\"[5,10, 20, 50,100]\" showFirstLastButtons></mat-paginator>\n\n    <br>\n\n\n\n  </mat-card>\n\n<!--\n  <mat-card>\n\n    <div class=\"example-container\">\n\n\n      <mat-card-content >\n        <mat-form-field class=\"form-group\">\n            <input (blur)=\"inputblur('email')\" matInput placeholder=\"email\" type=\"email\" [formControl]=\"myForm.controls['email']\" >\n            <mat-error  *ngIf=\"!myForm.controls['email'].valid && myForm.controls['email'].touched && issubmit==1\">email field can not be blank</mat-error>\n        </mat-form-field>\n\n        <mat-form-field class=\"form-group\">\n            <input (blur)=\"inputblur('password')\" matInput placeholder=\"Password\" type=\"password\" [formControl]=\"myForm.controls['password']\" >\n            <mat-error  *ngIf=\"!myForm.controls['password'].valid && myForm.controls['password'].touched && issubmit==1\">Password field can not be blank</mat-error>\n        </mat-form-field>\n\n            <button mat-button  (click)=\"onSubmit()\" class=\"s_getmyoffer_login_button\"  >Login</button>\n        </mat-card-content>\n\n\n    </div>\n\n  </mat-card>-->\n  <br>\n  <br>\n\n\n</div>\n",
                         styles: [".container{background:#fff}body{font-family:Roboto,Arial,sans-serif;margin:0;display:none!important}.basic-container{padding:30px}.version-info{font-size:8pt;float:right}table{width:100%}th.mat-sort-header-sorted{color:#000}.custom-modalbox{display:none}"]
                     }] }
         ];
@@ -1110,10 +1196,14 @@
             return [
                 { type: ApiService },
                 { type: material.MatDialog },
-                { type: material.MatBottomSheet }
+                { type: material.MatBottomSheet },
+                { type: forms.FormBuilder },
+                { type: router.Router }
             ];
         };
         ListingComponent.propDecorators = {
+            field: [{ type: i0.Input }],
+            group: [{ type: i0.Input }],
             datasource: [{ type: i0.Input }],
             skip: [{ type: i0.Input }],
             detail_datatype: [{ type: i0.Input }],
@@ -1125,6 +1215,7 @@
             apiurl: [{ type: i0.Input }],
             jwttoken: [{ type: i0.Input }],
             statusarr: [{ type: i0.Input }],
+            editroute: [{ type: i0.Input }],
             sort: [{ type: i0.ViewChild, args: [material.MatSort,] }],
             paginator: [{ type: i0.ViewChild, args: [material.MatPaginator,] }]
         };
@@ -1149,7 +1240,7 @@
         Confirmdialog.decorators = [
             { type: i0.Component, args: [{
                         selector: 'confirmdialog',
-                        template: "<h1 mat-dialog-title *ngIf=\"data!=null && data.message!=null\" >Hey !</h1>\n<h1 mat-dialog-title *ngIf=\"data!=null && data.data!=null\">Details </h1>\n<div mat-dialog-content>\n    <p *ngIf=\"data!=null && data.message!=null\">{{data.message}}</p>\n\n\n    <div *ngIf=\"data!=null && data.data!=null\">\n\n\n        <mat-card class=\"example-card\" *ngFor=\"let item of data.data;\">\n            <mat-card-header id=\"dialogdata{{item[0]}}\">\n                <!--<div mat-card-avatar class=\"example-header-image\"></div>-->\n                <mat-card-title>{{item[0]}}</mat-card-title>\n            </mat-card-header>\n            <!--<img mat-card-image src=\"https://material.angular.io/assets/img/examples/shiba2.jpg\" alt=\"Photo of a Shiba Inu\">-->\n            <mat-card-content id=\"dialogdata{{item[0]}}\">\n                <p [innerHtml]=\"item[1]\">\n\n                </p>\n            </mat-card-content>\n        </mat-card>\n\n\n\n    </div>\n\n\n</div>\n\n\n\n\n\n\n\n\n<div mat-dialog-actions>\n    <button mat-button *ngIf=\"data.isconfirmation==null ||  data.isconfirmation!=false\" (click)=\"onNoClick()\">No Thanks</button>\n    <button mat-button mat-dialog-close=\"yes\" cdkFocusInitial>Ok</button>\n</div>\n"
+                        template: "<h1 mat-dialog-title *ngIf=\"data!=null && data.message!=null\" >Hey !</h1>\n<h1 mat-dialog-title *ngIf=\"data!=null && data.data!=null\">Details </h1>\n<div mat-dialog-content>\n    <p *ngIf=\"data!=null && data.message!=null\">{{data.message}}</p>\n\n\n    <div *ngIf=\"data!=null && data.data!=null\">\n\n\n\n        <mat-card class=\"example-card\" *ngFor=\"let item of data.data;\">\n            <mat-card-header id=\"dialogdata{{item[0]}}\">\n                <!--<div mat-card-avatar class=\"example-header-image\"></div>-->\n                <mat-card-title>{{item[0]}}</mat-card-title>\n            </mat-card-header>\n            <!--<img mat-card-image src=\"https://material.angular.io/assets/img/examples/shiba2.jpg\" alt=\"Photo of a Shiba Inu\">-->\n            <mat-card-content id=\"dialogdata{{item[0]}}\">\n                <p [innerHtml]=\"item[1]\">\n\n                </p>\n            </mat-card-content>\n        </mat-card>\n\n\n\n    </div>\n\n\n</div>\n\n\n\n\n\n\n\n\n<div mat-dialog-actions>\n    <button mat-button *ngIf=\"data.isconfirmation==null ||  data.isconfirmation!=false\" (click)=\"onNoClick()\">No Thanks</button>\n    <button mat-button mat-dialog-close=\"yes\" cdkFocusInitial>Ok</button>\n</div>\n"
                     }] }
         ];
         /** @nocollapse */
@@ -1266,7 +1357,8 @@
                         declarations: [ListingComponent, Confirmdialog, BottomSheet],
                         imports: [
                             platformBrowser.BrowserModule, animations.BrowserAnimationsModule,
-                            DemoMaterialModule
+                            DemoMaterialModule,
+                            forms.FormsModule, forms.ReactiveFormsModule
                         ],
                         exports: [ListingComponent],
                         providers: [ApiService],

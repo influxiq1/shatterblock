@@ -4,8 +4,37 @@ import {SelectionModel} from '@angular/cdk/collections';
 import { ApiService } from './api.service';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 import {MatBottomSheet, MatBottomSheetRef,MAT_BOTTOM_SHEET_DATA} from '@angular/material';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import { Router } from "@angular/router";
 
 
+import {
+  ComponentFactoryResolver, ComponentRef, Directive,
+  ViewContainerRef
+} from "@angular/core";
+
+// import { FormGroup } from "@angular/forms";
+// import { FieldConfig } from "./listing.component";
+// import { InputComponent} from './input';
+// import {ButtonComponent } from './button';
+// import { SelectComponent} from './select';
+
+
+export interface Validator {
+  name: string;
+  validator: any;
+  message: string;
+}
+export interface FieldConfig {
+  label?: string;
+  name?: string;
+  inputType?: string;
+  options?: string[];
+  collections?: any;
+  type: string;
+  value?: any;
+  validations?: Validator[];
+}
 
 @Component({
   selector: 'lib-listing',
@@ -14,13 +43,18 @@ import {MatBottomSheet, MatBottomSheetRef,MAT_BOTTOM_SHEET_DATA} from '@angular/
 })
 export class ListingComponent implements OnInit {
 
+
+
+
   datasourceval:any;
   statusarrval:any;
   skipval:any;
+  errormg:any;
   jwttokenval:any;
   detail_datatypeval:any;
-    detail_skip_arrayval:any;
+  detail_skip_arrayval:any;
   deleteendpointval:any;
+  editrouteval:any;
   apiurlval:any;
   updateendpointval:any;
   modify_header_arrayval:any;
@@ -30,6 +64,13 @@ export class ListingComponent implements OnInit {
   olddata :any=[];
   public x :any;
 
+
+  @Input() field: FieldConfig;
+  @Input()
+  set group(group: any) {
+    console.log(group);
+    group: FormGroup;
+  }
   @Input()
   set datasource(datasource: any) {
     this.datasourceval = datasource;
@@ -104,23 +145,62 @@ export class ListingComponent implements OnInit {
       console.log(this.statusarrval);
     }
 
+  @Input()
+  set editroute(editroute: any) {
+    console.log('editroute');
+    console.log(editroute);
+    this.editrouteval = editroute;
+    console.log('this.editrouteval');
+    console.log(this.editrouteval);
+  }
+
 
   displayedColumns: string[] = [];
   datacolumns: string[] = [];
   displayedColumnsheader: string[] = [];
+  formarray: any = [];
+  //email: any ;
   //dataSource = new MatTableDataSource(this.datasourceval);
   dataSource = new MatTableDataSource;
 
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
+  options: FormGroup;
+  myForm:any;
+  // myForm:any;
 
-  constructor(public _apiService: ApiService,public dialog: MatDialog,private bottomSheet: MatBottomSheet) {
+  constructor(public _apiService: ApiService,public dialog: MatDialog,private bottomSheet: MatBottomSheet,public fb: FormBuilder,private router: Router) {
+
+    this.myForm = this.fb.group({
+      email: ['', Validators.compose([Validators.required, Validators.pattern(/^\s*[\w\-\+_]+(\.[\w\-\+_]+)*\@[\w\-\+_]+\.[\w\-\+_]+(\.[\w\-\+_]+)*\s*$/)])],
+      password: ['', Validators.required]
+    });
+
+
 
   }
+  /*@Directive({
+    selector: '[Listing]'
+  })*/
 
+
+  onSubmit() {
+    let x: any;
+    this.errormg = '';
+    let data = this.myForm.value;
+    console.log('data');
+    console.log(data);
+    console.log(this.myForm.valid);
+    for (x in this.myForm.controls) {
+      this.myForm.controls[x].markAsTouched();
+    }
+  }
+
+  inputblur(val:any){
+    console.log('on blur .....');
+    this.myForm.controls[val].markAsUntouched();
+  }
   ngOnInit() {
-
-
     this.x = this.datasourceval;
     let x=this.x;
 
@@ -171,7 +251,6 @@ export class ListingComponent implements OnInit {
     for(let b in this.statusarrval){
       if(this.statusarrval[b].val==val)
         return this.statusarrval[b].name;
-
     }
     return "N/A";
   }
@@ -230,22 +309,12 @@ export class ListingComponent implements OnInit {
   }
 
 
-  viewdata(data:any){
+  viewdata(data1:any){
+    let data:any;
+    data=data1;
+    let data2:any=[];
     console.log('data');
     console.log(data);
-
-
-    //let b:any=0;
-    for(let v in this.detail_skip_arrayval){
-            delete data[this.detail_skip_arrayval[v]];
-            console.log('this.detail_skip_arrayval[v]');
-            console.log(this.detail_skip_arrayval[v]);
-    }
-
-    //<img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu">
-
-
-
 
       for (let key in data) {
         let flagk:any='';
@@ -295,13 +364,27 @@ export class ListingComponent implements OnInit {
 
       console.log('data');
       console.log(data);
-      let res = Object.entries(data);
+      for(let n in data){
+        if(data[n]!=null && data[n]!=''){
+          data2[n]=data[n];
+        }
+      }
+
+    for(let v in this.detail_skip_arrayval){
+      //data2[this.detail_skip_arrayval[v]]='';
+      delete data2[this.detail_skip_arrayval[v]];
+      console.log('this.detail_skip_arrayval[v]');
+      console.log(this.detail_skip_arrayval[v]);
+    }
+      let res = Object.entries(data2);
     console.log('this.detail_skip_array');
     console.log(this.detail_skip_arrayval);
     console.log(this.detail_datatypeval);
 
     console.log('res');
     console.log(res);
+
+
 
     const dialogRef = this.dialog.open(Confirmdialog, {
       height: 'auto',
@@ -313,7 +396,7 @@ export class ListingComponent implements OnInit {
   managestatus(data:any){
     console.log('data');
     console.log(data);
-    let bs=this.bottomSheet.open(BottomSheet,{data:{items:this.statusarrval}});
+    let bs=this.bottomSheet.open(BottomSheet,{panelClass: 'custom-bottomsheet',data:{items:this.statusarrval}});
 
     bs.afterDismissed().subscribe(result => {
       console.log('The bottom sheet was closed');
@@ -506,9 +589,15 @@ export class ListingComponent implements OnInit {
  editdata(data:any){
     console.log('data');
     console.log(data);
+    console.log(this.editrouteval);
+    console.log(this.editrouteval+data._id);
     console.log(this.jwttokenval);
+   this.router.navigate([this.editrouteval,data._id]);
+    //this.na
+
 
   }
+
 
 
 }

@@ -30,6 +30,17 @@ import { AdminleftpanelComponent } from './adminleftpanel/adminleftpanel.compone
 
 //import { ResolvecomponentComponent } from './resolvecomponent/resolvecomponent.component';
 
+import { DynamicFormBuilderModule } from '../../projects/listing/src/lib/dynamic-form-builder/dynamic-form-builder.module'
+// import { FieldConfig } from '../../projects/listing/src/lib/components/field.interface';
+import { ButtonComponent } from '../../projects/listing/src/lib/components/button/button.component';
+import { CheckboxComponent } from '../../projects/listing/src/lib/components/checkbox/checkbox.component';
+import { DateComponent } from '../../projects/listing/src/lib/components/date/date.component';
+import { DynamicFieldDirective } from '../../projects/listing/src/lib/components/dynamic-field/dynamic-field.directive';
+import { DynamicFormComponent } from '../../projects/listing/src/lib/components/dynamic-form/dynamic-form.component';
+import { InputComponent } from '../../projects/listing/src/lib/components/input/input.component';
+import { RadiobuttonComponent } from '../../projects/listing/src/lib/components/radiobutton/radiobutton.component';
+import { SelectComponent } from '../../projects/listing/src/lib/components/select/select.component';
+
 
 //MATERIAL
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
@@ -44,12 +55,22 @@ import { AdminmodalformComponent } from './adminmodalform/adminmodalform.compone
 import { AdminheaderComponent } from './adminheader/adminheader.component';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {ListingModule} from '../../projects/listing/src/lib/listing.module';
-
+import { EditrouteComponent } from './editroute/editroute.component';
+import { DynamicFormsComponent } from './dynamic-forms/dynamic-forms.component';
+import { DformComponent } from './dform/dform.component';
 
 
 
 @NgModule({
   declarations: [
+    CheckboxComponent,
+    DateComponent,
+    DynamicFieldDirective,
+    DynamicFormComponent,
+    InputComponent,
+    RadiobuttonComponent,
+    SelectComponent,
+    ButtonComponent,
     AppComponent,
 
     LoginComponent,
@@ -72,6 +93,12 @@ import {ListingModule} from '../../projects/listing/src/lib/listing.module';
 
     AdminheaderComponent,
 
+    EditrouteComponent,
+
+    DynamicFormsComponent,
+
+    DformComponent,
+
 
 
 
@@ -85,6 +112,7 @@ import {ListingModule} from '../../projects/listing/src/lib/listing.module';
     BrowserAnimationsModule,
     HttpClientModule,
     FormsModule, ReactiveFormsModule,
+    DynamicFormBuilderModule,
 
 
     //MATERIAL
@@ -98,6 +126,14 @@ import {ListingModule} from '../../projects/listing/src/lib/listing.module';
     ListingModule
   ],
   providers: [CookieService,Resolveservice,ApiService,AuthGuard],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [
+    InputComponent,
+    ButtonComponent,
+    SelectComponent,
+    DateComponent,
+    RadiobuttonComponent,
+    CheckboxComponent
+  ]
 })
 export class AppModule { }

@@ -1,0 +1,30 @@
+<span class="bg_white">
+
+  <mat-card class="registration_form">
+    <mat-card-header>
+      <mat-card-title> Registration Form</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <dynamic-form [fields]="regConfig" (submit)="submit($event)"></dynamic-form>
+    </mat-card-content>
+    <mat-card-content>
+      {{ form.value | json}}
+    </mat-card-content>
+  </mat-card>
+
+
+
+<!--<div class="form">-->
+  <!--<div style="text-align:center">-->
+    <!--<h1>-->
+      <!--Registration Form-->
+    <!--</h1>-->
+  <!--</div>-->
+  <!---->
+  <!---->
+  <!--<div class="margin-top">-->
+    <!--{{ form.value | json }}-->
+  <!--</div>-->
+<!--</div>-->
+
+  </span>
