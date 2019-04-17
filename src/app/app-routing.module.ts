@@ -49,7 +49,7 @@ const routes: Routes = [
   {path: 'managedashboard', component: ManagedashboardComponent, canActivate: [AuthGuard]},
 
   {path: 'agreement', component: AgreementComponent, canActivate: [AuthGuard]},
-  {path: 'affilitemarketing', component: AffilitemarketingComponent, canActivate: [AuthGuard]},
+  {path: 'affilitemarketing', component: AffilitemarketingComponent, canActivate: [AuthGuard], resolve: {results: Resolveservice}, data: {server:'audiodeadline',source: 'datalist',condition: {"condition":{"type":7,"status":1},source:'mediaview'}}},
 
 
   {path: 'audioseadlineagreement', component: AudiodeadlinesgreementComponent},

@@ -1,8 +1,10 @@
 import { Component, OnInit,Inject } from '@angular/core';
 import {ApiService} from "../api.service";
-import {Router} from "@angular/router";
+import {Router, ActivatedRoute} from "@angular/router";
 import { CookieService } from 'ngx-cookie-service';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
+import { Resolveservice } from '../resolveservice';
+
 declare const FB: any;
 export interface DialogData {
   msg: string;
@@ -22,7 +24,7 @@ public affiliatename: any;
 public endpoint: any='datalist';
 public uploadfile: any='banner';
 
-  constructor(public apiservice: ApiService, public router: Router, private cookieService: CookieService, public dialog: MatDialog ) {
+  constructor(public apiservice: ApiService, public router: Router, private cookieService: CookieService, public dialog: MatDialog,public route: ActivatedRoute, public resolveservice: Resolveservice ) {
     console.log(this.apiservice.resetpassword);
     console.log(this.apiservice.audio_img_folder_url);
     console.log(this.cookieService.get('id'));
@@ -47,14 +49,13 @@ public uploadfile: any='banner';
   }
 
   ngOnInit() {
+    this.route.data.forEach( (data) =>{
+      console.log('data in resolve');
+      console.log(data);
+      this.afflist = data['results'].res;
+    })
 
- /*   let data2={"condition":{"type":7,"status":1}};
-    this.data22 = {data: data2,source:'mediaview'};
-    console.log(this.data22);
-*/
-
-
-    //ticket sales
+  /*  //ticket sales
 
     let data1={"type":7,"status":1};
     this.data = {"condition": data1,source:'mediaview'};
@@ -64,7 +65,7 @@ public uploadfile: any='banner';
       //console.log(result);
       this.afflist=result.res;
       console.log(this.afflist);
-    })
+    })*/
 
 
     //Artistxp Sign Up Banners

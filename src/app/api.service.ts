@@ -129,6 +129,18 @@ console.log(result);
     return result;
   }
 
+  getEndpointforudiedeadline(endpoint: any) {
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type':  'application/json',
+      })
+    };
+    var result = this._http.post(this.audio_img_url + endpoint.source, JSON.stringify(endpoint.condition), httpOptions).pipe(map(res => res));
+console.log(result);
+    return result;
+  }
+
   getData(endpoint: any) {
 
     const httpOptions = {
