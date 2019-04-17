@@ -1,0 +1,15 @@
+<app-main-nav>
+
+  <mat-toolbar class="breadcrumb"> <a style="text-decoration: none;"> Joqu List </a></mat-toolbar>
+  <div class="pendinglist">
+
+    <lib-listing    *ngIf="joquprocesslist!=null && joquprocesslist.length>0"
+                    [datasource]="joquprocesslist" [skip]="joquprocesslist_skip"
+                    [modify_header_array]="joquprocesslist_modify_header1"
+                    [statusarr]="statusarray"
+                    [apiurl]="apiservice.domain"
+                    [jwttoken]="apiservice.jwttoken"
+                    [sourcedata]="tablename">
+    </lib-listing>
+  </div>
+</app-main-nav>

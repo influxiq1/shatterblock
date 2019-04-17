@@ -61,6 +61,8 @@ import { ClipboardModule } from 'ngx-clipboard';
 import { ModeleditComponent,Updatetest3 } from './modeledit/modeledit.component';
 import { UploaderComponent, Updatetest4 } from './uploader/uploader.component';
 import {NgxUploaderModule} from 'ngx-uploader';
+import { JoqudashboardComponent } from './joqudashboard/joqudashboard.component';
+import { JoquprocesslistComponent } from './joquprocesslist/joquprocesslist.component';
 
 @NgModule({
   declarations: [
@@ -92,7 +94,7 @@ import {NgxUploaderModule} from 'ngx-uploader';
     AffilitemarketingComponent,Updatetest2,
     UpdatesigninstatusComponent,
     ModeleditComponent,Updatetest3,
-    UploaderComponent, Updatetest4,
+    UploaderComponent, Updatetest4, JoqudashboardComponent, JoquprocesslistComponent,
 
 
 

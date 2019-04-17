@@ -25,6 +25,8 @@ import {AffilitemarketingComponent} from "./affilitemarketing/affilitemarketing.
 import {UpdatesigninstatusComponent} from "./updatesigninstatus/updatesigninstatus.component";
 import {AudiodeadlinecontentComponent} from "./audiodeadlinecontent/audiodeadlinecontent.component";
 import {ModeleditComponent} from "./modeledit/modeledit.component";
+import {JoqudashboardComponent} from "./joqudashboard/joqudashboard.component";
+import {JoquprocesslistComponent} from "./joquprocesslist/joquprocesslist.component";
 
 const routes: Routes = [
   { path: "admin", component: AdminmanagementComponent, canActivate: [AuthGuard] },
@@ -60,8 +62,9 @@ const routes: Routes = [
   // {path: 'modeledit/:modelid', component: ModeleditComponent},
   {path: 'modeledit', component: ModeleditComponent},
   {path: 'modeledit/:pagename', component: ModeleditComponent},
-
-  // { path: 'changepassword', component: ChangepasswordComponent, canActivate: [AuthGuard], resolve: {results: Resolveservice}, data: {source: 'users', condition:{}} },
+  // {path: 'joqudashboard/:id', component: JoqudashboardComponent, canActivate:[AuthGuard], resolve: {results: Resolveservice}, data: {source: 'getjoqustatus', condition: {myid:'id'}}},
+  {path: 'joqudashboard', component: JoqudashboardComponent, canActivate:[AuthGuard], resolve: {results: Resolveservice}, data: {source: 'getjoqustatus', condition: {myid:'id'}}},
+  {path: 'joquprocesslist', component: JoquprocesslistComponent, canActivate:[AuthGuard], resolve: {results: Resolveservice}, data: {source: 'datalist',condition: {"condition":{"joqu_status":1},source:'joquuser'}}},
 
 ];
 
