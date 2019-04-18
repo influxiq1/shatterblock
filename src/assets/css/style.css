@@ -1332,4 +1332,8 @@ td.mat-cell:last-of-type, td.mat-footer-cell:last-of-type, th.mat-header-cell:la
 
 .ad_profileblock_left_small ul li .setpic2{ display: none;}
 .ad_profileblock_left_small ul li:hover .setpic2{ display: block;}
+
+
+.mat-input-element{ font-size: 17px!important;}
+.mat-form-field-infix{ font-size: 17px!important;}
 /*-----------------amitava end--------------------------------*/

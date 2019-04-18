@@ -22,6 +22,12 @@ export class AdmindashbordComponent implements OnInit {
     pendingapplication_view_detail_datatype:any=[{key:"images",value:'image',fileurl:this.apiservice.uplodeimg_url }];
 
 
+    joquuserlist: any=[];
+    joquuserlist_skip: any= ['id','_id','instagramlink','shatterblok_user_id','joqu_status','city','state','unique_id','created at'];
+    joquuserlist_modify_header1: any = { 'name': 'Full Name','lastname':'Last Name','email':'Email', 'age':'Age', 'dateformat':'Date','status':'Status','phone':'Phone'};
+    joquuserlist_statusarray:any=[{val:1,name:'Pending for process'},{val:2,name:'Processed by admin'},{val:3,name:'Approved from Joqu'},{val:4,name:'Decline'}];
+
+
 
 
     status_gretterthan_zero: any=[];
@@ -59,6 +65,7 @@ export class AdmindashbordComponent implements OnInit {
 
 
             this.pendingapplication_view=data['results'].item.pendingapplication_view;
+            this.joquuserlist=data['results'].item.joquusercollection_view;
             // this.model_pending_and_notpending_application_view=data['results'].item.model_pending_and_notpending_application_view;
 
         });

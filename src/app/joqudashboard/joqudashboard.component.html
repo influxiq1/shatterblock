@@ -54,8 +54,18 @@
           <input [class.is-invalid]="myForm.controls['instagramlink'].invalid && myForm.controls['instagramlink'].touched" matInput type="url" placeholder="Instagram Link" formControlName="instagramlink">
           <span  *ngIf="!myForm.controls['instagramlink'].valid && myForm.controls['instagramlink'].touched">Instagram Link field can not be blank</span>
         </mat-form-field>
-        <button mat-flat-button color="primary" class="updateit">Apply For Joqu </button>
+        <button mat-flat-button color="primary" class="updateit">Apply For Joqu </button> <!--disabled={{disval}}-->
       </form>
     </mat-card-content>
   </mat-card>
 </app-main-nav>
+
+<div style="width:100vw; height:100vh; display:table-cell; vertical-align:middle; text-align:center; position: fixed; top: 0; background: #000; z-index: 999" *ngIf="loaderdiv">
+  <div style="width: 100vw; height: 100vh; display: table-cell; vertical-align: middle; ">
+
+    <img src="assets/images/shaterblockLogo.png"  alt="#" style="margin:0 auto; display: block; margin-bottom:30px; max-width: 280px;"/>
+
+    <div class="loader"></div>
+  </div>
+
+</div>

@@ -100,15 +100,16 @@ public uploadfile: any='banner';
   }
 
   callforcopy(item){
-    return 'http://api.audiodeadline.com/sharetool22.php?type=ticketsale&sponsorname='+item.sponsor+'&media_id='+item.name+'&image='+item.image+'&affiliate='+this.affiliatename;
+    // return 'http://api.audiodeadline.com/sharetool22.php?type=ticketsale&sponsorname='+item.sponsor+'&media_id='+item.name+'&image='+item.image+'&affiliate='+this.affiliatename;
+    return this.apiservice.audiodeadline_php_url+'sharetool22.php?type=ticketsale&sponsorname='+item.sponsor+'&media_id='+item.name+'&image='+item.image+'&affiliate='+this.affiliatename;
   }
 
   callforcopy1(item){
-    return 'http://api.audiodeadline.com/sharetool2.php?media_id='+item.name+'&username='+this.affiliatename+'&image='+item.image;
+    return this.apiservice.audiodeadline_php_url+'sharetool2.php?media_id='+item.name+'&username='+this.affiliatename+'&image='+item.image;
   }
 
   callforcopy2(item){
-    return 'http://api.audiodeadline.com/sharetool23.php?media_id='+item.name+'&username='+this.affiliatename+'&image='+item.image;
+    return this.apiservice.audiodeadline_php_url+'sharetool23.php?media_id='+item.name+'&username='+this.affiliatename+'&image='+item.image;
   }
 
   postinfb(username,media_id,image){

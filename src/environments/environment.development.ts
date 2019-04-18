@@ -15,10 +15,10 @@ export const environment = {
    // audio_img_url: 'http://developmentapi.audiodeadline.com:3008/',
     audio_img_url: 'https://developmentapi.audiodeadline.com:6003/',
     audio_img_folder_url: 'https://developmentapi.audiodeadline.com/nodeserver/uploads/banner/',
-    audiodeadline_php_url: 'https://api.audiodeadline.com/',
+    audiodeadline_php_url: 'https://developmentapi.audiodeadline.com/',
+    //audiodeadline_dev_php_url: 'https://api.audiodeadline.com/',
     audiodeadline_fileurl : 'https://developmentapi.audiodeadline.com/nodeserver/uploads/',
     environment: 'development',
-
     brandfolder: 'brandimages',
     modelfolder: 'modelimages',
     Brand_Image_Url: 'https://developmentapi.audiodeadline.com/nodeserver/uploads/brandimages',

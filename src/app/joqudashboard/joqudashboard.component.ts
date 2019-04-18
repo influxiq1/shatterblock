@@ -15,6 +15,8 @@ export class JoqudashboardComponent implements OnInit {
   public joqu_status: any;
   public myForm: any;
   public stateslist: any;
+  public disval: any=true;
+  public loaderdiv: any=false;
   public endpoint: any='addorupdatedata';
 
   constructor(public apiservice: ApiService, public router: Router, private cookieService: CookieService,public route: ActivatedRoute, public resolveservice: Resolveservice,public fb: FormBuilder ) {
@@ -75,20 +77,23 @@ export class JoqudashboardComponent implements OnInit {
     this.myForm.controls[val].markAsUntouched();
   }
   onSubmit() {
+    this.loaderdiv=true;
     let x: any;
     for (x in this.myForm.controls) {
       this.myForm.controls[x].markAsTouched();
     }
     if(this.myForm.valid){
       let data = this.myForm.value;
-      let data1 = {data: data,source:'joquuser'};
+      let data1 = {data: data,source:'joquuser',sourceobj:['shatterblok_user_id']};
       this.apiservice.postData(this.endpoint, data1).subscribe(res => {
         let result: any = {};
         result = res;
+        this.loaderdiv=false;
         if (result.status == 'error') {
         }
         if (result.status == 'success') {
-          let data2 = {
+
+          /* let data2 = {
             joqu_status: 1,
             id: this.datanew._id
           };
@@ -103,7 +108,7 @@ export class JoqudashboardComponent implements OnInit {
             }
           }, error => {
             console.log('Oooops!');
-          });
+          });*/
         }
       }, error => {
         console.log('Oooops!');
