@@ -1,5 +1,5 @@
 <app-main-nav>
-  <mat-card class="adminform" *ngIf="joqu_status=='null'">
+  <mat-card class="adminform" *ngIf="joqu_status=='null';else elseblock">
     <mat-card-header>
       <mat-card-title>User Information Form</mat-card-title>
 
@@ -54,10 +54,11 @@
           <input [class.is-invalid]="myForm.controls['instagramlink'].invalid && myForm.controls['instagramlink'].touched" matInput type="url" placeholder="Instagram Link" formControlName="instagramlink">
           <span  *ngIf="!myForm.controls['instagramlink'].valid && myForm.controls['instagramlink'].touched">Instagram Link field can not be blank</span>
         </mat-form-field>
-        <button mat-flat-button color="primary" class="updateit">Apply For Joqu </button> <!--disabled={{disval}}-->
+        <button mat-flat-button color="primary" class="updateit" [disabled]="isDisabled">Apply For Joqu </button> <!--disabled={{disval}}-->
       </form>
     </mat-card-content>
   </mat-card>
+
 </app-main-nav>
 
 <div style="width:100vw; height:100vh; display:table-cell; vertical-align:middle; text-align:center; position: fixed; top: 0; background: #000; z-index: 999" *ngIf="loaderdiv">
@@ -69,3 +70,6 @@
   </div>
 
 </div>
+
+
+<ng-template #elseblock>Content to render when condition is false.</ng-template>

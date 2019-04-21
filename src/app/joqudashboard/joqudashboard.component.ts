@@ -15,7 +15,7 @@ export class JoqudashboardComponent implements OnInit {
   public joqu_status: any;
   public myForm: any;
   public stateslist: any;
-  public disval: any=true;
+  public isDisabled: any=false;
   public loaderdiv: any=false;
   public endpoint: any='addorupdatedata';
 
@@ -92,7 +92,7 @@ export class JoqudashboardComponent implements OnInit {
         if (result.status == 'error') {
         }
         if (result.status == 'success') {
-
+          this.isDisabled=true;
           /* let data2 = {
             joqu_status: 1,
             id: this.datanew._id
