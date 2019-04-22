@@ -6,3 +6,18 @@
         margin-top: 50px!important;
     }
 }
+@media only screen and (max-width: 1199px) {
+    .order-bg .view_order {
+        width: 95%;
+    }
+}
+@media only screen and (max-width: 800px) {
+    .billing_details {
+        width: 100%!important;
+        justify-content: center;
+        flex-direction: column;
+    }
+    .billing_details .mat-card-content {
+        width: 100%;
+    }
+}

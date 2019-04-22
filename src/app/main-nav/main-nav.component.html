@@ -10,23 +10,20 @@
       </span>
     </mat-toolbar>
     <mat-nav-list class="left_nav_menu">
-      <a mat-list-item role="listitem" class="active" [routerLink]="['/admindashboard']">Dashboard</a>
+      <a mat-list-item role="listitem" class="active" [routerLink]="['/admindashboard']" *ngIf="cookieService.get('type')=='admin'">Dashboard</a>
+      <a mat-list-item role="listitem" class="active" [routerLink]="['/modeldashboard']" *ngIf="cookieService.get('type')=='model'">Dashboard</a>
       <mat-divider></mat-divider>
-      <a mat-list-item role="listitem" [routerLink]="['/managedashboard']">Manage Dashboard</a>
+      <a mat-list-item role="listitem" [routerLink]="['/managedashboard']" *ngIf="cookieService.get('type')=='admin'">Manage Dashboard</a>
       <mat-divider></mat-divider>
-      <a mat-list-item role="listitem">Home</a>
+      <a mat-list-item role="listitem" [routerLink]="['/joquprocesslist']" *ngIf="cookieService.get('type')=='admin'">Joqu Process List</a>
       <mat-divider></mat-divider>
-      <a mat-list-item role="listitem">Home</a>
+      <a mat-list-item role="listitem" [routerLink]="['/orderdetails']" *ngIf="cookieService.get('type')=='admin'">Order Details</a>
       <mat-divider></mat-divider>
-      <a mat-list-item role="listitem" [routerLink]="['/adminlist']">Admin List</a>
+      <a mat-list-item role="listitem" [routerLink]="['/adminlist']" >Admin List</a>
       <mat-divider></mat-divider>
       <a mat-list-item role="listitem" [routerLink]="['/adminform']">Add Admin</a>
       <mat-divider></mat-divider>
-      <a mat-list-item role="listitem" [routerLink]="['/joquprocesslist']">Joqu Process List</a>
-      <mat-divider></mat-divider>
-      <a mat-list-item role="listitem">Home</a>
-      <mat-divider></mat-divider>
-      <a mat-list-item role="listitem">Home</a>
+      <a mat-list-item role="listitem" [routerLink]="['/modelmyorders']">My orders</a>
     </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content>
@@ -49,6 +46,7 @@
       <mat-menu #appMenu="matMenu">
         <button mat-menu-item>Settings</button>
         <button mat-menu-item>Help</button>
+        <button mat-menu-item (click)="logout()">Log out</button>
       </mat-menu>
 
       <button mat-icon-button [matMenuTriggerFor]="appMenu">

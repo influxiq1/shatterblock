@@ -78,6 +78,7 @@ export class LoginComponent implements OnInit {
                 this.cookieService.set('password', result.item[0].password);
                 this.cookieService.set('id', result.item[0]._id);
                 this.cookieService.set('jwttoken', result.token);
+                this.cookieService.set('type', result.item[0].type);
                 if (result.status == 'success' && result.item[0].type == 'admin') {
                     this.router.navigate(['/admindashboard']);
                 } else if (result.status == 'success' && result.item[0].type == 'brand') {

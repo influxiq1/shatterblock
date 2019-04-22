@@ -27,6 +27,8 @@ import {AudiodeadlinecontentComponent} from "./audiodeadlinecontent/audiodeadlin
 import {ModeleditComponent} from "./modeledit/modeledit.component";
 import {JoqudashboardComponent} from "./joqudashboard/joqudashboard.component";
 import {JoquprocesslistComponent} from "./joquprocesslist/joquprocesslist.component";
+import {OrderDetailsComponent} from "./order-details/order-details.component";
+import {ModelmyordersComponent} from "./modelmyorders/modelmyorders.component";
 
 const routes: Routes = [
   { path: "admin", component: AdminmanagementComponent, canActivate: [AuthGuard] },
@@ -65,7 +67,8 @@ const routes: Routes = [
   // {path: 'joqudashboard/:id', component: JoqudashboardComponent, canActivate:[AuthGuard], resolve: {results: Resolveservice}, data: {source: 'getjoqustatus', condition: {myid:'id'}}},
   {path: 'joqudashboard', component: JoqudashboardComponent, canActivate:[AuthGuard], resolve: {results: Resolveservice}, data: {source: 'getjoqustatus', condition: {myid:'id'}}},
   {path: 'joquprocesslist', component: JoquprocesslistComponent, canActivate:[AuthGuard], resolve: {results: Resolveservice}, data: {source: 'datalist',condition: {"condition":{"status":1},source:'joquuser'}}},
-
+  {path: 'orderdetails', component: OrderDetailsComponent},
+  {path: 'modelmyorders', component: ModelmyordersComponent, canActivate: [AuthGuard], resolve: { results: Resolveservice}, data: {server:'audiodeadline',source: 'datalist',condition: {"condition":{"userid_object":"5cb80dff74b8d41e0502fe77"},source: "order_view"}}},
 ];
 
 @NgModule({

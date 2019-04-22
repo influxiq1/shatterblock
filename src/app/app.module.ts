@@ -63,6 +63,8 @@ import { UploaderComponent, Updatetest4 } from './uploader/uploader.component';
 import {NgxUploaderModule} from 'ngx-uploader';
 import { JoqudashboardComponent } from './joqudashboard/joqudashboard.component';
 import { JoquprocesslistComponent } from './joquprocesslist/joquprocesslist.component';
+import { OrderDetailsComponent } from './order-details/order-details.component';
+import { ModelmyordersComponent } from './modelmyorders/modelmyorders.component';
 
 @NgModule({
   declarations: [
@@ -95,7 +97,8 @@ import { JoquprocesslistComponent } from './joquprocesslist/joquprocesslist.comp
     UpdatesigninstatusComponent,
     ModeleditComponent,Updatetest3,
     UploaderComponent, Updatetest4, JoqudashboardComponent, JoquprocesslistComponent,
-
+    OrderDetailsComponent,
+    ModelmyordersComponent
 
 
     //Resolveservice,

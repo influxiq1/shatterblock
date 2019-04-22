@@ -9,6 +9,7 @@ import { ApiService } from "../api.service";
 })
 export class AdmindashbordComponent implements OnInit {
     datasource:any;
+    endpoint:any = 'datalist';
     notpendingapplication_view: any=[];
     brandarray: any=[];
     adminlist:any=[];
@@ -27,8 +28,13 @@ export class AdmindashbordComponent implements OnInit {
     joquuserlist_modify_header1: any = { 'name': 'Full Name','lastname':'Last Name','email':'Email', 'age':'Age', 'dateformat':'Date','status':'Status','phone':'Phone'};
     joquuserlist_statusarray:any=[{val:1,name:'Pending for process'},{val:2,name:'Processed by admin'},{val:3,name:'Approved from Joqu'},{val:4,name:'Decline'}];
 
+    allordersdata:any=[];
+    allordersdata_skip: any= ['id','_id','instagramlink','shatterblok_user_id','joqu_status','city','state','unique_id','created at'];
+    allordersdata_modify_header1: any = { 'name': 'Name','email':'Email', 'phone':'Phone', 'enroller':'Enroller','sponsor':'Sponsor','mode':'Mode','Transaction Id':'Transaction Id','total':'Total','Promocode':'Promocode','Discount':'Discount','Order Time':'Order Time'};
 
-
+    allcommissions:any=[];
+    allcommissions_skip: any= ['_id','parent'];
+    allcommissions_modify_header1: any = { 'date': 'Sign-Up Date','firstname':'First name', 'lastname':'Last name', 'accounttype':'Account Type','noofsale':'# Of Sale','totalamount':'Total Commission'};
 
     status_gretterthan_zero: any=[];
     status_gretterthan_zero_skip: any= ['_id','username','phone','city','state','ethnicity','height','haircolor','eyecolor','weight','bust','waist','hips','slim','toned','tattoos','athletic','piercings','retail','voluptuous','promotions','sales','descriptionbox','facebooklink','twitterlink','instagramlink','modelmayhemlink','type','images'];
@@ -49,6 +55,8 @@ export class AdmindashbordComponent implements OnInit {
     updateurl='addorupdatedata';
     delurl='deletesingledata';
     tablename='users';
+    tablename1='joquuser';
+    tablename2='demoname';
 
     constructor(public router: Router,private route: ActivatedRoute, public apiservice: ApiService) {
       
@@ -69,6 +77,28 @@ export class AdmindashbordComponent implements OnInit {
             // this.model_pending_and_notpending_application_view=data['results'].item.model_pending_and_notpending_application_view;
 
         });
+        this.allcommissionfunc();
+    }
+    allcommissionfunc(){
+        let data = {source:'newcommision'};
+        this.apiservice.postaffilite(this.endpoint, data).subscribe( res => {
+            let result: any;
+            result = res;
+            this.allcommissions=result.res;
+            console.log('this.allcommissions');
+            console.log(this.allcommissions);
+        })
+    }
+    allorders(){
+        let sourcecondition={auidodeadineusername:{$exists:true}};
+        let data = {source:'users',condition:sourcecondition};
+        this.apiservice.postData(this.endpoint, data).subscribe( res => {
+            let result: any = {};
+            result = res;
+            console.log('result');
+            console.log(result);
+
+        })
     }
 
 }

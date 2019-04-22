@@ -1,0 +1,13 @@
+<app-main-nav>
+
+
+    <mat-toolbar class="breadcrumb"> <a style="text-decoration: none;">Order List  &nbsp;&nbsp; </a></mat-toolbar>
+
+    <lib-listing    *ngIf="modelmyorders!=null && modelmyorders.length>0"
+                    [datasource]="modelmyorders" [skip]="modelmyorders_skip"
+                    [modify_header_array]="modelmyorders_modify_header1"
+                    [apiurl]="apiservice.domain"
+                    [jwttoken]="apiservice.jwttoken"
+                    [sourcedata]="tablename2">
+    </lib-listing>
+</app-main-nav>

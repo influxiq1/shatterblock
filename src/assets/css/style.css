@@ -1337,3 +1337,94 @@ td.mat-cell:last-of-type, td.mat-footer-cell:last-of-type, th.mat-header-cell:la
 .mat-input-element{ font-size: 17px!important;}
 .mat-form-field-infix{ font-size: 17px!important;}
 /*-----------------amitava end--------------------------------*/
+/*ORDERD DETAILS CSS*/
+.order_wrapper_header {
+    margin-top: 0px;
+    padding: 0!important;
+    height: auto!important;
+}
+.order_wrapper_header mat-footer-row, mat-header-row, mat-row, td.mat-cell, td.mat-footer-cell, th.mat-header-cell {
+    border-bottom-color: rgb(160, 160, 160)!important;
+}
+.order_wrapper_header .mat-toolbar { color: #fff;
+    background: #faa318!important;
+    justify-content: center;
+    font-size: 38px;
+    text-transform: uppercase;
+    font-family: 'RobotoBold';
+    padding: 20px 0 !important;
+}
+.order-bg {
+    display: block!important;
+    background:rgba(0, 0, 0, .4 )!important;
+    padding-bottom: 50px;
+}
+.order-bg .view_order{ width: 90%; margin: 50px auto; margin-bottom: 0;  background: none; padding: 0; box-shadow: none!important;}
+.order-bg .view_order .mat-card-header {
+    display: flex;
+    flex-direction: row;
+    background: #151212;
+    padding: 15px 0;
+    justify-content: center;
+}
+.order-bg .view_order .mat-card-header .mat-card-title{font-size: 30px;
+    font-family: 'RobotoMedium';
+    margin-bottom: 0;
+    color: #fff;
+    text-transform: uppercase;
+}
+.order-bg .view_order table{
+    background: rgb(160, 160, 160);
+    border: none!important;
+}
+.order-bg .view_order table thead
+tr.mat-header-row {
+    height: 56px;
+    background: #a0a0a0;
+}
+.order-bg .view_order table thead
+th.mat-header-cell {
+    font-size: 20px!important;
+    color: #000!important;
+    font-family: 'RobotoMedium';
+}
+.order-bg .view_order table .mat-cell, .mat-footer-cell {
+    color: rgba(255, 255, 255, 0.87)!important;
+    border-bottom: 0;
+}
+.order-bg .view_order table tbody
+.mat-row:nth-of-type(even) {
+    background: #a0a0a0;
+}
+.orderdetails .mat-card-header{ justify-content: flex-start!important; justify-content: space-between; }
+.orderdetails table thead
+tr.mat-header-row {
+    background: #888787!important;
+}
+.orderdetails table{background: #cccccc!important; }
+.order-bg .orderdetails table tbody
+.mat-row:nth-of-type(even) {
+    background: #969696;
+}
+.view_order .mat-cell, .mat-footer-cell{font-size: 16px;}
+.billing_wrapper .mat-card-title{ color: #faa318!important; }
+.billing_details{ display: flex!important; width: 100%!important; justify-content: space-between;   }
+.billing_details .mat-card-content{ width: 32%; background: #656565; margin: 30px 0!important;  }
+.billing_details .mat-card-content h2{background: rgba(16, 16, 16, 0.5);
+    padding: 10px;
+    color: #fff;
+    font-size: 20px;
+    text-transform: uppercase;
+    font-family: 'RobotoMedium';
+    margin-bottom: 0;
+    text-align: center;
+    font-weight: normal;
+}
+.billing_details .mat-list-item{ border-bottom: 1px solid #585858;}
+.billing_details .mat-list-item span{
+    width:50%;}
+.billing_details .mat-card-content:first-child {margin:30px 0; }
+.billing_details .mat-card-content:last-child {margin-bottom:30px!important; }
+
+.billing_details  .mat-list-item-content{background: inherit!important; border: none!important; color: #fff!important; text-align: left!important; font-size: 16px;!important;}
+/*End Order Css*/

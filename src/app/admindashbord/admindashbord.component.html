@@ -111,7 +111,27 @@
                                 [statusarr]="joquuserlist_statusarray"
                                 [apiurl]="apiservice.domain"
                                 [jwttoken]="apiservice.jwttoken"
-                                [sourcedata]="tablename">
+                                [sourcedata]="tablename1">
+                </lib-listing>
+
+                <mat-toolbar class="breadcrumb"> <a style="text-decoration: none;">Commission List  &nbsp;&nbsp; </a></mat-toolbar>
+
+                <lib-listing    *ngIf="allcommissions!=null && allcommissions.length>0"
+                                [datasource]="allcommissions" [skip]="allcommissions_skip"
+                                [modify_header_array]="allcommissions_modify_header1"
+                                [apiurl]="apiservice.domain"
+                                [jwttoken]="apiservice.jwttoken"
+                                [sourcedata]="tablename2">
+                </lib-listing>
+
+                <mat-toolbar class="breadcrumb"> <a style="text-decoration: none;">Order List  &nbsp;&nbsp; </a></mat-toolbar>
+
+                <lib-listing    *ngIf="allordersdata!=null && allordersdata.length>0"
+                                [datasource]="allordersdata" [skip]="allordersdata_skip"
+                                [modify_header_array]="allordersdata_modify_header1"
+                                [apiurl]="apiservice.domain"
+                                [jwttoken]="apiservice.jwttoken"
+                                [sourcedata]="tablename2">
                 </lib-listing>
 
 
