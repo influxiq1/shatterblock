@@ -1,4 +1,8 @@
-import {Component, OnInit, ViewChild, Input, Inject} from '@angular/core';
+import {Component, OnInit, ViewChild, Input, Inject,
+  ComponentFactoryResolver,
+  ComponentRef,
+  Directive,
+  ViewContainerRef} from '@angular/core';
 import {MatSort, MatTableDataSource,MatPaginator} from '@angular/material';
 import {SelectionModel} from '@angular/cdk/collections';
 import { ApiService } from './api.service';
@@ -8,33 +12,25 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import { Router } from "@angular/router";
 
 
-import {
-  ComponentFactoryResolver, ComponentRef, Directive,
-  ViewContainerRef
-} from "@angular/core";
+/*import { FieldConfig } from "../lib/myfrom/field.interface";
+import { InputComponent } from "../lib/myfrom/input.component";
+import { ButtonComponent } from "../lib/myfrom/button.component";
+import { SelectComponent } from "../lib/myfrom/select.component";
+import { DateComponent } from "../lib/myfrom/date.component";
+import { RadiobuttonComponent } from "../lib/myfrom/radiobutton.component";
+import { CheckboxComponent } from "../lib/myfrom/checkbox.component";
 
-// import { FormGroup } from "@angular/forms";
-// import { FieldConfig } from "./listing.component";
-// import { InputComponent} from './input';
-// import {ButtonComponent } from './button';
-// import { SelectComponent} from './select';
-
-
-export interface Validator {
-  name: string;
-  validator: any;
-  message: string;
-}
-export interface FieldConfig {
-  label?: string;
-  name?: string;
-  inputType?: string;
-  options?: string[];
-  collections?: any;
-  type: string;
-  value?: any;
-  validations?: Validator[];
-}
+const componentMapper = {
+  input: InputComponent,
+  button: ButtonComponent,
+  select: SelectComponent,
+  date: DateComponent,
+  radiobutton: RadiobuttonComponent,
+  checkbox: CheckboxComponent
+};
+@Directive({
+  selector: "[dynamicField]"
+})*/
 
 @Component({
   selector: 'lib-listing',
@@ -42,8 +38,6 @@ export interface FieldConfig {
   styleUrls: ['./listing.module.css']
 })
 export class ListingComponent implements OnInit {
-
-
 
 
   datasourceval:any;
@@ -65,12 +59,11 @@ export class ListingComponent implements OnInit {
   public x :any;
 
 
-  @Input() field: FieldConfig;
-  @Input()
+ /* @Input()
   set group(group: any) {
     console.log(group);
     group: FormGroup;
-  }
+  }*/
   @Input()
   set datasource(datasource: any) {
     this.datasourceval = datasource;
@@ -169,7 +162,8 @@ export class ListingComponent implements OnInit {
   myForm:any;
   // myForm:any;
 
-  constructor(public _apiService: ApiService,public dialog: MatDialog,private bottomSheet: MatBottomSheet,public fb: FormBuilder,private router: Router) {
+  constructor(public _apiService: ApiService,public dialog: MatDialog,private bottomSheet: MatBottomSheet,public fb: FormBuilder,private router: Router, private resolver: ComponentFactoryResolver,
+              private container: ViewContainerRef) {
 
     this.myForm = this.fb.group({
       email: ['', Validators.compose([Validators.required, Validators.pattern(/^\s*[\w\-\+_]+(\.[\w\-\+_]+)*\@[\w\-\+_]+\.[\w\-\+_]+(\.[\w\-\+_]+)*\s*$/)])],
@@ -201,6 +195,14 @@ export class ListingComponent implements OnInit {
     this.myForm.controls[val].markAsUntouched();
   }
   ngOnInit() {
+    /*const factory = this.resolver.resolveComponentFactory(
+        componentMapper[this.field.type]
+    );
+    this.componentRef = this.container.createComponent(factory);
+    this.componentRef.instance.field = this.field;
+    this.componentRef.instance.group = this.group;
+*/
+
     this.x = this.datasourceval;
     let x=this.x;
 

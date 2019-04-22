@@ -36,7 +36,7 @@ import { ButtonComponent } from '../../projects/listing/src/lib/components/butto
 import { CheckboxComponent } from '../../projects/listing/src/lib/components/checkbox/checkbox.component';
 import { DateComponent } from '../../projects/listing/src/lib/components/date/date.component';
 import { DynamicFieldDirective } from '../../projects/listing/src/lib/components/dynamic-field/dynamic-field.directive';
-import { DynamicFormComponent } from '../../projects/listing/src/lib/components/dynamic-form/dynamic-form.component';
+//import { DynamicFormComponent } from '../../projects/listing/src/lib/components/dynamic-form/dynamic-form.component';
 import { InputComponent } from '../../projects/listing/src/lib/components/input/input.component';
 import { RadiobuttonComponent } from '../../projects/listing/src/lib/components/radiobutton/radiobutton.component';
 import { SelectComponent } from '../../projects/listing/src/lib/components/select/select.component';
@@ -66,7 +66,8 @@ import { DformComponent } from './dform/dform.component';
     CheckboxComponent,
     DateComponent,
     DynamicFieldDirective,
-    DynamicFormComponent,
+    DynamicFormsComponent,
+    //DynamicFormComponent,
     InputComponent,
     RadiobuttonComponent,
     SelectComponent,
@@ -95,7 +96,7 @@ import { DformComponent } from './dform/dform.component';
 
     EditrouteComponent,
 
-    DynamicFormsComponent,
+    //DynamicFormsComponent,
 
     DformComponent,
 

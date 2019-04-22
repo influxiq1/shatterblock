@@ -4,23 +4,33 @@ import {ListingComponent, Confirmdialog,BottomSheet} from './listing.component';
 import {DemoMaterialModule} from './materialmodules';
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import { ApiService } from './api.service';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { FieldConfig } from './listing.component';
+import { FormsModule } from '@angular/forms';
+import {CommonModule} from "@angular/common";
+import { FooterComponent } from './footer/footer.component';
+import { MyfromComponent } from './myfrom/myfrom.component';
+
+// import { FieldConfig } from './myfrom/field.interface';
+// import { DynamicFieldDirective } from './myfrom/dynamic-field.directive';
+
+
 
 
 @NgModule({
-  declarations: [ListingComponent,Confirmdialog,BottomSheet],
+  declarations: [ListingComponent,Confirmdialog,BottomSheet, FooterComponent, MyfromComponent],
   imports: [
+    CommonModule,
     BrowserModule,BrowserAnimationsModule,
     DemoMaterialModule,
-    FormsModule,ReactiveFormsModule
+    FormsModule,
+     // DynamicFieldDirective,
+
   ],
-  exports: [ListingComponent],
+  exports: [ListingComponent,MyfromComponent],
   providers: [ApiService],
   entryComponents:[Confirmdialog,BottomSheet],
 })
 export class ListingModule {
-  field: FieldConfig;
+  // field: FieldConfig;
   // group: FormGroup;
 
 }

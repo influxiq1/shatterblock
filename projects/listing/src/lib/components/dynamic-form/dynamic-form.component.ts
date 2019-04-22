@@ -7,7 +7,7 @@ import {
     Input,
     OnChanges,
     OnInit,
-    Output
+    Output, NgModule
 } from "@angular/core";
 import {
     FormGroup,
@@ -16,6 +16,16 @@ import {
     FormControl
 } from "@angular/forms";
 import { FieldConfig, Validator} from "../field.interface";
+import {CommonModule} from "@angular/common";
+@NgModule({
+    declarations: [CommonModule],
+    imports: [
+        CommonModule,
+
+
+    ],
+
+})
 
 @Component({
     exportAs: "dynamicForm",

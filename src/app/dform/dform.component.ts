@@ -1,7 +1,7 @@
 import { Component, ViewChild } from '@angular/core';
 import { Validators } from "@angular/forms";
 import { FieldConfig } from "../../../projects/listing/src/lib/components/field.interface";
-import {DynamicFormComponent} from '../../../projects/listing/src/lib/components/dynamic-form/dynamic-form.component'
+//import {DynamicFormComponent} from '../../../projects/listing/src/lib/components/dynamic-form/dynamic-form.component'
 @Component({
   selector: 'app-dform',
   templateUrl: './dform.component.html',
@@ -9,7 +9,7 @@ import {DynamicFormComponent} from '../../../projects/listing/src/lib/components
 })
 export class DformComponent {
 
-  @ViewChild(DynamicFormComponent) form: DynamicFormComponent;
+  //@ViewChild(DynamicFormComponent) form: DynamicFormComponent;
   regConfig: FieldConfig[] = [
     {
       type: "input",
