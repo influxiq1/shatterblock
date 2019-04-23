@@ -29,6 +29,8 @@ import {JoqudashboardComponent} from "./joqudashboard/joqudashboard.component";
 import {JoquprocesslistComponent} from "./joquprocesslist/joquprocesslist.component";
 import {OrderDetailsComponent} from "./order-details/order-details.component";
 import {ModelmyordersComponent} from "./modelmyorders/modelmyorders.component";
+import {VieworderdetailsComponent} from "./vieworderdetails/vieworderdetails.component";
+import {ViewcommissiondetailsComponent} from "./viewcommissiondetails/viewcommissiondetails.component";
 
 const routes: Routes = [
   { path: "admin", component: AdminmanagementComponent, canActivate: [AuthGuard] },
@@ -38,7 +40,7 @@ const routes: Routes = [
   { path: "influencers", component: InfluencersmanagementComponent, canActivate:[AuthGuard] },
   { path: "influencersdashboard", component: InfluencersdashbordComponent, canActivate: [AuthGuard]},
 
-    { path: "contract", component: ContractComponent, canActivate: [AuthGuard]},
+  { path: "contract", component: ContractComponent, canActivate: [AuthGuard]},
   // { path: "adminlist", component: AdminlistComponent, canActivate: [AuthGuard], resolve: {results: Resolveservice}, data: { source: 'users', condition: {} }},
   { path: "branddashboard", component: BranddashbordComponent, canActivate: [AuthGuard], resolve: { results: Resolveservice}, data: {source: 'admindashboard'}},
   { path: "admindashboard", component: AdmindashbordComponent, canActivate:[AuthGuard], resolve: {results: Resolveservice}, data: {source: 'admindashboard'}},  // resolve is use for this page PRE LOAD DATA PRIOR
@@ -47,7 +49,7 @@ const routes: Routes = [
 
   { path: 'resetpassword/:token', component: ChangepasswordComponent},
   {path: 'adminlist', component: AdminlistComponent, canActivate: [AuthGuard], resolve: {results: Resolveservice}, data: { source:'admindashboard', condition:{}}},
-   {path: 'adminform', component:AdminformComponent, canActivate: [AuthGuard] },
+  {path: 'adminform', component:AdminformComponent, canActivate: [AuthGuard] },
   {path: 'adminmodalform', component: AdminmodalformComponent, canActivate: [AuthGuard]},
 
   {path: 'managedashboard', component: ManagedashboardComponent, canActivate: [AuthGuard]},
@@ -68,7 +70,16 @@ const routes: Routes = [
   {path: 'joqudashboard', component: JoqudashboardComponent, canActivate:[AuthGuard], resolve: {results: Resolveservice}, data: {source: 'getjoqustatus', condition: {myid:'id'}}},
   {path: 'joquprocesslist', component: JoquprocesslistComponent, canActivate:[AuthGuard], resolve: {results: Resolveservice}, data: {source: 'datalist',condition: {"condition":{"status":1},source:'joquuser'}}},
   {path: 'orderdetails', component: OrderDetailsComponent},
+
   {path: 'modelmyorders', component: ModelmyordersComponent, canActivate: [AuthGuard], resolve: { results: Resolveservice}, data: {server:'audiodeadline',source: 'datalist',condition: {"condition":{"userid_object":"5cb80dff74b8d41e0502fe77"},source: "order_view"}}},
+
+  {path: 'vieworderdetails', component: VieworderdetailsComponent},
+  {path: 'vieworderdetails/:pagename', component: VieworderdetailsComponent, canActivate:[AuthGuard], resolve: {results: Resolveservice}, data: {server:'audiodeadlineforpostorder', source: 'vieworderdetails',condition: {myid:"orderid"}}},
+
+  {path: 'viewcommissiondetails', component: ViewcommissiondetailsComponent, canActivate:[AuthGuard]},
+  // {path: 'viewcommissiondetails/:pagename', component: ViewcommissiondetailsComponent, canActivate:[AuthGuard]},
+  {path: 'viewcommissiondetails/:pagename', component: ViewcommissiondetailsComponent, canActivate:[AuthGuard], resolve: {results: Resolveservice}, data: {server:'audiodeadlineforcommission', source: "datalist",condition: {myid:"username"}}},
+  {path: '**', component: LoginComponent},
 ];
 
 @NgModule({

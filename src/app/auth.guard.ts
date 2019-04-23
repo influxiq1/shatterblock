@@ -11,40 +11,40 @@ import { CookieService } from 'ngx-cookie-service';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
-  constructor(private router: Router,
-              public http: HttpClient,
-              private _apiService: ApiService,
-              private cookieService: CookieService
-              // private loggedinService: LoggedinService
-              ) {}
+    constructor(private router: Router,
+                public http: HttpClient,
+                private _apiService: ApiService,
+                private cookieService: CookieService
+                // private loggedinService: LoggedinService
+    ) {}
 
 
-  canActivate() {
+    canActivate() {
 
-    console.log('in auth guard');
-    console.log(this.cookieService.get('jwttoken'));
-    if (this.cookieService.get('jwttoken') == null || this.cookieService.get('jwttoken').length < 10) {
-      // alert(7);
-      this.router.navigate(['/']);
-    } else return true;
-
-
-
+        console.log('in auth guard');
+        console.log(this.cookieService.get('jwttoken'));
+        if (this.cookieService.get('jwttoken') == null || this.cookieService.get('jwttoken').length < 10) {
+            // alert(7);
+            this.router.navigate(['/']);
+        } else return true;
 
 
 
-   /*
-   private loggedinService: LoggedinService,
-    if (tokenNotExpired()) {
-      
 
-      this.loggedinService.announceLoggedin(true);
-      return true;
+
+
+        /*
+         private loggedinService: LoggedinService,
+         if (tokenNotExpired()) {
+
+
+         this.loggedinService.announceLoggedin(true);
+         return true;
+         }
+         */
+        //this.loggedinService.announceLoggedin(false);
+        //localStorage.removeItem('id_token');
+        //this.router.navigate(['/login']);
+        return false;
     }
-    */
-    //this.loggedinService.announceLoggedin(false);
-    //localStorage.removeItem('id_token');
-    //this.router.navigate(['/login']);
-    return false;
-  }
 }

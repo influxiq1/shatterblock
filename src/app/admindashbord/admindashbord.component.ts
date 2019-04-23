@@ -14,6 +14,8 @@ export class AdmindashbordComponent implements OnInit {
     brandarray: any=[];
     adminlist:any=[];
     editroute1:any='modeledit';
+    editrouteorder:any='vieworderdetails';
+    editroutecommission:any='viewcommissiondetails';
 
 
     pendingapplication_view: any=[];
@@ -28,13 +30,19 @@ export class AdmindashbordComponent implements OnInit {
     joquuserlist_modify_header1: any = { 'name': 'Full Name','lastname':'Last Name','email':'Email', 'age':'Age', 'dateformat':'Date','status':'Status','phone':'Phone'};
     joquuserlist_statusarray:any=[{val:1,name:'Pending for process'},{val:2,name:'Processed by admin'},{val:3,name:'Approved from Joqu'},{val:4,name:'Decline'}];
 
+
     allordersdata:any=[];
-    allordersdata_skip: any= ['id','_id','instagramlink','shatterblok_user_id','joqu_status','city','state','unique_id','created at'];
-    allordersdata_modify_header1: any = { 'name': 'Name','email':'Email', 'phone':'Phone', 'enroller':'Enroller','sponsor':'Sponsor','mode':'Mode','Transaction Id':'Transaction Id','total':'Total','Promocode':'Promocode','Discount':'Discount','Order Time':'Order Time'};
+    allordersdata_skip: any= ['userid','_id','zip','tax','state','productid','orderdetails','mode','city','media','shipping','userphone','firstname','lastname','useremail','subtotal'];
+    allordersdata_modify_header1: any = { 'fullname': 'Name','email':'Email', 'phone':'Phone', 'affiliate':'Enroller','sponsor':'Sponsor','mode':'Mode','transactionId':'Transaction Id','total':'Total','promocode':'Promocode','discount':'Discount','added_time':'Order Time'};
+    auidodeadinedata:any=[];
+    auidodeadineusernamedataarr:any=[];
 
     allcommissions:any=[];
-    allcommissions_skip: any= ['_id','parent'];
-    allcommissions_modify_header1: any = { 'date': 'Sign-Up Date','firstname':'First name', 'lastname':'Last name', 'accounttype':'Account Type','noofsale':'# Of Sale','totalamount':'Total Commission'};
+    allcommissions_skip: any= ['_id','parent','username','email'];
+    allcommissions_modify_header1: any = { 'signupdate': 'Sign-Up Date','firstname':'First name', 'lastname':'Last name', 'accounttype':'Account Type','noofsale':'# Of Sale','totalamount':'Total Commission'};
+    allcommissions_view_detail_skip:any=['_id','email','name','type','status'];
+    allcommissions_view_detail_datatype:any=[{key:"images",value:'image',fileurl:this.apiservice.uplodeimg_url }];
+
 
     status_gretterthan_zero: any=[];
     status_gretterthan_zero_skip: any= ['_id','username','phone','city','state','ethnicity','height','haircolor','eyecolor','weight','bust','waist','hips','slim','toned','tattoos','athletic','piercings','retail','voluptuous','promotions','sales','descriptionbox','facebooklink','twitterlink','instagramlink','modelmayhemlink','type','images'];
@@ -78,27 +86,42 @@ export class AdmindashbordComponent implements OnInit {
 
         });
         this.allcommissionfunc();
+        this.allorders();
     }
+
     allcommissionfunc(){
         let data = {source:'newcommision'};
+       // let data={condition: {username: "affiliateone"},source: "commission_details"};
         this.apiservice.postaffilite(this.endpoint, data).subscribe( res => {
             let result: any;
             result = res;
             this.allcommissions=result.res;
-            console.log('this.allcommissions');
+            console.log('allcommissions');
             console.log(this.allcommissions);
         })
     }
+
     allorders(){
         let sourcecondition={auidodeadineusername:{$exists:true}};
         let data = {source:'users',condition:sourcecondition};
         this.apiservice.postData(this.endpoint, data).subscribe( res => {
             let result: any = {};
             result = res;
-            console.log('result');
-            console.log(result);
-
-        })
+            this.auidodeadinedata=result.res;
+            for(let i in this.auidodeadinedata){
+                this.auidodeadineusernamedataarr.push(this.auidodeadinedata[i].auidodeadineusername);
+            }
+            console.log('auidodeadineusernamedataarr');
+            console.log(this.auidodeadineusernamedataarr);
+             let data1={condition: {useremail: {$in:this.auidodeadineusernamedataarr}},source: "order_view"};
+            this.apiservice.postaffilite(this.endpoint, data1).subscribe( res => {
+                let result: any;
+                result = res;
+                this.allordersdata=result.res;
+                console.log('allordersdata--------');
+                console.log(this.allordersdata);
+            })
+        });
     }
 
 }

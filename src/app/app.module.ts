@@ -65,6 +65,8 @@ import { JoqudashboardComponent } from './joqudashboard/joqudashboard.component'
 import { JoquprocesslistComponent } from './joquprocesslist/joquprocesslist.component';
 import { OrderDetailsComponent } from './order-details/order-details.component';
 import { ModelmyordersComponent } from './modelmyorders/modelmyorders.component';
+import { VieworderdetailsComponent } from './vieworderdetails/vieworderdetails.component';
+import { ViewcommissiondetailsComponent } from './viewcommissiondetails/viewcommissiondetails.component';
 
 @NgModule({
   declarations: [
@@ -98,7 +100,9 @@ import { ModelmyordersComponent } from './modelmyorders/modelmyorders.component'
     ModeleditComponent,Updatetest3,
     UploaderComponent, Updatetest4, JoqudashboardComponent, JoquprocesslistComponent,
     OrderDetailsComponent,
-    ModelmyordersComponent
+    ModelmyordersComponent,
+    VieworderdetailsComponent,
+    ViewcommissiondetailsComponent
 
 
     //Resolveservice,
