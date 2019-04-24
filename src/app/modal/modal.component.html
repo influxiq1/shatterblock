@@ -11,7 +11,7 @@
 
         <h3 *ngIf="myForm.controls['fullname'].value"> {{myForm.controls['fullname'].value}}</h3>
 
-        <h4>MAR 28, 2019</h4>
+        <h4> {{today | date:'MMM d, yyyy'}}</h4>
 
         <h5>By selecting “agree”, the parties agree that this agreement may be electronically signed. The parties agree that the electronic signatures appearing on this agreement are the same as handwritten signatures for the purposes of validity, enforceability, and admissibility.</h5>
 

@@ -19,6 +19,10 @@ export class prevroute {
   }
 
   public getPreviousUrl(){
+    console.log('=========================');
+    console.log('prev- '+this.previousUrl);
+    console.log('currnt- '+this.currentUrl);
+    console.log('=========================');
     return this.previousUrl;
   }
 }

@@ -10,10 +10,10 @@ import { Resolveservice } from '../resolveservice';
   styleUrls: ['./modelmyorders.component.css']
 })
 export class ModelmyordersComponent implements OnInit {
-  public modelmyorders:any;
-  modelmyorders_skip: any= ['_id','userid','shatterblok_user_id','joqu_status','city','state','unique_id','created at'];
-  modelmyorders_modify_header1: any = { 'firstname': 'First Name','lastname':'Last Name','email':'Email', 'age':'Age', 'phone':'Phone', 'affiliate':'Enroller','sponsor':'Sponsor','transactionId':'Transaction Id','total':'Total','promocode':'Promocode','discount':'Discount','orderdetails':'Order Time'};
-  // tablename='joquuser';
+  public modelmyorders:any=[];
+  modelmyorders_skip: any= ['userid','_id','zip','tax','state','productid','orderdetails','mode','city','media','shipping','userphone','firstname','lastname','useremail','subtotal'];
+  modelmyorders_modify_header1: any = { 'fullname': 'Name','email':'Email', 'phone':'Phone', 'affiliate':'Enroller','sponsor':'Sponsor','mode':'Mode','transactionId':'Transaction Id','total':'Total','promocode':'Promocode','discount':'Discount','added_time':'Order Time'};
+  editrouteorder:any='vieworderdetails';
 
   constructor(public apiservice: ApiService, public router: Router, private cookieService: CookieService,public route: ActivatedRoute, public resolveservice: Resolveservice ) {
 

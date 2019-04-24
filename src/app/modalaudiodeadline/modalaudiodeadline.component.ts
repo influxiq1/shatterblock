@@ -10,8 +10,11 @@ import {MatDialog} from "@angular/material";
 export class ModalaudiodeadlineComponent implements OnInit {
 
   public myForm: any ;
-
+  public today: number = Date.now();
   constructor( public modal: MatDialog, public bf: FormBuilder) {
+   /* console.log('================');
+    console.log(modal);
+    console.log(modal.data.myForm);*/
     this.myForm = this.bf.group({
       fullname: ['', Validators.required],
     })

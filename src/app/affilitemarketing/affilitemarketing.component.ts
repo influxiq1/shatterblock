@@ -100,12 +100,19 @@ public uploadfile: any='banner';
   }
 
   callforcopy(item){
+   // console.log(this.apiservice.audiodeadlineshareticketsaleurl);
+    //audiodeadline ticket sale
+    return this.apiservice.audiodeadlineshareticketsaleurl+this.affiliatename;
+    // return 'https://development.audiodeadline.com/'+this.affiliatename;
     // return 'http://api.audiodeadline.com/sharetool22.php?type=ticketsale&sponsorname='+item.sponsor+'&media_id='+item.name+'&image='+item.image+'&affiliate='+this.affiliatename;
-    return this.apiservice.audiodeadline_php_url+'sharetool22.php?type=ticketsale&sponsorname='+item.sponsor+'&media_id='+item.name+'&image='+item.image+'&affiliate='+this.affiliatename;
+    // return this.apiservice.audiodeadline_php_url+'sharetool22.php?type=ticketsale&sponsorname='+item.sponsor+'&media_id='+item.name+'&image='+item.image+'&affiliate='+this.affiliatename;
   }
 
   callforcopy1(item){
-    return this.apiservice.audiodeadline_php_url+'sharetool2.php?media_id='+item.name+'&username='+this.affiliatename+'&image='+item.image;
+    //artistxp sign up
+    return this.apiservice.artistxpsharesignupurl+this.affiliatename;
+    // return 'https://development.artistxp.com/'+this.affiliatename;
+    // return this.apiservice.audiodeadline_php_url+'sharetool2.php?media_id='+item.name+'&username='+this.affiliatename+'&image='+item.image;
   }
 
   callforcopy2(item){

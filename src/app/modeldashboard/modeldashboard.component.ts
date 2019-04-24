@@ -4,6 +4,7 @@ import { ApiService } from "../api.service";
 import {DomSanitizer} from '@angular/platform-browser';
 import { CookieService } from 'ngx-cookie-service';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
+import {prevroute} from "../prevroute";
 export interface DialogData {
   msg: string;
 }
@@ -22,7 +23,9 @@ export class ModeldashboardComponent implements OnInit {
   model_influencer_contents_viewlistin_decending_jocu: any=[];
   model_influencer_contents_viewlistin_decending_audio: any=[];
 
-  constructor(public router: Router,private route: ActivatedRoute, public apiservice: ApiService,public _sanitizer: DomSanitizer, public cookieService: CookieService, public dialog: MatDialog) {
+  constructor(public router: Router,private route: ActivatedRoute, public apiservice: ApiService,public _sanitizer: DomSanitizer, public cookieService: CookieService, public dialog: MatDialog,public prevroute: prevroute) {
+    let previousurl = this.prevroute.getPreviousUrl();
+   // console.log(previousurl);
     if(this.cookieService.get('id')!='' && this.cookieService.get('id') != null){
       this.getmodeldata();
     }

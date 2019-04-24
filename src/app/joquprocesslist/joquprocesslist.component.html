@@ -11,5 +11,6 @@
                     [jwttoken]="apiservice.jwttoken"
                     [sourcedata]="tablename">
     </lib-listing>
+    <h3 *ngIf="joquprocesslist==null || joquprocesslist.length==0">No records found</h3>
   </div>
 </app-main-nav>

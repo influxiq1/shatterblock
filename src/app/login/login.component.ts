@@ -94,6 +94,7 @@ export class LoginComponent implements OnInit {
                         this.router.navigate(['/audioseadlineagreement']);
                     }
                     if(result.item[0].status==3){
+                        this.cookieService.set('modelaffiliateemail', result.item[0].auidodeadineusername);
                         this.router.navigate(['/modeldashboard']);
                     }
                     // if(result.item[0].status==4){

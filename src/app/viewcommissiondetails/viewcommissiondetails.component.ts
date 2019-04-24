@@ -9,21 +9,29 @@ import { ApiService } from '../../app/api.service';
   styleUrls: ['./viewcommissiondetails.component.css']
 })
 export class ViewcommissiondetailsComponent implements OnInit {
-  public username:any;
-  public commissiondetails:any;
+  // public username:any;
+  public commissiondetails:any=[];
+  commissiondetails_skip: any= ['_id','parent','username','email'];
+  commissiondetails_modify_header1: any = { 'signupdate': 'Date','buyer':'Buyer', 'amount':'Amount', 'commission':'Commission'};
 
-  constructor( public _http: HttpClient, private router: Router, public route : ActivatedRoute, public apiService: ApiService) {
-    this.route.params.subscribe(params => {
-      this.username = params['pagename'];
-      console.log('this.username');
-      console.log(this.username);
-      this.getcommissiondetails();
-    });
+  constructor( public _http: HttpClient, private router: Router, public route : ActivatedRoute, public apiservice: ApiService) {
+    // this.route.params.subscribe(params => {
+    //   this.username = params['pagename'];
+    //   console.log('this.username');
+    //   console.log(this.username);
+     //  this.getcommissiondetails();
+    // });
   }
 
   ngOnInit() {
+    this.route.data.forEach( (data) =>{
+      console.log('data in proceslist');
+      console.log(data);
+      this.commissiondetails = data['results'].res;
+    });
   }
-  getcommissiondetails(){
+
+/*  getcommissiondetails(){
     let sourcecondition={username:this.username};
     this.apiService.postaffilite('datalist',{'source':'commission_details',condition:sourcecondition}).subscribe(res=> {
       let result:any;
@@ -34,6 +42,6 @@ export class ViewcommissiondetailsComponent implements OnInit {
           this.commissiondetails=result.res;
       }
     });
-  }
+  }*/
 
 }

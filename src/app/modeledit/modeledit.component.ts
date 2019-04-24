@@ -33,7 +33,8 @@ export class ModeleditComponent implements OnInit {
     public modelfilepath: any = this.apiservice.Model_Image_Url;
 
     constructor(  public _http: HttpClient, private router: Router, public route : ActivatedRoute, public apiservice: ApiService,public cookieService: CookieService,public fb: FormBuilder, public dialog: MatDialog,public prevroute: prevroute) {
-
+        let previousurl1 = this.prevroute.getPreviousUrl();
+        console.log(previousurl1);
         this.route.params.subscribe(params => {
             this.modelid = params['pagename'];
             console.log(this.modelid);
@@ -139,10 +140,10 @@ export class ModeleditComponent implements OnInit {
                         sales: [this.modeldata.sales, Validators.required],
                         retail: [this.modeldata.retail, Validators.required],
                         descriptionbox: [this.modeldata.descriptionbox, Validators.required],
-                        facebooklink: [this.modeldata.facebooklink, Validators.required],
+                        facebooklink: [this.modeldata.facebooklink],
                         instagramlink: [this.modeldata.instagramlink, Validators.required],
-                        twitterlink: [this.modeldata.twitterlink, Validators.required],
-                        modelmayhemlink: [this.modeldata.modelmayhemlink, Validators.required],
+                        twitterlink: [this.modeldata.twitterlink],
+                        modelmayhemlink: [this.modeldata.modelmayhemlink],
                         // fileservername: [this.modeldata.firstname],
                         // filelocalname: [this.modeldata.firstname],
                         // type: [this.modeldata.firstname],
@@ -206,6 +207,8 @@ export class ModeleditComponent implements OnInit {
                         let result: any = {};
                         result = res;
                         // this.router.navigate('[/]');
+                        console.log('previousurl');
+                        console.log(previousurl);
                        this.router.navigate([previousurl]);
                            /* console.log('updated successfully');
                             const dialogRef = this.dialog.open(Updatetest3, {

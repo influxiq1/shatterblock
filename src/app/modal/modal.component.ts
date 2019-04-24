@@ -9,7 +9,8 @@ import { FormGroup, Validators, FormBuilder} from "@angular/forms";
   styleUrls: ['./modal.component.css']
 })
 export class ModalComponent implements OnInit {
-public myForm: any ;
+  public myForm: any ;
+  public today: number = Date.now();
 
   constructor( public modal: MatDialog, public bf: FormBuilder) {
     this.myForm = this.bf.group({

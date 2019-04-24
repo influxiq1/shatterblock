@@ -13,6 +13,7 @@ export class AudiodeadlinesgreementComponent implements OnInit {
   fullname: string;
   public errormsg: any;
   public endpoint = 'addorupdatedata';
+  public endpoint1 = 'datalist';
   constructor(public modal: MatDialog, public apiservice: ApiService,public cookieService:CookieService, public router: Router) {
     console.log('id-- '+this.cookieService.get('id'));
   }
@@ -50,7 +51,15 @@ export class AudiodeadlinesgreementComponent implements OnInit {
         console.log('result');
         console.log(result);
         if (result.status == 'success') {
-          this.router.navigate(['/modeldashboard']);
+          let data2={_id: this.cookieService.get('id')};
+          let data3 = {"condition": data2,source:'users'};
+          this.apiservice.postData(this.endpoint1, data3).subscribe( res => {
+            let result: any;
+            result = res;
+            console.log(result.res[0].auidodeadineusername);
+            this.cookieService.set('modelaffiliateemail', result.res[0].auidodeadineusername);
+            this.router.navigate(['/modeldashboard']);
+          })
         }
       })
     } else {

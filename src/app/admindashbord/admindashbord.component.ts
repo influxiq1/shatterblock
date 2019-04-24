@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router,ActivatedRoute } from '@angular/router';
 import { ApiService } from "../api.service";
+import {prevroute} from "../prevroute";
 
 @Component({
   selector: 'app-admindashbord',
@@ -66,8 +67,9 @@ export class AdmindashbordComponent implements OnInit {
     tablename1='joquuser';
     tablename2='demoname';
 
-    constructor(public router: Router,private route: ActivatedRoute, public apiservice: ApiService) {
-      
+    constructor(public router: Router,private route: ActivatedRoute, public apiservice: ApiService,public prevroute: prevroute) {
+        let previousurl = this.prevroute.getPreviousUrl();
+      //  console.log(previousurl);
     }
 
     ngOnInit() {

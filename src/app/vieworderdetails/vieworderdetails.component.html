@@ -8,27 +8,48 @@
       <mat-card-header>
         <mat-card-title>View Order</mat-card-title>
       </mat-card-header>
-      <mat-card-content>
-        <table mat-table [dataSource]="dataSource1" class="mat-elevation-z8">
-          <ng-container matColumnDef="position">
-            <th mat-header-cell *matHeaderCellDef> User </th>
-            <td mat-cell *matCellDef="let element"> {{element.firstname}} </td>
-          </ng-container>
-          <ng-container matColumnDef="name">
-            <th mat-header-cell *matHeaderCellDef> Order ID </th>
-            <td mat-cell *matCellDef="let element"> {{element.name}} </td>
-          </ng-container>
-          <ng-container matColumnDef="weight">
-            <th mat-header-cell *matHeaderCellDef> Date Added </th>
-            <td mat-cell *matCellDef="let element"> {{element.weight}} </td>
-          </ng-container>
-          <ng-container matColumnDef="symbol">
-            <th mat-header-cell *matHeaderCellDef> Order Source </th>
-            <td mat-cell *matCellDef="let element"> {{element.symbol}} </td>
-          </ng-container>
-          <tr mat-header-row *matHeaderRowDef="displayedColumns1"></tr>
-          <tr mat-row *matRowDef="let row; columns: displayedColumns1;"></tr>
-        </table>
+      <mat-card-content class="order_view1">
+        <!--<table mat-table [dataSource]="dataSource1" class="mat-elevation-z8">-->
+        <!--<ng-container matColumnDef="position">-->
+        <!--<th mat-header-cell *matHeaderCellDef> User </th>-->
+        <!--<td mat-cell *matCellDef="let element"> {{element.firstname}} </td>-->
+        <!--</ng-container>-->
+        <!--<ng-container matColumnDef="name">-->
+        <!--<th mat-header-cell *matHeaderCellDef> Order ID </th>-->
+        <!--<td mat-cell *matCellDef="let element"> {{element.name}} </td>-->
+        <!--</ng-container>-->
+        <!--<ng-container matColumnDef="weight">-->
+        <!--<th mat-header-cell *matHeaderCellDef> Date Added </th>-->
+        <!--<td mat-cell *matCellDef="let element"> {{element.weight}} </td>-->
+        <!--</ng-container>-->
+        <!--<ng-container matColumnDef="symbol">-->
+        <!--<th mat-header-cell *matHeaderCellDef> Order Source </th>-->
+        <!--<td mat-cell *matCellDef="let element"> {{element.symbol}} </td>-->
+        <!--</ng-container>-->
+
+        <!--<tr mat-header-row *matHeaderRowDef="displayedColumns1"></tr>-->
+        <!--<tr mat-row *matRowDef="let row; columns: displayedColumns1;"></tr>-->
+
+        <!--</table>-->
+
+
+        <mat-card-content class="one">
+          <mat-card-title>User</mat-card-title>
+          <mat-card-subtitle> {{orderdetails.firstname}} {{orderdetails.lastname}}</mat-card-subtitle>
+        </mat-card-content >
+        <mat-card-content class="two">
+          <mat-card-title>Order ID</mat-card-title>
+          <mat-card-subtitle> {{orderdetails._id}}</mat-card-subtitle>
+        </mat-card-content>
+
+        <mat-card-content class="three">
+          <mat-card-title>Date Added</mat-card-title>
+          <mat-card-subtitle> {{orderdetails.added_time}}</mat-card-subtitle>
+        </mat-card-content>
+        <mat-card-content class="four">
+          <mat-card-title>Order Source</mat-card-title>
+          <mat-card-subtitle> {{orderdetails.source_name}}</mat-card-subtitle>
+        </mat-card-content>
       </mat-card-content>
     </mat-card>
 
@@ -50,28 +71,65 @@
             <th mat-header-cell *matHeaderCellDef> QTY </th>
             <td mat-cell *matCellDef="let element"> {{element.quantity}} </td>
           </ng-container>
-             <ng-container matColumnDef="price">
-              <th mat-header-cell *matHeaderCellDef> Unit Price </th>
-              <td mat-cell *matCellDef="let element"> {{element.price}} </td>
-            </ng-container>
+          <ng-container matColumnDef="price">
+            <th mat-header-cell *matHeaderCellDef> Unit Price </th>
+            <td mat-cell *matCellDef="let element"> {{element.price}} </td>
+          </ng-container>
           <ng-container matColumnDef="subtotal">
             <th mat-header-cell *matHeaderCellDef> Total </th>
             <td mat-cell *matCellDef="let element"> {{element.subtotal.toFixed(2)}} </td>
           </ng-container>
-          <!--<ng-container matColumnDef="shipping">-->
-            <!--<th mat-header-cell *matHeaderCellDef> Shipping & Handling </th>-->
-             <!--<td mat-cell *matCellDef="let element"> {{element.shipping}} </td>-->
-          <!--</ng-container>-->
-           <!--<ng-container matColumnDef="tax"> -->
-             <!--<th mat-header-cell *matHeaderCellDef> Tax </th >-->
-            <!--<td mat-cell *matCellDef="let element"> {{element.tax}} </td>-->
-           <!--</ng-container>-->
-          <!--<ng-container matColumnDef="total">-->
-              <!--<th mat-header-cell *matHeaderCellDef> Total </th>-->
-             <!--<td mat-cell *matCellDef="let element"> {{element.total}} </td>-->
-          <!--</ng-container>-->
+          <ng-container matColumnDef="subtotal1">
+            <th mat-header-cell *matHeaderCellDef> </th>
+            <td mat-cell *matCellDef="let transaction"> </td>
+            <td align="right" colspan="4" mat-footer-cell *matFooterCellDef> <span class="sub_item_space"> <b>Subtotal</b></span> </td>
+          </ng-container>
+          <ng-container matColumnDef="total">
+            <th mat-header-cell *matHeaderCellDef> </th>
+            <td mat-cell *matCellDef="let transaction"> </td>
+            <td mat-footer-cell *matFooterCellDef> <b> ${{orderdetails.subtotal.toFixed(2)}}</b> </td>
+          </ng-container>
+          <ng-container matColumnDef="shipping_&_Handling">
+            <th mat-header-cell *matHeaderCellDef> </th>
+            <td mat-cell *matCellDef="let transaction"> </td>
+            <td align="right" colspan="4" mat-footer-cell *matFooterCellDef> <span class="sub_item_space"> <b>Shipping & Handling</b></span> </td>
+          </ng-container>
+          <ng-container matColumnDef="total2">
+            <th mat-header-cell *matHeaderCellDef> </th>
+            <td mat-cell *matCellDef="let transaction"> </td>
+            <td mat-footer-cell *matFooterCellDef> <b> ${{orderdetails.shipping}}</b> </td>
+          </ng-container>
+          <ng-container matColumnDef="tax">
+            <th mat-header-cell *matHeaderCellDef> </th>
+            <td mat-cell *matCellDef="let transaction"> </td>
+            <td align="right" colspan="4" mat-footer-cell *matFooterCellDef> <span class="sub_item_space"> <b>Tax</b></span> </td>
+          </ng-container>
+          <ng-container matColumnDef="total3">
+            <th mat-header-cell *matHeaderCellDef> </th>
+            <td mat-cell *matCellDef="let transaction"> </td>
+            <td mat-footer-cell *matFooterCellDef> <b> ${{orderdetails.tax}}</b> </td>
+          </ng-container>
+
+          <ng-container matColumnDef="total4">
+            <th mat-header-cell *matHeaderCellDef> </th>
+            <td mat-cell *matCellDef="let transaction"> </td>
+            <td align="right" colspan="4" mat-footer-cell *matFooterCellDef> <span class="sub_item_space"> <b>Total</b></span> </td>
+          </ng-container>
+          <ng-container matColumnDef="total5">
+            <th mat-header-cell *matHeaderCellDef> </th>
+            <td mat-cell *matCellDef="let transaction"> </td>
+            <td mat-footer-cell *matFooterCellDef> <b> ${{orderdetails.total}}</b> </td>
+          </ng-container>
+
+
+
+
           <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
           <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+          <tr mat-footer-row *matFooterRowDef="['subtotal1', 'total']; "></tr>
+          <tr mat-footer-row *matFooterRowDef="['shipping_&_Handling', 'total2']; "></tr>
+          <tr mat-footer-row *matFooterRowDef="['tax', 'total3']; "></tr>
+          <tr mat-footer-row *matFooterRowDef="['total4', 'total5']; "></tr>
 
         </table>
       </mat-card-content>
@@ -95,7 +153,7 @@
             <mat-list-item><span> Region:</span> {{orderdetails.state}} </mat-list-item>
             <mat-list-item><span> Country:</span> {{orderdetails.country}} </mat-list-item>
             <mat-list-item><span> Postal Code:</span> {{orderdetails.zip}} </mat-list-item>
-            <mat-list-item><span> Email:</span> {{orderdetails.email}} </mat-list-item>
+            <mat-list-item><span> Email:</span><span class="content"> {{orderdetails.email}}</span> </mat-list-item>
             <mat-list-item><span> Phone:</span> {{orderdetails.phone}} </mat-list-item>
           </mat-list>
         </mat-card-content>

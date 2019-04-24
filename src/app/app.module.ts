@@ -67,6 +67,7 @@ import { OrderDetailsComponent } from './order-details/order-details.component';
 import { ModelmyordersComponent } from './modelmyorders/modelmyorders.component';
 import { VieworderdetailsComponent } from './vieworderdetails/vieworderdetails.component';
 import { ViewcommissiondetailsComponent } from './viewcommissiondetails/viewcommissiondetails.component';
+import { ModelcommissionsComponent } from './modelcommissions/modelcommissions.component';
 
 @NgModule({
   declarations: [
@@ -102,7 +103,8 @@ import { ViewcommissiondetailsComponent } from './viewcommissiondetails/viewcomm
     OrderDetailsComponent,
     ModelmyordersComponent,
     VieworderdetailsComponent,
-    ViewcommissiondetailsComponent
+    ViewcommissiondetailsComponent,
+    ModelcommissionsComponent
 
 
     //Resolveservice,

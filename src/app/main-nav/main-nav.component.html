@@ -17,13 +17,14 @@
       <mat-divider></mat-divider>
       <a mat-list-item role="listitem" [routerLink]="['/joquprocesslist']" *ngIf="cookieService.get('type')=='admin'">Joqu Process List</a>
       <mat-divider></mat-divider>
-      <a mat-list-item role="listitem" [routerLink]="['/orderdetails']" *ngIf="cookieService.get('type')=='admin'">Order Details</a>
+      <!--<a mat-list-item role="listitem" [routerLink]="['/orderdetails']" *ngIf="cookieService.get('type')=='admin'">Order Details</a>-->
+      <!--<mat-divider></mat-divider>-->
+      <a mat-list-item role="listitem" [routerLink]="['/adminlist']" *ngIf="cookieService.get('type')=='admin'">Admin List</a>
       <mat-divider></mat-divider>
-      <a mat-list-item role="listitem" [routerLink]="['/adminlist']" >Admin List</a>
+      <a mat-list-item role="listitem" [routerLink]="['/adminform']" *ngIf="cookieService.get('type')=='admin'">Add Admin</a>
       <mat-divider></mat-divider>
-      <a mat-list-item role="listitem" [routerLink]="['/adminform']">Add Admin</a>
-      <mat-divider></mat-divider>
-      <a mat-list-item role="listitem" [routerLink]="['/modelmyorders']">My orders</a>
+      <a mat-list-item role="listitem" [routerLink]="['/modelmyorders']" *ngIf="cookieService.get('type')=='model'">My orders</a>    <mat-divider></mat-divider>
+      <a mat-list-item role="listitem" [routerLink]="['/modelmycommissions']" *ngIf="cookieService.get('type')=='model'">My commissions</a>
     </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content>

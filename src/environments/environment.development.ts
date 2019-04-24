@@ -26,4 +26,6 @@ export const environment = {
     Model_Image_Url: 'https://developmentapi.audiodeadline.com/nodeserver/uploads/modelimages',
  //   domain_for_fileupload: 'http://developmentapi.audiodeadline.com:7031/',
     domain_for_fileupload: 'https://developmentapi.audiodeadline.com:6031/',
+    artistxpsharesignupurl: 'https://development.artistxp.com/',
+    audiodeadlineshareticketsaleurl: 'https://development.audiodeadline.com/',
 };

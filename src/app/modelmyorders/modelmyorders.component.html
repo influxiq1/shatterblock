@@ -8,6 +8,7 @@
                     [modify_header_array]="modelmyorders_modify_header1"
                     [apiurl]="apiservice.domain"
                     [jwttoken]="apiservice.jwttoken"
-                    [sourcedata]="tablename2">
+                    [editroute]="editrouteorder">
     </lib-listing>
+    <h3 *ngIf="modelmyorders==null || modelmyorders.length==0">No records found</h3>
 </app-main-nav>

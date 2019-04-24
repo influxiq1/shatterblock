@@ -31,6 +31,7 @@ import {OrderDetailsComponent} from "./order-details/order-details.component";
 import {ModelmyordersComponent} from "./modelmyorders/modelmyorders.component";
 import {VieworderdetailsComponent} from "./vieworderdetails/vieworderdetails.component";
 import {ViewcommissiondetailsComponent} from "./viewcommissiondetails/viewcommissiondetails.component";
+import {ModelcommissionsComponent} from "./modelcommissions/modelcommissions.component";
 
 const routes: Routes = [
   { path: "admin", component: AdminmanagementComponent, canActivate: [AuthGuard] },
@@ -71,7 +72,8 @@ const routes: Routes = [
   {path: 'joquprocesslist', component: JoquprocesslistComponent, canActivate:[AuthGuard], resolve: {results: Resolveservice}, data: {source: 'datalist',condition: {"condition":{"status":1},source:'joquuser'}}},
   {path: 'orderdetails', component: OrderDetailsComponent},
 
-  {path: 'modelmyorders', component: ModelmyordersComponent, canActivate: [AuthGuard], resolve: { results: Resolveservice}, data: {server:'audiodeadline',source: 'datalist',condition: {"condition":{"userid_object":"5cb80dff74b8d41e0502fe77"},source: "order_view"}}},
+  // {path: 'modelmyorders', component: ModelmyordersComponent, canActivate: [AuthGuard], resolve: { results: Resolveservice}, data: {server:'audiodeadline',source: 'datalist',condition: {"condition":{"userid_object":"5cb80dff74b8d41e0502fe77"},source: "order_view"}}},
+  {path: 'modelmyorders', component: ModelmyordersComponent, canActivate: [AuthGuard], resolve: { results: Resolveservice}, data: {server:'audiodeadline',source: 'datalist',condition: {myid:"username"}}},
 
   {path: 'vieworderdetails', component: VieworderdetailsComponent},
   {path: 'vieworderdetails/:pagename', component: VieworderdetailsComponent, canActivate:[AuthGuard], resolve: {results: Resolveservice}, data: {server:'audiodeadlineforpostorder', source: 'vieworderdetails',condition: {myid:"orderid"}}},
@@ -79,6 +81,13 @@ const routes: Routes = [
   {path: 'viewcommissiondetails', component: ViewcommissiondetailsComponent, canActivate:[AuthGuard]},
   // {path: 'viewcommissiondetails/:pagename', component: ViewcommissiondetailsComponent, canActivate:[AuthGuard]},
   {path: 'viewcommissiondetails/:pagename', component: ViewcommissiondetailsComponent, canActivate:[AuthGuard], resolve: {results: Resolveservice}, data: {server:'audiodeadlineforcommission', source: "datalist",condition: {myid:"username"}}},
+
+
+  {path: 'modelmycommissions', component: ModelcommissionsComponent, canActivate: [AuthGuard], resolve: { results: Resolveservice}, data: {server:'audiodeadline',source: 'datalist',condition: {myid:"commission"}}},
+
+
+
+
   {path: '**', component: LoginComponent},
 ];
 

@@ -41,7 +41,22 @@ export class Resolveservice implements Resolve<EndpointComponent> {
         // console.log(endpoint);
         return new Promise((resolve) => {
             if(route.data.server=='audiodeadline'){
-                this._apiService.getEndpointforudiedeadline(route.data).subscribe(api_object => {
+                let endpointdata:any;
+               if(route.data.condition!=null && route.data.condition.myid !=null && route.data.condition.myid=='username') {
+                    let condition: any;
+                    condition = {condition: {"useremail": this.cookieService.get('modelaffiliateemail')}, source: "order_view"};
+                   // condition = {condition: {"useremail": 'model00001@gmail.com'}, source: "order_view"};
+                    endpointdata = {source: route.data.source, condition: condition}
+                }
+                else if(route.data.condition!=null && route.data.condition.myid !=null && route.data.condition.myid=='commission') {
+                   let condition: any;
+                   condition = {condition: {"username": this.cookieService.get('modelaffiliateemail')}, source: "newcommision"};
+                   endpointdata = {source: route.data.source, condition: condition}
+               }
+                else {
+                    endpointdata = route.data;
+                }
+                this._apiService.getEndpointforudiedeadline(endpointdata).subscribe(api_object => {
                     console.log('api_object  !!!!');
                     console.log(api_object);
                     if (api_object) {
@@ -52,13 +67,18 @@ export class Resolveservice implements Resolve<EndpointComponent> {
                     }
                 });
             }
+
             else if(route.data.server=='audiodeadlineforcommission'){
+                let endpointdata:any;
                 if(route.data.condition!=null && route.data.condition.myid !=null && route.data.condition.myid=='username') {
                     // route.data.condition.username=route.params.pagename;
                     let condition: any;
                     condition = {condition: {"username": route.params.pagename}, source: "commission_details"};
-                    let endpointdata: any;
                     endpointdata = {source: route.data.source, condition: condition}
+                }
+                else {
+                    endpointdata = route.data;
+                }
                     // this._apiService.getEndpointforcommissiondetails(endpoint).subscribe(api_object => {
                     this._apiService.getEndpointforudiedeadline(endpointdata).subscribe(api_object => {
                         console.log('api_object  !!!!');
@@ -71,7 +91,7 @@ export class Resolveservice implements Resolve<EndpointComponent> {
                         }
                     });
                 }
-            } else if(route.data.server=='audiodeadlineforpostorder'){
+             else if(route.data.server=='audiodeadlineforpostorder'){
                 if(route.data.condition!=null && route.data.condition.myid !=null && route.data.condition.myid=='orderid')
                     route.data.condition._id=route.params.pagename;
                 this._apiService.getEndpointforpostorderdetails(route.data).subscribe(api_object => {

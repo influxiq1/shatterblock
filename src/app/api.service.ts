@@ -28,6 +28,8 @@ export class ApiService {
     public brandfolder = environment['brandfolder'];
     public domain_for_fileupload = environment['domain_for_fileupload'];
     public audio_orderdetails = environment['audio_orderdetails'];
+    public artistxpsharesignupurl = environment['artistxpsharesignupurl'];
+    public audiodeadlineshareticketsaleurl = environment['audiodeadlineshareticketsaleurl'];
     files: UploadFile[];
     uploadInput: EventEmitter<UploadInput>;
     humanizeBytes: Function;
