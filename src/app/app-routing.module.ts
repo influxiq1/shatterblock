@@ -40,6 +40,7 @@ const routes: Routes = [
   {path: 'editroute/:id', component: EditrouteComponent},
 
   { path: 'changepassword', component: ChangepasswordComponent, canActivate: [AuthGuard], resolve: {results: Resolveservice}, data: {source: 'users', condition:{}} },
+  { path: "**", component: LoginComponent},
 
 ];
 

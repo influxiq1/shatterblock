@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router,ActivatedRoute } from '@angular/router';
 import { ApiService } from '../api.service';
 import { Validators } from "@angular/forms";
-// import {FieldConfig} from "../field.interface";
+import {FieldConfig} from "../field.interface";
 
 /*export interface Validator {
     name: string;
@@ -28,6 +28,11 @@ export interface FieldConfig {
 export class AdmindashbordComponent implements OnInit {
     componentRef: any;
   datasource:any;
+    placeholder: any=['placeholder'];
+    type: any=['text'];
+    name: any=['Username'];
+
+
     pendingmodelapplicationarray:any=[];
     pendingmodelapplicationarray_skip:any=['_id','type','password'];
     pendingmodelapplicationarray_detail_skip:any=['_id','email','name'];
@@ -72,7 +77,6 @@ export class AdmindashbordComponent implements OnInit {
   }
 
 
- /*
     regConfig: FieldConfig[] = [
         {
             type: "input",
@@ -91,7 +95,7 @@ export class AdmindashbordComponent implements OnInit {
                     message: "Accept only text"
                 }
             ]
-        },
+        } /*,
         {
             type: "input",
             label: "Email Address",
@@ -155,7 +159,7 @@ export class AdmindashbordComponent implements OnInit {
             options: ["Male", "Female"],
             value: "Male"
         },
-        /!*{
+         /!*{
          type: "date",
          label: "DOB",
          name: "dob",
@@ -183,9 +187,8 @@ export class AdmindashbordComponent implements OnInit {
         {
             type: "button",
             label: "Save"
-        }
+        }*/
     ];
 
     submit(value: any) {}
-*/
 }

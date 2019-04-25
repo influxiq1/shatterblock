@@ -1,33 +1,27 @@
-import {
-  Component,
-  EventEmitter,
-  Input,
-  OnChanges,
-  OnInit,
-  Output, NgModule
-} from "@angular/core";
-import {
-  FormGroup,
-  FormBuilder,
-  Validators,
-  FormControl
-} from "@angular/forms";
+import {Component,EventEmitter,Input,OnChanges,OnInit,Output,NgModule} from "@angular/core";
+import {FormGroup,FormBuilder,Validators,FormControl} from "@angular/forms";
 import { FieldConfig, Validator} from "./field.interface";
+import {CommonModule, } from "@angular/common";
+@NgModule({
+  declarations: [  ],
+  imports: [
+    CommonModule,
+  ],
+  exports: [CommonModule]
+
+})
 
 @Component({
   selector: 'lib-myfrom',
-  templateUrl: './myfrom.component.html',
+  templateUrl: './myfrom.component.html' ,
   styleUrls: ['./myfrom.component.css'],
 })
 export class MyfromComponent implements OnInit {
-
+  public form: FormGroup;
 
   @Input() fields: FieldConfig[] = [];
 
   @Output() submit: EventEmitter<any> = new EventEmitter<any>();
-
-  form: FormGroup;
-
   get value() {
     return this.form.value;
   }
