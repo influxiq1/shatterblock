@@ -32,6 +32,7 @@ import {ModelmyordersComponent} from "./modelmyorders/modelmyorders.component";
 import {VieworderdetailsComponent} from "./vieworderdetails/vieworderdetails.component";
 import {ViewcommissiondetailsComponent} from "./viewcommissiondetails/viewcommissiondetails.component";
 import {ModelcommissionsComponent} from "./modelcommissions/modelcommissions.component";
+import {SiteadminsettingsComponent} from "./siteadminsettings/siteadminsettings.component";
 
 const routes: Routes = [
   { path: "admin", component: AdminmanagementComponent, canActivate: [AuthGuard] },
@@ -84,7 +85,7 @@ const routes: Routes = [
 
 
   {path: 'modelmycommissions', component: ModelcommissionsComponent, canActivate: [AuthGuard], resolve: { results: Resolveservice}, data: {server:'audiodeadline',source: 'datalist',condition: {myid:"commission"}}},
-
+  {path: 'siteadminsettings', component: SiteadminsettingsComponent, canActivate: [AuthGuard]},
 
 
 

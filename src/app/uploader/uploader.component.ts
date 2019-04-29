@@ -14,6 +14,9 @@ export class UploaderComponent implements OnInit {
 
   public filenamevalc;
   public filenamevalc1;
+  public modeldataemailis;
+  public profileimg;
+  public secondimg;
   public uploadtypec;
   public uploadpathc;
   public filepathc;
@@ -22,6 +25,7 @@ export class UploaderComponent implements OnInit {
 
   public upimages;
   public endpoint;
+  public endpointsecondimg;
  // public pagename;
 
 
@@ -61,6 +65,26 @@ export class UploaderComponent implements OnInit {
     console.log('this.endpoint');
     console.log(this.endpoint);
   }
+  @Input()
+  set updatesecondimagesourceurl(updatesecondimagesourceurl: any) {
+    this.endpointsecondimg = updatesecondimagesourceurl;
+    console.log('this.endpointsecondimg');
+    console.log(this.endpointsecondimg);
+  }
+  @Input()
+  set profileimgis(profileimgis: any) {
+    this.profileimg = profileimgis;
+    console.log('this.profileimg');
+    console.log(this.profileimg);
+  }
+  @Input()
+  set secondimgis(secondimgis: any) {
+    this.secondimg = secondimgis;
+    console.log('this.secondimg');
+    console.log(this.secondimg);
+  }
+
+
  /* @Input()
   set pagenameis(pagenameis: any) {
     // alert(filenameval);
@@ -90,7 +114,13 @@ export class UploaderComponent implements OnInit {
       if(this.upimages!=null) this.apiService.fileservername[this.filenamevalc].push(this.upimages[i]);
     }
   }
-
+  @Input()
+  set modeldataemail(modeldataemail: any) {
+    // alert(filenameval);
+    this.modeldataemailis = modeldataemail;
+    console.log('this.modeldataemailis');
+    console.log(this.modeldataemailis);
+  }
 
 
   constructor(public apiService: ApiService,public cookieService: CookieService, public dialog: MatDialog) {
@@ -115,13 +145,15 @@ export class UploaderComponent implements OnInit {
     this.apiService.fileservername[this.filenamevalc].splice(indexval,1);
   }
   setprofilepictureimage(img:any){
-    let data={images:img,email:this.cookieService.get('email')}
+    // let data={images:img,email:this.cookieService.get('email')};
+    let data={images:img,email:this.modeldataemailis};
     this.apiService.postData(this.endpoint, data).subscribe( res => {
       let result: any = {};
       result = res;
       console.log('result');
       console.log(result);
-      if (result.status == 'success') {
+      if (result.msg == 'success') {
+        this.profileimg = img;
         // show a modal for update
         const dialogRef = this.dialog.open(Updatetest4, {
           data: {msg: 'Profile Image Updated'},
@@ -130,7 +162,25 @@ export class UploaderComponent implements OnInit {
       }
     })
   }
-
+  setsecndpictureimage(img:any){
+    console.log('===========================');
+    console.log(img);
+    let data={images:img,email:this.modeldataemailis};
+    this.apiService.postData(this.endpointsecondimg, data).subscribe( res => {
+      let result: any = {};
+      result = res;
+      console.log('result');
+      console.log(result);
+      if (result.status == 'success') {
+        this.secondimg = img;
+        console.log(this.secondimg);
+        // show a modal for update
+        const dialogRef = this.dialog.open(Updatetest4, {
+          data: {msg: 'Image Updated'},
+        });
+      }
+    })
+  }
 }
 
 @Component({

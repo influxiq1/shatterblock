@@ -154,10 +154,14 @@
                        <!-- <li><span><img src="../../assets/images/admin_blocknewimg.jpg"></span></li>-->
                         <li *ngFor="let item of modeldata.images" (click)="changeimg(item)">
                             <span><img src="{{apiservice.uplodeimg_url}}/{{item}}">  </span>
-                            <button class="setpic2" mat-raised-button
-                                    matTooltip="Set as Profile Picture" (click)="setprofilepictureimage(item)" type="button">
-                            </button>
 
+
+                           <button class="setpic" mat-raised-button
+                                    matTooltip="Set as Profile Picture" (click)="setprofilepictureimage(item)" type="button" [ngClass]="item==profileimg ? 'setpic_active2' : ''">
+                            </button>
+                            <button class="setpic3" mat-raised-button
+                                    matTooltip="Set as Second Picture" (click)="setsecndpictureimage(item)" type="button" [ngClass]="item==secondimg ? 'setpic_active2' : ''">
+                            </button>
 
 
                         </li>

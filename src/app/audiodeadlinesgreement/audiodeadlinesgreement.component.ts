@@ -19,10 +19,13 @@ export class AudiodeadlinesgreementComponent implements OnInit {
   }
   openDialog(){
     this.errormsg='';
-    const dialogRef = this.modal.open(ModalaudiodeadlineComponent);{
+    console.log('-- '+this.fullname);
+   /* const dialogRef = this.modal.open(ModalaudiodeadlineComponent);{
       data: {myForm : this.fullname}
-    }
-
+    }*/
+    const dialogRef = this.modal.open(ModalaudiodeadlineComponent, {
+      data: {myForm : this.fullname}
+    });
     dialogRef.afterClosed().subscribe(result => {
       console.log(`Dialog result: ${result}`);
       this.fullname = result;
@@ -50,7 +53,7 @@ export class AudiodeadlinesgreementComponent implements OnInit {
         result = res;
         console.log('result');
         console.log(result);
-        if (result.status == 'success') {
+        if (result.data.status == 'success') {
           let data2={_id: this.cookieService.get('id')};
           let data3 = {"condition": data2,source:'users'};
           this.apiservice.postData(this.endpoint1, data3).subscribe( res => {

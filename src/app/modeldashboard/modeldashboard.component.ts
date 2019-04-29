@@ -17,9 +17,12 @@ export class ModeldashboardComponent implements OnInit {
   datasource:any;
   modeldata:any;
   modelimage:any;
+  profileimg:any;
+  secondimg:any;
  // endpoint:any='modellist';
   endpoint:any='datalist';
   endpoint1:any='artistxpprofileimageupdate';
+  secondimageupdate:any='secondimgupdate';
   model_influencer_contents_viewlistin_decending_jocu: any=[];
   model_influencer_contents_viewlistin_decending_audio: any=[];
 
@@ -60,8 +63,12 @@ export class ModeldashboardComponent implements OnInit {
         console.log(this.modeldata);
         if(this.modeldata.profile_img!=null){
         this.modelimage=this.apiservice.uplodeimg_url+'/'+this.modeldata.profile_img;
+          this.profileimg =this.modeldata.profile_img;
         }else{
           this.modelimage=this.apiservice.uplodeimg_url+'/'+this.modeldata.images[0];
+        }
+        if(this.modeldata.second_img!=null) {
+          this.secondimg = this.modeldata.second_img;
         }
       }
     });
@@ -75,7 +82,7 @@ export class ModeldashboardComponent implements OnInit {
   }
   setprofilepictureimage(img:any){
    // console.log(img);
-    let data={images:img,email:this.cookieService.get('email')}
+    let data={images:img,email:this.cookieService.get('email')};
     this.apiservice.postData(this.endpoint1, data).subscribe( res => {
       let result: any = {};
       result = res;
@@ -85,6 +92,21 @@ export class ModeldashboardComponent implements OnInit {
         // show a modal for update
         const dialogRef = this.dialog.open(Updatetest5, {
           data: {msg: 'Profile Image Updated'},
+        });
+      }
+    })
+  }
+  setsecndpictureimage(img:any){
+    let data={images:img,email:this.cookieService.get('email')};
+    this.apiservice.postData(this.secondimageupdate, data).subscribe( res => {
+      let result: any = {};
+      result = res;
+      console.log('result');
+      console.log(result);
+      if (result.msg == 'success') {
+        // show a modal for update
+        const dialogRef = this.dialog.open(Updatetest5, {
+          data: {msg: 'Image Updated'},
         });
       }
     })

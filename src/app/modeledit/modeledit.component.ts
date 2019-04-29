@@ -18,11 +18,14 @@ export interface DialogData {
 })
 export class ModeleditComponent implements OnInit {
     public modeldata : any;
+    public profileimg : any;
+    public secondimg : any;
     public modelid : any;
     public stateslist : any=[];
     endpoint:any='datalist';
     endpoint1:any='addorupdatedata';
     artistxpprofileimageupdate:any='artistxpprofileimageupdate';
+    secondimageupdate:any='secondimgupdate';
     public myForm: any;
     public modeldataimages: any;
 
@@ -35,10 +38,7 @@ export class ModeleditComponent implements OnInit {
     constructor(  public _http: HttpClient, private router: Router, public route : ActivatedRoute, public apiservice: ApiService,public cookieService: CookieService,public fb: FormBuilder, public dialog: MatDialog,public prevroute: prevroute) {
         let previousurl1 = this.prevroute.getPreviousUrl();
         console.log(previousurl1);
-        this.route.params.subscribe(params => {
-            this.modelid = params['pagename'];
-            console.log(this.modelid);
-        });
+
 
         this.myForm = this.fb.group({
                 id: [''],
@@ -90,69 +90,75 @@ export class ModeleditComponent implements OnInit {
         }, error => {
             console.log('Oooops!');
         });
-
-        let data1;
-        if(this.modelid==null){
-         data1={_id:this.cookieService.get('id')};
-        }else{
-            data1={_id:this.modelid};
-        }
-
-        let data2 = {"condition": data1,source:'users'};
-        this.apiservice.postData(this.endpoint, data2).subscribe( res => {
-            let result:any;
-            result = res;
-            console.log(result);
-            if(result.res.length>0){
-                this.modeldata=result.res[0];
-                console.log('this.modeldata');
-                console.log(this.modeldata);
-                console.log(this.modeldata.images);
-                this.modeldataimages = this.modeldata.images;
-                console.log('==========================');
-                console.log(this.modeldataimages.length);
-                this.myForm = this.fb.group({
-                        id: [this.modeldata._id],
-                        firstname: [this.modeldata.firstname, Validators.required],
-                        lastname: [this.modeldata.lastname, Validators.required],
-                        age: [this.modeldata.age, Validators.required],
-                        phone: [this.modeldata.phone, Validators.required],
-                        email: [this.modeldata.email, ModeleditComponent.validateEmail],
-                        city: [this.modeldata.city, Validators.required],
-                        state: [this.modeldata.state, Validators.required],
-                        ethnicity: [this.modeldata.ethnicity, Validators.required],
-                        height: [this.modeldata.height, Validators.required],
-                        eyecolor: [this.modeldata.eyecolor, Validators.required],
-                        haircolor: [this.modeldata.haircolor, Validators.required],
-                        weight: [this.modeldata.weight, Validators.required],
-                        bust: [this.modeldata.bust, Validators.required],
-                        waist: [this.modeldata.waist, Validators.required],
-                        hips: [this.modeldata.hips, Validators.required],
-                        /* password: ['', Validators.required],
-               confirmpassword: ['', Validators.required],*/
-                        athletic: [this.modeldata.athletic],
-                        slim: [this.modeldata.slim],
-                        toned: [this.modeldata.toned],
-                        voluptuous: [this.modeldata.voluptuous],
-                        tattoos: [this.modeldata.tattoos],
-                        piercings: [this.modeldata.piercings],
-                        promotions: [this.modeldata.promotions, Validators.required],
-                        sales: [this.modeldata.sales, Validators.required],
-                        retail: [this.modeldata.retail, Validators.required],
-                        descriptionbox: [this.modeldata.descriptionbox, Validators.required],
-                        facebooklink: [this.modeldata.facebooklink],
-                        instagramlink: [this.modeldata.instagramlink, Validators.required],
-                        twitterlink: [this.modeldata.twitterlink],
-                        modelmayhemlink: [this.modeldata.modelmayhemlink],
-                        // fileservername: [this.modeldata.firstname],
-                        // filelocalname: [this.modeldata.firstname],
-                        // type: [this.modeldata.firstname],
-                        // status: [''],
-                    }
-                    // , {validator: this.machpassword('password', 'confirmpassword')}
-                );
+        this.route.params.subscribe(params => {
+            this.modelid = params['pagename'];
+            console.log(this.modelid);
+            let data1;
+            if(this.modelid==null){
+                data1={_id:this.cookieService.get('id')};
+            }else{
+                data1={_id:this.modelid};
             }
+
+            let data2 = {"condition": data1,source:'users'};
+            this.apiservice.postData(this.endpoint, data2).subscribe( res => {
+                let result:any;
+                result = res;
+                console.log(result);
+                if(result.res.length>0){
+                    this.modeldata=result.res[0];
+                    console.log('this.modeldata');
+                    console.log(this.modeldata);
+                    console.log(this.modeldata.images);
+                    this.modeldataimages = this.modeldata.images;
+                    console.log('==========================');
+                    console.log(this.modeldataimages.length);
+                    this.myForm = this.fb.group({
+                            id: [this.modeldata._id],
+                            firstname: [this.modeldata.firstname, Validators.required],
+                            lastname: [this.modeldata.lastname, Validators.required],
+                            age: [this.modeldata.age, Validators.required],
+                            phone: [this.modeldata.phone, Validators.required],
+                            email: [this.modeldata.email, ModeleditComponent.validateEmail],
+                            city: [this.modeldata.city, Validators.required],
+                            state: [this.modeldata.state, Validators.required],
+                            ethnicity: [this.modeldata.ethnicity, Validators.required],
+                            height: [this.modeldata.height, Validators.required],
+                            eyecolor: [this.modeldata.eyecolor, Validators.required],
+                            haircolor: [this.modeldata.haircolor, Validators.required],
+                            weight: [this.modeldata.weight, Validators.required],
+                            bust: [this.modeldata.bust, Validators.required],
+                            waist: [this.modeldata.waist, Validators.required],
+                            hips: [this.modeldata.hips, Validators.required],
+                            /* password: ['', Validators.required],
+                             confirmpassword: ['', Validators.required],*/
+                            athletic: [this.modeldata.athletic],
+                            slim: [this.modeldata.slim],
+                            toned: [this.modeldata.toned],
+                            voluptuous: [this.modeldata.voluptuous],
+                            tattoos: [this.modeldata.tattoos],
+                            piercings: [this.modeldata.piercings],
+                            promotions: [this.modeldata.promotions, Validators.required],
+                            sales: [this.modeldata.sales, Validators.required],
+                            retail: [this.modeldata.retail, Validators.required],
+                            descriptionbox: [this.modeldata.descriptionbox, Validators.required],
+                            facebooklink: [this.modeldata.facebooklink],
+                            instagramlink: [this.modeldata.instagramlink, Validators.required],
+                            twitterlink: [this.modeldata.twitterlink],
+                            modelmayhemlink: [this.modeldata.modelmayhemlink],
+                            // fileservername: [this.modeldata.firstname],
+                            // filelocalname: [this.modeldata.firstname],
+                            // type: [this.modeldata.firstname],
+                            // status: [''],
+                        }
+                        // , {validator: this.machpassword('password', 'confirmpassword')}
+                    );
+                    this.profileimg =this.modeldata.profile_img;
+                    this.secondimg =this.modeldata.second_img;
+                }
+            });
         });
+
     }
     static validateEmail(control: FormControl){
         if (control.value == '') {

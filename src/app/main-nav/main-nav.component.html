@@ -25,6 +25,8 @@
       <mat-divider></mat-divider>
       <a mat-list-item role="listitem" [routerLink]="['/modelmyorders']" *ngIf="cookieService.get('type')=='model'">My orders</a>    <mat-divider></mat-divider>
       <a mat-list-item role="listitem" [routerLink]="['/modelmycommissions']" *ngIf="cookieService.get('type')=='model'">My commissions</a>
+      <mat-divider></mat-divider>
+     <!-- <a mat-list-item role="listitem" [routerLink]="['/siteadminsettings']" *ngIf="cookieService.get('type')=='admin'">Site Admins Sttings</a>-->
     </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content>

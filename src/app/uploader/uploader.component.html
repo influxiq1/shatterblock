@@ -20,10 +20,13 @@
                     <button class="closepic" (click)="delimage(i)">Delete</button>
 
                     <button class="setpic" mat-raised-button
-                            matTooltip="Set as Profile Picture" (click)="setprofilepictureimage(img)" type="button">
+                            matTooltip="Set as Profile Picture" (click)="setprofilepictureimage(img)" type="button" [ngClass]="img==profileimg ? 'setpic_active' : ''">
+                  </button>
+
+                            <button class="setpic3" mat-raised-button
+                                    matTooltip="Set as Second Picture" (click)="setsecndpictureimage(img)" type="button" [ngClass]="img==secondimg ? 'setpic_active' : ''">
                   </button>
                           </span>
-
 
 
                   </span>

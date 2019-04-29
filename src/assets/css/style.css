@@ -1280,7 +1280,7 @@ td.mat-cell:last-of-type, td.mat-footer-cell:last-of-type, th.mat-header-cell:la
     position: absolute;
     right: 2px;
     top: 2px;
-    background:#111 url(../images/imagedelete.png) center center;
+    background:#fff url(../images/imagedelete.png) center center;
     background-size: 100%;
     width: 26px;
     height: 26px;
@@ -1296,8 +1296,8 @@ td.mat-cell:last-of-type, td.mat-footer-cell:last-of-type, th.mat-header-cell:la
     position: absolute!important;
     left: 2px!important;
     top: 2px!important;
-    background: #fff url(../images/editprofile.png) 1px 2px no-repeat;
-    background-size: 24px!important;
+    background: #fff url(../images/editprofile.png) center top no-repeat;
+    background-size: 100%!important;
     width: 27px;
     height: 27px;
     border: none!important;
@@ -1312,14 +1312,33 @@ td.mat-cell:last-of-type, td.mat-footer-cell:last-of-type, th.mat-header-cell:la
 .uploadsection_wrapper .uploadthumimgbox:hover .setpic{ display: block;}
 
 
+.setpic3 {
+    position: absolute!important;
+    left: 40px!important;
+    top: 2px!important;
+    background: #eca817 url(../images/editprofile.png) center top no-repeat!important; /*change*/
+    background-size: 100%!important;
+    width: 27px;
+    height: 27px;
+    border: none!important;
+    font-size: 0px!important;
+    cursor: pointer!important;
+    border-radius: 100px!important;
+    padding: 0px!important;
+    min-width: inherit!important;
+}
+
+.uploadsection_wrapper .uploadthumimgbox .setpic3{ display: none;}
+.uploadsection_wrapper .uploadthumimgbox:hover .setpic3{ display: block;}
+
 .mat-button-wrapper{ background: none!important; height: 27px!important;}
 
 .setpic2 {
     position: absolute!important;
     left: 2px!important;
     top: 2px!important;
-    background: #fff url(../images/editprofile.png) 2px 2px no-repeat;
-    background-size: 24px!important;
+    background: #fff url(../images/editprofile.png) center top no-repeat;
+    background-size:100%!important;
     width: 27px;
     height: 27px;
     border: none!important;
@@ -1446,5 +1465,30 @@ tr.mat-header-row {
 .order_view1 .mat-card-content .mat-card-title{  font-family: 'Roboto'; font-size: 18px;}
 .order_view1 .mat-card-content .mat-card-subtitle{ margin-top: 10px; font-family: 'Roboto'; font-size: 16px; color: #fff; }
 
+
+
+/*
+.thumb_gallery_uploadselect {
+    width: 25px;
+    height: 25px;
+    position: absolute;
+    left: 5px;
+    background: #6a4b80;
+    top: 5px;
+    border-radius: 50%;
+    font-size: 18px;
+    overflow: hidden;
+    padding: 1px;
+    border: 2px solid #4e504f;
+    cursor: pointer;
+}*/
+
+
+
+
+.uploadsection_wrapper .uploadthumimgbox .setpic_active{ display: block!important;}
+
+
+.setpic_active2{ border: solid 2px #db2351!important;}
 
 

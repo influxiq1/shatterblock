@@ -21,7 +21,7 @@ public endpoint = 'addorupdatedata';
   openDialog(){
       this.errmsg='';
       const dialogRef = this.modal.open(ModalComponent, {
-         // data: {myForm: this.fullname},
+          data: {myForm: this.fullname},
       });
       
       
