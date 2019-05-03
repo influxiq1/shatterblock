@@ -2,12 +2,30 @@
 <!--<lib-myfrom [fields]="regConfig" (submit)="submit($event)"></lib-myfrom>-->
 
 <lib-listing *ngIf="pendingmodelapplicationarray!=null && pendingmodelapplicationarray.length>0"  [datasource]="pendingmodelapplicationarray" [skip]="pendingmodelapplicationarray_skip" [modify_header_array]="pendingmodelapplicationarray_modify_header" [apiurl]="_apiService.domain" [deleteendpoint]="delurl" [updateendpoint]="updateurl" [jwttoken]="_apiService.jwttoken" [sourcedata]="tablename"  [statusarr]="statusarray" [detail_datatype]="pendingmodelapplicationarray_detail_datatype"[editroute]="editroute"
-             [detail_skip_array]="pendingmodelapplicationarray_detail_skip"></lib-listing>
-
+             [detail_skip_array]="pendingmodelapplicationarray_detail_skip" [url]="custom_link" [pdf_link]="_apiService.Pdf_link" [searchList]="stateGroups"></lib-listing>
 
 
 <span class="bg_white">
-<lib-footer></lib-footer>
+
+<mat-form-field>
+    <input matInput [matDatepicker]="picker"autocomplete="off"  placeholder="Start Date"  [(ngModel)]="start_date" >
+    <mat-datepicker-toggle matSuffix [for]="picker" ></mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
+</mat-form-field>
+<mat-form-field>
+    <input matInput [matDatepicker]="picker1" autocomplete="off" placeholder="End Data" [(ngModel)]="end_date" >
+    <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+    <mat-datepicker #picker1 ></mat-datepicker>
+</mat-form-field>
+<button mat-button class="a1" (click)="showValue()">Submit</button>
+
+<!--<mat-card-content *ngFor="let item of custom_link">
+    <button mat-raised-button color="primary" [value]="item.url">{{item.label}}</button>
+
+</mat-card-content>-->
+
+
+<!--<lib-footer></lib-footer>-->
 </span>
     <!--<lib-myfrom [fields]="regConfig" (submit)="submit($event)"></lib-myfrom>-->
 <!--

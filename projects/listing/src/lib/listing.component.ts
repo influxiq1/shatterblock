@@ -8,9 +8,21 @@ import {SelectionModel} from '@angular/cdk/collections';
 import { ApiService } from './api.service';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 import {MatBottomSheet, MatBottomSheetRef,MAT_BOTTOM_SHEET_DATA} from '@angular/material';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import { Router } from "@angular/router";
+import {Observable} from 'rxjs';
+import {startWith, map} from 'rxjs/operators';
 
+export interface StateGroup {
+  letter: string;
+  names: string[];
+}
+
+export const _filter = (opt: string[], value: string): string[] => {
+  const filterValue = value.toLowerCase();
+
+  return opt.filter(item => item.toLowerCase().indexOf(filterValue) === 0);
+};
 
 /*import { FieldConfig } from "../lib/myfrom/field.interface";
 import { InputComponent } from "../lib/myfrom/input.component";
@@ -39,8 +51,16 @@ const componentMapper = {
 })
 export class ListingComponent implements OnInit {
 
+  /*stateForm: FormGroup = this.fb.group({
+    stateGroup: '',
+  });*/
+  myControl = new FormControl();
 
-  datasourceval:any;
+
+    datasourceval:any;
+  urlval:any;
+  searchListval:any;
+  pdf_link_val:any;
   statusarrval:any;
   skipval:any;
   errormg:any;
@@ -59,11 +79,24 @@ export class ListingComponent implements OnInit {
   public x :any;
 
 
- /* @Input()
-  set group(group: any) {
-    console.log(group);
-    group: FormGroup;
-  }*/
+  @Input()
+  set url(url: any) {
+    this.urlval = url;
+    console.log('this.urlval');
+    console.log(this.urlval);
+  }
+   @Input()
+  set pdf_link(pdf_link: any) {
+    this.pdf_link_val = pdf_link;
+    console.log('this.pdf_link_val');
+    console.log(this.pdf_link_val);
+  }
+  @Input()
+  set searchList(searchList: any) {
+    this.searchListval = searchList;
+    console.log('this.searchListval');
+    console.log(this.searchListval);
+  }
   @Input()
   set datasource(datasource: any) {
     this.datasourceval = datasource;
@@ -148,6 +181,9 @@ export class ListingComponent implements OnInit {
   }
 
 
+  stateGroups: string[] = this.searchListval;
+  stateGroup: Observable<string[]>;
+
   displayedColumns: string[] = [];
   datacolumns: string[] = [];
   displayedColumnsheader: string[] = [];
@@ -165,10 +201,10 @@ export class ListingComponent implements OnInit {
   constructor(public _apiService: ApiService,public dialog: MatDialog,private bottomSheet: MatBottomSheet,public fb: FormBuilder,private router: Router, private resolver: ComponentFactoryResolver,
               private container: ViewContainerRef) {
 
-    this.myForm = this.fb.group({
+   /* this.myForm = this.fb.group({
       email: ['', Validators.compose([Validators.required, Validators.pattern(/^\s*[\w\-\+_]+(\.[\w\-\+_]+)*\@[\w\-\+_]+\.[\w\-\+_]+(\.[\w\-\+_]+)*\s*$/)])],
       password: ['', Validators.required]
-    });
+    });*/
 
 
 
@@ -190,11 +226,24 @@ export class ListingComponent implements OnInit {
     }
   }
 
+
   inputblur(val:any){
     console.log('on blur .....');
     this.myForm.controls[val].markAsUntouched();
   }
   ngOnInit() {
+   /* this.stateGroupOptions = this.myControl.valueChanges
+        .pipe(
+            startWith(''),
+            map(value => this._filterGroup(value))
+        );*/
+
+    this.stateGroup = this.myControl.valueChanges
+        .pipe(
+            startWith(''),
+            map(value => this._filter(value))
+        );
+
     /*const factory = this.resolver.resolveComponentFactory(
         componentMapper[this.field.type]
     );
@@ -237,7 +286,7 @@ export class ListingComponent implements OnInit {
     this.displayedColumns =displayedcols;
     this.displayedColumns.unshift('select');
 
-    let data_list = []
+    let data_list = [];
     for (let i = 0; i < this.x.length; i++) {
       data_list.push(this.createData(x[i]));
     }
@@ -249,6 +298,25 @@ export class ListingComponent implements OnInit {
     this.dataSource.sort = this.sort;
   }
 
+  private _filter(value: string): string[] {
+    const filterValue = value.toLowerCase();
+
+    return this.searchListval.filter(option => option.toLowerCase().includes(filterValue));
+  }
+
+  /*private _filterGroup(value: string): StateGroup[] {
+   /!* if (value) {
+      return this.searchListval
+          .map(group => ({names: _filter(group.names, value)}))
+          .filter(group => group.names.length > 0);
+    }
+
+    return this.searchListval;*!/
+    const filterValue = value.toLowerCase();
+
+    return this.searchListval.filter(option => option.toLowerCase().includes(filterValue));
+  }*/
+
   getstatus(val:any){
     for(let b in this.statusarrval){
       if(this.statusarrval[b].val==val)
@@ -256,6 +324,29 @@ export class ListingComponent implements OnInit {
     }
     return "N/A";
   }
+  clickurl(val: any , url: any) {
+    console.log('ok');
+    console.log(val);
+    console.log(val._id);
+    console.log(url);
+    console.log(url + '' +val._id + '' + this.pdf_link_val);
+    let link= url + '' +val._id + '' + this.pdf_link_val;
+    window.open(link, "_blank");
+    // this.router.navigate([]);
+
+    /*let bs=this.bottomSheet.open(BottomSheet,{data:{items:this.urlval}});
+
+    bs.afterDismissed().subscribe(result => {
+      console.log('The bottom sheet was closed');
+      console.log(result);
+      if (result != null) {
+        val.status = result.val;
+        val.id = val._id;
+        console.log(val.id);
+      }
+    });*/
+  }
+
 
   /** Whether the number of selected elements matches the total number of rows. */
   isAllSelected() {
@@ -281,10 +372,10 @@ export class ListingComponent implements OnInit {
 
 
   createData(point:any){
-    let data = {}
+    let data = {};
     Object.keys(point).forEach(function (key) {
       data[key.replace(/\s/g, "_")] = point[key];
-    })
+    });
     return data
   }
 

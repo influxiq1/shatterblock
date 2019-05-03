@@ -6,11 +6,12 @@ import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import { ApiService } from './api.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {CommonModule} from "@angular/common";
-import { FooterComponent } from './footer/footer.component';
-import { MyfromComponent } from './myfrom/myfrom.component';
-import {DynamicFieldDirective} from "./myfrom/dynamic-field.directive";
+//import { FooterComponent } from './footer/footer.component';
+//import { MyfromComponent } from './myfrom/myfrom.component';
+//import {DynamicFieldDirective} from "./myfrom/dynamic-field.directive";
 import { MatFileUploadModule } from 'angular-material-fileupload';
 import {NgxUploaderModule} from "ngx-uploader";
+import {RouterModule} from "@angular/router";
 // import { FieldConfig } from './myfrom/field.interface';
 // import { DynamicFieldDirective } from './myfrom/dynamic-field.directive';
 // import { DynamicFormBuilderComponent } from '../lib/dynamic-form-builder/dynamic-form-builder.component';
@@ -26,7 +27,7 @@ import { RadioComponent } from '../lib/dynamic-form-builder/atoms/radio';
 
 
 @NgModule({
-  declarations: [ListingComponent,Confirmdialog,BottomSheet, FooterComponent, MyfromComponent,
+  declarations: [ListingComponent,Confirmdialog,BottomSheet,
   /*  FieldBuilderComponent,
     TextBoxComponent,
     DropDownComponent,
@@ -38,12 +39,14 @@ import { RadioComponent } from '../lib/dynamic-form-builder/atoms/radio';
         BrowserModule, BrowserAnimationsModule,
         DemoMaterialModule,
         FormsModule, ReactiveFormsModule,
-        MatFileUploadModule, NgxUploaderModule,
+        MatFileUploadModule, NgxUploaderModule, RouterModule,
         // DynamicFieldDirective,
 
     ],
-  exports: [ListingComponent, MyfromComponent, FooterComponent, NgxUploaderModule],
-  providers: [ApiService, DynamicFieldDirective],
+  exports: [ListingComponent,
+      //MyfromComponent,
+      NgxUploaderModule],
+  providers: [ApiService],
   entryComponents:[Confirmdialog,BottomSheet],
 })
 export class ListingModule {

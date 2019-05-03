@@ -3,6 +3,7 @@ import { Router,ActivatedRoute } from '@angular/router';
 import { ApiService } from '../api.service';
 import { Validators } from "@angular/forms";
 import {FieldConfig} from "../field.interface";
+declare var moment:any;
 
 /*export interface Validator {
     name: string;
@@ -27,12 +28,14 @@ export interface FieldConfig {
 })
 export class AdmindashbordComponent implements OnInit {
     componentRef: any;
-  datasource:any;
+    datasource:any;
     placeholder: any=['placeholder'];
     type: any=['text'];
     name: any=['Username'];
+    public end_date;
+    public start_date;
 
-
+    custom_link: any = [{label: 'Download Contract 1',url:'http://shatterblok.com/testpdf/html2pdf/shatterblok-agreement.php?id=',action:'null'},{label: 'Download Contract 2',url:'http://shatterblok.com/testpdf/html2pdf/audiodeadline-agreement.php?id=',action:'null'}];
     pendingmodelapplicationarray:any=[];
     pendingmodelapplicationarray_skip:any=['_id','type','password'];
     pendingmodelapplicationarray_detail_skip:any=['_id','email','name'];
@@ -49,6 +52,8 @@ export class AdmindashbordComponent implements OnInit {
     // editroute:any = [{val: 1, name:"hi"}];
 
   constructor(public router: Router,private route: ActivatedRoute,private _apiService: ApiService) {
+      console.log('custom_link');
+      console.log(this.custom_link);
     this.datasource='pendingapplication_view';
       this._apiService.getData({"source":"users","condition":{"type":"admin"}}).subscribe(res => {
           let result: any = {};
@@ -76,8 +81,75 @@ export class AdmindashbordComponent implements OnInit {
       });
   }
 
+    showValue(){
+        console.log("start date");
+        console.log(this.start_date);
+        console.log(this.end_date);
+    }
+    stateGroups:any = ['Alabama', 'Alaska', 'Arizona', 'Arkansas','California', 'Colorado', 'Connecticut','Delaware','Florida','Georgia','Hawaii','Idaho', 'Illinois', 'Indiana', 'Iowa','Kansas', 'Kentucky','Louisiana','Maine', 'Maryland', 'Massachusetts', 'Michigan','Minnesota', 'Mississippi', 'Missouri', 'Montana','Nebraska', 'Nevada', 'New Hampshire', 'New Jersey','New Mexico', 'New York', 'North Carolina', 'North Dakota']
+/*
+    stateGroups:any = [{
+        letter: 'A',
+        names: ['Alabama', 'Alaska', 'Arizona', 'Arkansas']
+    }, {
+        letter: 'C',
+        names: ['California', 'Colorado', 'Connecticut']
+    }, {
+        letter: 'D',
+        names: ['Delaware']
+    }, {
+        letter: 'F',
+        names: ['Florida']
+    }, {
+        letter: 'G',
+        names: ['Georgia']
+    }, {
+        letter: 'H',
+        names: ['Hawaii']
+    }, {
+        letter: 'I',
+        names: ['Idaho', 'Illinois', 'Indiana', 'Iowa']
+    }, {
+        letter: 'K',
+        names: ['Kansas', 'Kentucky']
+    }, {
+        letter: 'L',
+        names: ['Louisiana']
+    }, {
+        letter: 'M',
+        names: ['Maine', 'Maryland', 'Massachusetts', 'Michigan',
+            'Minnesota', 'Mississippi', 'Missouri', 'Montana']
+    }, {
+        letter: 'N',
+        names: ['Nebraska', 'Nevada', 'New Hampshire', 'New Jersey',
+            'New Mexico', 'New York', 'North Carolina', 'North Dakota']
+    }, {
+        letter: 'O',
+        names: ['Ohio', 'Oklahoma', 'Oregon']
+    }, {
+        letter: 'P',
+        names: ['Pennsylvania']
+    }, {
+        letter: 'R',
+        names: ['Rhode Island']
+    }, {
+        letter: 'S',
+        names: ['South Carolina', 'South Dakota']
+    }, {
+        letter: 'T',
+        names: ['Tennessee', 'Texas']
+    }, {
+        letter: 'U',
+        names: ['Utah']
+    }, {
+        letter: 'V',
+        names: ['Vermont', 'Virginia']
+    }, {
+        letter: 'W',
+        names: ['Washington', 'West Virginia', 'Wisconsin', 'Wyoming']
+    }];*/
 
-    regConfig: FieldConfig[] = [
+    /*regConfig: FieldConfig[] = [
         {
             type: "input",
             label: "Username",
@@ -95,7 +167,7 @@ export class AdmindashbordComponent implements OnInit {
                     message: "Accept only text"
                 }
             ]
-        } /*,
+        } /!*,
         {
             type: "input",
             label: "Email Address",
@@ -187,8 +259,8 @@ export class AdmindashbordComponent implements OnInit {
         {
             type: "button",
             label: "Save"
-        }*/
+        }*!/
     ];
 
-    submit(value: any) {}
+    submit(value: any) {}*/
 }
