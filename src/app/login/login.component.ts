@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
-import {ActivatedRouteSnapshot, Router} from '@angular/router';
+import {ActivatedRouteSnapshot, Router, ActivatedRoute} from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 import { ApiService } from '../api.service';
 import { Resolveservice } from '../resolveservice';
@@ -16,12 +16,30 @@ export class LoginComponent implements OnInit {
     public endpoint = 'login';
     public myForm: any;
     public result: any;
+    public path: any;
+    public id: any;
     // public url1: any = '';
     // public serverurl: any = '';
     public errormg: any = '';
     public ipinfo: any = {};
 
-    constructor(public fb: FormBuilder, private cookieService: CookieService, public http: HttpClient, public apiService: ApiService, public router: Router, public resolveservice: Resolveservice) {
+    constructor(public fb: FormBuilder, private cookieService: CookieService, public http: HttpClient, public apiService: ApiService, public router: Router, public route: ActivatedRoute, public resolveservice: Resolveservice) {
+        this.route.params.subscribe(params =>{
+
+            this.path = params['path'];
+            console.log('this.path');
+            console.log(this.path);
+            this.id=params['id'];
+            console.log('this.id');
+            console.log(this.id);
+            if (this.path == 'model_details') {
+
+                this.router.navigate(['/model_details',this.id]);
+
+            }else {
+                this.router.navigate(['/login']);
+            }
+        })
         // this.url1 = apiService.domain;
         // console.log("url");
         // console.log(this.url1);
@@ -44,6 +62,7 @@ export class LoginComponent implements OnInit {
             console.log(res);
             this.ipinfo=res;
         });
+
     }
     onForgetPassword() {
 

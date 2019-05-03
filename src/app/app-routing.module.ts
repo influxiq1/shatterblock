@@ -33,11 +33,13 @@ import {VieworderdetailsComponent} from "./vieworderdetails/vieworderdetails.com
 import {ViewcommissiondetailsComponent} from "./viewcommissiondetails/viewcommissiondetails.component";
 import {ModelcommissionsComponent} from "./modelcommissions/modelcommissions.component";
 import {SiteadminsettingsComponent} from "./siteadminsettings/siteadminsettings.component";
+import {AdminemailComponent} from "./adminemail/adminemail.component";
 
 const routes: Routes = [
   { path: "admin", component: AdminmanagementComponent, canActivate: [AuthGuard] },
   { path: "login", component: LoginComponent},
-  { path: "", component: LoginComponent},
+  { path: "login/:path/:id", component: LoginComponent, resolve: {results: Resolveservice}, data: { source: 'allmodelllist', condition: {_id: 'id'}}},
+  { path: "model_details/:id", component: AdminemailComponent, resolve: {results: Resolveservice}, data: { source: 'allmodelllist', condition: {_id: 'id'}}},
   { path: "brand", component: BrandmanagementComponent, canActivate: [AuthGuard] },
   { path: "influencers", component: InfluencersmanagementComponent, canActivate:[AuthGuard] },
   { path: "influencersdashboard", component: InfluencersdashbordComponent, canActivate: [AuthGuard]},

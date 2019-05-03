@@ -18,7 +18,7 @@ export class AdmindashbordComponent implements OnInit {
     editrouteorder:any='vieworderdetails';
     editroutecommission:any='viewcommissiondetails';
 
-
+    custom_link: any = [{label: 'Download Contract 1',url:'http://shatterblok.com/testpdf/html2pdf/shatterblok-agreement.php?id=',action:'null'},{label: 'Download Contract 2',url:'http://shatterblok.com/testpdf/html2pdf/audiodeadline-agreement.php?id=',action:'null'}];
     pendingapplication_view: any=[];
     pendingapplication_view_skip: any= ['_id','username','phone','city','state','ethnicity','height','haircolor','eyecolor','weight','bust','waist','hips','slim','toned','tattoos','athletic','piercings','retail','voluptuous','promotions','sales','descriptionbox','facebooklink','twitterlink','instagramlink','modelmayhemlink','type','images'];
     pendingapplication_view_modify_header1: any = { 'dateformat': 'Date','status':'Status','email':'Email', 'name':'Full Name' , 'bodytype' : 'Bodytype' };
@@ -66,6 +66,7 @@ export class AdmindashbordComponent implements OnInit {
     tablename='users';
     tablename1='joquuser';
     tablename2='demoname';
+    stateGroups:any = ['Alabama', 'Alaska', 'Arizona', 'Arkansas','California', 'Colorado', 'Connecticut','Delaware','Florida','Georgia','Hawaii','Idaho', 'Illinois', 'Indiana', 'Iowa','Kansas', 'Kentucky','Louisiana','Maine', 'Maryland', 'Massachusetts', 'Michigan','Minnesota', 'Mississippi', 'Missouri', 'Montana','Nebraska', 'Nevada', 'New Hampshire', 'New Jersey','New Mexico', 'New York', 'North Carolina', 'North Dakota']
 
     constructor(public router: Router,private route: ActivatedRoute, public apiservice: ApiService,public prevroute: prevroute) {
         let previousurl = this.prevroute.getPreviousUrl();

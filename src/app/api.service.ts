@@ -13,6 +13,7 @@ export class ApiService {
 
     public domain =  environment["API_URL"];
     public _url = environment["API_URL"];
+    public Pdf_link = environment["Pdf_link"];
     public Audiodeadline_API_URL = environment["Audiodeadline_API_URL"];
     public uplodeimg_url = environment["uplodeimg_url"];
     public audio_img_url = environment["audio_img_url"];

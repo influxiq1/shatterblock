@@ -1,6 +1,6 @@
-body{ margin: 0; padding: 0; background: #000!important;}
+body{ margin: 0; padding: 0; }
 
-
+.innerloder{ width:120px; margin:0 auto;}
 @font-face {
     font-family: 'RobotoBold';
     src: url('../fonts/Roboto-Bold.eot');
@@ -131,12 +131,12 @@ font-family: 'Noteworthy';
 
 
 .s_getmyoffer {
-    background:none!important; border-radius: 0px!important;  margin: 0!important; padding: 0!important;
+    background:none!important; border-radius: 0px!important;  margin: 0!important;
 }
 
 .s_getmyoffer .s_shatter_logo {
     width: 500px;
-    margin: 30px auto; max-width: 90%; display: block; margin-top: 100px!important;
+    margin: 30px auto; max-width: 90%; display: block;
 }
 
 .s_getmyoffer_login_wrapper {
@@ -931,6 +931,19 @@ td.mat-cell:last-of-type, td.mat-footer-cell:last-of-type, th.mat-header-cell:la
     color: #fff; display: block; margin: 0; }
 
 
+.btnmodellist .mat-button{
+    border-radius: 35px;
+    width: auto; padding: 7px 30px;
+
+    font-family: 'OpenSans';
+    font-size: 22px!important;
+    background-color: #faa318;
+    color: #fff; display: inline-block; margin-right:10px; margin-bottom: 10px;
+}
+
+.btnmodellist .mat-button:last-child{margin-right: 0px !important; margin-bottom: 0px;}
+
+
 .ad_profileblock_right h3{     margin: 0; clear: both;; overflow: hidden;
     padding: 10px 0 40px 0;
     display: block;
@@ -1491,4 +1504,8 @@ tr.mat-header-row {
 
 .setpic_active2{ border: solid 2px #db2351!important;}
 
-
+p,h1,h2,h3,h4,h5,h6{ margin: 0;}
+.bg-white {
+    background: #fff;
+    height: 100%;
+}

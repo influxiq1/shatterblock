@@ -12,6 +12,7 @@ import {CookieService} from "ngx-cookie-service";
 export class AudiodeadlinesgreementComponent implements OnInit {
   fullname: string;
   public errormsg: any;
+  public successmsg: any;
   public endpoint = 'addorupdatedata';
   public endpoint1 = 'datalist';
   constructor(public modal: MatDialog, public apiservice: ApiService,public cookieService:CookieService, public router: Router) {
@@ -49,6 +50,7 @@ export class AudiodeadlinesgreementComponent implements OnInit {
     console.log(data);
     if (this.fullname != '' && this.fullname!= null) {
       this.apiservice.postData(this.endpoint, data1).subscribe(res => {
+        this.successmsg = true;
         let result: any = {};
         result = res;
         console.log('result');
@@ -64,7 +66,11 @@ export class AudiodeadlinesgreementComponent implements OnInit {
             this.router.navigate(['/modeldashboard']);
           })
         }
+      },error => {
+        this.successmsg = false;
+        this.onAgreement();
       })
+
     } else {
       this.errormsg = "Sign is required";
     }

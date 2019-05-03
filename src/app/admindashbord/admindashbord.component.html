@@ -14,7 +14,10 @@
                                 [sourcedata]="tablename"
                                 [detail_datatype]="pendingapplication_view_detail_datatype"
                                 [detail_skip_array]="pendingapplication_view_detail_skip"
-                                [editroute]="editroute1">
+                                [editroute]="editroute1"
+                                [url]="custom_link"
+                                [pdf_link]="apiservice.Pdf_link"
+                                [searchList]="stateGroups">
                 </lib-listing>
                 <h3 *ngIf="pendingapplication_view==null || pendingapplication_view.length==0">No records found</h3>
 

@@ -69,6 +69,7 @@ import { VieworderdetailsComponent } from './vieworderdetails/vieworderdetails.c
 import { ViewcommissiondetailsComponent } from './viewcommissiondetails/viewcommissiondetails.component';
 import { ModelcommissionsComponent } from './modelcommissions/modelcommissions.component';
 import { SiteadminsettingsComponent } from './siteadminsettings/siteadminsettings.component';
+import { AdminemailComponent } from './adminemail/adminemail.component';
 
 @NgModule({
   declarations: [
@@ -105,7 +106,8 @@ import { SiteadminsettingsComponent } from './siteadminsettings/siteadminsetting
     VieworderdetailsComponent,
     ViewcommissiondetailsComponent,
     ModelcommissionsComponent,
-    SiteadminsettingsComponent
+    SiteadminsettingsComponent,
+    AdminemailComponent
 
 
     //Resolveservice,
