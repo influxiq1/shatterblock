@@ -32,8 +32,7 @@ export class AdmindashbordComponent implements OnInit {
     placeholder: any=['placeholder'];
     type: any=['text'];
     name: any=['Username'];
-    public end_date;
-    public start_date;
+
 
     custom_link: any = [{label: 'Download Contract 1',url:'http://shatterblok.com/testpdf/html2pdf/shatterblok-agreement.php?id=',action:'null'},{label: 'Download Contract 2',url:'http://shatterblok.com/testpdf/html2pdf/audiodeadline-agreement.php?id=',action:'null'}];
     pendingmodelapplicationarray:any=[];
@@ -49,6 +48,7 @@ export class AdmindashbordComponent implements OnInit {
     updateurl='addorupdatedata';
     delurl='deletesingledata';
     tablename='users';
+    serachendpoint='datalist';
     // editroute:any = [{val: 1, name:"hi"}];
 
   constructor(public router: Router,private route: ActivatedRoute,private _apiService: ApiService) {
@@ -81,11 +81,7 @@ export class AdmindashbordComponent implements OnInit {
       });
   }
 
-    showValue(){
-        console.log("start date");
-        console.log(this.start_date);
-        console.log(this.end_date);
-    }
+
     stateGroups:any = ['Alabama', 'Alaska', 'Arizona', 'Arkansas','California', 'Colorado', 'Connecticut','Delaware','Florida','Georgia','Hawaii','Idaho', 'Illinois', 'Indiana', 'Iowa','Kansas', 'Kentucky','Louisiana','Maine', 'Maryland', 'Massachusetts', 'Michigan','Minnesota', 'Mississippi', 'Missouri', 'Montana','Nebraska', 'Nevada', 'New Hampshire', 'New Jersey','New Mexico', 'New York', 'North Carolina', 'North Dakota']
 /*
     stateGroups:any = [{

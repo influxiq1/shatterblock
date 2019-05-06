@@ -2,10 +2,11 @@
 <!--<lib-myfrom [fields]="regConfig" (submit)="submit($event)"></lib-myfrom>-->
 
 <lib-listing *ngIf="pendingmodelapplicationarray!=null && pendingmodelapplicationarray.length>0"  [datasource]="pendingmodelapplicationarray" [skip]="pendingmodelapplicationarray_skip" [modify_header_array]="pendingmodelapplicationarray_modify_header" [apiurl]="_apiService.domain" [deleteendpoint]="delurl" [updateendpoint]="updateurl" [jwttoken]="_apiService.jwttoken" [sourcedata]="tablename"  [statusarr]="statusarray" [detail_datatype]="pendingmodelapplicationarray_detail_datatype"[editroute]="editroute"
-             [detail_skip_array]="pendingmodelapplicationarray_detail_skip" [url]="custom_link" [pdf_link]="_apiService.Pdf_link" [searchList]="stateGroups"></lib-listing>
+             [detail_skip_array]="pendingmodelapplicationarray_detail_skip" [url]="custom_link" [pdf_link]="_apiService.Pdf_link" [searchList]="stateGroups" [serachendpoint]="serachendpoint"></lib-listing>
 
 
 <span class="bg_white">
+<!--
 
 <mat-form-field>
     <input matInput [matDatepicker]="picker"autocomplete="off"  placeholder="Start Date"  [(ngModel)]="start_date" >
@@ -18,6 +19,7 @@
     <mat-datepicker #picker1 ></mat-datepicker>
 </mat-form-field>
 <button mat-button class="a1" (click)="showValue()">Submit</button>
+-->
 
 <!--<mat-card-content *ngFor="let item of custom_link">
     <button mat-raised-button color="primary" [value]="item.url">{{item.label}}</button>
