@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { CookieService } from 'ngx-cookie-service';
 import {Router} from "@angular/router";
+import { ApiService } from '../api.service';
 @Component({
   selector: 'app-main-nav',
   templateUrl: './main-nav.component.html',
@@ -16,7 +17,7 @@ export class MainNavComponent {
       map(result => result.matches)
     );
 
-  constructor(private breakpointObserver: BreakpointObserver,public cookieService: CookieService, public router:Router) {}
+  constructor(private breakpointObserver: BreakpointObserver,public cookieService: CookieService, public router:Router, public apiService: ApiService) {}
 
   logout(){
     this.cookieService.deleteAll();

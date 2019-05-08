@@ -18,7 +18,7 @@ export class AdmindashbordComponent implements OnInit {
     editrouteorder:any='vieworderdetails';
     editroutecommission:any='viewcommissiondetails';
 
-    custom_link: any = [{label: 'Download Contract 1',url:'http://shatterblok.com/testpdf/html2pdf/shatterblok-agreement.php?id=',action:'null'},{label: 'Download Contract 2',url:'http://shatterblok.com/testpdf/html2pdf/audiodeadline-agreement.php?id=',action:'null'}];
+    custom_link: any = [{label: 'shatterblok-agreement',url:'http://shatterblok.com/testpdf/html2pdf/shatterblok-agreement.php?id=',action:'null'},{label: 'audiodeadline-agreement',url:'http://shatterblok.com/testpdf/html2pdf/audiodeadline-agreement.php?id=',action:'null'}];
     pendingapplication_view: any=[];
     pendingapplication_view_skip: any= ['_id','username','phone','city','state','ethnicity','height','haircolor','eyecolor','weight','bust','waist','hips','slim','toned','tattoos','athletic','piercings','retail','voluptuous','promotions','sales','descriptionbox','facebooklink','twitterlink','instagramlink','modelmayhemlink','type','images'];
     pendingapplication_view_modify_header1: any = { 'dateformat': 'Date','status':'Status','email':'Email', 'name':'Full Name' , 'bodytype' : 'Bodytype' };

@@ -7,6 +7,7 @@ export const environment = {
    // API_URL: 'http://nodessl.influxiq.com:7012/',
    // API_URL: 'http://18.222.26.198:7002/',
     Pdf_link: '&environment=development',
+    loginurl: 'https://development.shatterblok.com/',
     API_URL: 'https://nodessl.influxiq.com:6053/',
     Audiodeadline_API_URL: 'https://developmentapi.audiodeadline.com:6004/',
    // resetpaswordurl: 'http://development.shatterblokbackend.com.s3-website.us-east-2.amazonaws.com/',

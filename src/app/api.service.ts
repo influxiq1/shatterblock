@@ -12,6 +12,7 @@ import { UploadOutput, UploadInput, UploadFile, humanizeBytes, UploaderOptions, 
 export class ApiService {
 
     public domain =  environment["API_URL"];
+    public loginurl = environment['loginurl'];
     public _url = environment["API_URL"];
     public Pdf_link = environment["Pdf_link"];
     public Audiodeadline_API_URL = environment["Audiodeadline_API_URL"];

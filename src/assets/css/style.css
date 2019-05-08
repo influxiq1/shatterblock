@@ -293,11 +293,14 @@ tr.mat-header-row {
     height: 56px;
     background: gainsboro;
 }
-td.mat-cell:last-of-type, td.mat-footer-cell:last-of-type, th.mat-header-cell:last-of-type{ width: 11%;}
+td.mat-cell:last-of-type, td.mat-footer-cell:last-of-type, th.mat-header-cell:last-of-type{ width: auto; padding-right: 10px!important;}
 .action_button_wrap{ display: flex; justify-content: space-around;}
 .add_button{ float: right; margin-right: 17px!important; text-transform: uppercase; width: 150px;     background: #7028a5!important;
     color: rgb(255, 255, 255)!important;
 }
+
+table th .mat-checkbox-inner-container{ margin-right: 10px !important;}
+
 /*.mat-form-field{display: block!important;}*/
 
 .adminform{ width: 45vw; margin: 40px auto; }
@@ -696,7 +699,7 @@ td.mat-cell:last-of-type, td.mat-footer-cell:last-of-type, th.mat-header-cell:la
     background: #410146!important;
     color: #fff!important;
 }
-.cursor{ cursor: pointer;}
+.cursor{ cursor: pointer; margin: 0 5px;}
 .cursor:nth-child(1){ color: #008000;}
 .cursor:nth-child(2){ color: #ff0000;}
 .cursor:nth-child(3){ color: #410146;}
@@ -1509,3 +1512,60 @@ p,h1,h2,h3,h4,h5,h6{ margin: 0;}
     background: #fff;
     height: 100%;
 }
+.artistxp_logo_w{
+    background: #000!important;
+    text-align: center;
+    padding: 0!important;
+}
+.artistxp_logo_w img{ margin: 10px;}
+.audiodeadline .newhomelogo{ margin: 15px 0 0 0}
+.artistxp_contract { width: 90%; margin: 20px auto;}
+
+.artistxp_contract  .agreement_header{ background: #ff1493; padding: 10px 0; color: #fff; font-size: 30px; font-family: 'RobotoBold'; text-align: center; margin-bottom: 20px; }
+.artistxp_contract h1{
+    position: relative;
+    font-size: 20px;
+    font-family: 'RobotoMedium';
+    margin: 15px 0;
+    color: #292929;
+}
+.artistxp_contract p{ font-family: 'RobotoRegular'; font-size: 16px;}
+.artistxp_contract .loweralphabracket{ font-family: 'RobotoRegular'; font-size: 17px;}
+.artistxp_contract .loweralphabracket li{ margin-bottom: 10px;}
+
+.artistxp_contract h1::before{
+    content: '\2713';
+    width: 25px;
+    height: 25px;
+    background: #f31190;
+    color: #fff;
+    position: absolute;
+    left: -33px;
+    border-radius: 50%;
+    text-align: center;
+}
+.artistxp_contract h5{
+    font-size: 20px;
+    font-family: 'RobotoMedium';
+    margin: 15px 0;
+    color: #292929;}
+.artistxp_confirm_modal{
+    border: 5px solid #f31190!important;
+}
+
+
+.left_nav_menu .mat-list-item-content .mat-expansion-panel{ width: 100%; border-radius: 0; background: #000; }
+.left_nav_menu .mat-list-item-content .mat-expansion-panel .mat-expansion-panel-header{ padding: 0!important; font-size: 16px;!important;}
+.left_nav_menu .mat-list-item-content .mat-expansion-panel .mat-expansion-panel-header-title{
+    color: #fff!important;}
+
+.mat-expansion-panel-body{ padding: 0!important;}
+.mat-expansion-indicator::after, .mat-expansion-panel-header-description {
+    color: #fff!important;
+}
+.mat-expansion-panel .mat-divider{ border-bottom: 1px solid #fff!important; }
+.mat-list-base .mat-list-item .mat-list-item-content, .mat-list-base .mat-list-option .mat-list-item-content{
+    color: #fff;
+}
+
+.mat-expansion-panel .mat-nav-list .mat-list-item { border-bottom: 1px solid #fff!important;}

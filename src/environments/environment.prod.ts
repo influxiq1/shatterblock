@@ -2,6 +2,7 @@ export const environment = {
   production: true,
  // API_URL: 'http://18.222.26.198:7002/',
   Pdf_link: '&environment=live',
+  loginurl: 'https://shatterblok.com/',
   API_URL: 'https://nodessl.influxiq.com:6033/',
   Audiodeadline_API_URL: 'https://api.audiodeadline.com:6004/',
   // resetpaswordurl: 'http://shatterblokbackend.com.s3-website.us-east-2.amazonaws.com/',

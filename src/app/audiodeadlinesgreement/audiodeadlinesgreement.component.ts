@@ -12,6 +12,7 @@ import {CookieService} from "ngx-cookie-service";
 export class AudiodeadlinesgreementComponent implements OnInit {
   fullname: string;
   public errormsg: any;
+  public show: any = false;
   public successmsg: any;
   public endpoint = 'addorupdatedata';
   public endpoint1 = 'datalist';
@@ -30,6 +31,7 @@ export class AudiodeadlinesgreementComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       console.log(`Dialog result: ${result}`);
       this.fullname = result;
+      this.show = true;
       console.log('this.myForm');
       console.log(this.fullname);
     });

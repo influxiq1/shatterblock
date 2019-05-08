@@ -1,3 +1,4 @@
+<!--
 <mat-sidenav-container class="sidenav-container">
   <mat-sidenav #drawer class="sidenav" fixedInViewport="true"
       [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
@@ -5,7 +6,7 @@
       [opened]="!(isHandset$ | async)">
     <mat-toolbar>
       <span class="s_shatter_logo_wrapper">
-         <!-- <img src="../../assets/images/shaterblockLogo.png" alt="#" >-->
+         &lt;!&ndash; <img src="../../assets/images/shaterblockLogo.png" alt="#" >&ndash;&gt;
           <img src="../../assets/images/adminshaterblockLogo.png" alt="#" >
       </span>
     </mat-toolbar>
@@ -17,8 +18,8 @@
       <mat-divider></mat-divider>
       <a mat-list-item role="listitem" [routerLink]="['/joquprocesslist']" *ngIf="cookieService.get('type')=='admin'">Joqu Process List</a>
       <mat-divider></mat-divider>
-      <!--<a mat-list-item role="listitem" [routerLink]="['/orderdetails']" *ngIf="cookieService.get('type')=='admin'">Order Details</a>-->
-      <!--<mat-divider></mat-divider>-->
+      &lt;!&ndash;<a mat-list-item role="listitem" [routerLink]="['/orderdetails']" *ngIf="cookieService.get('type')=='admin'">Order Details</a>&ndash;&gt;
+      &lt;!&ndash;<mat-divider></mat-divider>&ndash;&gt;
       <a mat-list-item role="listitem" [routerLink]="['/adminlist']" *ngIf="cookieService.get('type')=='admin'">Admin List</a>
       <mat-divider></mat-divider>
       <a mat-list-item role="listitem" [routerLink]="['/adminform']" *ngIf="cookieService.get('type')=='admin'">Add Admin</a>
@@ -26,7 +27,7 @@
       <a mat-list-item role="listitem" [routerLink]="['/modelmyorders']" *ngIf="cookieService.get('type')=='model'">My orders</a>    <mat-divider></mat-divider>
       <a mat-list-item role="listitem" [routerLink]="['/modelmycommissions']" *ngIf="cookieService.get('type')=='model'">My commissions</a>
       <mat-divider></mat-divider>
-     <!-- <a mat-list-item role="listitem" [routerLink]="['/siteadminsettings']" *ngIf="cookieService.get('type')=='admin'">Site Admins Sttings</a>-->
+     &lt;!&ndash; <a mat-list-item role="listitem" [routerLink]="['/siteadminsettings']" *ngIf="cookieService.get('type')=='admin'">Site Admins Sttings</a>&ndash;&gt;
     </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content>
@@ -37,6 +38,91 @@
         mat-icon-button
         (click)="drawer.toggle()"
         *ngIf="isHandset$ | async">
+        <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+      </button>
+      <span>Shatterblok</span>
+      <span class="example-spacer"></span>
+      <button mat-button color="primary">
+      <span class="profile_wrap">
+        <img src="http://www.titikshapublicschool.com/wp-content/uploads/2018/11/developer-api.jpg">
+      </span>
+      </button>
+      <mat-menu #appMenu="matMenu">
+        <button mat-menu-item>Settings</button>
+        <button mat-menu-item>Help</button>
+        <button mat-menu-item (click)="logout()">Log out</button>
+      </mat-menu>
+
+      <button mat-icon-button [matMenuTriggerFor]="appMenu">
+        <mat-icon>more_vert</mat-icon>
+      </button>
+    </mat-toolbar>
+    &lt;!&ndash; Add Content Here &ndash;&gt;
+    <ng-content></ng-content>
+  </mat-sidenav-content>
+</mat-sidenav-container>
+-->
+
+
+
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav #drawer class="sidenav" fixedInViewport="true"
+               [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+               [mode]="(isHandset$ | async) ? 'over' : 'side'"
+               [opened]="!(isHandset$ | async)">
+    <mat-toolbar>
+      <span class="s_shatter_logo_wrapper">
+         <!-- <img src="../../assets/images/shaterblockLogo.png" alt="#" >-->
+          <img src="../../assets/images/adminshaterblockLogo.png" alt="#" >
+      </span>
+    </mat-toolbar>
+    <mat-nav-list class="left_nav_menu">
+      <a mat-list-item role="listitem" class="active" target="_blank" href="{{apiService.loginurl}}">HOME</a>
+    <!--  <a mat-list-item role="listitem" class="active" [routerLink]="['/modeldashboard']" *ngIf="cookieService.get('type')=='model'">HOME</a>-->
+      <mat-divider></mat-divider>
+      <a mat-list-item role="listitem" class="active" [routerLink]="['/admindashboard']" *ngIf="cookieService.get('type')=='admin'">DASHBOARD</a>
+      <a mat-list-item role="listitem" class="active" [routerLink]="['/modeldashboard']" *ngIf="cookieService.get('type')=='model'">DASHBOARD</a>
+      <mat-divider></mat-divider>
+      <a mat-list-item role="listitem">
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              USER MANAGEMENT
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <mat-divider></mat-divider>
+          <a mat-list-item role="listitem">RECENT SIGN-UPS</a>
+          <a mat-list-item role="listitem" >ACTIVE USERS</a>
+        </mat-expansion-panel>
+
+      </a>
+
+      <!--<a mat-list-item role="listitem" [routerLink]="['/managedashboard']" *ngIf="cookieService.get('type')=='admin'">Manage Dashboard</a>-->
+      <mat-divider></mat-divider>
+      <a mat-list-item role="listitem" [routerLink]="['/joquprocesslist']" *ngIf="cookieService.get('type')=='admin'">JOQU APPLICATION</a>
+      <mat-divider></mat-divider>
+      <a mat-list-item role="listitem" [routerLink]="['/orderdetails']" *ngIf="cookieService.get('type')=='admin'">ORDER LIST</a>
+      <mat-divider></mat-divider>
+      <a mat-list-item role="listitem" [routerLink]="['/orderdetails']" *ngIf="cookieService.get('type')=='admin'">COMMISION REPORT</a>
+      <mat-divider></mat-divider>
+      <a mat-list-item role="listitem" [routerLink]="['/adminlist']" >ADMIN LIST</a>
+      <mat-divider></mat-divider>
+      <a mat-list-item role="listitem" [routerLink]="['/adminform']">MY ACCOUNT</a>
+      <mat-divider></mat-divider>
+      <mat-divider></mat-divider>
+      <a mat-list-item role="listitem" (click)="logout()">LOG OUT</a>
+      <mat-divider></mat-divider>
+
+    </mat-nav-list>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <mat-toolbar color="primary" class="topbar">
+      <button
+              type="button"
+              aria-label="Toggle sidenav"
+              mat-icon-button
+              (click)="drawer.toggle()"
+              *ngIf="isHandset$ | async">
         <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
       </button>
       <span>Shatterblok</span>
