@@ -1,6 +1,8 @@
 export const environment = {
   production: true,
  // API_URL: 'http://18.222.26.198:7002/',
+  download_shatter_url: 'http://shatterblok.com/testpdf/html2pdf/shatterblok-agreement.php?id=',
+  download_artistxp_url: 'http://shatterblok.com/testpdf/html2pdf/artistxp-agreement.php?id=',
   Pdf_link: '&environment=live',
   loginurl: 'https://shatterblok.com/',
   API_URL: 'https://nodessl.influxiq.com:6033/',

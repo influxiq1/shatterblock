@@ -12,6 +12,8 @@ import { UploadOutput, UploadInput, UploadFile, humanizeBytes, UploaderOptions, 
 export class ApiService {
 
     public domain =  environment["API_URL"];
+    public download_shatter_url =  environment["download_shatter_url"];
+    public download_artistxp_url =  environment["download_artistxp_url"];
     public loginurl = environment['loginurl'];
     public _url = environment["API_URL"];
     public Pdf_link = environment["Pdf_link"];

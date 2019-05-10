@@ -159,14 +159,17 @@ export class LoginComponent implements OnInit {
                     this.router.navigate(['/influencersdashboard']);
                 } else if (result.status == 'success' && result.item[0].type == 'model') {
                     if(result.item[0].status==1){
+                        this.cookieService.delete('status', result.item[0].status);
+                        this.cookieService.set('status', result.item[0].status);
                         this.router.navigate(['/agreement']);
-                        // this.cookieService.set('status', result.item[0].status);
                     }
                     if(result.item[0].status==2){
+                        this.cookieService.delete('status', result.item[0].status);
                         this.cookieService.set('status', result.item[0].status);
                         this.router.navigate(['/audioseadlineagreement']);
                     }
                     if(result.item[0].status==3){
+                        this.cookieService.delete('status');
                         this.cookieService.set('status', result.item[0].status);
                         this.cookieService.set('modelaffiliateemail', result.item[0].auidodeadineusername);
                         this.router.navigate(['/modeldashboard']);

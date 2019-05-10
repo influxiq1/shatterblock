@@ -18,6 +18,7 @@ export class AudiodeadlinesgreementComponent implements OnInit {
   public endpoint1 = 'datalist';
   constructor(public modal: MatDialog, public apiservice: ApiService,public cookieService:CookieService, public router: Router) {
     console.log('id-- '+this.cookieService.get('id'));
+    console.log(this.cookieService.getAll());
   }
   openDialog(){
     this.errormsg='';
@@ -63,7 +64,12 @@ export class AudiodeadlinesgreementComponent implements OnInit {
           this.apiservice.postData(this.endpoint1, data3).subscribe( res => {
             let result: any;
             result = res;
+            console.log("result.res[0].auidodeadineusername");
             console.log(result.res[0].auidodeadineusername);
+            // this.cookieService.delete('status');
+            this.cookieService.set('status', '3');
+            console.log('success');
+            console.log(this.cookieService.getAll());
             this.cookieService.set('modelaffiliateemail', result.res[0].auidodeadineusername);
             this.router.navigate(['/modeldashboard']);
           })

@@ -38,6 +38,7 @@ public endpoint = 'addorupdatedata';
   }
 
   ngOnInit() {
+      console.log(this.cookieService.getAll());
   }
     onAgreement() {
       console.log(this.fullname);
@@ -56,7 +57,15 @@ public endpoint = 'addorupdatedata';
           console.log('result');
           console.log(result);
           if (result.status == 'success') {
-              this.router.navigate(['/audioseadlineagreement'])
+              // this.cookieService.delete('status');
+              console.log('okkkkkkkkkkkkk');
+              console.log(typeof (this.cookieService.get('status')));
+              this.cookieService.set('status', '2');
+
+              console.log('success');
+              console.log(this.cookieService.getAll());
+              this.router.navigate(['/audioseadlineagreement']);
+              // this.cookieService.set('status', result.res[0].status);
           } else {
               console.log('Ooops!!!');
               this.router.navigate(['/#']);

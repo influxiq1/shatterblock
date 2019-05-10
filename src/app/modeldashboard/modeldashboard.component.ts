@@ -45,6 +45,16 @@ export class ModeldashboardComponent implements OnInit {
 
     });
   }
+  shatterblokagreement() {
+    console.log(this.apiservice.download_shatter_url+''+this.cookieService.get('id')+''+this.apiservice.Pdf_link);
+   let link = this.apiservice.download_shatter_url+''+this.cookieService.get('id')+''+this.apiservice.Pdf_link;
+    window.open(link, "_blank");
+  }
+  artistxpagreement() {
+    console.log(this.apiservice.download_artistxp_url+''+this.cookieService.get('id')+''+this.apiservice.Pdf_link);
+    let link = this.apiservice.download_artistxp_url+''+this.cookieService.get('id')+''+this.apiservice.Pdf_link;
+    window.open(link, "_blank");
+  }
   getmodeldata(){
 
 
