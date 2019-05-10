@@ -34,6 +34,7 @@ import {ViewcommissiondetailsComponent} from "./viewcommissiondetails/viewcommis
 import {ModelcommissionsComponent} from "./modelcommissions/modelcommissions.component";
 import {SiteadminsettingsComponent} from "./siteadminsettings/siteadminsettings.component";
 import {AdminemailComponent} from "./adminemail/adminemail.component";
+import {AccountPageComponent} from "./account-page/account-page.component";
 
 const routes: Routes = [
   { path: "admin", component: AdminmanagementComponent, canActivate: [AuthGuard] },
@@ -69,6 +70,8 @@ const routes: Routes = [
   {path: 'updatesigninstatus/:path/:userid', component: UpdatesigninstatusComponent},
   // {path: 'modeledit/:modelid', component: ModeleditComponent},
   {path: 'modeledit', component: ModeleditComponent},
+  {path: 'admin-account', component: AccountPageComponent},
+  {path: 'admin-account/:pagename', component: AccountPageComponent},
   {path: 'modeledit/:pagename', component: ModeleditComponent},
   // {path: 'joqudashboard/:id', component: JoqudashboardComponent, canActivate:[AuthGuard], resolve: {results: Resolveservice}, data: {source: 'getjoqustatus', condition: {myid:'id'}}},
   {path: 'joqudashboard', component: JoqudashboardComponent, canActivate:[AuthGuard], resolve: {results: Resolveservice}, data: {source: 'getjoqustatus', condition: {myid:'id'}}},

@@ -70,6 +70,7 @@ import { ViewcommissiondetailsComponent } from './viewcommissiondetails/viewcomm
 import { ModelcommissionsComponent } from './modelcommissions/modelcommissions.component';
 import { SiteadminsettingsComponent } from './siteadminsettings/siteadminsettings.component';
 import { AdminemailComponent } from './adminemail/adminemail.component';
+import { AccountPageComponent } from './account-page/account-page.component';
 
 @NgModule({
   declarations: [
@@ -107,7 +108,8 @@ import { AdminemailComponent } from './adminemail/adminemail.component';
     ViewcommissiondetailsComponent,
     ModelcommissionsComponent,
     SiteadminsettingsComponent,
-    AdminemailComponent
+    AdminemailComponent,
+    AccountPageComponent
 
 
     //Resolveservice,

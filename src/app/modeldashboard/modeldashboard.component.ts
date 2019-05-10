@@ -78,10 +78,13 @@ export class ModeldashboardComponent implements OnInit {
   //  let indexval=this.modeldata.images.indexOf(imgsrc);
  //   this.modeldata.images.splice(indexval,1);
   //  this.modeldata.images.push(val[1]);
-    this.modelimage=this.apiservice.uplodeimg_url+'/'+imgsrc;
+    console.log('imgsrc');
+    console.log(imgsrc);
+    // this.modelimage=this.apiservice.uplodeimg_url+'/'+imgsrc;
   }
   setprofilepictureimage(img:any){
    // console.log(img);
+    this.modelimage=this.apiservice.uplodeimg_url+'/'+img;
     let data={images:img,email:this.cookieService.get('email')};
     this.apiservice.postData(this.endpoint1, data).subscribe( res => {
       let result: any = {};

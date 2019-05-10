@@ -18,6 +18,18 @@ export class AdminlistComponent implements OnInit {
   dataSource1: any ;
   public result: any;
   public endpoint ='datalist';
+  adminlist: any=[];
+  adminlist_skip: any= ['_id','firstname','lastname','username','type','unique_id','joqu_status','password'];
+  adminlist_modify_header: any = {'email': 'Email', 'phone': 'Phone', 'state': 'State', 'status': 'Status', 'date': 'Data', 'name': 'Name', 'State': 'State' };
+  // status_gretterthan_zero_detail_skip:any=['_id','email','name','type','status'];
+  statusarray:any=[{val:1,name:'Active'},{val:2,name:'Inactive'}];
+  updateurapiurll='addorupdatedata';
+  delurl='deletesingledata';
+  click_to_add_ananother_page='adminform';
+  tablename='users';
+  // editroute1:any='modeledit';
+
+
   constructor( public dialog:MatDialog, public apiservice: ApiService, public router :Router, public route: ActivatedRoute) {
 
 
@@ -30,24 +42,24 @@ export class AdminlistComponent implements OnInit {
     this.route.data.forEach( (data) =>{
       console.log('data in resolve');
       console.log(data);
-      this.dataSource = data['results'].item.brand;
-      console.log('this.dataSource');
-      console.log(this.dataSource);
-      console.log(this.dataSource.length);
-      console.log(this.dataSource[0].name);
-      console.log(this.dataSource);
+      this.adminlist = data['results'].item.adminlist;
+      console.log('this.adminlist');
+      console.log(this.adminlist);
+      this.adminlist[0].state ='';
+      console.log(this.adminlist[0].state);
+      console.log(this.adminlist);
 
     })
   }
-  openDialog(){
+/*  openDialog(){
     const dialogRef= this.dialog.open(AdminmodalformComponent);
     dialogRef.afterClosed().subscribe(result => {
       console.log(`Dialog result: ${result}`);
     });
-  }
+  }*/
 
   //  toogle views
-  public show:boolean = true;
+ /* public show:boolean = true;
   public hide:boolean = false;
   public buttonName:any = 'ListView';
 
@@ -62,11 +74,9 @@ export class AdminlistComponent implements OnInit {
 
 
   };
+*/
 
 
-  applyFilter( filterValue: string){
-   // this.dataSource.filter = filterValue.trim().toLowerCase();
-  }
 
 
 }

@@ -12,7 +12,6 @@ import { Resolveservice } from '../resolveservice';
     styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-    // public url = 'http://nodessl.influxiq.com:7012/login';
     public endpoint = 'login';
     public myForm: any;
     public result: any;
@@ -39,14 +38,64 @@ export class LoginComponent implements OnInit {
             }else {
                 this.router.navigate(['/login']);
             }
-        })
-        // this.url1 = apiService.domain;
-        // console.log("url");
-        // console.log(this.url1);
-        // this.serverurl = (this.url1 + this.endpoint);
-        // console.log(this.serverurl);
-        // console.log('this.serverurl');
-        // console.log(this.serverurl);
+        });
+
+        this.cookieService.getAll();
+        console.log('okkkk');
+        console.log(this.cookieService.get('id'));
+        console.log(this.cookieService.get('email'));
+        console.log(this.cookieService.get('password'));
+        console.log(this.cookieService.get('jwttoken'));
+        console.log(this.cookieService.get('type'));
+        console.log(this.cookieService.get('status'));
+        console.log(this.cookieService.getAll());
+       /* let data1;
+        let cemail = this.cookieService.get('email');
+        let cpass = this.cookieService.get('password');
+        data1.email = cemail;
+        data1.password = cpass;
+        // data1.ipinfo = this.ipinfo;
+        console.log('data');
+        console.log(data1);
+*/
+        if (this.cookieService.get('jwttoken') !=null && this.cookieService.get('password') !=null && this.cookieService.get('id') !=null && this.cookieService.get('email') !=null && this.cookieService.get('type') == 'admin') {
+            this.router.navigate(['/admindashboard']);
+        } else if (this.cookieService.get('jwttoken') !=null && this.cookieService.get('password') !=null && this.cookieService.get('id') !=null && this.cookieService.get('email') !=null && this.cookieService.get('type') == 'model') {
+            // @ts-ignore
+            if (this.cookieService.get('status') != null && this.cookieService.get('status') == 1) {
+                this.router.navigate(['/agreement']);
+            }
+            // @ts-ignore
+            if (this.cookieService.get('status') != null && this.cookieService.get('status') == 2) {
+                this.router.navigate(['/audioseadlineagreement']);
+            }
+            // @ts-ignore
+            if (this.cookieService.get('status') != null && this.cookieService.get('status') == 3) {
+                this.router.navigate(['/modeldashboard']);
+            }
+        } else if (this.cookieService.get('jwttoken') !=null && this.cookieService.get('password') !=null && this.cookieService.get('id') !=null && this.cookieService.get('email') !=null && this.cookieService.get('type') == 'brand') {
+            this.router.navigate(['/branddashboard']);
+        }
+
+      /*  if (result.status == 'success' && result.item[0].type == 'admin') {
+            this.router.navigate(['/admindashboard']);
+        } else if (result.status == 'success' && result.item[0].type == 'brand') {
+            // this.myForm.reset();
+            this.router.navigate(['/branddashboard']);
+        } else if (result.status == 'success' && result.item[0].type == 'influencers') {
+            this.router.navigate(['/influencersdashboard']);
+        } else if (result.status == 'success' && result.item[0].type == 'model') {
+            if (result.item[0].status == 1) {
+                this.router.navigate(['/agreement']);
+            }
+            if (result.item[0].status == 2) {
+                this.router.navigate(['/audioseadlineagreement']);
+            }
+            if (result.item[0].status == 3) {
+                this.cookieService.set('modelaffiliateemail', result.item[0].auidodeadineusername);
+                this.router.navigate(['/modeldashboard']);
+            }
+        }*/
     }
 
     ngOnInit() {
@@ -55,6 +104,9 @@ export class LoginComponent implements OnInit {
             password: ['', Validators.required]
         });
 
+        this.route.data.forEach((data)=>{
+            console.log(data);
+        })
 
         this.apiService.getclientip().subscribe(res => {
 
@@ -108,11 +160,14 @@ export class LoginComponent implements OnInit {
                 } else if (result.status == 'success' && result.item[0].type == 'model') {
                     if(result.item[0].status==1){
                         this.router.navigate(['/agreement']);
+                        // this.cookieService.set('status', result.item[0].status);
                     }
                     if(result.item[0].status==2){
+                        this.cookieService.set('status', result.item[0].status);
                         this.router.navigate(['/audioseadlineagreement']);
                     }
                     if(result.item[0].status==3){
+                        this.cookieService.set('status', result.item[0].status);
                         this.cookieService.set('modelaffiliateemail', result.item[0].auidodeadineusername);
                         this.router.navigate(['/modeldashboard']);
                     }

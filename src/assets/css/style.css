@@ -1569,3 +1569,7 @@ p,h1,h2,h3,h4,h5,h6{ margin: 0;}
 }
 
 .mat-expansion-panel .mat-nav-list .mat-list-item { border-bottom: 1px solid #fff!important;}
+
+.sidenav[_ngcontent-c3] .mat-toolbar[_ngcontent-c3] {
+    background: #fff!important;
+}

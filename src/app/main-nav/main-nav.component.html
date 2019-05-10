@@ -107,7 +107,9 @@
       <mat-divider></mat-divider>
       <a mat-list-item role="listitem" [routerLink]="['/adminlist']" >ADMIN LIST</a>
       <mat-divider></mat-divider>
-      <a mat-list-item role="listitem" [routerLink]="['/adminform']">MY ACCOUNT</a>
+      <a mat-list-item role="listitem" *ngIf="cookieService.get('type')=='model'" (click)="editpage()">MY ACCOUNT</a>
+      <a mat-list-item role="listitem" *ngIf="cookieService.get('type')=='brand'" (click)="editpage()">MY ACCOUNT</a>
+      <a mat-list-item role="listitem" *ngIf="cookieService.get('type')=='admin'" (click)="editpage()">MY ACCOUNT</a>
       <mat-divider></mat-divider>
       <mat-divider></mat-divider>
       <a mat-list-item role="listitem" (click)="logout()">LOG OUT</a>
