@@ -36,12 +36,12 @@
             <mat-error  *ngIf="!myForm.controls['username'].valid && myForm.controls['username'].touched">Username field can not be blank</mat-error>
           </mat-form-field>
 
-          <mat-form-field>
+          <mat-form-field *ngIf="!id">
             <input matInput placeholder="* Password" [formControl]="myForm.controls['password']" >
             <mat-error  *ngIf="!myForm.controls['password'].valid && myForm.controls['password'].touched">Password field can not be blank</mat-error>
           </mat-form-field>
 
-          <mat-form-field>
+          <mat-form-field *ngIf="!id">
             <input matInput placeholder="* Confirm Password" [formControl]="myForm.controls['confirmpassword']" >
             <mat-error  *ngIf="!myForm.controls['confirmpassword'].valid && myForm.controls['confirmpassword'].touched">Confirm Password field can not be blank</mat-error>
           </mat-form-field>

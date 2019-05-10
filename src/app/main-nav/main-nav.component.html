@@ -83,7 +83,7 @@
       <a mat-list-item role="listitem" class="active" [routerLink]="['/admindashboard']" *ngIf="cookieService.get('type')=='admin'">DASHBOARD</a>
       <a mat-list-item role="listitem" class="active" [routerLink]="['/modeldashboard']" *ngIf="cookieService.get('type')=='model'">DASHBOARD</a>
       <mat-divider></mat-divider>
-      <a mat-list-item role="listitem">
+      <a mat-list-item role="listitem" class="active" *ngIf="cookieService.get('type')=='admin'">
         <mat-expansion-panel>
           <mat-expansion-panel-header>
             <mat-panel-title>
@@ -91,8 +91,8 @@
             </mat-panel-title>
           </mat-expansion-panel-header>
           <mat-divider></mat-divider>
-          <a mat-list-item role="listitem">RECENT SIGN-UPS</a>
-          <a mat-list-item role="listitem" >ACTIVE USERS</a>
+          <a mat-list-item role="listitem" [routerLink]="['/recentSignUp']">RECENT SIGN-UPS</a>
+          <a mat-list-item role="listitem" [routerLink]="['/activeUsers']">ACTIVE USERS</a>
         </mat-expansion-panel>
 
       </a>

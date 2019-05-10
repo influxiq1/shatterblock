@@ -35,10 +35,14 @@ import {ModelcommissionsComponent} from "./modelcommissions/modelcommissions.com
 import {SiteadminsettingsComponent} from "./siteadminsettings/siteadminsettings.component";
 import {AdminemailComponent} from "./adminemail/adminemail.component";
 import {AccountPageComponent} from "./account-page/account-page.component";
+import {RecentSignUpComponent} from "./recent-sign-up/recent-sign-up.component";
+import {ActiveUsersComponent} from "./active-users/active-users.component";
 
 const routes: Routes = [
   { path: "admin", component: AdminmanagementComponent, canActivate: [AuthGuard] },
   { path: "login", component: LoginComponent},
+  { path: "recentSignUp", component: RecentSignUpComponent, canActivate:[AuthGuard], resolve: {results: Resolveservice}, data: {source: 'admindashboard'}},
+  { path: "activeUsers", component: ActiveUsersComponent, canActivate:[AuthGuard], resolve: {results: Resolveservice}, data: {source: 'admindashboard'}},
   { path: "login/:path/:id", component: LoginComponent, resolve: {results: Resolveservice}, data: { source: 'allmodelllist', condition: {_id: 'id'}}},
   { path: "model_details/:id", component: AdminemailComponent, resolve: {results: Resolveservice}, data: { source: 'allmodelllist', condition: {_id: 'id'}}},
   { path: "brand", component: BrandmanagementComponent, canActivate: [AuthGuard] },
@@ -54,7 +58,8 @@ const routes: Routes = [
 
   { path: 'resetpassword/:token', component: ChangepasswordComponent},
   {path: 'adminlist', component: AdminlistComponent, canActivate: [AuthGuard], resolve: {results: Resolveservice}, data: { source:'admindashboard', condition:{}}},
-  {path: 'adminform', component:AdminformComponent, canActivate: [AuthGuard] },
+  {path: 'adminform', component:AdminformComponent},
+  {path: 'adminform/:pagename', component:AdminformComponent, canActivate: [AuthGuard] },
   {path: 'adminmodalform', component: AdminmodalformComponent, canActivate: [AuthGuard]},
 
   {path: 'managedashboard', component: ManagedashboardComponent, canActivate: [AuthGuard]},
@@ -71,7 +76,7 @@ const routes: Routes = [
   // {path: 'modeledit/:modelid', component: ModeleditComponent},
   {path: 'modeledit', component: ModeleditComponent},
   {path: 'admin-account', component: AccountPageComponent},
-  {path: 'admin-account/:pagename', component: AccountPageComponent},
+  // {path: 'admin-account/:pagename', component: AccountPageComponent},
   {path: 'modeledit/:pagename', component: ModeleditComponent},
   // {path: 'joqudashboard/:id', component: JoqudashboardComponent, canActivate:[AuthGuard], resolve: {results: Resolveservice}, data: {source: 'getjoqustatus', condition: {myid:'id'}}},
   {path: 'joqudashboard', component: JoqudashboardComponent, canActivate:[AuthGuard], resolve: {results: Resolveservice}, data: {source: 'getjoqustatus', condition: {myid:'id'}}},

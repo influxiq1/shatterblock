@@ -1073,9 +1073,13 @@ table th .mat-checkbox-inner-container{ margin-right: 10px !important;}
     font-size: 18px!important;
     height: auto;
 }
+.ad_profileblock_left_small ul li button{ display: none;}
+.ad_profileblock_left_small ul li:hover button{ display: block;}
 
-.ad_profileblock_left_small{
-
+@media only screen and (max-width: 1880px) {
+    .ad_audiodeadlinecontent_block1body_1st h2 {
+        font-size: 40px;
+    }
 }
 @media only screen and (max-width: 1820px) {
     .ad_audiodeadlinecontent_block2body_2nd {
@@ -1167,6 +1171,13 @@ table th .mat-checkbox-inner-container{ margin-right: 10px !important;}
 }
 
 
+@media only screen and (max-width: 1340px) {
+    .model_actions .mat-button {
+        margin-right: 8px;
+        padding: 4px 6px 6px;
+    }
+    .ad_audiodeadlinecontent_block1body_1st .adlogo { margin-top: 0; }
+}
 @media only screen and (max-width: 1300px) {
     .ad_audiodeadlinecontent_block2body{height:350px!important;}
 
@@ -1174,7 +1185,14 @@ table th .mat-checkbox-inner-container{ margin-right: 10px !important;}
 
     .ad_audiodeadlinecontent_block2body_1st{height:350px!important;}
 }
-
+@media only screen and (max-width: 1265px) {
+    .model_actions .mat-button {
+        font-size: 13px !important;
+    }
+    .ad_audiodeadlinecontent_block1body_1st h2 {
+        font-size: 38px;
+    }
+}
 @media only screen and (max-width: 1199px) {
 
 
@@ -1257,6 +1275,20 @@ table th .mat-checkbox-inner-container{ margin-right: 10px !important;}
 }
 
 
+@media only screen and (max-width: 495px) {
+    .model_actions .mat-button {
+        width: 230px!important;
+        display: block;
+        float: none;
+        justify-content: center;
+        margin: 10px auto;
+    }
+    .model_actions .mat-button:last-child {
+        margin: auto;
+    }
+}
+.ad_profileblock_left_small .setpic4{ display: block!important;}
+.ad_profileblock_left_small .setpic4{ display: block!important;}
 @media only screen and (max-width: 350px) {
 
     .ad_profileblock_left_small ul li{ width: 93px; height: 93px;}

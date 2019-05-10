@@ -71,6 +71,8 @@ import { ModelcommissionsComponent } from './modelcommissions/modelcommissions.c
 import { SiteadminsettingsComponent } from './siteadminsettings/siteadminsettings.component';
 import { AdminemailComponent } from './adminemail/adminemail.component';
 import { AccountPageComponent } from './account-page/account-page.component';
+import { RecentSignUpComponent } from './recent-sign-up/recent-sign-up.component';
+import { ActiveUsersComponent } from './active-users/active-users.component';
 
 @NgModule({
   declarations: [
@@ -109,7 +111,9 @@ import { AccountPageComponent } from './account-page/account-page.component';
     ModelcommissionsComponent,
     SiteadminsettingsComponent,
     AdminemailComponent,
-    AccountPageComponent
+    AccountPageComponent,
+    RecentSignUpComponent,
+    ActiveUsersComponent
 
 
     //Resolveservice,

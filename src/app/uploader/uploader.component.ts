@@ -176,7 +176,7 @@ export class UploaderComponent implements OnInit {
         console.log(this.secondimg);
         // show a modal for update
         const dialogRef = this.dialog.open(Updatetest4, {
-          data: {msg: 'Image Updated'},
+          data: {msg: 'Second Profile picture updated'},
         });
       }
     })

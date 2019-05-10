@@ -8,6 +8,7 @@ import { prevroute } from "../prevroute";
 import {CookieService} from "ngx-cookie-service";
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 import { filter } from 'rxjs/operators';
+import {Updatetest4} from "../uploader/uploader.component";
 export interface DialogData {
     msg: string;
 }
@@ -241,7 +242,9 @@ export class ModeleditComponent implements OnInit {
                         console.log('Oooops!');
                     });
 
-
+                    const dialogRef = this.dialog.open(Updatetest4, {
+                        data: {msg: 'Profile updated successfully'},
+                    });
                 }
             }, error => {
                 console.log('Oooops!');
