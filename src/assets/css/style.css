@@ -352,3 +352,9 @@ td.mat-cell:last-of-type, td.mat-footer-cell:last-of-type, th.mat-header-cell:la
 .registration_form .mat-card-content{ width: 100%!important;}
 
 .registration_form .submit_button{ width: 160px; margin-top: 20px;}
+
+.searchbar{
+    display: flex!important;
+    justify-content: space-between!important;
+}
+.add_button{ margin: 0!important; margin-left: 10px!important;}

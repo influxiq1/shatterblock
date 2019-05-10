@@ -2,8 +2,26 @@
 <!--<lib-myfrom [fields]="regConfig" (submit)="submit($event)"></lib-myfrom>-->
 
 <lib-listing *ngIf="pendingmodelapplicationarray!=null && pendingmodelapplicationarray.length>0"  [datasource]="pendingmodelapplicationarray" [skip]="pendingmodelapplicationarray_skip" [modify_header_array]="pendingmodelapplicationarray_modify_header" [apiurl]="_apiService.domain" [deleteendpoint]="delurl" [updateendpoint]="updateurl" [jwttoken]="_apiService.jwttoken" [sourcedata]="tablename"  [statusarr]="statusarray" [detail_datatype]="pendingmodelapplicationarray_detail_datatype"[editroute]="editroute"
-             [detail_skip_array]="pendingmodelapplicationarray_detail_skip" [url]="custom_link" [pdf_link]="_apiService.Pdf_link" [searchList]="stateGroups" [serachendpoint]="serachendpoint"></lib-listing>
+             [detail_skip_array]="pendingmodelapplicationarray_detail_skip" [url]="custom_link" [pdf_link]="_apiService.Pdf_link"  [searchendpoint]="searchendpoint"></lib-listing>
+<mat-toolbar class="breadcrumb"> <a style="text-decoration: none;">User Table  &nbsp;/&nbsp; </a> ACTIVE USERS </mat-toolbar>
 
+<lib-listing *ngIf="status_gretterthan_zero!=null && status_gretterthan_zero.length>0"
+             [datasource]="status_gretterthan_zero"
+             [skip]="status_gretterthan_zero_skip"
+             [modify_header_array]="status_gretterthan_zero_modify_header"
+             [jwttoken]="_apiService.jwttoken"
+             [sourcedata]="tablename"
+             [updateendpoint]="updateurl"
+             [statusarr]="statusarray"
+             [apiurl]="_apiService.domain"
+             [deleteendpoint]="delurl"
+             [detail_datatype]="status_gretterthan_zero_detail_datatype"
+             [detail_skip_array]="status_gretterthan_zero_detail_skip"
+             [editroute]="editroute1"
+             [url]="custom_link"
+             [click_to_add_ananother_page]="click_to_add_ananother_page"
+             [pdf_link]="_apiService.Pdf_link">
+</lib-listing>
 
 <span class="bg_white">
 <!--

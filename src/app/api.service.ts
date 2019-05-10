@@ -11,6 +11,7 @@ export class ApiService {
   public domain =  environment["API_URL"];
   public _url = environment["API_URL"];
   public Pdf_link = environment["Pdf_link"];
+  public uplodeimg_url = environment["uplodeimg_url"];
   public jwttoken:any;
 
   constructor(private _http: HttpClient,
