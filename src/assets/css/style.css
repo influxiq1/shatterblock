@@ -927,11 +927,10 @@ table th .mat-checkbox-inner-container{ margin-right: 10px !important;}
 
 .ad_profileblock_right .mat-button {border-radius: 35px;
     width: 200px; padding: 10px 0;
-
     font-family: 'OpenSans';
     font-size: 22px!important;
     background-color: #faa318;
-    color: #fff; display: block; margin: 0; }
+    color: #fff; display: block; margin: 0 auto; }
 
 
 .btnmodellist .mat-button{
@@ -1049,6 +1048,33 @@ table th .mat-checkbox-inner-container{ margin-right: 10px !important;}
 
 
 /*--------------*/
+
+.onlyForDivider { display: block; background-image: url(../images/admin_blocknew_textbg.png)!important; padding-bottom: 45px;
+    background-position: bottom; background-repeat: repeat-x; }
+.model_actions {
+    /*display: flex!important;*/
+    background-image: url(../images/admin_blocknew_textbg.png)!important;
+    background-repeat: repeat-x;
+    margin-top: 35px;
+    padding-bottom: 45px;
+    background-position: bottom;
+    text-align: center;
+}
+.model_actions .mat-card-title{ color: #fff; }
+.model_actions .mat-button:last-child { margin-right: 0;}
+.model_actions .mat-button {
+    width: auto !important;
+    color: #fff !important;
+    display: inline-block;
+    border-radius: 3px;
+    background-color: #000;
+    margin-right: 15px;
+    padding: 4px 10px 6px;
+    font-size: 18px!important;
+    height: auto;
+}
+
+
 @media only screen and (max-width: 1820px) {
     .ad_audiodeadlinecontent_block2body_2nd {
         width: 63.5%;

@@ -188,6 +188,13 @@
                 <h3>  <a href="{{modeldata.instagramlink}}/" target="_blank"><img src="../../assets/images/insta-black-white_icon.png"><span>@{{modeldata.instagramlink}}</span></a></h3>
                 <!--<button mat-button [routerLink]="['/modeledit',modeldata._id]">Modify</button>-->
                 <button mat-button [routerLink]="['/modeledit']">Edit Profile</button>
+                <span class="onlyForDivider"></span>
+                <mat-card-content class="model_actions">
+                    <mat-card-title>Download the signed Affiliate Agreements:</mat-card-title><br>
+                    <button mat-button color="primary">Shatterblok Affiliate Agreement</button>
+                    <button mat-button color="primary"> ArtistXP Affiliate Program Agreement</button>
+                </mat-card-content>
+
             </mat-card-content>
         </mat-card-subtitle>
     </mat-card>
