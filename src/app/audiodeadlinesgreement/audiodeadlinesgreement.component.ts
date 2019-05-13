@@ -4,6 +4,7 @@ import {Router} from "@angular/router";
 import {ModalaudiodeadlineComponent} from "../modalaudiodeadline/modalaudiodeadline.component";
 import {ApiService} from "../api.service";
 import {CookieService} from "ngx-cookie-service";
+import {AppComponent} from '../app.component'
 @Component({
   selector: 'app-audiodeadlinesgreement',
   templateUrl: './audiodeadlinesgreement.component.html',
@@ -16,7 +17,7 @@ export class AudiodeadlinesgreementComponent implements OnInit {
   public successmsg: any;
   public endpoint = 'addorupdatedata';
   public endpoint1 = 'datalist';
-  constructor(public modal: MatDialog, public apiservice: ApiService,public cookieService:CookieService, public router: Router) {
+  constructor(public modal: MatDialog, public apiservice: ApiService,public cookieService:CookieService, public router: Router, public appComponent: AppComponent) {
     console.log('id-- '+this.cookieService.get('id'));
     console.log(this.cookieService.getAll());
   }
@@ -52,7 +53,9 @@ export class AudiodeadlinesgreementComponent implements OnInit {
     let data1 = {data: data,source:'users'};
     console.log(data);
     if (this.fullname != '' && this.fullname!= null) {
+      this.appComponent.loading = false;
       this.apiservice.postData(this.endpoint, data1).subscribe(res => {
+
         this.successmsg = true;
         let result: any = {};
         result = res;
@@ -62,6 +65,7 @@ export class AudiodeadlinesgreementComponent implements OnInit {
           let data2={_id: this.cookieService.get('id')};
           let data3 = {"condition": data2,source:'users'};
           this.apiservice.postData(this.endpoint1, data3).subscribe( res => {
+            this.appComponent.loading = true;
             let result: any;
             result = res;
             console.log("result.res[0].auidodeadineusername");

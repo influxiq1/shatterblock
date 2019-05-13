@@ -71,9 +71,12 @@ export class ModeldashboardComponent implements OnInit {
         this.modeldata=result.res[0];
         console.log('this.modeldata');
         console.log(this.modeldata);
+        console.log(this.modeldata.profile_img);
+        this.cookieService.set('profile_img', this.modeldata.profile_img);
         if(this.modeldata.profile_img!=null){
         this.modelimage=this.apiservice.uplodeimg_url+'/'+this.modeldata.profile_img;
           this.profileimg =this.modeldata.profile_img;
+          // this.cookieService.set(this.profileimg)
         }else{
           this.modelimage=this.apiservice.uplodeimg_url+'/'+this.modeldata.images[0];
         }
@@ -93,7 +96,7 @@ export class ModeldashboardComponent implements OnInit {
     // this.modelimage=this.apiservice.uplodeimg_url+'/'+imgsrc;
   }
   setprofilepictureimage(img:any){
-   // console.log(img);
+   console.log('img');
     this.modelimage=this.apiservice.uplodeimg_url+'/'+img;
     let data={images:img,email:this.cookieService.get('email')};
     this.apiservice.postData(this.endpoint1, data).subscribe( res => {
@@ -102,6 +105,8 @@ export class ModeldashboardComponent implements OnInit {
       console.log('result');
       console.log(result);
       if (result.status == 'success') {
+        this.profileimg = img;
+        console.log('ok');
         // show a modal for update
         const dialogRef = this.dialog.open(Updatetest5, {
           data: {msg: 'Profile Image Updated'},
@@ -110,16 +115,19 @@ export class ModeldashboardComponent implements OnInit {
     })
   }
   setsecndpictureimage(img:any){
+    console.log('img11');
     let data={images:img,email:this.cookieService.get('email')};
     this.apiservice.postData(this.secondimageupdate, data).subscribe( res => {
       let result: any = {};
       result = res;
       console.log('result');
       console.log(result);
-      if (result.msg == 'success') {
+      if (result.status == 'success') {
+        this.secondimg = img;
+        console.log('ok');
         // show a modal for update
         const dialogRef = this.dialog.open(Updatetest5, {
-          data: {msg: 'Image Updated'},
+          data: {msg: 'Second Profile picture updated'},
         });
       }
     })
@@ -136,6 +144,7 @@ export class Updatetest5 {
 
   constructor(public dialogRef: MatDialogRef<Updatetest5>,
               @Inject(MAT_DIALOG_DATA) public data: DialogData) {
+    console.log("data.msg");
     console.log(data.msg);
     this.modalmsg = data.msg;
 

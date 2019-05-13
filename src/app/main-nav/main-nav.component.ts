@@ -13,6 +13,7 @@ import {el} from "@angular/platform-browser/testing/src/browser_util";
 })
 export class MainNavComponent {
 public user_id: any;
+public profile_img: any;
   isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
     .pipe(
       map(result => result.matches)
@@ -20,7 +21,8 @@ public user_id: any;
 
   constructor(private breakpointObserver: BreakpointObserver,public cookieService: CookieService, public router:Router, public apiService: ApiService) {
     this.user_id = this.cookieService.get('id');
-
+    this.cookieService.getAll();
+    this.profile_img = this.apiService.uplodeimg_url+ '/'+ this.cookieService.get('profile_img');
   }
 
   logout(){
@@ -41,5 +43,8 @@ public user_id: any;
       let link = 'modeledit/' + this.user_id;
       this.router.navigate([link]);
     }
+  }
+  profileimg() {
+    console.log('ok');
   }
 }

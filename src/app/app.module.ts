@@ -54,7 +54,7 @@ import {AgreementComponent} from "./agreement/agreement.component";
 import {ModalComponent} from "./modal/modal.component";
 import { AudiodeadlinesgreementComponent } from './audiodeadlinesgreement/audiodeadlinesgreement.component';
 import { ModalaudiodeadlineComponent } from './modalaudiodeadline/modalaudiodeadline.component';
-import { ModeldashboardComponent,Updatetest5 } from './modeldashboard/modeldashboard.component';
+import { ModeldashboardComponent, Updatetest5 } from './modeldashboard/modeldashboard.component';
 import {AffilitemarketingComponent, Updatetest2} from "./affilitemarketing/affilitemarketing.component";
 import { UpdatesigninstatusComponent } from './updatesigninstatus/updatesigninstatus.component';
 import { ClipboardModule } from 'ngx-clipboard';

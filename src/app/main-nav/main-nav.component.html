@@ -130,8 +130,9 @@
       <span>Shatterblok</span>
       <span class="example-spacer"></span>
       <button mat-button color="primary">
-      <span class="profile_wrap">
-        <img src="http://www.titikshapublicschool.com/wp-content/uploads/2018/11/developer-api.jpg">
+      <span class="profile_wrap" (click)="profileimg()">
+        <img *ngIf="!profile_img" src="http://www.titikshapublicschool.com/wp-content/uploads/2018/11/developer-api.jpg">
+        <img src="{{profile_img}}">
       </span>
       </button>
       <mat-menu #appMenu="matMenu">

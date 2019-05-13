@@ -362,17 +362,25 @@ table th .mat-checkbox-inner-container{ margin-right: 10px !important;}
 
 .custom_modal {  width: auto; overflow: hidden!important; padding: 50px; }
 .modal_wrapper{
-    background: rgba(166,213,202,1);
-    background: -moz-linear-gradient(-45deg, rgba(166,213,202,1) 0%, rgba(223,236,240,1) 35%, rgba(166,213,202,1) 100%);
-    background: -webkit-gradient(left top, right bottom, color-stop(0%, rgba(166,213,202,1)), color-stop(35%, rgba(223,236,240,1)), color-stop(100%, rgba(166,213,202,1)));
-    background: -webkit-linear-gradient(-45deg, rgba(166,213,202,1) 0%, rgba(223,236,240,1) 35%, rgba(166,213,202,1) 100%);
-    background: -o-linear-gradient(-45deg, rgba(166,213,202,1) 0%, rgba(223,236,240,1) 35%, rgba(166,213,202,1) 100%);
-    background: -ms-linear-gradient(-45deg, rgba(166,213,202,1) 0%, rgba(223,236,240,1) 35%, rgba(166,213,202,1) 100%);
-    background: linear-gradient(135deg, rgba(166,213,202,1) 0%, rgba(223,236,240,1) 35%, rgba(166,213,202,1) 100%);
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a6d5ca', endColorstr='#a6d5ca', GradientType=1 );
-    border: 1px solid #fdcd00;
+    background: #ead9f7;
+    border: 4px solid #c77bff;
 }
 
+.modal_wrapper .mat-dialog-content {
+    display: block;
+    margin: 5px 0!important;
+    padding: 0 24px;
+    max-height: 65vh;
+    overflow: auto;
+    -webkit-overflow-scrolling: touch;
+    background: #d699fe;
+
+}
+.modal_wrapper button{
+    width: 150px!important;
+    BACKGROUND: #be7be8!important;
+    MARGIN: 0 AUTO!important;
+}
 .adminform .mat-card-header{
     background: #000000;
     color: #fff;
@@ -1633,3 +1641,7 @@ p,h1,h2,h3,h4,h5,h6{ margin: 0;}
 .sidenav[_ngcontent-c3] .mat-toolbar[_ngcontent-c3] {
     background: #fff!important;
 }
+
+
+.uploadsection_wrapper .thumb_gallery_upload2{ margin-left: 50px; }
+.setpic_active2{ display: block!important;}

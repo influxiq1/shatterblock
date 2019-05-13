@@ -145,6 +145,7 @@ export class UploaderComponent implements OnInit {
     this.apiService.fileservername[this.filenamevalc].splice(indexval,1);
   }
   setprofilepictureimage(img:any){
+    console.log('ok');
     // let data={images:img,email:this.cookieService.get('email')};
     let data={images:img,email:this.modeldataemailis};
     this.apiService.postData(this.endpoint, data).subscribe( res => {
