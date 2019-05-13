@@ -1,4 +1,4 @@
-import {NgModule, Component} from '@angular/core';
+import {NgModule, Component, CUSTOM_ELEMENTS_SCHEMA} from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import {ListingComponent, Confirmdialog,BottomSheet} from './listing.component';
 import {DemoMaterialModule} from './materialmodules';
@@ -43,6 +43,7 @@ import { RadioComponent } from '../lib/dynamic-form-builder/atoms/radio';
         // DynamicFieldDirective,
 
     ],
+    schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
   exports: [ListingComponent,
       //MyfromComponent,
       NgxUploaderModule],

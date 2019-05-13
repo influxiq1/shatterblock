@@ -62,7 +62,9 @@ export class LoginComponent implements OnInit {
         }
         data.ipinfo=this.ipinfo;
         if(this.myForm.valid) {
+            console.log('111111111111--------------');
             this.result = this.apiService.postData(this.endpoint, data).subscribe(res => {
+                console.log('--------------');
                 let result: any = {};
                 result = res;
                 if (result.status == 'error') {

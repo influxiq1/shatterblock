@@ -12,17 +12,17 @@ import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import { Router } from "@angular/router";
 import {Observable} from 'rxjs';
 import {startWith, map} from 'rxjs/operators';
-
+/*
 export interface StateGroup {
   letter: string;
   names: string[];
-}
-
-export const _filter = (opt: string[], value: string): string[] => {
+}*/
+/*
+export const filter = (opt: string[], value: string): string[] => {
   const filterValue = value.toLowerCase();
 
   return opt.filter(item => item.toLowerCase().indexOf(filterValue) === 0);
-};
+};*/
 
 /*import { FieldConfig } from "../lib/myfrom/field.interface";
 import { InputComponent } from "../lib/myfrom/input.component";
@@ -50,6 +50,14 @@ const componentMapper = {
   styleUrls: ['./listing.module.css']
 })
 export class ListingComponent implements OnInit {
+ /* //added Input decorator over label props
+  @Input() label: string;
+  options={
+    timeOut: 3000,
+    showProgressBar: true,
+    pauseOnHover: true,
+    clickToClose: true
+  };*/
 
   /*stateForm: FormGroup = this.fb.group({
     stateGroup: '',
@@ -58,7 +66,9 @@ export class ListingComponent implements OnInit {
 
 
     datasourceval:any;
+  click_to_add_ananother_pageval:any;
   urlval:any;
+  searchendpointval:any;
   searchListval:any;
   pdf_link_val:any;
   statusarrval:any;
@@ -77,13 +87,27 @@ export class ListingComponent implements OnInit {
   columns :any=[];
   olddata :any=[];
   public x :any;
+  public sh :any = false;
+  public aud :any = false;
 
 
   @Input()
+  set click_to_add_ananother_page(click_to_add_ananother_page: any) {
+    this.click_to_add_ananother_pageval = click_to_add_ananother_page;
+    console.log('this.click_to_add_ananother_pageval');
+    console.log(this.click_to_add_ananother_pageval);
+  }
+   @Input()
   set url(url: any) {
     this.urlval = url;
     console.log('this.urlval');
     console.log(this.urlval);
+  }
+    @Input()
+  set searchendpoint(searchendpoint: any) {
+    this.searchendpointval = searchendpoint;
+    console.log('this.searchendpointval');
+    console.log(this.searchendpointval);
   }
    @Input()
   set pdf_link(pdf_link: any) {
@@ -194,12 +218,13 @@ export class ListingComponent implements OnInit {
 
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
-  options: FormGroup;
+  // options: FormGroup;
   myForm:any;
   // myForm:any;
 
   constructor(public _apiService: ApiService,public dialog: MatDialog,private bottomSheet: MatBottomSheet,public fb: FormBuilder,private router: Router, private resolver: ComponentFactoryResolver,
               private container: ViewContainerRef) {
+
 
    /* this.myForm = this.fb.group({
       email: ['', Validators.compose([Validators.required, Validators.pattern(/^\s*[\w\-\+_]+(\.[\w\-\+_]+)*\@[\w\-\+_]+\.[\w\-\+_]+(\.[\w\-\+_]+)*\s*$/)])],
@@ -232,6 +257,7 @@ export class ListingComponent implements OnInit {
     this.myForm.controls[val].markAsUntouched();
   }
   ngOnInit() {
+    // this._service.success(this.columns[0].date,'dndnnd',this.options);
    /* this.stateGroupOptions = this.myControl.valueChanges
         .pipe(
             startWith(''),
@@ -273,12 +299,16 @@ export class ListingComponent implements OnInit {
     for (let i = 0; i < coldef_list.length; i++) {
       let ff = `row.${coldef_list[i]}`
       var tt = { columnDef: `${coldef_list[i]}`,    header: `${header_list[i].replace(/_/g," ")}`,  cell: (row) => eval(ff) ,objlength:header_list.length  };
+      console.log('tt.columnDef');
       console.log(tt.columnDef);
       for (let b in this.modify_header_arrayval){
         if(b==tt.header) tt.header=this.modify_header_arrayval[b];
       }
+
       if(this.skipval.indexOf(tt.columnDef)==-1)
-      this.columns.push(tt)
+      this.columns.push(tt);
+      console.log('this.columns');
+      console.log(this.columns);
     }
     let displayedcols= this.columns.map(x => x.columnDef);
     displayedcols.push('Actions');
@@ -318,33 +348,61 @@ export class ListingComponent implements OnInit {
   }*/
 
   getstatus(val:any){
+    // console.log('val');
+    // console.log(val);
     for(let b in this.statusarrval){
       if(this.statusarrval[b].val==val)
         return this.statusarrval[b].name;
+      // console.log(this.statusarrval[b].name);
     }
     return "N/A";
   }
+  hi(val: any){
+    // console.log('val');
+    // console.log(val);
+    if (val.shatterblok_agreement_date != null && val.audiodeadline_agreement_date ==null ){
+      // console.log('shatter blok');
+      this.sh = true;
+      this.aud = false;
+    }
+    if (val.shatterblok_agreement_date != null && val.audiodeadline_agreement_date !=null) {
+      this.sh = true;
+      this.aud = true;
+    }
+    if (val.shatterblok_agreement_date == null && val.audiodeadline_agreement_date ==null) {
+      this.sh = false;
+      this.aud = false;
+    }
+    // console.log(this.sh);
+    // console.log(this.aud);
+  }
   clickurl(val: any , url: any) {
+    let i
     console.log('ok');
     console.log(val);
     console.log(val._id);
+    /*for (i in this.urlval) {
+     if (this.urlval[i].val == val) {
+       return this.urlval[i].url;
+       // console.log( this.urlval[i].url);
+     }
+      console.log('jjj' + this.urlval[i].url);
+    }*/
+    /*if (val.status == 2){
+      console.log('shatter blok');
+      this.sh = true;
+      this.aud = false;
+    } else if (val.status == 3) {
+      this.sh = true;
+      this.aud = false;
+    } else {
+      this.sh = false;
+      this.aud = false;
+    }*/
     console.log(url);
     console.log(url + '' +val._id + '' + this.pdf_link_val);
     let link= url + '' +val._id + '' + this.pdf_link_val;
     window.open(link, "_blank");
-    // this.router.navigate([]);
-
-    /*let bs=this.bottomSheet.open(BottomSheet,{data:{items:this.urlval}});
-
-    bs.afterDismissed().subscribe(result => {
-      console.log('The bottom sheet was closed');
-      console.log(result);
-      if (result != null) {
-        val.status = result.val;
-        val.id = val._id;
-        console.log(val.id);
-      }
-    });*/
   }
 
 

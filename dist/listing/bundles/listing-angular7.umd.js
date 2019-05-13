@@ -565,19 +565,17 @@
      * @fileoverview added by tsickle
      * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
      */
-    /** @type {?} */
-    var _filter = ( /**
-     * @param {?} opt
-     * @param {?} value
-     * @return {?}
-     */function (opt, value) {
-        /** @type {?} */
-        var filterValue = value.toLowerCase();
-        return opt.filter(( /**
-         * @param {?} item
-         * @return {?}
-         */function (item) { return item.toLowerCase().indexOf(filterValue) === 0; }));
-    });
+    /*
+    export interface StateGroup {
+      letter: string;
+      names: string[];
+    }*/
+    /*
+    export const filter = (opt: string[], value: string): string[] => {
+      const filterValue = value.toLowerCase();
+
+      return opt.filter(item => item.toLowerCase().indexOf(filterValue) === 0);
+    };*/
     /*import { FieldConfig } from "../lib/myfrom/field.interface";
     import { InputComponent } from "../lib/myfrom/input.component";
     import { ButtonComponent } from "../lib/myfrom/button.component";
@@ -611,12 +609,22 @@
             this.router = router$$1;
             this.resolver = resolver;
             this.container = container;
+            /* //added Input decorator over label props
+              @Input() label: string;
+              options={
+                timeOut: 3000,
+                showProgressBar: true,
+                pauseOnHover: true,
+                clickToClose: true
+              };*/
             /*stateForm: FormGroup = this.fb.group({
                 stateGroup: '',
               });*/
             this.myControl = new forms.FormControl();
             this.columns = [];
             this.olddata = [];
+            this.sh = false;
+            this.aud = false;
             this.stateGroups = this.searchListval;
             this.displayedColumns = [];
             this.datacolumns = [];
@@ -626,6 +634,18 @@
             //dataSource = new MatTableDataSource(this.datasourceval);
             this.dataSource = new material.MatTableDataSource;
         }
+        Object.defineProperty(ListingComponent.prototype, "click_to_add_ananother_page", {
+            set: /**
+             * @param {?} click_to_add_ananother_page
+             * @return {?}
+             */ function (click_to_add_ananother_page) {
+                this.click_to_add_ananother_pageval = click_to_add_ananother_page;
+                console.log('this.click_to_add_ananother_pageval');
+                console.log(this.click_to_add_ananother_pageval);
+            },
+            enumerable: true,
+            configurable: true
+        });
         Object.defineProperty(ListingComponent.prototype, "url", {
             set: /**
              * @param {?} url
@@ -634,6 +654,18 @@
                 this.urlval = url;
                 console.log('this.urlval');
                 console.log(this.urlval);
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(ListingComponent.prototype, "searchendpoint", {
+            set: /**
+             * @param {?} searchendpoint
+             * @return {?}
+             */ function (searchendpoint) {
+                this.searchendpointval = searchendpoint;
+                console.log('this.searchendpointval');
+                console.log(this.searchendpointval);
             },
             enumerable: true,
             configurable: true
@@ -855,6 +887,7 @@
          * @return {?}
          */
             function () {
+                // this._service.success(this.columns[0].date,'dndnnd',this.options);
                 /* this.stateGroupOptions = this.myControl.valueChanges
                      .pipe(
                          startWith(''),
@@ -900,6 +933,7 @@
                              * @param {?} row
                              * @return {?}
                              */function (row) { return eval(ff); }), objlength: header_list.length };
+                    console.log('tt.columnDef');
                     console.log(tt.columnDef);
                     for (var b in this_1.modify_header_arrayval) {
                         if (b == tt.header)
@@ -907,6 +941,8 @@
                     }
                     if (this_1.skipval.indexOf(tt.columnDef) == -1)
                         this_1.columns.push(tt);
+                    console.log('this.columns');
+                    console.log(this_1.columns);
                 };
                 var this_1 = this, tt;
                 for (var i = 0; i < coldef_list.length; i++) {
@@ -994,11 +1030,41 @@
              * @return {?}
              */
             function (val) {
+                // console.log('val');
+                // console.log(val);
                 for (var b in this.statusarrval) {
                     if (this.statusarrval[b].val == val)
                         return this.statusarrval[b].name;
+                    // console.log(this.statusarrval[b].name);
                 }
                 return "N/A";
+            };
+        /**
+         * @param {?} val
+         * @return {?}
+         */
+        ListingComponent.prototype.hi = /**
+         * @param {?} val
+         * @return {?}
+         */
+            function (val) {
+                // console.log('val');
+                // console.log(val);
+                if (val.shatterblok_agreement_date != null && val.audiodeadline_agreement_date == null) {
+                    // console.log('shatter blok');
+                    this.sh = true;
+                    this.aud = false;
+                }
+                if (val.shatterblok_agreement_date != null && val.audiodeadline_agreement_date != null) {
+                    this.sh = true;
+                    this.aud = true;
+                }
+                if (val.shatterblok_agreement_date == null && val.audiodeadline_agreement_date == null) {
+                    this.sh = false;
+                    this.aud = false;
+                }
+                // console.log(this.sh);
+                // console.log(this.aud);
             };
         /**
          * @param {?} val
@@ -1014,23 +1080,29 @@
                 console.log('ok');
                 console.log(val);
                 console.log(val._id);
+                /*for (i in this.urlval) {
+                 if (this.urlval[i].val == val) {
+                   return this.urlval[i].url;
+                   // console.log( this.urlval[i].url);
+                 }
+                  console.log('jjj' + this.urlval[i].url);
+                }*/
+                /*if (val.status == 2){
+                  console.log('shatter blok');
+                  this.sh = true;
+                  this.aud = false;
+                } else if (val.status == 3) {
+                  this.sh = true;
+                  this.aud = false;
+                } else {
+                  this.sh = false;
+                  this.aud = false;
+                }*/
                 console.log(url);
                 console.log(url + '' + val._id + '' + this.pdf_link_val);
                 /** @type {?} */
                 var link = url + '' + val._id + '' + this.pdf_link_val;
                 window.open(link, "_blank");
-                // this.router.navigate([]);
-                /*let bs=this.bottomSheet.open(BottomSheet,{data:{items:this.urlval}});
-            
-                bs.afterDismissed().subscribe(result => {
-                  console.log('The bottom sheet was closed');
-                  console.log(result);
-                  if (result != null) {
-                    val.status = result.val;
-                    val.id = val._id;
-                    console.log(val.id);
-                  }
-                });*/
             };
         /** Whether the number of selected elements matches the total number of rows. */
         /**
@@ -1498,7 +1570,7 @@
         ListingComponent.decorators = [
             { type: i0.Component, args: [{
                         selector: 'lib-listing',
-                        template: "<div class=\"container\">\n\n\n  <mat-card>\n\n    <mat-form-field>\n      <input matInput (keyup)=\"applyFilter($event.target.value)\" placeholder=\"Filter\">\n    </mat-form-field>\n\n\n\n    <ng-container *ngIf=\"selection.selected.length!=null && selection.selected.length>0\">\n      <button mat-raised-button (click)=\"deletemultiple()\"> Delete </button>\n      <button mat-raised-button (click)=\"managestatusmultiple()\"> Update Status </button>\n    </ng-container>\n\n\n\n    <table mat-table [dataSource]=\"dataSource\" matSort class=\"mat-elevation-z8\">\n\n      <ng-container matColumnDef=\"select\">\n        <th mat-header-cell *matHeaderCellDef>\n          <mat-checkbox (change)=\"$event ? masterToggle() : null\"\n                        [checked]=\"selection.hasValue() && isAllSelected()\"\n                        [indeterminate]=\"selection.hasValue() && !isAllSelected()\">\n          </mat-checkbox>\n        </th>\n        <td mat-cell *matCellDef=\"let row\">\n          <mat-checkbox (click)=\"$event.stopPropagation()\"\n                        (change)=\"$event ? selection.toggle(row) : null\"\n                        [checked]=\"selection.isSelected(row)\">\n          </mat-checkbox>\n        </td>\n      </ng-container>\n\n      <ng-container *ngFor=\"let column of columns\" [matColumnDef]=\"column.columnDef\" >\n        <th mat-header-cell *matHeaderCellDef mat-sort-header class=\"th-header-center\">{{ column.header }}</th>\n        <td mat-cell *matCellDef=\"let row\"  [ngStyle]=\"styleCell(column,row)\" class=\"td-cell-center\">\n          <span *ngIf=\"column.columnDef=='status' \">{{ getstatus([column.cell(row)]) }}</span>\n<!--          <span *ngIf=\"column.columnDef=='contractssigned' \">-->\n          <span *ngIf=\"column.columnDef!='status' \">{{ column.cell(row) }}</span>\n        </td>\n      </ng-container>\n\n\n      <ng-container matColumnDef=\"Actions\"   >\n        <th mat-header-cell *matHeaderCellDef  class=\"th-header-center\">Actions</th>\n        <td (click)=\"$event.stopPropagation()\" mat-cell  *matCellDef=\"let row\"  class=\"td-cell-center\">\n          <span *ngIf=\"selection.selected.length==null || selection.selected.length==0\">\n        <span class=\"cursor\" (click)=\"editdata(row)\" >\n        <i class=\"material-icons\">\n          edit\n        </i>\n        </span>\n\n          <!--For modern browsers-->\n          <span class=\"cursor\" (click)=\"deletedata(row)\" >\n        <i class=\"material-icons\">\n          delete_outline\n        </i>\n        </span>\n\n          <!--For modern browsers-->\n          <span class=\"cursor\" (click)=\"viewdata(row)\" >\n          <i class=\"material-icons\">\n            pageview\n          </i>\n          </span>\n\n          <!--For modern browsers-->\n          <span class=\"cursor\" (click)=\"managestatus(row)\" >\n          <i class=\"material-icons\">\n            toggle_off\n          </i>\n          </span>\n            <span>\n            <span *ngFor=\"let item of urlval\">\n<!--    <button   color=\"primary\" >{{item.label}}</button>-->\n<!--    <button mat-raised-button color=\"primary\" (click)=\"clickurl(item.url)\" target=\"_blank\">{{item.label}}</button>-->\n<!--              <a href=\"javascript:void(0);\" class=\"s_login\" [attr.href]=\"item.url\" target=\"_blank\">Log in</a>-->\n              <i title=\"{{item.label}}\" (click)=\"clickurl(row,item.url)\" class=\"material-icons\">cloud_download</i>\n    </span>\n\n          </span>\n          </span>\n\n        </td>\n        <!--<td *ngIf=\"column.objlength==i+1\" mat-cell *matCellDef=\"i\">\n          <mat-icon>more_vert</mat-icon>\n        </td>-->\n      </ng-container>\n\n\n      <tr mat-header-row *matHeaderRowDef=\"displayedColumns\"></tr>\n      <tr mat-row *matRowDef=\"let row; columns: displayedColumns;\"></tr>\n\n    </table>\n\n    <mat-paginator [pageSizeOptions]=\"[5,10, 20, 50,100]\" showFirstLastButtons></mat-paginator>\n\n    <br>\n\n\n   <!-- <form [formGroup]=\"stateForm\">\n      <mat-form-field>\n        <input type=\"text\" matInput placeholder=\"States Group\" formControlName=\"stateGroup\" required [matAutocomplete]=\"autoGroup\">\n        <mat-autocomplete #autoGroup=\"matAutocomplete\">\n          <mat-optgroup *ngFor=\"let group of stateGroupOptions | async\" [label]=\"group.letter\">\n            <mat-option *ngFor=\"let name of group.names\" [value]=\"name\">\n              {{name}}\n            </mat-option>\n          </mat-optgroup>\n        </mat-autocomplete>\n      </mat-form-field>\n    </form>-->\n\n    <form class=\"example-form\">\n      <mat-form-field class=\"example-full-width\">\n        <input type=\"text\" placeholder=\"Select state\" aria-label=\"Number\" matInput [formControl]=\"myControl\" [matAutocomplete]=\"auto\">\n        <mat-autocomplete #auto=\"matAutocomplete\">\n          <mat-option *ngFor=\"let option of stateGroup | async\" [value]=\"option\">\n            {{option}}\n          </mat-option>\n        </mat-autocomplete>\n      </mat-form-field>\n    </form>\n\n\n  </mat-card>\n\n<!--\n  <mat-card>\n\n    <div class=\"example-container\">\n\n\n      <mat-card-content >\n        <mat-form-field class=\"form-group\">\n            <input (blur)=\"inputblur('email')\" matInput placeholder=\"email\" type=\"email\" [formControl]=\"myForm.controls['email']\" >\n            <mat-error  *ngIf=\"!myForm.controls['email'].valid && myForm.controls['email'].touched && issubmit==1\">email field can not be blank</mat-error>\n        </mat-form-field>\n\n        <mat-form-field class=\"form-group\">\n            <input (blur)=\"inputblur('password')\" matInput placeholder=\"Password\" type=\"password\" [formControl]=\"myForm.controls['password']\" >\n            <mat-error  *ngIf=\"!myForm.controls['password'].valid && myForm.controls['password'].touched && issubmit==1\">Password field can not be blank</mat-error>\n        </mat-form-field>\n\n            <button mat-button  (click)=\"onSubmit()\" class=\"s_getmyoffer_login_button\"  >Login</button>\n        </mat-card-content>\n\n\n    </div>\n\n  </mat-card>-->\n  <br>\n  <br>\n\n\n</div>\n",
+                        template: "<div class=\"container\">\n\n\n  <mat-card>\n    <mat-toolbar-row class=\"searchbar\" style=\"display: flex!important; justify-content: space-between!important;\">\n    <mat-form-field>\n      <input matInput (keyup)=\"applyFilter($event.target.value)\" placeholder=\"Filter\">\n    </mat-form-field>\n\n      <span *ngIf=\"click_to_add_ananother_pageval\">\n        <button mat-raised-button color=\"primary\" class=\"add_button\" style=\"margin: 0!important; margin-left: 10px!important; \" [routerLink]=\"click_to_add_ananother_pageval\" >Add</button>\n    </span>\n    </mat-toolbar-row>\n\n\n\n    <ng-container *ngIf=\"selection.selected.length!=null && selection.selected.length>0\">\n      <button mat-raised-button (click)=\"deletemultiple()\"> Delete </button>\n      <button mat-raised-button (click)=\"managestatusmultiple()\"> Update Status </button>\n    </ng-container>\n\n\n\n    <table mat-table [dataSource]=\"dataSource\" matSort class=\"mat-elevation-z8\">\n\n      <ng-container matColumnDef=\"select\">\n        <th mat-header-cell *matHeaderCellDef>\n          <mat-checkbox (change)=\"$event ? masterToggle() : null\"\n                        [checked]=\"selection.hasValue() && isAllSelected()\"\n                        [indeterminate]=\"selection.hasValue() && !isAllSelected()\">\n          </mat-checkbox>\n        </th>\n        <td mat-cell *matCellDef=\"let row\" data-label=\"select\">\n          <mat-checkbox (click)=\"$event.stopPropagation()\"\n                        (change)=\"$event ? selection.toggle(row) : null\"\n                        [checked]=\"selection.isSelected(row)\">\n          </mat-checkbox>\n        </td>\n      </ng-container>\n\n      <ng-container *ngFor=\"let column of columns\" [matColumnDef]=\"column.columnDef\" >\n        <th mat-header-cell *matHeaderCellDef mat-sort-header class=\"th-header-center\">{{column.header}}</th>\n        <td mat-cell *matCellDef=\"let row\" [ngStyle]=\"styleCell(column,row)\" data-title=\"{{column.header}}\"   class=\"td-cell-center\">\n          <span *ngIf=\"column.columnDef=='status' \">{{ getstatus([column.cell(row)]) }} {{hi(row)}}</span>\n          <span *ngIf=\"column.columnDef!='status' \">{{ column.cell(row) }}</span>\n          <br>\n\n<!--          <span *ngIf=\"sh==true\">-->\n            <span *ngIf=\"column.columnDef=='contractssigned' && sh==true\" class=\"cursor\">\n              <i title=\"{{urlval[0].label}}\" (click)=\"clickurl(row,urlval[0].url)\" class=\"material-icons\">cloud_download</i>\n            </span>\n<!--          </span>-->\n<!--          <span *ngIf=\"aud==true\">-->\n            <span *ngIf=\"column.columnDef=='contractssigned' && aud==true\">\n              <i title=\"{{urlval[1].label}}\" (click)=\"clickurl(row,urlval[1].url)\" class=\"material-icons\">cloud_download</i>\n            </span>\n<!--          </span>-->\n          <!-- <span *ngIf=\"column.columnDef=='contractssigned' \">\n            <span *ngFor=\"let item of urlval\" class=\"cursor\">\n            <i title=\"{{item.label}}\" (click)=\"clickurl(row,item.url)\" class=\"material-icons\">cloud_download</i>\n          </span>\n          </span>-->\n        </td>\n      </ng-container>\n\n\n\n      <ng-container matColumnDef=\"Actions\"   >\n        <th mat-header-cell *matHeaderCellDef  class=\"th-header-center\">Actions</th>\n        <td (click)=\"$event.stopPropagation()\" mat-cell  *matCellDef=\"let row\" data-label=\"Actions\"  class=\"td-cell-center\">\n          <span *ngIf=\"selection.selected.length==null || selection.selected.length==0\">\n            <span class=\"cursor\" (click)=\"editdata(row)\" >\n              <i class=\"material-icons\">\n                edit\n              </i>\n            </span>\n\n            <!--For modern browsers-->\n            <span class=\"cursor\" (click)=\"deletedata(row)\" >\n              <i class=\"material-icons\">\n                delete_outline\n              </i>\n            </span>\n\n            <!--For modern browsers-->\n            <span class=\"cursor\" (click)=\"viewdata(row)\" >\n              <i class=\"material-icons\">\n                pageview\n              </i>\n            </span>\n\n            <!--For modern browsers-->\n            <span class=\"cursor\" (click)=\"managestatus(row)\" >\n              <i class=\"material-icons\">\n                toggle_off\n              </i>\n            </span>\n           <!-- <span>\n              <span *ngFor=\"let item of urlval\" class=\"cursor\">\n                <i title=\"{{item.label}}\" (click)=\"clickurl(row,item.url)\" class=\"material-icons\">cloud_download</i>\n              </span>-->\n\n<!--            </span>-->\n          </span>\n\n        </td>\n      </ng-container>\n\n\n\n\n\n\n      <tr mat-header-row *matHeaderRowDef=\"displayedColumns\"></tr>\n      <tr mat-row *matRowDef=\"let row; columns: displayedColumns;\"></tr>\n\n    </table>\n\n    <mat-paginator [pageSizeOptions]=\"[5,10, 20, 50,100]\" showFirstLastButtons></mat-paginator>\n\n    <br>\n\n\n   <!-- <form [formGroup]=\"stateForm\">\n      <mat-form-field>\n        <input type=\"text\" matInput placeholder=\"States Group\" formControlName=\"stateGroup\" required [matAutocomplete]=\"autoGroup\">\n        <mat-autocomplete #autoGroup=\"matAutocomplete\">\n          <mat-optgroup *ngFor=\"let group of stateGroupOptions | async\" [label]=\"group.letter\">\n            <mat-option *ngFor=\"let name of group.names\" [value]=\"name\">\n              {{name}}\n            </mat-option>\n          </mat-optgroup>\n        </mat-autocomplete>\n      </mat-form-field>\n    </form>-->\n\n    <!--<form class=\"example-form\">\n      <mat-form-field class=\"example-full-width\">\n        <input type=\"text\" placeholder=\"Select state\" aria-label=\"Number\" matInput [formControl]=\"myControl\" [matAutocomplete]=\"auto\">\n        <mat-autocomplete #auto=\"matAutocomplete\">\n          <mat-option *ngFor=\"let option of stateGroup | async\" [value]=\"option\">\n            {{option}}\n          </mat-option>\n        </mat-autocomplete>\n      </mat-form-field>\n    </form>\n-->\n\n  </mat-card>\n\n<!--\n  <mat-card>\n\n    <div class=\"example-container\">\n\n\n      <mat-card-content >\n        <mat-form-field class=\"form-group\">\n            <input (blur)=\"inputblur('email')\" matInput placeholder=\"email\" type=\"email\" [formControl]=\"myForm.controls['email']\" >\n            <mat-error  *ngIf=\"!myForm.controls['email'].valid && myForm.controls['email'].touched && issubmit==1\">email field can not be blank</mat-error>\n        </mat-form-field>\n\n        <mat-form-field class=\"form-group\">\n            <input (blur)=\"inputblur('password')\" matInput placeholder=\"Password\" type=\"password\" [formControl]=\"myForm.controls['password']\" >\n            <mat-error  *ngIf=\"!myForm.controls['password'].valid && myForm.controls['password'].touched && issubmit==1\">Password field can not be blank</mat-error>\n        </mat-form-field>\n\n            <button mat-button  (click)=\"onSubmit()\" class=\"s_getmyoffer_login_button\"  >Login</button>\n        </mat-card-content>\n\n\n    </div>\n\n  </mat-card>-->\n  <br>\n  <br>\n\n\n</div>\n",
                         styles: [".container{background:#fff}body{font-family:Roboto,Arial,sans-serif;margin:0;display:none!important}.basic-container{padding:30px}.version-info{font-size:8pt;float:right}table{width:100%}th.mat-sort-header-sorted{color:#000}.custom-modalbox{display:none}"]
                     }] }
         ];
@@ -1515,7 +1587,9 @@
             ];
         };
         ListingComponent.propDecorators = {
+            click_to_add_ananother_page: [{ type: i0.Input }],
             url: [{ type: i0.Input }],
+            searchendpoint: [{ type: i0.Input }],
             pdf_link: [{ type: i0.Input }],
             searchList: [{ type: i0.Input }],
             datasource: [{ type: i0.Input }],
@@ -1688,6 +1762,7 @@
                             forms.FormsModule, forms.ReactiveFormsModule,
                             angularMaterialFileupload.MatFileUploadModule, ngxUploader.NgxUploaderModule, router.RouterModule,
                         ],
+                        schemas: [i0.CUSTOM_ELEMENTS_SCHEMA],
                         exports: [ListingComponent,
                             //MyfromComponent,
                             ngxUploader.NgxUploaderModule],
@@ -1709,7 +1784,6 @@
      */
 
     exports.ListingService = ListingService;
-    exports._filter = _filter;
     exports.ListingComponent = ListingComponent;
     exports.Confirmdialog = Confirmdialog;
     exports.BottomSheet = BottomSheet;
