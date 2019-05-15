@@ -73,6 +73,8 @@ export class AdmindashbordComponent implements OnInit {
 
 
     editroute1:any='modeledit';
+    date_search_endpoint: any='datalist';
+    date_search_source: any='userslist_view';
     status_gretterthan_zero_skip: any= ['_id','username','phone','city','state','ethnicity','height','haircolor','eyecolor','weight','bust','waist','hips','slim','toned','tattoos','athletic','piercings','retail','voluptuous','promotions','sales','descriptionbox','facebooklink','twitterlink','instagramlink','modelmayhemlink','type','images'];
     status_gretterthan_zero_modify_header: any = { 'dateformat': 'Date','status':'Status','email':'Email', 'name':'Full Name', 'bodytype' : 'Bodytype', 'shatterblok agreement date': 'Shatterblok Agreement Date', 'audiodeadline agreement date': 'Audiodeadline Agreement Date' };
     status_gretterthan_zero_detail_skip:any=['_id','email','name','type','status'];
@@ -105,6 +107,8 @@ export class AdmindashbordComponent implements OnInit {
             console.log('json', data['results']);
             this.brandarray = data['results'].item.brand;
             this.status_gretterthan_zero = data['results'].item.status_gretterthan_zero;
+            console.log('this.status_gretterthan_zero');
+            console.log(this.status_gretterthan_zero);
 
 
             this.pendingapplication_view = data['results'].item.pendingapplication_view;

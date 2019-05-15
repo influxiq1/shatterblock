@@ -23,6 +23,7 @@ import { FileComponent } from '../lib/dynamic-form-builder/atoms/file';
 import { CheckBoxComponent } from '../lib/dynamic-form-builder/atoms/checkbox';
 import { RadioComponent } from '../lib/dynamic-form-builder/atoms/radio';
 */
+import { MomentModule } from 'ngx-moment';
 
 
 
@@ -40,6 +41,7 @@ import { RadioComponent } from '../lib/dynamic-form-builder/atoms/radio';
         DemoMaterialModule,
         FormsModule, ReactiveFormsModule,
         MatFileUploadModule, NgxUploaderModule, RouterModule,
+        MomentModule
         // DynamicFieldDirective,
 
     ],

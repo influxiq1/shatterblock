@@ -12,6 +12,9 @@ import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import { Router } from "@angular/router";
 import {Observable} from 'rxjs';
 import {startWith, map} from 'rxjs/operators';
+import {HttpClient} from "@angular/common/http";
+declare var $:any;
+import * as moment from 'moment';
 /*
 export interface StateGroup {
   letter: string;
@@ -67,6 +70,8 @@ export class ListingComponent implements OnInit {
 
     datasourceval:any;
   click_to_add_ananother_pageval:any;
+  date_search_sourceval:any;
+  date_search_endpointval:any;
   urlval:any;
   searchendpointval:any;
   searchListval:any;
@@ -96,6 +101,20 @@ export class ListingComponent implements OnInit {
     this.click_to_add_ananother_pageval = click_to_add_ananother_page;
     console.log('this.click_to_add_ananother_pageval');
     console.log(this.click_to_add_ananother_pageval);
+  }
+
+  @Input()
+  set date_search_source(date_search_source: any) {
+    this.date_search_sourceval = date_search_source;
+    console.log('this.date_search_sourceval');
+    console.log(this.date_search_sourceval);
+  }
+
+  @Input()
+  set date_search_endpoint(date_search_endpoint: any) {
+    this.date_search_endpointval = date_search_endpoint;
+    console.log('this.date_search_endpointval');
+    console.log(this.date_search_endpointval);
   }
    @Input()
   set url(url: any) {
@@ -212,7 +231,8 @@ export class ListingComponent implements OnInit {
   datacolumns: string[] = [];
   displayedColumnsheader: string[] = [];
   formarray: any = [];
-  //email: any ;
+  start_date: any ;
+  end_date: any ;
   //dataSource = new MatTableDataSource(this.datasourceval);
   dataSource = new MatTableDataSource;
 
@@ -223,7 +243,7 @@ export class ListingComponent implements OnInit {
   // myForm:any;
 
   constructor(public _apiService: ApiService,public dialog: MatDialog,private bottomSheet: MatBottomSheet,public fb: FormBuilder,private router: Router, private resolver: ComponentFactoryResolver,
-              private container: ViewContainerRef) {
+              private container: ViewContainerRef, public _http: HttpClient) {
 
 
    /* this.myForm = this.fb.group({
@@ -239,17 +259,8 @@ export class ListingComponent implements OnInit {
   })*/
 
 
-  onSubmit() {
-    let x: any;
-    this.errormg = '';
-    let data = this.myForm.value;
-    console.log('data');
-    console.log(data);
-    console.log(this.myForm.valid);
-    for (x in this.myForm.controls) {
-      this.myForm.controls[x].markAsTouched();
-    }
-  }
+
+
 
 
   inputblur(val:any){
@@ -299,16 +310,16 @@ export class ListingComponent implements OnInit {
     for (let i = 0; i < coldef_list.length; i++) {
       let ff = `row.${coldef_list[i]}`
       var tt = { columnDef: `${coldef_list[i]}`,    header: `${header_list[i].replace(/_/g," ")}`,  cell: (row) => eval(ff) ,objlength:header_list.length  };
-      console.log('tt.columnDef');
-      console.log(tt.columnDef);
+      // console.log('tt.columnDef');
+      // console.log(tt.columnDef);
       for (let b in this.modify_header_arrayval){
         if(b==tt.header) tt.header=this.modify_header_arrayval[b];
       }
 
       if(this.skipval.indexOf(tt.columnDef)==-1)
       this.columns.push(tt);
-      console.log('this.columns');
-      console.log(this.columns);
+      // console.log('this.columns');
+      // console.log(this.columns);
     }
     let displayedcols= this.columns.map(x => x.columnDef);
     displayedcols.push('Actions');
@@ -327,6 +338,83 @@ export class ListingComponent implements OnInit {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
   }
+
+
+  onSubmit() {
+    let x: any;
+    this.errormg = '';
+    let data = this.myForm.value;
+    console.log('data');
+    console.log(data);
+    console.log(this.myForm.valid);
+    for (x in this.myForm.controls) {
+      this.myForm.controls[x].markAsTouched();
+    }
+  }
+  dateSearch() {
+    console.log("start date");
+    console.log(this.start_date);
+    console.log(this.end_date);
+    let sd = moment(this.start_date).unix();
+    let ed = moment(this.end_date).unix();
+    console.log(moment(this.start_date).unix());
+    console.log(moment(this.end_date).unix());
+    console.log(new Date(this.end_date).getTime());
+    let link = this.apiurlval + ''+ this.date_search_endpointval;
+    console.log(link);
+    if(moment(this.end_date).unix()!=null && moment(this.start_date).unix()!=null ) {
+
+      this._http.post(link, {source:this.date_search_sourceval,
+        condition: {
+          'created_at': {
+            $lte: new Date(this.end_date).getTime(),
+            $gte: new Date(this.start_date).getTime(),
+          }
+        },token: this.jwttokenval
+      }).subscribe( res =>{
+        let result: any ={};
+        result = res;
+        console.log("ok");
+        console.log(res);
+        console.log(result.res);
+        let newdata = result.res;
+        this.dataSource = new MatTableDataSource(result.res);
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
+      })
+    }else
+      console.log("error");
+  }
+
+
+
+  statusSearch( value: any) {
+    console.log("start date");
+    console.log(value);
+    // console.log(this.end_date);
+    let link = this.apiurlval + ''+ this.date_search_endpointval;
+    console.log(link);
+    if(value !=null ) {
+
+      this._http.post(link, {source:this.date_search_sourceval,
+        condition: {status: value},
+        token: this.jwttokenval
+      }).subscribe( res =>{
+        let result: any ={};
+        result = res;
+        console.log("ok");
+        console.log(res);
+        console.log(result.res);
+        let newdata = result.res;
+        this.dataSource = new MatTableDataSource(result.res);
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
+      })
+    }else
+      console.log("error");
+  }
+
+
 
   private _filter(value: string): string[] {
     const filterValue = value.toLowerCase();
@@ -438,6 +526,7 @@ export class ListingComponent implements OnInit {
   }
 
   applyFilter(filterValue: string) {
+    console.log(filterValue)
     this.dataSource.filter = filterValue.trim().toLowerCase();
 
     if (this.dataSource.paginator) {
@@ -672,6 +761,8 @@ export class ListingComponent implements OnInit {
             for(let c in ids){
               this.olddata = this.olddata.filter(olddata => olddata._id != ids[c]);
             }
+            console.log('this.olddata');
+            console.log(this.olddata);
             this.dataSource = new MatTableDataSource(this.olddata);
             this.selection = new SelectionModel(true, []);
             this.dataSource.paginator = this.paginator;
@@ -715,7 +806,9 @@ export class ListingComponent implements OnInit {
           let result: any = {};
           result = res;
           if(result.status=='success'){
-
+            console.log('this.olddata');
+            console.log(this.olddata);
+            console.log(this.olddata._id);
             this.olddata = this.olddata.filter(olddata => olddata._id != data._id)
             this.dataSource = new MatTableDataSource(this.olddata);
             this.selection = new SelectionModel(true, []);

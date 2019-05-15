@@ -7,6 +7,27 @@
       <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
     </mat-form-field>
 
+      <mat-form-field>
+        <mat-label>Status Search</mat-label>
+        <mat-select>
+          <mat-option *ngFor="let status of statusarrval" [(value)]="status" (click)="statusSearch(status.val)">
+            {{status.name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field>
+        <input matInput [matDatepicker]="picker"autocomplete="off"  placeholder="Start Date"  [(ngModel)]="start_date" >
+        <mat-datepicker-toggle matSuffix [for]="picker" ></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput [matDatepicker]="picker1" autocomplete="off" placeholder="End Data" [(ngModel)]="end_date" >
+        <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+        <mat-datepicker #picker1 ></mat-datepicker>
+      </mat-form-field>
+      <button mat-raised-button color="primary" class="add_button" style="margin: 0!important; margin-left: 10px!important; " (click)="dateSearch()">Submit</button>
+
       <span *ngIf="click_to_add_ananother_pageval">
         <button mat-raised-button color="primary" class="add_button" style="margin: 0!important; margin-left: 10px!important; " [routerLink]="click_to_add_ananother_pageval" >Add</button>
     </span>

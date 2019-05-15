@@ -265,6 +265,7 @@ export class ApiService {
     return result;
   }
 
+
   deteOneData(endpoint:any, data,token,source) {
     const httpOptions = {
       headers: new HttpHeaders({
