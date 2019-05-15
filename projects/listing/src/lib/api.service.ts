@@ -251,6 +251,38 @@ export class ApiService {
 
 
 
+
+  postSearch( link,token,source) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'access-token': token
+      })
+    };
+    console.log('------ ');
+    console.log("link");
+    console.log(link);
+    var result = this._http.post(link, source, httpOptions).pipe(map(res => res));
+    return result;
+  }
+postSearch1( link,source) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'access-token': source.token
+      })
+    };
+    console.log('------ ');
+    console.log("link");
+    console.log(link);
+    var result = this._http.post(link, source).pipe(map(res => res));
+    return result;
+  }
+
+
+
+
+
   putData(endpoint:any, data, id:any) {
     const httpOptions = {
       headers: new HttpHeaders({

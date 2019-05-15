@@ -1,6 +1,7 @@
 import { SelectionModel } from '@angular/cdk/collections';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { map, startWith } from 'rxjs/operators';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import * as momentImported from 'moment';
 import { BrowserModule } from '@angular/platform-browser';
 import { A11yModule } from '@angular/cdk/a11y';
 import { DragDropModule } from '@angular/cdk/drag-drop';
@@ -9,7 +10,7 @@ import { ScrollingModule } from '@angular/cdk/scrolling';
 import { CdkStepperModule } from '@angular/cdk/stepper';
 import { CdkTableModule } from '@angular/cdk/table';
 import { CdkTreeModule } from '@angular/cdk/tree';
-import { Injectable, EventEmitter, ViewChild, NgModule, CUSTOM_ELEMENTS_SCHEMA, Component, Input, Inject, ComponentFactoryResolver, ViewContainerRef, defineInjectable } from '@angular/core';
+import { Injectable, EventEmitter, ViewChild, Component, Input, Inject, ComponentFactoryResolver, ViewContainerRef, NgModule, CUSTOM_ELEMENTS_SCHEMA, defineInjectable } from '@angular/core';
 import { MatSort, MatTableDataSource, MatPaginator, MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatBottomSheet, MatBottomSheetRef, MAT_BOTTOM_SHEET_DATA, MatAutocompleteModule, MatBadgeModule, MatBottomSheetModule, MatButtonModule, MatButtonToggleModule, MatCardModule, MatCheckboxModule, MatChipsModule, MatDatepickerModule, MatDialogModule, MatDividerModule, MatExpansionModule, MatGridListModule, MatIconModule, MatInputModule, MatListModule, MatMenuModule, MatNativeDateModule, MatPaginatorModule, MatProgressBarModule, MatProgressSpinnerModule, MatRadioModule, MatRippleModule, MatSelectModule, MatSidenavModule, MatSliderModule, MatSlideToggleModule, MatSnackBarModule, MatSortModule, MatStepperModule, MatTableModule, MatTabsModule, MatToolbarModule, MatTooltipModule, MatTreeModule } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormBuilder, FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -17,6 +18,7 @@ import { CommonModule } from '@angular/common';
 import { MatFileUploadModule } from 'angular-material-fileupload';
 import { humanizeBytes, NgxUploaderModule } from 'ngx-uploader';
 import { Router, RouterModule } from '@angular/router';
+import { MomentModule } from 'ngx-moment';
 
 /**
  * @fileoverview added by tsickle
@@ -336,6 +338,55 @@ class ApiService {
     } // postData end
     // postData end
     /**
+     * @param {?} link
+     * @param {?} token
+     * @param {?} source
+     * @return {?}
+     */
+    postSearch(link, token, source) {
+        /** @type {?} */
+        const httpOptions = {
+            headers: new HttpHeaders({
+                'Content-Type': 'application/json',
+                'access-token': token
+            })
+        };
+        console.log('------ ');
+        console.log("link");
+        console.log(link);
+        /** @type {?} */
+        var result = this._http.post(link, source, httpOptions).pipe(map((/**
+         * @param {?} res
+         * @return {?}
+         */
+        res => res)));
+        return result;
+    }
+    /**
+     * @param {?} link
+     * @param {?} source
+     * @return {?}
+     */
+    postSearch1(link, source) {
+        /** @type {?} */
+        const httpOptions = {
+            headers: new HttpHeaders({
+                'Content-Type': 'application/json',
+                'access-token': source.token
+            })
+        };
+        console.log('------ ');
+        console.log("link");
+        console.log(link);
+        /** @type {?} */
+        var result = this._http.post(link, source).pipe(map((/**
+         * @param {?} res
+         * @return {?}
+         */
+        res => res)));
+        return result;
+    }
+    /**
      * @param {?} endpoint
      * @param {?} data
      * @param {?} id
@@ -510,36 +561,8 @@ ApiService.propDecorators = {
  * @fileoverview added by tsickle
  * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
-/*
-export interface StateGroup {
-  letter: string;
-  names: string[];
-}*/
-/*
-export const filter = (opt: string[], value: string): string[] => {
-  const filterValue = value.toLowerCase();
-
-  return opt.filter(item => item.toLowerCase().indexOf(filterValue) === 0);
-};*/
-/*import { FieldConfig } from "../lib/myfrom/field.interface";
-import { InputComponent } from "../lib/myfrom/input.component";
-import { ButtonComponent } from "../lib/myfrom/button.component";
-import { SelectComponent } from "../lib/myfrom/select.component";
-import { DateComponent } from "../lib/myfrom/date.component";
-import { RadiobuttonComponent } from "../lib/myfrom/radiobutton.component";
-import { CheckboxComponent } from "../lib/myfrom/checkbox.component";
-
-const componentMapper = {
-  input: InputComponent,
-  button: ButtonComponent,
-  select: SelectComponent,
-  date: DateComponent,
-  radiobutton: RadiobuttonComponent,
-  checkbox: CheckboxComponent
-};
-@Directive({
-  selector: "[dynamicField]"
-})*/
+/** @type {?} */
+const moment = momentImported;
 class ListingComponent {
     // myForm:any;
     /**
@@ -550,12 +573,9 @@ class ListingComponent {
      * @param {?} router
      * @param {?} resolver
      * @param {?} container
+     * @param {?} _http
      */
-    constructor(_apiService, dialog, bottomSheet, fb, router, resolver, container) {
-        /* this.myForm = this.fb.group({
-           email: ['', Validators.compose([Validators.required, Validators.pattern(/^\s*[\w\-\+_]+(\.[\w\-\+_]+)*\@[\w\-\+_]+\.[\w\-\+_]+(\.[\w\-\+_]+)*\s*$/)])],
-           password: ['', Validators.required]
-         });*/
+    constructor(_apiService, dialog, bottomSheet, fb, router, resolver, container, _http) {
         this._apiService = _apiService;
         this.dialog = dialog;
         this.bottomSheet = bottomSheet;
@@ -563,17 +583,7 @@ class ListingComponent {
         this.router = router;
         this.resolver = resolver;
         this.container = container;
-        /* //added Input decorator over label props
-          @Input() label: string;
-          options={
-            timeOut: 3000,
-            showProgressBar: true,
-            pauseOnHover: true,
-            clickToClose: true
-          };*/
-        /*stateForm: FormGroup = this.fb.group({
-            stateGroup: '',
-          });*/
+        this._http = _http;
         this.myControl = new FormControl();
         this.columns = [];
         this.olddata = [];
@@ -584,9 +594,26 @@ class ListingComponent {
         this.datacolumns = [];
         this.displayedColumnsheader = [];
         this.formarray = [];
-        //email: any ;
         //dataSource = new MatTableDataSource(this.datasourceval);
         this.dataSource = new MatTableDataSource;
+        console.log('this.search_settingsval.selectsearch.label');
+        console.log(this.search_settingsval);
+        /* this.myForm = this.fb.group({
+           email: ['', Validators.compose([Validators.required, Validators.pattern(/^\s*[\w\-\+_]+(\.[\w\-\+_]+)*\@[\w\-\+_]+\.[\w\-\+_]+(\.[\w\-\+_]+)*\s*$/)])],
+           password: ['', Validators.required]
+         });*/
+    }
+    /**
+     * @param {?} search_settings
+     * @return {?}
+     */
+    set search_settings(search_settings) {
+        this.search_settingsval = search_settings;
+        console.log('this.search_settingsval');
+        console.log(this.search_settingsval);
+        console.log(this.search_settingsval.selectsearch);
+        console.log(this.search_settingsval.selectsearch[0].label);
+        console.log(this.search_settingsval.selectsearch[0].values);
     }
     /**
      * @param {?} click_to_add_ananother_page
@@ -596,6 +623,24 @@ class ListingComponent {
         this.click_to_add_ananother_pageval = click_to_add_ananother_page;
         console.log('this.click_to_add_ananother_pageval');
         console.log(this.click_to_add_ananother_pageval);
+    }
+    /**
+     * @param {?} date_search_source
+     * @return {?}
+     */
+    set date_search_source(date_search_source) {
+        this.date_search_sourceval = date_search_source;
+        console.log('this.date_search_sourceval');
+        console.log(this.date_search_sourceval);
+    }
+    /**
+     * @param {?} date_search_endpoint
+     * @return {?}
+     */
+    set date_search_endpoint(date_search_endpoint) {
+        this.date_search_endpointval = date_search_endpoint;
+        console.log('this.date_search_endpointval');
+        console.log(this.date_search_endpointval);
     }
     /**
      * @param {?} url
@@ -747,22 +792,6 @@ class ListingComponent {
         selector: '[Listing]'
       })*/
     /**
-     * @return {?}
-     */
-    onSubmit() {
-        /** @type {?} */
-        let x;
-        this.errormg = '';
-        /** @type {?} */
-        let data = this.myForm.value;
-        console.log('data');
-        console.log(data);
-        console.log(this.myForm.valid);
-        for (x in this.myForm.controls) {
-            this.myForm.controls[x].markAsTouched();
-        }
-    }
-    /**
      * @param {?} val
      * @return {?}
      */
@@ -822,16 +851,16 @@ class ListingComponent {
                  * @return {?}
                  */
                 (row) => eval(ff)), objlength: header_list.length };
-            console.log('tt.columnDef');
-            console.log(tt.columnDef);
+            // console.log('tt.columnDef');
+            // console.log(tt.columnDef);
             for (let b in this.modify_header_arrayval) {
                 if (b == tt.header)
                     tt.header = this.modify_header_arrayval[b];
             }
             if (this.skipval.indexOf(tt.columnDef) == -1)
                 this.columns.push(tt);
-            console.log('this.columns');
-            console.log(this.columns);
+            // console.log('this.columns');
+            // console.log(this.columns);
         }
         /** @type {?} */
         let displayedcols = this.columns.map((/**
@@ -852,6 +881,135 @@ class ListingComponent {
         this.selection = new SelectionModel(true, []);
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
+    }
+    /**
+     * @return {?}
+     */
+    onSubmit() {
+        /** @type {?} */
+        let x;
+        this.errormg = '';
+        /** @type {?} */
+        let data = this.myForm.value;
+        console.log('data');
+        console.log(data);
+        console.log(this.myForm.valid);
+        for (x in this.myForm.controls) {
+            this.myForm.controls[x].markAsTouched();
+        }
+    }
+    /**
+     * @return {?}
+     */
+    dateSearch() {
+        console.log("start date");
+        console.log(this.start_date);
+        console.log(this.end_date);
+        /** @type {?} */
+        let sd = moment(this.start_date).unix();
+        /** @type {?} */
+        let ed = moment(this.end_date).unix();
+        console.log(moment(this.start_date).unix());
+        console.log(moment(this.end_date).unix());
+        console.log(new Date(this.end_date).getTime());
+        /** @type {?} */
+        let link = this.apiurlval + '' + this.date_search_endpointval;
+        console.log(link);
+        if (moment(this.end_date).unix() != null && moment(this.start_date).unix() != null) {
+            /** @type {?} */
+            let source;
+            /** @type {?} */
+            let condition;
+            condition = {};
+            condition = { 'created_at': {
+                    $lte: new Date(this.end_date).getTime(),
+                    $gte: new Date(this.start_date).getTime(),
+                } };
+            source = {
+                source: this.date_search_sourceval,
+                condition: condition,
+            };
+            console.log(source);
+            this._apiService.postSearch(link, this.jwttokenval, source).subscribe((/**
+             * @param {?} res
+             * @return {?}
+             */
+            res => {
+                console.log(res);
+                /** @type {?} */
+                let result = {};
+                result = res;
+                this.dataSource = new MatTableDataSource(result.res);
+                this.dataSource.paginator = this.paginator;
+                this.dataSource.sort = this.sort;
+            }));
+            /*this._http.post(link, {source:this.date_search_sourceval,
+              condition: {
+                'created_at': {
+                  $lte: new Date(this.end_date).getTime(),
+                  $gte: new Date(this.start_date).getTime(),
+                }
+              },token: this.jwttokenval,
+            }).subscribe( res =>{
+              let result: any ={};
+              result = res;
+              console.log("ok");
+              console.log(res);
+              console.log(result.res);
+              let newdata = result.res;
+              this.dataSource = new MatTableDataSource(result.res);
+              this.dataSource.paginator = this.paginator;
+              this.dataSource.sort = this.sort;
+            })*/
+        }
+        else
+            console.log("error");
+    }
+    /**
+     * @param {?} value
+     * @param {?} type
+     * @return {?}
+     */
+    selectSearch(value, type) {
+        console.log('type');
+        console.log(type);
+        /** @type {?} */
+        let link = this.apiurlval + '' + this.date_search_endpointval;
+        console.log(link);
+        /** @type {?} */
+        let source;
+        /** @type {?} */
+        let condition;
+        condition = {};
+        condition[type.field] = value;
+        source = {
+            source: this.date_search_sourceval,
+            condition: condition
+        };
+        if (value != null) {
+            this._apiService.postSearch(link, this.jwttokenval, source).subscribe((/**
+             * @param {?} res
+             * @return {?}
+             */
+            res => {
+                console.log(res);
+                /** @type {?} */
+                let result = {};
+                result = res;
+                console.log("ok");
+                console.log(res);
+                console.log(result.res);
+                /** @type {?} */
+                let newdata = result.res;
+                this.dataSource = new MatTableDataSource(result.res);
+                this.dataSource.paginator = this.paginator;
+                this.dataSource.sort = this.sort;
+            }));
+        }
+        else {
+            console.log('oops');
+        }
+        console.log("error");
     }
     /**
      * @private
@@ -1005,6 +1163,7 @@ class ListingComponent {
      * @return {?}
      */
     applyFilter(filterValue) {
+        console.log(filterValue);
         this.dataSource.filter = filterValue.trim().toLowerCase();
         if (this.dataSource.paginator) {
             this.dataSource.paginator.firstPage();
@@ -1275,6 +1434,8 @@ class ListingComponent {
                              */
                             olddata => olddata._id != ids[c]));
                         }
+                        console.log('this.olddata');
+                        console.log(this.olddata);
                         this.dataSource = new MatTableDataSource(this.olddata);
                         this.selection = new SelectionModel(true, []);
                         this.dataSource.paginator = this.paginator;
@@ -1330,6 +1491,9 @@ class ListingComponent {
                     let result = {};
                     result = res;
                     if (result.status == 'success') {
+                        console.log('this.olddata');
+                        console.log(this.olddata);
+                        console.log(this.olddata._id);
                         this.olddata = this.olddata.filter((/**
                          * @param {?} olddata
                          * @return {?}
@@ -1373,7 +1537,7 @@ class ListingComponent {
 ListingComponent.decorators = [
     { type: Component, args: [{
                 selector: 'lib-listing',
-                template: "<div class=\"container\">\n\n\n  <mat-card>\n    <mat-toolbar-row class=\"searchbar\" style=\"display: flex!important; justify-content: space-between!important;\">\n    <mat-form-field>\n      <input matInput (keyup)=\"applyFilter($event.target.value)\" placeholder=\"Filter\">\n    </mat-form-field>\n\n      <span *ngIf=\"click_to_add_ananother_pageval\">\n        <button mat-raised-button color=\"primary\" class=\"add_button\" style=\"margin: 0!important; margin-left: 10px!important; \" [routerLink]=\"click_to_add_ananother_pageval\" >Add</button>\n    </span>\n    </mat-toolbar-row>\n\n\n\n    <ng-container *ngIf=\"selection.selected.length!=null && selection.selected.length>0\">\n      <button mat-raised-button (click)=\"deletemultiple()\"> Delete </button>\n      <button mat-raised-button (click)=\"managestatusmultiple()\"> Update Status </button>\n    </ng-container>\n\n\n\n    <table mat-table [dataSource]=\"dataSource\" matSort class=\"mat-elevation-z8\">\n\n      <ng-container matColumnDef=\"select\">\n        <th mat-header-cell *matHeaderCellDef>\n          <mat-checkbox (change)=\"$event ? masterToggle() : null\"\n                        [checked]=\"selection.hasValue() && isAllSelected()\"\n                        [indeterminate]=\"selection.hasValue() && !isAllSelected()\">\n          </mat-checkbox>\n        </th>\n        <td mat-cell *matCellDef=\"let row\" data-label=\"select\">\n          <mat-checkbox (click)=\"$event.stopPropagation()\"\n                        (change)=\"$event ? selection.toggle(row) : null\"\n                        [checked]=\"selection.isSelected(row)\">\n          </mat-checkbox>\n        </td>\n      </ng-container>\n\n      <ng-container *ngFor=\"let column of columns\" [matColumnDef]=\"column.columnDef\" >\n        <th mat-header-cell *matHeaderCellDef mat-sort-header class=\"th-header-center\">{{column.header}}</th>\n        <td mat-cell *matCellDef=\"let row\" [ngStyle]=\"styleCell(column,row)\" data-title=\"{{column.header}}\"   class=\"td-cell-center\">\n          <span *ngIf=\"column.columnDef=='status' \">{{ getstatus([column.cell(row)]) }} {{hi(row)}}</span>\n          <span *ngIf=\"column.columnDef!='status' \">{{ column.cell(row) }}</span>\n          <br>\n\n<!--          <span *ngIf=\"sh==true\">-->\n            <span *ngIf=\"column.columnDef=='contractssigned' && sh==true\" class=\"cursor\">\n              <i title=\"{{urlval[0].label}}\" (click)=\"clickurl(row,urlval[0].url)\" class=\"material-icons\">cloud_download</i>\n            </span>\n<!--          </span>-->\n<!--          <span *ngIf=\"aud==true\">-->\n            <span *ngIf=\"column.columnDef=='contractssigned' && aud==true\">\n              <i title=\"{{urlval[1].label}}\" (click)=\"clickurl(row,urlval[1].url)\" class=\"material-icons\">cloud_download</i>\n            </span>\n<!--          </span>-->\n          <!-- <span *ngIf=\"column.columnDef=='contractssigned' \">\n            <span *ngFor=\"let item of urlval\" class=\"cursor\">\n            <i title=\"{{item.label}}\" (click)=\"clickurl(row,item.url)\" class=\"material-icons\">cloud_download</i>\n          </span>\n          </span>-->\n        </td>\n      </ng-container>\n\n\n\n      <ng-container matColumnDef=\"Actions\"   >\n        <th mat-header-cell *matHeaderCellDef  class=\"th-header-center\">Actions</th>\n        <td (click)=\"$event.stopPropagation()\" mat-cell  *matCellDef=\"let row\" data-label=\"Actions\"  class=\"td-cell-center\">\n          <span *ngIf=\"selection.selected.length==null || selection.selected.length==0\">\n            <span class=\"cursor\" (click)=\"editdata(row)\" >\n              <i class=\"material-icons\">\n                edit\n              </i>\n            </span>\n\n            <!--For modern browsers-->\n            <span class=\"cursor\" (click)=\"deletedata(row)\" >\n              <i class=\"material-icons\">\n                delete_outline\n              </i>\n            </span>\n\n            <!--For modern browsers-->\n            <span class=\"cursor\" (click)=\"viewdata(row)\" >\n              <i class=\"material-icons\">\n                pageview\n              </i>\n            </span>\n\n            <!--For modern browsers-->\n            <span class=\"cursor\" (click)=\"managestatus(row)\" >\n              <i class=\"material-icons\">\n                toggle_off\n              </i>\n            </span>\n           <!-- <span>\n              <span *ngFor=\"let item of urlval\" class=\"cursor\">\n                <i title=\"{{item.label}}\" (click)=\"clickurl(row,item.url)\" class=\"material-icons\">cloud_download</i>\n              </span>-->\n\n<!--            </span>-->\n          </span>\n\n        </td>\n      </ng-container>\n\n\n\n\n\n\n      <tr mat-header-row *matHeaderRowDef=\"displayedColumns\"></tr>\n      <tr mat-row *matRowDef=\"let row; columns: displayedColumns;\"></tr>\n\n    </table>\n\n    <mat-paginator [pageSizeOptions]=\"[5,10, 20, 50,100]\" showFirstLastButtons></mat-paginator>\n\n    <br>\n\n\n   <!-- <form [formGroup]=\"stateForm\">\n      <mat-form-field>\n        <input type=\"text\" matInput placeholder=\"States Group\" formControlName=\"stateGroup\" required [matAutocomplete]=\"autoGroup\">\n        <mat-autocomplete #autoGroup=\"matAutocomplete\">\n          <mat-optgroup *ngFor=\"let group of stateGroupOptions | async\" [label]=\"group.letter\">\n            <mat-option *ngFor=\"let name of group.names\" [value]=\"name\">\n              {{name}}\n            </mat-option>\n          </mat-optgroup>\n        </mat-autocomplete>\n      </mat-form-field>\n    </form>-->\n\n    <!--<form class=\"example-form\">\n      <mat-form-field class=\"example-full-width\">\n        <input type=\"text\" placeholder=\"Select state\" aria-label=\"Number\" matInput [formControl]=\"myControl\" [matAutocomplete]=\"auto\">\n        <mat-autocomplete #auto=\"matAutocomplete\">\n          <mat-option *ngFor=\"let option of stateGroup | async\" [value]=\"option\">\n            {{option}}\n          </mat-option>\n        </mat-autocomplete>\n      </mat-form-field>\n    </form>\n-->\n\n  </mat-card>\n\n<!--\n  <mat-card>\n\n    <div class=\"example-container\">\n\n\n      <mat-card-content >\n        <mat-form-field class=\"form-group\">\n            <input (blur)=\"inputblur('email')\" matInput placeholder=\"email\" type=\"email\" [formControl]=\"myForm.controls['email']\" >\n            <mat-error  *ngIf=\"!myForm.controls['email'].valid && myForm.controls['email'].touched && issubmit==1\">email field can not be blank</mat-error>\n        </mat-form-field>\n\n        <mat-form-field class=\"form-group\">\n            <input (blur)=\"inputblur('password')\" matInput placeholder=\"Password\" type=\"password\" [formControl]=\"myForm.controls['password']\" >\n            <mat-error  *ngIf=\"!myForm.controls['password'].valid && myForm.controls['password'].touched && issubmit==1\">Password field can not be blank</mat-error>\n        </mat-form-field>\n\n            <button mat-button  (click)=\"onSubmit()\" class=\"s_getmyoffer_login_button\"  >Login</button>\n        </mat-card-content>\n\n\n    </div>\n\n  </mat-card>-->\n  <br>\n  <br>\n\n\n</div>\n",
+                template: "<div class=\"container\">\n\n\n  <mat-card>\n    <mat-toolbar-row class=\"searchbar\" style=\"display: flex!important; justify-content: space-between!important;\">\n    <mat-form-field>\n      <input matInput (keyup)=\"applyFilter($event.target.value)\" placeholder=\"Filter\">\n    </mat-form-field>\n\n      <!--<mat-form-field *ngIf=\"date_search_endpointval !=null && date_search_sourceval != null \">\n        <mat-label>Status Search</mat-label>\n        <mat-select>\n          <mat-option *ngFor=\"let status of statusarrval\" [value]=\"status\" (click)=\"statusSearch(status.val)\">\n            {{status.name}}\n          </mat-option>\n        </mat-select>\n      </mat-form-field>-->\n\n\n      <ng-container  *ngIf=\"search_settingsval !=null && search_settingsval.selectsearch != null \">\n        <mat-form-field *ngFor=\"let status of this.search_settingsval.selectsearch\">\n          <mat-label>{{status.label}}</mat-label>\n          <mat-select>\n            <mat-option *ngFor=\"let statusval of status.values\" [value]=\"statusval\" (click)=\"selectSearch(statusval.val, status)\">\n              {{statusval.name}}\n            </mat-option>\n          </mat-select>\n        </mat-form-field>\n      </ng-container>\n\n\n      <ng-container *ngIf=\"date_search_endpointval !=null && date_search_sourceval != null \">\n        <span *ngFor=\"let status of this.search_settingsval.datesearch\">\n        <mat-form-field >\n          <input matInput [matDatepicker]=\"picker\"autocomplete=\"off\"  placeholder=\"{{status.startdatelabel}}\"  [(ngModel)]=\"start_date\" >\n          <mat-datepicker-toggle matSuffix [for]=\"picker\" ></mat-datepicker-toggle>\n          <mat-datepicker #picker></mat-datepicker>\n        </mat-form-field>\n        <mat-form-field>\n          <input matInput [matDatepicker]=\"picker1\" autocomplete=\"off\" placeholder=\"{{status.enddatelabel}}\" [(ngModel)]=\"end_date\" >\n          <mat-datepicker-toggle matSuffix [for]=\"picker1\"></mat-datepicker-toggle>\n          <mat-datepicker #picker1 ></mat-datepicker>\n        </mat-form-field>\n        <button mat-raised-button color=\"primary\" class=\"add_button\" style=\"margin: 0!important; margin-left: 10px!important; \" (click)=\"dateSearch()\">Submit</button>\n      </span>\n      </ng-container>\n\n\n\n      <span *ngIf=\"click_to_add_ananother_pageval !=null\">\n        <button mat-raised-button color=\"primary\" class=\"add_button\" style=\"margin: 0!important; margin-left: 10px!important; \" [routerLink]=\"click_to_add_ananother_pageval\" >Add</button>\n      </span>\n    </mat-toolbar-row>\n\n\n\n    <ng-container *ngIf=\"selection.selected.length!=null && selection.selected.length>0\">\n      <button mat-raised-button (click)=\"deletemultiple()\"> Delete </button>\n      <button mat-raised-button (click)=\"managestatusmultiple()\"> Update Status </button>\n    </ng-container>\n\n\n\n    <table mat-table [dataSource]=\"dataSource\" matSort class=\"mat-elevation-z8\">\n\n      <ng-container matColumnDef=\"select\">\n        <th mat-header-cell *matHeaderCellDef>\n          <mat-checkbox (change)=\"$event ? masterToggle() : null\"\n                        [checked]=\"selection.hasValue() && isAllSelected()\"\n                        [indeterminate]=\"selection.hasValue() && !isAllSelected()\">\n          </mat-checkbox>\n        </th>\n        <td mat-cell *matCellDef=\"let row\" data-label=\"select\">\n          <mat-checkbox (click)=\"$event.stopPropagation()\"\n                        (change)=\"$event ? selection.toggle(row) : null\"\n                        [checked]=\"selection.isSelected(row)\">\n          </mat-checkbox>\n        </td>\n      </ng-container>\n\n      <ng-container *ngFor=\"let column of columns\" [matColumnDef]=\"column.columnDef\" >\n        <th mat-header-cell *matHeaderCellDef mat-sort-header class=\"th-header-center\">{{column.header}}</th>\n        <td mat-cell *matCellDef=\"let row\" [ngStyle]=\"styleCell(column,row)\" data-title=\"{{column.header}}\"   class=\"td-cell-center\">\n          <span *ngIf=\"column.columnDef=='status' \">{{ getstatus([column.cell(row)]) }} {{hi(row)}}</span>\n          <span *ngIf=\"column.columnDef!='status' \">{{ column.cell(row) }}</span>\n          <br>\n\n<!--          <span *ngIf=\"sh==true\">-->\n            <span *ngIf=\"column.columnDef=='contractssigned' && sh==true && urlval !=null\" class=\"cursor\">\n              <i title=\"{{urlval[0].label}}\" (click)=\"clickurl(row,urlval[0].url)\" class=\"material-icons\">cloud_download</i>\n            </span>\n<!--          </span>-->\n<!--          <span *ngIf=\"aud==true\">-->\n            <span *ngIf=\"column.columnDef=='contractssigned' && aud==true  && urlval !=null\">\n              <i title=\"{{urlval[1].label}}\" (click)=\"clickurl(row,urlval[1].url)\" class=\"material-icons\">cloud_download</i>\n            </span>\n<!--          </span>-->\n          <!-- <span *ngIf=\"column.columnDef=='contractssigned' \">\n            <span *ngFor=\"let item of urlval\" class=\"cursor\">\n            <i title=\"{{item.label}}\" (click)=\"clickurl(row,item.url)\" class=\"material-icons\">cloud_download</i>\n          </span>\n          </span>-->\n        </td>\n      </ng-container>\n\n\n\n      <ng-container matColumnDef=\"Actions\"   >\n        <th mat-header-cell *matHeaderCellDef  class=\"th-header-center\">Actions</th>\n        <td (click)=\"$event.stopPropagation()\" mat-cell  *matCellDef=\"let row\" data-label=\"Actions\"  class=\"td-cell-center\">\n          <span *ngIf=\"selection.selected.length==null || selection.selected.length==0\">\n            <span class=\"cursor\" (click)=\"editdata(row)\" >\n              <i class=\"material-icons\">\n                edit\n              </i>\n            </span>\n\n            <!--For modern browsers-->\n            <span class=\"cursor\" (click)=\"deletedata(row)\" >\n              <i class=\"material-icons\">\n                delete_outline\n              </i>\n            </span>\n\n            <!--For modern browsers-->\n            <span class=\"cursor\" (click)=\"viewdata(row)\" >\n              <i class=\"material-icons\">\n                pageview\n              </i>\n            </span>\n\n            <!--For modern browsers-->\n            <span class=\"cursor\" (click)=\"managestatus(row)\" >\n              <i class=\"material-icons\">\n                toggle_off\n              </i>\n            </span>\n          </span>\n\n        </td>\n      </ng-container>\n\n\n\n\n\n\n      <tr mat-header-row *matHeaderRowDef=\"displayedColumns\"></tr>\n      <tr mat-row *matRowDef=\"let row; columns: displayedColumns;\"></tr>\n\n    </table>\n\n    <mat-paginator [pageSizeOptions]=\"[5,10, 20, 50,100]\" showFirstLastButtons></mat-paginator>\n\n    <br>\n\n\n   <!-- <form [formGroup]=\"stateForm\">\n      <mat-form-field>\n        <input type=\"text\" matInput placeholder=\"States Group\" formControlName=\"stateGroup\" required [matAutocomplete]=\"autoGroup\">\n        <mat-autocomplete #autoGroup=\"matAutocomplete\">\n          <mat-optgroup *ngFor=\"let group of stateGroupOptions | async\" [label]=\"group.letter\">\n            <mat-option *ngFor=\"let name of group.names\" [value]=\"name\">\n              {{name}}\n            </mat-option>\n          </mat-optgroup>\n        </mat-autocomplete>\n      </mat-form-field>\n    </form>-->\n\n    <!--<form class=\"example-form\">\n      <mat-form-field class=\"example-full-width\">\n        <input type=\"text\" placeholder=\"Select state\" aria-label=\"Number\" matInput [formControl]=\"myControl\" [matAutocomplete]=\"auto\">\n        <mat-autocomplete #auto=\"matAutocomplete\">\n          <mat-option *ngFor=\"let option of stateGroup | async\" [value]=\"option\">\n            {{option}}\n          </mat-option>\n        </mat-autocomplete>\n      </mat-form-field>\n    </form>\n-->\n\n  </mat-card>\n\n<!--\n  <mat-card>\n\n    <div class=\"example-container\">\n\n\n      <mat-card-content >\n        <mat-form-field class=\"form-group\">\n            <input (blur)=\"inputblur('email')\" matInput placeholder=\"email\" type=\"email\" [formControl]=\"myForm.controls['email']\" >\n            <mat-error  *ngIf=\"!myForm.controls['email'].valid && myForm.controls['email'].touched && issubmit==1\">email field can not be blank</mat-error>\n        </mat-form-field>\n\n        <mat-form-field class=\"form-group\">\n            <input (blur)=\"inputblur('password')\" matInput placeholder=\"Password\" type=\"password\" [formControl]=\"myForm.controls['password']\" >\n            <mat-error  *ngIf=\"!myForm.controls['password'].valid && myForm.controls['password'].touched && issubmit==1\">Password field can not be blank</mat-error>\n        </mat-form-field>\n\n            <button mat-button  (click)=\"onSubmit()\" class=\"s_getmyoffer_login_button\"  >Login</button>\n        </mat-card-content>\n\n\n    </div>\n\n  </mat-card>-->\n  <br>\n  <br>\n\n\n</div>\n",
                 styles: [".container{background:#fff}body{font-family:Roboto,Arial,sans-serif;margin:0;display:none!important}.basic-container{padding:30px}.version-info{font-size:8pt;float:right}table{width:100%}th.mat-sort-header-sorted{color:#000}.custom-modalbox{display:none}"]
             }] }
 ];
@@ -1385,10 +1549,14 @@ ListingComponent.ctorParameters = () => [
     { type: FormBuilder },
     { type: Router },
     { type: ComponentFactoryResolver },
-    { type: ViewContainerRef }
+    { type: ViewContainerRef },
+    { type: HttpClient }
 ];
 ListingComponent.propDecorators = {
+    search_settings: [{ type: Input }],
     click_to_add_ananother_page: [{ type: Input }],
+    date_search_source: [{ type: Input }],
+    date_search_endpoint: [{ type: Input }],
     url: [{ type: Input }],
     searchendpoint: [{ type: Input }],
     pdf_link: [{ type: Input }],
@@ -1528,17 +1696,6 @@ DemoMaterialModule.decorators = [
  * @fileoverview added by tsickle
  * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
-// import { FieldConfig } from './myfrom/field.interface';
-// import { DynamicFieldDirective } from './myfrom/dynamic-field.directive';
-// import { DynamicFormBuilderComponent } from '../lib/dynamic-form-builder/dynamic-form-builder.component';
-/*
-import { FieldBuilderComponent } from '../lib/dynamic-form-builder/field-builder/field-builder.component';
-import { TextBoxComponent } from '../lib/dynamic-form-builder/atoms/textbox';
-import { DropDownComponent } from '../lib/dynamic-form-builder/atoms/dropdown';
-import { FileComponent } from '../lib/dynamic-form-builder/atoms/file';
-import { CheckBoxComponent } from '../lib/dynamic-form-builder/atoms/checkbox';
-import { RadioComponent } from '../lib/dynamic-form-builder/atoms/radio';
-*/
 class ListingModule {
 }
 ListingModule.decorators = [
@@ -1551,6 +1708,8 @@ ListingModule.decorators = [
                     DemoMaterialModule,
                     FormsModule, ReactiveFormsModule,
                     MatFileUploadModule, NgxUploaderModule, RouterModule,
+                    MomentModule
+                    // DynamicFieldDirective,
                 ],
                 schemas: [CUSTOM_ELEMENTS_SCHEMA],
                 exports: [ListingComponent,

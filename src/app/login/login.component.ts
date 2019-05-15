@@ -16,6 +16,7 @@ export class LoginComponent implements OnInit {
     public endpoint = 'login';
     public myForm: any;
     public result: any;
+    public issubmit = 0;
     // public url1: any = '';
     // public serverurl: any = '';
     public errormg: any = '';

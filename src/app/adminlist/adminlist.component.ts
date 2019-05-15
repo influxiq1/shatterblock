@@ -43,7 +43,6 @@ const DATA:adminListData[] =[
 
 
 
-
 export class AdminlistComponent implements OnInit {
   displayedColumns: string[] = ['position', 'name', 'username', 'address', 'actions' ];
   dataSource = DATA;
@@ -74,9 +73,9 @@ export class AdminlistComponent implements OnInit {
   };
 
 
-/*  applyFilter( filterValue:string){
+  applyFilter( filterValue:string){
    // this.dataSource = filterValue.trim().toLowerCase();
-  }*/
+  }
   ngOnInit() {
   }
 

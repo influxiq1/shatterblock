@@ -14,38 +14,8 @@ import {Observable} from 'rxjs';
 import {startWith, map} from 'rxjs/operators';
 import {HttpClient} from "@angular/common/http";
 declare var $:any;
-import * as moment from 'moment';
-/*
-export interface StateGroup {
-  letter: string;
-  names: string[];
-}*/
-/*
-export const filter = (opt: string[], value: string): string[] => {
-  const filterValue = value.toLowerCase();
-
-  return opt.filter(item => item.toLowerCase().indexOf(filterValue) === 0);
-};*/
-
-/*import { FieldConfig } from "../lib/myfrom/field.interface";
-import { InputComponent } from "../lib/myfrom/input.component";
-import { ButtonComponent } from "../lib/myfrom/button.component";
-import { SelectComponent } from "../lib/myfrom/select.component";
-import { DateComponent } from "../lib/myfrom/date.component";
-import { RadiobuttonComponent } from "../lib/myfrom/radiobutton.component";
-import { CheckboxComponent } from "../lib/myfrom/checkbox.component";
-
-const componentMapper = {
-  input: InputComponent,
-  button: ButtonComponent,
-  select: SelectComponent,
-  date: DateComponent,
-  radiobutton: RadiobuttonComponent,
-  checkbox: CheckboxComponent
-};
-@Directive({
-  selector: "[dynamicField]"
-})*/
+import * as momentImported from 'moment';
+const moment = momentImported;
 
 @Component({
   selector: 'lib-listing',
@@ -53,22 +23,12 @@ const componentMapper = {
   styleUrls: ['./listing.module.css']
 })
 export class ListingComponent implements OnInit {
- /* //added Input decorator over label props
-  @Input() label: string;
-  options={
-    timeOut: 3000,
-    showProgressBar: true,
-    pauseOnHover: true,
-    clickToClose: true
-  };*/
 
-  /*stateForm: FormGroup = this.fb.group({
-    stateGroup: '',
-  });*/
   myControl = new FormControl();
 
 
     datasourceval:any;
+  search_settingsval:any;
   click_to_add_ananother_pageval:any;
   date_search_sourceval:any;
   date_search_endpointval:any;
@@ -95,6 +55,17 @@ export class ListingComponent implements OnInit {
   public sh :any = false;
   public aud :any = false;
 
+
+  @Input()
+  set search_settings(search_settings: any) {
+    this.search_settingsval = search_settings;
+    console.log('this.search_settingsval');
+    console.log(this.search_settingsval);
+  /*  console.log(this.search_settingsval.selectsearch);
+    console.log(this.search_settingsval.selectsearch[0].label);
+    console.log(this.search_settingsval.selectsearch[0].values);
+    console.log(this.search_settingsval.datesearch);*/
+  }
 
   @Input()
   set click_to_add_ananother_page(click_to_add_ananother_page: any) {
@@ -246,6 +217,10 @@ export class ListingComponent implements OnInit {
               private container: ViewContainerRef, public _http: HttpClient) {
 
 
+    console.log('this.search_settingsval.selectsearch.label');
+    console.log(this.search_settingsval);
+
+
    /* this.myForm = this.fb.group({
       email: ['', Validators.compose([Validators.required, Validators.pattern(/^\s*[\w\-\+_]+(\.[\w\-\+_]+)*\@[\w\-\+_]+\.[\w\-\+_]+(\.[\w\-\+_]+)*\s*$/)])],
       password: ['', Validators.required]
@@ -364,13 +339,35 @@ export class ListingComponent implements OnInit {
     console.log(link);
     if(moment(this.end_date).unix()!=null && moment(this.start_date).unix()!=null ) {
 
-      this._http.post(link, {source:this.date_search_sourceval,
+
+      let source:any;
+      let condition: any;
+      condition = {};
+      condition = {'created_at': {
+        $lte: new Date(this.end_date).getTime(),
+            $gte: new Date(this.start_date).getTime(),
+      }};
+          source= {
+            source: this.date_search_sourceval,
+            condition: condition,
+          };
+      console.log(source);
+      this._apiService.postSearch(link,this.jwttokenval, source).subscribe(res => {
+        console.log(res);
+        let result: any = {};
+        result = res;
+        this.dataSource = new MatTableDataSource(result.res);
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
+      })
+
+      /*this._http.post(link, {source:this.date_search_sourceval,
         condition: {
           'created_at': {
             $lte: new Date(this.end_date).getTime(),
             $gte: new Date(this.start_date).getTime(),
           }
-        },token: this.jwttokenval
+        },token: this.jwttokenval,
       }).subscribe( res =>{
         let result: any ={};
         result = res;
@@ -381,26 +378,30 @@ export class ListingComponent implements OnInit {
         this.dataSource = new MatTableDataSource(result.res);
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
-      })
+      })*/
     }else
       console.log("error");
   }
 
 
 
-  statusSearch( value: any) {
-    console.log("start date");
-    console.log(value);
-    // console.log(this.end_date);
+  selectSearch (value:any, type: any){
+    console.log('type');
+    console.log(type);
     let link = this.apiurlval + ''+ this.date_search_endpointval;
     console.log(link);
+    let source:any;
+    let condition: any;
+    condition = {};
+    condition[type.field]=value;
+    source= {
+      source: this.date_search_sourceval,
+      condition: condition
+    };
     if(value !=null ) {
-
-      this._http.post(link, {source:this.date_search_sourceval,
-        condition: {status: value},
-        token: this.jwttokenval
-      }).subscribe( res =>{
-        let result: any ={};
+      this._apiService.postSearch(link, this.jwttokenval, source).subscribe(res => {
+        console.log(res);
+        let result: any = {};
         result = res;
         console.log("ok");
         console.log(res);
@@ -409,9 +410,12 @@ export class ListingComponent implements OnInit {
         this.dataSource = new MatTableDataSource(result.res);
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
-      })
-    }else
-      console.log("error");
+      });
+    } else
+    {
+      console.log('oops');
+    }
+  console.log("error");
   }
 
 

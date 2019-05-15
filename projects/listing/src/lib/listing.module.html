@@ -7,30 +7,49 @@
       <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
     </mat-form-field>
 
-      <mat-form-field>
+      <!--<mat-form-field *ngIf="date_search_endpointval !=null && date_search_sourceval != null ">
         <mat-label>Status Search</mat-label>
         <mat-select>
-          <mat-option *ngFor="let status of statusarrval" [(value)]="status" (click)="statusSearch(status.val)">
+          <mat-option *ngFor="let status of statusarrval" [value]="status" (click)="statusSearch(status.val)">
             {{status.name}}
           </mat-option>
         </mat-select>
-      </mat-form-field>
+      </mat-form-field>-->
 
-      <mat-form-field>
-        <input matInput [matDatepicker]="picker"autocomplete="off"  placeholder="Start Date"  [(ngModel)]="start_date" >
-        <mat-datepicker-toggle matSuffix [for]="picker" ></mat-datepicker-toggle>
-        <mat-datepicker #picker></mat-datepicker>
-      </mat-form-field>
-      <mat-form-field>
-        <input matInput [matDatepicker]="picker1" autocomplete="off" placeholder="End Data" [(ngModel)]="end_date" >
-        <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
-        <mat-datepicker #picker1 ></mat-datepicker>
-      </mat-form-field>
-      <button mat-raised-button color="primary" class="add_button" style="margin: 0!important; margin-left: 10px!important; " (click)="dateSearch()">Submit</button>
 
-      <span *ngIf="click_to_add_ananother_pageval">
+      <ng-container  *ngIf="search_settingsval !=null && search_settingsval.selectsearch != null ">
+        <mat-form-field *ngFor="let status of this.search_settingsval.selectsearch">
+          <mat-label>{{status.label}}</mat-label>
+          <mat-select>
+            <mat-option *ngFor="let statusval of status.values" [value]="statusval" (click)="selectSearch(statusval.val, status)">
+              {{statusval.name}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </ng-container>
+
+
+      <ng-container *ngIf="date_search_endpointval !=null && date_search_sourceval != null && search_settingsval.datesearch != null ">
+        <span *ngFor="let status of this.search_settingsval.datesearch">
+        <mat-form-field >
+          <input matInput [matDatepicker]="picker"autocomplete="off"  placeholder="{{status.startdatelabel}}"  [(ngModel)]="start_date" >
+          <mat-datepicker-toggle matSuffix [for]="picker" ></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+        <mat-form-field>
+          <input matInput [matDatepicker]="picker1" autocomplete="off" placeholder="{{status.enddatelabel}}" [(ngModel)]="end_date" >
+          <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+          <mat-datepicker #picker1 ></mat-datepicker>
+        </mat-form-field>
+        <button mat-raised-button color="primary" class="add_button" style="margin: 0!important; margin-left: 10px!important; " (click)="dateSearch()">Submit</button>
+      </span>
+      </ng-container>
+
+
+
+      <span *ngIf="click_to_add_ananother_pageval !=null">
         <button mat-raised-button color="primary" class="add_button" style="margin: 0!important; margin-left: 10px!important; " [routerLink]="click_to_add_ananother_pageval" >Add</button>
-    </span>
+      </span>
     </mat-toolbar-row>
 
 
@@ -67,12 +86,12 @@
           <br>
 
 <!--          <span *ngIf="sh==true">-->
-            <span *ngIf="column.columnDef=='contractssigned' && sh==true" class="cursor">
+            <span *ngIf="column.columnDef=='contractssigned' && sh==true && urlval !=null" class="cursor">
               <i title="{{urlval[0].label}}" (click)="clickurl(row,urlval[0].url)" class="material-icons">cloud_download</i>
             </span>
 <!--          </span>-->
 <!--          <span *ngIf="aud==true">-->
-            <span *ngIf="column.columnDef=='contractssigned' && aud==true">
+            <span *ngIf="column.columnDef=='contractssigned' && aud==true  && urlval !=null">
               <i title="{{urlval[1].label}}" (click)="clickurl(row,urlval[1].url)" class="material-icons">cloud_download</i>
             </span>
 <!--          </span>-->
@@ -116,12 +135,6 @@
                 toggle_off
               </i>
             </span>
-           <!-- <span>
-              <span *ngFor="let item of urlval" class="cursor">
-                <i title="{{item.label}}" (click)="clickurl(row,item.url)" class="material-icons">cloud_download</i>
-              </span>-->
-
-<!--            </span>-->
           </span>
 
         </td>

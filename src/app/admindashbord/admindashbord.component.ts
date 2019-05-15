@@ -73,8 +73,12 @@ export class AdmindashbordComponent implements OnInit {
 
 
     editroute1:any='modeledit';
+
+
     date_search_endpoint: any='datalist';
     date_search_source: any='userslist_view';
+    search_settings:any={datesearch:[{startdatelabel:"Start Date",enddatelabel:"End Date"}],selectsearch:[{label:'Search By Status',field:'status',values:this.statusarray},{label:'Search By Status2',field:'status',values:this.statusarray}],textsearch:[{label:"Search By Email",field:'email'}]};
+
     status_gretterthan_zero_skip: any= ['_id','username','phone','city','state','ethnicity','height','haircolor','eyecolor','weight','bust','waist','hips','slim','toned','tattoos','athletic','piercings','retail','voluptuous','promotions','sales','descriptionbox','facebooklink','twitterlink','instagramlink','modelmayhemlink','type','images'];
     status_gretterthan_zero_modify_header: any = { 'dateformat': 'Date','status':'Status','email':'Email', 'name':'Full Name', 'bodytype' : 'Bodytype', 'shatterblok agreement date': 'Shatterblok Agreement Date', 'audiodeadline agreement date': 'Audiodeadline Agreement Date' };
     status_gretterthan_zero_detail_skip:any=['_id','email','name','type','status'];
