@@ -39,9 +39,13 @@ export declare class ListingComponent implements OnInit {
     modify_header_arrayval: any;
     selection: any;
     sourcedataval: any;
+    emailarrayval: any;
     columns: any;
     olddata: any;
+    tsearch: any;
+    autosearch: any;
     x: any;
+    result: any;
     sh: any;
     aud: any;
     search_settings: any;
@@ -63,6 +67,7 @@ export declare class ListingComponent implements OnInit {
     apiurl: any;
     jwttoken: any;
     statusarr: any;
+    emailarray: any;
     editroute: any;
     stateGroups: string[];
     stateGroup: Observable<string[]>;
@@ -71,7 +76,14 @@ export declare class ListingComponent implements OnInit {
     displayedColumnsheader: string[];
     formarray: any;
     start_date: any;
+    dateSearch_condition: any;
+    selectSearch_condition: any;
+    autoSearch_condition: any;
+    textSearch_condition: any;
     end_date: any;
+    i: any;
+    loading: any;
+    preresult: any;
     dataSource: MatTableDataSource<{}>;
     sort: MatSort;
     paginator: MatPaginator;
@@ -80,8 +92,10 @@ export declare class ListingComponent implements OnInit {
     inputblur(val: any): void;
     ngOnInit(): void;
     onSubmit(): void;
-    dateSearch(): void;
+    dateSearch(val: any): void;
     selectSearch(value: any, type: any): void;
+    autosearchfunction(value: any): void;
+    textsearchfunction(value: any): void;
     private _filter;
     getstatus(val: any): any;
     hi(val: any): void;

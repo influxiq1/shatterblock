@@ -9,7 +9,7 @@ import { ApiService } from './api.service';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 import {MatBottomSheet, MatBottomSheetRef,MAT_BOTTOM_SHEET_DATA} from '@angular/material';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
-import { Router } from "@angular/router";
+import {NavigationCancel, NavigationEnd, NavigationError, NavigationStart, Router, Event} from "@angular/router";
 import {Observable} from 'rxjs';
 import {startWith, map} from 'rxjs/operators';
 import {HttpClient} from "@angular/common/http";
@@ -27,7 +27,7 @@ export class ListingComponent implements OnInit {
   myControl = new FormControl();
 
 
-    datasourceval:any;
+  datasourceval:any;
   search_settingsval:any;
   click_to_add_ananother_pageval:any;
   date_search_sourceval:any;
@@ -49,9 +49,13 @@ export class ListingComponent implements OnInit {
   modify_header_arrayval:any;
   selection :any;
   sourcedataval :any;
+  emailarrayval :any;
   columns :any=[];
   olddata :any=[];
+  tsearch :any=[];
+  autosearch :any=[];
   public x :any;
+  public result :any = {};
   public sh :any = false;
   public aud :any = false;
 
@@ -61,6 +65,10 @@ export class ListingComponent implements OnInit {
     this.search_settingsval = search_settings;
     console.log('this.search_settingsval');
     console.log(this.search_settingsval);
+    /*for (let i= 0; i<= this.search_settingsval.search.length; i++) {
+      console.log(this.search_settingsval.search[i].label);
+    }*/
+
   /*  console.log(this.search_settingsval.selectsearch);
     console.log(this.search_settingsval.selectsearch[0].label);
     console.log(this.search_settingsval.selectsearch[0].values);
@@ -185,6 +193,13 @@ export class ListingComponent implements OnInit {
       console.log(this.statusarrval);
     }
 
+    @Input()
+    set emailarray(emailarray: any) {
+      this.emailarrayval = emailarray;
+      console.log('this.emailarrayval');
+      console.log(this.emailarrayval);
+    }
+
   @Input()
   set editroute(editroute: any) {
     console.log('editroute');
@@ -203,7 +218,14 @@ export class ListingComponent implements OnInit {
   displayedColumnsheader: string[] = [];
   formarray: any = [];
   start_date: any ;
+  dateSearch_condition: any ={};
+  selectSearch_condition: any ={};
+  autoSearch_condition: any ={};
+  textSearch_condition: any ={};
   end_date: any ;
+  public i: any ;
+  loading: any = false ;
+  public preresult: any={};
   //dataSource = new MatTableDataSource(this.datasourceval);
   dataSource = new MatTableDataSource;
 
@@ -216,9 +238,24 @@ export class ListingComponent implements OnInit {
   constructor(public _apiService: ApiService,public dialog: MatDialog,private bottomSheet: MatBottomSheet,public fb: FormBuilder,private router: Router, private resolver: ComponentFactoryResolver,
               private container: ViewContainerRef, public _http: HttpClient) {
 
+    this.router.events.subscribe((event: Event) => {
+        switch (true) {
+          case event instanceof NavigationStart: {
+            this.loading = true;
+            break;
+          }
+          case event instanceof NavigationEnd:
+          case event instanceof NavigationCancel:
+          case event instanceof NavigationError: {
+            this.loading = false;
+            break;
+          }
+          default: {
+            break;
+          }
+        }
+      });
 
-    console.log('this.search_settingsval.selectsearch.label');
-    console.log(this.search_settingsval);
 
 
    /* this.myForm = this.fb.group({
@@ -243,6 +280,26 @@ export class ListingComponent implements OnInit {
     this.myForm.controls[val].markAsUntouched();
   }
   ngOnInit() {
+
+    if (this.search_settingsval !=null && this.search_settingsval.search != null && this.search_settingsval.search != '') {
+      console.log('----------------');
+      let source: any;
+      let condition: any = {};
+      source = {
+        source: this.date_search_sourceval,
+        condition: condition
+      };
+      let link = this.apiurlval + '' + this.date_search_endpointval;
+      this._apiService.postSearch(link, this.jwttokenval, source).subscribe(res => {
+        console.log(res);
+        this.result = res;
+        console.log(this.result);
+        this.preresult = this.result.res;
+        console.log(this.preresult);
+      });
+
+    }
+
     // this._service.success(this.columns[0].date,'dndnnd',this.options);
    /* this.stateGroupOptions = this.myControl.valueChanges
         .pipe(
@@ -307,7 +364,7 @@ export class ListingComponent implements OnInit {
       data_list.push(this.createData(x[i]));
     }
     this.olddata=data_list;
-
+console.log(data_list)
     this.dataSource = new MatTableDataSource(data_list);
     this.selection = new SelectionModel(true, []);
     this.dataSource.paginator = this.paginator;
@@ -326,7 +383,7 @@ export class ListingComponent implements OnInit {
       this.myForm.controls[x].markAsTouched();
     }
   }
-  dateSearch() {
+  dateSearch(val: any) {
     console.log("start date");
     console.log(this.start_date);
     console.log(this.end_date);
@@ -343,19 +400,24 @@ export class ListingComponent implements OnInit {
       let source:any;
       let condition: any;
       condition = {};
-      condition = {'created_at': {
+
+      condition[val] = {
         $lte: new Date(this.end_date).getTime(),
             $gte: new Date(this.start_date).getTime(),
-      }};
+      };
+      this.dateSearch_condition = {};
+      this.dateSearch_condition = condition;
+      let conditionobj = Object.assign({}, this.textSearch_condition, this.dateSearch_condition, this.autoSearch_condition, this.selectSearch_condition);
           source= {
             source: this.date_search_sourceval,
-            condition: condition,
+            condition: conditionobj,
           };
       console.log(source);
       this._apiService.postSearch(link,this.jwttokenval, source).subscribe(res => {
         console.log(res);
         let result: any = {};
         result = res;
+        console.log(result.res);
         this.dataSource = new MatTableDataSource(result.res);
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
@@ -385,7 +447,7 @@ export class ListingComponent implements OnInit {
 
 
 
-  selectSearch (value:any, type: any){
+  selectSearch (value:any,type:any){
     console.log('type');
     console.log(type);
     let link = this.apiurlval + ''+ this.date_search_endpointval;
@@ -394,15 +456,93 @@ export class ListingComponent implements OnInit {
     let condition: any;
     condition = {};
     condition[type.field]=value;
+    this.selectSearch_condition = {};
+    this.selectSearch_condition = condition;
+    let conditionobj = Object.assign({}, this.textSearch_condition, this.dateSearch_condition, this.autoSearch_condition, this.selectSearch_condition);
     source= {
       source: this.date_search_sourceval,
-      condition: condition
+      condition: conditionobj
     };
     if(value !=null ) {
       this._apiService.postSearch(link, this.jwttokenval, source).subscribe(res => {
         console.log(res);
         let result: any = {};
         result = res;
+        console.log("ok");
+        console.log(res);
+        console.log(result.res);
+        let newdata = result.res;
+        this.dataSource = new MatTableDataSource(result.res);
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
+      });
+    } else
+    {
+      console.log('oops');
+    }
+  console.log("error");
+  }
+  autosearchfunction (value: any) {
+    console.log(value);
+    let val:any=this.autosearch[value];
+    console.log(val);
+    let source:any;
+    let condition: any={};
+    if(this.autosearch[value].length>0 && {$or:[this.autosearch[value].toLowerCase(),this.autosearch[value].toUpperCase(),this.autosearch[value]]})condition[value+'_regex']=val;
+    this.autoSearch_condition = {};
+    this.autoSearch_condition = condition;
+    let conditionobj = Object.assign({}, this.textSearch_condition, this.dateSearch_condition, this.autoSearch_condition, this.selectSearch_condition);
+    source= {
+      source: this.date_search_sourceval,
+      condition: conditionobj
+    };
+    let link = this.apiurlval + ''+ this.date_search_endpointval;
+    this._apiService.postSearch(link, this.jwttokenval, source).subscribe(res => {
+      console.log(res);
+      // let result:any={};
+      this.result = res;
+      console.log(this.result);
+      console.log(this.result.res);
+      this.dataSource = new MatTableDataSource(this.result.res);
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+
+    });
+  }
+
+  textsearchfunction (value:any){
+    console.log('value');
+    console.log(value);
+    console.log(value.toLowerCase());
+    console.log(this.tsearch[value]);
+    let link = this.apiurlval + ''+ this.date_search_endpointval;
+    console.log(link);
+    let source:any;
+    let condition: any={};
+    //condition = {};
+    let val:any =this.tsearch[value].toLowerCase();
+    // condition={$or:[this.tsearch[value].toLowerCase(),this.tsearch[value].toUpperCase()]};
+    if(this.tsearch[value].length>1 && {$or:[this.tsearch[value].toLowerCase(),this.tsearch[value].toUpperCase()]})condition[value+'_regex']=val;
+    this.textSearch_condition = {};
+    this.textSearch_condition = condition;
+    //condition[value]="/222/";
+    //condition={email:{$regx:'/222/i'}};
+    let conditionobj = Object.assign({}, this.textSearch_condition, this.dateSearch_condition, this.autoSearch_condition, this.selectSearch_condition);
+    source= {
+      source: this.date_search_sourceval,
+      condition: conditionobj
+    };
+    console.log('source');
+    console.log(source);
+    //add loader
+    this.loading = true;
+    if(value !=null  ) {
+      this._apiService.postSearch(link, this.jwttokenval, source).subscribe(res => {
+        console.log(res);
+        let result: any = {};
+        result = res;
+        //close loader
+        this.loading = false;
         console.log("ok");
         console.log(res);
         console.log(result.res);
@@ -531,12 +671,28 @@ export class ListingComponent implements OnInit {
 
   applyFilter(filterValue: string) {
     console.log(filterValue)
+    console.log(this.dataSource);
+    // console.log(this.dataSource[name])
     this.dataSource.filter = filterValue.trim().toLowerCase();
 
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }
   }
+  /*applyFilter1(filterValue: string, val: any) {
+    console.log(filterValue);
+    console.log(val.value);
+    let value= new MatTableDataSource(val.value);
+
+    value.filter = filterValue.trim().toLowerCase();
+    console.log(value);
+    /!* this.dataSource.filterPredicate = function(data, filter: string): boolean {
+      // return data.name.toLowerCase().includes(filter);
+    };
+    if (this.dataSource.paginator) {
+      this.dataSource.paginator.firstPage();
+    }*!/
+  }*/
 
   styleCell(col_name,row){
 

@@ -17,7 +17,7 @@ import { FormBuilder, FormControl, FormsModule, ReactiveFormsModule } from '@ang
 import { CommonModule } from '@angular/common';
 import { MatFileUploadModule } from 'angular-material-fileupload';
 import { humanizeBytes, NgxUploaderModule } from 'ngx-uploader';
-import { Router, RouterModule } from '@angular/router';
+import { NavigationCancel, NavigationEnd, NavigationError, NavigationStart, Router, RouterModule } from '@angular/router';
 import { MomentModule } from 'ngx-moment';
 
 /**
@@ -397,8 +397,9 @@ var ApiService = /** @class */ (function () {
             })
         };
         console.log('------ ');
-        console.log("link");
+        console.log("link in postSearch");
         console.log(link);
+        console.log(source);
         /** @type {?} */
         var result = this._http.post(link, source, httpOptions).pipe(map((/**
          * @param {?} res
@@ -657,6 +658,7 @@ var moment = momentImported;
 var ListingComponent = /** @class */ (function () {
     // myForm:any;
     function ListingComponent(_apiService, dialog, bottomSheet, fb, router, resolver, container, _http) {
+        var _this = this;
         this._apiService = _apiService;
         this.dialog = dialog;
         this.bottomSheet = bottomSheet;
@@ -668,6 +670,9 @@ var ListingComponent = /** @class */ (function () {
         this.myControl = new FormControl();
         this.columns = [];
         this.olddata = [];
+        this.tsearch = [];
+        this.autosearch = [];
+        this.result = {};
         this.sh = false;
         this.aud = false;
         this.stateGroups = this.searchListval;
@@ -675,10 +680,35 @@ var ListingComponent = /** @class */ (function () {
         this.datacolumns = [];
         this.displayedColumnsheader = [];
         this.formarray = [];
+        this.dateSearch_condition = {};
+        this.selectSearch_condition = {};
+        this.autoSearch_condition = {};
+        this.textSearch_condition = {};
+        this.loading = false;
+        this.preresult = {};
         //dataSource = new MatTableDataSource(this.datasourceval);
         this.dataSource = new MatTableDataSource;
-        console.log('this.search_settingsval.selectsearch.label');
-        console.log(this.search_settingsval);
+        this.router.events.subscribe((/**
+         * @param {?} event
+         * @return {?}
+         */
+        function (event) {
+            switch (true) {
+                case event instanceof NavigationStart: {
+                    _this.loading = true;
+                    break;
+                }
+                case event instanceof NavigationEnd:
+                case event instanceof NavigationCancel:
+                case event instanceof NavigationError: {
+                    _this.loading = false;
+                    break;
+                }
+                default: {
+                    break;
+                }
+            }
+        }));
         /* this.myForm = this.fb.group({
            email: ['', Validators.compose([Validators.required, Validators.pattern(/^\s*[\w\-\+_]+(\.[\w\-\+_]+)*\@[\w\-\+_]+\.[\w\-\+_]+(\.[\w\-\+_]+)*\s*$/)])],
            password: ['', Validators.required]
@@ -693,9 +723,13 @@ var ListingComponent = /** @class */ (function () {
             this.search_settingsval = search_settings;
             console.log('this.search_settingsval');
             console.log(this.search_settingsval);
-            console.log(this.search_settingsval.selectsearch);
-            console.log(this.search_settingsval.selectsearch[0].label);
-            console.log(this.search_settingsval.selectsearch[0].values);
+            /*for (let i= 0; i<= this.search_settingsval.search.length; i++) {
+              console.log(this.search_settingsval.search[i].label);
+            }*/
+            /*  console.log(this.search_settingsval.selectsearch);
+              console.log(this.search_settingsval.selectsearch[0].label);
+              console.log(this.search_settingsval.selectsearch[0].values);
+              console.log(this.search_settingsval.datesearch);*/
         },
         enumerable: true,
         configurable: true
@@ -934,6 +968,19 @@ var ListingComponent = /** @class */ (function () {
         enumerable: true,
         configurable: true
     });
+    Object.defineProperty(ListingComponent.prototype, "emailarray", {
+        set: /**
+         * @param {?} emailarray
+         * @return {?}
+         */
+        function (emailarray) {
+            this.emailarrayval = emailarray;
+            console.log('this.emailarrayval');
+            console.log(this.emailarrayval);
+        },
+        enumerable: true,
+        configurable: true
+    });
     Object.defineProperty(ListingComponent.prototype, "editroute", {
         set: /**
          * @param {?} editroute
@@ -977,13 +1024,37 @@ var ListingComponent = /** @class */ (function () {
      * @return {?}
      */
     function () {
+        var _this = this;
+        if (this.search_settingsval != null && this.search_settingsval.search != null && this.search_settingsval.search != '') {
+            console.log('----------------');
+            /** @type {?} */
+            var source = void 0;
+            /** @type {?} */
+            var condition = {};
+            source = {
+                source: this.date_search_sourceval,
+                condition: condition
+            };
+            /** @type {?} */
+            var link = this.apiurlval + '' + this.date_search_endpointval;
+            this._apiService.postSearch(link, this.jwttokenval, source).subscribe((/**
+             * @param {?} res
+             * @return {?}
+             */
+            function (res) {
+                console.log(res);
+                _this.result = res;
+                console.log(_this.result);
+                _this.preresult = _this.result.res;
+                console.log(_this.preresult);
+            }));
+        }
         // this._service.success(this.columns[0].date,'dndnnd',this.options);
         /* this.stateGroupOptions = this.myControl.valueChanges
              .pipe(
                  startWith(''),
                  map(value => this._filterGroup(value))
              );*/
-        var _this = this;
         this.stateGroup = this.myControl.valueChanges
             .pipe(startWith(''), map((/**
          * @param {?} value
@@ -1053,6 +1124,7 @@ var ListingComponent = /** @class */ (function () {
             data_list.push(this.createData(x[i]));
         }
         this.olddata = data_list;
+        console.log(data_list);
         this.dataSource = new MatTableDataSource(data_list);
         this.selection = new SelectionModel(true, []);
         this.dataSource.paginator = this.paginator;
@@ -1078,12 +1150,14 @@ var ListingComponent = /** @class */ (function () {
         }
     };
     /**
+     * @param {?} val
      * @return {?}
      */
     ListingComponent.prototype.dateSearch = /**
+     * @param {?} val
      * @return {?}
      */
-    function () {
+    function (val) {
         var _this = this;
         console.log("start date");
         console.log(this.start_date);
@@ -1104,13 +1178,17 @@ var ListingComponent = /** @class */ (function () {
             /** @type {?} */
             var condition = void 0;
             condition = {};
-            condition = { 'created_at': {
-                    $lte: new Date(this.end_date).getTime(),
-                    $gte: new Date(this.start_date).getTime(),
-                } };
+            condition[val] = {
+                $lte: new Date(this.end_date).getTime(),
+                $gte: new Date(this.start_date).getTime(),
+            };
+            this.dateSearch_condition = {};
+            this.dateSearch_condition = condition;
+            /** @type {?} */
+            var conditionobj = Object.assign({}, this.textSearch_condition, this.dateSearch_condition, this.autoSearch_condition, this.selectSearch_condition);
             source = {
                 source: this.date_search_sourceval,
-                condition: condition,
+                condition: conditionobj,
             };
             console.log(source);
             this._apiService.postSearch(link, this.jwttokenval, source).subscribe((/**
@@ -1122,6 +1200,7 @@ var ListingComponent = /** @class */ (function () {
                 /** @type {?} */
                 var result = {};
                 result = res;
+                console.log(result.res);
                 _this.dataSource = new MatTableDataSource(result.res);
                 _this.dataSource.paginator = _this.paginator;
                 _this.dataSource.sort = _this.sort;
@@ -1171,9 +1250,13 @@ var ListingComponent = /** @class */ (function () {
         var condition;
         condition = {};
         condition[type.field] = value;
+        this.selectSearch_condition = {};
+        this.selectSearch_condition = condition;
+        /** @type {?} */
+        var conditionobj = Object.assign({}, this.textSearch_condition, this.dateSearch_condition, this.autoSearch_condition, this.selectSearch_condition);
         source = {
             source: this.date_search_sourceval,
-            condition: condition
+            condition: conditionobj
         };
         if (value != null) {
             this._apiService.postSearch(link, this.jwttokenval, source).subscribe((/**
@@ -1185,6 +1268,119 @@ var ListingComponent = /** @class */ (function () {
                 /** @type {?} */
                 var result = {};
                 result = res;
+                console.log("ok");
+                console.log(res);
+                console.log(result.res);
+                /** @type {?} */
+                var newdata = result.res;
+                _this.dataSource = new MatTableDataSource(result.res);
+                _this.dataSource.paginator = _this.paginator;
+                _this.dataSource.sort = _this.sort;
+            }));
+        }
+        else {
+            console.log('oops');
+        }
+        console.log("error");
+    };
+    /**
+     * @param {?} value
+     * @return {?}
+     */
+    ListingComponent.prototype.autosearchfunction = /**
+     * @param {?} value
+     * @return {?}
+     */
+    function (value) {
+        var _this = this;
+        console.log(value);
+        /** @type {?} */
+        var val = this.autosearch[value];
+        console.log(val);
+        /** @type {?} */
+        var source;
+        /** @type {?} */
+        var condition = {};
+        if (this.autosearch[value].length > 0 && { $or: [this.autosearch[value].toLowerCase(), this.autosearch[value].toUpperCase(), this.autosearch[value]] })
+            condition[value + '_regex'] = val;
+        this.autoSearch_condition = {};
+        this.autoSearch_condition = condition;
+        /** @type {?} */
+        var conditionobj = Object.assign({}, this.textSearch_condition, this.dateSearch_condition, this.autoSearch_condition, this.selectSearch_condition);
+        source = {
+            source: this.date_search_sourceval,
+            condition: conditionobj
+        };
+        /** @type {?} */
+        var link = this.apiurlval + '' + this.date_search_endpointval;
+        this._apiService.postSearch(link, this.jwttokenval, source).subscribe((/**
+         * @param {?} res
+         * @return {?}
+         */
+        function (res) {
+            console.log(res);
+            // let result:any={};
+            _this.result = res;
+            console.log(_this.result);
+            console.log(_this.result.res);
+            _this.dataSource = new MatTableDataSource(_this.result.res);
+            _this.dataSource.paginator = _this.paginator;
+            _this.dataSource.sort = _this.sort;
+        }));
+    };
+    /**
+     * @param {?} value
+     * @return {?}
+     */
+    ListingComponent.prototype.textsearchfunction = /**
+     * @param {?} value
+     * @return {?}
+     */
+    function (value) {
+        var _this = this;
+        console.log('value');
+        console.log(value);
+        console.log(value.toLowerCase());
+        console.log(this.tsearch[value]);
+        /** @type {?} */
+        var link = this.apiurlval + '' + this.date_search_endpointval;
+        console.log(link);
+        /** @type {?} */
+        var source;
+        /** @type {?} */
+        var condition = {};
+        //condition = {};
+        /** @type {?} */
+        var val = this.tsearch[value].toLowerCase();
+        // condition={$or:[this.tsearch[value].toLowerCase(),this.tsearch[value].toUpperCase()]};
+        if (this.tsearch[value].length > 1 && { $or: [this.tsearch[value].toLowerCase(), this.tsearch[value].toUpperCase()] })
+            condition[value + '_regex'] = val;
+        this.textSearch_condition = {};
+        this.textSearch_condition = condition;
+        //condition[value]="/222/";
+        //condition={email:{$regx:'/222/i'}};
+        /** @type {?} */
+        var conditionobj = Object.assign({}, this.textSearch_condition, this.dateSearch_condition, this.autoSearch_condition, this.selectSearch_condition);
+        source = {
+            source: this.date_search_sourceval,
+            condition: conditionobj
+        };
+        console.log('source');
+        console.log(source);
+        //add loader
+        this.loading = true;
+        if (value != null) {
+            this._apiService.postSearch(link, this.jwttokenval, source).subscribe((/**
+             * @param {?} res
+             * @return {?}
+             */
+            function (res) {
+                console.log(res);
+                /** @type {?} */
+                var result = {};
+                result = res;
+                //close loader
+                _this.loading = false;
                 console.log("ok");
                 console.log(res);
                 console.log(result.res);
@@ -1420,17 +1616,61 @@ var ListingComponent = /** @class */ (function () {
      */
     function (filterValue) {
         console.log(filterValue);
+        console.log(this.dataSource);
+        // console.log(this.dataSource[name])
         this.dataSource.filter = filterValue.trim().toLowerCase();
         if (this.dataSource.paginator) {
             this.dataSource.paginator.firstPage();
         }
     };
+    /*applyFilter1(filterValue: string, val: any) {
+      console.log(filterValue);
+      console.log(val.value);
+      let value= new MatTableDataSource(val.value);
+  
+      value.filter = filterValue.trim().toLowerCase();
+      console.log(value);
+      /!* this.dataSource.filterPredicate = function(data, filter: string): boolean {
+        // return data.name.toLowerCase().includes(filter);
+      };
+      if (this.dataSource.paginator) {
+        this.dataSource.paginator.firstPage();
+      }*!/
+    }*/
+    /*applyFilter1(filterValue: string, val: any) {
+        console.log(filterValue);
+        console.log(val.value);
+        let value= new MatTableDataSource(val.value);
+    
+        value.filter = filterValue.trim().toLowerCase();
+        console.log(value);
+        /!* this.dataSource.filterPredicate = function(data, filter: string): boolean {
+          // return data.name.toLowerCase().includes(filter);
+        };
+        if (this.dataSource.paginator) {
+          this.dataSource.paginator.firstPage();
+        }*!/
+      }*/
     /**
      * @param {?} col_name
      * @param {?} row
      * @return {?}
      */
-    ListingComponent.prototype.styleCell = /**
+    ListingComponent.prototype.styleCell = /*applyFilter1(filterValue: string, val: any) {
+        console.log(filterValue);
+        console.log(val.value);
+        let value= new MatTableDataSource(val.value);
+    
+        value.filter = filterValue.trim().toLowerCase();
+        console.log(value);
+        /!* this.dataSource.filterPredicate = function(data, filter: string): boolean {
+          // return data.name.toLowerCase().includes(filter);
+        };
+        if (this.dataSource.paginator) {
+          this.dataSource.paginator.firstPage();
+        }*!/
+      }*/
+    /**
      * @param {?} col_name
      * @param {?} row
      * @return {?}
@@ -1826,7 +2066,7 @@ var ListingComponent = /** @class */ (function () {
     ListingComponent.decorators = [
         { type: Component, args: [{
                     selector: 'lib-listing',
-                    template: "<div class=\"container\">\n\n\n  <mat-card>\n    <mat-toolbar-row class=\"searchbar\" style=\"display: flex!important; justify-content: space-between!important;\">\n    <mat-form-field>\n      <input matInput (keyup)=\"applyFilter($event.target.value)\" placeholder=\"Filter\">\n    </mat-form-field>\n\n      <!--<mat-form-field *ngIf=\"date_search_endpointval !=null && date_search_sourceval != null \">\n        <mat-label>Status Search</mat-label>\n        <mat-select>\n          <mat-option *ngFor=\"let status of statusarrval\" [value]=\"status\" (click)=\"statusSearch(status.val)\">\n            {{status.name}}\n          </mat-option>\n        </mat-select>\n      </mat-form-field>-->\n\n\n      <ng-container  *ngIf=\"search_settingsval !=null && search_settingsval.selectsearch != null \">\n        <mat-form-field *ngFor=\"let status of this.search_settingsval.selectsearch\">\n          <mat-label>{{status.label}}</mat-label>\n          <mat-select>\n            <mat-option *ngFor=\"let statusval of status.values\" [value]=\"statusval\" (click)=\"selectSearch(statusval.val, status)\">\n              {{statusval.name}}\n            </mat-option>\n          </mat-select>\n        </mat-form-field>\n      </ng-container>\n\n\n      <ng-container *ngIf=\"date_search_endpointval !=null && date_search_sourceval != null \">\n        <span *ngFor=\"let status of this.search_settingsval.datesearch\">\n        <mat-form-field >\n          <input matInput [matDatepicker]=\"picker\"autocomplete=\"off\"  placeholder=\"{{status.startdatelabel}}\"  [(ngModel)]=\"start_date\" >\n          <mat-datepicker-toggle matSuffix [for]=\"picker\" ></mat-datepicker-toggle>\n          <mat-datepicker #picker></mat-datepicker>\n        </mat-form-field>\n        <mat-form-field>\n          <input matInput [matDatepicker]=\"picker1\" autocomplete=\"off\" placeholder=\"{{status.enddatelabel}}\" [(ngModel)]=\"end_date\" >\n          <mat-datepicker-toggle matSuffix [for]=\"picker1\"></mat-datepicker-toggle>\n          <mat-datepicker #picker1 ></mat-datepicker>\n        </mat-form-field>\n        <button mat-raised-button color=\"primary\" class=\"add_button\" style=\"margin: 0!important; margin-left: 10px!important; \" (click)=\"dateSearch()\">Submit</button>\n      </span>\n      </ng-container>\n\n\n\n      <span *ngIf=\"click_to_add_ananother_pageval !=null\">\n        <button mat-raised-button color=\"primary\" class=\"add_button\" style=\"margin: 0!important; margin-left: 10px!important; \" [routerLink]=\"click_to_add_ananother_pageval\" >Add</button>\n      </span>\n    </mat-toolbar-row>\n\n\n\n    <ng-container *ngIf=\"selection.selected.length!=null && selection.selected.length>0\">\n      <button mat-raised-button (click)=\"deletemultiple()\"> Delete </button>\n      <button mat-raised-button (click)=\"managestatusmultiple()\"> Update Status </button>\n    </ng-container>\n\n\n\n    <table mat-table [dataSource]=\"dataSource\" matSort class=\"mat-elevation-z8\">\n\n      <ng-container matColumnDef=\"select\">\n        <th mat-header-cell *matHeaderCellDef>\n          <mat-checkbox (change)=\"$event ? masterToggle() : null\"\n                        [checked]=\"selection.hasValue() && isAllSelected()\"\n                        [indeterminate]=\"selection.hasValue() && !isAllSelected()\">\n          </mat-checkbox>\n        </th>\n        <td mat-cell *matCellDef=\"let row\" data-label=\"select\">\n          <mat-checkbox (click)=\"$event.stopPropagation()\"\n                        (change)=\"$event ? selection.toggle(row) : null\"\n                        [checked]=\"selection.isSelected(row)\">\n          </mat-checkbox>\n        </td>\n      </ng-container>\n\n      <ng-container *ngFor=\"let column of columns\" [matColumnDef]=\"column.columnDef\" >\n        <th mat-header-cell *matHeaderCellDef mat-sort-header class=\"th-header-center\">{{column.header}}</th>\n        <td mat-cell *matCellDef=\"let row\" [ngStyle]=\"styleCell(column,row)\" data-title=\"{{column.header}}\"   class=\"td-cell-center\">\n          <span *ngIf=\"column.columnDef=='status' \">{{ getstatus([column.cell(row)]) }} {{hi(row)}}</span>\n          <span *ngIf=\"column.columnDef!='status' \">{{ column.cell(row) }}</span>\n          <br>\n\n<!--          <span *ngIf=\"sh==true\">-->\n            <span *ngIf=\"column.columnDef=='contractssigned' && sh==true && urlval !=null\" class=\"cursor\">\n              <i title=\"{{urlval[0].label}}\" (click)=\"clickurl(row,urlval[0].url)\" class=\"material-icons\">cloud_download</i>\n            </span>\n<!--          </span>-->\n<!--          <span *ngIf=\"aud==true\">-->\n            <span *ngIf=\"column.columnDef=='contractssigned' && aud==true  && urlval !=null\">\n              <i title=\"{{urlval[1].label}}\" (click)=\"clickurl(row,urlval[1].url)\" class=\"material-icons\">cloud_download</i>\n            </span>\n<!--          </span>-->\n          <!-- <span *ngIf=\"column.columnDef=='contractssigned' \">\n            <span *ngFor=\"let item of urlval\" class=\"cursor\">\n            <i title=\"{{item.label}}\" (click)=\"clickurl(row,item.url)\" class=\"material-icons\">cloud_download</i>\n          </span>\n          </span>-->\n        </td>\n      </ng-container>\n\n\n\n      <ng-container matColumnDef=\"Actions\"   >\n        <th mat-header-cell *matHeaderCellDef  class=\"th-header-center\">Actions</th>\n        <td (click)=\"$event.stopPropagation()\" mat-cell  *matCellDef=\"let row\" data-label=\"Actions\"  class=\"td-cell-center\">\n          <span *ngIf=\"selection.selected.length==null || selection.selected.length==0\">\n            <span class=\"cursor\" (click)=\"editdata(row)\" >\n              <i class=\"material-icons\">\n                edit\n              </i>\n            </span>\n\n            <!--For modern browsers-->\n            <span class=\"cursor\" (click)=\"deletedata(row)\" >\n              <i class=\"material-icons\">\n                delete_outline\n              </i>\n            </span>\n\n            <!--For modern browsers-->\n            <span class=\"cursor\" (click)=\"viewdata(row)\" >\n              <i class=\"material-icons\">\n                pageview\n              </i>\n            </span>\n\n            <!--For modern browsers-->\n            <span class=\"cursor\" (click)=\"managestatus(row)\" >\n              <i class=\"material-icons\">\n                toggle_off\n              </i>\n            </span>\n          </span>\n\n        </td>\n      </ng-container>\n\n\n\n\n\n\n      <tr mat-header-row *matHeaderRowDef=\"displayedColumns\"></tr>\n      <tr mat-row *matRowDef=\"let row; columns: displayedColumns;\"></tr>\n\n    </table>\n\n    <mat-paginator [pageSizeOptions]=\"[5,10, 20, 50,100]\" showFirstLastButtons></mat-paginator>\n\n    <br>\n\n\n   <!-- <form [formGroup]=\"stateForm\">\n      <mat-form-field>\n        <input type=\"text\" matInput placeholder=\"States Group\" formControlName=\"stateGroup\" required [matAutocomplete]=\"autoGroup\">\n        <mat-autocomplete #autoGroup=\"matAutocomplete\">\n          <mat-optgroup *ngFor=\"let group of stateGroupOptions | async\" [label]=\"group.letter\">\n            <mat-option *ngFor=\"let name of group.names\" [value]=\"name\">\n              {{name}}\n            </mat-option>\n          </mat-optgroup>\n        </mat-autocomplete>\n      </mat-form-field>\n    </form>-->\n\n    <!--<form class=\"example-form\">\n      <mat-form-field class=\"example-full-width\">\n        <input type=\"text\" placeholder=\"Select state\" aria-label=\"Number\" matInput [formControl]=\"myControl\" [matAutocomplete]=\"auto\">\n        <mat-autocomplete #auto=\"matAutocomplete\">\n          <mat-option *ngFor=\"let option of stateGroup | async\" [value]=\"option\">\n            {{option}}\n          </mat-option>\n        </mat-autocomplete>\n      </mat-form-field>\n    </form>\n-->\n\n  </mat-card>\n\n<!--\n  <mat-card>\n\n    <div class=\"example-container\">\n\n\n      <mat-card-content >\n        <mat-form-field class=\"form-group\">\n            <input (blur)=\"inputblur('email')\" matInput placeholder=\"email\" type=\"email\" [formControl]=\"myForm.controls['email']\" >\n            <mat-error  *ngIf=\"!myForm.controls['email'].valid && myForm.controls['email'].touched && issubmit==1\">email field can not be blank</mat-error>\n        </mat-form-field>\n\n        <mat-form-field class=\"form-group\">\n            <input (blur)=\"inputblur('password')\" matInput placeholder=\"Password\" type=\"password\" [formControl]=\"myForm.controls['password']\" >\n            <mat-error  *ngIf=\"!myForm.controls['password'].valid && myForm.controls['password'].touched && issubmit==1\">Password field can not be blank</mat-error>\n        </mat-form-field>\n\n            <button mat-button  (click)=\"onSubmit()\" class=\"s_getmyoffer_login_button\"  >Login</button>\n        </mat-card-content>\n\n\n    </div>\n\n  </mat-card>-->\n  <br>\n  <br>\n\n\n</div>\n",
+                    template: "<div class=\"container\">\n\n\n  <mat-card>\n    <mat-toolbar-row class=\"searchbar\" style=\"display: flex!important; justify-content: space-between!important;\">\n    <mat-form-field class=\"searchdiv\">\n      <i class=\"material-icons searchicon\" >\n        search\n      </i>\n      <input matInput (keyup)=\"applyFilter($event.target.value)\" placeholder=\"Filter\">\n    </mat-form-field>\n\n      <span  *ngIf=\"search_settingsval !=null && search_settingsval.textsearch != null \">\n    <mat-form-field *ngFor=\"let item of search_settingsval.textsearch\" class=\"searchdiv\">\n       <i class=\"material-icons searchicon\" >\n        search\n      </i>\n      <input matInput (change)=\"textsearchfunction(item.field)\" (keyup)=\"textsearchfunction(item.field)\" [(ngModel)]='tsearch[item.field]' placeholder=\"{{item.label}}\">\n    </mat-form-field>\n      </span>\n\n<span *ngIf=\"search_settingsval !=null && search_settingsval.search != null \">\n  <mat-form-field  *ngFor=\"let item of search_settingsval.search\">\n    <input type=\"text\" placeholder=\"{{item.label}}\" matInput [(ngModel)]=\"autosearch[item.field]\" [matAutocomplete]=\"auto\">\n    <mat-autocomplete autoActiveFirstOption #auto=\"matAutocomplete\" >\n       <mat-option *ngFor=\"let option of result.res\" [value]=\"option[item.field]\" (click)=\"autosearchfunction(item.field)\">\n        {{option[item.field]}}\n      </mat-option>\n    </mat-autocomplete>\n  </mat-form-field>\n</span>\n\n\n<!--      <span *ngIf=\"search_settingsval !=null && search_settingsval != null \">\n\n      <mat-form-field *ngFor=\"let item of search_settingsval.search\">\n        <mat-label>{{item.label}}</mat-label>\n        <mat-select>\n          <mat-option *ngFor=\"let status of preresult\" [value]=\"status\" (click)=\"autosearchfunction(status.email)\">\n            {{status.email}}\n          </mat-option>\n        </mat-select>\n      </mat-form-field>\n\n      </span>-->\n    <!--  <ng-container  *ngIf=\"search_settingsval !=null && search_settingsval.textsearch != null \">\n&lt;!&ndash;        <span *ngFor=\"let status of this.search_settingsval.textsearch\">&ndash;&gt;\n&lt;!&ndash;        <mat-form-field *ngFor=\"let statusval of status.value\">&ndash;&gt;\n        <mat-form-field *ngFor=\"let status of this.search_settingsval.textsearch\">\n              <input matInput (keyup)=\"applyFilter1($event.target.value, status)\" placeholder=\"{{status.label}}\">\n        </mat-form-field>\n&lt;!&ndash;              </span>&ndash;&gt;\n      </ng-container>-->\n\n\n      <ng-container  *ngIf=\"search_settingsval !=null && search_settingsval.selectsearch != null \">\n        <mat-form-field *ngFor=\"let status of this.search_settingsval.selectsearch\">\n          <mat-label>{{status.label}}</mat-label>\n          <mat-select>\n            <mat-option *ngFor=\"let statusval of status.values\" [value]=\"statusval\" (click)=\"selectSearch(statusval.val, status)\">\n              {{statusval.name}}\n            </mat-option>\n          </mat-select>\n        </mat-form-field>\n      </ng-container>\n\n\n      <ng-container *ngIf=\"date_search_endpointval !=null && date_search_sourceval != null && search_settingsval.datesearch != null \">\n        <span *ngFor=\"let status of this.search_settingsval.datesearch\">\n        <mat-form-field >\n          <input matInput [matDatepicker]=\"picker\"autocomplete=\"off\"  placeholder=\"{{status.startdatelabel}}\"  [(ngModel)]=\"start_date\" >\n          <mat-datepicker-toggle matSuffix [for]=\"picker\" ></mat-datepicker-toggle>\n          <mat-datepicker #picker></mat-datepicker>\n        </mat-form-field>\n        <mat-form-field>\n          <input matInput [matDatepicker]=\"picker1\" autocomplete=\"off\" placeholder=\"{{status.enddatelabel}}\" [(ngModel)]=\"end_date\" >\n          <mat-datepicker-toggle matSuffix [for]=\"picker1\"></mat-datepicker-toggle>\n          <mat-datepicker #picker1 ></mat-datepicker>\n        </mat-form-field>\n        <button mat-raised-button color=\"primary\" class=\"add_button\" style=\"margin: 0!important; margin-left: 10px!important; \" (click)=\"dateSearch(status.field)\">{{status.submit}}</button>\n      </span>\n      </ng-container>\n\n\n\n      <span *ngIf=\"click_to_add_ananother_pageval !=null\">\n        <button mat-raised-button color=\"primary\" class=\"add_button\" style=\"margin: 0!important; margin-left: 10px!important; \" [routerLink]=\"click_to_add_ananother_pageval\" >Add</button>\n      </span>\n    </mat-toolbar-row>\n\n\n\n    <ng-container *ngIf=\"selection.selected.length!=null && selection.selected.length>0\">\n      <button mat-raised-button (click)=\"deletemultiple()\"> Delete </button>\n      <button mat-raised-button (click)=\"managestatusmultiple()\"> Update Status </button>\n    </ng-container>\n\n\n\n    <table mat-table [dataSource]=\"dataSource\" matSort class=\"mat-elevation-z8\">\n\n      <ng-container matColumnDef=\"select\">\n        <th mat-header-cell *matHeaderCellDef>\n          <mat-checkbox (change)=\"$event ? masterToggle() : null\"\n                        [checked]=\"selection.hasValue() && isAllSelected()\"\n                        [indeterminate]=\"selection.hasValue() && !isAllSelected()\">\n          </mat-checkbox>\n        </th>\n        <td mat-cell *matCellDef=\"let row\" data-label=\"select\">\n          <mat-checkbox (click)=\"$event.stopPropagation()\"\n                        (change)=\"$event ? selection.toggle(row) : null\"\n                        [checked]=\"selection.isSelected(row)\">\n          </mat-checkbox>\n        </td>\n      </ng-container>\n\n      <ng-container *ngFor=\"let column of columns\" [matColumnDef]=\"column.columnDef\" >\n        <th mat-header-cell *matHeaderCellDef mat-sort-header class=\"th-header-center\">{{column.header}}</th>\n        <td mat-cell *matCellDef=\"let row\" [ngStyle]=\"styleCell(column,row)\" data-title=\"{{column.header}}\"   class=\"td-cell-center\">\n          <span *ngIf=\"column.columnDef=='status' \">{{ getstatus([column.cell(row)]) }} {{hi(row)}}</span>\n          <span *ngIf=\"column.columnDef!='status' \">{{ column.cell(row) }}</span>\n          <br>\n\n<!--          <span *ngIf=\"sh==true\">-->\n            <span *ngIf=\"column.columnDef=='contractssigned' && sh==true && urlval !=null\" class=\"cursor\">\n              <i title=\"{{urlval[0].label}}\" (click)=\"clickurl(row,urlval[0].url)\" class=\"material-icons\">cloud_download</i>\n            </span>\n<!--          </span>-->\n<!--          <span *ngIf=\"aud==true\">-->\n            <span *ngIf=\"column.columnDef=='contractssigned' && aud==true  && urlval !=null\">\n              <i title=\"{{urlval[1].label}}\" (click)=\"clickurl(row,urlval[1].url)\" class=\"material-icons\">cloud_download</i>\n            </span>\n<!--          </span>-->\n          <!-- <span *ngIf=\"column.columnDef=='contractssigned' \">\n            <span *ngFor=\"let item of urlval\" class=\"cursor\">\n            <i title=\"{{item.label}}\" (click)=\"clickurl(row,item.url)\" class=\"material-icons\">cloud_download</i>\n          </span>\n          </span>-->\n        </td>\n      </ng-container>\n\n\n\n      <ng-container matColumnDef=\"Actions\"   >\n        <th mat-header-cell *matHeaderCellDef  class=\"th-header-center\">Actions</th>\n        <td (click)=\"$event.stopPropagation()\" mat-cell  *matCellDef=\"let row\" data-label=\"Actions\"  class=\"td-cell-center\">\n          <span *ngIf=\"selection.selected.length==null || selection.selected.length==0\">\n            <span class=\"cursor\" (click)=\"editdata(row)\" >\n              <i class=\"material-icons\">\n                edit\n              </i>\n            </span>\n\n            <!--For modern browsers-->\n            <span class=\"cursor\" (click)=\"deletedata(row)\" >\n              <i class=\"material-icons\">\n                delete_outline\n              </i>\n            </span>\n\n            <!--For modern browsers-->\n            <span class=\"cursor\" (click)=\"viewdata(row)\" >\n              <i class=\"material-icons\">\n                pageview\n              </i>\n            </span>\n\n            <!--For modern browsers-->\n            <span class=\"cursor\" (click)=\"managestatus(row)\" >\n              <i class=\"material-icons\">\n                toggle_off\n              </i>\n            </span>\n          </span>\n\n        </td>\n      </ng-container>\n\n\n\n\n\n\n      <tr mat-header-row *matHeaderRowDef=\"displayedColumns\"></tr>\n      <tr mat-row *matRowDef=\"let row; columns: displayedColumns;\"></tr>\n\n    </table>\n\n    <mat-paginator [pageSizeOptions]=\"[5,10, 20, 50,100]\" showFirstLastButtons></mat-paginator>\n    <mat-spinner *ngIf=\"loading == true\" ></mat-spinner>\n\n    <br>\n\n\n   <!-- <form [formGroup]=\"stateForm\">\n      <mat-form-field>\n        <input type=\"text\" matInput placeholder=\"States Group\" formControlName=\"stateGroup\" required [matAutocomplete]=\"autoGroup\">\n        <mat-autocomplete #autoGroup=\"matAutocomplete\">\n          <mat-optgroup *ngFor=\"let group of stateGroupOptions | async\" [label]=\"group.letter\">\n            <mat-option *ngFor=\"let name of group.names\" [value]=\"name\">\n              {{name}}\n            </mat-option>\n          </mat-optgroup>\n        </mat-autocomplete>\n      </mat-form-field>\n    </form>-->\n\n    <!--<form class=\"example-form\">\n      <mat-form-field class=\"example-full-width\">\n        <input type=\"text\" placeholder=\"Select state\" aria-label=\"Number\" matInput [formControl]=\"myControl\" [matAutocomplete]=\"auto\">\n        <mat-autocomplete #auto=\"matAutocomplete\">\n          <mat-option *ngFor=\"let option of stateGroup | async\" [value]=\"option\">\n            {{option}}\n          </mat-option>\n        </mat-autocomplete>\n      </mat-form-field>\n    </form>\n-->\n\n  </mat-card>\n\n<!--\n  <mat-card>\n\n    <div class=\"example-container\">\n\n\n      <mat-card-content >\n        <mat-form-field class=\"form-group\">\n            <input (blur)=\"inputblur('email')\" matInput placeholder=\"email\" type=\"email\" [formControl]=\"myForm.controls['email']\" >\n            <mat-error  *ngIf=\"!myForm.controls['email'].valid && myForm.controls['email'].touched && issubmit==1\">email field can not be blank</mat-error>\n        </mat-form-field>\n\n        <mat-form-field class=\"form-group\">\n            <input (blur)=\"inputblur('password')\" matInput placeholder=\"Password\" type=\"password\" [formControl]=\"myForm.controls['password']\" >\n            <mat-error  *ngIf=\"!myForm.controls['password'].valid && myForm.controls['password'].touched && issubmit==1\">Password field can not be blank</mat-error>\n        </mat-form-field>\n\n            <button mat-button  (click)=\"onSubmit()\" class=\"s_getmyoffer_login_button\"  >Login</button>\n        </mat-card-content>\n\n\n    </div>\n\n  </mat-card>-->\n  <br>\n  <br>\n\n\n\n</div>\n\n",
                     styles: [".container{background:#fff}body{font-family:Roboto,Arial,sans-serif;margin:0;display:none!important}.basic-container{padding:30px}.version-info{font-size:8pt;float:right}table{width:100%}th.mat-sort-header-sorted{color:#000}.custom-modalbox{display:none}"]
                 }] }
     ];
@@ -1861,6 +2101,7 @@ var ListingComponent = /** @class */ (function () {
         apiurl: [{ type: Input }],
         jwttoken: [{ type: Input }],
         statusarr: [{ type: Input }],
+        emailarray: [{ type: Input }],
         editroute: [{ type: Input }],
         sort: [{ type: ViewChild, args: [MatSort,] }],
         paginator: [{ type: ViewChild, args: [MatPaginator,] }]

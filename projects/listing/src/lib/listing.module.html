@@ -3,18 +3,54 @@
 
   <mat-card>
     <mat-toolbar-row class="searchbar" style="display: flex!important; justify-content: space-between!important;">
-    <mat-form-field>
+    <mat-form-field class="searchdiv">
+      <i class="material-icons searchicon" >
+        search
+      </i>
       <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
     </mat-form-field>
 
-      <!--<mat-form-field *ngIf="date_search_endpointval !=null && date_search_sourceval != null ">
-        <mat-label>Status Search</mat-label>
+      <span  *ngIf="search_settingsval !=null && search_settingsval.textsearch != null ">
+    <mat-form-field *ngFor="let item of search_settingsval.textsearch" class="searchdiv">
+       <i class="material-icons searchicon" >
+        search
+      </i>
+      <input matInput (change)="textsearchfunction(item.field)" (keyup)="textsearchfunction(item.field)" [(ngModel)]='tsearch[item.field]' placeholder="{{item.label}}">
+    </mat-form-field>
+      </span>
+
+<span *ngIf="search_settingsval !=null && search_settingsval.search != null ">
+  <mat-form-field  *ngFor="let item of search_settingsval.search">
+    <input type="text" placeholder="{{item.label}}" matInput [(ngModel)]="autosearch[item.field]" [matAutocomplete]="auto">
+    <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" >
+       <mat-option *ngFor="let option of result.res" [value]="option[item.field]" (click)="autosearchfunction(item.field)">
+        {{option[item.field]}}
+      </mat-option>
+    </mat-autocomplete>
+  </mat-form-field>
+</span>
+
+
+<!--      <span *ngIf="search_settingsval !=null && search_settingsval != null ">
+
+      <mat-form-field *ngFor="let item of search_settingsval.search">
+        <mat-label>{{item.label}}</mat-label>
         <mat-select>
-          <mat-option *ngFor="let status of statusarrval" [value]="status" (click)="statusSearch(status.val)">
-            {{status.name}}
+          <mat-option *ngFor="let status of preresult" [value]="status" (click)="autosearchfunction(status.email)">
+            {{status.email}}
           </mat-option>
         </mat-select>
-      </mat-form-field>-->
+      </mat-form-field>
+
+      </span>-->
+    <!--  <ng-container  *ngIf="search_settingsval !=null && search_settingsval.textsearch != null ">
+&lt;!&ndash;        <span *ngFor="let status of this.search_settingsval.textsearch">&ndash;&gt;
+&lt;!&ndash;        <mat-form-field *ngFor="let statusval of status.value">&ndash;&gt;
+        <mat-form-field *ngFor="let status of this.search_settingsval.textsearch">
+              <input matInput (keyup)="applyFilter1($event.target.value, status)" placeholder="{{status.label}}">
+        </mat-form-field>
+&lt;!&ndash;              </span>&ndash;&gt;
+      </ng-container>-->
 
 
       <ng-container  *ngIf="search_settingsval !=null && search_settingsval.selectsearch != null ">
@@ -41,7 +77,7 @@
           <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
           <mat-datepicker #picker1 ></mat-datepicker>
         </mat-form-field>
-        <button mat-raised-button color="primary" class="add_button" style="margin: 0!important; margin-left: 10px!important; " (click)="dateSearch()">Submit</button>
+        <button mat-raised-button color="primary" class="add_button" style="margin: 0!important; margin-left: 10px!important; " (click)="dateSearch(status.field)">{{status.submit}}</button>
       </span>
       </ng-container>
 
@@ -151,6 +187,7 @@
     </table>
 
     <mat-paginator [pageSizeOptions]="[5,10, 20, 50,100]" showFirstLastButtons></mat-paginator>
+    <mat-spinner *ngIf="loading == true" ></mat-spinner>
 
     <br>
 
@@ -210,4 +247,6 @@
   <br>
 
 
+
 </div>
+

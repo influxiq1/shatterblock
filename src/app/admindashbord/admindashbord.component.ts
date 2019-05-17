@@ -54,7 +54,9 @@ export class AdmindashbordComponent implements OnInit {
         value: 'image',
         fileurl: "http://18.222.26.198/upload/brandimages/"
     }];
-    statusarray: any = [{val: 1, name: 'Approve'}, {val: 2, name: 'Decline'}, {val: 3, name: 'Lock'}];
+
+    statusarray: any = [{val: 1, name: 'Approve'}, {val: 4, name: 'Decline'}, {val: 3, name: 'Lock'}];
+    emailarray: any = [{val: 'sourotest222@gmail.com', name: 'sourotest222@gmail.com'}, {val: 'octtest@yopmail.com', name: 'octtest@yopmail.com'}, {val: 'septest@yopmail.com', name: 'septest@yopmail.com'}];
     editroute: any = 'editroute';
     pendingmodelapplicationarray_modify_header: any = {
         'firstname': "First Name",
@@ -77,7 +79,13 @@ export class AdmindashbordComponent implements OnInit {
 
     date_search_endpoint: any='datalist';
     date_search_source: any='userslist_view';
-    search_settings:any={datesearch:[{startdatelabel:"Start Date",enddatelabel:"End Date"}],selectsearch:[{label:'Search By Status',field:'status',values:this.statusarray},{label:'Search By Status2',field:'status',values:this.statusarray}],textsearch:[{label:"Search By Email",field:'email'}]};
+    search_settings:any={datesearch:[{startdatelabel:"Start Date",enddatelabel:"End Date",submit:"Search By Date",  field:"created_at"}],
+        selectsearch:[{label:'Search By email',field:'email',values:this.emailarray},
+            {label:'Search By Status',field:'status',values:this.statusarray}
+            ],
+        textsearch:[{label:"Search By email",field:'email'},{label:"Search By Full name",field:'name'}],
+        search:[{label:"Search By autocomplete",field:'name'}]
+    };
 
     status_gretterthan_zero_skip: any= ['_id','username','phone','city','state','ethnicity','height','haircolor','eyecolor','weight','bust','waist','hips','slim','toned','tattoos','athletic','piercings','retail','voluptuous','promotions','sales','descriptionbox','facebooklink','twitterlink','instagramlink','modelmayhemlink','type','images'];
     status_gretterthan_zero_modify_header: any = { 'dateformat': 'Date','status':'Status','email':'Email', 'name':'Full Name', 'bodytype' : 'Bodytype', 'shatterblok agreement date': 'Shatterblok Agreement Date', 'audiodeadline agreement date': 'Audiodeadline Agreement Date' };

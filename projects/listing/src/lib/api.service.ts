@@ -260,8 +260,9 @@ export class ApiService {
       })
     };
     console.log('------ ');
-    console.log("link");
+    console.log("link in postSearch");
     console.log(link);
+    console.log(source);
     var result = this._http.post(link, source, httpOptions).pipe(map(res => res));
     return result;
   }
