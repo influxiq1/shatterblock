@@ -80,6 +80,9 @@ export class ModeldashboardComponent implements OnInit {
         }else{
           this.modelimage=this.apiservice.uplodeimg_url+'/'+this.modeldata.images[0];
         }
+
+        console.log('okokokoko');
+        console.log(this.modeldata.second_img);
         if(this.modeldata.second_img!=null) {
           this.secondimg = this.modeldata.second_img;
         }

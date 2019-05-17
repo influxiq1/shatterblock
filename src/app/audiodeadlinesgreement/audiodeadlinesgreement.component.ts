@@ -5,6 +5,7 @@ import {ModalaudiodeadlineComponent} from "../modalaudiodeadline/modalaudiodeadl
 import {ApiService} from "../api.service";
 import {CookieService} from "ngx-cookie-service";
 import {AppComponent} from '../app.component'
+import {Updatetest5} from "../modeldashboard/modeldashboard.component";
 @Component({
   selector: 'app-audiodeadlinesgreement',
   templateUrl: './audiodeadlinesgreement.component.html',
@@ -17,13 +18,15 @@ export class AudiodeadlinesgreementComponent implements OnInit {
   public successmsg: any;
   public endpoint = 'addorupdatedata';
   public endpoint1 = 'datalist';
+  public today: number = Date.now();
   constructor(public modal: MatDialog, public apiservice: ApiService,public cookieService:CookieService, public router: Router, public appComponent: AppComponent) {
     console.log('id-- '+this.cookieService.get('id'));
     console.log(this.cookieService.getAll());
+    window.scrollTo(0, 0);
   }
   openDialog(){
     this.errormsg='';
-    console.log('-- '+this.fullname);
+    // console.log('-- '+this.fullname);
    /* const dialogRef = this.modal.open(ModalaudiodeadlineComponent);{
       data: {myForm : this.fullname}
     }*/
@@ -68,6 +71,11 @@ export class AudiodeadlinesgreementComponent implements OnInit {
             this.appComponent.loading = true;
             let result: any;
             result = res;
+            const dialogRef = this.modal.open(Updatetest5, {
+              data: {msg: 'Success! \n' +
+                    'Your Model/Affiliate profile has been created on Shatter Blok and ArtistXP. To view and customize your ArtistXP profile even more go to www.artistxp.com and use the same login information that has been submitted here to access your account! '},
+            });
+
             console.log("result.res[0].auidodeadineusername");
             console.log(result.res[0].auidodeadineusername);
             // this.cookieService.delete('status');

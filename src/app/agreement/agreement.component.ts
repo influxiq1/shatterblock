@@ -14,9 +14,10 @@ export class AgreementComponent implements OnInit {
 fullname: string;
 public endpoint = 'addorupdatedata';
    public errmsg;
-    
+    public today: number = Date.now();
   constructor(public modal: MatDialog, public apiservice: ApiService,public cookieService:CookieService, public router: Router,public dialog: MatDialog) {
       console.log('id-- '+this.cookieService.get('id'));
+      window.scrollTo(0, 0);
   }
   openDialog(){
       this.errmsg='';

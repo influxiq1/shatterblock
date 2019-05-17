@@ -61,7 +61,7 @@ import { ClipboardModule } from 'ngx-clipboard';
 import { ModeleditComponent,Updatetest3 } from './modeledit/modeledit.component';
 import { UploaderComponent, Updatetest4 } from './uploader/uploader.component';
 import {NgxUploaderModule} from 'ngx-uploader';
-import { JoqudashboardComponent } from './joqudashboard/joqudashboard.component';
+import {JoqudashboardComponent, Updatetest6} from './joqudashboard/joqudashboard.component';
 import { JoquprocesslistComponent } from './joquprocesslist/joquprocesslist.component';
 import { OrderDetailsComponent } from './order-details/order-details.component';
 import { ModelmyordersComponent } from './modelmyorders/modelmyorders.component';
@@ -103,7 +103,7 @@ import { ActiveUsersComponent } from './active-users/active-users.component';
     AffilitemarketingComponent,Updatetest2,
     UpdatesigninstatusComponent,
     ModeleditComponent,Updatetest3,
-    UploaderComponent, Updatetest4, JoqudashboardComponent, JoquprocesslistComponent,
+    UploaderComponent, Updatetest4, Updatetest6, JoqudashboardComponent, JoquprocesslistComponent,
     OrderDetailsComponent,
     ModelmyordersComponent,
     VieworderdetailsComponent,
@@ -152,6 +152,7 @@ import { ActiveUsersComponent } from './active-users/active-users.component';
     Updatetest3,
     Updatetest4,
     Updatetest5,
+    Updatetest6,
     // Dialogtest,
     ModalComponent,
   ],

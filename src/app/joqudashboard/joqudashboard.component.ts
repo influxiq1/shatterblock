@@ -4,6 +4,8 @@ import { ApiService } from "../api.service";
 import { CookieService } from 'ngx-cookie-service';
 import { Resolveservice } from '../resolveservice';
 import { FormBuilder, FormGroup, Validators, ValidatorFn, AbstractControl, FormControl} from '@angular/forms';
+import {DialogData, Updatetest} from "../managedashboard/managedashboard.component";
+import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material";
 
 @Component({
   selector: 'app-joqudashboard',
@@ -12,14 +14,17 @@ import { FormBuilder, FormGroup, Validators, ValidatorFn, AbstractControl, FormC
 })
 export class JoqudashboardComponent implements OnInit {
   public datanew: any;
+  public show: any = 1;
+  public id: any;
   public joqu_status: any;
   public myForm: any;
   public stateslist: any;
   public isDisabled: any=false;
   public loaderdiv: any=false;
   public endpoint: any='addorupdatedata';
+  public endpoint1: any='datalist';
 
-  constructor(public apiservice: ApiService, public router: Router, private cookieService: CookieService,public route: ActivatedRoute, public resolveservice: Resolveservice,public fb: FormBuilder ) {
+  constructor(public apiservice: ApiService, public router: Router, private cookieService: CookieService,public route: ActivatedRoute, public resolveservice: Resolveservice,public fb: FormBuilder, public dialog: MatDialog) {
     this.myForm = this.fb.group({
       shatterblok_user_id: [''],
       firstname: ['', Validators.required],
@@ -32,9 +37,29 @@ export class JoqudashboardComponent implements OnInit {
       instagramlink: ['', Validators.required],
       status: [1],
     });
+    this.id = this.cookieService.get('id');
+    console.log(this.cookieService.get('id'));
+
+    let data2 = {source:'joquuser',condition:{"shatterblok_user_id_object": this.id}};
+    this.apiservice.postData(this.endpoint1, data2).subscribe(res => {
+      let result: any = {};
+      result = res;
+      console.log(result);
+      console.log(result.res.length);
+      this.show = 0;
+      /*if (result.res.length > 0){
+
+      }*/
+    })
+
+   /* let  sourcecondition={type:type};
+    this.apiservice.getData({'source':'model_influencer_contents_viewlistin_decending',condition:sourcecondition})
+*/
   }
 
   ngOnInit() {
+
+
     this.route.data.forEach( (data) =>{
       console.log('data in dahsboard');
       console.log(data);
@@ -93,6 +118,10 @@ export class JoqudashboardComponent implements OnInit {
         }
         if (result.status == 'success') {
           this.isDisabled=true;
+          const dialogRef = this.dialog.open(Updatetest6, {
+            data: {msg: 'Apply successfully.'},
+          });
+          this.myForm.reset();
           /* let data2 = {
             joqu_status: 1,
             id: this.datanew._id
@@ -115,4 +144,26 @@ export class JoqudashboardComponent implements OnInit {
       });
     }
   }
+}
+
+
+@Component({
+  selector: 'updatetest',
+  templateUrl: '../commonmodals/updatemodal.html',
+})
+export class Updatetest6 {
+  public modalmsg: any;
+
+  constructor(
+      public dialogRef: MatDialogRef<Updatetest6>,
+      @Inject(MAT_DIALOG_DATA) public data: DialogData) {
+    console.log(data.msg);
+    this.modalmsg=data.msg;
+
+  }
+
+  onNoClick(): void {
+    this.dialogRef.close();
+  }
+
 }

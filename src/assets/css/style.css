@@ -369,17 +369,17 @@ table th .mat-checkbox-inner-container{ margin-right: 10px !important;}
 .modal_wrapper .mat-dialog-content {
     display: block;
     margin: 5px 0!important;
-    padding: 0 24px;
+    padding: 0 5px;
     max-height: 65vh;
     overflow: auto;
     -webkit-overflow-scrolling: touch;
-    background: #d699fe;
+ /*   background: #d699fe;*/ text-align: center; line-height: 22px; font-size: 14px;
 
 }
 .modal_wrapper button{
     width: 150px!important;
-    BACKGROUND: #be7be8!important;
-    MARGIN: 0 AUTO!important;
+    background: #7028a5!important;
+    margin: 0 auto!important; color: #fff;
 }
 .adminform .mat-card-header{
     background: #000000;
@@ -580,7 +580,7 @@ table th .mat-checkbox-inner-container{ margin-right: 10px !important;}
     color: #000;
     font-size: 54px;
     font-family: 'Notera Personal Use Only';
-    border-left: solid 5px rgb(37, 115, 175)!important; font-weight: normal;
+    border-left: solid 5px #e31e6d!important; font-weight: normal;
 }
 
 .newsignmodal h4 {

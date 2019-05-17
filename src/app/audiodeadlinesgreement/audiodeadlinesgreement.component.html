@@ -60,7 +60,7 @@
        <button mat-button (click)="openDialog()" class="signherebtn">Sign Here</button>
 <!--    <h5 *ngIf="show==true">By : {{fullname}}</h5>-->
     <h5>By : {{fullname}}</h5>
-
+ <h5> {{today | date:'MMM d, yyyy'}}</h5>
   <button mat-button class="ep_contractbtn" (click)="onAgreement()">Submit</button>
 <mat-error>{{errormsg}}</mat-error>
 
