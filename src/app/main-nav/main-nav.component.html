@@ -121,11 +121,19 @@
       </i>my account</a>
       <a mat-list-item role="listitem" *ngIf="cookieService.get('type')=='brand'" (click)="editpage()">MY ACCOUNT</a>
       <a mat-list-item role="listitem" *ngIf="cookieService.get('type')=='admin'" (click)="editpage()">MY ACCOUNT</a>
+<!--<<<<<<< HEAD-->
 
       <a mat-list-item role="listitem" (click)="logout()"> <i class="material-icons">
         play_for_work
       </i> log out</a>
 
+<!--=======-->
+      <mat-divider></mat-divider>
+      <a mat-list-item role="listitem" *ngIf="cookieService.get('type')=='model'" [routerLink]="['/affilitemarketing']">MEDIA MARKETING</a>
+      <mat-divider></mat-divider>
+      <a mat-list-item role="listitem" (click)="logout()">LOG OUT</a>
+      <mat-divider></mat-divider>
+<!--&gt;>>>>>> 71908ec98a5e9b2bd6bdf2ca6f3f8928bb4af1a2-->
 
     </mat-nav-list>
   </mat-sidenav>
@@ -162,3 +170,4 @@
     <ng-content></ng-content>
   </mat-sidenav-content>
 </mat-sidenav-container>
+git add src

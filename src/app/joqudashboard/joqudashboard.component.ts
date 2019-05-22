@@ -46,10 +46,10 @@ export class JoqudashboardComponent implements OnInit {
       result = res;
       console.log(result);
       console.log(result.res.length);
-      this.show = 0;
-      /*if (result.res.length > 0){
 
-      }*/
+      if (result.res.length > 0){
+        this.show = 0;
+      }
     })
 
    /* let  sourcecondition={type:type};
