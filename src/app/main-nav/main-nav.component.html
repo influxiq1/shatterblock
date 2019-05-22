@@ -73,47 +73,59 @@
     <mat-toolbar>
       <span class="s_shatter_logo_wrapper">
          <!-- <img src="../../assets/images/shaterblockLogo.png" alt="#" >-->
-          <img src="../../assets/images/adminshaterblockLogo.png" alt="#" >
+<!--          <img src="../../assets/images/adminshaterblockLogo.png" alt="#" >-->
+        <img src="http://shatterblok.com/assets/images/shaterblockLogo.png">
       </span>
     </mat-toolbar>
     <mat-nav-list class="left_nav_menu">
-      <a mat-list-item role="listitem" class="active" target="_blank" href="{{apiService.loginurl}}">HOME</a>
+      <a mat-list-item role="listitem" class="active" target="_blank" href="{{apiService.loginurl}}"><i class="material-icons">
+        home
+      </i>home</a>
     <!--  <a mat-list-item role="listitem" class="active" [routerLink]="['/modeldashboard']" *ngIf="cookieService.get('type')=='model'">HOME</a>-->
-      <mat-divider></mat-divider>
-      <a mat-list-item role="listitem" class="active" [routerLink]="['/admindashboard']" *ngIf="cookieService.get('type')=='admin'">DASHBOARD</a>
-      <a mat-list-item role="listitem" class="active" [routerLink]="['/modeldashboard']" *ngIf="cookieService.get('type')=='model'">DASHBOARD</a>
-      <mat-divider></mat-divider>
+
+      <a mat-list-item role="listitem" class="active" [routerLink]="['/admindashboard']" *ngIf="cookieService.get('type')=='admin'">dashboard</a>
+      <a mat-list-item role="listitem" [routerLink]="['/modeldashboard']" *ngIf="cookieService.get('type')=='model'"><i class="material-icons">
+        dashboard
+      </i>dashboard</a>
+
       <a mat-list-item role="listitem" class="active" *ngIf="cookieService.get('type')=='admin'">
         <mat-expansion-panel>
           <mat-expansion-panel-header>
             <mat-panel-title>
-              USER MANAGEMENT
+              user agreement
             </mat-panel-title>
           </mat-expansion-panel-header>
-          <mat-divider></mat-divider>
-          <a mat-list-item role="listitem" [routerLink]="['/recentSignUp']">RECENT SIGN-UPS</a>
-          <a mat-list-item role="listitem" [routerLink]="['/activeUsers']">ACTIVE USERS</a>
+          <a mat-list-item role="listitem" [routerLink]="['/recentSignUp']">recent sign-ups</a>
+          <a mat-list-item role="listitem" [routerLink]="['/activeUsers']">Active users</a>
         </mat-expansion-panel>
 
       </a>
 
       <!--<a mat-list-item role="listitem" [routerLink]="['/managedashboard']" *ngIf="cookieService.get('type')=='admin'">Manage Dashboard</a>-->
-      <mat-divider></mat-divider>
+
       <a mat-list-item role="listitem" [routerLink]="['/joquprocesslist']" *ngIf="cookieService.get('type')=='admin'">JOQU APPLICATION</a>
-      <mat-divider></mat-divider>
+
       <a mat-list-item role="listitem" [routerLink]="['/orderdetails']" *ngIf="cookieService.get('type')=='admin'">ORDER LIST</a>
-      <mat-divider></mat-divider>
+
       <a mat-list-item role="listitem" [routerLink]="['/orderdetails']" *ngIf="cookieService.get('type')=='admin'">COMMISION REPORT</a>
-      <mat-divider></mat-divider>
-      <a mat-list-item role="listitem" [routerLink]="['/adminlist']" >ADMIN LIST</a>
-      <mat-divider></mat-divider>
-      <a mat-list-item role="listitem" *ngIf="cookieService.get('type')=='model'" (click)="editpage()">MY ACCOUNT</a>
+
+      <a mat-list-item role="listitem" [routerLink]="['/adminlist']" ><i class="material-icons">
+        people_outline
+      </i> admin list</a>
+      <a mat-list-item role="listitem" [routerLink]="['/adminlist']" > <i class="material-icons">
+        perm_media
+      </i> Media Marketing</a>
+
+      <a mat-list-item role="listitem" *ngIf="cookieService.get('type')=='model'" (click)="editpage()"><i class="material-icons">
+        account_circle
+      </i>my account</a>
       <a mat-list-item role="listitem" *ngIf="cookieService.get('type')=='brand'" (click)="editpage()">MY ACCOUNT</a>
       <a mat-list-item role="listitem" *ngIf="cookieService.get('type')=='admin'" (click)="editpage()">MY ACCOUNT</a>
-      <mat-divider></mat-divider>
-      <mat-divider></mat-divider>
-      <a mat-list-item role="listitem" (click)="logout()">LOG OUT</a>
-      <mat-divider></mat-divider>
+
+      <a mat-list-item role="listitem" (click)="logout()"> <i class="material-icons">
+        play_for_work
+      </i> log out</a>
+
 
     </mat-nav-list>
   </mat-sidenav>
@@ -129,7 +141,8 @@
       </button>
       <span>Shatterblok</span>
       <span class="example-spacer"></span>
-      <button mat-button color="primary">
+      <mat-icon matBadge="1" matBadgeColor="warn">notifications</mat-icon>
+      <button mat-button color="primary" class="profile_wrapper_main">
       <span class="profile_wrap" (click)="profileimg()">
         <img *ngIf="profile_img == null" src="http://www.titikshapublicschool.com/wp-content/uploads/2018/11/developer-api.jpg">
         <img *ngIf="profile_img != null" src="{{profile_img}}">

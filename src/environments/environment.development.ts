@@ -11,7 +11,7 @@ export const environment = {
     Pdf_link: '&environment=development',
     loginurl: 'https://development.shatterblok.com/',
     API_URL: 'https://nodessl.influxiq.com:6053/',
-    Audiodeadline_API_URL: 'https://developmentapi.audiodeadline.com:6004/',
+    Audiodeadline_API_URL: 'https://developmentapi.audiodeadline.com:6090/',
    // resetpaswordurl: 'http://development.shatterblokbackend.com.s3-website.us-east-2.amazonaws.com/',
     resetpaswordurl: 'https://developmentbackoffice.shatterblok.com/',
     // uplodeimg_url: 'https://shatterblok.com/upload/modelimages/',

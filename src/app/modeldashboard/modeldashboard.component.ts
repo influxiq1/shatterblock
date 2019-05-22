@@ -71,6 +71,9 @@ export class ModeldashboardComponent implements OnInit {
         this.modeldata=result.res[0];
         console.log('this.modeldata');
         console.log(this.modeldata);
+        console.log(this.modeldata.images);
+       
+        }
         console.log(this.modeldata.profile_img);
         this.cookieService.set('profile_img', this.modeldata.profile_img);
         if(this.modeldata.profile_img!=null){
@@ -86,7 +89,7 @@ export class ModeldashboardComponent implements OnInit {
         if(this.modeldata.second_img!=null) {
           this.secondimg = this.modeldata.second_img;
         }
-      }
+
     });
   }
   changeimg(imgsrc){

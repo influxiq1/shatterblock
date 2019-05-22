@@ -210,6 +210,29 @@ export class ApiService {
 
         return result;
     }
+    getDataforimage(data: any) {
+
+        const httpOptions = {
+            headers: new HttpHeaders({
+                'Content-Type':  'application/json',
+                'access-token': this.cookieService.get('jwttoken')
+            })
+        };
+        console.log(this.cookieService.get('id'));
+        console.log(this.cookieService.get('id'));
+        console.log('endpoint');
+        console.log(data);
+        console.log('httpOptions');
+        console.log(httpOptions);
+        console.log(this.cookieService.get('jwttoken'));
+        console.log('httpOptions');
+        console.log(httpOptions);
+
+        // this.isTokenExpired()
+        var result = this._http.get(this._url + 'imagessavetobucket?path=/pictures_temp/', httpOptions).pipe(map(res => res));
+
+        return result;
+    }
     // getData end
 
     /*
