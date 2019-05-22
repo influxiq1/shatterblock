@@ -112,7 +112,7 @@
       <a mat-list-item role="listitem" [routerLink]="['/adminlist']" ><i class="material-icons">
         people_outline
       </i> admin list</a>
-      <a mat-list-item role="listitem" [routerLink]="['/adminlist']" > <i class="material-icons">
+      <a mat-list-item role="listitem" *ngIf="cookieService.get('type')=='model'" [routerLink]="['/affilitemarketing']"> <i class="material-icons">
         perm_media
       </i> Media Marketing</a>
 
@@ -128,11 +128,11 @@
       </i> log out</a>
 
 <!--=======-->
-      <mat-divider></mat-divider>
+    <!--  <mat-divider></mat-divider>
       <a mat-list-item role="listitem" *ngIf="cookieService.get('type')=='model'" [routerLink]="['/affilitemarketing']">MEDIA MARKETING</a>
       <mat-divider></mat-divider>
       <a mat-list-item role="listitem" (click)="logout()">LOG OUT</a>
-      <mat-divider></mat-divider>
+      <mat-divider></mat-divider>-->
 <!--&gt;>>>>>> 71908ec98a5e9b2bd6bdf2ca6f3f8928bb4af1a2-->
 
     </mat-nav-list>
@@ -159,7 +159,7 @@
       <mat-menu #appMenu="matMenu">
         <button mat-menu-item>Settings</button>
         <button mat-menu-item>Help</button>
-        <button mat-menu-item (click)="logout()">Log out</button>
+<!--        <button mat-menu-item (click)="logout()">Log out</button>-->
       </mat-menu>
 
       <button mat-icon-button [matMenuTriggerFor]="appMenu">
@@ -170,4 +170,3 @@
     <ng-content></ng-content>
   </mat-sidenav-content>
 </mat-sidenav-container>
-git add src
