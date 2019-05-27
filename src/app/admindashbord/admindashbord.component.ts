@@ -38,14 +38,31 @@ export class AdmindashbordComponent implements OnInit {
 
 
     custom_link: any = [{
-        label: 'Download Contract 1',
+        label: 'shatterblok',
         url: 'http://shatterblok.com/testpdf/html2pdf/shatterblok-agreement.php?id=',
         action: 'null'
     }, {
-        label: 'Download Contract 2',
+        label: 'Audiodateline',
         url: 'http://shatterblok.com/testpdf/html2pdf/audiodeadline-agreement.php?id=',
         action: 'null'
     }];
+
+    grab_link: any = [
+        {
+            col_name: 'contractssigned',
+            field_name: 'name'
+        },
+        {
+        label: 'shatterblok grap url',
+        url: 'artixtxp.com/',
+        action: 'null'
+    }, {
+        label: 'Audiodateline grap url',
+        url: 'audiodateline.com/',
+        action: 'null'
+    }
+];
+
     pendingmodelapplicationarray: any = [];
     pendingmodelapplicationarray_skip: any = ['_id', 'type', 'password'];
     pendingmodelapplicationarray_detail_skip: any = ['_id', 'email', 'name'];

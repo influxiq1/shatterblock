@@ -28,13 +28,7 @@ import { MomentModule } from 'ngx-moment';
 
 
 @NgModule({
-  declarations: [ListingComponent,Confirmdialog,BottomSheet,
-  /*  FieldBuilderComponent,
-    TextBoxComponent,
-    DropDownComponent,
-    CheckBoxComponent,
-    FileComponent,
-    RadioComponent*/],
+  declarations: [ListingComponent,Confirmdialog,BottomSheet],
     imports: [
         CommonModule,
         BrowserModule, BrowserAnimationsModule,

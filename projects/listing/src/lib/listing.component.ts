@@ -30,6 +30,7 @@ export class ListingComponent implements OnInit {
   datasourceval:any;
   search_settingsval:any;
   click_to_add_ananother_pageval:any;
+  grab_linkval:any;
   date_search_sourceval:any;
   date_search_endpointval:any;
   urlval:any;
@@ -57,6 +58,8 @@ export class ListingComponent implements OnInit {
   public x :any;
   public result :any = {};
   public sh :any = false;
+  public art :any = false;
+  public aud2 :any = false;
   public aud :any = false;
 
 
@@ -80,6 +83,13 @@ export class ListingComponent implements OnInit {
     this.click_to_add_ananother_pageval = click_to_add_ananother_page;
     console.log('this.click_to_add_ananother_pageval');
     console.log(this.click_to_add_ananother_pageval);
+  }
+
+  @Input()
+  set grab_link(grab_link: any) {
+    this.grab_linkval = grab_link;
+    console.log('this.grab_linkval');
+    console.log(this.grab_linkval);
   }
 
   @Input()
@@ -590,7 +600,7 @@ console.log(data_list)
     return "N/A";
   }
   hi(val: any){
-    // console.log('val');
+    // console.log('hi  val');
     // console.log(val);
     if (val.shatterblok_agreement_date != null && val.audiodeadline_agreement_date ==null ){
       // console.log('shatter blok');
@@ -605,32 +615,47 @@ console.log(data_list)
       this.sh = false;
       this.aud = false;
     }
+  }
+  grapurl(val: any){
+    //  for all row checking
+// console.log(val)
+    if (val != null) {
+      this.art = true;
+      this.aud2 = true;
+    }
+    if (val == null) {
+      this.art = false;
+      this.aud2 = false;
+    }
     // console.log(this.sh);
     // console.log(this.aud);
   }
+
+    copyText(row: any, val: string){
+    console.log('row in copyText');
+    console.log(row);
+    console.log('val in copyText');
+    console.log(val)
+      let fullurl = val+''+row;
+    console.log(fullurl);
+        let selBox = document.createElement('textarea');
+        selBox.style.position = 'fixed';
+        selBox.style.left = '0';
+        selBox.style.top = '0';
+        selBox.style.opacity = '0';
+        selBox.value = fullurl;
+        document.body.appendChild(selBox);
+        selBox.focus();
+        selBox.select();
+        document.execCommand('copy');
+        document.body.removeChild(selBox);
+    }
+
   clickurl(val: any , url: any) {
     let i
     console.log('ok');
     console.log(val);
     console.log(val._id);
-    /*for (i in this.urlval) {
-     if (this.urlval[i].val == val) {
-       return this.urlval[i].url;
-       // console.log( this.urlval[i].url);
-     }
-      console.log('jjj' + this.urlval[i].url);
-    }*/
-    /*if (val.status == 2){
-      console.log('shatter blok');
-      this.sh = true;
-      this.aud = false;
-    } else if (val.status == 3) {
-      this.sh = true;
-      this.aud = false;
-    } else {
-      this.sh = false;
-      this.aud = false;
-    }*/
     console.log(url);
     console.log(url + '' +val._id + '' + this.pdf_link_val);
     let link= url + '' +val._id + '' + this.pdf_link_val;

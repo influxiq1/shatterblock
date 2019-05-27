@@ -20,6 +20,7 @@ export declare class ListingComponent implements OnInit {
     datasourceval: any;
     search_settingsval: any;
     click_to_add_ananother_pageval: any;
+    grab_linkval: any;
     date_search_sourceval: any;
     date_search_endpointval: any;
     urlval: any;
@@ -47,9 +48,12 @@ export declare class ListingComponent implements OnInit {
     x: any;
     result: any;
     sh: any;
+    art: any;
+    aud2: any;
     aud: any;
     search_settings: any;
     click_to_add_ananother_page: any;
+    grab_link: any;
     date_search_source: any;
     date_search_endpoint: any;
     url: any;
@@ -99,6 +103,8 @@ export declare class ListingComponent implements OnInit {
     private _filter;
     getstatus(val: any): any;
     hi(val: any): void;
+    grapurl(val: any): void;
+    copyText(row: any, val: string): void;
     clickurl(val: any, url: any): void;
     /** Whether the number of selected elements matches the total number of rows. */
     isAllSelected(): boolean;
