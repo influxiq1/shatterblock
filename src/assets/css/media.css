@@ -8,6 +8,22 @@
     .order-bg .view_order {
         width: 95%;
     }
+    .button_grab {
+        width: 85px!important;
+        line-height: 35px!important;
+    }
+}
+@media screen and (max-width: 1040px) {
+    .mat-card-imagecontain { height: 220px; }
+    .action .mat-icon:nth-child(1){ font-size: 16px!important;}
+    .action .mat-icon{
+        padding: 5px;
+        margin: 2px;
+        width: 20px;
+        height: 20px;
+        font-size: 16px!important;
+    }
+    .action .share{ font-size: 20px!important; }
 }
 @media screen and (max-width: 960px) {
     .mat-header-cell {
@@ -107,6 +123,14 @@
         width: 100%;
     }
 }
+@media only screen and (max-width: 768px) {
+    .affiliateBanner_wrapper .afbanner_content .mat-card {
+        width: 48%;
+        padding: 0!important;
+        margin-bottom: 2%!important;
+        margin-right: 2%;
+    }
+}
 @media only screen and (max-width: 510px) {
     .mat-paginator-container { justify-content: center!important; }
 }
@@ -130,6 +154,14 @@
         padding: 5px 15px;
     }
     .order_view1 .mat-card-content .mat-card-subtitle{ margin-top: 0;}
+    .affiliateBanner_wrapper .afbanner_content .mat-card {
+        width: 100%;
+        padding: 0!important;
+        margin-bottom: 4%!important;
+        margin-right: 0%;
+    }
+    .media_marketing_wrapper{ padding: 16px!important;}
+    .mat-card-imagecontain { height: 260px; }
 }
 @media only screen and (max-width: 360px) {
     .order-bg .view_order table thead

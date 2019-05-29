@@ -30,7 +30,7 @@ import { AdminleftpanelComponent } from './adminleftpanel/adminleftpanel.compone
 import { ManagedashboardComponent, Updatetest } from './managedashboard/managedashboard.component';
 //import { ResolvecomponentComponent } from './resolvecomponent/resolvecomponent.component';
 import { CKEditorModule } from 'ngx-ckeditor';
-
+import { DragScrollModule } from 'ngx-drag-scroll';
 //MATERIAL
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MatSidenavModule} from '@angular/material/sidenav';
@@ -141,6 +141,7 @@ import { ActiveUsersComponent } from './active-users/active-users.component';
     MatIconModule,
     MatListModule,
     NgxUploaderModule,
+    DragScrollModule
   ],
   providers: [CookieService,Resolveservice,ApiService,AuthGuard,prevroute],
   bootstrap: [AppComponent],
