@@ -1,3 +1,4 @@
+
 import {Injectable, ViewChild, EventEmitter, ElementRef} from '@angular/core';
 import { Observable, interval, pipe } from 'rxjs';
 import { switchMap, map, takeWhile } from 'rxjs/operators';

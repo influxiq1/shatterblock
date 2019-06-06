@@ -7,22 +7,31 @@
                 <!--<mat-card-content class="ad_profileblock_left_big"> <img mat-card-image src="{{apiservice.uplodeimg_url}}/{{modeldata.images[0]}}"></mat-card-content>-->
                 <mat-card-content class="ad_profileblock_left_big"> <img mat-card-image src="{{modelimage}}"></mat-card-content>
                 <mat-card-content class="ad_profileblock_left_small">
-                    <ul>
+                    <ul class="img_wrapper">
                         <!-- <li><span><img src="../../assets/images/admin_blocknewimg.jpg"></span></li>-->
-                        <li *ngFor="let item of modeldata.images" (click)="changeimg(item)">
-                            <span><img src="{{apiservice.uplodeimg_url}}/{{item}}">  </span>
+                        <!--                        <li *ngFor="let item of modeldata.images" (click)="changeimg(item)">-->
+                        <!--                        <li *ngFor="let item of modeldata.images">-->
+                        <!--                            <span><img src="{{apiservice.uplodeimg_url}}/{{item}}">  </span>-->
+
+                        <drag-scroll #nav>
+                            <li *ngFor="let item of modeldata.images">
+                                <img drag-scroll-item class="demo cursor" (click)="setprofilepictureimage(item)" src="{{apiservice.uplodeimg_url}}/{{item}}" />
+                            </li>
+                        </drag-scroll>
 
 
-                            <button class="setpic" mat-raised-button
-                                    matTooltip="Set as Profile Picture" (click)="setprofilepictureimage(item)" type="button" [ngClass]="item==profileimg ? 'setpic_active2' : ''">
-                            </button>
-                            <button class="setpic3" mat-raised-button
-                                    matTooltip="Set as Second Picture" (click)="setsecndpictureimage(item)" type="button" [ngClass]="item==secondimg ? 'setpic_active2' : ''">
-                            </button>
+                        <!--                            <button class="setpic" mat-raised-button-->
+                        <!--                                    matTooltip="Set as Profile Picture" (click)="setprofilepictureimage(item)" type="button" [ngClass]="item==profileimg ? 'setpic_active2' : ''">-->
+                        <!--                            </button>-->
+                        <!--                            <button class="setpic3" mat-raised-button-->
+                        <!--                                    matTooltip="Set as Second Picture" (click)="setsecndpictureimage(item)" type="button" [ngClass]="item==secondimg ? 'setpic_active2' : ''">-->
+                        <!--                            </button>-->
 
 
-                        </li>
-
+                        <!--                        </li>-->
+                        <button class="arrow_back" (click)="moveLeft()"><i class="material-icons">keyboard_arrow_left</i></button>
+                        <button class="arrow_forward"(click)="moveRight()"><i class="material-icons">keyboard_arrow_right</i></button>
+                        <!--                        <button (click)="moveTo(2)">Last</button>-->
                     </ul>
                 </mat-card-content>
             </mat-card-content>
@@ -49,7 +58,7 @@
                 <mat-card-content class="model_actions">
                     <mat-card-title>Download the signed Affiliate Agreements:</mat-card-title>
                     <button mat-button color="primary" (click)="shatterblokagreement()">Shatterblok Affiliate Agreement</button>
-                    <button mat-button color="primary" (click)="artistxpagreement()"> ArtistXP Affiliate Program Agreement</button>
+                    <button mat-button color="primary" (click)="artistxpagreement()"> ArtistXP Affiliate Agreement</button>
                 </mat-card-content>
 
             </mat-card-content>
@@ -57,154 +66,105 @@
     </mat-card>
 
 
+    <mat-card class="banner1">
+        <mat-card-content class="inner_banner">
+            <span class="inner_container">
+            <mat-card-title>Media Marketing </mat-card-title>
+            <p>As a part of ShatterBlok division, Shatter Proof Models, you get paid to promote ArtistXP and AudioDeadline. Your power of persuasion with your followers will get you paid.  As an affiliate of AudioDeadline, every purchase your followers may make under your name, you get a percentage of the profit.  That continues in perpetuity!  Every purchase, whether it is a ticket sale or merchandise, you get paid for the rest of your lifetime.  This is the easiest revenue you will ever earn.  Post a picture in ShatterBlok, AudioDeadline, ArtistXP attire, your influence on your followers has them buying the same attire and you receive money for it.  The power is in your hands, and let’s face it, YOU’VE GOT the POWER!</p>
 
 
+                    <span class="footer_action">
+                        <img src="assets/images/audiodeadLogo.png">
+                        <img src="assets/images/artistxpLogo.png">
 
-  <!--  <mat-grid-list cols="2" rowHeight="1:1" class="grid_template" [gutterSize]="15">
-        <mat-grid-tile>
-            <mat-card>
-                <mat-card-content>
-
-
-                    <h2> {{model_influencer_contents_viewlistin_decending_jocu.type}} </h2>
-                    <div [innerHTML]="_sanitizer.bypassSecurityTrustHtml(model_influencer_contents_viewlistin_decending_jocu.content)"></div>
-                    &lt;!&ndash; <p>
-                Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-            </p>&ndash;&gt;
-
-                </mat-card-content>
-            </mat-card>
-        </mat-grid-tile>
-        <mat-grid-tile>
-            <mat-card>
-                <mat-card-content>
-
-                    <h2>{{model_influencer_contents_viewlistin_decending_audio.type}}</h2>
-                    <div [innerHTML]="_sanitizer.bypassSecurityTrustHtml(model_influencer_contents_viewlistin_decending_audio.content)"></div>
-                </mat-card-content>
-            </mat-card>
-        </mat-grid-tile>
-    </mat-grid-list>-->
-<!--<mat-grid-list cols="1" class="grid_template" >-->
- <!--  <mat-grid-tile>
-       <div [innerHTML]="_sanitizer.bypassSecurityTrustHtml(model_influencer_contents_viewlistin_decending_jocu.content)"></div>
-   </mat-grid-tile>-->
-   <!-- <div>{{model_influencer_contents_viewlistin_decending_audio.content}}></div>-->
-   <!-- <div style="background-position:center center; background:url(http://development.shatterblokbackend.com.s3-website.us-east-2.amazonaws.com/assets/images/adBanner.jpg) no-repeat!important; padding:15px; padding-bottom:0; margin: 15px; background-size:cover!important; ">
-        <div style="display:flex!important">
-            <div style="display:flex; flex-direction:column; margin-top:auto!important; width:63%"><div style="width: 270px;"><img src="http://development.shatterblokbackend.com.s3-website.us-east-2.amazonaws.com/assets/images/adlogo.png" style="width:100%" /></div>
-                <p>WE ARE AUDIODEADLINE <span style="font-size:16px"> We are created by artists, for artists</span></p>
-
-                <p>Our motto is All Rise Together (ART) &ndash; and we take pride in the fact that our event is designed to helps artists, fans and other music enthusiasts move unilaterally in one single direction. Comprised of music lovers and artists, our mission is to showcase the magical moments of musical creativity - the good, the bad, and the inspiring. Fans will finally get to be witness the artist&rsquo;s experience as they go through the emotional mastery of song production! Regardless of who you are, or what you&rsquo;re doing, we would love for you to be part of our music industry revolution!</p>
-            </div>
-
-            <div style="align-self:flex-end; display:flex"><img src="http://development.shatterblokbackend.com.s3-website.us-east-2.amazonaws.com/assets/images/bnnrimg1.png" style="height:340px" /></div>
-
-            <div style="display:flex; margin-top:auto!important; width:auto"><img src="http://development.shatterblokbackend.com.s3-website.us-east-2.amazonaws.com/assets/images/icon1.png" />Learn More</div>
-        </div>
-    </div>-->
-   <!-- <div class="ad_audiodeadlinecontent_block1body">
-
-        <div class="ad_audiodeadlinecontent_block1body_wrapper">
-
-            <div class="ad_audiodeadlinecontent_block1body_1st">
-                <span><img src="../../assets/images/adlogo.png" class="adlogo"></span>
-                <h2>WE ARE AUDIODEADLINE <sup>We are created by artists, for artists</sup></h2>
-                <p>Our motto is All Rise Together (ART) – and we take pride in the fact that our event is designed to helps artists, fans and other music enthusiasts move unilaterally in one single direction. Comprised of music lovers and artists, our mission is to showcase the magical moments of musical creativity - the good, the bad, and the inspiring. Fans will finally get to be witness the artist’s experience as they go through the emotional mastery of song production! Regardless of who you are, or what you’re doing, we would love for
-                    you to be part of our music industry revolution!</p>
-
-
-
-            </div>
-            <div class="ad_audiodeadlinecontent_block1body_2nd"><img src="../../assets/images/bnnrimg1.png"></div>
-            <div class="ad_audiodeadlinecontent_block1body_3rd">
-
-                <img src="../../assets/images/icon1.png">
-                <button mat-button>Learn More</button>
-
-            </div>
-
-
-
-        </div>
-    </div>-->
-    <mat-card class="ad_audiodeadlinecontent_block1body">
-
-        <mat-card class="ad_audiodeadlinecontent_block1body_wrapper">
-
-            <mat-card-content class="ad_audiodeadlinecontent_block1body_1st">
-                <span><img src="../../assets/images/adlogo.png" class="adlogo"></span>
-                <h2>WE ARE AUDIODEADLINE <sup>We are created by artists, for artists</sup></h2>
-                <p>Our motto is All Rise Together (ART) – and we take pride in the fact that our event is designed to helps artists, fans and other music enthusiasts move unilaterally in one single direction. Comprised of music lovers and artists, our mission is to showcase the magical moments of musical creativity - the good, the bad, and the inspiring. Fans will finally get to be witness the artist’s experience as they go through the emotional mastery of song production! Regardless of who you are, or what you’re doing, we would love for
-                    you to be part of our music industry revolution!</p>
-
-
-
-            </mat-card-content>
-            <mat-card-content class="ad_audiodeadlinecontent_block1body_2nd"><img src="../../assets/images/bnnrimg1.png"></mat-card-content>
-            <mat-card-content class="ad_audiodeadlinecontent_block1body_3rd">
-
-                <img src="../../assets/images/icon1.png">
-                <button mat-button [routerLink]="['/affilitemarketing']">Learn More</button>
-
-
-            </mat-card-content>
-
-
-
-        </mat-card>
+                        <button mat-flat-button [routerLink]="['/affilitemarketing']"> promote now!</button>
+                    </span>
+            </span>
+        </mat-card-content>
     </mat-card>
-<!--</mat-grid-list>-->
 
 
-   <!-- <mat-grid-list cols="1" class="grid_template" >-->
-<!--   <mat-grid-tile>-->
-       <!--<div [innerHTML]="_sanitizer.bypassSecurityTrustHtml(model_influencer_contents_viewlistin_decending_audio.content)"></div>-->
+    <mat-card class="banner2">
+        <mat-card-content class="inner_banner2">
+            <span class="content_section">
+                <mat-card-title> A powerful fan engagement platform </mat-card-title>
+                <mat-card-content class="inner_wrap">
+                <span class="inner_content">
+                    <img src="assets/images/joquLogo.png">
+                    <p>Joqu is now leveraging social influencer network to grow to bring in the fans! Social influence marketing (also known as influencer marketing)= A relatively new form of marketing that utilizes the social influence of certain individuals to impact consumer behavior. Social influencers are the key to a successful marketing campaign and increasing brand exposure as well as sales. Influencers Value Authenticity Just as Much as Brands Do.
+</p>
 
-       <mat-card class="ad_audiodeadlinecontent_block2body">
+                </span>
+                 <button mat-flat-button [routerLink]="['/joqudashboard']"> promote now!</button>
+                </mat-card-content>
+            </span>
+        </mat-card-content>
+    </mat-card>
 
-           <mat-card class="ad_audiodeadlinecontent_block2body_wrapper">
 
-               <mat-card-content class="ad_audiodeadlinecontent_block2body_1st">
-                   <span><img src="../../assets/images/newjoqulogo.png" class="newjoqulogo"></span>
-               </mat-card-content>
+    <!--
 
-               <mat-card-content class="ad_audiodeadlinecontent_block2body_2nd">
+        <mat-card class="ad_audiodeadlinecontent_block1body">
 
-                   <h2>A powerful fan engagement platform</h2>
-                   <p><span>Joqu is now leveraging social influencer network to grow to bring in the fans!
-                Social influence marketing (also known as influencer marketing)= A relatively new form of marketing that utilizes the social influence of certain individuals to impact consumer behavior. Social influencers are the key to a successful marketing campaign and increasing brand exposure as well as sales. Influencers Value Authenticity Just as Much as Brands Do.</span></p>
+            <mat-card class="ad_audiodeadlinecontent_block1body_wrapper">
 
-               </mat-card-content>
+                <mat-card-content class="ad_audiodeadlinecontent_block1body_1st">
+                    <span><img src="../../assets/images/adlogo.png" class="adlogo"></span>
+                    <h2>WE ARE AUDIODEADLINE <sup>We are created by artists, for artists</sup></h2>
+                    <p>Our motto is All Rise Together (ART) – and we take pride in the fact that our event is designed to helps artists, fans and other music enthusiasts move unilaterally in one single direction. Comprised of music lovers and artists, our mission is to showcase the magical moments of musical creativity - the good, the bad, and the inspiring. Fans will finally get to be witness the artist’s experience as they go through the emotional mastery of song production! Regardless of who you are, or what you’re doing, we would love for
+                        you to be part of our music industry revolution!</p>
 
-               <mat-card-content class="ad_audiodeadlinecontent_block2body_3rd">
 
-                   <img src="../../assets/images/newicon2.png">
-                   <button mat-button [routerLink]="['/joqudashboard']">Learn More</button>
 
-               </mat-card-content>
+                </mat-card-content>
+                <mat-card-content class="ad_audiodeadlinecontent_block1body_2nd"><img src="../../assets/images/bnnrimg1.png"></mat-card-content>
+                <mat-card-content class="ad_audiodeadlinecontent_block1body_3rd">
 
+                    <img src="../../assets/images/icon1.png">
+                    <button mat-button [routerLink]="['/affilitemarketing']">Learn More</button>
+
+
+                </mat-card-content>
+
+
+
+            </mat-card>
+        </mat-card>
+    &lt;!&ndash;</mat-grid-list>&ndash;&gt;
+
+
+       &lt;!&ndash; <mat-grid-list cols="1" class="grid_template" >&ndash;&gt;
+    &lt;!&ndash;   <mat-grid-tile>&ndash;&gt;
+           &lt;!&ndash;<div [innerHTML]="_sanitizer.bypassSecurityTrustHtml(model_influencer_contents_viewlistin_decending_audio.content)"></div>&ndash;&gt;
+
+           <mat-card class="ad_audiodeadlinecontent_block2body">
+
+               <mat-card class="ad_audiodeadlinecontent_block2body_wrapper">
+
+                   <mat-card-content class="ad_audiodeadlinecontent_block2body_1st">
+                       <span><img src="../../assets/images/newjoqulogo.png" class="newjoqulogo"></span>
+                   </mat-card-content>
+
+                   <mat-card-content class="ad_audiodeadlinecontent_block2body_2nd">
+
+                       <h2>A powerful fan engagement platform</h2>
+                       <p><span>Joqu is now leveraging social influencer network to grow to bring in the fans!
+                    Social influence marketing (also known as influencer marketing)= A relatively new form of marketing that utilizes the social influence of certain individuals to impact consumer behavior. Social influencers are the key to a successful marketing campaign and increasing brand exposure as well as sales. Influencers Value Authenticity Just as Much as Brands Do.</span></p>
+
+                   </mat-card-content>
+
+                   <mat-card-content class="ad_audiodeadlinecontent_block2body_3rd">
+
+                       <img src="../../assets/images/newicon2.png">
+                       <button mat-button [routerLink]="['/joqudashboard']">Learn More</button>
+
+                   </mat-card-content>
+
+               </mat-card>
            </mat-card>
-       </mat-card>
-       <!--<div style="background-position:center center; background:url(http://development.shatterblokbackend.com.s3-website.us-east-2.amazonaws.com/assets/images/adBanner.jpg) no-repeat!important; padding:15px; padding-bottom:0; margin: 15px; background-size:cover!important; ">
-           <div style="display:flex!important">
-               <div style="display:flex; flex-direction:column; margin-top:auto!important; width:63%"><div style="width: 270px;"><img src="http://development.shatterblokbackend.com.s3-website.us-east-2.amazonaws.com/assets/images/adlogo.png" style="width:100%" /></div>
-                   <p>WE ARE AUDIODEADLINE <span style="font-size:16px"> We are created by artists, for artists</span></p>
-
-                   <p>Our motto is All Rise Together (ART) &ndash; and we take pride in the fact that our event is designed to helps artists, fans and other music enthusiasts move unilaterally in one single direction. Comprised of music lovers and artists, our mission is to showcase the magical moments of musical creativity - the good, the bad, and the inspiring. Fans will finally get to be witness the artist&rsquo;s experience as they go through the emotional mastery of song production! Regardless of who you are, or what you&rsquo;re doing, we would love for you to be part of our music industry revolution!</p>
-               </div>
-
-               <div style="align-self:flex-end; display:flex"><img src="http://development.shatterblokbackend.com.s3-website.us-east-2.amazonaws.com/assets/images/bnnrimg1.png" style="height:340px" /></div>
-
-               <div style="display:flex; margin-top:auto!important; width:auto"><img src="http://development.shatterblokbackend.com.s3-website.us-east-2.amazonaws.com/assets/images/icon1.png" />Learn More</div>
-           </div>
-       </div>-->
 
 
- <!--  </mat-grid-tile>-->
-<!--</mat-grid-list>-->
-
-
+    -->
 
 
 </app-main-nav>
