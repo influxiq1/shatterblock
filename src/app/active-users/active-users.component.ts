@@ -28,7 +28,8 @@ export class ActiveUsersComponent implements OnInit {
   ngOnInit() {
     this.route.data.forEach((data) =>{
       console.log('json',data['results']);
-      this.status_gretterthan_zero=data['results'].item.pendingapplication_view;
+      // this.status_gretterthan_zero=data['results'].item.pendingapplication_view;
+      this.status_gretterthan_zero=data['results'].item.status_gretterthan_zero;
     })
   }
 

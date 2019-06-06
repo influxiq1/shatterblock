@@ -15,6 +15,7 @@ export class ApiService {
     public download_shatter_url =  environment["download_shatter_url"];
     public download_artistxp_url =  environment["download_artistxp_url"];
     public loginurl = environment['loginurl'];
+    public contact_us_url = environment['contact_us_url'];
     public _url = environment["API_URL"];
     public Pdf_link = environment["Pdf_link"];
     public Audiodeadline_API_URL = environment["Audiodeadline_API_URL"];

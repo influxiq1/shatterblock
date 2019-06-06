@@ -10,6 +10,7 @@ export const environment = {
     download_artistxp_url: 'http://shatterblok.com/testpdf/html2pdf/artistxp-agreement.php?id=',
     Pdf_link: '&environment=development',
     loginurl: 'https://development.shatterblok.com/',
+    contact_us_url: 'https://development.shatterblok.com/contact-us',
     API_URL: 'https://nodessl.influxiq.com:6053/',
     Audiodeadline_API_URL: 'https://developmentapi.audiodeadline.com:6090/',
    // resetpaswordurl: 'http://development.shatterblokbackend.com.s3-website.us-east-2.amazonaws.com/',

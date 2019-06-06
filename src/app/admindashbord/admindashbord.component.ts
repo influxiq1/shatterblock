@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router,ActivatedRoute } from '@angular/router';
 import { ApiService } from "../api.service";
 import {prevroute} from "../prevroute";
+import {AppComponent} from "../app.component";
 
 @Component({
   selector: 'app-admindashbord',
@@ -17,6 +18,7 @@ export class AdmindashbordComponent implements OnInit {
     editroute1:any='modeledit';
     editrouteorder:any='vieworderdetails';
     editroutecommission:any='viewcommissiondetails';
+public loading = false;
 
     custom_link: any = [{label: 'Shatterblok-agreement',url:'http://shatterblok.com/testpdf/html2pdf/shatterblok-agreement.php?id=',action:'null'},{label: 'ArtistXP-agreement',url:'http://shatterblok.com/testpdf/html2pdf/artistxp-agreement.php?id=',action:'null'}];
     pendingapplication_view: any=[];
@@ -39,8 +41,8 @@ export class AdmindashbordComponent implements OnInit {
     auidodeadineusernamedataarr:any=[];
 
     allcommissions:any=[];
-    allcommissions_skip: any= ['_id','parent','username','email'];
-    allcommissions_modify_header1: any = { 'signupdate': 'Sign-Up Date','firstname':'First name', 'lastname':'Last name', 'accounttype':'Account Type','noofsale':'# Of Sale','totalamount':'Total Commission'};
+    allcommissions_skip: any= ['_id','parent','username','email','lastname','firstname'];
+    allcommissions_modify_header1: any = { 'signupdate': 'Sign-Up Date','accounttype':'Account Type','noofsale':'# Of Sale','totalamount':'Total Commission', 'fullname':'Name'};
     allcommissions_view_detail_skip:any=['_id','email','name','type','status'];
     allcommissions_view_detail_datatype:any=[{key:"images",value:'image',fileurl:this.apiservice.uplodeimg_url }];
 

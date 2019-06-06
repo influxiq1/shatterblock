@@ -73,6 +73,7 @@ import { AdminemailComponent } from './adminemail/adminemail.component';
 import { AccountPageComponent } from './account-page/account-page.component';
 import { RecentSignUpComponent } from './recent-sign-up/recent-sign-up.component';
 import { ActiveUsersComponent } from './active-users/active-users.component';
+import { CommissionListComponent } from './commission-list/commission-list.component';
 
 @NgModule({
   declarations: [
@@ -113,7 +114,8 @@ import { ActiveUsersComponent } from './active-users/active-users.component';
     AdminemailComponent,
     AccountPageComponent,
     RecentSignUpComponent,
-    ActiveUsersComponent
+    ActiveUsersComponent,
+    CommissionListComponent
 
 
     //Resolveservice,

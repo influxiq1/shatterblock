@@ -2,31 +2,25 @@ import { Component, OnInit } from '@angular/core';
 import { Router,ActivatedRoute } from '@angular/router';
 import { ApiService } from "../api.service";
 import {prevroute} from "../prevroute";
-
+import {AppComponent} from "../app.component";
 
 @Component({
-  selector: 'app-order-details',
-  templateUrl: './order-details.component.html',
-  styleUrls: ['./order-details.component.css']
+  selector: 'app-commission-list',
+  templateUrl: './commission-list.component.html',
+  styleUrls: ['./commission-list.component.css']
 })
-export class OrderDetailsComponent implements OnInit {
+export class CommissionListComponent implements OnInit {
   datasource:any;
   endpoint:any = 'datalist';
   adminlist:any=[];
-  editrouteorder:any='vieworderdetails';
   editroutecommission:any='viewcommissiondetails';
 
 
-  pendingapplication_view: any=[];
-
-
-  joquuserlist: any=[];
 
 
 
   allordersdata:any=[];
-  allordersdata_skip: any= ['userid','_id','zip','tax','state','productid','orderdetails','mode','city','media','shipping','userphone','firstname','lastname','useremail','subtotal','added_time','time','order_id','address','promocode'];
-  allordersdata_modify_header1: any = { 'name':'Name','email':'Email', 'phone':'Phone', 'affiliate':'Enroller','sponsor':'Sponsor','mode':'Mode','transactionId':'Transaction Id','total':'Total','discount':'Discount','added_time':'Order Time','productname':'Product Name'};
+
   auidodeadinedata:any=[];
   auidodeadineusernamedataarr:any=[];
 
@@ -43,7 +37,7 @@ export class OrderDetailsComponent implements OnInit {
   tablename='users';
 
 
-  constructor(public router: Router,private route: ActivatedRoute, public apiservice: ApiService,public prevroute: prevroute) {
+  constructor(public router: Router,private route: ActivatedRoute, public apiservice: ApiService,public prevroute: prevroute, public appcomponent: AppComponent) {
     let previousurl = this.prevroute.getPreviousUrl();
     //  console.log(previousurl);
   }
@@ -60,12 +54,16 @@ export class OrderDetailsComponent implements OnInit {
   }
 
   allcommissionfunc(){
+    // this.appcomponent.loading = false;
     let data = {source:'newcommision_view'};
-    // let data={condition: {username: "affiliateone"},source: "commission_details"};
+    console.log('--------------------------------------------');
     this.apiservice.postaffilite(this.endpoint, data).subscribe( res => {
+
+      console.log('+++++++++++++++++++++++++++++++++++');
       let result: any;
       result = res;
       this.allcommissions=result.res;
+      // this.appcomponent.loading = true;
       console.log('allcommissions');
       console.log(this.allcommissions);
     })
@@ -77,10 +75,10 @@ export class OrderDetailsComponent implements OnInit {
     this.apiservice.postData(this.endpoint, data).subscribe( res => {
       let result: any = {};
       result = res;
-      this.auidodeadinedata=result.res;
+      /*this.auidodeadinedata=result.res;
       for(let i in this.auidodeadinedata){
         this.auidodeadineusernamedataarr.push(this.auidodeadinedata[i].auidodeadineusername);
-      }
+      }*/
       console.log('auidodeadineusernamedataarr');
       // console.log(this.auidodeadineusernamedataarr);
       let data1={condition: {useremail: {$in:this.auidodeadineusernamedataarr}},source: "order_view"};

@@ -44,6 +44,10 @@ public profile_img: any;
       this.router.navigate([link]);
     }
   }
+  help() {
+    let link = this.apiService.contact_us_url;
+    window.open(link , '_blank');
+  }
   profileimg() {
     console.log('ok');
   }

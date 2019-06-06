@@ -258,9 +258,16 @@ font-family: 'Noteworthy';
     padding-top: 8px;
 }
 
+.sidenav[_ngcontent-c2]{
+
+    background-color: #6e046d!important;
+
+}
+
 .sidenav[_ngcontent-c2] .mat-toolbar[_ngcontent-c2] {
     background: #fff!important;
 }
+
 .left_nav_menu .mat-list-item-content{
     background: transparent!important;
     margin: 0px!important;
@@ -1452,7 +1459,7 @@ table th .mat-checkbox-inner-container{ margin-right: 10px !important;}
     border-bottom-color: rgb(160, 160, 160)!important;
 }
 .order_wrapper_header .mat-toolbar { color: #fff;
-    background: #faa318!important;
+    background: #6b046b!important;
     justify-content: center;
     font-size: 38px;
     text-transform: uppercase;
@@ -1461,7 +1468,7 @@ table th .mat-checkbox-inner-container{ margin-right: 10px !important;}
 }
 .order-bg {
     display: block!important;
-    background:rgba(0, 0, 0, .4 )!important;
+    background:rgba(0, 0, 0, 0.1 )!important;
     padding-bottom: 50px;
 }
 .order-bg .view_order{ width: 90%; margin: 50px auto; margin-bottom: 0;  background: none; padding: 0; box-shadow: none!important;}
@@ -1479,13 +1486,13 @@ table th .mat-checkbox-inner-container{ margin-right: 10px !important;}
     text-transform: uppercase;
 }
 .order-bg .view_order table{
-    background: rgb(160, 160, 160);
+    background: rgb(243, 243, 243);
     border: none!important;
 }
 .order-bg .view_order table thead
 tr.mat-header-row {
     height: 56px;
-    background: #a0a0a0;
+    background: #d6d4d4;
 }
 .order-bg .view_order table thead
 th.mat-header-cell {
@@ -1503,18 +1510,15 @@ th.mat-header-cell {
 }
 .order-bg .view_order table tbody
 .mat-row:nth-of-type(even) {
-    background: #a0a0a0;
+    background: #d6d4d4;
 }
 .orderdetails .mat-card-header{ justify-content: flex-start!important; justify-content: space-between; }
 .orderdetails table thead
 tr.mat-header-row {
-    background: #888787!important;
+    background: #d6d4d4!important;
 }
 .orderdetails table{background: #868686!important; }
-.order-bg .orderdetails table tbody
-.mat-row:nth-of-type(even) {
-    background: #969696;
-}
+.orderdetails .mat-row:nth-child(odd){ background: #fff; }
 .view_order .mat-cell, .mat-footer-cell{font-size: 16px;}
 .billing_wrapper .mat-card-title{ color: #faa318!important; }
 .billing_details{ display: flex!important; width: 100%!important; justify-content: space-between;   }
@@ -1624,10 +1628,12 @@ p,h1,h2,h3,h4,h5,h6{ margin: 0;}
 }
 
 
-.left_nav_menu .mat-list-item-content .mat-expansion-panel{ width: 100%; border-radius: 0; background: #000; }
-.left_nav_menu .mat-list-item-content .mat-expansion-panel .mat-expansion-panel-header{ padding: 0!important; font-size: 16px;!important;}
-.left_nav_menu .mat-list-item-content .mat-expansion-panel .mat-expansion-panel-header-title{
-    color: #fff!important;}
+.left_nav_menu .mat-list-item-content .mat-expansion-panel{ width: 100%; border-radius: 0; background: #6e046d; box-shadow: inherit;  }
+.left_nav_menu .mat-list-item-content .mat-expansion-panel .mat-expansion-panel-header{ padding: 0 5px!important; font-size: 16px !important;}
+.left_nav_menu .mat-list-item-content .mat-expansion-panel .mat-expansion-panel-header-title{ color: #fff!important;}
+
+.left_nav_menu .mat-list-item-content .mat-expansion-panel .mat-expansion-panel-body{ padding: 0 5px!important; }
+.left_nav_menu .mat-list-item-content .mat-expansion-panel  .mat-list-item-content { padding: 10px 0 !important; }
 
 .mat-expansion-panel-body{ padding: 0!important;}
 .mat-expansion-indicator::after, .mat-expansion-panel-header-description {
@@ -1666,8 +1672,18 @@ p,h1,h2,h3,h4,h5,h6{ margin: 0;}
 
 
 .sidenav .mat-toolbar .mat-toolbar-single-row{ padding: 0!important; margin-bottom: 15px!important;}
-.sidenav .mat-toolbar { margin-bottom: 15px!important;}
+.sidenav .mat-toolbar { margin-bottom: 15px!important; border-bottom: 2px solid #520452;}
 
-lib-listing .mat-card{ padding-top: 0px!important; }
+lib-listing .mat-card{ padding-top: 0px!important; padding-bottom: 0px!important; }
+lib-listing br{ display: none;}
 .profile_wrapper_main{ padding-right: 0!important; width: auto!important;}
   .mat-badge {  color: #000!important; }
+
+.mat-expansion-panel-header-description, .mat-expansion-panel-header-title {
+    margin-right: 0;
+}
+@media (hover: none) {
+    .mat-expansion-panel:not(.mat-expanded):not([aria-disabled=true]) .mat-expansion-panel-header:hover {
+        background: transparent!important;
+    }
+}
