@@ -1,5 +1,5 @@
 <h1 mat-dialog-title *ngIf="data!=null && data.message!=null" >Hey !</h1>
-<h1 mat-dialog-title *ngIf="data!=null && data.data!=null">Details </h1>
+<h1 mat-dialog-title *ngIf="data!=null && data.data!=null && data.data[0]==null">Details </h1>
 <div mat-dialog-content>
     <p *ngIf="data!=null && data.message!=null">{{data.message}}</p>
 
@@ -21,7 +21,12 @@
             </mat-card-content>
         </mat-card>
 
+    </div>
 
+    <!--for custom page in modal(mainly used for tree)-->
+    <div *ngIf="data!=null && data.data!=null  && data.data[0]!=null &&  data.data[0].customdata!=null">
+
+        <iframe class="custom-datadiv" height="auto"  [src]="data.data[0].customdata" ></iframe>
 
     </div>
 

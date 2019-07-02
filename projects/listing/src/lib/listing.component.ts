@@ -13,6 +13,7 @@ import {NavigationCancel, NavigationEnd, NavigationError, NavigationStart, Route
 import {Observable} from 'rxjs';
 import {startWith, map} from 'rxjs/operators';
 import {HttpClient} from "@angular/common/http";
+import { DomSanitizer} from '@angular/platform-browser';
 declare var $:any;
 import * as momentImported from 'moment';
 const moment = momentImported;
@@ -56,6 +57,7 @@ export class ListingComponent implements OnInit {
   tsearch :any=[];
   autosearch :any=[];
   public x :any;
+  public custombuttonval :any;
   public result :any = {};
   public sh :any = false;
   public art :any = false;
@@ -90,6 +92,12 @@ export class ListingComponent implements OnInit {
     this.grab_linkval = grab_link;
     console.log('this.grab_linkval');
     console.log(this.grab_linkval);
+  }
+  @Input()
+  set custombutton(custombutton: any) {
+    this.custombuttonval = custombutton;
+    console.log('this.custombuttonval');
+    console.log(this.custombuttonval);
   }
 
   @Input()
@@ -246,7 +254,7 @@ export class ListingComponent implements OnInit {
   // myForm:any;
 
   constructor(public _apiService: ApiService,public dialog: MatDialog,private bottomSheet: MatBottomSheet,public fb: FormBuilder,private router: Router, private resolver: ComponentFactoryResolver,
-              private container: ViewContainerRef, public _http: HttpClient) {
+              private container: ViewContainerRef, public _http: HttpClient, public sanitizer:DomSanitizer) {
 
     this.router.events.subscribe((event: Event) => {
         switch (true) {
@@ -336,12 +344,12 @@ export class ListingComponent implements OnInit {
 
     let temp = []
     let keys = x[0]
-    temp = Object.keys(keys)
+    temp = Object.keys(keys)    /*by Object.keys() we can find the fieldnames(or keys) in an object, i.e, in temp object field names are saved*/
 
     let coldef_list = [];
     let header_list = [];
     for (let i = 0; i < temp.length; i++) {
-      coldef_list.push(temp[i].replace(/\s/g, "_"));
+      coldef_list.push(temp[i].replace(/\s/g, "_"));      /*to replace spaces in field name by "_", we use "replace(/\s/g, "_")"*/
       header_list.push(temp[i])
     }
     //coldef_list.push('Actions');
@@ -367,14 +375,14 @@ export class ListingComponent implements OnInit {
     displayedcols.push('Actions');
 
     this.displayedColumns =displayedcols;
-    this.displayedColumns.unshift('select');
+    this.displayedColumns.unshift('select');        /*adds select column in table by unshift function*/
 
     let data_list = [];
     for (let i = 0; i < this.x.length; i++) {
       data_list.push(this.createData(x[i]));
     }
     this.olddata=data_list;
-console.log(data_list)
+    console.log(data_list)
     this.dataSource = new MatTableDataSource(data_list);
     this.selection = new SelectionModel(true, []);
     this.dataSource.paginator = this.paginator;
@@ -862,6 +870,30 @@ console.log(data_list)
 
   }
 
+// for tree view in modal
+  custombuttonfunc(data:any){
+    console.log('data');
+    console.log(data);    // row data
+    console.log(this.custombuttonval);    // object from where the library has been used
+    let unsafeurl:any=this.custombuttonval.url;   //iframe url
+    for(let b in this.custombuttonval.fields){
+      unsafeurl=unsafeurl+'/'+data[this.custombuttonval.fields[b]];
+    }
+    console.log('unsafeurl');
+    console.log(unsafeurl);
+    unsafeurl=this.sanitizer.bypassSecurityTrustResourceUrl(unsafeurl);   //for sanitizing the url for security, otherwise it won't be able to show the page in iframe, hence modal
+
+    const dialogRef = this.dialog.open(Confirmdialog, {       // for opening the modal
+      height: 'auto',
+      panelClass: 'custom-data-modal',
+      data: {isconfirmation:false,data:[{data:data,customdata:unsafeurl}]}
+    });
+
+
+  }
+
+
+
   managestatusmultiple(){
 
     let ids:any=[];
@@ -924,7 +956,7 @@ console.log(data_list)
 
     const dialogRef = this.dialog.open(Confirmdialog, {
       panelClass: 'custom-modalbox',
-      data: {message: 'Are you sure to delete selected records ??'}
+      data: {message: 'Are you sure you want to delete the selected records?'}
     });
     let ids:any=[];
     let c:any;
@@ -955,7 +987,7 @@ console.log(data_list)
 
             let dialogRef = this.dialog.open(Confirmdialog, {
               panelClass: 'custom-modalbox',
-              data: {message: 'Are you sure to delete this record ??',isconfirmation:false}
+              data: {message: 'Record(s)  deleted successfully !!',isconfirmation:false}
             });
 
           }
@@ -1040,13 +1072,24 @@ export class Confirmdialog {
 
   constructor(
       public dialogRef: MatDialogRef<Confirmdialog>,
-      @Inject(MAT_DIALOG_DATA) public data: any) {
+      @Inject(MAT_DIALOG_DATA) public data: any ,public sanitizer:DomSanitizer) {
     console.log('my data ...');
     console.log(this.data);
   }
 
   onNoClick(): void {
     this.dialogRef.close();
+  }
+  sanitizeUrl(unsafeurl:any,data:any,rowdata:any){
+    for(let b in data){
+      unsafeurl=unsafeurl+'/'+rowdata[data[b]];
+
+    }
+    console.log('unsafeurl');
+    console.log(unsafeurl);
+    console.log(data);
+    console.log(rowdata);
+    return this.sanitizer.bypassSecurityTrustResourceUrl(unsafeurl);
   }
 
 }

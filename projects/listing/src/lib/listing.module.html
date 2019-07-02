@@ -116,8 +116,9 @@
       <ng-container *ngFor="let column of columns" [matColumnDef]="column.columnDef" >
         <th mat-header-cell *matHeaderCellDef mat-sort-header class="th-header-center">{{column.header}}</th>
         <td mat-cell *matCellDef="let row" [ngStyle]="styleCell(column,row)" data-title="{{column.header}}"   class="td-cell-center">
-          <span *ngIf="column.columnDef=='status' ">{{ getstatus([column.cell(row)]) }} {{hi(row)}}{{grapurl(row[this.grab_linkval[0].field_name])}}</span>
+          <span *ngIf="column.columnDef=='status' ">{{ getstatus([column.cell(row)]) }} {{hi(row)}}</span>
           <span *ngIf="column.columnDef!='status' ">{{ column.cell(row) }}</span>
+          <span *ngIf="column.columnDef=='grab_url && grab_linkval!=null && grab_linkval[0]!=null' ">{{grapurl(row[this.grab_linkval[0].field_name])}}</span>
           <br>
 
 <!--          <span *ngIf="sh==true">-->
@@ -134,14 +135,15 @@
 <!--// for grap url//-->
 
 
-          <span *ngIf="column.columnDef==[this.grab_linkval[0].col_name] && art== true && grab_linkval !=null" class="cursor">
-              <button mat-button (click)="copyText(row[this.grab_linkval[0].field_name],grab_linkval[1].url)">{{grab_linkval[1].label}}</button>
+
+          <span *ngIf=" grab_linkval!=null && grab_linkval[0]!=null && column.columnDef==[grab_linkval[0].col_name]" class="cursor">
+              <button mat-button (click)="copyText(row[grab_linkval[0].field_name],grab_linkval[1].url)">{{grab_linkval[1].label}}</button>
             </span>
           <br>
           <!--          </span>-->
           <!--          <span *ngIf="aud==true">-->
-          <span *ngIf="column.columnDef== [this.grab_linkval[0].col_name] && aud2==true  && grab_linkval !=null">
-              <button mat-button (click)="copyText(row[this.grab_linkval[0].field_name],grab_linkval[2].url)">{{grab_linkval[2].label}}</button>
+          <span *ngIf="grab_linkval!=null && grab_linkval[0]!=null &&column.columnDef== [grab_linkval[0].col_name]">
+              <button mat-button (click)="copyText(row[grab_linkval[0].field_name],grab_linkval[2].url)">{{grab_linkval[2].label}}</button>
             </span>
 
 <!--          //grap url end//-->
@@ -188,6 +190,12 @@
                 toggle_off
               </i>
             </span>
+            <span *ngIf="custombuttonval!=null" class="cursor treeclass" (click)="custombuttonfunc(row)" >
+              <i class="material-icons treeclass">
+                toggle_off
+              </i>
+            </span>
+
           </span>
 
         </td>
