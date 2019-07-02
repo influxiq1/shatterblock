@@ -212,7 +212,7 @@ export class ApiService {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type':  'application/json',
-        'access-token': ''
+        'access-token': data.token
       })
     };
     console.log('');

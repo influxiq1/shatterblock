@@ -24,11 +24,12 @@ import { CheckBoxComponent } from '../lib/dynamic-form-builder/atoms/checkbox';
 import { RadioComponent } from '../lib/dynamic-form-builder/atoms/radio';
 */
 import { MomentModule } from 'ngx-moment';
+import { SinglepostComponent } from './singlepost/singlepost.component';
 
 
 
 @NgModule({
-  declarations: [ListingComponent,Confirmdialog,BottomSheet],
+  declarations: [ListingComponent,Confirmdialog,BottomSheet, SinglepostComponent],
     imports: [
         CommonModule,
         BrowserModule, BrowserAnimationsModule,

@@ -64,6 +64,9 @@ export class ListingComponent implements OnInit {
   public aud2 :any = false;
   public aud :any = false;
 
+  /* this variable for artist xp preview */
+  previewFlug: any = false;
+
 
   @Input()
   set search_settings(search_settings: any) {
@@ -226,6 +229,14 @@ export class ListingComponent implements OnInit {
     console.log('this.editrouteval');
     console.log(this.editrouteval);
   }
+
+
+  /* artistxp preview start */
+  @Input()
+  set preview_artistxp(flug: any) {
+    this.previewFlug = true;
+  }
+  /* artistxp preview end */
 
 
   stateGroups: string[] = this.searchListval;
@@ -1058,6 +1069,24 @@ export class ListingComponent implements OnInit {
 
 
   }
+
+  /* artistxp preview button click function start */
+  artistxpPreview(singleData: any) {
+    let link = 'http://developmentapi.audiodeadline.com:3090/' + 'datalist';
+    /******* not completed ******/
+    let data: any = { "source": "blockchainuser_view", "condition": { "posts_id_object": singleData._id }, "token": this.jwttokenval };
+    /******** not completed *****/
+    this._apiService.postData(link, data).subscribe(response => {
+      let restlt: any = response;
+      /* open dialog */
+      const dialogRef = this.dialog.open(Confirmdialog, {
+        panelClass: 'custom-modalbox-artistxp-preview',
+        height: 'auto',
+        data: { preview: true, previewData: restlt }
+      });
+    });
+  }
+  /* artistxp preview button click function end */
 
 
 
