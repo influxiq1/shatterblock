@@ -1088,7 +1088,7 @@ export class ListingComponent implements OnInit {
 
   /* artistxp preview button click function start */
   artistxpPreview(singleData: any) {
-    let link = this.apiurlval + 'datalist';
+    let link = 'https://developmentapi.audiodeadline.com:6090/' + 'datalist';
     /******* not completed ******/
     // let data: any = { "source": "blockchainuser_view", "condition": { "posts_id_object": singleData._id }, "token": this.jwttokenval };
     let data: any = {"source":"blockchainuser_view","condition":{"posts_id_object":"5d0cadb3f41755506090ff2c"},"token":"jwtToken"};
