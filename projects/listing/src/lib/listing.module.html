@@ -198,9 +198,23 @@
 
             <!-- artistxp preview start -->
             <span *ngIf="previewFlug==true" class="cursor treeclass" (click)="artistxpPreview(row)">
-              <i class="material-icons">perm_media</i>
+              <i class="material-icons">visibility</i>
             </span>
             <!-- artistxp preview end -->
+
+            <!-- artistxp certify media start -->
+            <span *ngIf="ceritifyFlug==true" class="cursor treeclass" (click)="artistxpCeritify(row)">
+              <i class="material-icons">enhanced_encryption</i>
+            </span>
+            <!-- artistxp certify media end -->
+
+            <!-- artistxp certify media start -->
+            <span *ngIf="certificateUrl==true" class="cursor treeclass">
+              <a href="#" target="_blank">
+                <i class="material-icons">link</i>
+              </a>
+            </span>
+            <!-- artistxp certify media end -->
 
           </span>
 

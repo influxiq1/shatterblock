@@ -66,6 +66,8 @@ export class ListingComponent implements OnInit {
 
   /* this variable for artist xp preview */
   previewFlug: any = false;
+  ceritifyFlug: any = false;
+  certificateUrl: any = false;
 
 
   @Input()
@@ -237,6 +239,20 @@ export class ListingComponent implements OnInit {
     this.previewFlug = true;
   }
   /* artistxp preview end */
+
+  /* artistxp ceritify start */
+  @Input()
+  set ceritify_artistxp(flug: any) {
+    this.ceritifyFlug = true;
+  }
+  /* artistxp ceritify end */
+
+  /* artistxp ceritify media url start */
+  @Input()
+  set certificateUrl_artistxp(flug: any) {
+    this.certificateUrl = true;
+  }
+  /* artistxp ceritify media url end */
 
 
   stateGroups: string[] = this.searchListval;
@@ -1072,9 +1088,10 @@ export class ListingComponent implements OnInit {
 
   /* artistxp preview button click function start */
   artistxpPreview(singleData: any) {
-    let link = 'http://developmentapi.audiodeadline.com:3090/' + 'datalist';
+    let link = this.apiurlval + 'datalist';
     /******* not completed ******/
-    let data: any = { "source": "blockchainuser_view", "condition": { "posts_id_object": singleData._id }, "token": this.jwttokenval };
+    // let data: any = { "source": "blockchainuser_view", "condition": { "posts_id_object": singleData._id }, "token": this.jwttokenval };
+    let data: any = {"source":"blockchainuser_view","condition":{"posts_id_object":"5d0cadb3f41755506090ff2c"},"token":"jwtToken"};
     /******** not completed *****/
     this._apiService.postData(link, data).subscribe(response => {
       let restlt: any = response;
@@ -1087,6 +1104,59 @@ export class ListingComponent implements OnInit {
     });
   }
   /* artistxp preview button click function end */
+
+  /* artistxp Certificate Url button click function start */
+  artistxpCeritify(singleData: any) {
+    const dialogRef = this.dialog.open(Confirmdialog, {
+      panelClass: 'custom-modalbox',
+      data: { message: 'Are you sure you want to certify the selected media?' }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if(result == 'yes') {
+        var mediaDetails: any = { "title": null, "type": null };
+
+        switch (singleData.post_type) {
+          case 'video':
+            mediaDetails.title = singleData.posts.title;
+            mediaDetails.type = "Video";
+            break;
+          case 'picture':
+            mediaDetails.title = singleData.posts.title_pic;
+            mediaDetails.type = "Picture";
+            break;
+          case 'music':
+            mediaDetails.title = singleData.posts.title_music;
+            mediaDetails.type = "Music";
+            break;
+          }
+
+          var link = this.apiurlval + 'createasset';
+          var data = {
+              "assetFile": mediaDetails.type,
+              "clientId": singleData._id,
+              "clientAssetId": singleData._id,
+              "title": mediaDetails.title,
+              "legalName": singleData.fullname,
+              "artistName": singleData.fullname,
+              "natureOfWork": mediaDetails.type,
+              "post_type": mediaDetails.post_type,
+              "type": mediaDetails.type
+          };
+
+          this._apiService.postData(link, data).subscribe(response => {
+            let restlt: any = response;
+
+            /* open dialog */
+            let dialogRef = this.dialog.open(Confirmdialog, {
+              panelClass: 'custom-modalbox',
+              data: { message: 'Successfully submited for certify.', isconfirmation:false }
+            });
+          });
+      }
+    });
+  }
+  /* artistxp Certificate Url button click function end */
 
 
 
