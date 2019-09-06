@@ -143,7 +143,7 @@ IF you use Linux or Mac open the terminal and Run `sudo npm install angular7-lis
     // this is a database collection name
     tablename = 'users';
 
-    // searchendpoint is use for data search endpoint
+    // searchendpoint is use for  search endpoint
     searchendpoint = 'datalist';
 
     // use for click to another page routing path
@@ -151,11 +151,11 @@ IF you use Linux or Mac open the terminal and Run `sudo npm install angular7-lis
 
 
 
-    // date_search_endpoint is use for date search endpoint
+    // date_search_endpoint is use for All search endpoint
     date_search_endpoint: any='datalist';
 
 
-    // this is a database collection or view name
+    // this is a database All search collection or view name
     date_search_source: any='userslist_view';
 
     // this is use for  All type of search 
@@ -203,7 +203,7 @@ This is the array => status_gretterthan_zero = result ;  Insert all data
              [editroute]="editroute1"                                                       // use for edit any field Navigate that page And you should be import                                                                                // the app-routing.module.ts   ex:- {path: 'editroute/:id',                                                                                          // component: < "Write the class name"> },
              [url]="custom_link"                                                            // Use for Download the PDF 
              [date_search_source]="date_search_source"                                      // This is a database collection or view name
-             [date_search_endpoint]="date_search_endpoint"                                  // Thi is use for date search endpoint
+             [date_search_endpoint]="date_search_endpoint"                                  // Thi is use for All search endpoint
              [search_settings]="search_settings"                                            // Insert All Type Of Search Array
              [click_to_add_ananother_page]="click_to_add_ananother_page"                    // Use for click to another page routing path
              [emailarray]="emailarray"                                                      // Use for ststic email search
