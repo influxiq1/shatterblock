@@ -55,11 +55,7 @@ This is the array => status_gretterthan_zero = result ;  Insert all data
  
 
 
-<
-
-
-lib-listing
- *ngIf="status_gretterthan_zero!=null && status_gretterthan_zero.length>0"      // chacking the condition
+`<lib-listing *ngIf="status_gretterthan_zero!=null && status_gretterthan_zero.length>0"      // chacking the condition`
 
              [datasource]="status_gretterthan_zero"                                         // Insert all data into datasource
              [skip]="status_gretterthan_zero_skip"                                          // Skip The Table Header 
@@ -85,10 +81,6 @@ lib-listing
              [pdf_link]="_apiService.Pdf_link">                                             // Download PDF link
 
 
-</
-lib-listing
-
-
->
+`</lib-listing>`
 
 
