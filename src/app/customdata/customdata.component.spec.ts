@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SinglepostComponent } from './singlepost.component';
+import { CustomdataComponent } from './customdata.component';
 
-describe('SinglepostComponent', () => {
-  let component: SinglepostComponent;
-  let fixture: ComponentFixture<SinglepostComponent>;
+describe('CustomdataComponent', () => {
+  let component: CustomdataComponent;
+  let fixture: ComponentFixture<CustomdataComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ SinglepostComponent ]
+      declarations: [ CustomdataComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(SinglepostComponent);
+    fixture = TestBed.createComponent(CustomdataComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -7,6 +7,7 @@ import { FormBuilder, FormControl } from '@angular/forms';
 import { Router } from "@angular/router";
 import { Observable } from 'rxjs';
 import { HttpClient } from "@angular/common/http";
+import { DomSanitizer } from '@angular/platform-browser';
 export declare class ListingComponent implements OnInit {
     _apiService: ApiService;
     dialog: MatDialog;
@@ -16,6 +17,7 @@ export declare class ListingComponent implements OnInit {
     private resolver;
     private container;
     _http: HttpClient;
+    sanitizer: DomSanitizer;
     myControl: FormControl;
     datasourceval: any;
     search_settingsval: any;
@@ -46,14 +48,17 @@ export declare class ListingComponent implements OnInit {
     tsearch: any;
     autosearch: any;
     x: any;
+    custombuttonval: any;
     result: any;
     sh: any;
     art: any;
     aud2: any;
     aud: any;
+    previewFlug: any;
     search_settings: any;
     click_to_add_ananother_page: any;
     grab_link: any;
+    custombutton: any;
     date_search_source: any;
     date_search_endpoint: any;
     url: any;
@@ -73,6 +78,7 @@ export declare class ListingComponent implements OnInit {
     statusarr: any;
     emailarray: any;
     editroute: any;
+    preview_artistxp: any;
     stateGroups: string[];
     stateGroup: Observable<string[]>;
     displayedColumns: string[];
@@ -92,7 +98,7 @@ export declare class ListingComponent implements OnInit {
     sort: MatSort;
     paginator: MatPaginator;
     myForm: any;
-    constructor(_apiService: ApiService, dialog: MatDialog, bottomSheet: MatBottomSheet, fb: FormBuilder, router: Router, resolver: ComponentFactoryResolver, container: ViewContainerRef, _http: HttpClient);
+    constructor(_apiService: ApiService, dialog: MatDialog, bottomSheet: MatBottomSheet, fb: FormBuilder, router: Router, resolver: ComponentFactoryResolver, container: ViewContainerRef, _http: HttpClient, sanitizer: DomSanitizer);
     inputblur(val: any): void;
     ngOnInit(): void;
     onSubmit(): void;
@@ -117,16 +123,20 @@ export declare class ListingComponent implements OnInit {
     styleCell(col_name: any, row: any): {};
     viewdata(data1: any): void;
     managestatus(data: any): void;
+    custombuttonfunc(data: any): void;
     managestatusmultiple(): void;
     deletemultiple(): void;
     deletedata(data: any): void;
     editdata(data: any): void;
+    artistxpPreview(singleData: any): void;
 }
 export declare class Confirmdialog {
     dialogRef: MatDialogRef<Confirmdialog>;
     data: any;
-    constructor(dialogRef: MatDialogRef<Confirmdialog>, data: any);
+    sanitizer: DomSanitizer;
+    constructor(dialogRef: MatDialogRef<Confirmdialog>, data: any, sanitizer: DomSanitizer);
     onNoClick(): void;
+    sanitizeUrl(unsafeurl: any, data: any, rowdata: any): import("@angular/platform-browser").SafeResourceUrl;
 }
 export declare class BottomSheet {
     private bottomSheetRef;

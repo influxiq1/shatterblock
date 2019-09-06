@@ -9,9 +9,9 @@ import {CommonModule} from "@angular/common";
 //import { FooterComponent } from './footer/footer.component';
 //import { MyfromComponent } from './myfrom/myfrom.component';
 //import {DynamicFieldDirective} from "./myfrom/dynamic-field.directive";
-import { MatFileUploadModule } from 'angular-material-fileupload';
-import {NgxUploaderModule} from "ngx-uploader";
-import {RouterModule} from "@angular/router";
+//import { MatFileUploadModule } from 'angular-material-fileupload';
+//import {NgxUploaderModule} from "ngx-uploader";
+//import {RouterModule} from "@angular/router";
 // import { FieldConfig } from './myfrom/field.interface';
 // import { DynamicFieldDirective } from './myfrom/dynamic-field.directive';
 // import { DynamicFormBuilderComponent } from '../lib/dynamic-form-builder/dynamic-form-builder.component';
@@ -24,18 +24,19 @@ import { CheckBoxComponent } from '../lib/dynamic-form-builder/atoms/checkbox';
 import { RadioComponent } from '../lib/dynamic-form-builder/atoms/radio';
 */
 import { MomentModule } from 'ngx-moment';
-import { SinglepostComponent } from './singlepost/singlepost.component';
+import {RouterModule} from "@angular/router";
+//import { SinglepostComponent } from './singlepost/singlepost.component';
 
 
 
 @NgModule({
-  declarations: [ListingComponent,Confirmdialog,BottomSheet, SinglepostComponent],
+  declarations: [ListingComponent,Confirmdialog,BottomSheet],
     imports: [
         CommonModule,
         BrowserModule, BrowserAnimationsModule,
         DemoMaterialModule,
         FormsModule, ReactiveFormsModule,
-        MatFileUploadModule, NgxUploaderModule, RouterModule,
+         RouterModule,
         MomentModule
         // DynamicFieldDirective,
 
@@ -43,7 +44,7 @@ import { SinglepostComponent } from './singlepost/singlepost.component';
     schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
   exports: [ListingComponent,
       //MyfromComponent,
-      NgxUploaderModule],
+      ],
   providers: [ApiService],
   entryComponents:[Confirmdialog,BottomSheet],
 })

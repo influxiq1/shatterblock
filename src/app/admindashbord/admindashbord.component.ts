@@ -28,10 +28,11 @@ export interface FieldConfig {
 })
 export class AdmindashbordComponent implements OnInit {
     componentRef: any;
-    datasource: any;
+    datasource: any; 
     status_gretterthan_zero: any;
     pendingapplication_view: any;
     joquuserlist: any;
+    custombutton: any={label:'my tree',fields:['type','name','_id'],url:'http://localhost:4200/affiliate-tree'};
     placeholder: any = ['placeholder'];
     type: any = ['text'];
     name: any = ['Username'];
@@ -49,15 +50,15 @@ export class AdmindashbordComponent implements OnInit {
 
     grab_link: any = [
         {
-            col_name: 'contractssigned',
+            col_name: 'grab_url',
             field_name: 'name'
         },
         {
-        label: 'shatterblok grap url',
+        label: 'shatterblok grab url',
         url: 'artixtxp.com/',
         action: 'null'
     }, {
-        label: 'Audiodateline grap url',
+        label: 'Audiodateline grab url',
         url: 'audiodateline.com/',
         action: 'null'
     }
@@ -135,6 +136,9 @@ export class AdmindashbordComponent implements OnInit {
             console.log('data from route ... !!!');
             console.log('json', data['results']);
             this.brandarray = data['results'].item.brand;
+            for(let v in data['results'].item.status_gretterthan_zero){
+                data['results'].item.status_gretterthan_zero[v].grab_url='';
+            }
             this.status_gretterthan_zero = data['results'].item.status_gretterthan_zero;
             console.log('this.status_gretterthan_zero');
             console.log(this.status_gretterthan_zero);

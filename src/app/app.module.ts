@@ -58,6 +58,7 @@ import {ListingModule} from '../../projects/listing/src/lib/listing.module';
 import { EditrouteComponent } from './editroute/editroute.component';
 import { DynamicFormsComponent } from './dynamic-forms/dynamic-forms.component';
 import { DformComponent } from './dform/dform.component';
+import { CustomdataComponent } from './customdata/customdata.component';
 
 
 
@@ -99,6 +100,8 @@ import { DformComponent } from './dform/dform.component';
     //DynamicFormsComponent,
 
     DformComponent,
+
+    CustomdataComponent,
 
 
 
