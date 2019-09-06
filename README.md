@@ -88,7 +88,7 @@ IF you use Linux or Mac open the terminal and Run `sudo npm install angular7-lis
         action: 'null'
     }
 ];
-
+    // Insert the Add data 
     pendingmodelapplicationarray: any = [];
    
  
