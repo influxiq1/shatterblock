@@ -52,7 +52,7 @@ IF you use Linux or Mac open the terminal and Run `sudo npm install angular7-lis
 
 This is the array => status_gretterthan_zero = result ;  Insert all data 
 
-<!-- 
+ 
 
 
 <lib-listing *ngIf="status_gretterthan_zero!=null && status_gretterthan_zero.length>0"      // chacking the condition
@@ -81,4 +81,3 @@ This is the array => status_gretterthan_zero = result ;  Insert all data
 </lib-listing>
 
 
- -->
