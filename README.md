@@ -179,9 +179,9 @@ IF you use Linux or Mac open the terminal and Run `sudo npm install angular7-lis
 
 
 
+ `// Insert all data` 
 
-This is the array => status_gretterthan_zero = result ;  Insert all data 
-
+`This is the array => status_gretterthan_zero = result `
  
 
 
