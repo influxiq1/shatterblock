@@ -86,10 +86,12 @@ IF you use Linux or Mac open the terminal and Run `sudo npm install angular7-lis
         label: 'Audiodateline grab url',
         url: 'audiodateline.com/',
         action: 'null'
-    }
-];
-    // Insert the Add data 
-    pendingmodelapplicationarray: any = [];
+    }];
+
+
+
+   ` // Insert the Add data `
+    ` pendingmodelapplicationarray: any = []; `
    
  
 
