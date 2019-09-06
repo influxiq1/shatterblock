@@ -21,13 +21,14 @@
 <span *ngIf="search_settingsval !=null && search_settingsval.search != null ">
   <mat-form-field  *ngFor="let item of search_settingsval.search">
     <input type="text" placeholder="{{item.label}}" matInput [(ngModel)]="autosearch[item.field]" [matAutocomplete]="auto">
-    <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" >
-       <mat-option *ngFor="let option of result.res" [value]="option[item.field]" (click)="autosearchfunction(item.field)">
+    <mat-autocomplete  #auto="matAutocomplete" >
+       <mat-option *ngFor="let option of result.res | async" [value]="option[item.field]" (click)="autosearchfunction(item.field)">
         {{option[item.field]}}
       </mat-option>
     </mat-autocomplete>
   </mat-form-field>
 </span>
+
 
 
 <!--      <span *ngIf="search_settingsval !=null && search_settingsval != null ">
