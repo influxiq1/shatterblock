@@ -56,6 +56,8 @@ This is the array => status_gretterthan_zero = result ;  Insert all data
 
 
 <
+
+
 lib-listing
  *ngIf="status_gretterthan_zero!=null && status_gretterthan_zero.length>0"      // chacking the condition
 
@@ -81,8 +83,12 @@ lib-listing
              [emailarray]="emailarray"                                                      // Use for ststic email search
              [grab_link]="grab_link"                                                        // Use for grab the link
              [pdf_link]="_apiService.Pdf_link">                                             // Download PDF link
+
+
 </
 lib-listing
+
+
 >
 
 
