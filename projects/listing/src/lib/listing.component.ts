@@ -305,13 +305,11 @@ export class ListingComponent implements OnInit {
 
 
   inputblur(val:any){
-    console.log('on blur .....');
     this.myForm.controls[val].markAsUntouched();
   }
   ngOnInit() {
 
     if (this.search_settingsval !=null && this.search_settingsval.search != null && this.search_settingsval.search != '') {
-      console.log('----------------');
       let source: any;
       let condition: any = {};
       source = {
@@ -319,10 +317,10 @@ export class ListingComponent implements OnInit {
         condition: condition
       };
       let link = this.apiurlval + '' + this.date_search_endpointval;
-      this._apiService.postSearch(link, this.jwttokenval, source).subscribe(res => {
-        console.log(res);
+      this._apiService.postSearch(link, this.jwttokenval, source).subscribe((res:any) => {
+        // console.log(res);
         this.result = res;
-        console.log(this.result);
+        // console.log(this.result);
         this.preresult = this.result.res;
         console.log(this.preresult);
       });
@@ -414,15 +412,15 @@ export class ListingComponent implements OnInit {
   }
   dateSearch(val: any) {
     console.log("start date");
-    console.log(this.start_date);
-    console.log(this.end_date);
-    let sd = moment(this.start_date).unix();
-    let ed = moment(this.end_date).unix();
-    console.log(moment(this.start_date).unix());
-    console.log(moment(this.end_date).unix());
+    // console.log(this.start_date);
+    // console.log(this.end_date);
+    // let sd = moment(this.start_date).unix();
+    // let ed = moment(this.end_date).unix();
+    // console.log(moment(this.start_date).unix());
+    // console.log(moment(this.end_date).unix());
     console.log(new Date(this.end_date).getTime());
     let link = this.apiurlval + ''+ this.date_search_endpointval;
-    console.log(link);
+    // console.log(link);
     if(moment(this.end_date).unix()!=null && moment(this.start_date).unix()!=null ) {
 
 

@@ -1,14 +1,14 @@
 <div class="container">
 
 
-  <mat-card>
-    <mat-toolbar-row class="searchbar" style="display: flex!important; justify-content: space-between!important;">
+  <mat-card class="searchcard">
+    <mat-toolbar-row class="searchbar">
     <mat-form-field class="searchdiv">
 
       <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
     </mat-form-field>
 
-      <span  *ngIf="search_settingsval !=null && search_settingsval.textsearch != null ">
+      <span class="textsearch" *ngIf="search_settingsval !=null && search_settingsval.textsearch != null ">
     <mat-form-field *ngFor="let item of search_settingsval.textsearch" class="searchdiv">
 
       <input matInput (change)="textsearchfunction(item.field)" (keyup)="textsearchfunction(item.field)" [(ngModel)]='tsearch[item.field]' placeholder="{{item.label}}">
@@ -18,7 +18,7 @@
     </mat-form-field>
       </span>
 
-<span *ngIf="search_settingsval !=null && search_settingsval.search != null ">
+<span class="autocompletesearch" *ngIf="search_settingsval !=null && search_settingsval.search != null ">
   <mat-form-field  *ngFor="let item of search_settingsval.search">
     <input type="text" placeholder="{{item.label}}" matInput [(ngModel)]="autosearch[item.field]" [matAutocomplete]="auto">
     <mat-autocomplete  #auto="matAutocomplete" >
@@ -77,27 +77,32 @@
           <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
           <mat-datepicker #picker1 ></mat-datepicker>
         </mat-form-field>
-        <button mat-raised-button color="primary" class="add_button" style="margin: 0!important; margin-left: 10px!important; " (click)="dateSearch(status.field)">{{status.submit}}</button>
+        <button mat-raised-button color="primary" class="add_button" (click)="dateSearch(status.field)">{{status.submit}}</button>
       </span>
       </ng-container>
 
 
 
       <span *ngIf="click_to_add_ananother_pageval !=null">
-        <button mat-raised-button color="primary" class="add_button" style="margin: 0!important; margin-left: 10px!important; " [routerLink]="click_to_add_ananother_pageval" >Add</button>
+        <button mat-raised-button color="primary" class="add_button" [routerLink]="click_to_add_ananother_pageval" >Add</button>
       </span>
     </mat-toolbar-row>
 
 
 
     <ng-container *ngIf="selection.selected.length!=null && selection.selected.length>0">
+      <span class="multipledeleteandupdatebuttan">
+
       <button mat-raised-button (click)="deletemultiple()"> Delete </button>
       <button mat-raised-button (click)="managestatusmultiple()"> Update Status </button>
+
+      </span>
     </ng-container>
 
 
+    <div class="tablewrapper">
 
-    <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+      <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
 
       <ng-container matColumnDef="select">
         <th mat-header-cell *matHeaderCellDef>
@@ -161,7 +166,7 @@
 
 
 
-      <ng-container matColumnDef="Actions"   >
+      <ng-container matColumnDef="Actions">
         <th mat-header-cell *matHeaderCellDef  class="th-header-center">Actions</th>
         <td (click)="$event.stopPropagation()" mat-cell  *matCellDef="let row" data-label="Actions"  class="td-cell-center">
           <span *ngIf="selection.selected.length==null || selection.selected.length==0">
@@ -181,7 +186,7 @@
             <!--For modern browsers-->
             <span class="cursor" (click)="viewdata(row)" >
               <i class="material-icons">
-                pageview
+                remove_red_eye
               </i>
             </span>
 
@@ -216,12 +221,12 @@
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 
-    </table>
+      </table>
 
-    <mat-paginator [pageSizeOptions]="[5,10, 20, 50,100]" showFirstLastButtons></mat-paginator>
+    </div>
+    <mat-paginator class="paginator" [pageSizeOptions]="[5,10, 20, 50,100]" showFirstLastButtons></mat-paginator>
     <mat-spinner *ngIf="loading == true" ></mat-spinner>
 
-    <br>
 
 
    <!-- <form [formGroup]="stateForm">
@@ -275,10 +280,7 @@
     </div>
 
   </mat-card>-->
-  <br>
-  <br>
 
 
 
 </div>
-

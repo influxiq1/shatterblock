@@ -1,5 +1,7 @@
 
-<div *ngIf="data.preview != true">
+<div class="maindialog">
+
+<div class="dialoghead" *ngIf="data.preview != true">
     <h1 mat-dialog-title *ngIf="data!=null && data.message!=null" >Hey !</h1>
     <h1 mat-dialog-title *ngIf="data!=null && data.data!=null && data.data[0]==null">Details </h1>
     <div mat-dialog-content>
@@ -47,4 +49,6 @@
 <div mat-dialog-actions *ngIf="data.preview != true">
     <button mat-button *ngIf="data.isconfirmation==null ||  data.isconfirmation!=false" (click)="onNoClick()">No Thanks</button>
     <button mat-button mat-dialog-close="yes" cdkFocusInitial>Ok</button>
+</div>
+
 </div>
