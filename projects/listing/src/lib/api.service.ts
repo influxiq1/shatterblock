@@ -1,4 +1,3 @@
-
 // import {ElementRef, EventEmitter, Injectable, Input, ViewChild} from '@angular/core';
 // import { switchMap, map, takeWhile } from 'rxjs/operators';
 // import { HttpClient, HttpHeaders} from '@angular/common/http';
@@ -28,7 +27,6 @@
 //   public uploaderror:any='';
 //   // public uploadOutputval:any;
 //   fileservername:any=[];
-
 //   /*@Input()
 //   set uploadOutput(uploadOutput: any){
 //     this.uploadOutputval = uploadOutput;
@@ -37,7 +35,6 @@
 //   }*/
 //   constructor(private _http: HttpClient,
 //               private _authHttp: HttpClient,
-
 //               ) {
 //     this.options = { concurrency: 10, maxUploads: 10 };
 //     this.files = []; // local uploading files array
@@ -46,7 +43,6 @@
 //     //console.log('this.domain');
 //     //console.log(this.domain);
 //   }
-
 //   onUploadOutput(uploadOutput: UploadOutput, arrayvalue: any, uploadtypec: any, uploadpath: any): void {
 //     // this.uploaderInput.nativeElement.value = '';
 //     if (uploadOutput.type === 'allAddedToQueue') {
@@ -236,7 +232,6 @@
 //     var result = this._http.post(this.getEndpointUrl(endpoint), JSON.stringify(data), httpOptions).pipe(map(res => res));
 //     return result;
 //   }
-
 //   postlogin(endpoint:any, data) {
 //     const httpOptions = {
 //       headers: new HttpHeaders({
@@ -316,13 +311,11 @@
 //     var result = this._http.post(endpoint,dataval, httpOptions).pipe(map(res => res));
 //     return result;
 //   }
-
 //     togglestatus(endpoint:any, data,token,source) {
 //       console.log(endpoint);
 //       console.log(data);
 //       console.log(token);
 //       console.log(source);
-
 //     const httpOptions = {
 //       headers: new HttpHeaders({
 //         'Content-Type': 'application/json',
@@ -338,7 +331,6 @@
 //     var result = this._http.post(endpoint,dataval, httpOptions).pipe(map(res => res));
 //     return result;
 //   }
-
 //   deteManyData(endpoint:any, data,token,source) {
 //     const httpOptions = {
 //       headers: new HttpHeaders({
@@ -355,7 +347,6 @@
 //     var result = this._http.post(endpoint+'many',dataval, httpOptions).pipe(map(res => res));
 //     return result;
 //   }
-
 //     togglestatusmany(endpoint:any, data,val,token,source) {
 //     const httpOptions = {
 //       headers: new HttpHeaders({

@@ -100,13 +100,18 @@
 
 
     <ng-container *ngIf="selection.selected.length!=null && selection.selected.length>0">
+      <span class="multipledeleteandupdatebuttan">
+
       <button mat-raised-button (click)="deletemultiple()"> Delete </button>
       <button mat-raised-button (click)="managestatusmultiple()"> Update Status </button>
+
+      </span>
     </ng-container>
 
 
+    <div class="tablewrapper">
 
-    <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+      <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
 
       <ng-container matColumnDef="select">
         <th mat-header-cell *matHeaderCellDef>
@@ -170,7 +175,7 @@
 
 
 
-      <ng-container matColumnDef="Actions"   >
+      <ng-container matColumnDef="Actions">
         <th mat-header-cell *matHeaderCellDef  class="th-header-center">Actions</th>
         <td (click)="$event.stopPropagation()" mat-cell  *matCellDef="let row" data-label="Actions"  class="td-cell-center">
           <span *ngIf="selection.selected.length==null || selection.selected.length==0">
@@ -190,7 +195,7 @@
             <!--For modern browsers-->
             <span class="cursor" (click)="viewdata(row)" >
               <i class="material-icons">
-                pageview
+                remove_red_eye
               </i>
             </span>
 
@@ -225,12 +230,12 @@
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 
-    </table>
+      </table>
 
-    <mat-paginator [pageSizeOptions]="[5,10, 20, 50,100]" showFirstLastButtons></mat-paginator>
+    </div>
+    <mat-paginator class="paginator" [pageSizeOptions]="[5,10, 20, 50,100]" showFirstLastButtons></mat-paginator>
     <mat-spinner *ngIf="loading == true" ></mat-spinner>
 
-    <br>
 
 
    <!-- <form [formGroup]="stateForm">
@@ -284,10 +289,7 @@
     </div>
 
   </mat-card>-->
-  <br>
-  <br>
 
 
 
 </div>
-
