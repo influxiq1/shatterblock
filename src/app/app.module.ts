@@ -60,6 +60,7 @@ import { DynamicFormsComponent } from './dynamic-forms/dynamic-forms.component';
 import { DformComponent } from './dform/dform.component';
 import { CustomdataComponent } from './customdata/customdata.component';
 
+import { ListingInventoryComponent } from './inventorylist/listing-inventory/listing-inventory.component';
 
 
 @NgModule({
@@ -102,6 +103,8 @@ import { CustomdataComponent } from './customdata/customdata.component';
     DformComponent,
 
     CustomdataComponent,
+    
+    ListingInventoryComponent,
 
 
 

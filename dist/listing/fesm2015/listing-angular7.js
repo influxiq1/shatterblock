@@ -11,7 +11,7 @@ import { ScrollingModule } from '@angular/cdk/scrolling';
 import { CdkStepperModule } from '@angular/cdk/stepper';
 import { CdkTableModule } from '@angular/cdk/table';
 import { CdkTreeModule } from '@angular/cdk/tree';
-import { Injectable, EventEmitter, ViewChild, NgModule, CUSTOM_ELEMENTS_SCHEMA, Component, Input, Inject, ComponentFactoryResolver, ViewContainerRef, defineInjectable } from '@angular/core';
+import { Injectable, NgModule, CUSTOM_ELEMENTS_SCHEMA, EventEmitter, ViewChild, Component, Input, Inject, ComponentFactoryResolver, ViewContainerRef, defineInjectable } from '@angular/core';
 import { MatSort, MatTableDataSource, MatPaginator, MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatBottomSheet, MatBottomSheetRef, MAT_BOTTOM_SHEET_DATA, MatAutocompleteModule, MatBadgeModule, MatBottomSheetModule, MatButtonModule, MatButtonToggleModule, MatCardModule, MatCheckboxModule, MatChipsModule, MatDatepickerModule, MatDialogModule, MatDividerModule, MatExpansionModule, MatGridListModule, MatIconModule, MatInputModule, MatListModule, MatMenuModule, MatNativeDateModule, MatPaginatorModule, MatProgressBarModule, MatProgressSpinnerModule, MatRadioModule, MatRippleModule, MatSelectModule, MatSidenavModule, MatSliderModule, MatSlideToggleModule, MatSnackBarModule, MatSortModule, MatStepperModule, MatTableModule, MatTabsModule, MatToolbarModule, MatTooltipModule, MatTreeModule } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormBuilder, FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -219,7 +219,7 @@ class ApiService {
         const httpOptions = {
             headers: new HttpHeaders({
                 'Content-Type': 'application/json',
-                'access-token': ''
+                'Authorization': ''
             })
         };
         console.log('endpoint');
@@ -245,7 +245,7 @@ class ApiService {
         const httpOptions = {
             headers: new HttpHeaders({
                 'Content-Type': 'application/json',
-                'access-token': ''
+                'Authorization': ''
             })
         };
         console.log('endpoint');
@@ -273,7 +273,7 @@ class ApiService {
         const httpOptions = {
             headers: new HttpHeaders({
                 'Content-Type': 'application/json',
-                'access-token': data.token
+                'Authorization': data.token
             })
         };
         console.log('');
@@ -347,7 +347,7 @@ class ApiService {
         const httpOptions = {
             headers: new HttpHeaders({
                 'Content-Type': 'application/json',
-                'access-token': token
+                'Authorization': token
             })
         };
         console.log('------ ');
@@ -372,7 +372,7 @@ class ApiService {
         const httpOptions = {
             headers: new HttpHeaders({
                 'Content-Type': 'application/json',
-                'access-token': source.token
+                'Authorization': source.token
             })
         };
         console.log('------ ');
@@ -423,13 +423,14 @@ class ApiService {
         const httpOptions = {
             headers: new HttpHeaders({
                 'Content-Type': 'application/json',
-                'access-token': token
+                'Authorization': token
             })
         };
         console.log('------ ');
         console.log("endpoint");
         console.log(endpoint);
         console.log(data);
+        console.log(token);
         /** @type {?} */
         let dataval;
         dataval = { source: source, id: data._id };
@@ -457,7 +458,7 @@ class ApiService {
         const httpOptions = {
             headers: new HttpHeaders({
                 'Content-Type': 'application/json',
-                'access-token': token
+                'Authorization': token
             })
         };
         console.log('------ ');
@@ -487,7 +488,7 @@ class ApiService {
         const httpOptions = {
             headers: new HttpHeaders({
                 'Content-Type': 'application/json',
-                'access-token': token
+                'Authorization': token
             })
         };
         console.log('------ ');
@@ -518,7 +519,7 @@ class ApiService {
         const httpOptions = {
             headers: new HttpHeaders({
                 'Content-Type': 'application/json',
-                'access-token': token
+                'Authorization': token
             })
         };
         console.log('------ ');
@@ -644,8 +645,6 @@ class ListingComponent {
      */
     set search_settings(search_settings) {
         this.search_settingsval = search_settings;
-        console.log('this.search_settingsval');
-        console.log(this.search_settingsval);
         /*for (let i= 0; i<= this.search_settingsval.search.length; i++) {
           console.log(this.search_settingsval.search[i].label);
         }*/
@@ -660,8 +659,6 @@ class ListingComponent {
      */
     set click_to_add_ananother_page(click_to_add_ananother_page) {
         this.click_to_add_ananother_pageval = click_to_add_ananother_page;
-        console.log('this.click_to_add_ananother_pageval');
-        console.log(this.click_to_add_ananother_pageval);
     }
     /**
      * @param {?} grab_link
@@ -669,8 +666,6 @@ class ListingComponent {
      */
     set grab_link(grab_link) {
         this.grab_linkval = grab_link;
-        console.log('this.grab_linkval');
-        console.log(this.grab_linkval);
     }
     /**
      * @param {?} custombutton
@@ -678,8 +673,6 @@ class ListingComponent {
      */
     set custombutton(custombutton) {
         this.custombuttonval = custombutton;
-        console.log('this.custombuttonval');
-        console.log(this.custombuttonval);
     }
     /**
      * @param {?} date_search_source
@@ -687,8 +680,6 @@ class ListingComponent {
      */
     set date_search_source(date_search_source) {
         this.date_search_sourceval = date_search_source;
-        console.log('this.date_search_sourceval');
-        console.log(this.date_search_sourceval);
     }
     /**
      * @param {?} date_search_endpoint
@@ -696,8 +687,6 @@ class ListingComponent {
      */
     set date_search_endpoint(date_search_endpoint) {
         this.date_search_endpointval = date_search_endpoint;
-        console.log('this.date_search_endpointval');
-        console.log(this.date_search_endpointval);
     }
     /**
      * @param {?} url
@@ -705,8 +694,6 @@ class ListingComponent {
      */
     set url(url) {
         this.urlval = url;
-        console.log('this.urlval');
-        console.log(this.urlval);
     }
     /**
      * @param {?} searchendpoint
@@ -714,8 +701,6 @@ class ListingComponent {
      */
     set searchendpoint(searchendpoint) {
         this.searchendpointval = searchendpoint;
-        console.log('this.searchendpointval');
-        console.log(this.searchendpointval);
     }
     /**
      * @param {?} pdf_link
@@ -723,8 +708,6 @@ class ListingComponent {
      */
     set pdf_link(pdf_link) {
         this.pdf_link_val = pdf_link;
-        console.log('this.pdf_link_val');
-        console.log(this.pdf_link_val);
     }
     /**
      * @param {?} searchList
@@ -732,8 +715,6 @@ class ListingComponent {
      */
     set searchList(searchList) {
         this.searchListval = searchList;
-        console.log('this.searchListval');
-        console.log(this.searchListval);
     }
     /**
      * @param {?} datasource
@@ -741,8 +722,6 @@ class ListingComponent {
      */
     set datasource(datasource) {
         this.datasourceval = datasource;
-        console.log('this.datasourceval');
-        console.log(this.datasourceval);
     }
     /**
      * @param {?} skip
@@ -750,8 +729,6 @@ class ListingComponent {
      */
     set skip(skip) {
         this.skipval = skip;
-        console.log('this.skipval');
-        console.log(this.skipval);
     }
     /**
      * @param {?} detail_datatype
@@ -759,8 +736,6 @@ class ListingComponent {
      */
     set detail_datatype(detail_datatype) {
         this.detail_datatypeval = detail_datatype;
-        console.log('this.detail_datatypeval');
-        console.log(this.detail_datatypeval);
     }
     /**
      * @param {?} detail_skip_array
@@ -768,8 +743,6 @@ class ListingComponent {
      */
     set detail_skip_array(detail_skip_array) {
         this.detail_skip_arrayval = detail_skip_array;
-        console.log('this.detail_skip_arrayval');
-        console.log(this.detail_skip_arrayval);
     }
     /**
      * @param {?} sourcedata
@@ -777,8 +750,6 @@ class ListingComponent {
      */
     set sourcedata(sourcedata) {
         this.sourcedataval = sourcedata;
-        console.log('this.sourcedataval');
-        console.log(this.sourcedataval);
     }
     /**
      * @param {?} modify_header_array
@@ -786,8 +757,6 @@ class ListingComponent {
      */
     set modify_header_array(modify_header_array) {
         this.modify_header_arrayval = modify_header_array;
-        console.log('this.modify_header_arrayval');
-        console.log(this.modify_header_arrayval);
     }
     /**
      * @param {?} deleteendpointval
@@ -795,8 +764,6 @@ class ListingComponent {
      */
     set deleteendpoint(deleteendpointval) {
         this.deleteendpointval = deleteendpointval;
-        console.log('this.deleteendpointval');
-        console.log(this.deleteendpointval);
     }
     /**
      * @param {?} updateendpoint
@@ -804,8 +771,6 @@ class ListingComponent {
      */
     set updateendpoint(updateendpoint) {
         this.updateendpointval = updateendpoint;
-        console.log('this.updateendpointval');
-        console.log(this.updateendpointval);
     }
     /**
      * @param {?} apiurl
@@ -813,8 +778,6 @@ class ListingComponent {
      */
     set apiurl(apiurl) {
         this.apiurlval = apiurl;
-        console.log('this.apiurlval');
-        console.log(this.apiurlval);
     }
     /**
      * @param {?} jwttoken
@@ -822,7 +785,6 @@ class ListingComponent {
      */
     set jwttoken(jwttoken) {
         this.jwttokenval = jwttoken;
-        console.log('this.jwttokenval');
         console.log(this.jwttokenval);
     }
     /**
@@ -831,8 +793,6 @@ class ListingComponent {
      */
     set statusarr(statusarr) {
         this.statusarrval = statusarr;
-        console.log('this.statusarrval');
-        console.log(this.statusarrval);
     }
     /**
      * @param {?} emailarray
@@ -840,19 +800,13 @@ class ListingComponent {
      */
     set emailarray(emailarray) {
         this.emailarrayval = emailarray;
-        console.log('this.emailarrayval');
-        console.log(this.emailarrayval);
     }
     /**
      * @param {?} editroute
      * @return {?}
      */
     set editroute(editroute) {
-        console.log('editroute');
-        console.log(editroute);
         this.editrouteval = editroute;
-        console.log('this.editrouteval');
-        console.log(this.editrouteval);
     }
     /* artistxp preview start */
     /**
@@ -878,7 +832,6 @@ class ListingComponent {
      */
     ngOnInit() {
         if (this.search_settingsval != null && this.search_settingsval.search != null && this.search_settingsval.search != '') {
-            console.log('----------------');
             /** @type {?} */
             let source;
             /** @type {?} */
@@ -894,11 +847,8 @@ class ListingComponent {
              * @return {?}
              */
             res => {
-                console.log(res);
                 this.result = res;
-                console.log(this.result);
                 this.preresult = this.result.res;
-                console.log(this.preresult);
             }));
         }
         // this._service.success(this.columns[0].date,'dndnnd',this.options);
@@ -939,8 +889,8 @@ class ListingComponent {
         }
         //coldef_list.push('Actions');
         //header_list.push('Actions')
-        console.log('coldef_list', coldef_list);
-        console.log('header_list', header_list);
+        // console.log('coldef_list',coldef_list);
+        // console.log('header_list',header_list);
         for (let i = 0; i < coldef_list.length; i++) {
             /** @type {?} */
             let ff = `row.${coldef_list[i]}`;
@@ -958,8 +908,6 @@ class ListingComponent {
             }
             if (this.skipval.indexOf(tt.columnDef) == -1)
                 this.columns.push(tt);
-            // console.log('this.columns');
-            // console.log(this.columns);
         }
         /** @type {?} */
         let displayedcols = this.columns.map((/**
@@ -977,7 +925,6 @@ class ListingComponent {
             data_list.push(this.createData(x[i]));
         }
         this.olddata = data_list;
-        console.log(data_list);
         this.dataSource = new MatTableDataSource(data_list);
         this.selection = new SelectionModel(true, []);
         this.dataSource.paginator = this.paginator;
@@ -992,9 +939,6 @@ class ListingComponent {
         this.errormg = '';
         /** @type {?} */
         let data = this.myForm.value;
-        console.log('data');
-        console.log(data);
-        console.log(this.myForm.valid);
         for (x in this.myForm.controls) {
             this.myForm.controls[x].markAsTouched();
         }
@@ -1004,19 +948,13 @@ class ListingComponent {
      * @return {?}
      */
     dateSearch(val) {
-        console.log("start date");
-        console.log(this.start_date);
-        console.log(this.end_date);
-        /** @type {?} */
-        let sd = moment(this.start_date).unix();
-        /** @type {?} */
-        let ed = moment(this.end_date).unix();
-        console.log(moment(this.start_date).unix());
-        console.log(moment(this.end_date).unix());
-        console.log(new Date(this.end_date).getTime());
+        // console.log("start date");
+        // console.log(this.start_date);
+        // console.log(this.end_date);
+        // let sd = moment(this.start_date).unix();
+        // let ed = moment(this.end_date).unix();
         /** @type {?} */
         let link = this.apiurlval + '' + this.date_search_endpointval;
-        console.log(link);
         if (moment(this.end_date).unix() != null && moment(this.start_date).unix() != null) {
             /** @type {?} */
             let source;
@@ -1035,17 +973,14 @@ class ListingComponent {
                 source: this.date_search_sourceval,
                 condition: conditionobj,
             };
-            console.log(source);
             this._apiService.postSearch(link, this.jwttokenval, source).subscribe((/**
              * @param {?} res
              * @return {?}
              */
             res => {
-                console.log(res);
                 /** @type {?} */
                 let result = {};
                 result = res;
-                console.log(result.res);
                 this.dataSource = new MatTableDataSource(result.res);
                 this.dataSource.paginator = this.paginator;
                 this.dataSource.sort = this.sort;
@@ -1078,11 +1013,8 @@ class ListingComponent {
      * @return {?}
      */
     selectSearch(value, type) {
-        console.log('type');
-        console.log(type);
         /** @type {?} */
         let link = this.apiurlval + '' + this.date_search_endpointval;
-        console.log(link);
         /** @type {?} */
         let source;
         /** @type {?} */
@@ -1103,13 +1035,9 @@ class ListingComponent {
              * @return {?}
              */
             res => {
-                console.log(res);
                 /** @type {?} */
                 let result = {};
                 result = res;
-                console.log("ok");
-                console.log(res);
-                console.log(result.res);
                 /** @type {?} */
                 let newdata = result.res;
                 this.dataSource = new MatTableDataSource(result.res);
@@ -1127,10 +1055,8 @@ class ListingComponent {
      * @return {?}
      */
     autosearchfunction(value) {
-        console.log(value);
         /** @type {?} */
         let val = this.autosearch[value];
-        console.log(val);
         /** @type {?} */
         let source;
         /** @type {?} */
@@ -1152,11 +1078,7 @@ class ListingComponent {
          * @return {?}
          */
         res => {
-            console.log(res);
-            // let result:any={};
             this.result = res;
-            console.log(this.result);
-            console.log(this.result.res);
             this.dataSource = new MatTableDataSource(this.result.res);
             this.dataSource.paginator = this.paginator;
             this.dataSource.sort = this.sort;
@@ -1167,35 +1089,24 @@ class ListingComponent {
      * @return {?}
      */
     textsearchfunction(value) {
-        console.log('value');
-        console.log(value);
-        console.log(value.toLowerCase());
-        console.log(this.tsearch[value]);
         /** @type {?} */
         let link = this.apiurlval + '' + this.date_search_endpointval;
-        console.log(link);
         /** @type {?} */
         let source;
         /** @type {?} */
         let condition = {};
-        //condition = {};
         /** @type {?} */
         let val = this.tsearch[value].toLowerCase();
-        // condition={$or:[this.tsearch[value].toLowerCase(),this.tsearch[value].toUpperCase()]};
         if (this.tsearch[value].length > 1 && { $or: [this.tsearch[value].toLowerCase(), this.tsearch[value].toUpperCase()] })
             condition[value + '_regex'] = val;
         this.textSearch_condition = {};
         this.textSearch_condition = condition;
-        //condition[value]="/222/";
-        //condition={email:{$regx:'/222/i'}};
         /** @type {?} */
         let conditionobj = Object.assign({}, this.textSearch_condition, this.dateSearch_condition, this.autoSearch_condition, this.selectSearch_condition);
         source = {
             source: this.date_search_sourceval,
             condition: conditionobj
         };
-        console.log('source');
-        console.log(source);
         //add loader
         this.loading = true;
         if (value != null) {
@@ -1204,15 +1115,11 @@ class ListingComponent {
              * @return {?}
              */
             res => {
-                console.log(res);
                 /** @type {?} */
                 let result = {};
                 result = res;
                 //close loader
                 this.loading = false;
-                console.log("ok");
-                console.log(res);
-                console.log(result.res);
                 /** @type {?} */
                 let newdata = result.res;
                 this.dataSource = new MatTableDataSource(result.res);
@@ -1224,6 +1131,30 @@ class ListingComponent {
             console.log('oops');
         }
         console.log("error");
+    }
+    /**
+     * @param {?} val
+     * @return {?}
+     */
+    refreshalldata(val) {
+        this.dataSource = new MatTableDataSource(this.olddata);
+        this.selection = new SelectionModel(true, []);
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
+        if (val.filteredData.length < this.olddata.length) {
+            /** @type {?} */
+            let dialogRef = this.dialog.open(Confirmdialog, {
+                panelClass: 'custom-modalbox',
+                data: { message: 'Refresh successfully!!', isconfirmation: false }
+            });
+        }
+        else {
+            /** @type {?} */
+            let dialogRef = this.dialog.open(Confirmdialog, {
+                panelClass: 'custom-modalbox',
+                data: { message: ' Updated!!', isconfirmation: false }
+            });
+        }
     }
     /**
      * @private
@@ -1239,18 +1170,6 @@ class ListingComponent {
          */
         option => option.toLowerCase().includes(filterValue)));
     }
-    /*private _filterGroup(value: string): StateGroup[] {
-       /!* if (value) {
-          return this.searchListval
-              .map(group => ({names: _filter(group.names, value)}))
-              .filter(group => group.names.length > 0);
-        }
-    
-        return this.searchListval;*!/
-        const filterValue = value.toLowerCase();
-    
-        return this.searchListval.filter(option => option.toLowerCase().includes(filterValue));
-      }*/
     /**
      * @param {?} val
      * @return {?}
@@ -1269,9 +1188,7 @@ class ListingComponent {
      * @param {?} val
      * @return {?}
      */
-    hi(val) {
-        // console.log('hi  val');
-        // console.log(val);
+    pdfFlag(val) {
         if (val.shatterblok_agreement_date != null && val.audiodeadline_agreement_date == null) {
             // console.log('shatter blok');
             this.sh = true;
@@ -1310,13 +1227,8 @@ class ListingComponent {
      * @return {?}
      */
     copyText(row, val) {
-        console.log('row in copyText');
-        console.log(row);
-        console.log('val in copyText');
-        console.log(val);
         /** @type {?} */
         let fullurl = val + '' + row;
-        console.log(fullurl);
         /** @type {?} */
         let selBox = document.createElement('textarea');
         selBox.style.position = 'fixed';
@@ -1336,11 +1248,6 @@ class ListingComponent {
      * @return {?}
      */
     clickurl(val, url) {
-        console.log('ok');
-        console.log(val);
-        console.log(val._id);
-        console.log(url);
-        console.log(url + '' + val._id + '' + this.pdf_link_val);
         /** @type {?} */
         let link = url + '' + val._id + '' + this.pdf_link_val;
         window.open(link, "_blank");
@@ -1401,9 +1308,6 @@ class ListingComponent {
      * @return {?}
      */
     applyFilter(filterValue) {
-        console.log(filterValue);
-        console.log(this.dataSource);
-        // console.log(this.dataSource[name])
         this.dataSource.filter = filterValue.trim().toLowerCase();
         if (this.dataSource.paginator) {
             this.dataSource.paginator.firstPage();
@@ -1448,51 +1352,50 @@ class ListingComponent {
         data = data1;
         /** @type {?} */
         let data2 = [];
-        console.log('data');
-        console.log(data);
         for (let key in data) {
             if (data.hasOwnProperty(key)) {
-                console.log(key + " -> " + data[key] + "--->" + typeof (data[key]));
                 if (typeof (data[key]) == 'boolean') {
                     if (data[key] == true)
                         data[key] = 'Yes';
                     if (data[key] == false)
                         data[key] = 'No';
                 }
+                if (key == 'image') {
+                    data[key + ':'] = "<img mat-card-image src=" + data[key] + "><br/>";
+                }
+                if (typeof (data[key]) == 'object') ;
                 if (typeof (data[key]) == 'object') {
                     /** @type {?} */
                     let tempdata = [];
                     for (let k in data[key]) {
-                        console.log('key');
-                        console.log(key);
-                        console.log(this.detail_datatypeval);
                         for (let p in this.detail_datatypeval) {
-                            console.log('p');
-                            console.log(p);
-                            console.log(key);
-                            console.log(data[key][k]);
                             if (this.detail_datatypeval[p].key == key && this.detail_datatypeval[p].value == 'image') {
-                                /** @type {?} */
-                                let imgval = this.detail_datatypeval[p].fileurl + data[key][k].replace(/'/g, '');
-                                console.log('imgval');
-                                console.log('imgval');
-                                console.log(imgval);
+                                // let imgval:any=this.detail_datatypeval[p].fileurl+data[key][k];
+                                // console.log('imgval');
+                                // console.log('imgval');
+                                // console.log(imgval);
                                 console.log(data[key][k].replace(/'/g, ''));
-                                tempdata.push("<img mat-card-image src=" + imgval + "><br/>");
+                                tempdata.push("<img mat-card-image src=" + data[key][k] + "><br/>");
                                 // tempdata.push("<span>"+data[key][k]+"</span><br/>")
                             }
                             if (this.detail_datatypeval[p].key == key && this.detail_datatypeval[p].value != 'image') {
                                 //tempdata.push("<img mat-card-image src="+data[key][k]+"><br/>")
                                 tempdata.push("<span>" + data[key][k] + "</span><br/>");
                             }
+                            if (this.detail_datatypeval[p].key != key) {
+                                //tempdata.push("<img mat-card-image src="+data[key][k]+"><br/>")
+                                if (typeof (data[key][k]) == 'object') {
+                                    for (var objk in data[key][k]) {
+                                        tempdata.push("<span>" + objk + " : " + data[key][k][objk] + "</span><br/>");
+                                    }
+                                }
+                            }
                         }
                     }
-                    data[key] = tempdata;
+                    data[key + ':'] = tempdata;
                 }
             }
         }
-        console.log('data');
-        console.log(data);
         for (let n in data) {
             if (data[n] != null && data[n] != '') {
                 data2[n] = data[n];
@@ -1501,16 +1404,9 @@ class ListingComponent {
         for (let v in this.detail_skip_arrayval) {
             //data2[this.detail_skip_arrayval[v]]='';
             delete data2[this.detail_skip_arrayval[v]];
-            console.log('this.detail_skip_arrayval[v]');
-            console.log(this.detail_skip_arrayval[v]);
         }
         /** @type {?} */
         let res = Object.entries(data2);
-        console.log('this.detail_skip_array');
-        console.log(this.detail_skip_arrayval);
-        console.log(this.detail_datatypeval);
-        console.log('res');
-        console.log(res);
         /** @type {?} */
         const dialogRef = this.dialog.open(Confirmdialog, {
             height: 'auto',
@@ -1523,8 +1419,6 @@ class ListingComponent {
      * @return {?}
      */
     managestatus(data) {
-        console.log('data');
-        console.log(data);
         /** @type {?} */
         let bs = this.bottomSheet.open(BottomSheet, { panelClass: 'custom-bottomsheet', data: { items: this.statusarrval } });
         bs.afterDismissed().subscribe((/**
@@ -1532,8 +1426,6 @@ class ListingComponent {
          * @return {?}
          */
         result => {
-            console.log('The bottom sheet was closed');
-            console.log(result);
             if (result != null) {
                 data.status = result.val;
                 data.id = data._id;
@@ -1549,8 +1441,6 @@ class ListingComponent {
                         for (let c in this.olddata) {
                             //this.olddata = this.olddata.filter(olddata => olddata._id != ids[c]);
                             if (this.olddata[c]._id == data._id) {
-                                console.log('in data update');
-                                console.log(data);
                                 this.olddata[c].status = data.status;
                             }
                         }
@@ -1581,17 +1471,14 @@ class ListingComponent {
      * @return {?}
      */
     custombuttonfunc(data) {
-        console.log('data');
-        console.log(data); // row data
-        console.log(this.custombuttonval); // object from where the library has been used
-        // object from where the library has been used
+        // console.log('data');
+        // console.log(data);    // row data
+        // console.log(this.custombuttonval);    // object from where the library has been used
         /** @type {?} */
         let unsafeurl = this.custombuttonval.url;
         for (let b in this.custombuttonval.fields) {
             unsafeurl = unsafeurl + '/' + data[this.custombuttonval.fields[b]];
         }
-        console.log('unsafeurl');
-        console.log(unsafeurl);
         unsafeurl = this.sanitizer.bypassSecurityTrustResourceUrl(unsafeurl); //for sanitizing the url for security, otherwise it won't be able to show the page in iframe, hence modal
         //for sanitizing the url for security, otherwise it won't be able to show the page in iframe, hence modal
         /** @type {?} */
@@ -1613,8 +1500,6 @@ class ListingComponent {
         for (c in this.selection.selected) {
             ids.push(this.selection.selected[c]._id);
         }
-        console.log('ids');
-        console.log(ids);
         //console.log('data');
         //console.log(data);
         /** @type {?} */
@@ -1624,8 +1509,6 @@ class ListingComponent {
          * @return {?}
          */
         result => {
-            console.log('The bottom sheet was closed');
-            console.log(result);
             if (result != null) {
                 //data.status = result.val;
                 //data.id = data._id;
@@ -1643,8 +1526,6 @@ class ListingComponent {
                         for (let c in this.olddata) {
                             //this.olddata = this.olddata.filter(olddata => olddata._id != ids[c]);
                             if (ids.indexOf(this.olddata[c]._id) > -1) {
-                                console.log('in data update');
-                                //console.log(data);
                                 this.olddata[c].status = newstatus;
                             }
                         }
@@ -1673,10 +1554,6 @@ class ListingComponent {
      * @return {?}
      */
     deletemultiple() {
-        console.log('this.selection.selected.length');
-        console.log(this.selection.selected.length);
-        console.log(this.selection);
-        console.log(this.selection.selected);
         /** @type {?} */
         const dialogRef = this.dialog.open(Confirmdialog, {
             panelClass: 'custom-modalbox',
@@ -1689,15 +1566,11 @@ class ListingComponent {
         for (c in this.selection.selected) {
             ids.push(this.selection.selected[c]._id);
         }
-        console.log('ids');
-        console.log(ids);
         dialogRef.afterClosed().subscribe((/**
          * @param {?} result
          * @return {?}
          */
         result => {
-            console.log('The dialog was closed');
-            console.log(result);
             if (result == 'yes') {
                 this._apiService.deteManyData(this.apiurlval + this.deleteendpointval, ids, this.jwttokenval, this.sourcedataval).subscribe((/**
                  * @param {?} res
@@ -1715,8 +1588,6 @@ class ListingComponent {
                              */
                             olddata => olddata._id != ids[c]));
                         }
-                        console.log('this.olddata');
-                        console.log(this.olddata);
                         this.dataSource = new MatTableDataSource(this.olddata);
                         this.selection = new SelectionModel(true, []);
                         this.dataSource.paginator = this.paginator;
@@ -1745,10 +1616,16 @@ class ListingComponent {
     deletedata(data) {
         //alert(5);
         //this._apiService.deteOneData(this.apiurlval+this.deleteendpointval,data,this.jwttokenval);
-        console.log('data 889 ---');
-        console.log(data);
-        console.log('jwttokenval');
-        console.log(this.jwttokenval);
+        // console.log('data 889 ---');
+        // console.log(data);
+        // console.log('jwttokenval');
+        // console.log(this.jwttokenval);
+        //alert(5);
+        //this._apiService.deteOneData(this.apiurlval+this.deleteendpointval,data,this.jwttokenval);
+        // console.log('data 889 ---');
+        // console.log(data);
+        // console.log('jwttokenval');
+        // console.log(this.jwttokenval);
         /** @type {?} */
         const dialogRef = this.dialog.open(Confirmdialog, {
             panelClass: 'custom-modalbox',
@@ -1760,8 +1637,6 @@ class ListingComponent {
          * @return {?}
          */
         result => {
-            console.log('The dialog was closed');
-            console.log(result);
             if (result == 'yes') {
                 this._apiService.deteOneData(this.apiurlval + this.deleteendpointval, data, this.jwttokenval, this.sourcedataval).subscribe((/**
                  * @param {?} res
@@ -1772,9 +1647,6 @@ class ListingComponent {
                     let result = {};
                     result = res;
                     if (result.status == 'success') {
-                        console.log('this.olddata');
-                        console.log(this.olddata);
-                        console.log(this.olddata._id);
                         this.olddata = this.olddata.filter((/**
                          * @param {?} olddata
                          * @return {?}
@@ -1806,13 +1678,7 @@ class ListingComponent {
      * @return {?}
      */
     editdata(data) {
-        console.log('data');
-        console.log(data);
-        console.log(this.editrouteval);
-        console.log(this.editrouteval + data._id);
-        console.log(this.jwttokenval);
         this.router.navigate([this.editrouteval, data._id]);
-        //this.na
     }
     /* artistxp preview button click function start */
     /**
@@ -1848,7 +1714,7 @@ class ListingComponent {
 ListingComponent.decorators = [
     { type: Component, args: [{
                 selector: 'lib-listing',
-                template: "<div class=\"container\">\n\n\n  <mat-card>\n    <mat-toolbar-row class=\"searchbar\" style=\"display: flex!important; justify-content: space-between!important;\">\n    <mat-form-field class=\"searchdiv\">\n\n      <input matInput (keyup)=\"applyFilter($event.target.value)\" placeholder=\"Filter\">\n    </mat-form-field>\n\n      <span  *ngIf=\"search_settingsval !=null && search_settingsval.textsearch != null \">\n    <mat-form-field *ngFor=\"let item of search_settingsval.textsearch\" class=\"searchdiv\">\n\n      <input matInput (change)=\"textsearchfunction(item.field)\" (keyup)=\"textsearchfunction(item.field)\" [(ngModel)]='tsearch[item.field]' placeholder=\"{{item.label}}\">\n      <span matPrefix><i class=\"material-icons searchicon\" >\n        search\n      </i> &nbsp;</span>\n    </mat-form-field>\n      </span>\n\n<span *ngIf=\"search_settingsval !=null && search_settingsval.search != null \">\n  <mat-form-field  *ngFor=\"let item of search_settingsval.search\">\n    <input type=\"text\" placeholder=\"{{item.label}}\" matInput [(ngModel)]=\"autosearch[item.field]\" [matAutocomplete]=\"auto\">\n    <mat-autocomplete autoActiveFirstOption #auto=\"matAutocomplete\" >\n       <mat-option *ngFor=\"let option of result.res\" [value]=\"option[item.field]\" (click)=\"autosearchfunction(item.field)\">\n        {{option[item.field]}}\n      </mat-option>\n    </mat-autocomplete>\n  </mat-form-field>\n</span>\n\n\n<!--      <span *ngIf=\"search_settingsval !=null && search_settingsval != null \">\n\n      <mat-form-field *ngFor=\"let item of search_settingsval.search\">\n        <mat-label>{{item.label}}</mat-label>\n        <mat-select>\n          <mat-option *ngFor=\"let status of preresult\" [value]=\"status\" (click)=\"autosearchfunction(status.email)\">\n            {{status.email}}\n          </mat-option>\n        </mat-select>\n      </mat-form-field>\n\n      </span>-->\n    <!--  <ng-container  *ngIf=\"search_settingsval !=null && search_settingsval.textsearch != null \">\n&lt;!&ndash;        <span *ngFor=\"let status of this.search_settingsval.textsearch\">&ndash;&gt;\n&lt;!&ndash;        <mat-form-field *ngFor=\"let statusval of status.value\">&ndash;&gt;\n        <mat-form-field *ngFor=\"let status of this.search_settingsval.textsearch\">\n              <input matInput (keyup)=\"applyFilter1($event.target.value, status)\" placeholder=\"{{status.label}}\">\n        </mat-form-field>\n&lt;!&ndash;              </span>&ndash;&gt;\n      </ng-container>-->\n\n\n      <ng-container  *ngIf=\"search_settingsval !=null && search_settingsval.selectsearch != null \">\n        <mat-form-field *ngFor=\"let status of this.search_settingsval.selectsearch\">\n          <mat-label>{{status.label}}</mat-label>\n          <mat-select>\n            <mat-option *ngFor=\"let statusval of status.values\" [value]=\"statusval\" (click)=\"selectSearch(statusval.val, status)\">\n              {{statusval.name}}\n            </mat-option>\n          </mat-select>\n        </mat-form-field>\n      </ng-container>\n\n\n      <ng-container *ngIf=\"date_search_endpointval !=null && date_search_sourceval != null && search_settingsval.datesearch != null \">\n        <span *ngFor=\"let status of this.search_settingsval.datesearch\">\n        <mat-form-field >\n          <input matInput [matDatepicker]=\"picker\"autocomplete=\"off\"  placeholder=\"{{status.startdatelabel}}\"  [(ngModel)]=\"start_date\" >\n          <mat-datepicker-toggle matSuffix [for]=\"picker\" ></mat-datepicker-toggle>\n          <mat-datepicker #picker></mat-datepicker>\n        </mat-form-field>\n        <mat-form-field>\n          <input matInput [matDatepicker]=\"picker1\" autocomplete=\"off\" placeholder=\"{{status.enddatelabel}}\" [(ngModel)]=\"end_date\" >\n          <mat-datepicker-toggle matSuffix [for]=\"picker1\"></mat-datepicker-toggle>\n          <mat-datepicker #picker1 ></mat-datepicker>\n        </mat-form-field>\n        <button mat-raised-button color=\"primary\" class=\"add_button\" style=\"margin: 0!important; margin-left: 10px!important; \" (click)=\"dateSearch(status.field)\">{{status.submit}}</button>\n      </span>\n      </ng-container>\n\n\n\n      <span *ngIf=\"click_to_add_ananother_pageval !=null\">\n        <button mat-raised-button color=\"primary\" class=\"add_button\" style=\"margin: 0!important; margin-left: 10px!important; \" [routerLink]=\"click_to_add_ananother_pageval\" >Add</button>\n      </span>\n    </mat-toolbar-row>\n\n\n\n    <ng-container *ngIf=\"selection.selected.length!=null && selection.selected.length>0\">\n      <button mat-raised-button (click)=\"deletemultiple()\"> Delete </button>\n      <button mat-raised-button (click)=\"managestatusmultiple()\"> Update Status </button>\n    </ng-container>\n\n\n\n    <table mat-table [dataSource]=\"dataSource\" matSort class=\"mat-elevation-z8\">\n\n      <ng-container matColumnDef=\"select\">\n        <th mat-header-cell *matHeaderCellDef>\n          <mat-checkbox (change)=\"$event ? masterToggle() : null\"\n                        [checked]=\"selection.hasValue() && isAllSelected()\"\n                        [indeterminate]=\"selection.hasValue() && !isAllSelected()\">\n          </mat-checkbox>\n        </th>\n        <td mat-cell *matCellDef=\"let row\" data-label=\"select\">\n          <mat-checkbox (click)=\"$event.stopPropagation()\"\n                        (change)=\"$event ? selection.toggle(row) : null\"\n                        [checked]=\"selection.isSelected(row)\">\n          </mat-checkbox>\n        </td>\n      </ng-container>\n\n      <ng-container *ngFor=\"let column of columns\" [matColumnDef]=\"column.columnDef\" >\n        <th mat-header-cell *matHeaderCellDef mat-sort-header class=\"th-header-center\">{{column.header}}</th>\n        <td mat-cell *matCellDef=\"let row\" [ngStyle]=\"styleCell(column,row)\" data-title=\"{{column.header}}\"   class=\"td-cell-center\">\n          <span *ngIf=\"column.columnDef=='status' \">{{ getstatus([column.cell(row)]) }} {{hi(row)}}</span>\n          <span *ngIf=\"column.columnDef!='status' \">{{ column.cell(row) }}</span>\n          <span *ngIf=\"column.columnDef=='grab_url && grab_linkval!=null && grab_linkval[0]!=null' \">{{grapurl(row[this.grab_linkval[0].field_name])}}</span>\n          <br>\n\n<!--          <span *ngIf=\"sh==true\">-->\n            <span *ngIf=\"column.columnDef=='contractssigned' && sh==true && urlval !=null\" class=\"cursor\">\n              <i title=\"{{urlval[0].label}}\" (click)=\"clickurl(row,urlval[0].url)\" class=\"material-icons\">cloud_download</i>\n            </span>\n<!--          </span>-->\n<!--          <span *ngIf=\"aud==true\">-->\n            <span *ngIf=\"column.columnDef=='contractssigned' && aud==true  && urlval !=null\">\n              <i title=\"{{urlval[1].label}}\" (click)=\"clickurl(row,urlval[1].url)\" class=\"material-icons\">cloud_download</i>\n            </span>\n\n\n<!--// for grap url//-->\n\n\n\n          <span *ngIf=\" grab_linkval!=null && grab_linkval[0]!=null && column.columnDef==[grab_linkval[0].col_name]\" class=\"cursor\">\n              <button mat-button (click)=\"copyText(row[grab_linkval[0].field_name],grab_linkval[1].url)\">{{grab_linkval[1].label}}</button>\n            </span>\n          <br>\n          <!--          </span>-->\n          <!--          <span *ngIf=\"aud==true\">-->\n          <span *ngIf=\"grab_linkval!=null && grab_linkval[0]!=null &&column.columnDef== [grab_linkval[0].col_name]\">\n              <button mat-button (click)=\"copyText(row[grab_linkval[0].field_name],grab_linkval[2].url)\">{{grab_linkval[2].label}}</button>\n            </span>\n\n<!--          //grap url end//-->\n\n\n<!--          </span>-->\n          <!-- <span *ngIf=\"column.columnDef=='contractssigned' \">\n            <span *ngFor=\"let item of urlval\" class=\"cursor\">\n            <i title=\"{{item.label}}\" (click)=\"clickurl(row,item.url)\" class=\"material-icons\">cloud_download</i>\n          </span>\n          </span>-->\n        </td>\n      </ng-container>\n\n\n\n      <ng-container matColumnDef=\"Actions\"   >\n        <th mat-header-cell *matHeaderCellDef  class=\"th-header-center\">Actions</th>\n        <td (click)=\"$event.stopPropagation()\" mat-cell  *matCellDef=\"let row\" data-label=\"Actions\"  class=\"td-cell-center\">\n          <span *ngIf=\"selection.selected.length==null || selection.selected.length==0\">\n            <span class=\"cursor\" (click)=\"editdata(row)\" >\n              <i class=\"material-icons\">\n                edit\n              </i>\n            </span>\n\n            <!--For modern browsers-->\n            <span class=\"cursor\" (click)=\"deletedata(row)\" >\n              <i class=\"material-icons\">\n                delete_outline\n              </i>\n            </span>\n\n            <!--For modern browsers-->\n            <span class=\"cursor\" (click)=\"viewdata(row)\" >\n              <i class=\"material-icons\">\n                pageview\n              </i>\n            </span>\n\n            <!--For modern browsers-->\n            <span class=\"cursor\" (click)=\"managestatus(row)\" >\n              <i class=\"material-icons\">\n                toggle_off\n              </i>\n            </span>\n            <span *ngIf=\"custombuttonval!=null\" class=\"cursor treeclass\" (click)=\"custombuttonfunc(row)\" >\n              <i class=\"material-icons treeclass\">\n                toggle_off\n              </i>\n            </span>\n\n            <!-- artistxp preview start -->\n            <span *ngIf=\"previewFlug==true\" class=\"cursor treeclass\" (click)=\"artistxpPreview(row)\">\n              <i class=\"material-icons\">perm_media</i>\n            </span>\n            <!-- artistxp preview end -->\n\n          </span>\n\n        </td>\n      </ng-container>\n\n\n\n\n\n\n      <tr mat-header-row *matHeaderRowDef=\"displayedColumns\"></tr>\n      <tr mat-row *matRowDef=\"let row; columns: displayedColumns;\"></tr>\n\n    </table>\n\n    <mat-paginator [pageSizeOptions]=\"[5,10, 20, 50,100]\" showFirstLastButtons></mat-paginator>\n    <mat-spinner *ngIf=\"loading == true\" ></mat-spinner>\n\n    <br>\n\n\n   <!-- <form [formGroup]=\"stateForm\">\n      <mat-form-field>\n        <input type=\"text\" matInput placeholder=\"States Group\" formControlName=\"stateGroup\" required [matAutocomplete]=\"autoGroup\">\n        <mat-autocomplete #autoGroup=\"matAutocomplete\">\n          <mat-optgroup *ngFor=\"let group of stateGroupOptions | async\" [label]=\"group.letter\">\n            <mat-option *ngFor=\"let name of group.names\" [value]=\"name\">\n              {{name}}\n            </mat-option>\n          </mat-optgroup>\n        </mat-autocomplete>\n      </mat-form-field>\n    </form>-->\n\n    <!--<form class=\"example-form\">\n      <mat-form-field class=\"example-full-width\">\n        <input type=\"text\" placeholder=\"Select state\" aria-label=\"Number\" matInput [formControl]=\"myControl\" [matAutocomplete]=\"auto\">\n        <mat-autocomplete #auto=\"matAutocomplete\">\n          <mat-option *ngFor=\"let option of stateGroup | async\" [value]=\"option\">\n            {{option}}\n          </mat-option>\n        </mat-autocomplete>\n      </mat-form-field>\n    </form>\n-->\n\n  </mat-card>\n\n<!--\n  <mat-card>\n\n    <div class=\"example-container\">\n\n\n      <mat-card-content >\n        <mat-form-field class=\"form-group\">\n            <input (blur)=\"inputblur('email')\" matInput placeholder=\"email\" type=\"email\" [formControl]=\"myForm.controls['email']\" >\n            <mat-error  *ngIf=\"!myForm.controls['email'].valid && myForm.controls['email'].touched && issubmit==1\">email field can not be blank</mat-error>\n        </mat-form-field>\n\n        <mat-form-field class=\"form-group\">\n            <input (blur)=\"inputblur('password')\" matInput placeholder=\"Password\" type=\"password\" [formControl]=\"myForm.controls['password']\" >\n            <mat-error  *ngIf=\"!myForm.controls['password'].valid && myForm.controls['password'].touched && issubmit==1\">Password field can not be blank</mat-error>\n        </mat-form-field>\n\n            <button mat-button  (click)=\"onSubmit()\" class=\"s_getmyoffer_login_button\"  >Login</button>\n        </mat-card-content>\n\n\n    </div>\n\n  </mat-card>-->\n  <br>\n  <br>\n\n\n\n</div>\n\n",
+                template: "<div class=\"container\">\n\n\n  <mat-card>\n    <mat-toolbar-row class=\"searchbar\">\n      <span class=\"inputfilter\">\n    <mat-form-field class=\"searchdiv\">\n\n      <input  class=\"filterForFilter\" matInput (keyup)=\"applyFilter($event.target.value)\" placeholder=\"Filter\">\n    </mat-form-field>\n</span>\n      <span class=\"inputfilterForloop\" *ngIf=\"search_settingsval !=null && search_settingsval.textsearch != null \">\n    <mat-form-field *ngFor=\"let item of search_settingsval.textsearch\" class=\"searchdiv\">\n\n      <input class=\"filterForText\" matInput (change)=\"textsearchfunction(item.field)\" (keyup)=\"textsearchfunction(item.field)\" [(ngModel)]='tsearch[item.field]' placeholder=\"{{item.label}}\">\n      <span class=\"filterForTexticon\" matPrefix><i class=\"material-icons searchicon\" >\n        search\n      </i> &nbsp;</span>\n    </mat-form-field>\n      </span>\n\n<span class=\"inputfilterForAuto\" *ngIf=\"search_settingsval !=null && search_settingsval.search != null \">\n  <mat-form-field class=\"filterForAuto\" *ngFor=\"let item of search_settingsval.search\">\n    <input class=\"filterForAutoInput\"  type=\"text\" placeholder=\"{{item.label}}\" matInput [(ngModel)]=\"autosearch[item.field]\" [matAutocomplete]=\"auto\">\n    <mat-autocomplete  #auto=\"matAutocomplete\" >\n       <mat-option *ngFor=\"let option of result.res | async\" [value]=\"option[item.field]\" (click)=\"autosearchfunction(item.field)\">\n        {{option[item.field]}}\n      </mat-option>\n    </mat-autocomplete>\n  </mat-form-field>\n</span>\n\n\n\n<!--      <span *ngIf=\"search_settingsval !=null && search_settingsval != null \">\n\n      <mat-form-field *ngFor=\"let item of search_settingsval.search\">\n        <mat-label>{{item.label}}</mat-label>\n        <mat-select>\n          <mat-option *ngFor=\"let status of preresult\" [value]=\"status\" (click)=\"autosearchfunction(status.email)\">\n            {{status.email}}\n          </mat-option>\n        </mat-select>\n      </mat-form-field>\n\n      </span>-->\n    <!--  <ng-container  *ngIf=\"search_settingsval !=null && search_settingsval.textsearch != null \">\n&lt;!&ndash;        <span *ngFor=\"let status of this.search_settingsval.textsearch\">&ndash;&gt;\n&lt;!&ndash;        <mat-form-field *ngFor=\"let statusval of status.value\">&ndash;&gt;\n        <mat-form-field *ngFor=\"let status of this.search_settingsval.textsearch\">\n              <input matInput (keyup)=\"applyFilter1($event.target.value, status)\" placeholder=\"{{status.label}}\">\n        </mat-form-field>\n&lt;!&ndash;              </span>&ndash;&gt;\n      </ng-container>-->\n\n\n      <ng-container  class=\"filterForTexticon\" *ngIf=\"search_settingsval !=null && search_settingsval.selectsearch != null \">\n        <mat-form-field *ngFor=\"let status of this.search_settingsval.selectsearch\">\n          <mat-label>{{status.label}}</mat-label>\n          <mat-select>\n            <mat-option *ngFor=\"let statusval of status.values\" [value]=\"statusval\" (click)=\"selectSearch(statusval.val, status)\">\n              {{statusval.name}}\n            </mat-option>\n          </mat-select>\n        </mat-form-field>\n      </ng-container>\n\n\n      <ng-container *ngIf=\"date_search_endpointval !=null && date_search_sourceval != null && search_settingsval.datesearch != null \">\n        <span  class=\"filterFordatesearch\" *ngFor=\"let status of this.search_settingsval.datesearch\">\n        <mat-form-field class=\"filterFordatesearchformfield\">\n          <input class=\"filterFordatesearchinput\" matInput [matDatepicker]=\"picker\"autocomplete=\"off\"  placeholder=\"{{status.startdatelabel}}\"  [(ngModel)]=\"start_date\" >\n          <mat-datepicker-toggle matSuffix [for]=\"picker\" ></mat-datepicker-toggle>\n          <mat-datepicker #picker></mat-datepicker>\n        </mat-form-field>\n        <mat-form-field class=\"filterFordatesearchend\">\n          <input class=\"filterFordatesearchinput\" matInput [matDatepicker]=\"picker1\" autocomplete=\"off\" placeholder=\"{{status.enddatelabel}}\" [(ngModel)]=\"end_date\" >\n          <mat-datepicker-toggle matSuffix [for]=\"picker1\"></mat-datepicker-toggle>\n          <mat-datepicker #picker1 ></mat-datepicker>\n        </mat-form-field>\n        <button mat-raised-button color=\"primary\" class=\"add_button\"  (click)=\"dateSearch(status.field)\">{{status.submit}}</button>\n      </span>\n      </ng-container>\n\n\n      <!-- use for refresh all data -->\n      <ng-container class=\"refresh\">\n        <i (click)=\"refreshalldata(dataSource)\" class=\"material-icons\">\n          autorenew\n          </i>\n      </ng-container>\n\n\n\n      <span *ngIf=\"click_to_add_ananother_pageval !=null\">\n        <button mat-raised-button color=\"primary\" class=\"add_button\" [routerLink]=\"click_to_add_ananother_pageval\" >Add</button>\n      </span>\n    </mat-toolbar-row>\n\n\n\n    <ng-container *ngIf=\"selection.selected.length!=null && selection.selected.length>0\">\n      <button mat-raised-button (click)=\"deletemultiple()\"> Delete </button>\n      <button mat-raised-button (click)=\"managestatusmultiple()\"> Update Status </button>\n    </ng-container>\n\n\n\n    <table mat-table [dataSource]=\"dataSource\" matSort class=\"mat-elevation-z8\">\n\n      <ng-container matColumnDef=\"select\">\n        <th mat-header-cell *matHeaderCellDef>\n          <mat-checkbox (change)=\"$event ? masterToggle() : null\"\n                        [checked]=\"selection.hasValue() && isAllSelected()\"\n                        [indeterminate]=\"selection.hasValue() && !isAllSelected()\">\n          </mat-checkbox>\n        </th>\n        <td mat-cell *matCellDef=\"let row\" data-label=\"select\">\n          <mat-checkbox (click)=\"$event.stopPropagation()\"\n                        (change)=\"$event ? selection.toggle(row) : null\"\n                        [checked]=\"selection.isSelected(row)\">\n          </mat-checkbox>\n        </td>\n      </ng-container>\n\n      <ng-container *ngFor=\"let column of columns\" [matColumnDef]=\"column.columnDef\" >\n        <th mat-header-cell *matHeaderCellDef mat-sort-header class=\"th-header-center\">{{column.header}}</th>\n        <td mat-cell *matCellDef=\"let row\" [ngStyle]=\"styleCell(column,row)\" data-title=\"{{column.header}}\"   class=\"td-cell-center\">\n          <span *ngIf=\"column.columnDef=='status' \">{{ getstatus([column.cell(row)]) }} {{pdfFlag(row)}}</span>\n          <span *ngIf=\"column.columnDef!='status' \">{{ column.cell(row) }}</span>\n          <span *ngIf=\"column.columnDef=='grab_url && grab_linkval!=null && grab_linkval[0]!=null' \">{{grapurl(row[this.grab_linkval[0].field_name])}}</span>\n          <br>\n\n<!--          <span *ngIf=\"sh==true\">-->\n            <span *ngIf=\"column.columnDef=='contractssigned' && sh==true && urlval !=null\" class=\"cursor\">\n              <i title=\"{{urlval[0].label}}\" (click)=\"clickurl(row,urlval[0].url)\" class=\"material-icons\">cloud_download</i>\n            </span>\n<!--          </span>-->\n<!--          <span *ngIf=\"aud==true\">-->\n            <span *ngIf=\"column.columnDef=='contractssigned' && aud==true  && urlval !=null\">\n              <i title=\"{{urlval[1].label}}\" (click)=\"clickurl(row,urlval[1].url)\" class=\"material-icons\">cloud_download</i>\n            </span>\n\n\n<!--// for grap url//-->\n\n\n\n          <span *ngIf=\" grab_linkval!=null && grab_linkval[0]!=null && column.columnDef==[grab_linkval[0].col_name]\" class=\"cursor\">\n              <button mat-button (click)=\"copyText(row[grab_linkval[0].field_name],grab_linkval[1].url)\">{{grab_linkval[1].label}}</button>\n            </span>\n          <br>\n          <!--          </span>-->\n          <!--          <span *ngIf=\"aud==true\">-->\n          <span *ngIf=\"grab_linkval!=null && grab_linkval[0]!=null &&column.columnDef== [grab_linkval[0].col_name]\">\n              <button mat-button (click)=\"copyText(row[grab_linkval[0].field_name],grab_linkval[2].url)\">{{grab_linkval[2].label}}</button>\n            </span>\n\n<!--          //grap url end//-->\n\n\n<!--          </span>-->\n          <!-- <span *ngIf=\"column.columnDef=='contractssigned' \">\n            <span *ngFor=\"let item of urlval\" class=\"cursor\">\n            <i title=\"{{item.label}}\" (click)=\"clickurl(row,item.url)\" class=\"material-icons\">cloud_download</i>\n          </span>\n          </span>-->\n        </td>\n      </ng-container>\n\n\n\n      <ng-container matColumnDef=\"Actions\"   >\n        <th mat-header-cell *matHeaderCellDef  class=\"th-header-center\">Actions</th>\n        <td (click)=\"$event.stopPropagation()\" mat-cell  *matCellDef=\"let row\" data-label=\"Actions\"  class=\"td-cell-center\">\n          <span *ngIf=\"selection.selected.length==null || selection.selected.length==0\">\n            <span class=\"cursor\" (click)=\"editdata(row)\" >\n              <i class=\"material-icons\">\n                edit\n              </i>\n            </span>\n\n            <!--For modern browsers-->\n            <span class=\"cursor\" (click)=\"deletedata(row)\" >\n              <i class=\"material-icons\">\n                delete_outline\n              </i>\n            </span>\n\n            <!--For modern browsers-->\n            <span class=\"cursor\" (click)=\"viewdata(row)\" >\n              <i class=\"material-icons\">\n                pageview\n              </i>\n            </span>\n\n            <!--For modern browsers-->\n            <span class=\"cursor\" (click)=\"managestatus(row)\" >\n              <i class=\"material-icons\">\n                toggle_off\n              </i>\n            </span>\n            <span *ngIf=\"custombuttonval!=null\" class=\"cursor treeclass\" (click)=\"custombuttonfunc(row)\" >\n              <i class=\"material-icons treeclass\">\n                toggle_off\n              </i>\n            </span>\n\n            <!-- artistxp preview start -->\n            <span *ngIf=\"previewFlug==true\" class=\"cursor treeclass\" (click)=\"artistxpPreview(row)\">\n              <i class=\"material-icons\">perm_media</i>\n            </span>\n            <!-- artistxp preview end -->\n\n          </span>\n\n        </td>\n      </ng-container>\n\n\n\n\n\n\n      <tr mat-header-row *matHeaderRowDef=\"displayedColumns\"></tr>\n      <tr mat-row *matRowDef=\"let row; columns: displayedColumns;\"></tr>\n\n    </table>\n\n    <mat-paginator [pageSizeOptions]=\"[5,10, 20, 50,100]\" showFirstLastButtons></mat-paginator>\n    <mat-spinner *ngIf=\"loading == true\" ></mat-spinner>\n\n    <br>\n\n\n   <!-- <form [formGroup]=\"stateForm\">\n      <mat-form-field>\n        <input type=\"text\" matInput placeholder=\"States Group\" formControlName=\"stateGroup\" required [matAutocomplete]=\"autoGroup\">\n        <mat-autocomplete #autoGroup=\"matAutocomplete\">\n          <mat-optgroup *ngFor=\"let group of stateGroupOptions | async\" [label]=\"group.letter\">\n            <mat-option *ngFor=\"let name of group.names\" [value]=\"name\">\n              {{name}}\n            </mat-option>\n          </mat-optgroup>\n        </mat-autocomplete>\n      </mat-form-field>\n    </form>-->\n\n    <!--<form class=\"example-form\">\n      <mat-form-field class=\"example-full-width\">\n        <input type=\"text\" placeholder=\"Select state\" aria-label=\"Number\" matInput [formControl]=\"myControl\" [matAutocomplete]=\"auto\">\n        <mat-autocomplete #auto=\"matAutocomplete\">\n          <mat-option *ngFor=\"let option of stateGroup | async\" [value]=\"option\">\n            {{option}}\n          </mat-option>\n        </mat-autocomplete>\n      </mat-form-field>\n    </form>\n-->\n\n  </mat-card>\n\n<!--\n  <mat-card>\n\n    <div class=\"example-container\">\n\n\n      <mat-card-content >\n        <mat-form-field class=\"form-group\">\n            <input (blur)=\"inputblur('email')\" matInput placeholder=\"email\" type=\"email\" [formControl]=\"myForm.controls['email']\" >\n            <mat-error  *ngIf=\"!myForm.controls['email'].valid && myForm.controls['email'].touched && issubmit==1\">email field can not be blank</mat-error>\n        </mat-form-field>\n\n        <mat-form-field class=\"form-group\">\n            <input (blur)=\"inputblur('password')\" matInput placeholder=\"Password\" type=\"password\" [formControl]=\"myForm.controls['password']\" >\n            <mat-error  *ngIf=\"!myForm.controls['password'].valid && myForm.controls['password'].touched && issubmit==1\">Password field can not be blank</mat-error>\n        </mat-form-field>\n\n            <button mat-button  (click)=\"onSubmit()\" class=\"s_getmyoffer_login_button\"  >Login</button>\n        </mat-card-content>\n\n\n    </div>\n\n  </mat-card>-->\n  <br>\n  <br>\n\n\n\n</div>\n\n",
                 styles: [".container{background:#fff}body{font-family:Roboto,Arial,sans-serif;margin:0;display:none!important}.basic-container{padding:30px}.version-info{font-size:8pt;float:right}table{width:100%}th.mat-sort-header-sorted{color:#000}.custom-modalbox{display:none}"]
             }] }
 ];
@@ -1902,8 +1768,6 @@ class Confirmdialog {
         this.dialogRef = dialogRef;
         this.data = data;
         this.sanitizer = sanitizer;
-        console.log('my data ...');
-        console.log(this.data);
     }
     /**
      * @return {?}
@@ -1921,10 +1785,6 @@ class Confirmdialog {
         for (let b in data) {
             unsafeurl = unsafeurl + '/' + rowdata[data[b]];
         }
-        console.log('unsafeurl');
-        console.log(unsafeurl);
-        console.log(data);
-        console.log(rowdata);
         return this.sanitizer.bypassSecurityTrustResourceUrl(unsafeurl);
     }
 }
@@ -1954,10 +1814,7 @@ class BottomSheet {
      * @return {?}
      */
     openLink(val) {
-        console.log('bottomsheet data');
-        console.log(val);
         this.bottomSheetRef.dismiss(val);
-        //event.preventDefault();
     }
 }
 BottomSheet.decorators = [

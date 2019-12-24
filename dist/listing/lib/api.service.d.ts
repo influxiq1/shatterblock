@@ -1,3 +1,4 @@
+/********************* Added By Himadri using Lamda start *************************/
 import { ElementRef, EventEmitter } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { UploadOutput, UploadInput, UploadFile, UploaderOptions } from 'ngx-uploader';
@@ -36,3 +37,4 @@ export declare class ApiService {
     togglestatusmany(endpoint: any, data: any, val: any, token: any, source: any): import("rxjs").Observable<Object>;
     private getEndpointUrl;
 }
+/********************* Added By Himadri using Lamda end *************************/ 

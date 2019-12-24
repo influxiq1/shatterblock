@@ -17,6 +17,7 @@ import {AdminmodalformComponent} from "./adminmodalform/adminmodalform.component
 import {EditrouteComponent} from "./editroute/editroute.component";
 import {DynamicFormsComponent} from "./dynamic-forms/dynamic-forms.component";
 import {DformComponent} from "./dform/dform.component";
+import { ListingInventoryComponent } from './inventorylist/listing-inventory/listing-inventory.component';
 
 
 const routes: Routes = [
@@ -38,6 +39,8 @@ const routes: Routes = [
    {path: 'adminform', component:AdminformComponent },
   {path: 'adminmodalform', component: AdminmodalformComponent},
   {path: 'editroute/:id', component: EditrouteComponent},
+
+  {path: 'event', component: ListingInventoryComponent},
 
   { path: 'changepassword', component: ChangepasswordComponent, canActivate: [AuthGuard], resolve: {results: Resolveservice}, data: {source: 'users', condition:{}} },
   { path: "**", component: LoginComponent},

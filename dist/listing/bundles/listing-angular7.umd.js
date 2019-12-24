@@ -216,7 +216,7 @@
                 var httpOptions = {
                     headers: new http.HttpHeaders({
                         'Content-Type': 'application/json',
-                        'access-token': ''
+                        'Authorization': ''
                     })
                 };
                 console.log('endpoint');
@@ -245,7 +245,7 @@
                 var httpOptions = {
                     headers: new http.HttpHeaders({
                         'Content-Type': 'application/json',
-                        'access-token': ''
+                        'Authorization': ''
                     })
                 };
                 console.log('endpoint');
@@ -280,7 +280,7 @@
                 var httpOptions = {
                     headers: new http.HttpHeaders({
                         'Content-Type': 'application/json',
-                        'access-token': data.token
+                        'Authorization': data.token
                     })
                 };
                 console.log('');
@@ -369,7 +369,7 @@
                 var httpOptions = {
                     headers: new http.HttpHeaders({
                         'Content-Type': 'application/json',
-                        'access-token': token
+                        'Authorization': token
                     })
                 };
                 console.log('------ ');
@@ -398,7 +398,7 @@
                 var httpOptions = {
                     headers: new http.HttpHeaders({
                         'Content-Type': 'application/json',
-                        'access-token': source.token
+                        'Authorization': source.token
                     })
                 };
                 console.log('------ ');
@@ -460,13 +460,14 @@
                 var httpOptions = {
                     headers: new http.HttpHeaders({
                         'Content-Type': 'application/json',
-                        'access-token': token
+                        'Authorization': token
                     })
                 };
                 console.log('------ ');
                 console.log("endpoint");
                 console.log(endpoint);
                 console.log(data);
+                console.log(token);
                 /** @type {?} */
                 var dataval;
                 dataval = { source: source, id: data._id };
@@ -500,7 +501,7 @@
                 var httpOptions = {
                     headers: new http.HttpHeaders({
                         'Content-Type': 'application/json',
-                        'access-token': token
+                        'Authorization': token
                     })
                 };
                 console.log('------ ');
@@ -536,7 +537,7 @@
                 var httpOptions = {
                     headers: new http.HttpHeaders({
                         'Content-Type': 'application/json',
-                        'access-token': token
+                        'Authorization': token
                     })
                 };
                 console.log('------ ');
@@ -574,7 +575,7 @@
                 var httpOptions = {
                     headers: new http.HttpHeaders({
                         'Content-Type': 'application/json',
-                        'access-token': token
+                        'Authorization': token
                     })
                 };
                 console.log('------ ');
@@ -696,8 +697,6 @@
              * @return {?}
              */ function (search_settings) {
                 this.search_settingsval = search_settings;
-                console.log('this.search_settingsval');
-                console.log(this.search_settingsval);
                 /*for (let i= 0; i<= this.search_settingsval.search.length; i++) {
                   console.log(this.search_settingsval.search[i].label);
                 }*/
@@ -715,8 +714,6 @@
              * @return {?}
              */ function (click_to_add_ananother_page) {
                 this.click_to_add_ananother_pageval = click_to_add_ananother_page;
-                console.log('this.click_to_add_ananother_pageval');
-                console.log(this.click_to_add_ananother_pageval);
             },
             enumerable: true,
             configurable: true
@@ -727,8 +724,6 @@
              * @return {?}
              */ function (grab_link) {
                 this.grab_linkval = grab_link;
-                console.log('this.grab_linkval');
-                console.log(this.grab_linkval);
             },
             enumerable: true,
             configurable: true
@@ -739,8 +734,6 @@
              * @return {?}
              */ function (custombutton) {
                 this.custombuttonval = custombutton;
-                console.log('this.custombuttonval');
-                console.log(this.custombuttonval);
             },
             enumerable: true,
             configurable: true
@@ -751,8 +744,6 @@
              * @return {?}
              */ function (date_search_source) {
                 this.date_search_sourceval = date_search_source;
-                console.log('this.date_search_sourceval');
-                console.log(this.date_search_sourceval);
             },
             enumerable: true,
             configurable: true
@@ -763,8 +754,6 @@
              * @return {?}
              */ function (date_search_endpoint) {
                 this.date_search_endpointval = date_search_endpoint;
-                console.log('this.date_search_endpointval');
-                console.log(this.date_search_endpointval);
             },
             enumerable: true,
             configurable: true
@@ -775,8 +764,6 @@
              * @return {?}
              */ function (url) {
                 this.urlval = url;
-                console.log('this.urlval');
-                console.log(this.urlval);
             },
             enumerable: true,
             configurable: true
@@ -787,8 +774,6 @@
              * @return {?}
              */ function (searchendpoint) {
                 this.searchendpointval = searchendpoint;
-                console.log('this.searchendpointval');
-                console.log(this.searchendpointval);
             },
             enumerable: true,
             configurable: true
@@ -799,8 +784,6 @@
              * @return {?}
              */ function (pdf_link) {
                 this.pdf_link_val = pdf_link;
-                console.log('this.pdf_link_val');
-                console.log(this.pdf_link_val);
             },
             enumerable: true,
             configurable: true
@@ -811,8 +794,6 @@
              * @return {?}
              */ function (searchList) {
                 this.searchListval = searchList;
-                console.log('this.searchListval');
-                console.log(this.searchListval);
             },
             enumerable: true,
             configurable: true
@@ -823,8 +804,6 @@
              * @return {?}
              */ function (datasource) {
                 this.datasourceval = datasource;
-                console.log('this.datasourceval');
-                console.log(this.datasourceval);
             },
             enumerable: true,
             configurable: true
@@ -835,8 +814,6 @@
              * @return {?}
              */ function (skip) {
                 this.skipval = skip;
-                console.log('this.skipval');
-                console.log(this.skipval);
             },
             enumerable: true,
             configurable: true
@@ -847,8 +824,6 @@
              * @return {?}
              */ function (detail_datatype) {
                 this.detail_datatypeval = detail_datatype;
-                console.log('this.detail_datatypeval');
-                console.log(this.detail_datatypeval);
             },
             enumerable: true,
             configurable: true
@@ -859,8 +834,6 @@
              * @return {?}
              */ function (detail_skip_array) {
                 this.detail_skip_arrayval = detail_skip_array;
-                console.log('this.detail_skip_arrayval');
-                console.log(this.detail_skip_arrayval);
             },
             enumerable: true,
             configurable: true
@@ -871,8 +844,6 @@
              * @return {?}
              */ function (sourcedata) {
                 this.sourcedataval = sourcedata;
-                console.log('this.sourcedataval');
-                console.log(this.sourcedataval);
             },
             enumerable: true,
             configurable: true
@@ -883,8 +854,6 @@
              * @return {?}
              */ function (modify_header_array) {
                 this.modify_header_arrayval = modify_header_array;
-                console.log('this.modify_header_arrayval');
-                console.log(this.modify_header_arrayval);
             },
             enumerable: true,
             configurable: true
@@ -895,8 +864,6 @@
              * @return {?}
              */ function (deleteendpointval) {
                 this.deleteendpointval = deleteendpointval;
-                console.log('this.deleteendpointval');
-                console.log(this.deleteendpointval);
             },
             enumerable: true,
             configurable: true
@@ -907,8 +874,6 @@
              * @return {?}
              */ function (updateendpoint) {
                 this.updateendpointval = updateendpoint;
-                console.log('this.updateendpointval');
-                console.log(this.updateendpointval);
             },
             enumerable: true,
             configurable: true
@@ -919,8 +884,6 @@
              * @return {?}
              */ function (apiurl) {
                 this.apiurlval = apiurl;
-                console.log('this.apiurlval');
-                console.log(this.apiurlval);
             },
             enumerable: true,
             configurable: true
@@ -931,7 +894,6 @@
              * @return {?}
              */ function (jwttoken) {
                 this.jwttokenval = jwttoken;
-                console.log('this.jwttokenval');
                 console.log(this.jwttokenval);
             },
             enumerable: true,
@@ -943,8 +905,6 @@
              * @return {?}
              */ function (statusarr) {
                 this.statusarrval = statusarr;
-                console.log('this.statusarrval');
-                console.log(this.statusarrval);
             },
             enumerable: true,
             configurable: true
@@ -955,8 +915,6 @@
              * @return {?}
              */ function (emailarray) {
                 this.emailarrayval = emailarray;
-                console.log('this.emailarrayval');
-                console.log(this.emailarrayval);
             },
             enumerable: true,
             configurable: true
@@ -966,11 +924,7 @@
              * @param {?} editroute
              * @return {?}
              */ function (editroute) {
-                console.log('editroute');
-                console.log(editroute);
                 this.editrouteval = editroute;
-                console.log('this.editrouteval');
-                console.log(this.editrouteval);
             },
             enumerable: true,
             configurable: true
@@ -1018,7 +972,6 @@
             function () {
                 var _this = this;
                 if (this.search_settingsval != null && this.search_settingsval.search != null && this.search_settingsval.search != '') {
-                    console.log('----------------');
                     /** @type {?} */
                     var source = void 0;
                     /** @type {?} */
@@ -1033,11 +986,8 @@
                      * @param {?} res
                      * @return {?}
                      */function (res) {
-                        console.log(res);
                         _this.result = res;
-                        console.log(_this.result);
                         _this.preresult = _this.result.res;
-                        console.log(_this.preresult);
                     }));
                 }
                 // this._service.success(this.columns[0].date,'dndnnd',this.options);
@@ -1075,10 +1025,6 @@
                     coldef_list.push(temp[i].replace(/\s/g, "_")); /*to replace spaces in field name by "_", we use "replace(/\s/g, "_")"*/
                     header_list.push(temp[i]);
                 }
-                //coldef_list.push('Actions');
-                //header_list.push('Actions')
-                console.log('coldef_list', coldef_list);
-                console.log('header_list', header_list);
                 var _loop_1 = function (i) {
                     /** @type {?} */
                     var ff = "row." + coldef_list[i];
@@ -1096,6 +1042,10 @@
                         this_1.columns.push(tt);
                 };
                 var this_1 = this, tt;
+                //coldef_list.push('Actions');
+                //header_list.push('Actions')
+                // console.log('coldef_list',coldef_list);
+                // console.log('header_list',header_list);
                 for (var i = 0; i < coldef_list.length; i++) {
                     _loop_1(i);
                 }
@@ -1114,7 +1064,6 @@
                     data_list.push(this.createData(x[i]));
                 }
                 this.olddata = data_list;
-                console.log(data_list);
                 this.dataSource = new material.MatTableDataSource(data_list);
                 this.selection = new collections.SelectionModel(true, []);
                 this.dataSource.paginator = this.paginator;
@@ -1132,9 +1081,6 @@
                 this.errormg = '';
                 /** @type {?} */
                 var data = this.myForm.value;
-                console.log('data');
-                console.log(data);
-                console.log(this.myForm.valid);
                 for (x in this.myForm.controls) {
                     this.myForm.controls[x].markAsTouched();
                 }
@@ -1149,19 +1095,13 @@
          */
             function (val) {
                 var _this = this;
-                console.log("start date");
-                console.log(this.start_date);
-                console.log(this.end_date);
-                /** @type {?} */
-                var sd = moment(this.start_date).unix();
-                /** @type {?} */
-                var ed = moment(this.end_date).unix();
-                console.log(moment(this.start_date).unix());
-                console.log(moment(this.end_date).unix());
-                console.log(new Date(this.end_date).getTime());
+                // console.log("start date");
+                // console.log(this.start_date);
+                // console.log(this.end_date);
+                // let sd = moment(this.start_date).unix();
+                // let ed = moment(this.end_date).unix();
                 /** @type {?} */
                 var link = this.apiurlval + '' + this.date_search_endpointval;
-                console.log(link);
                 if (moment(this.end_date).unix() != null && moment(this.start_date).unix() != null) {
                     /** @type {?} */
                     var source = void 0;
@@ -1180,16 +1120,13 @@
                         source: this.date_search_sourceval,
                         condition: conditionobj,
                     };
-                    console.log(source);
                     this._apiService.postSearch(link, this.jwttokenval, source).subscribe(( /**
                      * @param {?} res
                      * @return {?}
                      */function (res) {
-                        console.log(res);
                         /** @type {?} */
                         var result = {};
                         result = res;
-                        console.log(result.res);
                         _this.dataSource = new material.MatTableDataSource(result.res);
                         _this.dataSource.paginator = _this.paginator;
                         _this.dataSource.sort = _this.sort;
@@ -1228,11 +1165,8 @@
          */
             function (value, type) {
                 var _this = this;
-                console.log('type');
-                console.log(type);
                 /** @type {?} */
                 var link = this.apiurlval + '' + this.date_search_endpointval;
-                console.log(link);
                 /** @type {?} */
                 var source;
                 /** @type {?} */
@@ -1252,13 +1186,9 @@
                      * @param {?} res
                      * @return {?}
                      */function (res) {
-                        console.log(res);
                         /** @type {?} */
                         var result = {};
                         result = res;
-                        console.log("ok");
-                        console.log(res);
-                        console.log(result.res);
                         /** @type {?} */
                         var newdata = result.res;
                         _this.dataSource = new material.MatTableDataSource(result.res);
@@ -1281,10 +1211,8 @@
          */
             function (value) {
                 var _this = this;
-                console.log(value);
                 /** @type {?} */
                 var val = this.autosearch[value];
-                console.log(val);
                 /** @type {?} */
                 var source;
                 /** @type {?} */
@@ -1305,11 +1233,7 @@
                  * @param {?} res
                  * @return {?}
                  */function (res) {
-                    console.log(res);
-                    // let result:any={};
                     _this.result = res;
-                    console.log(_this.result);
-                    console.log(_this.result.res);
                     _this.dataSource = new material.MatTableDataSource(_this.result.res);
                     _this.dataSource.paginator = _this.paginator;
                     _this.dataSource.sort = _this.sort;
@@ -1325,35 +1249,24 @@
          */
             function (value) {
                 var _this = this;
-                console.log('value');
-                console.log(value);
-                console.log(value.toLowerCase());
-                console.log(this.tsearch[value]);
                 /** @type {?} */
                 var link = this.apiurlval + '' + this.date_search_endpointval;
-                console.log(link);
                 /** @type {?} */
                 var source;
                 /** @type {?} */
                 var condition = {};
-                //condition = {};
                 /** @type {?} */
                 var val = this.tsearch[value].toLowerCase();
-                // condition={$or:[this.tsearch[value].toLowerCase(),this.tsearch[value].toUpperCase()]};
                 if (this.tsearch[value].length > 1 && { $or: [this.tsearch[value].toLowerCase(), this.tsearch[value].toUpperCase()] })
                     condition[value + '_regex'] = val;
                 this.textSearch_condition = {};
                 this.textSearch_condition = condition;
-                //condition[value]="/222/";
-                //condition={email:{$regx:'/222/i'}};
                 /** @type {?} */
                 var conditionobj = Object.assign({}, this.textSearch_condition, this.dateSearch_condition, this.autoSearch_condition, this.selectSearch_condition);
                 source = {
                     source: this.date_search_sourceval,
                     condition: conditionobj
                 };
-                console.log('source');
-                console.log(source);
                 //add loader
                 this.loading = true;
                 if (value != null) {
@@ -1361,15 +1274,11 @@
                      * @param {?} res
                      * @return {?}
                      */function (res) {
-                        console.log(res);
                         /** @type {?} */
                         var result = {};
                         result = res;
                         //close loader
                         _this.loading = false;
-                        console.log("ok");
-                        console.log(res);
-                        console.log(result.res);
                         /** @type {?} */
                         var newdata = result.res;
                         _this.dataSource = new material.MatTableDataSource(result.res);
@@ -1381,6 +1290,34 @@
                     console.log('oops');
                 }
                 console.log("error");
+            };
+        /**
+         * @param {?} val
+         * @return {?}
+         */
+        ListingComponent.prototype.refreshalldata = /**
+         * @param {?} val
+         * @return {?}
+         */
+            function (val) {
+                this.dataSource = new material.MatTableDataSource(this.olddata);
+                this.selection = new collections.SelectionModel(true, []);
+                this.dataSource.paginator = this.paginator;
+                this.dataSource.sort = this.sort;
+                if (val.filteredData.length < this.olddata.length) {
+                    /** @type {?} */
+                    var dialogRef = this.dialog.open(Confirmdialog, {
+                        panelClass: 'custom-modalbox',
+                        data: { message: 'Refresh successfully!!', isconfirmation: false }
+                    });
+                }
+                else {
+                    /** @type {?} */
+                    var dialogRef = this.dialog.open(Confirmdialog, {
+                        panelClass: 'custom-modalbox',
+                        data: { message: ' Updated!!', isconfirmation: false }
+                    });
+                }
             };
         /**
          * @private
@@ -1400,50 +1337,14 @@
                  * @return {?}
                  */function (option) { return option.toLowerCase().includes(filterValue); }));
             };
-        /*private _filterGroup(value: string): StateGroup[] {
-         /!* if (value) {
-            return this.searchListval
-                .map(group => ({names: _filter(group.names, value)}))
-                .filter(group => group.names.length > 0);
-          }
-      
-          return this.searchListval;*!/
-          const filterValue = value.toLowerCase();
-      
-          return this.searchListval.filter(option => option.toLowerCase().includes(filterValue));
-        }*/
-        /*private _filterGroup(value: string): StateGroup[] {
-           /!* if (value) {
-              return this.searchListval
-                  .map(group => ({names: _filter(group.names, value)}))
-                  .filter(group => group.names.length > 0);
-            }
-        
-            return this.searchListval;*!/
-            const filterValue = value.toLowerCase();
-        
-            return this.searchListval.filter(option => option.toLowerCase().includes(filterValue));
-          }*/
         /**
          * @param {?} val
          * @return {?}
          */
-        ListingComponent.prototype.getstatus = /*private _filterGroup(value: string): StateGroup[] {
-           /!* if (value) {
-              return this.searchListval
-                  .map(group => ({names: _filter(group.names, value)}))
-                  .filter(group => group.names.length > 0);
-            }
-        
-            return this.searchListval;*!/
-            const filterValue = value.toLowerCase();
-        
-            return this.searchListval.filter(option => option.toLowerCase().includes(filterValue));
-          }*/
-            /**
-             * @param {?} val
-             * @return {?}
-             */
+        ListingComponent.prototype.getstatus = /**
+         * @param {?} val
+         * @return {?}
+         */
             function (val) {
                 // console.log('val');
                 // console.log(val);
@@ -1458,13 +1359,11 @@
          * @param {?} val
          * @return {?}
          */
-        ListingComponent.prototype.hi = /**
+        ListingComponent.prototype.pdfFlag = /**
          * @param {?} val
          * @return {?}
          */
             function (val) {
-                // console.log('hi  val');
-                // console.log(val);
                 if (val.shatterblok_agreement_date != null && val.audiodeadline_agreement_date == null) {
                     // console.log('shatter blok');
                     this.sh = true;
@@ -1512,13 +1411,8 @@
          * @return {?}
          */
             function (row, val) {
-                console.log('row in copyText');
-                console.log(row);
-                console.log('val in copyText');
-                console.log(val);
                 /** @type {?} */
                 var fullurl = val + '' + row;
-                console.log(fullurl);
                 /** @type {?} */
                 var selBox = document.createElement('textarea');
                 selBox.style.position = 'fixed';
@@ -1543,11 +1437,6 @@
          * @return {?}
          */
             function (val, url) {
-                console.log('ok');
-                console.log(val);
-                console.log(val._id);
-                console.log(url);
-                console.log(url + '' + val._id + '' + this.pdf_link_val);
                 /** @type {?} */
                 var link = url + '' + val._id + '' + this.pdf_link_val;
                 window.open(link, "_blank");
@@ -1631,9 +1520,6 @@
          * @return {?}
          */
             function (filterValue) {
-                console.log(filterValue);
-                console.log(this.dataSource);
-                // console.log(this.dataSource[name])
                 this.dataSource.filter = filterValue.trim().toLowerCase();
                 if (this.dataSource.paginator) {
                     this.dataSource.paginator.firstPage();
@@ -1715,51 +1601,50 @@
                 data = data1;
                 /** @type {?} */
                 var data2 = [];
-                console.log('data');
-                console.log(data);
                 for (var key in data) {
                     if (data.hasOwnProperty(key)) {
-                        console.log(key + " -> " + data[key] + "--->" + typeof (data[key]));
                         if (typeof (data[key]) == 'boolean') {
                             if (data[key] == true)
                                 data[key] = 'Yes';
                             if (data[key] == false)
                                 data[key] = 'No';
                         }
+                        if (key == 'image') {
+                            data[key + ':'] = "<img mat-card-image src=" + data[key] + "><br/>";
+                        }
+                        if (typeof (data[key]) == 'object') ;
                         if (typeof (data[key]) == 'object') {
                             /** @type {?} */
                             var tempdata = [];
                             for (var k in data[key]) {
-                                console.log('key');
-                                console.log(key);
-                                console.log(this.detail_datatypeval);
                                 for (var p in this.detail_datatypeval) {
-                                    console.log('p');
-                                    console.log(p);
-                                    console.log(key);
-                                    console.log(data[key][k]);
                                     if (this.detail_datatypeval[p].key == key && this.detail_datatypeval[p].value == 'image') {
-                                        /** @type {?} */
-                                        var imgval = this.detail_datatypeval[p].fileurl + data[key][k].replace(/'/g, '');
-                                        console.log('imgval');
-                                        console.log('imgval');
-                                        console.log(imgval);
+                                        // let imgval:any=this.detail_datatypeval[p].fileurl+data[key][k];
+                                        // console.log('imgval');
+                                        // console.log('imgval');
+                                        // console.log(imgval);
                                         console.log(data[key][k].replace(/'/g, ''));
-                                        tempdata.push("<img mat-card-image src=" + imgval + "><br/>");
+                                        tempdata.push("<img mat-card-image src=" + data[key][k] + "><br/>");
                                         // tempdata.push("<span>"+data[key][k]+"</span><br/>")
                                     }
                                     if (this.detail_datatypeval[p].key == key && this.detail_datatypeval[p].value != 'image') {
                                         //tempdata.push("<img mat-card-image src="+data[key][k]+"><br/>")
                                         tempdata.push("<span>" + data[key][k] + "</span><br/>");
                                     }
+                                    if (this.detail_datatypeval[p].key != key) {
+                                        //tempdata.push("<img mat-card-image src="+data[key][k]+"><br/>")
+                                        if (typeof (data[key][k]) == 'object') {
+                                            for (var objk in data[key][k]) {
+                                                tempdata.push("<span>" + objk + " : " + data[key][k][objk] + "</span><br/>");
+                                            }
+                                        }
+                                    }
                                 }
                             }
-                            data[key] = tempdata;
+                            data[key + ':'] = tempdata;
                         }
                     }
                 }
-                console.log('data');
-                console.log(data);
                 for (var n in data) {
                     if (data[n] != null && data[n] != '') {
                         data2[n] = data[n];
@@ -1768,16 +1653,9 @@
                 for (var v in this.detail_skip_arrayval) {
                     //data2[this.detail_skip_arrayval[v]]='';
                     delete data2[this.detail_skip_arrayval[v]];
-                    console.log('this.detail_skip_arrayval[v]');
-                    console.log(this.detail_skip_arrayval[v]);
                 }
                 /** @type {?} */
                 var res = Object.entries(data2);
-                console.log('this.detail_skip_array');
-                console.log(this.detail_skip_arrayval);
-                console.log(this.detail_datatypeval);
-                console.log('res');
-                console.log(res);
                 /** @type {?} */
                 var dialogRef = this.dialog.open(Confirmdialog, {
                     height: 'auto',
@@ -1795,16 +1673,12 @@
          */
             function (data) {
                 var _this = this;
-                console.log('data');
-                console.log(data);
                 /** @type {?} */
                 var bs = this.bottomSheet.open(BottomSheet, { panelClass: 'custom-bottomsheet', data: { items: this.statusarrval } });
                 bs.afterDismissed().subscribe(( /**
                  * @param {?} result
                  * @return {?}
                  */function (result) {
-                    console.log('The bottom sheet was closed');
-                    console.log(result);
                     if (result != null) {
                         data.status = result.val;
                         data.id = data._id;
@@ -1819,8 +1693,6 @@
                                 for (var c in _this.olddata) {
                                     //this.olddata = this.olddata.filter(olddata => olddata._id != ids[c]);
                                     if (_this.olddata[c]._id == data._id) {
-                                        console.log('in data update');
-                                        console.log(data);
                                         _this.olddata[c].status = data.status;
                                     }
                                 }
@@ -1857,17 +1729,14 @@
              * @return {?}
              */
             function (data) {
-                console.log('data');
-                console.log(data); // row data
-                console.log(this.custombuttonval); // object from where the library has been used
-                // object from where the library has been used
+                // console.log('data');
+                // console.log(data);    // row data
+                // console.log(this.custombuttonval);    // object from where the library has been used
                 /** @type {?} */
                 var unsafeurl = this.custombuttonval.url;
                 for (var b in this.custombuttonval.fields) {
                     unsafeurl = unsafeurl + '/' + data[this.custombuttonval.fields[b]];
                 }
-                console.log('unsafeurl');
-                console.log(unsafeurl);
                 unsafeurl = this.sanitizer.bypassSecurityTrustResourceUrl(unsafeurl); //for sanitizing the url for security, otherwise it won't be able to show the page in iframe, hence modal
                 //for sanitizing the url for security, otherwise it won't be able to show the page in iframe, hence modal
                 /** @type {?} */
@@ -1893,8 +1762,6 @@
                 for (c in this.selection.selected) {
                     ids.push(this.selection.selected[c]._id);
                 }
-                console.log('ids');
-                console.log(ids);
                 //console.log('data');
                 //console.log(data);
                 /** @type {?} */
@@ -1903,8 +1770,6 @@
                  * @param {?} result
                  * @return {?}
                  */function (result) {
-                    console.log('The bottom sheet was closed');
-                    console.log(result);
                     if (result != null) {
                         //data.status = result.val;
                         //data.id = data._id;
@@ -1921,8 +1786,6 @@
                                 for (var c_1 in _this.olddata) {
                                     //this.olddata = this.olddata.filter(olddata => olddata._id != ids[c]);
                                     if (ids.indexOf(_this.olddata[c_1]._id) > -1) {
-                                        console.log('in data update');
-                                        //console.log(data);
                                         _this.olddata[c_1].status = newstatus_1;
                                     }
                                 }
@@ -1954,10 +1817,6 @@
          */
             function () {
                 var _this = this;
-                console.log('this.selection.selected.length');
-                console.log(this.selection.selected.length);
-                console.log(this.selection);
-                console.log(this.selection.selected);
                 /** @type {?} */
                 var dialogRef = this.dialog.open(Confirmdialog, {
                     panelClass: 'custom-modalbox',
@@ -1970,14 +1829,10 @@
                 for (c in this.selection.selected) {
                     ids.push(this.selection.selected[c]._id);
                 }
-                console.log('ids');
-                console.log(ids);
                 dialogRef.afterClosed().subscribe(( /**
                  * @param {?} result
                  * @return {?}
                  */function (result) {
-                    console.log('The dialog was closed');
-                    console.log(result);
                     if (result == 'yes') {
                         _this._apiService.deteManyData(_this.apiurlval + _this.deleteendpointval, ids, _this.jwttokenval, _this.sourcedataval).subscribe(( /**
                          * @param {?} res
@@ -1996,8 +1851,6 @@
                                 for (var c_2 in ids) {
                                     _loop_2(c_2);
                                 }
-                                console.log('this.olddata');
-                                console.log(_this.olddata);
                                 _this.dataSource = new material.MatTableDataSource(_this.olddata);
                                 _this.selection = new collections.SelectionModel(true, []);
                                 _this.dataSource.paginator = _this.paginator;
@@ -2027,13 +1880,19 @@
          * @return {?}
          */
             function (data) {
+                //alert(5);
+                //this._apiService.deteOneData(this.apiurlval+this.deleteendpointval,data,this.jwttokenval);
+                // console.log('data 889 ---');
+                // console.log(data);
+                // console.log('jwttokenval');
+                // console.log(this.jwttokenval);
                 var _this = this;
                 //alert(5);
                 //this._apiService.deteOneData(this.apiurlval+this.deleteendpointval,data,this.jwttokenval);
-                console.log('data 889 ---');
-                console.log(data);
-                console.log('jwttokenval');
-                console.log(this.jwttokenval);
+                // console.log('data 889 ---');
+                // console.log(data);
+                // console.log('jwttokenval');
+                // console.log(this.jwttokenval);
                 /** @type {?} */
                 var dialogRef = this.dialog.open(Confirmdialog, {
                     panelClass: 'custom-modalbox',
@@ -2044,8 +1903,6 @@
                  * @param {?} result
                  * @return {?}
                  */function (result) {
-                    console.log('The dialog was closed');
-                    console.log(result);
                     if (result == 'yes') {
                         _this._apiService.deteOneData(_this.apiurlval + _this.deleteendpointval, data, _this.jwttokenval, _this.sourcedataval).subscribe(( /**
                          * @param {?} res
@@ -2055,9 +1912,6 @@
                             var result = {};
                             result = res;
                             if (result.status == 'success') {
-                                console.log('this.olddata');
-                                console.log(_this.olddata);
-                                console.log(_this.olddata._id);
                                 _this.olddata = _this.olddata.filter(( /**
                                  * @param {?} olddata
                                  * @return {?}
@@ -2091,13 +1945,7 @@
          * @return {?}
          */
             function (data) {
-                console.log('data');
-                console.log(data);
-                console.log(this.editrouteval);
-                console.log(this.editrouteval + data._id);
-                console.log(this.jwttokenval);
                 this.router.navigate([this.editrouteval, data._id]);
-                //this.na
             };
         /* artistxp preview button click function start */
         /* artistxp preview button click function start */
@@ -2138,7 +1986,7 @@
         ListingComponent.decorators = [
             { type: i0.Component, args: [{
                         selector: 'lib-listing',
-                        template: "<div class=\"container\">\n\n\n  <mat-card>\n    <mat-toolbar-row class=\"searchbar\" style=\"display: flex!important; justify-content: space-between!important;\">\n    <mat-form-field class=\"searchdiv\">\n\n      <input matInput (keyup)=\"applyFilter($event.target.value)\" placeholder=\"Filter\">\n    </mat-form-field>\n\n      <span  *ngIf=\"search_settingsval !=null && search_settingsval.textsearch != null \">\n    <mat-form-field *ngFor=\"let item of search_settingsval.textsearch\" class=\"searchdiv\">\n\n      <input matInput (change)=\"textsearchfunction(item.field)\" (keyup)=\"textsearchfunction(item.field)\" [(ngModel)]='tsearch[item.field]' placeholder=\"{{item.label}}\">\n      <span matPrefix><i class=\"material-icons searchicon\" >\n        search\n      </i> &nbsp;</span>\n    </mat-form-field>\n      </span>\n\n<span *ngIf=\"search_settingsval !=null && search_settingsval.search != null \">\n  <mat-form-field  *ngFor=\"let item of search_settingsval.search\">\n    <input type=\"text\" placeholder=\"{{item.label}}\" matInput [(ngModel)]=\"autosearch[item.field]\" [matAutocomplete]=\"auto\">\n    <mat-autocomplete autoActiveFirstOption #auto=\"matAutocomplete\" >\n       <mat-option *ngFor=\"let option of result.res\" [value]=\"option[item.field]\" (click)=\"autosearchfunction(item.field)\">\n        {{option[item.field]}}\n      </mat-option>\n    </mat-autocomplete>\n  </mat-form-field>\n</span>\n\n\n<!--      <span *ngIf=\"search_settingsval !=null && search_settingsval != null \">\n\n      <mat-form-field *ngFor=\"let item of search_settingsval.search\">\n        <mat-label>{{item.label}}</mat-label>\n        <mat-select>\n          <mat-option *ngFor=\"let status of preresult\" [value]=\"status\" (click)=\"autosearchfunction(status.email)\">\n            {{status.email}}\n          </mat-option>\n        </mat-select>\n      </mat-form-field>\n\n      </span>-->\n    <!--  <ng-container  *ngIf=\"search_settingsval !=null && search_settingsval.textsearch != null \">\n&lt;!&ndash;        <span *ngFor=\"let status of this.search_settingsval.textsearch\">&ndash;&gt;\n&lt;!&ndash;        <mat-form-field *ngFor=\"let statusval of status.value\">&ndash;&gt;\n        <mat-form-field *ngFor=\"let status of this.search_settingsval.textsearch\">\n              <input matInput (keyup)=\"applyFilter1($event.target.value, status)\" placeholder=\"{{status.label}}\">\n        </mat-form-field>\n&lt;!&ndash;              </span>&ndash;&gt;\n      </ng-container>-->\n\n\n      <ng-container  *ngIf=\"search_settingsval !=null && search_settingsval.selectsearch != null \">\n        <mat-form-field *ngFor=\"let status of this.search_settingsval.selectsearch\">\n          <mat-label>{{status.label}}</mat-label>\n          <mat-select>\n            <mat-option *ngFor=\"let statusval of status.values\" [value]=\"statusval\" (click)=\"selectSearch(statusval.val, status)\">\n              {{statusval.name}}\n            </mat-option>\n          </mat-select>\n        </mat-form-field>\n      </ng-container>\n\n\n      <ng-container *ngIf=\"date_search_endpointval !=null && date_search_sourceval != null && search_settingsval.datesearch != null \">\n        <span *ngFor=\"let status of this.search_settingsval.datesearch\">\n        <mat-form-field >\n          <input matInput [matDatepicker]=\"picker\"autocomplete=\"off\"  placeholder=\"{{status.startdatelabel}}\"  [(ngModel)]=\"start_date\" >\n          <mat-datepicker-toggle matSuffix [for]=\"picker\" ></mat-datepicker-toggle>\n          <mat-datepicker #picker></mat-datepicker>\n        </mat-form-field>\n        <mat-form-field>\n          <input matInput [matDatepicker]=\"picker1\" autocomplete=\"off\" placeholder=\"{{status.enddatelabel}}\" [(ngModel)]=\"end_date\" >\n          <mat-datepicker-toggle matSuffix [for]=\"picker1\"></mat-datepicker-toggle>\n          <mat-datepicker #picker1 ></mat-datepicker>\n        </mat-form-field>\n        <button mat-raised-button color=\"primary\" class=\"add_button\" style=\"margin: 0!important; margin-left: 10px!important; \" (click)=\"dateSearch(status.field)\">{{status.submit}}</button>\n      </span>\n      </ng-container>\n\n\n\n      <span *ngIf=\"click_to_add_ananother_pageval !=null\">\n        <button mat-raised-button color=\"primary\" class=\"add_button\" style=\"margin: 0!important; margin-left: 10px!important; \" [routerLink]=\"click_to_add_ananother_pageval\" >Add</button>\n      </span>\n    </mat-toolbar-row>\n\n\n\n    <ng-container *ngIf=\"selection.selected.length!=null && selection.selected.length>0\">\n      <button mat-raised-button (click)=\"deletemultiple()\"> Delete </button>\n      <button mat-raised-button (click)=\"managestatusmultiple()\"> Update Status </button>\n    </ng-container>\n\n\n\n    <table mat-table [dataSource]=\"dataSource\" matSort class=\"mat-elevation-z8\">\n\n      <ng-container matColumnDef=\"select\">\n        <th mat-header-cell *matHeaderCellDef>\n          <mat-checkbox (change)=\"$event ? masterToggle() : null\"\n                        [checked]=\"selection.hasValue() && isAllSelected()\"\n                        [indeterminate]=\"selection.hasValue() && !isAllSelected()\">\n          </mat-checkbox>\n        </th>\n        <td mat-cell *matCellDef=\"let row\" data-label=\"select\">\n          <mat-checkbox (click)=\"$event.stopPropagation()\"\n                        (change)=\"$event ? selection.toggle(row) : null\"\n                        [checked]=\"selection.isSelected(row)\">\n          </mat-checkbox>\n        </td>\n      </ng-container>\n\n      <ng-container *ngFor=\"let column of columns\" [matColumnDef]=\"column.columnDef\" >\n        <th mat-header-cell *matHeaderCellDef mat-sort-header class=\"th-header-center\">{{column.header}}</th>\n        <td mat-cell *matCellDef=\"let row\" [ngStyle]=\"styleCell(column,row)\" data-title=\"{{column.header}}\"   class=\"td-cell-center\">\n          <span *ngIf=\"column.columnDef=='status' \">{{ getstatus([column.cell(row)]) }} {{hi(row)}}</span>\n          <span *ngIf=\"column.columnDef!='status' \">{{ column.cell(row) }}</span>\n          <span *ngIf=\"column.columnDef=='grab_url && grab_linkval!=null && grab_linkval[0]!=null' \">{{grapurl(row[this.grab_linkval[0].field_name])}}</span>\n          <br>\n\n<!--          <span *ngIf=\"sh==true\">-->\n            <span *ngIf=\"column.columnDef=='contractssigned' && sh==true && urlval !=null\" class=\"cursor\">\n              <i title=\"{{urlval[0].label}}\" (click)=\"clickurl(row,urlval[0].url)\" class=\"material-icons\">cloud_download</i>\n            </span>\n<!--          </span>-->\n<!--          <span *ngIf=\"aud==true\">-->\n            <span *ngIf=\"column.columnDef=='contractssigned' && aud==true  && urlval !=null\">\n              <i title=\"{{urlval[1].label}}\" (click)=\"clickurl(row,urlval[1].url)\" class=\"material-icons\">cloud_download</i>\n            </span>\n\n\n<!--// for grap url//-->\n\n\n\n          <span *ngIf=\" grab_linkval!=null && grab_linkval[0]!=null && column.columnDef==[grab_linkval[0].col_name]\" class=\"cursor\">\n              <button mat-button (click)=\"copyText(row[grab_linkval[0].field_name],grab_linkval[1].url)\">{{grab_linkval[1].label}}</button>\n            </span>\n          <br>\n          <!--          </span>-->\n          <!--          <span *ngIf=\"aud==true\">-->\n          <span *ngIf=\"grab_linkval!=null && grab_linkval[0]!=null &&column.columnDef== [grab_linkval[0].col_name]\">\n              <button mat-button (click)=\"copyText(row[grab_linkval[0].field_name],grab_linkval[2].url)\">{{grab_linkval[2].label}}</button>\n            </span>\n\n<!--          //grap url end//-->\n\n\n<!--          </span>-->\n          <!-- <span *ngIf=\"column.columnDef=='contractssigned' \">\n            <span *ngFor=\"let item of urlval\" class=\"cursor\">\n            <i title=\"{{item.label}}\" (click)=\"clickurl(row,item.url)\" class=\"material-icons\">cloud_download</i>\n          </span>\n          </span>-->\n        </td>\n      </ng-container>\n\n\n\n      <ng-container matColumnDef=\"Actions\"   >\n        <th mat-header-cell *matHeaderCellDef  class=\"th-header-center\">Actions</th>\n        <td (click)=\"$event.stopPropagation()\" mat-cell  *matCellDef=\"let row\" data-label=\"Actions\"  class=\"td-cell-center\">\n          <span *ngIf=\"selection.selected.length==null || selection.selected.length==0\">\n            <span class=\"cursor\" (click)=\"editdata(row)\" >\n              <i class=\"material-icons\">\n                edit\n              </i>\n            </span>\n\n            <!--For modern browsers-->\n            <span class=\"cursor\" (click)=\"deletedata(row)\" >\n              <i class=\"material-icons\">\n                delete_outline\n              </i>\n            </span>\n\n            <!--For modern browsers-->\n            <span class=\"cursor\" (click)=\"viewdata(row)\" >\n              <i class=\"material-icons\">\n                pageview\n              </i>\n            </span>\n\n            <!--For modern browsers-->\n            <span class=\"cursor\" (click)=\"managestatus(row)\" >\n              <i class=\"material-icons\">\n                toggle_off\n              </i>\n            </span>\n            <span *ngIf=\"custombuttonval!=null\" class=\"cursor treeclass\" (click)=\"custombuttonfunc(row)\" >\n              <i class=\"material-icons treeclass\">\n                toggle_off\n              </i>\n            </span>\n\n            <!-- artistxp preview start -->\n            <span *ngIf=\"previewFlug==true\" class=\"cursor treeclass\" (click)=\"artistxpPreview(row)\">\n              <i class=\"material-icons\">perm_media</i>\n            </span>\n            <!-- artistxp preview end -->\n\n          </span>\n\n        </td>\n      </ng-container>\n\n\n\n\n\n\n      <tr mat-header-row *matHeaderRowDef=\"displayedColumns\"></tr>\n      <tr mat-row *matRowDef=\"let row; columns: displayedColumns;\"></tr>\n\n    </table>\n\n    <mat-paginator [pageSizeOptions]=\"[5,10, 20, 50,100]\" showFirstLastButtons></mat-paginator>\n    <mat-spinner *ngIf=\"loading == true\" ></mat-spinner>\n\n    <br>\n\n\n   <!-- <form [formGroup]=\"stateForm\">\n      <mat-form-field>\n        <input type=\"text\" matInput placeholder=\"States Group\" formControlName=\"stateGroup\" required [matAutocomplete]=\"autoGroup\">\n        <mat-autocomplete #autoGroup=\"matAutocomplete\">\n          <mat-optgroup *ngFor=\"let group of stateGroupOptions | async\" [label]=\"group.letter\">\n            <mat-option *ngFor=\"let name of group.names\" [value]=\"name\">\n              {{name}}\n            </mat-option>\n          </mat-optgroup>\n        </mat-autocomplete>\n      </mat-form-field>\n    </form>-->\n\n    <!--<form class=\"example-form\">\n      <mat-form-field class=\"example-full-width\">\n        <input type=\"text\" placeholder=\"Select state\" aria-label=\"Number\" matInput [formControl]=\"myControl\" [matAutocomplete]=\"auto\">\n        <mat-autocomplete #auto=\"matAutocomplete\">\n          <mat-option *ngFor=\"let option of stateGroup | async\" [value]=\"option\">\n            {{option}}\n          </mat-option>\n        </mat-autocomplete>\n      </mat-form-field>\n    </form>\n-->\n\n  </mat-card>\n\n<!--\n  <mat-card>\n\n    <div class=\"example-container\">\n\n\n      <mat-card-content >\n        <mat-form-field class=\"form-group\">\n            <input (blur)=\"inputblur('email')\" matInput placeholder=\"email\" type=\"email\" [formControl]=\"myForm.controls['email']\" >\n            <mat-error  *ngIf=\"!myForm.controls['email'].valid && myForm.controls['email'].touched && issubmit==1\">email field can not be blank</mat-error>\n        </mat-form-field>\n\n        <mat-form-field class=\"form-group\">\n            <input (blur)=\"inputblur('password')\" matInput placeholder=\"Password\" type=\"password\" [formControl]=\"myForm.controls['password']\" >\n            <mat-error  *ngIf=\"!myForm.controls['password'].valid && myForm.controls['password'].touched && issubmit==1\">Password field can not be blank</mat-error>\n        </mat-form-field>\n\n            <button mat-button  (click)=\"onSubmit()\" class=\"s_getmyoffer_login_button\"  >Login</button>\n        </mat-card-content>\n\n\n    </div>\n\n  </mat-card>-->\n  <br>\n  <br>\n\n\n\n</div>\n\n",
+                        template: "<div class=\"container\">\n\n\n  <mat-card>\n    <mat-toolbar-row class=\"searchbar\">\n      <span class=\"inputfilter\">\n    <mat-form-field class=\"searchdiv\">\n\n      <input  class=\"filterForFilter\" matInput (keyup)=\"applyFilter($event.target.value)\" placeholder=\"Filter\">\n    </mat-form-field>\n</span>\n      <span class=\"inputfilterForloop\" *ngIf=\"search_settingsval !=null && search_settingsval.textsearch != null \">\n    <mat-form-field *ngFor=\"let item of search_settingsval.textsearch\" class=\"searchdiv\">\n\n      <input class=\"filterForText\" matInput (change)=\"textsearchfunction(item.field)\" (keyup)=\"textsearchfunction(item.field)\" [(ngModel)]='tsearch[item.field]' placeholder=\"{{item.label}}\">\n      <span class=\"filterForTexticon\" matPrefix><i class=\"material-icons searchicon\" >\n        search\n      </i> &nbsp;</span>\n    </mat-form-field>\n      </span>\n\n<span class=\"inputfilterForAuto\" *ngIf=\"search_settingsval !=null && search_settingsval.search != null \">\n  <mat-form-field class=\"filterForAuto\" *ngFor=\"let item of search_settingsval.search\">\n    <input class=\"filterForAutoInput\"  type=\"text\" placeholder=\"{{item.label}}\" matInput [(ngModel)]=\"autosearch[item.field]\" [matAutocomplete]=\"auto\">\n    <mat-autocomplete  #auto=\"matAutocomplete\" >\n       <mat-option *ngFor=\"let option of result.res | async\" [value]=\"option[item.field]\" (click)=\"autosearchfunction(item.field)\">\n        {{option[item.field]}}\n      </mat-option>\n    </mat-autocomplete>\n  </mat-form-field>\n</span>\n\n\n\n<!--      <span *ngIf=\"search_settingsval !=null && search_settingsval != null \">\n\n      <mat-form-field *ngFor=\"let item of search_settingsval.search\">\n        <mat-label>{{item.label}}</mat-label>\n        <mat-select>\n          <mat-option *ngFor=\"let status of preresult\" [value]=\"status\" (click)=\"autosearchfunction(status.email)\">\n            {{status.email}}\n          </mat-option>\n        </mat-select>\n      </mat-form-field>\n\n      </span>-->\n    <!--  <ng-container  *ngIf=\"search_settingsval !=null && search_settingsval.textsearch != null \">\n&lt;!&ndash;        <span *ngFor=\"let status of this.search_settingsval.textsearch\">&ndash;&gt;\n&lt;!&ndash;        <mat-form-field *ngFor=\"let statusval of status.value\">&ndash;&gt;\n        <mat-form-field *ngFor=\"let status of this.search_settingsval.textsearch\">\n              <input matInput (keyup)=\"applyFilter1($event.target.value, status)\" placeholder=\"{{status.label}}\">\n        </mat-form-field>\n&lt;!&ndash;              </span>&ndash;&gt;\n      </ng-container>-->\n\n\n      <ng-container  class=\"filterForTexticon\" *ngIf=\"search_settingsval !=null && search_settingsval.selectsearch != null \">\n        <mat-form-field *ngFor=\"let status of this.search_settingsval.selectsearch\">\n          <mat-label>{{status.label}}</mat-label>\n          <mat-select>\n            <mat-option *ngFor=\"let statusval of status.values\" [value]=\"statusval\" (click)=\"selectSearch(statusval.val, status)\">\n              {{statusval.name}}\n            </mat-option>\n          </mat-select>\n        </mat-form-field>\n      </ng-container>\n\n\n      <ng-container *ngIf=\"date_search_endpointval !=null && date_search_sourceval != null && search_settingsval.datesearch != null \">\n        <span  class=\"filterFordatesearch\" *ngFor=\"let status of this.search_settingsval.datesearch\">\n        <mat-form-field class=\"filterFordatesearchformfield\">\n          <input class=\"filterFordatesearchinput\" matInput [matDatepicker]=\"picker\"autocomplete=\"off\"  placeholder=\"{{status.startdatelabel}}\"  [(ngModel)]=\"start_date\" >\n          <mat-datepicker-toggle matSuffix [for]=\"picker\" ></mat-datepicker-toggle>\n          <mat-datepicker #picker></mat-datepicker>\n        </mat-form-field>\n        <mat-form-field class=\"filterFordatesearchend\">\n          <input class=\"filterFordatesearchinput\" matInput [matDatepicker]=\"picker1\" autocomplete=\"off\" placeholder=\"{{status.enddatelabel}}\" [(ngModel)]=\"end_date\" >\n          <mat-datepicker-toggle matSuffix [for]=\"picker1\"></mat-datepicker-toggle>\n          <mat-datepicker #picker1 ></mat-datepicker>\n        </mat-form-field>\n        <button mat-raised-button color=\"primary\" class=\"add_button\"  (click)=\"dateSearch(status.field)\">{{status.submit}}</button>\n      </span>\n      </ng-container>\n\n\n      <!-- use for refresh all data -->\n      <ng-container class=\"refresh\">\n        <i (click)=\"refreshalldata(dataSource)\" class=\"material-icons\">\n          autorenew\n          </i>\n      </ng-container>\n\n\n\n      <span *ngIf=\"click_to_add_ananother_pageval !=null\">\n        <button mat-raised-button color=\"primary\" class=\"add_button\" [routerLink]=\"click_to_add_ananother_pageval\" >Add</button>\n      </span>\n    </mat-toolbar-row>\n\n\n\n    <ng-container *ngIf=\"selection.selected.length!=null && selection.selected.length>0\">\n      <button mat-raised-button (click)=\"deletemultiple()\"> Delete </button>\n      <button mat-raised-button (click)=\"managestatusmultiple()\"> Update Status </button>\n    </ng-container>\n\n\n\n    <table mat-table [dataSource]=\"dataSource\" matSort class=\"mat-elevation-z8\">\n\n      <ng-container matColumnDef=\"select\">\n        <th mat-header-cell *matHeaderCellDef>\n          <mat-checkbox (change)=\"$event ? masterToggle() : null\"\n                        [checked]=\"selection.hasValue() && isAllSelected()\"\n                        [indeterminate]=\"selection.hasValue() && !isAllSelected()\">\n          </mat-checkbox>\n        </th>\n        <td mat-cell *matCellDef=\"let row\" data-label=\"select\">\n          <mat-checkbox (click)=\"$event.stopPropagation()\"\n                        (change)=\"$event ? selection.toggle(row) : null\"\n                        [checked]=\"selection.isSelected(row)\">\n          </mat-checkbox>\n        </td>\n      </ng-container>\n\n      <ng-container *ngFor=\"let column of columns\" [matColumnDef]=\"column.columnDef\" >\n        <th mat-header-cell *matHeaderCellDef mat-sort-header class=\"th-header-center\">{{column.header}}</th>\n        <td mat-cell *matCellDef=\"let row\" [ngStyle]=\"styleCell(column,row)\" data-title=\"{{column.header}}\"   class=\"td-cell-center\">\n          <span *ngIf=\"column.columnDef=='status' \">{{ getstatus([column.cell(row)]) }} {{pdfFlag(row)}}</span>\n          <span *ngIf=\"column.columnDef!='status' \">{{ column.cell(row) }}</span>\n          <span *ngIf=\"column.columnDef=='grab_url && grab_linkval!=null && grab_linkval[0]!=null' \">{{grapurl(row[this.grab_linkval[0].field_name])}}</span>\n          <br>\n\n<!--          <span *ngIf=\"sh==true\">-->\n            <span *ngIf=\"column.columnDef=='contractssigned' && sh==true && urlval !=null\" class=\"cursor\">\n              <i title=\"{{urlval[0].label}}\" (click)=\"clickurl(row,urlval[0].url)\" class=\"material-icons\">cloud_download</i>\n            </span>\n<!--          </span>-->\n<!--          <span *ngIf=\"aud==true\">-->\n            <span *ngIf=\"column.columnDef=='contractssigned' && aud==true  && urlval !=null\">\n              <i title=\"{{urlval[1].label}}\" (click)=\"clickurl(row,urlval[1].url)\" class=\"material-icons\">cloud_download</i>\n            </span>\n\n\n<!--// for grap url//-->\n\n\n\n          <span *ngIf=\" grab_linkval!=null && grab_linkval[0]!=null && column.columnDef==[grab_linkval[0].col_name]\" class=\"cursor\">\n              <button mat-button (click)=\"copyText(row[grab_linkval[0].field_name],grab_linkval[1].url)\">{{grab_linkval[1].label}}</button>\n            </span>\n          <br>\n          <!--          </span>-->\n          <!--          <span *ngIf=\"aud==true\">-->\n          <span *ngIf=\"grab_linkval!=null && grab_linkval[0]!=null &&column.columnDef== [grab_linkval[0].col_name]\">\n              <button mat-button (click)=\"copyText(row[grab_linkval[0].field_name],grab_linkval[2].url)\">{{grab_linkval[2].label}}</button>\n            </span>\n\n<!--          //grap url end//-->\n\n\n<!--          </span>-->\n          <!-- <span *ngIf=\"column.columnDef=='contractssigned' \">\n            <span *ngFor=\"let item of urlval\" class=\"cursor\">\n            <i title=\"{{item.label}}\" (click)=\"clickurl(row,item.url)\" class=\"material-icons\">cloud_download</i>\n          </span>\n          </span>-->\n        </td>\n      </ng-container>\n\n\n\n      <ng-container matColumnDef=\"Actions\"   >\n        <th mat-header-cell *matHeaderCellDef  class=\"th-header-center\">Actions</th>\n        <td (click)=\"$event.stopPropagation()\" mat-cell  *matCellDef=\"let row\" data-label=\"Actions\"  class=\"td-cell-center\">\n          <span *ngIf=\"selection.selected.length==null || selection.selected.length==0\">\n            <span class=\"cursor\" (click)=\"editdata(row)\" >\n              <i class=\"material-icons\">\n                edit\n              </i>\n            </span>\n\n            <!--For modern browsers-->\n            <span class=\"cursor\" (click)=\"deletedata(row)\" >\n              <i class=\"material-icons\">\n                delete_outline\n              </i>\n            </span>\n\n            <!--For modern browsers-->\n            <span class=\"cursor\" (click)=\"viewdata(row)\" >\n              <i class=\"material-icons\">\n                pageview\n              </i>\n            </span>\n\n            <!--For modern browsers-->\n            <span class=\"cursor\" (click)=\"managestatus(row)\" >\n              <i class=\"material-icons\">\n                toggle_off\n              </i>\n            </span>\n            <span *ngIf=\"custombuttonval!=null\" class=\"cursor treeclass\" (click)=\"custombuttonfunc(row)\" >\n              <i class=\"material-icons treeclass\">\n                toggle_off\n              </i>\n            </span>\n\n            <!-- artistxp preview start -->\n            <span *ngIf=\"previewFlug==true\" class=\"cursor treeclass\" (click)=\"artistxpPreview(row)\">\n              <i class=\"material-icons\">perm_media</i>\n            </span>\n            <!-- artistxp preview end -->\n\n          </span>\n\n        </td>\n      </ng-container>\n\n\n\n\n\n\n      <tr mat-header-row *matHeaderRowDef=\"displayedColumns\"></tr>\n      <tr mat-row *matRowDef=\"let row; columns: displayedColumns;\"></tr>\n\n    </table>\n\n    <mat-paginator [pageSizeOptions]=\"[5,10, 20, 50,100]\" showFirstLastButtons></mat-paginator>\n    <mat-spinner *ngIf=\"loading == true\" ></mat-spinner>\n\n    <br>\n\n\n   <!-- <form [formGroup]=\"stateForm\">\n      <mat-form-field>\n        <input type=\"text\" matInput placeholder=\"States Group\" formControlName=\"stateGroup\" required [matAutocomplete]=\"autoGroup\">\n        <mat-autocomplete #autoGroup=\"matAutocomplete\">\n          <mat-optgroup *ngFor=\"let group of stateGroupOptions | async\" [label]=\"group.letter\">\n            <mat-option *ngFor=\"let name of group.names\" [value]=\"name\">\n              {{name}}\n            </mat-option>\n          </mat-optgroup>\n        </mat-autocomplete>\n      </mat-form-field>\n    </form>-->\n\n    <!--<form class=\"example-form\">\n      <mat-form-field class=\"example-full-width\">\n        <input type=\"text\" placeholder=\"Select state\" aria-label=\"Number\" matInput [formControl]=\"myControl\" [matAutocomplete]=\"auto\">\n        <mat-autocomplete #auto=\"matAutocomplete\">\n          <mat-option *ngFor=\"let option of stateGroup | async\" [value]=\"option\">\n            {{option}}\n          </mat-option>\n        </mat-autocomplete>\n      </mat-form-field>\n    </form>\n-->\n\n  </mat-card>\n\n<!--\n  <mat-card>\n\n    <div class=\"example-container\">\n\n\n      <mat-card-content >\n        <mat-form-field class=\"form-group\">\n            <input (blur)=\"inputblur('email')\" matInput placeholder=\"email\" type=\"email\" [formControl]=\"myForm.controls['email']\" >\n            <mat-error  *ngIf=\"!myForm.controls['email'].valid && myForm.controls['email'].touched && issubmit==1\">email field can not be blank</mat-error>\n        </mat-form-field>\n\n        <mat-form-field class=\"form-group\">\n            <input (blur)=\"inputblur('password')\" matInput placeholder=\"Password\" type=\"password\" [formControl]=\"myForm.controls['password']\" >\n            <mat-error  *ngIf=\"!myForm.controls['password'].valid && myForm.controls['password'].touched && issubmit==1\">Password field can not be blank</mat-error>\n        </mat-form-field>\n\n            <button mat-button  (click)=\"onSubmit()\" class=\"s_getmyoffer_login_button\"  >Login</button>\n        </mat-card-content>\n\n\n    </div>\n\n  </mat-card>-->\n  <br>\n  <br>\n\n\n\n</div>\n\n",
                         styles: [".container{background:#fff}body{font-family:Roboto,Arial,sans-serif;margin:0;display:none!important}.basic-container{padding:30px}.version-info{font-size:8pt;float:right}table{width:100%}th.mat-sort-header-sorted{color:#000}.custom-modalbox{display:none}"]
                     }] }
         ];
@@ -2191,8 +2039,6 @@
             this.dialogRef = dialogRef;
             this.data = data;
             this.sanitizer = sanitizer;
-            console.log('my data ...');
-            console.log(this.data);
         }
         /**
          * @return {?}
@@ -2219,10 +2065,6 @@
                 for (var b in data) {
                     unsafeurl = unsafeurl + '/' + rowdata[data[b]];
                 }
-                console.log('unsafeurl');
-                console.log(unsafeurl);
-                console.log(data);
-                console.log(rowdata);
                 return this.sanitizer.bypassSecurityTrustResourceUrl(unsafeurl);
             };
         Confirmdialog.decorators = [
@@ -2255,10 +2097,7 @@
          * @return {?}
          */
             function (val) {
-                console.log('bottomsheet data');
-                console.log(val);
                 this.bottomSheetRef.dismiss(val);
-                //event.preventDefault();
             };
         BottomSheet.decorators = [
             { type: i0.Component, args: [{

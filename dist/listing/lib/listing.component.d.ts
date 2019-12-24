@@ -106,9 +106,10 @@ export declare class ListingComponent implements OnInit {
     selectSearch(value: any, type: any): void;
     autosearchfunction(value: any): void;
     textsearchfunction(value: any): void;
+    refreshalldata(val: any): void;
     private _filter;
     getstatus(val: any): any;
-    hi(val: any): void;
+    pdfFlag(val: any): void;
     grapurl(val: any): void;
     copyText(row: any, val: string): void;
     clickurl(val: any, url: any): void;

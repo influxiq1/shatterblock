@@ -129,11 +129,11 @@ export class AdmindashbordComponent implements OnInit {
 
         datesearch:[{startdatelabel:"Start Date",enddatelabel:"End Date",submit:"Search By Date",  field:"created_at"}],   // this is use for  date search 
 
-        selectsearch:[{label:'Search By email',field:'email',values:this.emailarray}, {label:'Search By Status',field:'status',values:this.statusarray}], // this is use for  select search
+        // selectsearch:[{label:'Search By email',field:'email',values:this.emailarray}, {label:'Search By Status',field:'status',values:this.statusarray}], // this is use for  select search
 
-        textsearch:[{label:"Search By email",field:'email'},{label:"Search By Full name",field:'name'}],  // this is use for  text search
+        // textsearch:[{label:"Search By email",field:'email'},{label:"Search By Full name",field:'name'}],  // this is use for  text search
 
-        search:[{label:"Search By autocomplete",field:'name'}]     // this is use for  Autocomplete search
+        // search:[{label:"Search By autocomplete",field:'name'}]     // this is use for  Autocomplete search
     };
 
 

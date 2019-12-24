@@ -4,7 +4,8 @@
 
 export const environment = {
     production: false,
-    API_URL: 'https://nodessl.influxiq.com:6053/',
+    // API_URL: 'https://nodessl.influxiq.com:6053/',
+    API_URL: 'http://72.167.9.38:7050/',
     //API_URL: 'https://nodessl.influxiq.com:6053/',
     Pdf_link: '&environment=development',
     uplodeimg_url: 'https://developmentapi.audiodeadline.com/nodeserver/uploads/modelimages/',
