@@ -37,8 +37,4 @@ export declare class ApiService {
     togglestatusmany(endpoint: any, data: any, val: any, token: any, source: any): import("rxjs").Observable<Object>;
     private getEndpointUrl;
 }
-<<<<<<< HEAD
-/********************* Added By Himadri using Lamda end *************************/ 
-=======
 /********************* Added By Himadri using Lamda end *************************/
->>>>>>> b5eeb39898e50ac09d74b615aab4976c69566236

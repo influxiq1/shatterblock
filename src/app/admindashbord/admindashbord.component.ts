@@ -80,12 +80,13 @@ export class AdmindashbordComponent implements OnInit {
         'firstname': "First Name",
         'email': 'Email Id',
         'lastname': 'Last Name',
-        'name': "Full Name"
+        'name': "Full Name",
+        'blogtitle':"Blog Title"
     };
 
 
     // use for Table Header Skip 
-    pendingmodelapplicationarray_skip: any = ['_id', 'type', 'password'];
+    pendingmodelapplicationarray_skip: any = ['_id', 'type', 'password','description','blogs_image','created_at'];
 
 
 
@@ -157,15 +158,22 @@ export class AdmindashbordComponent implements OnInit {
     // editroute:any = [{val: 1, name:"hi"}];
 
     constructor(public router: Router, private route: ActivatedRoute, private _apiService: ApiService) {
-        console.log('custom_link');
-        console.log(this.custom_link);
-        this.datasource = 'pendingapplication_view';
-        this._apiService.getData({"source": "users", "condition": {"type": "admin"}}).subscribe(res => {
-            let result: any = {};
-            result = res;
-            console.log('in constructor');
-            console.log(result);
-            this.adminlist = result.res;
+        // console.log('custom_link');
+        // console.log(this.custom_link);
+        this.datasource = '';
+        let endpoint='getadminbloglistdata';
+        let data:any={
+            "condition":{
+                "limit":2,
+                "skip":0
+            }
+
+        }
+        this._apiService.postData(endpoint,data).subscribe((res:any) => {
+            // console.log('in constructor');
+            // console.log(result);
+            this.pendingmodelapplicationarray =res.results.blogs;
+            console.warn('blogData',res);
 
         }, error => {
             console.log('Oooops!');
@@ -173,25 +181,25 @@ export class AdmindashbordComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.route.data.forEach((data) => {
-            // PRE LOAD DATA PRIOR
-            console.log(data);
-            console.log('data from route ... !!!');
-            console.log('json', data['results']);
-            this.brandarray = data['results'].item.brand;
-            for(let v in data['results'].item.status_gretterthan_zero){
-                data['results'].item.status_gretterthan_zero[v].grab_url='';
-            }
-            this.status_gretterthan_zero = data['results'].item.status_gretterthan_zero;
-            console.log('this.status_gretterthan_zero');
-            console.log(this.status_gretterthan_zero);
+        // this.route.data.forEach((data) => {
+        //     // PRE LOAD DATA PRIOR
+        //     console.log(data);
+        //     console.log('data from route ... !!!');
+        //     console.log('json', data['results']);
+        //     this.brandarray = data['results'].item.brand;
+        //     for(let v in data['results'].item.status_gretterthan_zero){
+        //         data['results'].item.status_gretterthan_zero[v].grab_url='';
+        //     }
+        //     this.status_gretterthan_zero = data['results'].item.status_gretterthan_zero;
+        //     console.log('this.status_gretterthan_zero');
+        //     console.warn(this.status_gretterthan_zero);
 
 
-            this.pendingapplication_view = data['results'].item.pendingapplication_view;
-            this.joquuserlist = data['results'].item.joquusercollection_view;
-            // this.model_pending_and_notpending_application_view=data['results'].item.model_pending_and_notpending_application_view;
+        //     this.pendingapplication_view = data['results'].item.pendingapplication_view;
+        //     this.joquuserlist = data['results'].item.joquusercollection_view;
+        //     // this.model_pending_and_notpending_application_view=data['results'].item.model_pending_and_notpending_application_view;
 
-        });
+        // });
         // this.allcommissionfunc();
         // this.allorders();
     }

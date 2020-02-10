@@ -167,7 +167,7 @@ export class ListingComponent implements OnInit {
   @Input()
   set jwttoken(jwttoken: any) {
     this.jwttokenval = jwttoken;
-    console.log(this.jwttokenval)
+    //console.log(this.jwttokenval)
   }
 
   @Input()
@@ -260,7 +260,7 @@ export class ListingComponent implements OnInit {
 
 
   inputblur(val: any) {
-    console.log('on blur .....');
+    //console.log('on blur .....');
     this.myForm.controls[val].markAsUntouched();
   }
   ngOnInit() {
@@ -685,7 +685,7 @@ export class ListingComponent implements OnInit {
                 // console.log('imgval');
                 // console.log('imgval');
                 // console.log(imgval);
-                console.log(data[key][k].replace(/'/g, ''));
+                //console.log(data[key][k].replace(/'/g, ''));
                 tempdata.push("<img mat-card-image src=" + data[key][k] + "><br/>");
                 // tempdata.push("<span>"+data[key][k]+"</span><br/>")
 

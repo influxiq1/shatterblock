@@ -12,7 +12,7 @@ import { Resolveservice } from '../../app/resolveservice';
     styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-    // public url = 'http://nodessl.influxiq.com:7012/login';
+    // public url = 'https://9ozbyvv5v0.execute-api.us-east-1.amazonaws.com/production/api/login';
     public endpoint = 'login';
     public myForm: any;
     public result: any;
@@ -64,7 +64,7 @@ export class LoginComponent implements OnInit {
         data.ipinfo=this.ipinfo;
         if(this.myForm.valid) {
             console.log('111111111111--------------');
-            this.result = this.apiService.postData(this.endpoint, data).subscribe(res => {
+            this.result = this.apiService.postlogin(this.endpoint, data).subscribe(res => {
                 console.log('--------------');
                 let result: any = {};
                 result = res;

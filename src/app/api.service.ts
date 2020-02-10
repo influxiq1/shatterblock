@@ -20,8 +20,9 @@ export class ApiService {
               // public jwtHelper: JwtHelperService,
               // private loggedinService: LoggedinService
               ) {
-    console.log('this.domain');
-    console.log(this.domain);
+    //console.log('this.domain');
+    //console.log(this.domain);
+    cookieService.set('jwttoken','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmb28iOiJiYXIiLCJleHAiOjE1ODEwNzUwOTAsImlhdCI6MTU4MDk4ODY5MH0.0k0aE5n5CMAZO4QfuB1EpZgNSmD8mwKFxtE_LutYQiw');
     this.jwttoken=this.cookieService.get('jwttoken');
 
   }
@@ -99,14 +100,14 @@ export class ApiService {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type':  'application/json',
-        'access-token': this.cookieService.get('jwttoken')
+        'Authorization': this.cookieService.get('jwttoken')
       })
     };
     console.log(this.cookieService.get('jwttoken'));
-    console.log('endpoint');
-    console.log(endpoint);
-    console.log('httpOptions');
-    console.log(httpOptions);
+   // console.log('endpoint');
+    //console.log(endpoint);
+    //console.log('httpOptions');
+   // console.log(httpOptions);
     var result = this._http.post(this.getEndpointUrl(endpoint), JSON.stringify(data), httpOptions).pipe(map(res => res));
     return result;
   }
@@ -124,6 +125,7 @@ export class ApiService {
   }
 
   postlogin(endpoint:any, data) {
+    //console.warn("postlogin",endpoint,data);
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type':  'application/json'

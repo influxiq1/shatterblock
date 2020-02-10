@@ -18,7 +18,7 @@ export class Resolveservice implements Resolve<EndpointComponent> {
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> | Promise<any> | any {
         // let id = route.params['id'];
         console.log('resolve route data');
-        console.log(route.data);
+        console.log('route.data',route.data);
         console.log(state);
         // let endpoint = route.data.object;
         // console.log('endpoint!!!!!');
