@@ -86,7 +86,7 @@ export class AdmindashbordComponent implements OnInit {
 
 
     // use for Table Header Skip 
-    pendingmodelapplicationarray_skip: any = ['_id', 'type', 'password','description','blogs_image','created_at'];
+    pendingmodelapplicationarray_skip: any = ['_id','video_thamnail','type', 'password','description','blogs_image','created_at'];
 
 
 
@@ -164,7 +164,7 @@ export class AdmindashbordComponent implements OnInit {
         let endpoint='getadminbloglistdata';
         let data:any={
             "condition":{
-                "limit":2,
+                "limit":10,
                 "skip":0
             }
 
@@ -173,7 +173,7 @@ export class AdmindashbordComponent implements OnInit {
             // console.log('in constructor');
             // console.log(result);
             this.pendingmodelapplicationarray =res.results.blogs;
-            console.warn('blogData',res);
+            //console.warn('blogData',res);
 
         }, error => {
             console.log('Oooops!');

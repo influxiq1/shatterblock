@@ -122,6 +122,8 @@ export declare class ListingComponent implements OnInit {
     createData(point: any): {};
     applyFilter(filterValue: string): void;
     styleCell(col_name: any, row: any): {};
+    /**show video modal on click of thamnail function by sourav */
+    fetchvideo(videodata: any): void;
     viewdata(data1: any): void;
     managestatus(data: any): void;
     custombuttonfunc(data: any): void;
@@ -144,4 +146,11 @@ export declare class BottomSheet {
     data: any;
     constructor(bottomSheetRef: MatBottomSheetRef<BottomSheet>, data: any);
     openLink(val: any): void;
+}
+/**listing video player */
+export declare class VideoPlayer {
+    dialogRef: MatDialogRef<VideoPlayer>;
+    data: any;
+    constructor(dialogRef: MatDialogRef<VideoPlayer>, data: any);
+    onNoClick(): void;
 }

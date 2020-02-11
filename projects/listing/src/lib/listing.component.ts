@@ -651,7 +651,15 @@ export class ListingComponent implements OnInit {
 
     return {}
   }
-
+  /**show video modal on click of thamnail function by sourav */
+  fetchvideo(videodata:any){
+    //console.warn('videodata',videodata);
+    const dialogRef = this.dialog.open(VideoPlayer, {
+      panelClass: 'custom-modalbox-videoplayer-preview',
+      height: 'auto',
+      data: { previewData: videodata }
+    });
+  }
 
   viewdata(data1: any) {
     let data: any;
@@ -994,5 +1002,23 @@ export class BottomSheet {
 
   openLink(val: any): void {
     this.bottomSheetRef.dismiss(val);
+  }
+}
+
+/**listing video player */
+@Component({
+  selector: 'videoplayer',
+  templateUrl: 'videoplayer.html',
+})
+export class VideoPlayer {
+
+  constructor(
+    public dialogRef: MatDialogRef<VideoPlayer>,
+    @Inject(MAT_DIALOG_DATA) public data: any) {
+      //console.warn('videoplayerModal',data.previewData.video);
+  }
+
+  onNoClick(): void {
+    this.dialogRef.close();
   }
 }
