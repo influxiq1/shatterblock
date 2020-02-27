@@ -219,7 +219,7 @@ export class ListingComponent implements OnInit {
   myForm: any;
   // myForm:any;
 
-  constructor(public _apiService: ApiService, public dialog: MatDialog, private bottomSheet: MatBottomSheet, public fb: FormBuilder, private router: Router, private resolver: ComponentFactoryResolver,
+  constructor(public _apiService: ApiService, public dialog: MatDialog, public bottomSheet: MatBottomSheet, public fb: FormBuilder, private router: Router, private resolver: ComponentFactoryResolver,
     private container: ViewContainerRef, public _http: HttpClient, public sanitizer: DomSanitizer) {
 
     this.router.events.subscribe((event: Event) => {

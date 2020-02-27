@@ -11,7 +11,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 export declare class ListingComponent implements OnInit {
     _apiService: ApiService;
     dialog: MatDialog;
-    private bottomSheet;
+    bottomSheet: MatBottomSheet;
     fb: FormBuilder;
     private router;
     private resolver;
