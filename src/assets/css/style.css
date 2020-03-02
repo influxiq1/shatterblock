@@ -61,10 +61,18 @@ body{ margin: 0; padding: 0; background: #000!important;}
     font-weight: bold;
     font-style: normal;
 }
-@font-face {
-url('../fonts/Noteworthy-Bold.woff.woff2') format('woff2'),
+/* @font-face {
+    src: url('../fonts/Noteworthy-Bold.woff.woff2') format('woff2'),
 url('../fonts/Noteworthy-Bold.woff.woff') format('woff'),
 font-family: 'Noteworthy';
+    font-weight: bold;
+    font-style: normal;
+} */
+
+@font-face {
+    font-family: 'NoteworthyBold';
+    src: url('../fonts/Noteworthy-Bold.woff.woff2') format('woff2'),
+    url('../fonts/Noteworthy-Bold.woff.woff2') format('woff');
     font-weight: bold;
     font-style: normal;
 }

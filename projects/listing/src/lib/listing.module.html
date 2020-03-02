@@ -135,7 +135,7 @@
           <span *ngIf="column.columnDef=='status' ">{{ getstatus([column.cell(row)]) }} {{pdfFlag(row)}}</span>
           <span *ngIf="column.columnDef!='status' &&  column.columnDef!='image' && column.columnDef!='video'">{{ column.cell(row) }}</span>
           <!-- for image view  -->
-          <span *ngIf="column.columnDef=='image' "> <span class="module_imgblock"><img src="{{ column.cell(row) }}" alt="{{ column.cell(row) }}" ></span></span>
+          <span *ngIf="column.columnDef=='image'" (click)="img_modal_view(column.cell(row))"> <span class="module_imgblock"><img src="{{ column.cell(row) }}" alt="{{ column.cell(row) }}" ></span></span>
           <!-- for video view -->
           <span *ngIf="column.columnDef=='video' "><span class="module_videoblock" (click)="fetchvideo(row)">
             <img src="https://img.youtube.com/vi/{{ column.cell(row) }}/sddefault.jpg" alt="{{ column.cell(row) }}" 

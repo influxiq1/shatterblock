@@ -8,6 +8,9 @@ import { Router } from "@angular/router";
 import { Observable } from 'rxjs';
 import { HttpClient } from "@angular/common/http";
 import { DomSanitizer } from '@angular/platform-browser';
+export interface DialogData {
+    alldata: any;
+}
 export declare class ListingComponent implements OnInit {
     _apiService: ApiService;
     dialog: MatDialog;
@@ -101,6 +104,8 @@ export declare class ListingComponent implements OnInit {
     constructor(_apiService: ApiService, dialog: MatDialog, bottomSheet: MatBottomSheet, fb: FormBuilder, router: Router, resolver: ComponentFactoryResolver, container: ViewContainerRef, _http: HttpClient, sanitizer: DomSanitizer);
     inputblur(val: any): void;
     ngOnInit(): void;
+    /**image view modal */
+    img_modal_view(img: any): void;
     onSubmit(): void;
     dateSearch(val: any): void;
     selectSearch(value: any, type: any): void;
@@ -152,5 +157,12 @@ export declare class VideoPlayer {
     dialogRef: MatDialogRef<VideoPlayer>;
     data: any;
     constructor(dialogRef: MatDialogRef<VideoPlayer>, data: any);
+    onNoClick(): void;
+}
+/**listing Image View */
+export declare class ImageView {
+    dialogRef: MatDialogRef<ImageView>;
+    data: any;
+    constructor(dialogRef: MatDialogRef<ImageView>, data: any);
     onNoClick(): void;
 }

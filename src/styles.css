@@ -65,5 +65,10 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     top: 3px;
     border-radius: 500px;
 }
-
+.maindialognew .mat-dialog-content .example-card.mat-card .mat-card-header+.mat-card-content p img{
+    width: 100%;
+}
 /* mat-dialog css */
+
+.imgmodalcls.mat-card{padding: 0;border-radius:0; box-shadow: none;}
+.imgmodalcls.mat-card .mat-button {margin: 10px auto 0px;display: block;}

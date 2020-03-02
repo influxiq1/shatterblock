@@ -19,7 +19,9 @@ import { DomSanitizer } from '@angular/platform-browser';
 declare var $: any;
 import * as momentImported from 'moment';
 const moment = momentImported;
-
+export interface DialogData {
+  alldata: any;
+}
 @Component({
   selector: 'lib-listing',
   templateUrl: './listing.module.html',
@@ -348,8 +350,15 @@ export class ListingComponent implements OnInit {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
   }
-
-
+/**image view modal */
+img_modal_view(img:any){
+//console.warn("img_modal_view",img)
+const dialogRef = this.dialog.open(ImageView, {
+  panelClass: 'custom-modalbox-image-preview',
+  height: 'auto',
+  data: { alldata: img }
+});
+}
   onSubmit() {
     let x: any;
     this.errormg = '';
@@ -1016,6 +1025,24 @@ export class VideoPlayer {
     public dialogRef: MatDialogRef<VideoPlayer>,
     @Inject(MAT_DIALOG_DATA) public data: any) {
       //console.warn('videoplayerModal',data.previewData.video);
+  }
+
+  onNoClick(): void {
+    this.dialogRef.close();
+  }
+}
+
+/**listing Image View */
+@Component({
+  selector: 'image',
+  templateUrl: 'img_modal_view.html',
+})
+export class ImageView {
+
+  constructor(
+    public dialogRef: MatDialogRef<ImageView>,
+    @Inject(MAT_DIALOG_DATA) public data: any) {
+      //console.warn('ImageViewModal',data.alldata);
   }
 
   onNoClick(): void {
