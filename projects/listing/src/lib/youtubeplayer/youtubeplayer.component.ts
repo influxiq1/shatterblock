@@ -12,7 +12,7 @@ export class YoutubeplayerComponent implements OnInit {
   @Input()          //setting the server url from project
   set videoid(id: any) {
     this.id = (id) || '<no name set>';
-    this.id = this.sanitizer.bypassSecurityTrustResourceUrl('https://www.youtube.com/embed/'+id);
+    this.id = this.sanitizer.bypassSecurityTrustResourceUrl('https://www.youtube.com/embed/'+id+'?autoplay=1');
     // console.warn(this.id);
   }
   constructor(public sanitizer:DomSanitizer) { }

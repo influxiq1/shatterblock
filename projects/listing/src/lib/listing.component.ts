@@ -1007,7 +1007,9 @@ export class Confirmdialog {
   templateUrl: 'bottom-sheet.html',
 })
 export class BottomSheet {
-  constructor(private bottomSheetRef: MatBottomSheetRef<BottomSheet>, @Inject(MAT_BOTTOM_SHEET_DATA) public data: any) { }
+  constructor(private bottomSheetRef: MatBottomSheetRef<BottomSheet>, @Inject(MAT_BOTTOM_SHEET_DATA) public data: any) {
+    console.warn("bottom-sheet",data);
+   }
 
   openLink(val: any): void {
     this.bottomSheetRef.dismiss(val);

@@ -2201,6 +2201,7 @@ var BottomSheet = /** @class */ (function () {
     function BottomSheet(bottomSheetRef, data) {
         this.bottomSheetRef = bottomSheetRef;
         this.data = data;
+        console.warn("bottom-sheet", data);
     }
     /**
      * @param {?} val
@@ -2362,7 +2363,7 @@ var YoutubeplayerComponent = /** @class */ (function () {
          */
         function (id) {
             this.id = (id) || '<no name set>';
-            this.id = this.sanitizer.bypassSecurityTrustResourceUrl('https://www.youtube.com/embed/' + id);
+            this.id = this.sanitizer.bypassSecurityTrustResourceUrl('https://www.youtube.com/embed/' + id + '?autoplay=1');
             // console.warn(this.id);
         },
         enumerable: true,
