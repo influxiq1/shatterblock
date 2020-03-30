@@ -57,7 +57,7 @@ export class AdmindashbordComponent implements OnInit {
 
     pendingmodelapplicationarray: any = [];
    
- 
+    public status: any = [{ val: 1, 'name': 'Active' }, { val: 0, 'name': 'Inactive' }];
 
      // use for status search
 
@@ -123,18 +123,18 @@ export class AdmindashbordComponent implements OnInit {
 
 
     // this is a database collection or view name
-    date_search_source: any='userslist_view';
+    date_search_source: any='admin_blog_list';
 
     // this is use for  All type of search 
     search_settings:any={
 
-        datesearch:[{startdatelabel:"Start Date",enddatelabel:"End Date",submit:"Search By Date",  field:"created_at"}],   // this is use for  date search 
+        datesearch:[{startdatelabel:"Start Date",enddatelabel:"End Date",submit:"Search",  field:"created_at"}],   // this is use for  date search 
 
-        // selectsearch:[{label:'Search By email',field:'email',values:this.emailarray}, {label:'Search By Status',field:'status',values:this.statusarray}], // this is use for  select search
+        selectsearch:[{ label: 'Search By Status', field: 'status', values: this.status }], // this is use for  select search
 
-        // textsearch:[{label:"Search By email",field:'email'},{label:"Search By Full name",field:'name'}],  // this is use for  text search
+         textsearch:[{label:"Search By email",field:'blogtitle_search'},{label:"Search by auther",field:"author"}],  // this is use for  text search
 
-        // search:[{label:"Search By autocomplete",field:'name'}]     // this is use for  Autocomplete search
+        // search:[{label:"Search By autocomplete",field:'status',values:this.status}]     // this is use for  Autocomplete search
     };
 
 

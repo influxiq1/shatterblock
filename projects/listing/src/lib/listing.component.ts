@@ -368,7 +368,7 @@ const dialogRef = this.dialog.open(ImageView, {
     }
   }
   dateSearch(val: any) {
-    // console.log("start date");
+    console.log("start date");
     // console.log(this.start_date);
     // console.log(this.end_date);
     // let sd = moment(this.start_date).unix();
@@ -379,19 +379,28 @@ const dialogRef = this.dialog.open(ImageView, {
 
       let source: any;
       let condition: any;
+      let textSearch:any={};
       condition = {};
 
       condition[val] = {
         $lte: new Date(this.end_date).getTime(),
         $gte: new Date(this.start_date).getTime(),
       };
+      for(let i in this.tsearch){
+        textSearch[i+'_regex']=this.tsearch[i];
+      }
+
+
+
       this.dateSearch_condition = {};
       this.dateSearch_condition = condition;
-      let conditionobj = Object.assign({}, this.textSearch_condition, this.dateSearch_condition, this.autoSearch_condition, this.selectSearch_condition);
+      let conditionobj = Object.assign({}, textSearch, this.dateSearch_condition, this.autoSearch_condition, this.selectSearch_condition);
       source = {
         source: this.date_search_sourceval,
         condition: conditionobj,
       };
+
+      console.warn(condition,this.dateSearch_condition,conditionobj,this.tsearch,textSearch);
       this._apiService.postSearch(link, this.jwttokenval, source).subscribe(res => {
         let result: any = {};
         result = res;
@@ -437,19 +446,19 @@ const dialogRef = this.dialog.open(ImageView, {
       source: this.date_search_sourceval,
       condition: conditionobj
     };
-    if (value != null) {
-      this._apiService.postSearch(link, this.jwttokenval, source).subscribe(res => {
-        let result: any = {};
-        result = res;
-        let newdata = result.res;
-        this.dataSource = new MatTableDataSource(result.res);
-        this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort;
-      });
-    } else {
-      console.log('oops');
-    }
-    console.log("error");
+    // if (value != null) {
+    //   this._apiService.postSearch(link, this.jwttokenval, source).subscribe(res => {
+    //     let result: any = {};
+    //     result = res;
+    //     let newdata = result.res;
+    //     this.dataSource = new MatTableDataSource(result.res);
+    //     this.dataSource.paginator = this.paginator;
+    //     this.dataSource.sort = this.sort;
+    //   });
+    // } else {
+    //   console.log('oops');
+    // }
+    // console.log("error");
   }
   autosearchfunction(value: any) {
     let val: any = this.autosearch[value];
@@ -463,46 +472,52 @@ const dialogRef = this.dialog.open(ImageView, {
       source: this.date_search_sourceval,
       condition: conditionobj
     };
-    let link = this.apiurlval + '' + this.date_search_endpointval;
-    this._apiService.postSearch(link, this.jwttokenval, source).subscribe(res => {
-      this.result = res;
-      this.dataSource = new MatTableDataSource(this.result.res);
-      this.dataSource.paginator = this.paginator;
-      this.dataSource.sort = this.sort;
+    // let link = this.apiurlval + '' + this.date_search_endpointval;
+    // this._apiService.postSearch(link, this.jwttokenval, source).subscribe(res => {
+    //   this.result = res;
+    //   this.dataSource = new MatTableDataSource(this.result.res);
+    //   this.dataSource.paginator = this.paginator;
+    //   this.dataSource.sort = this.sort;
 
-    });
+    // });
   }
 
   textsearchfunction(value: any) {
     let link = this.apiurlval + '' + this.date_search_endpointval;
     let source: any;
     let condition: any = {};
-    let val: any = this.tsearch[value].toLowerCase();
-    if (this.tsearch[value].length > 1 && { $or: [this.tsearch[value].toLowerCase(), this.tsearch[value].toUpperCase()] }) condition[value + '_regex'] = val;
+    let val='';
+    if(this.tsearch!=null && this.tsearch[value]!=null)
+    {
+      val= this.tsearch[value].toLowerCase();
+    }
+   
+    if (this.tsearch[value]!=null && this.tsearch[value].length > 1 && { $or: [this.tsearch[value].toLowerCase(), this.tsearch[value].toUpperCase()] }) condition[value + '_regex'] = val;
     this.textSearch_condition = {};
     this.textSearch_condition = condition;
+    console.warn(this.tsearch);
     let conditionobj = Object.assign({}, this.textSearch_condition, this.dateSearch_condition, this.autoSearch_condition, this.selectSearch_condition);
     source = {
       source: this.date_search_sourceval,
       condition: conditionobj
     };
     //add loader
-    this.loading = true;
-    if (value != null) {
-      this._apiService.postSearch(link, this.jwttokenval, source).subscribe(res => {
-        let result: any = {};
-        result = res;
-        //close loader
-        this.loading = false;
-        let newdata = result.res;
-        this.dataSource = new MatTableDataSource(result.res);
-        this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort;
-      });
-    } else {
-      console.log('oops');
-    }
-    console.log("error");
+    // this.loading = true;
+    // if (value != null) {
+    //   this._apiService.postSearch(link, this.jwttokenval, source).subscribe(res => {
+    //     let result: any = {};
+    //     result = res;
+    //     //close loader
+    //     this.loading = false;
+    //     let newdata = result.res;
+    //     this.dataSource = new MatTableDataSource(result.res);
+    //     this.dataSource.paginator = this.paginator;
+    //     this.dataSource.sort = this.sort;
+    //   });
+    // } else {
+    //   console.log('oops');
+    // }
+    // console.log("error");
   }
   refreshalldata(val: any) {
     this.dataSource = new MatTableDataSource(this.olddata);
@@ -950,6 +965,32 @@ const dialogRef = this.dialog.open(ImageView, {
   editdata(data: any) {
     this.router.navigate([this.editrouteval, data._id]);
   }
+
+
+  allSearch(){
+    console.log("hit");
+
+    let link = this.apiurlval + '' + this.date_search_endpointval;
+    let conditionobj = Object.assign({}, this.textSearch_condition, this.dateSearch_condition, this.autoSearch_condition, this.selectSearch_condition);
+   let source = {
+      source: this.date_search_sourceval,
+      condition: conditionobj,
+    };
+    console.warn(conditionobj);
+    console.warn(this.tsearch,this.dateSearch_condition,this.autoSearch_condition,this.selectSearch_condition);
+    return;
+    this._apiService.postSearch(link, this.jwttokenval, source).subscribe(res => {
+      let result: any = {};
+      result = res;
+      this.dataSource = new MatTableDataSource(result.res);
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+    })
+  }
+
+
+
+
 
   /* artistxp preview button click function start */
   artistxpPreview(singleData: any) {

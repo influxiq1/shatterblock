@@ -22,7 +22,7 @@ export class ApiService {
               ) {
     //console.log('this.domain');
     //console.log(this.domain);
-    cookieService.set('jwttoken','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmb28iOiJiYXIiLCJleHAiOjE1ODEwNzUwOTAsImlhdCI6MTU4MDk4ODY5MH0.0k0aE5n5CMAZO4QfuB1EpZgNSmD8mwKFxtE_LutYQiw');
+    cookieService.set('jwttoken','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmb28iOiJiYXIiLCJleHAiOjE1ODU2NTM1MzksImlhdCI6MTU4NTU2NzEzOX0.ErmNEt1IOnbKQMfTveF2Tt0PY0TprflzQ1DngaGGUhA');
     this.jwttoken=this.cookieService.get('jwttoken');
 
   }

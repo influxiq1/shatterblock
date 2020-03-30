@@ -136,6 +136,7 @@ export declare class ListingComponent implements OnInit {
     deletemultiple(): void;
     deletedata(data: any): void;
     editdata(data: any): void;
+    allSearch(): void;
     artistxpPreview(singleData: any): void;
 }
 export declare class Confirmdialog {

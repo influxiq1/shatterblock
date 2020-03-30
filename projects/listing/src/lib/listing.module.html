@@ -4,10 +4,10 @@
   <mat-card>
     <mat-toolbar-row class="searchbar">
       <span class="inputfilter">
-    <mat-form-field class="searchdiv">
+    <!-- <mat-form-field class="searchdiv">
 
       <input  class="filterForFilter" matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
-    </mat-form-field>
+    </mat-form-field> -->
 </span>
       <span class="inputfilterForloop" *ngIf="search_settingsval !=null && search_settingsval.textsearch != null ">
     <mat-form-field *ngFor="let item of search_settingsval.textsearch" class="searchdiv">
@@ -69,12 +69,12 @@
       <ng-container *ngIf="date_search_endpointval !=null && date_search_sourceval != null && search_settingsval.datesearch != null ">
         <span  class="filterFordatesearch" *ngFor="let status of this.search_settingsval.datesearch">
         <mat-form-field class="filterFordatesearchformfield">
-          <input class="filterFordatesearchinput" matInput [matDatepicker]="picker"autocomplete="off"  placeholder="{{status.startdatelabel}}"  [(ngModel)]="start_date" >
+          <input class="filterFordatesearchinput" matInput [matDatepicker]="picker"autocomplete="off"  placeholder="{{status.startdatelabel}}"  [(ngModel)]="start_date" (keyup)="dateSearch(status.field)" (blur)="dateSearch(status.field)">
           <mat-datepicker-toggle matSuffix [for]="picker" ></mat-datepicker-toggle>
           <mat-datepicker #picker></mat-datepicker>
         </mat-form-field>
         <mat-form-field class="filterFordatesearchend">
-          <input class="filterFordatesearchinput" matInput [matDatepicker]="picker1" autocomplete="off" placeholder="{{status.enddatelabel}}" [(ngModel)]="end_date" >
+          <input class="filterFordatesearchinput" matInput [matDatepicker]="picker1" autocomplete="off" placeholder="{{status.enddatelabel}}" [(ngModel)]="end_date" (keyup)="dateSearch(status.field)">
           <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
           <mat-datepicker #picker1 ></mat-datepicker>
         </mat-form-field>
@@ -88,6 +88,10 @@
         <i (click)="refreshalldata(dataSource)" class="material-icons">
           autorenew
           </i>
+      </ng-container>
+
+      <ng-container class="refresh"  *ngIf="date_search_endpointval ==null || date_search_sourceval == null || search_settingsval.datesearch == null ">
+       <button mat-button (click)="allSearch()">Search</button>
       </ng-container>
 
 
