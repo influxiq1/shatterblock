@@ -43,14 +43,18 @@ export declare class ListingComponent implements OnInit {
     apiurlval: any;
     updateendpointval: any;
     modify_header_arrayval: any;
+    date_search_source_countval: any;
+    datacollectionval: any;
     selection: any;
     sourcedataval: any;
     emailarrayval: any;
     columns: any;
     olddata: any;
     tsearch: any;
+    tableflag: any;
     autosearch: any;
     x: any;
+    limitcondval: any;
     custombuttonval: any;
     result: any;
     sh: any;
@@ -60,6 +64,8 @@ export declare class ListingComponent implements OnInit {
     previewFlug: any;
     search_settings: any;
     click_to_add_ananother_page: any;
+    limitcond: any;
+    date_search_source_count: any;
     grab_link: any;
     custombutton: any;
     date_search_source: any;
@@ -69,6 +75,7 @@ export declare class ListingComponent implements OnInit {
     pdf_link: any;
     searchList: any;
     datasource: any;
+    datacollection: any;
     skip: any;
     detail_datatype: any;
     detail_skip_array: any;
@@ -109,6 +116,7 @@ export declare class ListingComponent implements OnInit {
     onSubmit(): void;
     dateSearch(val: any): void;
     selectSearch(value: any, type: any): void;
+    paging(val: any): void;
     autosearchfunction(value: any): void;
     textsearchfunction(value: any): void;
     refreshalldata(val: any): void;

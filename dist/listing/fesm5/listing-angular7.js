@@ -16,7 +16,7 @@ import { FormBuilder, FormControl, FormsModule, ReactiveFormsModule } from '@ang
 import { CommonModule } from '@angular/common';
 import { MomentModule } from 'ngx-moment';
 import { NavigationCancel, NavigationEnd, NavigationError, NavigationStart, Router, RouterModule } from '@angular/router';
-import { Injectable, EventEmitter, ViewChild, Component, Input, Inject, ComponentFactoryResolver, ViewContainerRef, NgModule, CUSTOM_ELEMENTS_SCHEMA, defineInjectable } from '@angular/core';
+import { Injectable, Component, Input, EventEmitter, ViewChild, NgModule, CUSTOM_ELEMENTS_SCHEMA, Inject, ComponentFactoryResolver, ViewContainerRef, defineInjectable } from '@angular/core';
 import { DomSanitizer, BrowserModule } from '@angular/platform-browser';
 
 /**
@@ -672,7 +672,9 @@ var ListingComponent = /** @class */ (function () {
         this.columns = [];
         this.olddata = [];
         this.tsearch = [];
+        this.tableflag = 0;
         this.autosearch = [];
+        this.limitcondval = {};
         this.result = {};
         this.sh = false;
         this.art = false;
@@ -745,6 +747,32 @@ var ListingComponent = /** @class */ (function () {
          */
         function (click_to_add_ananother_page) {
             this.click_to_add_ananother_pageval = click_to_add_ananother_page;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(ListingComponent.prototype, "limitcond", {
+        set: /**
+         * @param {?} limitcondval
+         * @return {?}
+         */
+        function (limitcondval) {
+            this.limitcondval = limitcondval;
+            console.log('limitcondval', this.limitcondval);
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(ListingComponent.prototype, "date_search_source_count", {
+        set: /**
+         * @param {?} date_search_source_countval
+         * @return {?}
+         */
+        function (date_search_source_countval) {
+            this.date_search_source_countval = date_search_source_countval;
+            if (this.date_search_source_countval == 0)
+                this.limitcondval.pagecount = 1;
+            console.log('date_search_source_count', this.date_search_source_countval);
         },
         enumerable: true,
         configurable: true
@@ -844,6 +872,17 @@ var ListingComponent = /** @class */ (function () {
          */
         function (datasource) {
             this.datasourceval = datasource;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(ListingComponent.prototype, "datacollection", {
+        set: /**
+         * @param {?} datacollectionval
+         * @return {?}
+         */
+        function (datacollectionval) {
+            this.datacollectionval = datacollectionval;
         },
         enumerable: true,
         configurable: true
@@ -1122,8 +1161,8 @@ var ListingComponent = /** @class */ (function () {
         this.olddata = data_list;
         this.dataSource = new MatTableDataSource(data_list);
         this.selection = new SelectionModel(true, []);
-        this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort;
+        //this.dataSource.paginator = this.paginator;
+        //this.dataSource.sort = this.sort;
     };
     /**image view modal */
     /**
@@ -1177,31 +1216,41 @@ var ListingComponent = /** @class */ (function () {
         // let sd = moment(this.start_date).unix();
         // let ed = moment(this.end_date).unix();
         /** @type {?} */
-        var link = this.apiurlval + '' + this.date_search_endpointval;
+        var link = this.apiurlval + '' + this.datacollectionval;
+        /** @type {?} */
+        var link1 = this.apiurlval + '' + this.datacollectionval + '-count';
+        /** @type {?} */
+        var source;
+        /** @type {?} */
+        var condition;
+        /** @type {?} */
+        var textSearch = {};
+        condition = {};
         if (moment(this.end_date).unix() != null && moment(this.start_date).unix() != null) {
-            /** @type {?} */
-            var source = void 0;
-            /** @type {?} */
-            var condition = void 0;
-            /** @type {?} */
-            var textSearch = {};
-            condition = {};
-            condition[val] = {
-                $lte: new Date(this.end_date).getTime(),
-                $gte: new Date(this.start_date).getTime(),
-            };
-            for (var i in this.tsearch) {
-                textSearch[i + '_regex'] = this.tsearch[i];
-            }
             this.dateSearch_condition = {};
             this.dateSearch_condition = condition;
+            if (this.end_date != null && this.start_date != null) {
+                condition[val] = {
+                    $lte: new Date(this.end_date).getTime(),
+                    $gte: new Date(this.start_date).getTime(),
+                };
+            }
+            for (var i in this.tsearch) {
+                textSearch[i] = { $regex: this.tsearch[i].toLowerCase() };
+            }
             /** @type {?} */
             var conditionobj = Object.assign({}, textSearch, this.dateSearch_condition, this.autoSearch_condition, this.selectSearch_condition);
             source = {
-                source: this.date_search_sourceval,
-                condition: conditionobj,
+                "condition": {
+                    limit: this.limitcondval.limit,
+                    skip: 0
+                },
+                searchcondition: conditionobj,
             };
-            console.warn(condition, this.dateSearch_condition, conditionobj, this.tsearch, textSearch);
+            console.log('con...', conditionobj, this.end_date);
+            console.warn('cond', condition, this.dateSearch_condition, conditionobj, this.tsearch, textSearch);
+            //return;
+            this.date_search_source_countval = 0;
             this._apiService.postSearch(link, this.jwttokenval, source).subscribe((/**
              * @param {?} res
              * @return {?}
@@ -1210,9 +1259,24 @@ var ListingComponent = /** @class */ (function () {
                 /** @type {?} */
                 var result = {};
                 result = res;
-                _this.dataSource = new MatTableDataSource(result.res);
-                _this.dataSource.paginator = _this.paginator;
-                _this.dataSource.sort = _this.sort;
+                _this.dataSource = new MatTableDataSource(result.results.res);
+                // this.dataSource.paginator = this.paginator;
+                //this.dataSource.sort = this.sort;
+            }));
+            this._apiService.postSearch(link1, this.jwttokenval, source).subscribe((/**
+             * @param {?} res
+             * @return {?}
+             */
+            function (res) {
+                /** @type {?} */
+                var result = {};
+                result = res;
+                _this.date_search_source_countval = (result.count);
+                if (result.count == 0)
+                    _this.tableflag = 1;
+                console.log('count', result);
+                // this.dataSource.paginator = this.paginator;
+                //this.dataSource.sort = this.sort;
             }));
             /*this._http.post(link, {source:this.date_search_sourceval,
               condition: {
@@ -1276,6 +1340,72 @@ var ListingComponent = /** @class */ (function () {
         //   console.log('oops');
         // }
         // console.log("error");
+    };
+    /**
+     * @param {?} val
+     * @return {?}
+     */
+    ListingComponent.prototype.paging = /**
+     * @param {?} val
+     * @return {?}
+     */
+    function (val) {
+        var _this = this;
+        if (val == 1) {
+            this.limitcondval.skip = (this.limitcondval.pagecount) * this.limitcondval.limit;
+            this.limitcondval.pagecount++;
+        }
+        if (val == -1 && this.limitcondval.skip > this.limitcondval.limit) {
+            this.limitcondval.skip = (this.limitcondval.pagecount - 1) * this.limitcondval.limit;
+            this.limitcondval.pagecount--;
+        }
+        if (val > 1) {
+            if (this.limitcondval.pagecount == 1)
+                this.limitcondval.skip = 0;
+            else
+                this.limitcondval.skip = (this.limitcondval.pagecount - 1) * this.limitcondval.limit;
+            //this.limitcondval.pagecount--;
+        }
+        if (val == -1 && this.limitcondval.skip < this.limitcondval.limit)
+            return;
+        console.log(val, 'ss', this.datacollectionval, this.limitcondval);
+        /** @type {?} */
+        var textSearch = {};
+        for (var i in this.tsearch) {
+            textSearch[i] = { $regex: this.tsearch[i].toLowerCase() };
+        }
+        /** @type {?} */
+        var conditionobj = Object.assign({}, textSearch, this.dateSearch_condition, this.autoSearch_condition, this.selectSearch_condition);
+        /** @type {?} */
+        var source = {
+            "condition": {
+                limit: this.limitcondval.limit,
+                skip: this.limitcondval.skip
+            },
+            searchcondition: conditionobj,
+        };
+        /** @type {?} */
+        var link = this.apiurlval + '' + this.datacollectionval;
+        /*let data:any={
+          "condition":{
+            limit:this.limitcondval.limit,
+            skip:this.limitcondval.skip
+          }
+    
+        }*/
+        this.loading = true;
+        this._apiService.postSearch(link, this.jwttokenval, source).subscribe((/**
+         * @param {?} res
+         * @return {?}
+         */
+        function (res) {
+            _this.result = res;
+            console.log(_this.result, 'res');
+            _this.dataSource = new MatTableDataSource(_this.result.results.res);
+            _this.loading = false;
+            //this.dataSource.paginator = this.paginator;
+            //this.dataSource.sort = this.sort;
+        }));
     };
     /**
      * @param {?} value
@@ -1370,8 +1500,8 @@ var ListingComponent = /** @class */ (function () {
     function (val) {
         this.dataSource = new MatTableDataSource(this.olddata);
         this.selection = new SelectionModel(true, []);
-        this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort;
+        //this.dataSource.paginator = this.paginator;
+        //this.dataSource.sort = this.sort;
         if (val.filteredData.length < this.olddata.length) {
             /** @type {?} */
             var dialogRef = this.dialog.open(Confirmdialog, {
@@ -2062,17 +2192,32 @@ var ListingComponent = /** @class */ (function () {
         var _this = this;
         console.log("hit");
         /** @type {?} */
-        var link = this.apiurlval + '' + this.date_search_endpointval;
+        var link = this.apiurlval + '' + this.datacollectionval;
         /** @type {?} */
-        var conditionobj = Object.assign({}, this.textSearch_condition, this.dateSearch_condition, this.autoSearch_condition, this.selectSearch_condition);
+        var link1 = this.apiurlval + '' + this.datacollectionval + '-count';
         /** @type {?} */
-        var source = {
-            source: this.date_search_sourceval,
-            condition: conditionobj,
+        var source;
+        /** @type {?} */
+        var condition;
+        /** @type {?} */
+        var textSearch = {};
+        condition = {};
+        for (var i in this.tsearch) {
+            textSearch[i] = { $regex: this.tsearch[i].toLowerCase() };
+        }
+        /** @type {?} */
+        var conditionobj = Object.assign({}, textSearch, this.dateSearch_condition, this.autoSearch_condition, this.selectSearch_condition);
+        source = {
+            "condition": {
+                limit: this.limitcondval.limit,
+                skip: 0
+            },
+            searchcondition: conditionobj,
         };
-        console.warn(conditionobj);
-        console.warn(this.tsearch, this.dateSearch_condition, this.autoSearch_condition, this.selectSearch_condition);
-        return;
+        console.log('con...', conditionobj, this.end_date);
+        console.warn('cond', condition, this.dateSearch_condition, conditionobj, this.tsearch, textSearch);
+        //return;
+        this.date_search_source_countval = 0;
         this._apiService.postSearch(link, this.jwttokenval, source).subscribe((/**
          * @param {?} res
          * @return {?}
@@ -2081,9 +2226,24 @@ var ListingComponent = /** @class */ (function () {
             /** @type {?} */
             var result = {};
             result = res;
-            _this.dataSource = new MatTableDataSource(result.res);
-            _this.dataSource.paginator = _this.paginator;
-            _this.dataSource.sort = _this.sort;
+            _this.dataSource = new MatTableDataSource(result.results.res);
+            // this.dataSource.paginator = this.paginator;
+            //this.dataSource.sort = this.sort;
+        }));
+        this._apiService.postSearch(link1, this.jwttokenval, source).subscribe((/**
+         * @param {?} res
+         * @return {?}
+         */
+        function (res) {
+            /** @type {?} */
+            var result = {};
+            result = res;
+            _this.date_search_source_countval = (result.count);
+            if (result.count == 0)
+                _this.tableflag = 1;
+            console.log('count', result);
+            // this.dataSource.paginator = this.paginator;
+            //this.dataSource.sort = this.sort;
         }));
     };
     /* artistxp preview button click function start */
@@ -2126,8 +2286,8 @@ var ListingComponent = /** @class */ (function () {
     ListingComponent.decorators = [
         { type: Component, args: [{
                     selector: 'lib-listing',
-                    template: "<div class=\"container\">\n\n\n  <mat-card>\n    <mat-toolbar-row class=\"searchbar\">\n      <span class=\"inputfilter\">\n    <!-- <mat-form-field class=\"searchdiv\">\n\n      <input  class=\"filterForFilter\" matInput (keyup)=\"applyFilter($event.target.value)\" placeholder=\"Filter\">\n    </mat-form-field> -->\n</span>\n      <span class=\"inputfilterForloop\" *ngIf=\"search_settingsval !=null && search_settingsval.textsearch != null \">\n    <mat-form-field *ngFor=\"let item of search_settingsval.textsearch\" class=\"searchdiv\">\n\n      <input class=\"filterForText\" matInput (change)=\"textsearchfunction(item.field)\" (keyup)=\"textsearchfunction(item.field)\" [(ngModel)]='tsearch[item.field]' placeholder=\"{{item.label}}\">\n      <span class=\"filterForTexticon\" matPrefix><i class=\"material-icons searchicon\" >\n        search\n      </i> &nbsp;</span>\n    </mat-form-field>\n      </span>\n\n<span class=\"inputfilterForAuto\" *ngIf=\"search_settingsval !=null && search_settingsval.search != null \">\n  <mat-form-field class=\"filterForAuto\" *ngFor=\"let item of search_settingsval.search\">\n    <input class=\"filterForAutoInput\"  type=\"text\" placeholder=\"{{item.label}}\" matInput [(ngModel)]=\"autosearch[item.field]\" [matAutocomplete]=\"auto\">\n    <mat-autocomplete  #auto=\"matAutocomplete\" >\n       <mat-option *ngFor=\"let option of result.res | async\" [value]=\"option[item.field]\" (click)=\"autosearchfunction(item.field)\">\n        {{option[item.field]}}\n      </mat-option>\n    </mat-autocomplete>\n  </mat-form-field>\n</span>\n\n\n\n<!--      <span *ngIf=\"search_settingsval !=null && search_settingsval != null \">\n\n      <mat-form-field *ngFor=\"let item of search_settingsval.search\">\n        <mat-label>{{item.label}}</mat-label>\n        <mat-select>\n          <mat-option *ngFor=\"let status of preresult\" [value]=\"status\" (click)=\"autosearchfunction(status.email)\">\n            {{status.email}}\n          </mat-option>\n        </mat-select>\n      </mat-form-field>\n\n      </span>-->\n    <!--  <ng-container  *ngIf=\"search_settingsval !=null && search_settingsval.textsearch != null \">\n&lt;!&ndash;        <span *ngFor=\"let status of this.search_settingsval.textsearch\">&ndash;&gt;\n&lt;!&ndash;        <mat-form-field *ngFor=\"let statusval of status.value\">&ndash;&gt;\n        <mat-form-field *ngFor=\"let status of this.search_settingsval.textsearch\">\n              <input matInput (keyup)=\"applyFilter1($event.target.value, status)\" placeholder=\"{{status.label}}\">\n        </mat-form-field>\n&lt;!&ndash;              </span>&ndash;&gt;\n      </ng-container>-->\n\n\n      <ng-container  class=\"filterForTexticon\" *ngIf=\"search_settingsval !=null && search_settingsval.selectsearch != null \">\n        <mat-form-field *ngFor=\"let status of this.search_settingsval.selectsearch\">\n          <mat-label>{{status.label}}</mat-label>\n          <mat-select>\n            <mat-option *ngFor=\"let statusval of status.values\" [value]=\"statusval\" (click)=\"selectSearch(statusval.val, status)\">\n              {{statusval.name}}\n            </mat-option>\n          </mat-select>\n        </mat-form-field>\n      </ng-container>\n\n\n      <ng-container *ngIf=\"date_search_endpointval !=null && date_search_sourceval != null && search_settingsval.datesearch != null \">\n        <span  class=\"filterFordatesearch\" *ngFor=\"let status of this.search_settingsval.datesearch\">\n        <mat-form-field class=\"filterFordatesearchformfield\">\n          <input class=\"filterFordatesearchinput\" matInput [matDatepicker]=\"picker\"autocomplete=\"off\"  placeholder=\"{{status.startdatelabel}}\"  [(ngModel)]=\"start_date\" (keyup)=\"dateSearch(status.field)\" (blur)=\"dateSearch(status.field)\">\n          <mat-datepicker-toggle matSuffix [for]=\"picker\" ></mat-datepicker-toggle>\n          <mat-datepicker #picker></mat-datepicker>\n        </mat-form-field>\n        <mat-form-field class=\"filterFordatesearchend\">\n          <input class=\"filterFordatesearchinput\" matInput [matDatepicker]=\"picker1\" autocomplete=\"off\" placeholder=\"{{status.enddatelabel}}\" [(ngModel)]=\"end_date\" (keyup)=\"dateSearch(status.field)\">\n          <mat-datepicker-toggle matSuffix [for]=\"picker1\"></mat-datepicker-toggle>\n          <mat-datepicker #picker1 ></mat-datepicker>\n        </mat-form-field>\n        <button mat-raised-button color=\"primary\" class=\"add_button\"  (click)=\"dateSearch(status.field)\">{{status.submit}}</button>\n      </span>\n      </ng-container>\n\n\n      <!-- use for refresh all data -->\n      <ng-container class=\"refresh\">\n        <i (click)=\"refreshalldata(dataSource)\" class=\"material-icons\">\n          autorenew\n          </i>\n      </ng-container>\n\n      <ng-container class=\"refresh\"  *ngIf=\"date_search_endpointval ==null || date_search_sourceval == null || search_settingsval.datesearch == null \">\n       <button mat-button (click)=\"allSearch()\">Search</button>\n      </ng-container>\n\n\n\n      <span *ngIf=\"click_to_add_ananother_pageval !=null\">\n        <button mat-raised-button color=\"primary\" class=\"add_button\" [routerLink]=\"click_to_add_ananother_pageval\" >Add</button>\n      </span>\n    </mat-toolbar-row>\n\n\n\n    <ng-container *ngIf=\"selection.selected.length!=null && selection.selected.length>0\">\n      <span class=\"multipledeleteandupdatebuttan\">\n\n      <button mat-raised-button (click)=\"deletemultiple()\"> Delete </button>\n      <button mat-raised-button (click)=\"managestatusmultiple()\"> Update Status </button>\n\n      </span>\n    </ng-container>\n\n\n    <div class=\"tablewrapper\">\n\n      <table mat-table [dataSource]=\"dataSource\" matSort class=\"mat-elevation-z8\">\n\n      <ng-container matColumnDef=\"select\">\n        <th mat-header-cell *matHeaderCellDef>\n          <mat-checkbox (change)=\"$event ? masterToggle() : null\"\n                        [checked]=\"selection.hasValue() && isAllSelected()\"\n                        [indeterminate]=\"selection.hasValue() && !isAllSelected()\">\n          </mat-checkbox>\n        </th>\n        <td mat-cell *matCellDef=\"let row\" data-label=\"select\">\n          <mat-checkbox (click)=\"$event.stopPropagation()\"\n                        (change)=\"$event ? selection.toggle(row) : null\"\n                        [checked]=\"selection.isSelected(row)\">\n          </mat-checkbox>\n        </td>\n      </ng-container>\n\n      <ng-container *ngFor=\"let column of columns\" [matColumnDef]=\"column.columnDef\" >\n        <th mat-header-cell *matHeaderCellDef mat-sort-header class=\"th-header-center\">{{column.header}}</th>\n        <td mat-cell *matCellDef=\"let row\" [ngStyle]=\"styleCell(column,row)\" data-title=\"{{column.header}}\"   class=\"td-cell-center\">\n          \n          <span *ngIf=\"column.columnDef=='status' \">{{ getstatus([column.cell(row)]) }} {{pdfFlag(row)}}</span>\n          <span *ngIf=\"column.columnDef!='status' &&  column.columnDef!='image' && column.columnDef!='video'\">{{ column.cell(row) }}</span>\n          <!-- for image view  -->\n          <span *ngIf=\"column.columnDef=='image'\" (click)=\"img_modal_view(column.cell(row))\"> <span class=\"module_imgblock\"><img src=\"{{ column.cell(row) }}\" alt=\"{{ column.cell(row) }}\" ></span></span>\n          <!-- for video view -->\n          <span *ngIf=\"column.columnDef=='video' \"><span class=\"module_videoblock\" (click)=\"fetchvideo(row)\">\n            <img src=\"https://img.youtube.com/vi/{{ column.cell(row) }}/sddefault.jpg\" alt=\"{{ column.cell(row) }}\" \n                                                      (click)=\"fetchvideo(row)\"></span>\n                                                    </span>\n\n          <span *ngIf=\"column.columnDef=='grab_url && grab_linkval!=null && grab_linkval[0]!=null' \">{{grapurl(row[this.grab_linkval[0].field_name])}}</span>\n          <br>\n\n<!--          <span *ngIf=\"sh==true\">-->\n            <span *ngIf=\"column.columnDef=='contractssigned' && sh==true && urlval !=null\" class=\"cursor\">\n              <i title=\"{{urlval[0].label}}\" (click)=\"clickurl(row,urlval[0].url)\" class=\"material-icons\">cloud_download</i>\n            </span>\n<!--          </span>-->\n<!--          <span *ngIf=\"aud==true\">-->\n            <span *ngIf=\"column.columnDef=='contractssigned' && aud==true  && urlval !=null\">\n              <i title=\"{{urlval[1].label}}\" (click)=\"clickurl(row,urlval[1].url)\" class=\"material-icons\">cloud_download</i>\n            </span>\n\n\n<!--// for grap url//-->\n\n\n\n          <span *ngIf=\" grab_linkval!=null && grab_linkval[0]!=null && column.columnDef==[grab_linkval[0].col_name]\" class=\"cursor\">\n              <button mat-button (click)=\"copyText(row[grab_linkval[0].field_name],grab_linkval[1].url)\">{{grab_linkval[1].label}}</button>\n            </span>\n          <br>\n          <!--          </span>-->\n          <!--          <span *ngIf=\"aud==true\">-->\n          <span *ngIf=\"grab_linkval!=null && grab_linkval[0]!=null &&column.columnDef== [grab_linkval[0].col_name]\">\n              <button mat-button (click)=\"copyText(row[grab_linkval[0].field_name],grab_linkval[2].url)\">{{grab_linkval[2].label}}</button>\n            </span>\n\n<!--          //grap url end//-->\n\n\n<!--          </span>-->\n          <!-- <span *ngIf=\"column.columnDef=='contractssigned' \">\n            <span *ngFor=\"let item of urlval\" class=\"cursor\">\n            <i title=\"{{item.label}}\" (click)=\"clickurl(row,item.url)\" class=\"material-icons\">cloud_download</i>\n          </span>\n          </span>-->\n        </td>\n      </ng-container>\n\n\n\n      <ng-container matColumnDef=\"Actions\">\n        <th mat-header-cell *matHeaderCellDef  class=\"th-header-center\">Actions</th>\n        <td (click)=\"$event.stopPropagation()\" mat-cell  *matCellDef=\"let row\" data-label=\"Actions\"  class=\"td-cell-center\">\n          <span *ngIf=\"selection.selected.length==null || selection.selected.length==0\">\n            <span class=\"cursor\" (click)=\"editdata(row)\" >\n              <i class=\"material-icons\">\n                edit\n              </i>\n            </span>\n\n            <!--For modern browsers-->\n            <span class=\"cursor\" (click)=\"deletedata(row)\" >\n              <i class=\"material-icons\">\n                delete_outline\n              </i>\n            </span>\n\n            <!--For modern browsers-->\n            <span class=\"cursor\" (click)=\"viewdata(row)\" >\n              <i class=\"material-icons\">\n                remove_red_eye\n              </i>\n            </span>\n\n            <!--For modern browsers-->\n            <span class=\"cursor\" (click)=\"managestatus(row)\" >\n              <i class=\"material-icons\">\n                toggle_off\n              </i>\n            </span>\n            <span *ngIf=\"custombuttonval!=null\" class=\"cursor treeclass\" (click)=\"custombuttonfunc(row)\" >\n              <i class=\"material-icons treeclass\">\n                toggle_off\n              </i>\n            </span>\n\n            <!-- artistxp preview start -->\n            <span *ngIf=\"previewFlug==true\" class=\"cursor treeclass\" (click)=\"artistxpPreview(row)\">\n              <i class=\"material-icons\">perm_media</i>\n            </span>\n            <!-- artistxp preview end -->\n\n          </span>\n\n        </td>\n      </ng-container>\n\n\n\n\n\n\n      <tr mat-header-row *matHeaderRowDef=\"displayedColumns\"></tr>\n      <tr mat-row *matRowDef=\"let row; columns: displayedColumns;\"></tr>\n\n      </table>\n\n    </div>\n    <mat-paginator class=\"paginator\" [pageSizeOptions]=\"[5,10, 20, 50,100]\" showFirstLastButtons></mat-paginator>\n    <mat-spinner *ngIf=\"loading == true\" ></mat-spinner>\n\n\n\n   <!-- <form [formGroup]=\"stateForm\">\n      <mat-form-field>\n        <input type=\"text\" matInput placeholder=\"States Group\" formControlName=\"stateGroup\" required [matAutocomplete]=\"autoGroup\">\n        <mat-autocomplete #autoGroup=\"matAutocomplete\">\n          <mat-optgroup *ngFor=\"let group of stateGroupOptions | async\" [label]=\"group.letter\">\n            <mat-option *ngFor=\"let name of group.names\" [value]=\"name\">\n              {{name}}\n            </mat-option>\n          </mat-optgroup>\n        </mat-autocomplete>\n      </mat-form-field>\n    </form>-->\n\n    <!--<form class=\"example-form\">\n      <mat-form-field class=\"example-full-width\">\n        <input type=\"text\" placeholder=\"Select state\" aria-label=\"Number\" matInput [formControl]=\"myControl\" [matAutocomplete]=\"auto\">\n        <mat-autocomplete #auto=\"matAutocomplete\">\n          <mat-option *ngFor=\"let option of stateGroup | async\" [value]=\"option\">\n            {{option}}\n          </mat-option>\n        </mat-autocomplete>\n      </mat-form-field>\n    </form>\n-->\n\n  </mat-card>\n\n<!--\n  <mat-card>\n\n    <div class=\"example-container\">\n\n\n      <mat-card-content >\n        <mat-form-field class=\"form-group\">\n            <input (blur)=\"inputblur('email')\" matInput placeholder=\"email\" type=\"email\" [formControl]=\"myForm.controls['email']\" >\n            <mat-error  *ngIf=\"!myForm.controls['email'].valid && myForm.controls['email'].touched && issubmit==1\">email field can not be blank</mat-error>\n        </mat-form-field>\n\n        <mat-form-field class=\"form-group\">\n            <input (blur)=\"inputblur('password')\" matInput placeholder=\"Password\" type=\"password\" [formControl]=\"myForm.controls['password']\" >\n            <mat-error  *ngIf=\"!myForm.controls['password'].valid && myForm.controls['password'].touched && issubmit==1\">Password field can not be blank</mat-error>\n        </mat-form-field>\n\n            <button mat-button  (click)=\"onSubmit()\" class=\"s_getmyoffer_login_button\"  >Login</button>\n        </mat-card-content>\n\n\n    </div>\n\n  </mat-card>-->\n\n\n\n</div>\n",
-                    styles: [".container{background:#fff}body{font-family:Roboto,Arial,sans-serif;margin:0;display:none!important}.basic-container{padding:30px}.version-info{font-size:8pt;float:right}table{width:100%}th.mat-sort-header-sorted{color:#000}.custom-modalbox{display:none}.module_imgblock{display:block;width:100px;overflow:hidden;text-align:center;vertical-align:middle;background:#111}.module_imgblock img{width:100%;height:auto}.module_videoblock{display:block;width:100px;position:relative;overflow:hidden;text-align:center;vertical-align:middle;background:#111}.module_videoblock img{width:100%;height:auto}.module_videoblock::after{content:'';display:block;width:30%;height:38%;background:url(image/video-play-arrow-png.png) 0 0/cover no-repeat;position:absolute;left:31%;top:30%}.tablewrapper tr td,.tablewrapper tr th{padding:5px}"]
+                    template: "<div class=\"container\">\n\n\n  <mat-card>\n    <mat-toolbar-row class=\"searchbar\">\n      <span class=\"inputfilter\">\n    <!-- <mat-form-field class=\"searchdiv\">\n\n      <input  class=\"filterForFilter\" matInput (keyup)=\"applyFilter($event.target.value)\" placeholder=\"Filter\">\n    </mat-form-field> -->\n</span>\n      <span class=\"inputfilterForloop\" *ngIf=\"search_settingsval !=null && search_settingsval.textsearch != null \">\n    <mat-form-field *ngFor=\"let item of search_settingsval.textsearch\" class=\"searchdiv\">\n\n      <input class=\"filterForText\" matInput (change)=\"textsearchfunction(item.field)\" (keyup)=\"textsearchfunction(item.field)\" [(ngModel)]='tsearch[item.field]' placeholder=\"{{item.label}}\">\n      <span class=\"filterForTexticon\" matPrefix><i class=\"material-icons searchicon\" >\n        search\n      </i> &nbsp;</span>\n    </mat-form-field>\n      </span>\n\n<span class=\"inputfilterForAuto\" *ngIf=\"search_settingsval !=null && search_settingsval.search != null \">\n  <mat-form-field class=\"filterForAuto\" *ngFor=\"let item of search_settingsval.search\">\n    <input class=\"filterForAutoInput\"  type=\"text\" placeholder=\"{{item.label}}\" matInput [(ngModel)]=\"autosearch[item.field]\" [matAutocomplete]=\"auto\">\n    <mat-autocomplete  #auto=\"matAutocomplete\" >\n       <mat-option *ngFor=\"let option of result.res | async\" [value]=\"option[item.field]\" (click)=\"autosearchfunction(item.field)\">\n        {{option[item.field]}}\n      </mat-option>\n    </mat-autocomplete>\n  </mat-form-field>\n</span>\n\n\n\n<!--      <span *ngIf=\"search_settingsval !=null && search_settingsval != null \">\n\n      <mat-form-field *ngFor=\"let item of search_settingsval.search\">\n        <mat-label>{{item.label}}</mat-label>\n        <mat-select>\n          <mat-option *ngFor=\"let status of preresult\" [value]=\"status\" (click)=\"autosearchfunction(status.email)\">\n            {{status.email}}\n          </mat-option>\n        </mat-select>\n      </mat-form-field>\n\n      </span>-->\n    <!--  <ng-container  *ngIf=\"search_settingsval !=null && search_settingsval.textsearch != null \">\n&lt;!&ndash;        <span *ngFor=\"let status of this.search_settingsval.textsearch\">&ndash;&gt;\n&lt;!&ndash;        <mat-form-field *ngFor=\"let statusval of status.value\">&ndash;&gt;\n        <mat-form-field *ngFor=\"let status of this.search_settingsval.textsearch\">\n              <input matInput (keyup)=\"applyFilter1($event.target.value, status)\" placeholder=\"{{status.label}}\">\n        </mat-form-field>\n&lt;!&ndash;              </span>&ndash;&gt;\n      </ng-container>-->\n\n\n      <ng-container  class=\"filterForTexticon\" *ngIf=\"search_settingsval !=null && search_settingsval.selectsearch != null \">\n        <mat-form-field *ngFor=\"let status of this.search_settingsval.selectsearch\">\n          <mat-label>{{status.label}}</mat-label>\n          <mat-select>\n            <mat-option *ngFor=\"let statusval of status.values\" [value]=\"statusval\" (click)=\"selectSearch(statusval.val, status)\">\n              {{statusval.name}}\n            </mat-option>\n          </mat-select>\n        </mat-form-field>\n      </ng-container>\n\n\n      <ng-container *ngIf=\"date_search_endpointval !=null && date_search_sourceval != null && search_settingsval.datesearch != null \">\n        <span  class=\"filterFordatesearch\" *ngFor=\"let status of this.search_settingsval.datesearch\">\n        <mat-form-field class=\"filterFordatesearchformfield\">\n          <input class=\"filterFordatesearchinput\" matInput [matDatepicker]=\"picker\"autocomplete=\"off\"  placeholder=\"{{status.startdatelabel}}\"  [(ngModel)]=\"start_date\" (keyup)=\"dateSearch(status.field)\" (blur)=\"dateSearch(status.field)\">\n          <mat-datepicker-toggle matSuffix [for]=\"picker\" ></mat-datepicker-toggle>\n          <mat-datepicker #picker></mat-datepicker>\n        </mat-form-field>\n        <mat-form-field class=\"filterFordatesearchend\">\n          <input class=\"filterFordatesearchinput\" matInput [matDatepicker]=\"picker1\" autocomplete=\"off\" placeholder=\"{{status.enddatelabel}}\" [(ngModel)]=\"end_date\" (keyup)=\"dateSearch(status.field)\">\n          <mat-datepicker-toggle matSuffix [for]=\"picker1\"></mat-datepicker-toggle>\n          <mat-datepicker #picker1 ></mat-datepicker>\n        </mat-form-field>\n        <button mat-raised-button color=\"primary\" class=\"add_button\"  (click)=\"dateSearch(status.field)\">{{status.submit}}</button>\n      </span>\n      </ng-container>\n\n\n      <!-- use for refresh all data -->\n      <ng-container class=\"refresh\">\n        <i (click)=\"refreshalldata(dataSource)\" class=\"material-icons\">\n          autorenew\n          </i>\n      </ng-container>\n\n      <ng-container class=\"refresh\"  *ngIf=\"date_search_endpointval ==null || date_search_sourceval == null || search_settingsval.datesearch == null \">\n       <button mat-button (click)=\"allSearch()\">Search</button>\n      </ng-container>\n\n\n\n      <span *ngIf=\"click_to_add_ananother_pageval !=null\">\n        <button mat-raised-button color=\"primary\" class=\"add_button\" [routerLink]=\"click_to_add_ananother_pageval\" >Add</button>\n      </span>\n    </mat-toolbar-row>\n\n\n\n    <ng-container *ngIf=\"selection.selected.length!=null && selection.selected.length>0\">\n      <span class=\"multipledeleteandupdatebuttan\">\n\n      <button mat-raised-button (click)=\"deletemultiple()\"> Delete </button>\n      <button mat-raised-button (click)=\"managestatusmultiple()\"> Update Status </button>\n\n      </span>\n    </ng-container>\n\n\n    <div class=\"tablewrapper\" *ngIf=\"tableflag==0\">\n\n      <table mat-table [dataSource]=\"dataSource\"  class=\"mat-elevation-z8\">\n\n      <ng-container matColumnDef=\"select\">\n        <th mat-header-cell *matHeaderCellDef>\n          <mat-checkbox (change)=\"$event ? masterToggle() : null\"\n                        [checked]=\"selection.hasValue() && isAllSelected()\"\n                        [indeterminate]=\"selection.hasValue() && !isAllSelected()\">\n          </mat-checkbox>\n        </th>\n        <td mat-cell *matCellDef=\"let row\" data-label=\"select\">\n          <mat-checkbox (click)=\"$event.stopPropagation()\"\n                        (change)=\"$event ? selection.toggle(row) : null\"\n                        [checked]=\"selection.isSelected(row)\">\n          </mat-checkbox>\n        </td>\n      </ng-container>\n\n      <ng-container *ngFor=\"let column of columns\" [matColumnDef]=\"column.columnDef\" >\n        <th mat-header-cell *matHeaderCellDef  class=\"th-header-center\">{{column.header}}</th>\n        <td mat-cell *matCellDef=\"let row\" [ngStyle]=\"styleCell(column,row)\" data-title=\"{{column.header}}\"   class=\"td-cell-center\">\n          \n          <span *ngIf=\"column.columnDef=='status' \">{{ getstatus([column.cell(row)]) }} {{pdfFlag(row)}}</span>\n          <span *ngIf=\"column.columnDef!='status' &&  column.columnDef!='image' && column.columnDef!='video'\">{{ column.cell(row) }}</span>\n          <!-- for image view  -->\n          <span *ngIf=\"column.columnDef=='image'\" (click)=\"img_modal_view(column.cell(row))\"> <span class=\"module_imgblock\"><img src=\"{{ column.cell(row) }}\" alt=\"{{ column.cell(row) }}\" ></span></span>\n          <!-- for video view -->\n          <span *ngIf=\"column.columnDef=='video' \"><span class=\"module_videoblock\" (click)=\"fetchvideo(row)\">\n            <img src=\"https://img.youtube.com/vi/{{ column.cell(row) }}/sddefault.jpg\" alt=\"{{ column.cell(row) }}\" \n                                                      (click)=\"fetchvideo(row)\"></span>\n                                                    </span>\n\n          <span *ngIf=\"column.columnDef=='grab_url && grab_linkval!=null && grab_linkval[0]!=null' \">{{grapurl(row[this.grab_linkval[0].field_name])}}</span>\n          <br>\n\n<!--          <span *ngIf=\"sh==true\">-->\n            <span *ngIf=\"column.columnDef=='contractssigned' && sh==true && urlval !=null\" class=\"cursor\">\n              <i title=\"{{urlval[0].label}}\" (click)=\"clickurl(row,urlval[0].url)\" class=\"material-icons\">cloud_download</i>\n            </span>\n<!--          </span>-->\n<!--          <span *ngIf=\"aud==true\">-->\n            <span *ngIf=\"column.columnDef=='contractssigned' && aud==true  && urlval !=null\">\n              <i title=\"{{urlval[1].label}}\" (click)=\"clickurl(row,urlval[1].url)\" class=\"material-icons\">cloud_download</i>\n            </span>\n\n\n<!--// for grap url//-->\n\n\n\n          <span *ngIf=\" grab_linkval!=null && grab_linkval[0]!=null && column.columnDef==[grab_linkval[0].col_name]\" class=\"cursor\">\n              <button mat-button (click)=\"copyText(row[grab_linkval[0].field_name],grab_linkval[1].url)\">{{grab_linkval[1].label}}</button>\n            </span>\n          <br>\n          <!--          </span>-->\n          <!--          <span *ngIf=\"aud==true\">-->\n          <span *ngIf=\"grab_linkval!=null && grab_linkval[0]!=null &&column.columnDef== [grab_linkval[0].col_name]\">\n              <button mat-button (click)=\"copyText(row[grab_linkval[0].field_name],grab_linkval[2].url)\">{{grab_linkval[2].label}}</button>\n            </span>\n\n<!--          //grap url end//-->\n\n\n<!--          </span>-->\n          <!-- <span *ngIf=\"column.columnDef=='contractssigned' \">\n            <span *ngFor=\"let item of urlval\" class=\"cursor\">\n            <i title=\"{{item.label}}\" (click)=\"clickurl(row,item.url)\" class=\"material-icons\">cloud_download</i>\n          </span>\n          </span>-->\n        </td>\n      </ng-container>\n\n\n\n      <ng-container matColumnDef=\"Actions\">\n        <th mat-header-cell *matHeaderCellDef  class=\"th-header-center\">Actions</th>\n        <td (click)=\"$event.stopPropagation()\" mat-cell  *matCellDef=\"let row\" data-label=\"Actions\"  class=\"td-cell-center\">\n          <span *ngIf=\"selection.selected.length==null || selection.selected.length==0\">\n            <span class=\"cursor\" (click)=\"editdata(row)\" >\n              <i class=\"material-icons\">\n                edit\n              </i>\n            </span>\n\n            <!--For modern browsers-->\n            <span class=\"cursor\" (click)=\"deletedata(row)\" >\n              <i class=\"material-icons\">\n                delete_outline\n              </i>\n            </span>\n\n            <!--For modern browsers-->\n            <span class=\"cursor\" (click)=\"viewdata(row)\" >\n              <i class=\"material-icons\">\n                remove_red_eye\n              </i>\n            </span>\n\n            <!--For modern browsers-->\n            <span class=\"cursor\" (click)=\"managestatus(row)\" >\n              <i class=\"material-icons\">\n                toggle_off\n              </i>\n            </span>\n            <span *ngIf=\"custombuttonval!=null\" class=\"cursor treeclass\" (click)=\"custombuttonfunc(row)\" >\n              <i class=\"material-icons treeclass\">\n                toggle_off\n              </i>\n            </span>\n\n            <!-- artistxp preview start -->\n            <span *ngIf=\"previewFlug==true\" class=\"cursor treeclass\" (click)=\"artistxpPreview(row)\">\n              <i class=\"material-icons\">perm_media</i>\n            </span>\n            <!-- artistxp preview end -->\n\n          </span>\n\n        </td>\n      </ng-container>\n\n\n\n\n\n\n      <tr mat-header-row *matHeaderRowDef=\"displayedColumns\"></tr>\n      <tr mat-row *matRowDef=\"let row; columns: displayedColumns;\"></tr>\n\n      </table>\n\n    </div>\n\n    <!--for pagination -->\n      <mat-label>Total Data:</mat-label>\n        <span *ngIf=\"date_search_source_countval!=0 \">  {{date_search_source_countval}} </span>\n        <span *ngIf=\"date_search_source_countval==0 \"> Many </span>\n\n<ng-container *ngIf=\"tableflag==0\">\n\n    <mat-form-field>\n        <mat-label>Page Size</mat-label>\n        <input matInput [(ngModel)]=\"limitcondval.limit\" type=\"number\" (keyup)=\"paging(10)\" >\n    </mat-form-field>\n\n    <mat-form-field>\n        <mat-label>Page No</mat-label>\n        <input matInput [(ngModel)]=\"limitcondval.pagecount\" type=\"number\"  (keyup)=\"paging(10)\">\n    </mat-form-field>\n\n\n    <span class=\"material-icons cursor\" (click)=\"paging(-1)\">\nskip_previous\n</span>\n\n    <span class=\"material-icons cursor\" (click)=\"paging(1)\">\nskip_next\n</span>\n\n</ng-container>\n\n\n\n   <!-- <mat-paginator class=\"paginator\" [pageSizeOptions]=\"[5,10, 20, 50,100]\" showFirstLastButtons></mat-paginator>-->\n    <mat-spinner *ngIf=\"loading == true\" ></mat-spinner>\n\n\n\n   <!-- <form [formGroup]=\"stateForm\">\n      <mat-form-field>\n        <input type=\"text\" matInput placeholder=\"States Group\" formControlName=\"stateGroup\" required [matAutocomplete]=\"autoGroup\">\n        <mat-autocomplete #autoGroup=\"matAutocomplete\">\n          <mat-optgroup *ngFor=\"let group of stateGroupOptions | async\" [label]=\"group.letter\">\n            <mat-option *ngFor=\"let name of group.names\" [value]=\"name\">\n              {{name}}\n            </mat-option>\n          </mat-optgroup>\n        </mat-autocomplete>\n      </mat-form-field>\n    </form>-->\n\n    <!--<form class=\"example-form\">\n      <mat-form-field class=\"example-full-width\">\n        <input type=\"text\" placeholder=\"Select state\" aria-label=\"Number\" matInput [formControl]=\"myControl\" [matAutocomplete]=\"auto\">\n        <mat-autocomplete #auto=\"matAutocomplete\">\n          <mat-option *ngFor=\"let option of stateGroup | async\" [value]=\"option\">\n            {{option}}\n          </mat-option>\n        </mat-autocomplete>\n      </mat-form-field>\n    </form>\n-->\n\n  </mat-card>\n\n<!--\n  <mat-card>\n\n    <div class=\"example-container\">\n\n\n      <mat-card-content >\n        <mat-form-field class=\"form-group\">\n            <input (blur)=\"inputblur('email')\" matInput placeholder=\"email\" type=\"email\" [formControl]=\"myForm.controls['email']\" >\n            <mat-error  *ngIf=\"!myForm.controls['email'].valid && myForm.controls['email'].touched && issubmit==1\">email field can not be blank</mat-error>\n        </mat-form-field>\n\n        <mat-form-field class=\"form-group\">\n            <input (blur)=\"inputblur('password')\" matInput placeholder=\"Password\" type=\"password\" [formControl]=\"myForm.controls['password']\" >\n            <mat-error  *ngIf=\"!myForm.controls['password'].valid && myForm.controls['password'].touched && issubmit==1\">Password field can not be blank</mat-error>\n        </mat-form-field>\n\n            <button mat-button  (click)=\"onSubmit()\" class=\"s_getmyoffer_login_button\"  >Login</button>\n        </mat-card-content>\n\n\n    </div>\n\n  </mat-card>-->\n\n\n\n</div>\n",
+                    styles: [".container{background:#fff}body{font-family:Roboto,Arial,sans-serif;margin:0;display:none!important}.basic-container{padding:30px}.version-info{font-size:8pt;float:right}table{width:100%}th.mat-sort-header-sorted{color:#000}.cursor{cursor:pointer!important}.custom-modalbox{display:none}.module_imgblock{display:block;width:100px;overflow:hidden;text-align:center;vertical-align:middle;background:#111}.module_imgblock img{width:100%;height:auto}.module_videoblock{display:block;width:100px;position:relative;overflow:hidden;text-align:center;vertical-align:middle;background:#111}.module_videoblock img{width:100%;height:auto}.module_videoblock::after{content:'';display:block;width:30%;height:38%;background:url(image/video-play-arrow-png.png) 0 0/cover no-repeat;position:absolute;left:31%;top:30%}.tablewrapper tr td,.tablewrapper tr th{padding:5px}"]
                 }] }
     ];
     /** @nocollapse */
@@ -2145,6 +2305,8 @@ var ListingComponent = /** @class */ (function () {
     ListingComponent.propDecorators = {
         search_settings: [{ type: Input }],
         click_to_add_ananother_page: [{ type: Input }],
+        limitcond: [{ type: Input }],
+        date_search_source_count: [{ type: Input }],
         grab_link: [{ type: Input }],
         custombutton: [{ type: Input }],
         date_search_source: [{ type: Input }],
@@ -2154,6 +2316,7 @@ var ListingComponent = /** @class */ (function () {
         pdf_link: [{ type: Input }],
         searchList: [{ type: Input }],
         datasource: [{ type: Input }],
+        datacollection: [{ type: Input }],
         skip: [{ type: Input }],
         detail_datatype: [{ type: Input }],
         detail_skip_array: [{ type: Input }],

@@ -120,22 +120,34 @@ export class AdmindashbordComponent implements OnInit {
 
     // date_search_endpoint is use for date search endpoint
     date_search_endpoint: any='datalist';
+    // send basic limit data
+    limitcond:any={
+        "limit":10,
+        "skip":0,
+        "pagecount":1
+    };
 
 
     // this is a database collection or view name
     date_search_source: any='admin_blog_list';
+    // datacollection
+    datacollection: any='getadminbloglistdata';
+    //source count
+    date_search_source_count: any=0;
 
     // this is use for  All type of search 
     search_settings:any={
 
-        datesearch:[{startdatelabel:"Start Date",enddatelabel:"End Date",submit:"Search",  field:"created_at"}],   // this is use for  date search 
+        //datesearch:[{startdatelabel:"Start Date",enddatelabel:"End Date",submit:"Search",  field:"created_at"}],   // this is use for  date search
 
         selectsearch:[{ label: 'Search By Status', field: 'status', values: this.status }], // this is use for  select search
 
-         textsearch:[{label:"Search By email",field:'blogtitle_search'},{label:"Search by auther",field:"author"}],  // this is use for  text search
+         textsearch:[{label:"Search By Title",field:'blogtitle_search'},{label:"Search by auther",field:"author_search"}],  // this is use for  text search
 
         // search:[{label:"Search By autocomplete",field:'status',values:this.status}]     // this is use for  Autocomplete search
     };
+
+    // this is search block 
 
 
 
@@ -162,6 +174,7 @@ export class AdmindashbordComponent implements OnInit {
         // console.log(this.custom_link);
         this.datasource = '';
         let endpoint='getadminbloglistdata';
+        let endpointc='getadminbloglistdata-count';
         let data:any={
             "condition":{
                 "limit":10,
@@ -169,15 +182,27 @@ export class AdmindashbordComponent implements OnInit {
             }
 
         }
+        this._apiService.postData(endpointc, {}).subscribe((res:any) => {
+            // console.log('in constructor');
+            // console.log(result);
+            this.date_search_source_count =res.count;
+            console.warn('blogData c',res);
+
+        }, error => {
+            console.log('Oooops!');
+        });
+
         this._apiService.postData(endpoint,data).subscribe((res:any) => {
             // console.log('in constructor');
             // console.log(result);
-            this.pendingmodelapplicationarray =res.results.blogs;
+            this.pendingmodelapplicationarray =res.results.res;
             //console.warn('blogData',res);
 
         }, error => {
             console.log('Oooops!');
         });
+
+
     }
 
     ngOnInit() {

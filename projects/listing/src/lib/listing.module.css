@@ -27,6 +27,9 @@ table {
 th.mat-sort-header-sorted {
     color: black;
 }
+.cursor{
+    cursor: pointer !important;
+}
 
 .custom-modalbox{display: none}
 

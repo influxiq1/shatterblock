@@ -53,14 +53,18 @@ export class ListingComponent implements OnInit {
   apiurlval: any;
   updateendpointval: any;
   modify_header_arrayval: any;
+  date_search_source_countval: any;
+  datacollectionval: any;
   selection: any;
   sourcedataval: any;
   emailarrayval: any;
   columns: any = [];
   olddata: any = [];
   tsearch: any = [];
+  tableflag: any = 0;
   autosearch: any = [];
   public x: any;
+  public limitcondval: any={};
   public custombuttonval: any;
   public result: any = {};
   public sh: any = false;
@@ -88,6 +92,17 @@ export class ListingComponent implements OnInit {
   @Input()
   set click_to_add_ananother_page(click_to_add_ananother_page: any) {
     this.click_to_add_ananother_pageval = click_to_add_ananother_page;
+  }
+  @Input()
+  set limitcond(limitcondval: any) {
+    this.limitcondval = limitcondval;
+    console.log('limitcondval',this.limitcondval);
+  }
+  @Input()
+  set date_search_source_count(date_search_source_countval: any) {
+    this.date_search_source_countval = date_search_source_countval;
+    if(this.date_search_source_countval==0) this.limitcondval.pagecount=1;
+    console.log('date_search_source_count',this.date_search_source_countval);
   }
 
   @Input()
@@ -127,6 +142,10 @@ export class ListingComponent implements OnInit {
   @Input()
   set datasource(datasource: any) {
     this.datasourceval = datasource;
+  }
+  @Input()
+  set datacollection(datacollectionval: any) {
+    this.datacollectionval = datacollectionval;
   }
 
   @Input()
@@ -347,8 +366,8 @@ export class ListingComponent implements OnInit {
     this.olddata = data_list;
     this.dataSource = new MatTableDataSource(data_list);
     this.selection = new SelectionModel(true, []);
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
+    //this.dataSource.paginator = this.paginator;
+    //this.dataSource.sort = this.sort;
   }
 /**image view modal */
 img_modal_view(img:any){
@@ -373,40 +392,61 @@ const dialogRef = this.dialog.open(ImageView, {
     // console.log(this.end_date);
     // let sd = moment(this.start_date).unix();
     // let ed = moment(this.end_date).unix();
-    let link = this.apiurlval + '' + this.date_search_endpointval;
+    let link = this.apiurlval + '' + this.datacollectionval;
+    let link1 = this.apiurlval + '' + this.datacollectionval+'-count';
+    let source: any;
+    let condition: any;
+    let textSearch:any={};
+    condition = {};
     if (moment(this.end_date).unix() != null && moment(this.start_date).unix() != null) {
-
-
-      let source: any;
-      let condition: any;
-      let textSearch:any={};
-      condition = {};
-
-      condition[val] = {
-        $lte: new Date(this.end_date).getTime(),
-        $gte: new Date(this.start_date).getTime(),
-      };
-      for(let i in this.tsearch){
-        textSearch[i+'_regex']=this.tsearch[i];
-      }
 
 
 
       this.dateSearch_condition = {};
       this.dateSearch_condition = condition;
+
+      if(this.end_date!=null && this.start_date!=null) {
+        condition[val] = {
+          $lte: new Date(this.end_date).getTime(),
+          $gte: new Date(this.start_date).getTime(),
+        };
+      }
+      for(let i in this.tsearch){
+        textSearch[i]={$regex:this.tsearch[i].toLowerCase()};
+      }
+
+
+
+
       let conditionobj = Object.assign({}, textSearch, this.dateSearch_condition, this.autoSearch_condition, this.selectSearch_condition);
       source = {
-        source: this.date_search_sourceval,
-        condition: conditionobj,
+        "condition":{
+          limit:this.limitcondval.limit,
+          skip:0
+        },
+        searchcondition: conditionobj,
       };
 
-      console.warn(condition,this.dateSearch_condition,conditionobj,this.tsearch,textSearch);
+      console.log('con...',conditionobj,this.end_date);
+      console.warn('cond',condition,this.dateSearch_condition,conditionobj,this.tsearch,textSearch);
+      //return;
+      this.date_search_source_countval=0;
       this._apiService.postSearch(link, this.jwttokenval, source).subscribe(res => {
         let result: any = {};
         result = res;
-        this.dataSource = new MatTableDataSource(result.res);
-        this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort;
+        this.dataSource = new MatTableDataSource(result.results.res);
+       // this.dataSource.paginator = this.paginator;
+        //this.dataSource.sort = this.sort;
+      })
+
+      this._apiService.postSearch(link1, this.jwttokenval, source).subscribe(res => {
+        let result: any = {};
+        result = res;
+        this.date_search_source_countval = (result.count);
+        if(result.count==0) this.tableflag=1;
+        console.log('count',result);
+        // this.dataSource.paginator = this.paginator;
+        //this.dataSource.sort = this.sort;
       })
 
       /*this._http.post(link, {source:this.date_search_sourceval,
@@ -459,6 +499,60 @@ const dialogRef = this.dialog.open(ImageView, {
     //   console.log('oops');
     // }
     // console.log("error");
+  }
+
+  paging(val:any){
+  if(val==1) {
+    this.limitcondval.skip=(this.limitcondval.pagecount)*this.limitcondval.limit;
+    this.limitcondval.pagecount++;
+  }
+  if(val==-1 && this.limitcondval.skip>this.limitcondval.limit) {
+    this.limitcondval.skip=(this.limitcondval.pagecount-1)*this.limitcondval.limit;
+    this.limitcondval.pagecount--;
+  }
+  if(val>1){
+    if(this.limitcondval.pagecount==1) this.limitcondval.skip=0;
+    else this.limitcondval.skip=(this.limitcondval.pagecount-1)*this.limitcondval.limit;
+    //this.limitcondval.pagecount--;
+
+  }
+  if(val==-1 && this.limitcondval.skip<this.limitcondval.limit) return;
+  console.log(val,'ss',this.datacollectionval,this.limitcondval);
+  let textSearch:any={};
+
+
+    for(let i in this.tsearch){
+      textSearch[i]={$regex:this.tsearch[i].toLowerCase()};
+    }
+
+    let conditionobj = Object.assign({}, textSearch, this.dateSearch_condition, this.autoSearch_condition, this.selectSearch_condition);
+    let source = {
+      "condition":{
+        limit:this.limitcondval.limit,
+        skip:this.limitcondval.skip
+      },
+      searchcondition: conditionobj,
+    };
+
+    let link = this.apiurlval + '' + this.datacollectionval;
+    /*let data:any={
+      "condition":{
+        limit:this.limitcondval.limit,
+        skip:this.limitcondval.skip
+      }
+
+    }*/
+    this.loading = true;
+    this._apiService.postSearch(link, this.jwttokenval, source).subscribe(res => {
+      this.result = res;
+      console.log(this.result,'res');
+      this.dataSource = new MatTableDataSource(this.result.results.res);
+      this.loading = false;
+      //this.dataSource.paginator = this.paginator;
+      //this.dataSource.sort = this.sort;
+
+    });
+
   }
   autosearchfunction(value: any) {
     let val: any = this.autosearch[value];
@@ -522,8 +616,8 @@ const dialogRef = this.dialog.open(ImageView, {
   refreshalldata(val: any) {
     this.dataSource = new MatTableDataSource(this.olddata);
     this.selection = new SelectionModel(true, []);
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
+    //this.dataSource.paginator = this.paginator;
+    //this.dataSource.sort = this.sort;
 
     if (val.filteredData.length < this.olddata.length) {
       let dialogRef = this.dialog.open(Confirmdialog, {
@@ -970,22 +1064,50 @@ const dialogRef = this.dialog.open(ImageView, {
   allSearch(){
     console.log("hit");
 
-    let link = this.apiurlval + '' + this.date_search_endpointval;
-    let conditionobj = Object.assign({}, this.textSearch_condition, this.dateSearch_condition, this.autoSearch_condition, this.selectSearch_condition);
-   let source = {
-      source: this.date_search_sourceval,
-      condition: conditionobj,
+    let link = this.apiurlval + '' + this.datacollectionval;
+    let link1 = this.apiurlval + '' + this.datacollectionval+'-count';
+    let source: any;
+    let condition: any;
+    let textSearch:any={};
+    condition = {};
+    for(let i in this.tsearch){
+      textSearch[i]={$regex:this.tsearch[i].toLowerCase()};
+    }
+
+
+
+
+    let conditionobj = Object.assign({}, textSearch, this.dateSearch_condition, this.autoSearch_condition, this.selectSearch_condition);
+    source = {
+      "condition":{
+        limit:this.limitcondval.limit,
+        skip:0
+      },
+      searchcondition: conditionobj,
     };
-    console.warn(conditionobj);
-    console.warn(this.tsearch,this.dateSearch_condition,this.autoSearch_condition,this.selectSearch_condition);
-    return;
+
+    console.log('con...',conditionobj,this.end_date);
+    console.warn('cond',condition,this.dateSearch_condition,conditionobj,this.tsearch,textSearch);
+    //return;
+    this.date_search_source_countval=0;
     this._apiService.postSearch(link, this.jwttokenval, source).subscribe(res => {
       let result: any = {};
       result = res;
-      this.dataSource = new MatTableDataSource(result.res);
-      this.dataSource.paginator = this.paginator;
-      this.dataSource.sort = this.sort;
+      this.dataSource = new MatTableDataSource(result.results.res);
+      // this.dataSource.paginator = this.paginator;
+      //this.dataSource.sort = this.sort;
     })
+
+    this._apiService.postSearch(link1, this.jwttokenval, source).subscribe(res => {
+      let result: any = {};
+      result = res;
+      this.date_search_source_countval = (result.count);
+      if(result.count==0) this.tableflag=1;
+      console.log('count',result);
+      // this.dataSource.paginator = this.paginator;
+      //this.dataSource.sort = this.sort;
+    })
+
   }
 
 
