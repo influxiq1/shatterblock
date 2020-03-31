@@ -24,10 +24,38 @@
 
             <span class="inputfilterForAuto" *ngIf="search_settingsval !=null && search_settingsval.search != null ">
                 <mat-form-field class="filterForAuto" *ngFor="let item of search_settingsval.search">
-                    <input class="filterForAutoInput"  type="text" placeholder="{{item.label}}" matInput [(ngModel)]="autosearch[item.field]" [matAutocomplete]="auto">
+
+
+                    <mat-chip-list #chipList aria-label="Fruit selection">
+    <mat-chip
+            *ngFor="let v of autosearch[item.field]; let i=index;"
+            [selectable]="true"
+            [removable]="true"
+            (removed)="remove(v,i,item.field)">
+      {{v.name}}
+        <mat-icon matChipRemove >cancel</mat-icon>
+    </mat-chip>
+    <input
+            placeholder="{{item.label}}"
+            #fruitInput
+            [matAutocomplete]="auto"
+            [matChipInputFor]="chipList"
+            [(ngModel)]="autosearchinput[item.field]"
+            >
+  </mat-chip-list>
+
+                    <!--[matChipInputSeparatorKeyCodes]="[ENTER, COMMA]"-->
+                    <!--(matChipInputTokenEnd)="addautosearchdata($event)"-->
+
+
+                    <!--<input class="filterForAutoInput"  type="text" placeholder="{{item.label}}" matInput [(ngModel)]="autosearch[item.field]" [matAutocomplete]="auto">-->
                     <mat-autocomplete  #auto="matAutocomplete" >
-                        <mat-option *ngFor="let option of result.res | async" [value]="option[item.field]" (click)="autosearchfunction(item.field)">
+                        <!--<mat-option *ngFor="let option of item.values | async" [value]="option[item.field]" (click)="autosearchfunction(item.field)">
                             {{option[item.field]}}
+                        </mat-option>-->
+
+                        <mat-option *ngFor="let statusval of item.values" [value]="statusval.val" (click)="autosearchfunction(item.field,statusval)">
+                            {{statusval.name}}
                         </mat-option>
                     </mat-autocomplete>
                 </mat-form-field>
@@ -88,7 +116,7 @@
 
             <!-- use for refresh all data -->
             <ng-container class="refresh">
-                <i (click)="refreshalldata(dataSource)" class="material-icons">
+                <i (click)="allSearch()" class="material-icons">
                     autorenew
                 </i>
             </ng-container>
@@ -150,7 +178,6 @@
                     <th mat-header-cell *matHeaderCellDef  class="th-header-center">
                         <span>
                             {{column.header}}
-                            {{column.columnDef}}
                             <span *ngIf="column.columnDef==sortdataval.field && sortdataval.type=='desc'" class="material-icons cursor float-right" (click)="sorttable(column.columnDef,'asc')">
                             arrow_downward
                         </span>
@@ -282,7 +309,7 @@
         <mat-card *ngIf="tableflag!=0">No Records Exists !!!</mat-card>
         <ng-container *ngIf="tableflag==0">
 
-            <mat-label>Showing {{(limitcondval.pagecount-1)*limitcondval.limit}} To  {{(limitcondval.pagecount)*limitcondval.limit}}:</mat-label>
+            <mat-label>Showing {{(limitcondval.pagecount-1)*limitcondval.limit}} To  {{(limitcondval.pagecount)*limitcondval.limit}} of </mat-label>
             <span *ngIf="date_search_source_countval!=0 ">  {{date_search_source_countval}} </span>
             <span *ngIf="date_search_source_countval==0 "> Many </span>
             <mat-form-field>

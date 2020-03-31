@@ -61,6 +61,7 @@ export class ListingComponent implements OnInit {
   sourcedataval: any;
   emailarrayval: any;
   columns: any = [];
+  autosearchinput: any = [];
   olddata: any = [];
   tsearch: any = [];
   tableflag: any = 0;
@@ -430,10 +431,21 @@ export class ListingComponent implements OnInit {
         textSearch[i]={$regex:this.tsearch[i].toLowerCase()};
       }
 
+      let autosearch:any={};
+      //this.autosearch;
+      for(let b in this.autosearch){
+        for(let m in this.autosearch[b]){
+          let tv:any={};
+          tv[b]=this.autosearch[b][m].val.toLowerCase();
+          if(autosearch['$or']==null) autosearch['$or']=[];
+          autosearch['$or'].push(tv);
+        }
+      }
 
 
 
-      let conditionobj = Object.assign({}, textSearch, this.dateSearch_condition, this.autoSearch_condition, this.selectSearch_condition);
+
+      let conditionobj = Object.assign({}, textSearch, this.dateSearch_condition, autosearch, this.selectSearch_condition);
       source = {
         "condition":{
           limit:this.limitcondval.limit,
@@ -546,7 +558,7 @@ export class ListingComponent implements OnInit {
       textSearch[i]={$regex:this.tsearch[i].toLowerCase()};
     }
 
-    let conditionobj = Object.assign({}, textSearch, this.dateSearch_condition, this.autoSearch_condition, this.selectSearch_condition);
+    let conditionobj = Object.assign({}, textSearch, this.dateSearch_condition, this.autosearch, this.selectSearch_condition);
     let source = {
       "condition":{
         limit:this.limitcondval.limit,
@@ -579,18 +591,35 @@ export class ListingComponent implements OnInit {
     });
 
   }
-  autosearchfunction(value: any) {
-    let val: any = this.autosearch[value];
+
+  addautosearchdata(val:any){
+    console.log('v',val);
+
+  }
+  remove(val:any,i:any,field:any){
+
+    if(this.autosearch[field] !=null)this.autosearch[field].splice(i,1);
+  }
+  autosearchfunction(value: any,data:any) {
+    this.autosearchinput[value]='';
+    console.log(this.autosearchinput,'asi');
+    if(this.autosearch[value]==null) {
+      this.autosearch[value]=[];
+      ;
+    }
+    this.autosearch[value].push(data);
+    console.log(value,data,'ss',this.autosearch);
+    /*let val: any = this.autosearch[value];
     let source: any;
     let condition: any = {};
-    if (this.autosearch[value].length > 0 && { $or: [this.autosearch[value].toLowerCase(), this.autosearch[value].toUpperCase(), this.autosearch[value]] }) condition[value + '_regex'] = val;
+    if (this.autosearch[value] !=null && this.autosearch[value].length > 0 && { $or: [this.autosearch[value].toLowerCase(), this.autosearch[value].toUpperCase(), this.autosearch[value]] }) condition[value + '_regex'] = val;
     this.autoSearch_condition = {};
     this.autoSearch_condition = condition;
     let conditionobj = Object.assign({}, this.textSearch_condition, this.dateSearch_condition, this.autoSearch_condition, this.selectSearch_condition);
     source = {
       source: this.date_search_sourceval,
       condition: conditionobj
-    };
+    };*/
     // let link = this.apiurlval + '' + this.date_search_endpointval;
     // this._apiService.postSearch(link, this.jwttokenval, source).subscribe(res => {
     //   this.result = res;
@@ -1105,10 +1134,21 @@ export class ListingComponent implements OnInit {
       textSearch[i]={$regex:this.tsearch[i].toLowerCase()};
     }
 
+    let autosearch:any={};
+    //this.autosearch;
+    for(let b in this.autosearch){
+      for(let m in this.autosearch[b]){
+        let tv:any={};
+        tv[b]=this.autosearch[b][m].val.toLowerCase();
+        if(autosearch['$or']==null) autosearch['$or']=[];
+        autosearch['$or'].push(tv);
+      }
+    }
+    //console.log('autos',autosearch);
 
 
 
-    let conditionobj = Object.assign({}, textSearch, this.dateSearch_condition, this.autoSearch_condition, this.selectSearch_condition);
+    let conditionobj = Object.assign({}, textSearch, this.dateSearch_condition, autosearch, this.selectSearch_condition);
     source = {
       "condition":{
         limit:this.limitcondval.limit,

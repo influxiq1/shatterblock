@@ -141,7 +141,12 @@ export class AdmindashbordComponent implements OnInit {
     //source count
     date_search_source_count: any=0;
 
-    // this is use for  All type of search 
+    // this is use for  All type of search
+     authval:any= [
+        { val: 'YmattZ', 'name': 'YmattZ A' },
+        { val: 'YmattZ', 'name': 'YmattZ A' },
+        { val: 'Jessica', 'name': 'A Jessica' }
+        ];
     search_settings:any={
 
         datesearch:[{startdatelabel:"Start Date",enddatelabel:"End Date",submit:"Search",  field:"created_at"}],   // this is use for  date search
@@ -150,7 +155,7 @@ export class AdmindashbordComponent implements OnInit {
 
          textsearch:[{label:"Search By Title",field:'blogtitle_search'},{label:"Search by auther",field:"author_search"}],  // this is use for  text search
 
-        // search:[{label:"Search By autocomplete",field:'status',values:this.status}]     // this is use for  Autocomplete search
+         search:[{label:"Search By Author",field:'author_search',values:this.authval}]     // this is use for  Autocomplete search
     };
 
     // this is search block 

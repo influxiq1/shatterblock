@@ -50,6 +50,7 @@ export declare class ListingComponent implements OnInit {
     sourcedataval: any;
     emailarrayval: any;
     columns: any;
+    autosearchinput: any;
     olddata: any;
     tsearch: any;
     tableflag: any;
@@ -124,7 +125,9 @@ export declare class ListingComponent implements OnInit {
     dateSearch(val: any): void;
     selectSearch(value: any, type: any): void;
     paging(val: any): void;
-    autosearchfunction(value: any): void;
+    addautosearchdata(val: any): void;
+    remove(val: any, i: any, field: any): void;
+    autosearchfunction(value: any, data: any): void;
     textsearchfunction(value: any): void;
     refreshalldata(val: any): void;
     private _filter;
