@@ -9,8 +9,18 @@ body {
     margin: 0;
     display: none !important;
 }
-
-
+.clear{
+    clear: both;
+    display: block;
+}
+.float-right{
+    float: right;
+    display: inline;
+    clear: none;
+}
+.pad-gap{
+    margin-left: 18px;
+}
 
 .basic-container {
     padding: 30px;

@@ -8,6 +8,7 @@ import { Router } from "@angular/router";
 import { Observable } from 'rxjs';
 import { HttpClient } from "@angular/common/http";
 import { DomSanitizer } from '@angular/platform-browser';
+import { ThemePalette } from "@angular/material/core";
 export interface DialogData {
     alldata: any;
 }
@@ -57,10 +58,15 @@ export declare class ListingComponent implements OnInit {
     limitcondval: any;
     custombuttonval: any;
     result: any;
+    sortdataval: any;
     sh: any;
     art: any;
     aud2: any;
     aud: any;
+    color: ThemePalette;
+    mode: any;
+    value: number;
+    bufferValue: number;
     previewFlug: any;
     search_settings: any;
     click_to_add_ananother_page: any;
@@ -69,6 +75,7 @@ export declare class ListingComponent implements OnInit {
     grab_link: any;
     custombutton: any;
     date_search_source: any;
+    sortdata: any;
     date_search_endpoint: any;
     url: any;
     searchendpoint: any;
@@ -144,6 +151,7 @@ export declare class ListingComponent implements OnInit {
     deletemultiple(): void;
     deletedata(data: any): void;
     editdata(data: any): void;
+    sorttable(field: any, type: any): void;
     allSearch(): void;
     artistxpPreview(singleData: any): void;
 }

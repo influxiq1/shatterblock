@@ -126,6 +126,12 @@ export class AdmindashbordComponent implements OnInit {
         "skip":0,
         "pagecount":1
     };
+// send basic sort data
+    sortdata:any={
+        "type":'desc',
+        "field":'priority',
+        "options":['priority','author','category','blogtitle']
+    };
 
 
     // this is a database collection or view name
@@ -138,7 +144,7 @@ export class AdmindashbordComponent implements OnInit {
     // this is use for  All type of search 
     search_settings:any={
 
-        //datesearch:[{startdatelabel:"Start Date",enddatelabel:"End Date",submit:"Search",  field:"created_at"}],   // this is use for  date search
+        datesearch:[{startdatelabel:"Start Date",enddatelabel:"End Date",submit:"Search",  field:"created_at"}],   // this is use for  date search
 
         selectsearch:[{ label: 'Search By Status', field: 'status', values: this.status }], // this is use for  select search
 
@@ -179,10 +185,14 @@ export class AdmindashbordComponent implements OnInit {
             "condition":{
                 "limit":10,
                 "skip":0
-            }
+            },
+        sort:{
+            "type":'desc',
+            "field":'priority'
+        }
 
         }
-        this._apiService.postData(endpointc, {}).subscribe((res:any) => {
+        this._apiService.postData(endpointc, data).subscribe((res:any) => {
             // console.log('in constructor');
             // console.log(result);
             this.date_search_source_count =res.count;

@@ -18,6 +18,8 @@ import { HttpClient } from "@angular/common/http";
 import { DomSanitizer } from '@angular/platform-browser';
 declare var $: any;
 import * as momentImported from 'moment';
+import {ThemePalette} from "@angular/material/core";
+//import {ProgressBarMode} from '@angular/material/progress-bar';
 const moment = momentImported;
 export interface DialogData {
   alldata: any;
@@ -67,10 +69,18 @@ export class ListingComponent implements OnInit {
   public limitcondval: any={};
   public custombuttonval: any;
   public result: any = {};
+  public sortdataval: any = {};
   public sh: any = false;
   public art: any = false;
   public aud2: any = false;
   public aud: any = false;
+
+  /*for progress bar*/
+
+  color: ThemePalette = 'primary';
+  mode: any = 'indeterminate';
+  value = 50;
+  bufferValue = 75;
 
   /* this variable for artist xp preview */
   previewFlug: any = false;
@@ -117,6 +127,11 @@ export class ListingComponent implements OnInit {
   @Input()
   set date_search_source(date_search_source: any) {
     this.date_search_sourceval = date_search_source;
+  }
+  @Input()
+  set sortdata(sortdataval: any) {
+    this.sortdataval = sortdataval;
+    console.log(this.sortdataval,'sortdataval');
   }
 
   @Input()
@@ -241,7 +256,7 @@ export class ListingComponent implements OnInit {
   // myForm:any;
 
   constructor(public _apiService: ApiService, public dialog: MatDialog, public bottomSheet: MatBottomSheet, public fb: FormBuilder, private router: Router, private resolver: ComponentFactoryResolver,
-    private container: ViewContainerRef, public _http: HttpClient, public sanitizer: DomSanitizer) {
+              private container: ViewContainerRef, public _http: HttpClient, public sanitizer: DomSanitizer) {
 
     this.router.events.subscribe((event: Event) => {
       switch (true) {
@@ -310,10 +325,10 @@ export class ListingComponent implements OnInit {
          );*/
 
     this.stateGroup = this.myControl.valueChanges
-      .pipe(
-        startWith(''),
-        map(value => this._filter(value))
-      );
+        .pipe(
+            startWith(''),
+            map(value => this._filter(value))
+        );
 
     /*const factory = this.resolver.resolveComponentFactory(
         componentMapper[this.field.type]
@@ -369,15 +384,15 @@ export class ListingComponent implements OnInit {
     //this.dataSource.paginator = this.paginator;
     //this.dataSource.sort = this.sort;
   }
-/**image view modal */
-img_modal_view(img:any){
+  /**image view modal */
+  img_modal_view(img:any){
 //console.warn("img_modal_view",img)
-const dialogRef = this.dialog.open(ImageView, {
-  panelClass: 'custom-modalbox-image-preview',
-  height: 'auto',
-  data: { alldata: img }
-});
-}
+    const dialogRef = this.dialog.open(ImageView, {
+      panelClass: 'custom-modalbox-image-preview',
+      height: 'auto',
+      data: { alldata: img }
+    });
+  }
   onSubmit() {
     let x: any;
     this.errormg = '';
@@ -424,6 +439,10 @@ const dialogRef = this.dialog.open(ImageView, {
           limit:this.limitcondval.limit,
           skip:0
         },
+        sort:{
+          field:this.sortdataval.field,
+          type:this.sortdataval.type
+        },
         searchcondition: conditionobj,
       };
 
@@ -431,11 +450,13 @@ const dialogRef = this.dialog.open(ImageView, {
       console.warn('cond',condition,this.dateSearch_condition,conditionobj,this.tsearch,textSearch);
       //return;
       this.date_search_source_countval=0;
+      this.loading=true;
       this._apiService.postSearch(link, this.jwttokenval, source).subscribe(res => {
         let result: any = {};
         result = res;
         this.dataSource = new MatTableDataSource(result.results.res);
-       // this.dataSource.paginator = this.paginator;
+        this.loading=false;
+        // this.dataSource.paginator = this.paginator;
         //this.dataSource.sort = this.sort;
       })
 
@@ -502,23 +523,23 @@ const dialogRef = this.dialog.open(ImageView, {
   }
 
   paging(val:any){
-  if(val==1) {
-    this.limitcondval.skip=(this.limitcondval.pagecount)*this.limitcondval.limit;
-    this.limitcondval.pagecount++;
-  }
-  if(val==-1 && this.limitcondval.skip>this.limitcondval.limit) {
-    this.limitcondval.skip=(this.limitcondval.pagecount-1)*this.limitcondval.limit;
-    this.limitcondval.pagecount--;
-  }
-  if(val>1){
-    if(this.limitcondval.pagecount==1) this.limitcondval.skip=0;
-    else this.limitcondval.skip=(this.limitcondval.pagecount-1)*this.limitcondval.limit;
-    //this.limitcondval.pagecount--;
+    if(val==1) {
+      this.limitcondval.skip=(this.limitcondval.pagecount)*this.limitcondval.limit;
+      this.limitcondval.pagecount++;
+    }
+    if(val==-1 && this.limitcondval.skip>this.limitcondval.limit) {
+      this.limitcondval.skip=(this.limitcondval.pagecount-1)*this.limitcondval.limit;
+      this.limitcondval.pagecount--;
+    }
+    if(val>1){
+      if(this.limitcondval.pagecount==1) this.limitcondval.skip=0;
+      else this.limitcondval.skip=(this.limitcondval.pagecount-1)*this.limitcondval.limit;
+      //this.limitcondval.pagecount--;
 
-  }
-  if(val==-1 && this.limitcondval.skip<this.limitcondval.limit) return;
-  console.log(val,'ss',this.datacollectionval,this.limitcondval);
-  let textSearch:any={};
+    }
+    if(val==-1 && this.limitcondval.skip<this.limitcondval.limit) return;
+    console.log(val,'ss',this.datacollectionval,this.limitcondval);
+    let textSearch:any={};
 
 
     for(let i in this.tsearch){
@@ -530,6 +551,10 @@ const dialogRef = this.dialog.open(ImageView, {
       "condition":{
         limit:this.limitcondval.limit,
         skip:this.limitcondval.skip
+      },
+      sort:{
+        field:this.sortdataval.field,
+        type:this.sortdataval.type
       },
       searchcondition: conditionobj,
     };
@@ -713,8 +738,8 @@ const dialogRef = this.dialog.open(ImageView, {
   /** Selects all rows if they are not all selected; otherwise clear selection. */
   masterToggle() {
     this.isAllSelected() ?
-      this.selection.clear() :
-      this.dataSource.data.forEach(row => this.selection.select(row));
+        this.selection.clear() :
+        this.dataSource.data.forEach(row => this.selection.select(row));
   }
 
   /** The label for the checkbox on the passed row */
@@ -1061,6 +1086,12 @@ const dialogRef = this.dialog.open(ImageView, {
   }
 
 
+  sorttable(field:any,type:any){
+    this.sortdataval.field=field;
+    this.sortdataval.type=type;
+    this.allSearch();
+  }
+
   allSearch(){
     console.log("hit");
 
@@ -1083,6 +1114,10 @@ const dialogRef = this.dialog.open(ImageView, {
         limit:this.limitcondval.limit,
         skip:0
       },
+      sort:{
+        field:this.sortdataval.field,
+        type:this.sortdataval.type
+      },
       searchcondition: conditionobj,
     };
 
@@ -1090,10 +1125,12 @@ const dialogRef = this.dialog.open(ImageView, {
     console.warn('cond',condition,this.dateSearch_condition,conditionobj,this.tsearch,textSearch);
     //return;
     this.date_search_source_countval=0;
+    this.loading=true;
     this._apiService.postSearch(link, this.jwttokenval, source).subscribe(res => {
       let result: any = {};
       result = res;
       this.dataSource = new MatTableDataSource(result.results.res);
+      this.loading=false;
       // this.dataSource.paginator = this.paginator;
       //this.dataSource.sort = this.sort;
     })
@@ -1144,8 +1181,8 @@ const dialogRef = this.dialog.open(ImageView, {
 export class Confirmdialog {
 
   constructor(
-    public dialogRef: MatDialogRef<Confirmdialog>,
-    @Inject(MAT_DIALOG_DATA) public data: any, public sanitizer: DomSanitizer) {
+      public dialogRef: MatDialogRef<Confirmdialog>,
+      @Inject(MAT_DIALOG_DATA) public data: any, public sanitizer: DomSanitizer) {
 
   }
 
@@ -1172,7 +1209,7 @@ export class Confirmdialog {
 export class BottomSheet {
   constructor(private bottomSheetRef: MatBottomSheetRef<BottomSheet>, @Inject(MAT_BOTTOM_SHEET_DATA) public data: any) {
     console.warn("bottom-sheet",data);
-   }
+  }
 
   openLink(val: any): void {
     this.bottomSheetRef.dismiss(val);
@@ -1187,9 +1224,9 @@ export class BottomSheet {
 export class VideoPlayer {
 
   constructor(
-    public dialogRef: MatDialogRef<VideoPlayer>,
-    @Inject(MAT_DIALOG_DATA) public data: any) {
-      //console.warn('videoplayerModal',data.previewData.video);
+      public dialogRef: MatDialogRef<VideoPlayer>,
+      @Inject(MAT_DIALOG_DATA) public data: any) {
+    //console.warn('videoplayerModal',data.previewData.video);
   }
 
   onNoClick(): void {
@@ -1205,9 +1242,9 @@ export class VideoPlayer {
 export class ImageView {
 
   constructor(
-    public dialogRef: MatDialogRef<ImageView>,
-    @Inject(MAT_DIALOG_DATA) public data: any) {
-      //console.warn('ImageViewModal',data.alldata);
+      public dialogRef: MatDialogRef<ImageView>,
+      @Inject(MAT_DIALOG_DATA) public data: any) {
+    //console.warn('ImageViewModal',data.alldata);
   }
 
   onNoClick(): void {
