@@ -85,6 +85,7 @@ export class ListingComponent implements OnInit {
 
   /* this variable for artist xp preview */
   previewFlug: any = false;
+  selectsearch:any=[];
 
 
   @Input()
@@ -477,6 +478,7 @@ export class ListingComponent implements OnInit {
         result = res;
         this.date_search_source_countval = (result.count);
         if(result.count==0) this.tableflag=1;
+        else this.tableflag=0; 
         console.log('count',result);
         // this.dataSource.paginator = this.paginator;
         //this.dataSource.sort = this.sort;
@@ -666,6 +668,18 @@ export class ListingComponent implements OnInit {
     //   console.log('oops');
     // }
     // console.log("error");
+  }
+
+  refreshdata(){
+    this.autosearch=[];
+    this.tsearch=[];
+    this.selectsearch=[];
+    this.start_date=null;
+    this.limitcondval.skip=0;
+    this.end_date=null;
+    this.selectSearch_condition={};
+    this.dateSearch_condition={};
+    this.allSearch();
   }
   refreshalldata(val: any) {
     this.dataSource = new MatTableDataSource(this.olddata);
@@ -1180,6 +1194,7 @@ export class ListingComponent implements OnInit {
       result = res;
       this.date_search_source_countval = (result.count);
       if(result.count==0) this.tableflag=1;
+      else this.tableflag=0;
       console.log('count',result);
       // this.dataSource.paginator = this.paginator;
       //this.dataSource.sort = this.sort;

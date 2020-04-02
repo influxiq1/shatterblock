@@ -88,7 +88,7 @@
             <ng-container  class="filterForTexticon" *ngIf="search_settingsval !=null && search_settingsval.selectsearch != null ">
                 <mat-form-field *ngFor="let status of this.search_settingsval.selectsearch">
                     <mat-label>{{status.label}}</mat-label>
-                    <mat-select>
+                    <mat-select [(ngModel)]="selectsearch[status.field]" >
                         <mat-option *ngFor="let statusval of status.values" [value]="statusval" (click)="selectSearch(statusval.val, status)">
                             {{statusval.name}}
                         </mat-option>
@@ -100,12 +100,12 @@
             <ng-container *ngIf="date_search_endpointval !=null && date_search_sourceval != null && search_settingsval.datesearch != null ">
                 <span  class="filterFordatesearch" *ngFor="let status of this.search_settingsval.datesearch">
                     <mat-form-field class="filterFordatesearchformfield">
-                        <input class="filterFordatesearchinput" matInput [matDatepicker]="picker"autocomplete="off"  placeholder="{{status.startdatelabel}}"  [(ngModel)]="start_date" (keyup)="dateSearch(status.field)" (blur)="dateSearch(status.field)">
+                        <input class="filterFordatesearchinput" matInput [matDatepicker]="picker"autocomplete="off"  placeholder="{{status.startdatelabel}}"  [(ngModel)]="start_date" >
                         <mat-datepicker-toggle matSuffix [for]="picker" ></mat-datepicker-toggle>
                         <mat-datepicker #picker></mat-datepicker>
                     </mat-form-field>
                     <mat-form-field class="filterFordatesearchend">
-                        <input class="filterFordatesearchinput" matInput [matDatepicker]="picker1" autocomplete="off" placeholder="{{status.enddatelabel}}" [(ngModel)]="end_date" (keyup)="dateSearch(status.field)">
+                        <input  class="filterFordatesearchinput" matInput [matDatepicker]="picker1" autocomplete="off" placeholder="{{status.enddatelabel}}" [(ngModel)]="end_date" >
                         <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
                         <mat-datepicker #picker1 ></mat-datepicker>
                     </mat-form-field>
@@ -116,7 +116,7 @@
 
             <!-- use for refresh all data -->
             <ng-container class="refresh">
-                <i (click)="allSearch()" class="material-icons">
+                <i (click)="refreshdata()" class="material-icons cursor">
                     autorenew
                 </i>
             </ng-container>

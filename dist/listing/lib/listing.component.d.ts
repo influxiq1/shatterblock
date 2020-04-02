@@ -69,6 +69,7 @@ export declare class ListingComponent implements OnInit {
     value: number;
     bufferValue: number;
     previewFlug: any;
+    selectsearch: any;
     search_settings: any;
     click_to_add_ananother_page: any;
     limitcond: any;
@@ -129,6 +130,7 @@ export declare class ListingComponent implements OnInit {
     remove(val: any, i: any, field: any): void;
     autosearchfunction(value: any, data: any): void;
     textsearchfunction(value: any): void;
+    refreshdata(): void;
     refreshalldata(val: any): void;
     private _filter;
     getstatus(val: any): any;
