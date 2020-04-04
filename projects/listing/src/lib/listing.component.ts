@@ -358,7 +358,7 @@ export class ListingComponent implements OnInit {
     // console.log('coldef_list',coldef_list);
     // console.log('header_list',header_list);
 
-    for (let i = 0; i < coldef_list.length; i++) {
+    for (let i = 0; i < coldef_list.length; i++) {  
       let ff = `row.${coldef_list[i]}`
       var tt = { columnDef: `${coldef_list[i]}`, header: `${header_list[i].replace(/_/g, " ")}`, cell: (row) => eval(ff), objlength: header_list.length };
       // console.log('tt.columnDef');
