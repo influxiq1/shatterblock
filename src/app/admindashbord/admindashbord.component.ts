@@ -180,8 +180,9 @@ export class AdmindashbordComponent implements OnInit {
         // console.log('custom_link');
         // console.log(this.custom_link);
         this.datasource = '';
-        let endpoint='getadminbloglistdata';
-        let endpointc='getadminbloglistdata-count';
+        let endpoint='getadminbloglistdata'; // for main data endpoint
+        let endpointc='getadminbloglistdata-count'; // for count endpoint
+        // data param for conditionlimit and search
         let data:any={
             "condition":{
                 "limit":10,
@@ -197,7 +198,7 @@ export class AdmindashbordComponent implements OnInit {
             // console.log('in constructor');
             // console.log(result);
             this.date_search_source_count =res.count;
-            console.warn('blogData c',res);
+            //console.warn('blogData c',res);
 
         }, error => {
             console.log('Oooops!');
