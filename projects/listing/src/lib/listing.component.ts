@@ -687,7 +687,7 @@ export class ListingComponent implements OnInit {
     //this.dataSource.paginator = this.paginator;
     //this.dataSource.sort = this.sort;
 
-    if (val.filteredData.length < this.olddata.length) {
+    if (val.filteredData !=null && val.filteredData.length < this.olddata.length) {
       let dialogRef = this.dialog.open(Confirmdialog, {
         panelClass: 'custom-modalbox',
         data: { message: 'Refresh successfully!!', isconfirmation: false }
@@ -773,9 +773,11 @@ export class ListingComponent implements OnInit {
 
   /** Whether the number of selected elements matches the total number of rows. */
   isAllSelected() {
-    const numSelected = this.selection.selected.length;
-    const numRows = this.dataSource.data.length;
-    return numSelected === numRows;
+    if(this.selection!=null && this.selection.select) {
+      const numSelected = this.selection.selected.length;
+      const numRows = this.dataSource.data.length;
+      return numSelected === numRows;
+    }
   }
 
   /** Selects all rows if they are not all selected; otherwise clear selection. */
