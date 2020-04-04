@@ -16,7 +16,7 @@ import { FormBuilder, FormControl, FormsModule, ReactiveFormsModule } from '@ang
 import { CommonModule } from '@angular/common';
 import { MomentModule } from 'ngx-moment';
 import { NavigationCancel, NavigationEnd, NavigationError, NavigationStart, Router, RouterModule } from '@angular/router';
-import { Injectable, EventEmitter, ViewChild, Component, Input, NgModule, CUSTOM_ELEMENTS_SCHEMA, Inject, ComponentFactoryResolver, ViewContainerRef, defineInjectable } from '@angular/core';
+import { Injectable, Component, Input, EventEmitter, ViewChild, Inject, ComponentFactoryResolver, ViewContainerRef, NgModule, CUSTOM_ELEMENTS_SCHEMA, defineInjectable } from '@angular/core';
 import { DomSanitizer, BrowserModule } from '@angular/platform-browser';
 
 /**
@@ -1060,8 +1060,8 @@ class ListingComponent {
                 },
                 searchcondition: conditionobj,
             };
-            console.log('con...', conditionobj, this.end_date);
-            console.warn('cond', condition, this.dateSearch_condition, conditionobj, this.tsearch, textSearch);
+            // console.log('con...',conditionobj,this.end_date);
+            //console.warn('cond',condition,this.dateSearch_condition,conditionobj,this.tsearch,textSearch);
             //return;
             this.date_search_source_countval = 0;
             this.loading = true;
@@ -1175,7 +1175,7 @@ class ListingComponent {
         }
         if (val == -1 && this.limitcondval.skip < this.limitcondval.limit)
             return;
-        console.log(val, 'ss', this.datacollectionval, this.limitcondval);
+        //console.log(val,'ss',this.datacollectionval,this.limitcondval);
         /** @type {?} */
         let textSearch = {};
         for (let i in this.tsearch) {
@@ -1211,7 +1211,7 @@ class ListingComponent {
          */
         res => {
             this.result = res;
-            console.log(this.result, 'res');
+            //console.log(this.result,'res');
             this.dataSource = new MatTableDataSource(this.result.results.res);
             this.loading = false;
             //this.dataSource.paginator = this.paginator;
@@ -1242,12 +1242,12 @@ class ListingComponent {
      */
     autosearchfunction(value, data) {
         this.autosearchinput[value] = '';
-        console.log(this.autosearchinput, 'asi');
+        //console.log(this.autosearchinput,'asi');
         if (this.autosearch[value] == null) {
             this.autosearch[value] = [];
         }
         this.autosearch[value].push(data);
-        console.log(value, data, 'ss', this.autosearch);
+        //console.log(value,data,'ss',this.autosearch);
         /*let val: any = this.autosearch[value];
         let source: any;
         let condition: any = {};
@@ -1287,7 +1287,7 @@ class ListingComponent {
             condition[value + '_regex'] = val;
         this.textSearch_condition = {};
         this.textSearch_condition = condition;
-        console.warn(this.tsearch);
+        //console.warn(this.tsearch);
         /** @type {?} */
         let conditionobj = Object.assign({}, this.textSearch_condition, this.dateSearch_condition, this.autoSearch_condition, this.selectSearch_condition);
         source = {

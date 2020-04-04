@@ -1225,8 +1225,8 @@
                         },
                         searchcondition: conditionobj,
                     };
-                    console.log('con...', conditionobj, this.end_date);
-                    console.warn('cond', condition, this.dateSearch_condition, conditionobj, this.tsearch, textSearch);
+                    // console.log('con...',conditionobj,this.end_date);
+                    //console.warn('cond',condition,this.dateSearch_condition,conditionobj,this.tsearch,textSearch);
                     //return;
                     this.date_search_source_countval = 0;
                     this.loading = true;
@@ -1348,7 +1348,7 @@
                 }
                 if (val == -1 && this.limitcondval.skip < this.limitcondval.limit)
                     return;
-                console.log(val, 'ss', this.datacollectionval, this.limitcondval);
+                //console.log(val,'ss',this.datacollectionval,this.limitcondval);
                 /** @type {?} */
                 var textSearch = {};
                 for (var i in this.tsearch) {
@@ -1383,7 +1383,7 @@
                  * @return {?}
                  */function (res) {
                     _this.result = res;
-                    console.log(_this.result, 'res');
+                    //console.log(this.result,'res');
                     _this.dataSource = new material.MatTableDataSource(_this.result.results.res);
                     _this.loading = false;
                     //this.dataSource.paginator = this.paginator;
@@ -1429,12 +1429,12 @@
          */
             function (value, data) {
                 this.autosearchinput[value] = '';
-                console.log(this.autosearchinput, 'asi');
+                //console.log(this.autosearchinput,'asi');
                 if (this.autosearch[value] == null) {
                     this.autosearch[value] = [];
                 }
                 this.autosearch[value].push(data);
-                console.log(value, data, 'ss', this.autosearch);
+                //console.log(value,data,'ss',this.autosearch);
                 /*let val: any = this.autosearch[value];
                 let source: any;
                 let condition: any = {};
@@ -1478,7 +1478,7 @@
                     condition[value + '_regex'] = val;
                 this.textSearch_condition = {};
                 this.textSearch_condition = condition;
-                console.warn(this.tsearch);
+                //console.warn(this.tsearch);
                 /** @type {?} */
                 var conditionobj = Object.assign({}, this.textSearch_condition, this.dateSearch_condition, this.autoSearch_condition, this.selectSearch_condition);
                 source = {

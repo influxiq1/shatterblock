@@ -166,11 +166,7 @@ export class AdmindashbordComponent implements OnInit {
     notpendingapplication_view: any = [];
     adminlist: any = [];
 
-
-
     editroute1:any='modeledit';
-
-
     
     status_gretterthan_zero_skip: any= ['_id','username','phone','city','state','ethnicity','height','haircolor','eyecolor','weight','bust','waist','hips','slim','toned','tattoos','athletic','piercings','retail','voluptuous','promotions','sales','descriptionbox','facebooklink','twitterlink','instagramlink','modelmayhemlink','type','images'];
     status_gretterthan_zero_modify_header: any = { 'dateformat': 'Date','status':'Status','email':'Email', 'name':'Full Name', 'bodytype' : 'Bodytype', 'shatterblok agreement date': 'Shatterblok Agreement Date', 'audiodeadline agreement date': 'Audiodeadline Agreement Date' };
@@ -216,7 +212,6 @@ export class AdmindashbordComponent implements OnInit {
         }, error => {
             console.log('Oooops!');
         });
-
 
     }
 
