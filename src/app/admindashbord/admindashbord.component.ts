@@ -145,6 +145,7 @@ export class AdmindashbordComponent implements OnInit {
      authval:any= [
         { val: 'YmattZ', 'name': 'YmattZ A' },
         { val: 'YmattZ', 'name': 'YmattZ A' },
+        { val: 'Ymatt', 'name': 'YmattZ AB' },
         { val: 'Jessica', 'name': 'A Jessica' }
         ];
     search_settings:any={
@@ -217,27 +218,7 @@ export class AdmindashbordComponent implements OnInit {
     }
 
     ngOnInit() {
-        // this.route.data.forEach((data) => {
-        //     // PRE LOAD DATA PRIOR
-        //     console.log(data);
-        //     console.log('data from route ... !!!');
-        //     console.log('json', data['results']);
-        //     this.brandarray = data['results'].item.brand;
-        //     for(let v in data['results'].item.status_gretterthan_zero){
-        //         data['results'].item.status_gretterthan_zero[v].grab_url='';
-        //     }
-        //     this.status_gretterthan_zero = data['results'].item.status_gretterthan_zero;
-        //     console.log('this.status_gretterthan_zero');
-        //     console.warn(this.status_gretterthan_zero);
 
-
-        //     this.pendingapplication_view = data['results'].item.pendingapplication_view;
-        //     this.joquuserlist = data['results'].item.joquusercollection_view;
-        //     // this.model_pending_and_notpending_application_view=data['results'].item.model_pending_and_notpending_application_view;
-
-        // });
-        // this.allcommissionfunc();
-        // this.allorders();
     }
 
 }
