@@ -358,7 +358,7 @@ export class ListingComponent implements OnInit {
     // console.log('coldef_list',coldef_list);
     // console.log('header_list',header_list);
 
-    for (let i = 0; i < coldef_list.length; i++) {  
+    for (let i = 0; i < coldef_list.length; i++) {
       let ff = `row.${coldef_list[i]}`
       var tt = { columnDef: `${coldef_list[i]}`, header: `${header_list[i].replace(/_/g, " ")}`, cell: (row) => eval(ff), objlength: header_list.length };
       // console.log('tt.columnDef');
@@ -443,9 +443,6 @@ export class ListingComponent implements OnInit {
         }
       }
 
-
-
-
       let conditionobj = Object.assign({}, textSearch, this.dateSearch_condition, autosearch, this.selectSearch_condition);
       source = {
         "condition":{
@@ -459,8 +456,8 @@ export class ListingComponent implements OnInit {
         searchcondition: conditionobj,
       };
 
-      console.log('con...',conditionobj,this.end_date);
-      console.warn('cond',condition,this.dateSearch_condition,conditionobj,this.tsearch,textSearch);
+     // console.log('con...',conditionobj,this.end_date);
+      //console.warn('cond',condition,this.dateSearch_condition,conditionobj,this.tsearch,textSearch);
       //return;
       this.date_search_source_countval=0;
       this.loading=true;
@@ -552,7 +549,7 @@ export class ListingComponent implements OnInit {
 
     }
     if(val==-1 && this.limitcondval.skip<this.limitcondval.limit) return;
-    console.log(val,'ss',this.datacollectionval,this.limitcondval);
+    //console.log(val,'ss',this.datacollectionval,this.limitcondval);
     let textSearch:any={};
 
 
@@ -584,7 +581,7 @@ export class ListingComponent implements OnInit {
     this.loading = true;
     this._apiService.postSearch(link, this.jwttokenval, source).subscribe(res => {
       this.result = res;
-      console.log(this.result,'res');
+      //console.log(this.result,'res');
       this.dataSource = new MatTableDataSource(this.result.results.res);
       this.loading = false;
       //this.dataSource.paginator = this.paginator;
@@ -604,13 +601,13 @@ export class ListingComponent implements OnInit {
   }
   autosearchfunction(value: any,data:any) {
     this.autosearchinput[value]='';
-    console.log(this.autosearchinput,'asi');
+    //console.log(this.autosearchinput,'asi');
     if(this.autosearch[value]==null) {
       this.autosearch[value]=[];
       ;
     }
     this.autosearch[value].push(data);
-    console.log(value,data,'ss',this.autosearch);
+    //console.log(value,data,'ss',this.autosearch);
     /*let val: any = this.autosearch[value];
     let source: any;
     let condition: any = {};
@@ -645,7 +642,7 @@ export class ListingComponent implements OnInit {
     if (this.tsearch[value]!=null && this.tsearch[value].length > 1 && { $or: [this.tsearch[value].toLowerCase(), this.tsearch[value].toUpperCase()] }) condition[value + '_regex'] = val;
     this.textSearch_condition = {};
     this.textSearch_condition = condition;
-    console.warn(this.tsearch);
+    //console.warn(this.tsearch);
     let conditionobj = Object.assign({}, this.textSearch_condition, this.dateSearch_condition, this.autoSearch_condition, this.selectSearch_condition);
     source = {
       source: this.date_search_sourceval,
