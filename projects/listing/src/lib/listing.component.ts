@@ -1194,7 +1194,7 @@ export class ListingComponent implements OnInit {
       this.date_search_source_countval = (result.count);
       if(result.count==0) this.tableflag=1;
       else this.tableflag=0;
-      console.log('count',result);
+     // console.log('count',result);
       // this.dataSource.paginator = this.paginator;
       //this.dataSource.sort = this.sort;
     })

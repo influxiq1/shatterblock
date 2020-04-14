@@ -1,6 +1,4 @@
 <div class="container">
-
-
     <mat-card>
         <mat-toolbar-row class="searchbar">
             <span class="inputfilter">
@@ -27,22 +25,22 @@
 
 
                     <mat-chip-list #chipList aria-label="Fruit selection">
-    <mat-chip
-            *ngFor="let v of autosearch[item.field]; let i=index;"
-            [selectable]="true"
-            [removable]="true"
-            (removed)="remove(v,i,item.field)">
-      {{v.name}}
-        <mat-icon matChipRemove >cancel</mat-icon>
-    </mat-chip>
-    <input
-            placeholder="{{item.label}}"
-            #fruitInput
-            [matAutocomplete]="auto"
-            [matChipInputFor]="chipList"
-            [(ngModel)]="autosearchinput[item.field]"
-            >
-  </mat-chip-list>
+                        <mat-chip
+                                *ngFor="let v of autosearch[item.field]; let i=index;"
+                                [selectable]="true"
+                                [removable]="true"
+                                (removed)="remove(v,i,item.field)">
+                            {{v.name}}
+                            <mat-icon matChipRemove >cancel</mat-icon>
+                        </mat-chip>
+                        <input
+                                placeholder="{{item.label}}"
+                                #fruitInput
+                                [matAutocomplete]="auto"
+                                [matChipInputFor]="chipList"
+                                [(ngModel)]="autosearchinput[item.field]"
+                        >
+                    </mat-chip-list>
 
                     <!--[matChipInputSeparatorKeyCodes]="[ENTER, COMMA]"-->
                     <!--(matChipInputTokenEnd)="addautosearchdata($event)"-->
@@ -154,6 +152,45 @@
         </section>
         <br/>
         <br/>
+        <ng-container *ngIf="tableflag==0" >
+            <section class="lib-pager-class">
+                <mat-label>Showing
+                    <ng-container *ngIf="date_search_source_countval > ((limitcondval.pagecount-1)*limitcondval.limit)">
+                        {{(limitcondval.pagecount-1)*limitcondval.limit}}
+                    </ng-container>
+                    <ng-container *ngIf="date_search_source_countval!=0 && date_search_source_countval <= ((limitcondval.pagecount-1)*limitcondval.limit)">
+                        {{date_search_source_countval}}
+                    </ng-container>
+                    To
+
+                    {{(limitcondval.pagecount)*limitcondval.limit}}
+
+
+                    of </mat-label>
+                <span *ngIf="date_search_source_countval!=0 ">  {{date_search_source_countval}} </span>
+                <span *ngIf="date_search_source_countval==0 "> Many </span>
+                <mat-form-field>
+                    <mat-label>Page Size</mat-label>
+                    <input matInput [(ngModel)]="limitcondval.limit" type="number" (keyup)="paging(10)" >
+                </mat-form-field>
+
+                <mat-form-field>
+                    <mat-label>Page No</mat-label>
+                    <input matInput [(ngModel)]="limitcondval.pagecount" type="number"  (keyup)="paging(10)">
+                </mat-form-field>
+
+
+                <span class="material-icons cursor" (click)="paging(-1)">
+                    skip_previous
+                </span>
+
+                <span class="material-icons cursor" (click)="paging(1)">
+                    skip_next
+                </span>
+            </section>
+
+
+        </ng-container>
 
         <div class="tablewrapper" *ngIf="tableflag==0">
 
@@ -179,10 +216,10 @@
                         <span>
                             {{column.header}}
                             <span *ngIf="column.columnDef==sortdataval.field && sortdataval.type=='desc'" class="material-icons cursor float-right" (click)="sorttable(column.columnDef,'asc')">
-                            arrow_downward
-                        </span>
-                        <span class="material-icons cursor float-right" *ngIf="column.columnDef==sortdataval.field && sortdataval.type=='asc'"  (click)="sorttable(column.columnDef,'desc')" >arrow_upward
-                        </span>
+                                arrow_downward
+                            </span>
+                            <span class="material-icons cursor float-right" *ngIf="column.columnDef==sortdataval.field && sortdataval.type=='asc'"  (click)="sorttable(column.columnDef,'desc')" >arrow_upward
+                            </span>
 
                             <span class="material-icons cursor" *ngIf="sortdataval!=null && sortdataval.options !=null && sortdataval.options.indexOf(column.columnDef) >-1  && column.columnDef!=sortdataval.field" (click)="sorttable(column.columnDef,'desc')" >
                                 unfold_more
@@ -307,29 +344,43 @@
         <!--for pagination -->
 
         <mat-card *ngIf="tableflag!=0">No Records Exists !!!</mat-card>
-        <ng-container *ngIf="tableflag==0">
+        <ng-container *ngIf="tableflag==0" >
+            <section class="lib-pager-class">
+                <mat-label>Showing
+                    <ng-container *ngIf="date_search_source_countval > ((limitcondval.pagecount-1)*limitcondval.limit)">
+                        {{(limitcondval.pagecount-1)*limitcondval.limit}}
+                    </ng-container>
+                    <ng-container *ngIf="date_search_source_countval!=0 && date_search_source_countval <= ((limitcondval.pagecount-1)*limitcondval.limit)">
+                        {{date_search_source_countval}}
+                    </ng-container>
+                    To
 
-            <mat-label>Showing {{(limitcondval.pagecount-1)*limitcondval.limit}} To  {{(limitcondval.pagecount)*limitcondval.limit}} of </mat-label>
-            <span *ngIf="date_search_source_countval!=0 ">  {{date_search_source_countval}} </span>
-            <span *ngIf="date_search_source_countval==0 "> Many </span>
-            <mat-form-field>
-                <mat-label>Page Size</mat-label>
-                <input matInput [(ngModel)]="limitcondval.limit" type="number" (keyup)="paging(10)" >
-            </mat-form-field>
-
-            <mat-form-field>
-                <mat-label>Page No</mat-label>
-                <input matInput [(ngModel)]="limitcondval.pagecount" type="number"  (keyup)="paging(10)">
-            </mat-form-field>
+                    {{(limitcondval.pagecount)*limitcondval.limit}}
 
 
-            <span class="material-icons cursor" (click)="paging(-1)">
-                skip_previous
-            </span>
+                    of </mat-label>
+                <span *ngIf="date_search_source_countval!=0 ">  {{date_search_source_countval}} </span>
+                <span *ngIf="date_search_source_countval==0 "> Many </span>
+                <mat-form-field>
+                    <mat-label>Page Size</mat-label>
+                    <input matInput [(ngModel)]="limitcondval.limit" type="number" (keyup)="paging(10)" >
+                </mat-form-field>
 
-            <span class="material-icons cursor" (click)="paging(1)">
-                skip_next
-            </span>
+                <mat-form-field>
+                    <mat-label>Page No</mat-label>
+                    <input matInput [(ngModel)]="limitcondval.pagecount" type="number"  (keyup)="paging(10)">
+                </mat-form-field>
+
+
+                <span class="material-icons cursor" (click)="paging(-1)">
+                    skip_previous
+                </span>
+
+                <span class="material-icons cursor" (click)="paging(1)">
+                    skip_next
+                </span>
+            </section>
+
 
         </ng-container>
 
