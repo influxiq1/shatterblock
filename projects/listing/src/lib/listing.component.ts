@@ -382,10 +382,13 @@ export class ListingComponent implements OnInit {
         this.columns.push(tt);
     }
     let displayedcols = this.columns.map(x => x.columnDef);
+    console.log('displayedcols',displayedcols);
+    displayedcols=this.libdataval.tableheaders;
     if(this.libdataval.hideaction==null || this.libdataval.hideaction==false)
     displayedcols.push('Actions');
 
     this.displayedColumns = displayedcols;
+    this.displayedColumns.unshift('#');        /*adds select column in table by unshift function*/
     this.displayedColumns.unshift('select');        /*adds select column in table by unshift function*/
 
     let data_list = [];

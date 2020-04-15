@@ -135,6 +135,7 @@ export class AdmindashbordComponent implements OnInit {
         //hideviewbutton:false,
         //hidestatustogglebutton:true,
        // hideaction:true,
+        tableheaders:['author','priority','blogtitle'],
     }
 // send basic sort data
     sortdata:any={
