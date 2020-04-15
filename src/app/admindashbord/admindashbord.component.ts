@@ -126,6 +126,16 @@ export class AdmindashbordComponent implements OnInit {
         "skip":0,
         "pagecount":1
     };
+
+    // other data
+    libdata:any={
+        updateendpoint:'statusupdate',
+        hideeditbutton:true,// all these button options are optional not mandatory
+        //hidedeletebutton:true,
+        //hideviewbutton:false,
+        //hidestatustogglebutton:true,
+       // hideaction:true,
+    }
 // send basic sort data
     sortdata:any={
         "type":'desc',

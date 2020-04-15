@@ -282,32 +282,32 @@
 
 
 
-                <ng-container matColumnDef="Actions">
+                <ng-container matColumnDef="Actions" *ngIf="libdataval.hideaction==null || libdataval.hideaction==false" >
                     <th mat-header-cell *matHeaderCellDef  class="th-header-center">Actions</th>
                     <td (click)="$event.stopPropagation()" mat-cell  *matCellDef="let row" data-label="Actions"  class="td-cell-center">
                         <span *ngIf="selection.selected.length==null || selection.selected.length==0">
-                            <span class="cursor" (click)="editdata(row)" >
+                            <span *ngIf="libdataval.hideeditbutton==null || libdataval.hideeditbutton==false" class="cursor" (click)="editdata(row)" >
                                 <i class="material-icons">
                                     edit
                                 </i>
                             </span>
 
                             <!--For modern browsers-->
-                            <span class="cursor" (click)="deletedata(row)" >
+                            <span *ngIf="libdataval.hidedeletebutton==null || libdataval.hidedeletebutton==false" class="cursor" (click)="deletedata(row)" >
                                 <i class="material-icons">
                                     delete_outline
                                 </i>
                             </span>
 
                             <!--For modern browsers-->
-                            <span class="cursor" (click)="viewdata(row)" >
+                            <span *ngIf="libdataval.hideviewbutton==null || libdataval.hideviewbutton==false"  class="cursor" (click)="viewdata(row)" >
                                 <i class="material-icons">
                                     remove_red_eye
                                 </i>
                             </span>
 
                             <!--For modern browsers-->
-                            <span class="cursor" (click)="managestatus(row)" >
+                            <span class="cursor" *ngIf="libdataval.hidestatustogglebutton==null || libdataval.hidestatustogglebutton==false"  (click)="managestatus(row)" >
                                 <i class="material-icons">
                                     toggle_off
                                 </i>

@@ -19,6 +19,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 declare var $: any;
 import * as momentImported from 'moment';
 import {ThemePalette} from "@angular/material/core";
+import {MAT_SNACK_BAR_DATA, MatSnackBar, MatSnackBarRef} from '@angular/material/snack-bar';
 //import {ProgressBarMode} from '@angular/material/progress-bar';
 const moment = momentImported;
 export interface DialogData {
@@ -67,6 +68,7 @@ export class ListingComponent implements OnInit {
   tableflag: any = 0;
   autosearch: any = [];
   public x: any;
+  public libdataval:any={};
   public limitcondval: any={};
   public custombuttonval: any;
   public result: any = {};
@@ -156,6 +158,12 @@ export class ListingComponent implements OnInit {
   set searchList(searchList: any) {
     this.searchListval = searchList;
   }
+  @Input()
+  set libdata(libdataval: any) {
+    this.libdataval = libdataval;
+    console.log('libdataval',this.libdataval);
+  }
+
   @Input()
   set datasource(datasource: any) {
     this.datasourceval = datasource;
@@ -257,8 +265,11 @@ export class ListingComponent implements OnInit {
   myForm: any;
   // myForm:any;
 
-  constructor(public _apiService: ApiService, public dialog: MatDialog, public bottomSheet: MatBottomSheet, public fb: FormBuilder, private router: Router, private resolver: ComponentFactoryResolver,
-              private container: ViewContainerRef, public _http: HttpClient, public sanitizer: DomSanitizer) {
+  constructor(public _apiService: ApiService, public dialog: MatDialog,
+              public bottomSheet: MatBottomSheet, public fb: FormBuilder,
+              private router: Router, private resolver: ComponentFactoryResolver,
+              private container: ViewContainerRef, public _http: HttpClient,
+              public sanitizer: DomSanitizer,private _snackBar: MatSnackBar) {
 
     this.router.events.subscribe((event: Event) => {
       switch (true) {
@@ -371,6 +382,7 @@ export class ListingComponent implements OnInit {
         this.columns.push(tt);
     }
     let displayedcols = this.columns.map(x => x.columnDef);
+    if(this.libdataval.hideaction==null || this.libdataval.hideaction==false)
     displayedcols.push('Actions');
 
     this.displayedColumns = displayedcols;
@@ -936,7 +948,7 @@ export class ListingComponent implements OnInit {
       if (result != null) {
         data.status = result.val;
         data.id = data._id;
-        this._apiService.togglestatus(this.apiurlval + 'statusupdate', data, this.jwttokenval, this.sourcedataval).subscribe(res => {
+        this._apiService.togglestatus(this.apiurlval + this.libdataval.updateendpoint, data, this.jwttokenval, this.sourcedataval).subscribe(res => {
           let result: any = {};
           result = res;
           if (result.status == 'success') {
@@ -950,12 +962,19 @@ export class ListingComponent implements OnInit {
             this.selection = new SelectionModel(true, []);
             this.dataSource.paginator = this.paginator;
             this.dataSource.sort = this.sort;
+            this.allSearch();
 
             let dialogRef = this.dialog.open(Confirmdialog, {
               panelClass: 'custom-modalbox',
               data: { message: 'Status updated successfully!!', isconfirmation: false }
             });
 
+          }
+          if(result.status == 'error'){
+            this._snackBar.openFromComponent(SnackbarComponent, {
+              duration:   6000,
+              data:result
+            });
           }
 
         }, error => {
@@ -1021,6 +1040,7 @@ export class ListingComponent implements OnInit {
             this.selection = new SelectionModel(true, []);
             this.dataSource.paginator = this.paginator;
             this.dataSource.sort = this.sort;
+            this.allSearch();
 
             let dialogRef = this.dialog.open(Confirmdialog, {
               panelClass: 'custom-modalbox',
@@ -1065,12 +1085,19 @@ export class ListingComponent implements OnInit {
             this.selection = new SelectionModel(true, []);
             this.dataSource.paginator = this.paginator;
             this.dataSource.sort = this.sort;
+            this.allSearch();
 
             let dialogRef = this.dialog.open(Confirmdialog, {
               panelClass: 'custom-modalbox',
               data: { message: 'Record(s)  deleted successfully !!', isconfirmation: false }
             });
 
+          }
+          if(result.status == 'error'){
+            this._snackBar.openFromComponent(SnackbarComponent, {
+              duration:   6000,
+              data:result
+            });
           }
 
         }, error => {
@@ -1107,9 +1134,16 @@ export class ListingComponent implements OnInit {
             this.selection = new SelectionModel(true, []);
             this.dataSource.paginator = this.paginator;
             this.dataSource.sort = this.sort;
+            this.allSearch();
             let dialogRef = this.dialog.open(Confirmdialog, {
               panelClass: 'custom-modalbox',
               data: { message: 'Record  deleted successfully !!', isconfirmation: false }
+            });
+          }
+          if(result.status == 'error'){
+            this._snackBar.openFromComponent(SnackbarComponent, {
+              duration:   6000,
+              data:result
             });
           }
 
@@ -1303,5 +1337,23 @@ export class ImageView {
 
   onNoClick(): void {
     this.dialogRef.close();
+  }
+}
+
+@Component({
+  selector: 'snack-bar-component-example-snack',
+  templateUrl: 'snack-bar-component-example-snack.html',
+  styles: [`
+    .example-pizza-party {
+      color: hotpink;
+    }
+  `],
+})
+export class SnackbarComponent {
+  constructor(
+      public snackBarRef: MatSnackBarRef<SnackbarComponent>,
+      @Inject(MAT_SNACK_BAR_DATA) public data: any
+  ) {
+    console.log('snack',this.data);
   }
 }

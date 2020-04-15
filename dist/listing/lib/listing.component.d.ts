@@ -9,6 +9,7 @@ import { Observable } from 'rxjs';
 import { HttpClient } from "@angular/common/http";
 import { DomSanitizer } from '@angular/platform-browser';
 import { ThemePalette } from "@angular/material/core";
+import { MatSnackBar, MatSnackBarRef } from '@angular/material/snack-bar';
 export interface DialogData {
     alldata: any;
 }
@@ -22,6 +23,7 @@ export declare class ListingComponent implements OnInit {
     private container;
     _http: HttpClient;
     sanitizer: DomSanitizer;
+    private _snackBar;
     myControl: FormControl;
     datasourceval: any;
     search_settingsval: any;
@@ -56,6 +58,7 @@ export declare class ListingComponent implements OnInit {
     tableflag: any;
     autosearch: any;
     x: any;
+    libdataval: any;
     limitcondval: any;
     custombuttonval: any;
     result: any;
@@ -83,6 +86,7 @@ export declare class ListingComponent implements OnInit {
     searchendpoint: any;
     pdf_link: any;
     searchList: any;
+    libdata: any;
     datasource: any;
     datacollection: any;
     skip: any;
@@ -117,7 +121,7 @@ export declare class ListingComponent implements OnInit {
     sort: MatSort;
     paginator: MatPaginator;
     myForm: any;
-    constructor(_apiService: ApiService, dialog: MatDialog, bottomSheet: MatBottomSheet, fb: FormBuilder, router: Router, resolver: ComponentFactoryResolver, container: ViewContainerRef, _http: HttpClient, sanitizer: DomSanitizer);
+    constructor(_apiService: ApiService, dialog: MatDialog, bottomSheet: MatBottomSheet, fb: FormBuilder, router: Router, resolver: ComponentFactoryResolver, container: ViewContainerRef, _http: HttpClient, sanitizer: DomSanitizer, _snackBar: MatSnackBar);
     inputblur(val: any): void;
     ngOnInit(): void;
     /**image view modal */
@@ -187,4 +191,9 @@ export declare class ImageView {
     data: any;
     constructor(dialogRef: MatDialogRef<ImageView>, data: any);
     onNoClick(): void;
+}
+export declare class SnackbarComponent {
+    snackBarRef: MatSnackBarRef<SnackbarComponent>;
+    data: any;
+    constructor(snackBarRef: MatSnackBarRef<SnackbarComponent>, data: any);
 }

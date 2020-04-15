@@ -1,6 +1,6 @@
 import {NgModule, Component, CUSTOM_ELEMENTS_SCHEMA} from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import {ListingComponent, Confirmdialog,BottomSheet,VideoPlayer,ImageView} from './listing.component';
+import {ListingComponent, Confirmdialog,BottomSheet,VideoPlayer,ImageView,SnackbarComponent} from './listing.component';
 import {DemoMaterialModule} from './materialmodules';
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import { ApiService } from './api.service';
@@ -12,22 +12,22 @@ import {YoutubeplayerComponent} from './youtubeplayer/youtubeplayer.component';
 
 
 @NgModule({
-  declarations: [ListingComponent,Confirmdialog,BottomSheet,YoutubeplayerComponent,VideoPlayer,ImageView],
+    declarations: [ListingComponent,Confirmdialog,BottomSheet,YoutubeplayerComponent,VideoPlayer,ImageView,SnackbarComponent],
     imports: [
         CommonModule,
         BrowserModule, BrowserAnimationsModule,
         DemoMaterialModule,
         FormsModule, ReactiveFormsModule,
-         RouterModule,
+        RouterModule,
         MomentModule
         
 
     ],
     schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
-  exports: [ListingComponent,
-      ],
-  providers: [ApiService],
-  entryComponents:[Confirmdialog,BottomSheet,VideoPlayer,ImageView],
+    exports: [ListingComponent,
+    ],
+    providers: [ApiService],
+    entryComponents:[Confirmdialog,BottomSheet,VideoPlayer,ImageView,SnackbarComponent],
 })
 export class ListingModule {
 }
