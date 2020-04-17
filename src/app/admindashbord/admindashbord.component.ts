@@ -129,7 +129,7 @@ export class AdmindashbordComponent implements OnInit {
 
     // other data
     libdata:any={
-        updateendpoint:'statusupdate',
+        updateendpoint:'statusupdate1',
         hideeditbutton:true,// all these button options are optional not mandatory
         //hidedeletebutton:true,
         //hideviewbutton:false,

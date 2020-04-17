@@ -1,6 +1,8 @@
 import { SelectionModel } from '@angular/cdk/collections';
 import { humanizeBytes } from 'ngx-uploader';
-import { map, startWith } from 'rxjs/operators';
+import { CookieService } from 'ngx-cookie-service';
+import { throwError } from 'rxjs';
+import { map, catchError, startWith } from 'rxjs/operators';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import * as momentImported from 'moment';
 import { MAT_SNACK_BAR_DATA, MatSnackBar, MatSnackBarRef } from '@angular/material/snack-bar';
@@ -50,19 +52,24 @@ class ApiService {
     /**
      * @param {?} _http
      * @param {?} _authHttp
+     * @param {?} cookieService
      */
-    constructor(_http, _authHttp) {
+    constructor(_http, _authHttp, cookieService) {
         this._http = _http;
         this._authHttp = _authHttp;
+        this.cookieService = cookieService;
         this.domain_for_fileupload_val = 'http://developmentapi.audiodeadline.com:7031/uploads' + 'uploads';
         this.progress = [];
         this.uploaderror = '';
+        this.secretkey = 'na';
         // public uploadOutputval:any;
         this.fileservername = [];
         this.options = { concurrency: 10, maxUploads: 10 };
         this.files = []; // local uploading files array
         this.uploadInput = new EventEmitter(); // input events, we use this to emit data to ngx-uploader
         this.humanizeBytes = humanizeBytes;
+        if (this.cookieService.check('secretkey'))
+            this.secretkey = this.cookieService.get('secretkey');
         //console.log('this.domain');
         //console.log(this.domain);
     }
@@ -256,7 +263,16 @@ class ApiService {
         console.log('');
         // this.isTokenExpired()
         /** @type {?} */
-        var result = this._http.post('' + 'datalist', endpoint, httpOptions).pipe(map((/**
+        var result = this._http.post('' + 'datalist', endpoint, httpOptions).pipe(catchError((/**
+         * @param {?} err
+         * @return {?}
+         */
+        (err) => {
+            console.log('error caught in service');
+            console.error(err);
+            //Handle the error here
+            return throwError(err); //Rethrow it back to component
+        })), map((/**
          * @param {?} res
          * @return {?}
          */
@@ -283,7 +299,16 @@ class ApiService {
         console.log('httpOptions');
         console.log(httpOptions);
         /** @type {?} */
-        var result = this._http.post(this.getEndpointUrl(endpoint), JSON.stringify(data), httpOptions).pipe(map((/**
+        var result = this._http.post(this.getEndpointUrl(endpoint), JSON.stringify(data), httpOptions).pipe(catchError((/**
+         * @param {?} err
+         * @return {?}
+         */
+        (err) => {
+            console.log('error caught in service');
+            console.error(err);
+            //Handle the error here
+            return throwError(err); //Rethrow it back to component
+        })), map((/**
          * @param {?} res
          * @return {?}
          */
@@ -306,7 +331,16 @@ class ApiService {
         console.log('endpoint');
         console.log(endpoint);
         /** @type {?} */
-        var result = this._http.post(this.getEndpointUrl(endpoint), JSON.stringify(data), httpOptions).pipe(map((/**
+        var result = this._http.post(this.getEndpointUrl(endpoint), JSON.stringify(data), httpOptions).pipe(catchError((/**
+         * @param {?} err
+         * @return {?}
+         */
+        (err) => {
+            console.log('error caught in service');
+            console.error(err);
+            //Handle the error here
+            return throwError(err); //Rethrow it back to component
+        })), map((/**
          * @param {?} res
          * @return {?}
          */
@@ -329,7 +363,16 @@ class ApiService {
         console.log('endpoint');
         console.log(endpoint);
         /** @type {?} */
-        var result = this._http.post(this.getEndpointUrl(endpoint), JSON.stringify(data), httpOptions).pipe(map((/**
+        var result = this._http.post(this.getEndpointUrl(endpoint), JSON.stringify(data), httpOptions).pipe(catchError((/**
+         * @param {?} err
+         * @return {?}
+         */
+        (err) => {
+            console.log('error caught in service');
+            console.error(err);
+            //Handle the error here
+            return throwError(err); //Rethrow it back to component
+        })), map((/**
          * @param {?} res
          * @return {?}
          */
@@ -351,12 +394,22 @@ class ApiService {
                 'Authorization': token
             })
         };
-        console.log('------ ');
+        /*console.log('------ ');
         console.log("link in postSearch");
         console.log(link);
-        console.log(source);
+        console.log(source);*/
+        source.secretkey = this.secretkey;
         /** @type {?} */
-        var result = this._http.post(link, source, httpOptions).pipe(map((/**
+        var result = this._http.post(link, source, httpOptions).pipe(catchError((/**
+         * @param {?} err
+         * @return {?}
+         */
+        (err) => {
+            console.log('error caught in service');
+            console.error(err);
+            //Handle the error here
+            return throwError(err); //Rethrow it back to component
+        })), map((/**
          * @param {?} res
          * @return {?}
          */
@@ -380,7 +433,16 @@ class ApiService {
         console.log("link");
         console.log(link);
         /** @type {?} */
-        var result = this._http.post(link, source).pipe(map((/**
+        var result = this._http.post(link, source).pipe(catchError((/**
+         * @param {?} err
+         * @return {?}
+         */
+        (err) => {
+            console.log('error caught in service');
+            console.error(err);
+            //Handle the error here
+            return throwError(err); //Rethrow it back to component
+        })), map((/**
          * @param {?} res
          * @return {?}
          */
@@ -427,16 +489,26 @@ class ApiService {
                 'Authorization': token
             })
         };
-        console.log('------ ');
-        console.log("endpoint");
-        console.log(endpoint);
-        console.log(data);
-        console.log(token);
+        /* console.log('------ ');
+            console.log("endpoint");
+            console.log(endpoint);
+            console.log(data);
+            console.log(token);*/
         /** @type {?} */
         let dataval;
         dataval = { source: source, id: data._id };
+        dataval.secretkey = this.secretkey;
         /** @type {?} */
-        var result = this._http.post(endpoint, dataval, httpOptions).pipe(map((/**
+        var result = this._http.post(endpoint, dataval, httpOptions).pipe(catchError((/**
+         * @param {?} err
+         * @return {?}
+         */
+        (err) => {
+            console.log('error caught in service');
+            console.error(err);
+            //Handle the error here
+            return throwError(err); //Rethrow it back to component
+        })), map((/**
          * @param {?} res
          * @return {?}
          */
@@ -451,10 +523,14 @@ class ApiService {
      * @return {?}
      */
     togglestatus(endpoint, data, token, source) {
-        console.log(endpoint);
-        console.log(data);
-        console.log(token);
-        console.log(source);
+        /*console.log(endpoint);
+          console.log(data);
+          console.log(token);
+          console.log(source);*/
+        /*console.log(endpoint);
+              console.log(data);
+              console.log(token);
+              console.log(source);*/
         /** @type {?} */
         const httpOptions = {
             headers: new HttpHeaders({
@@ -462,15 +538,25 @@ class ApiService {
                 'Authorization': token
             })
         };
-        console.log('------ ');
-        console.log("endpoint");
-        console.log(endpoint);
-        console.log(data);
+        /*console.log('------ ');
+            console.log("endpoint");
+            console.log(endpoint);
+            console.log(data);*/
         /** @type {?} */
         let dataval;
         dataval = { source: source, data: data };
+        dataval.secretkey = this.secretkey;
         /** @type {?} */
-        var result = this._http.post(endpoint, dataval, httpOptions).pipe(map((/**
+        var result = this._http.post(endpoint, dataval, httpOptions).pipe(catchError((/**
+         * @param {?} err
+         * @return {?}
+         */
+        (err) => {
+            console.log('error caught in service');
+            console.error(err);
+            //Handle the error here
+            return throwError(err); //Rethrow it back to component
+        })), map((/**
          * @param {?} res
          * @return {?}
          */
@@ -492,15 +578,25 @@ class ApiService {
                 'Authorization': token
             })
         };
-        console.log('------ ');
-        console.log("endpoint");
-        console.log(endpoint);
-        console.log(data);
+        /*console.log('------ ');
+            console.log("endpoint");
+            console.log(endpoint);
+            console.log(data);*/
         /** @type {?} */
         let dataval;
         dataval = { source: source, ids: data };
+        dataval.secretkey = this.secretkey;
         /** @type {?} */
-        var result = this._http.post(endpoint + 'many', dataval, httpOptions).pipe(map((/**
+        var result = this._http.post(endpoint + 'many', dataval, httpOptions).pipe(catchError((/**
+         * @param {?} err
+         * @return {?}
+         */
+        (err) => {
+            console.log('error caught in service');
+            console.error(err);
+            //Handle the error here
+            return throwError(err); //Rethrow it back to component
+        })), map((/**
          * @param {?} res
          * @return {?}
          */
@@ -523,15 +619,25 @@ class ApiService {
                 'Authorization': token
             })
         };
-        console.log('------ ');
-        console.log("endpoint");
-        console.log(endpoint);
-        console.log(data);
+        /*console.log('------ ');
+            console.log("endpoint");
+            console.log(endpoint);
+            console.log(data);*/
         /** @type {?} */
         let dataval;
         dataval = { source: source, data: { ids: data, val: val } };
+        dataval.secretkey = this.secretkey;
         /** @type {?} */
-        var result = this._http.post(endpoint + 'many', dataval, httpOptions).pipe(map((/**
+        var result = this._http.post(endpoint + 'many', dataval, httpOptions).pipe(catchError((/**
+         * @param {?} err
+         * @return {?}
+         */
+        (err) => {
+            console.log('error caught in service');
+            console.error(err);
+            //Handle the error here
+            return throwError(err); //Rethrow it back to component
+        })), map((/**
          * @param {?} res
          * @return {?}
          */
@@ -553,7 +659,8 @@ ApiService.decorators = [
 /** @nocollapse */
 ApiService.ctorParameters = () => [
     { type: HttpClient },
-    { type: HttpClient }
+    { type: HttpClient },
+    { type: CookieService }
 ];
 ApiService.propDecorators = {
     uploaderInput: [{ type: ViewChild, args: ['fileInput1',] }]
@@ -764,7 +871,7 @@ class ListingComponent {
      */
     set libdata(libdataval) {
         this.libdataval = libdataval;
-        console.log('libdataval', this.libdataval);
+        //console.log('libdataval',this.libdataval);
     }
     /**
      * @param {?} datasource
@@ -841,8 +948,11 @@ class ListingComponent {
      * @return {?}
      */
     set jwttoken(jwttoken) {
-        this.jwttokenval = jwttoken;
-        //console.log(this.jwttokenval)
+        if (jwttoken != null)
+            this.jwttokenval = jwttoken;
+        else
+            this.jwttokenval = '';
+        //console.log(this.jwttokenval,'token')
     }
     /**
      * @param {?} statusarr
@@ -1769,6 +1879,10 @@ class ListingComponent {
                  */
                 error => {
                     console.log('Oooops!');
+                    this._snackBar.openFromComponent(SnackbarComponent, {
+                        duration: 6000,
+                        data: { errormessage: 'Something Went Wrong ,Try Again!!' }
+                    });
                 }));
             }
             //this.animal = result;
@@ -1855,6 +1969,10 @@ class ListingComponent {
                  */
                 error => {
                     console.log('Oooops!');
+                    this._snackBar.openFromComponent(SnackbarComponent, {
+                        duration: 6000,
+                        data: { errormessage: 'Something Went Wrong ,Try Again!!' }
+                    });
                 }));
             }
             //this.animal = result;
@@ -1921,6 +2039,10 @@ class ListingComponent {
                  */
                 error => {
                     console.log('Oooops!');
+                    this._snackBar.openFromComponent(SnackbarComponent, {
+                        duration: 6000,
+                        data: { errormessage: 'Something Went Wrong ,Try Again!!' }
+                    });
                 }));
             }
             //this.animal = result;
@@ -1992,6 +2114,10 @@ class ListingComponent {
                  */
                 error => {
                     console.log('Oooops!');
+                    this._snackBar.openFromComponent(SnackbarComponent, {
+                        duration: 6000,
+                        data: { errormessage: 'Something Went Wrong ,Try Again!!' }
+                    });
                 }));
             }
             //this.animal = result;

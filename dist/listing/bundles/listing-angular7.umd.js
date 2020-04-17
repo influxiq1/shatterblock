@@ -1,8 +1,8 @@
 (function (global, factory) {
-    typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('@angular/cdk/collections'), require('ngx-uploader'), require('rxjs/operators'), require('@angular/common/http'), require('moment'), require('@angular/material/snack-bar'), require('@angular/cdk/a11y'), require('@angular/cdk/drag-drop'), require('@angular/cdk/portal'), require('@angular/cdk/scrolling'), require('@angular/cdk/stepper'), require('@angular/cdk/table'), require('@angular/cdk/tree'), require('@angular/material'), require('@angular/platform-browser/animations'), require('@angular/forms'), require('@angular/common'), require('ngx-moment'), require('@angular/router'), require('@angular/core'), require('@angular/platform-browser')) :
-    typeof define === 'function' && define.amd ? define('listing-angular7', ['exports', '@angular/cdk/collections', 'ngx-uploader', 'rxjs/operators', '@angular/common/http', 'moment', '@angular/material/snack-bar', '@angular/cdk/a11y', '@angular/cdk/drag-drop', '@angular/cdk/portal', '@angular/cdk/scrolling', '@angular/cdk/stepper', '@angular/cdk/table', '@angular/cdk/tree', '@angular/material', '@angular/platform-browser/animations', '@angular/forms', '@angular/common', 'ngx-moment', '@angular/router', '@angular/core', '@angular/platform-browser'], factory) :
-    (factory((global['listing-angular7'] = {}),global.ng.cdk.collections,global.ngxUploader,global.rxjs.operators,global.ng.common.http,global.momentImported,global.ng.material['snack-bar'],global.ng.cdk.a11y,global.ng.cdk['drag-drop'],global.ng.cdk.portal,global.ng.cdk.scrolling,global.ng.cdk.stepper,global.ng.cdk.table,global.ng.cdk.tree,global.ng.material,global.ng.platformBrowser.animations,global.ng.forms,global.ng.common,global.ngxMoment,global.ng.router,global.ng.core,global.ng.platformBrowser));
-}(this, (function (exports,collections,ngxUploader,operators,http,momentImported,snackBar,a11y,dragDrop,portal,scrolling,stepper,table,tree,material,animations,forms,common,ngxMoment,router,i0,platformBrowser) { 'use strict';
+    typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('@angular/cdk/collections'), require('ngx-uploader'), require('ngx-cookie-service'), require('rxjs'), require('rxjs/operators'), require('@angular/common/http'), require('moment'), require('@angular/material/snack-bar'), require('@angular/cdk/a11y'), require('@angular/cdk/drag-drop'), require('@angular/cdk/portal'), require('@angular/cdk/scrolling'), require('@angular/cdk/stepper'), require('@angular/cdk/table'), require('@angular/cdk/tree'), require('@angular/material'), require('@angular/platform-browser/animations'), require('@angular/forms'), require('@angular/common'), require('ngx-moment'), require('@angular/router'), require('@angular/core'), require('@angular/platform-browser')) :
+    typeof define === 'function' && define.amd ? define('listing-angular7', ['exports', '@angular/cdk/collections', 'ngx-uploader', 'ngx-cookie-service', 'rxjs', 'rxjs/operators', '@angular/common/http', 'moment', '@angular/material/snack-bar', '@angular/cdk/a11y', '@angular/cdk/drag-drop', '@angular/cdk/portal', '@angular/cdk/scrolling', '@angular/cdk/stepper', '@angular/cdk/table', '@angular/cdk/tree', '@angular/material', '@angular/platform-browser/animations', '@angular/forms', '@angular/common', 'ngx-moment', '@angular/router', '@angular/core', '@angular/platform-browser'], factory) :
+    (factory((global['listing-angular7'] = {}),global.ng.cdk.collections,global.ngxUploader,global.ngxCookieService,global.rxjs,global.rxjs.operators,global.ng.common.http,global.momentImported,global.ng.material['snack-bar'],global.ng.cdk.a11y,global.ng.cdk['drag-drop'],global.ng.cdk.portal,global.ng.cdk.scrolling,global.ng.cdk.stepper,global.ng.cdk.table,global.ng.cdk.tree,global.ng.material,global.ng.platformBrowser.animations,global.ng.forms,global.ng.common,global.ngxMoment,global.ng.router,global.ng.core,global.ng.platformBrowser));
+}(this, (function (exports,collections,ngxUploader,ngxCookieService,rxjs,operators,http,momentImported,snackBar,a11y,dragDrop,portal,scrolling,stepper,table,tree,material,animations,forms,common,ngxMoment,router,i0,platformBrowser) { 'use strict';
 
     /**
      * @fileoverview added by tsickle
@@ -33,18 +33,22 @@
           console.log('this.uploadOutput');
           console.log(this.uploadOutput);
         }*/
-        function ApiService(_http, _authHttp) {
+        function ApiService(_http, _authHttp, cookieService) {
             this._http = _http;
             this._authHttp = _authHttp;
+            this.cookieService = cookieService;
             this.domain_for_fileupload_val = 'http://developmentapi.audiodeadline.com:7031/uploads' + 'uploads';
             this.progress = [];
             this.uploaderror = '';
+            this.secretkey = 'na';
             // public uploadOutputval:any;
             this.fileservername = [];
             this.options = { concurrency: 10, maxUploads: 10 };
             this.files = []; // local uploading files array
             this.uploadInput = new i0.EventEmitter(); // input events, we use this to emit data to ngx-uploader
             this.humanizeBytes = ngxUploader.humanizeBytes;
+            if (this.cookieService.check('secretkey'))
+                this.secretkey = this.cookieService.get('secretkey');
             //console.log('this.domain');
             //console.log(this.domain);
         }
@@ -255,7 +259,15 @@
                 console.log('');
                 // this.isTokenExpired()
                 /** @type {?} */
-                var result = this._http.post('' + 'datalist', endpoint, httpOptions).pipe(operators.map(( /**
+                var result = this._http.post('' + 'datalist', endpoint, httpOptions).pipe(operators.catchError(( /**
+                 * @param {?} err
+                 * @return {?}
+                 */function (err) {
+                    console.log('error caught in service');
+                    console.error(err);
+                    //Handle the error here
+                    return rxjs.throwError(err); //Rethrow it back to component
+                })), operators.map(( /**
                  * @param {?} res
                  * @return {?}
                  */function (res) { return res; })));
@@ -289,7 +301,15 @@
                 console.log('httpOptions');
                 console.log(httpOptions);
                 /** @type {?} */
-                var result = this._http.post(this.getEndpointUrl(endpoint), JSON.stringify(data), httpOptions).pipe(operators.map(( /**
+                var result = this._http.post(this.getEndpointUrl(endpoint), JSON.stringify(data), httpOptions).pipe(operators.catchError(( /**
+                 * @param {?} err
+                 * @return {?}
+                 */function (err) {
+                    console.log('error caught in service');
+                    console.error(err);
+                    //Handle the error here
+                    return rxjs.throwError(err); //Rethrow it back to component
+                })), operators.map(( /**
                  * @param {?} res
                  * @return {?}
                  */function (res) { return res; })));
@@ -316,7 +336,15 @@
                 console.log('endpoint');
                 console.log(endpoint);
                 /** @type {?} */
-                var result = this._http.post(this.getEndpointUrl(endpoint), JSON.stringify(data), httpOptions).pipe(operators.map(( /**
+                var result = this._http.post(this.getEndpointUrl(endpoint), JSON.stringify(data), httpOptions).pipe(operators.catchError(( /**
+                 * @param {?} err
+                 * @return {?}
+                 */function (err) {
+                    console.log('error caught in service');
+                    console.error(err);
+                    //Handle the error here
+                    return rxjs.throwError(err); //Rethrow it back to component
+                })), operators.map(( /**
                  * @param {?} res
                  * @return {?}
                  */function (res) { return res; })));
@@ -343,7 +371,15 @@
                 console.log('endpoint');
                 console.log(endpoint);
                 /** @type {?} */
-                var result = this._http.post(this.getEndpointUrl(endpoint), JSON.stringify(data), httpOptions).pipe(operators.map(( /**
+                var result = this._http.post(this.getEndpointUrl(endpoint), JSON.stringify(data), httpOptions).pipe(operators.catchError(( /**
+                 * @param {?} err
+                 * @return {?}
+                 */function (err) {
+                    console.log('error caught in service');
+                    console.error(err);
+                    //Handle the error here
+                    return rxjs.throwError(err); //Rethrow it back to component
+                })), operators.map(( /**
                  * @param {?} res
                  * @return {?}
                  */function (res) { return res; })));
@@ -372,12 +408,21 @@
                         'Authorization': token
                     })
                 };
-                console.log('------ ');
+                /*console.log('------ ');
                 console.log("link in postSearch");
                 console.log(link);
-                console.log(source);
+                console.log(source);*/
+                source.secretkey = this.secretkey;
                 /** @type {?} */
-                var result = this._http.post(link, source, httpOptions).pipe(operators.map(( /**
+                var result = this._http.post(link, source, httpOptions).pipe(operators.catchError(( /**
+                 * @param {?} err
+                 * @return {?}
+                 */function (err) {
+                    console.log('error caught in service');
+                    console.error(err);
+                    //Handle the error here
+                    return rxjs.throwError(err); //Rethrow it back to component
+                })), operators.map(( /**
                  * @param {?} res
                  * @return {?}
                  */function (res) { return res; })));
@@ -405,7 +450,15 @@
                 console.log("link");
                 console.log(link);
                 /** @type {?} */
-                var result = this._http.post(link, source).pipe(operators.map(( /**
+                var result = this._http.post(link, source).pipe(operators.catchError(( /**
+                 * @param {?} err
+                 * @return {?}
+                 */function (err) {
+                    console.log('error caught in service');
+                    console.error(err);
+                    //Handle the error here
+                    return rxjs.throwError(err); //Rethrow it back to component
+                })), operators.map(( /**
                  * @param {?} res
                  * @return {?}
                  */function (res) { return res; })));
@@ -463,16 +516,25 @@
                         'Authorization': token
                     })
                 };
-                console.log('------ ');
-                console.log("endpoint");
-                console.log(endpoint);
-                console.log(data);
-                console.log(token);
+                /* console.log('------ ');
+                    console.log("endpoint");
+                    console.log(endpoint);
+                    console.log(data);
+                    console.log(token);*/
                 /** @type {?} */
                 var dataval;
                 dataval = { source: source, id: data._id };
+                dataval.secretkey = this.secretkey;
                 /** @type {?} */
-                var result = this._http.post(endpoint, dataval, httpOptions).pipe(operators.map(( /**
+                var result = this._http.post(endpoint, dataval, httpOptions).pipe(operators.catchError(( /**
+                 * @param {?} err
+                 * @return {?}
+                 */function (err) {
+                    console.log('error caught in service');
+                    console.error(err);
+                    //Handle the error here
+                    return rxjs.throwError(err); //Rethrow it back to component
+                })), operators.map(( /**
                  * @param {?} res
                  * @return {?}
                  */function (res) { return res; })));
@@ -493,10 +555,14 @@
          * @return {?}
          */
             function (endpoint, data, token, source) {
-                console.log(endpoint);
-                console.log(data);
-                console.log(token);
-                console.log(source);
+                /*console.log(endpoint);
+                  console.log(data);
+                  console.log(token);
+                  console.log(source);*/
+                /*console.log(endpoint);
+                      console.log(data);
+                      console.log(token);
+                      console.log(source);*/
                 /** @type {?} */
                 var httpOptions = {
                     headers: new http.HttpHeaders({
@@ -504,15 +570,24 @@
                         'Authorization': token
                     })
                 };
-                console.log('------ ');
-                console.log("endpoint");
-                console.log(endpoint);
-                console.log(data);
+                /*console.log('------ ');
+                    console.log("endpoint");
+                    console.log(endpoint);
+                    console.log(data);*/
                 /** @type {?} */
                 var dataval;
                 dataval = { source: source, data: data };
+                dataval.secretkey = this.secretkey;
                 /** @type {?} */
-                var result = this._http.post(endpoint, dataval, httpOptions).pipe(operators.map(( /**
+                var result = this._http.post(endpoint, dataval, httpOptions).pipe(operators.catchError(( /**
+                 * @param {?} err
+                 * @return {?}
+                 */function (err) {
+                    console.log('error caught in service');
+                    console.error(err);
+                    //Handle the error here
+                    return rxjs.throwError(err); //Rethrow it back to component
+                })), operators.map(( /**
                  * @param {?} res
                  * @return {?}
                  */function (res) { return res; })));
@@ -540,15 +615,24 @@
                         'Authorization': token
                     })
                 };
-                console.log('------ ');
-                console.log("endpoint");
-                console.log(endpoint);
-                console.log(data);
+                /*console.log('------ ');
+                    console.log("endpoint");
+                    console.log(endpoint);
+                    console.log(data);*/
                 /** @type {?} */
                 var dataval;
                 dataval = { source: source, ids: data };
+                dataval.secretkey = this.secretkey;
                 /** @type {?} */
-                var result = this._http.post(endpoint + 'many', dataval, httpOptions).pipe(operators.map(( /**
+                var result = this._http.post(endpoint + 'many', dataval, httpOptions).pipe(operators.catchError(( /**
+                 * @param {?} err
+                 * @return {?}
+                 */function (err) {
+                    console.log('error caught in service');
+                    console.error(err);
+                    //Handle the error here
+                    return rxjs.throwError(err); //Rethrow it back to component
+                })), operators.map(( /**
                  * @param {?} res
                  * @return {?}
                  */function (res) { return res; })));
@@ -578,15 +662,24 @@
                         'Authorization': token
                     })
                 };
-                console.log('------ ');
-                console.log("endpoint");
-                console.log(endpoint);
-                console.log(data);
+                /*console.log('------ ');
+                    console.log("endpoint");
+                    console.log(endpoint);
+                    console.log(data);*/
                 /** @type {?} */
                 var dataval;
                 dataval = { source: source, data: { ids: data, val: val } };
+                dataval.secretkey = this.secretkey;
                 /** @type {?} */
-                var result = this._http.post(endpoint + 'many', dataval, httpOptions).pipe(operators.map(( /**
+                var result = this._http.post(endpoint + 'many', dataval, httpOptions).pipe(operators.catchError(( /**
+                 * @param {?} err
+                 * @return {?}
+                 */function (err) {
+                    console.log('error caught in service');
+                    console.error(err);
+                    //Handle the error here
+                    return rxjs.throwError(err); //Rethrow it back to component
+                })), operators.map(( /**
                  * @param {?} res
                  * @return {?}
                  */function (res) { return res; })));
@@ -612,7 +705,8 @@
         ApiService.ctorParameters = function () {
             return [
                 { type: http.HttpClient },
-                { type: http.HttpClient }
+                { type: http.HttpClient },
+                { type: ngxCookieService.CookieService }
             ];
         };
         ApiService.propDecorators = {
@@ -853,7 +947,7 @@
              * @return {?}
              */ function (libdataval) {
                 this.libdataval = libdataval;
-                console.log('libdataval', this.libdataval);
+                //console.log('libdataval',this.libdataval);
             },
             enumerable: true,
             configurable: true
@@ -963,8 +1057,11 @@
              * @param {?} jwttoken
              * @return {?}
              */ function (jwttoken) {
-                this.jwttokenval = jwttoken;
-                //console.log(this.jwttokenval)
+                if (jwttoken != null)
+                    this.jwttokenval = jwttoken;
+                else
+                    this.jwttokenval = '';
+                //console.log(this.jwttokenval,'token')
             },
             enumerable: true,
             configurable: true
@@ -2075,6 +2172,10 @@
                          * @return {?}
                          */function (error) {
                             console.log('Oooops!');
+                            _this._snackBar.openFromComponent(SnackbarComponent, {
+                                duration: 6000,
+                                data: { errormessage: 'Something Went Wrong ,Try Again!!' }
+                            });
                         }));
                     }
                     //this.animal = result;
@@ -2169,6 +2270,10 @@
                          * @return {?}
                          */function (error) {
                             console.log('Oooops!');
+                            _this._snackBar.openFromComponent(SnackbarComponent, {
+                                duration: 6000,
+                                data: { errormessage: 'Something Went Wrong ,Try Again!!' }
+                            });
                         }));
                     }
                     //this.animal = result;
@@ -2238,6 +2343,10 @@
                          * @return {?}
                          */function (error) {
                             console.log('Oooops!');
+                            _this._snackBar.openFromComponent(SnackbarComponent, {
+                                duration: 6000,
+                                data: { errormessage: 'Something Went Wrong ,Try Again!!' }
+                            });
                         }));
                     }
                     //this.animal = result;
@@ -2310,6 +2419,10 @@
                          * @return {?}
                          */function (error) {
                             console.log('Oooops!');
+                            _this._snackBar.openFromComponent(SnackbarComponent, {
+                                duration: 6000,
+                                data: { errormessage: 'Something Went Wrong ,Try Again!!' }
+                            });
                         }));
                     }
                     //this.animal = result;

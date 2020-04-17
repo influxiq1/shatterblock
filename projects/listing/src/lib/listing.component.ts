@@ -162,7 +162,7 @@ export class ListingComponent implements OnInit {
   @Input()
   set libdata(libdataval: any) {
     this.libdataval = libdataval;
-    console.log('libdataval',this.libdataval);
+    //console.log('libdataval',this.libdataval);
   }
 
   @Input()
@@ -213,8 +213,9 @@ export class ListingComponent implements OnInit {
 
   @Input()
   set jwttoken(jwttoken: any) {
-    this.jwttokenval = jwttoken;
-    //console.log(this.jwttokenval)
+    if(jwttoken!=null)this.jwttokenval = jwttoken;
+    else this.jwttokenval='';
+    //console.log(this.jwttokenval,'token')
   }
 
   @Input()
@@ -1039,6 +1040,10 @@ export class ListingComponent implements OnInit {
 
         }, error => {
           console.log('Oooops!');
+          this._snackBar.openFromComponent(SnackbarComponent, {
+            duration:   6000,
+            data: {errormessage:'Something Went Wrong ,Try Again!!'}
+          });
         });
       }
       //this.animal = result;
@@ -1111,6 +1116,10 @@ export class ListingComponent implements OnInit {
 
         }, error => {
           console.log('Oooops!');
+          this._snackBar.openFromComponent(SnackbarComponent, {
+            duration:   6000,
+            data: {errormessage:'Something Went Wrong ,Try Again!!'}
+          });
         });
       }
       //this.animal = result;
@@ -1162,6 +1171,10 @@ export class ListingComponent implements OnInit {
 
         }, error => {
           console.log('Oooops!');
+          this._snackBar.openFromComponent(SnackbarComponent, {
+            duration:   6000,
+            data: {errormessage:'Something Went Wrong ,Try Again!!'}
+          });
         });
 
       }
@@ -1209,6 +1222,10 @@ export class ListingComponent implements OnInit {
 
         }, error => {
           console.log('Oooops!');
+          this._snackBar.openFromComponent(SnackbarComponent, {
+            duration:   6000,
+            data: {errormessage:'Something Went Wrong ,Try Again!!'}
+          });
         });
 
       }

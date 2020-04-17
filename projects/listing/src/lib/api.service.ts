@@ -381,9 +381,11 @@
 
 
 import {ElementRef, EventEmitter, Injectable, Input, ViewChild} from '@angular/core';
-import { switchMap, map, takeWhile } from 'rxjs/operators';
+import {switchMap, map, takeWhile, catchError} from 'rxjs/operators';
 import { HttpClient, HttpHeaders} from '@angular/common/http';
 import { UploadOutput, UploadInput, UploadFile, humanizeBytes, UploaderOptions, UploadStatus } from 'ngx-uploader';
+import { CookieService } from 'ngx-cookie-service';
+import {throwError} from "rxjs";
 
 
 @Injectable()
@@ -407,6 +409,7 @@ export class ApiService {
   public progress:any=[];
   public uploadtype;
   public uploaderror:any='';
+  public secretkey:any='na';
   // public uploadOutputval:any;
   fileservername:any=[];
 
@@ -418,12 +421,15 @@ export class ApiService {
   }*/
   constructor(private _http: HttpClient,
               private _authHttp: HttpClient,
+              private cookieService: CookieService
 
-              ) {
+  ) {
     this.options = { concurrency: 10, maxUploads: 10 };
     this.files = []; // local uploading files array
     this.uploadInput = new EventEmitter<UploadInput>(); // input events, we use this to emit data to ngx-uploader
     this.humanizeBytes = humanizeBytes;
+    if(this.cookieService.check('secretkey'))
+      this.secretkey=this.cookieService.get('secretkey')
     //console.log('this.domain');
     //console.log(this.domain);
   }
@@ -583,7 +589,14 @@ export class ApiService {
     console.log('');
 
     // this.isTokenExpired()
-    var result = this._http.post('' + 'datalist', endpoint, httpOptions).pipe(map(res => res));
+    var result = this._http.post('' + 'datalist', endpoint, httpOptions).pipe(catchError((err) => {
+      console.log('error caught in service')
+      console.error(err);
+
+      //Handle the error here
+
+      return throwError(err);    //Rethrow it back to component
+    }),map(res => res));
 
     return result;
   }
@@ -602,7 +615,14 @@ export class ApiService {
     console.log(endpoint);
     console.log('httpOptions');
     console.log(httpOptions);
-    var result = this._http.post(this.getEndpointUrl(endpoint), JSON.stringify(data), httpOptions).pipe(map(res => res));
+    var result = this._http.post(this.getEndpointUrl(endpoint), JSON.stringify(data), httpOptions).pipe(catchError((err) => {
+      console.log('error caught in service')
+      console.error(err);
+
+      //Handle the error here
+
+      return throwError(err);    //Rethrow it back to component
+    }),map(res => res));
     return result;
   }
   postDatawithoutToken(endpoint:any, data) {
@@ -614,7 +634,14 @@ export class ApiService {
     console.log('');
     console.log('endpoint');
     console.log(endpoint);
-    var result = this._http.post(this.getEndpointUrl(endpoint), JSON.stringify(data), httpOptions).pipe(map(res => res));
+    var result = this._http.post(this.getEndpointUrl(endpoint), JSON.stringify(data), httpOptions).pipe(catchError((err) => {
+      console.log('error caught in service')
+      console.error(err);
+
+      //Handle the error here
+
+      return throwError(err);    //Rethrow it back to component
+    }),map(res => res));
     return result;
   }
 
@@ -627,7 +654,14 @@ export class ApiService {
     console.log('');
     console.log('endpoint');
     console.log(endpoint);
-    var result = this._http.post(this.getEndpointUrl(endpoint), JSON.stringify(data), httpOptions).pipe(map(res => res));
+    var result = this._http.post(this.getEndpointUrl(endpoint), JSON.stringify(data), httpOptions).pipe(catchError((err) => {
+      console.log('error caught in service')
+      console.error(err);
+
+      //Handle the error here
+
+      return throwError(err);    //Rethrow it back to component
+    }),map(res => res));
     return result;
   } // postData end
 
@@ -641,14 +675,22 @@ export class ApiService {
         'Authorization': token
       })
     };
-    console.log('------ ');
+    /*console.log('------ ');
     console.log("link in postSearch");
     console.log(link);
-    console.log(source);
-    var result = this._http.post(link, source, httpOptions).pipe(map(res => res));
+    console.log(source);*/
+    source.secretkey=this.secretkey;
+    var result = this._http.post(link, source, httpOptions).pipe(catchError((err) => {
+      console.log('error caught in service')
+      console.error(err);
+
+      //Handle the error here
+
+      return throwError(err);    //Rethrow it back to component
+    }),map(res => res));
     return result;
   }
-postSearch1( link,source) {
+  postSearch1( link,source) {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
@@ -658,7 +700,14 @@ postSearch1( link,source) {
     console.log('------ ');
     console.log("link");
     console.log(link);
-    var result = this._http.post(link, source).pipe(map(res => res));
+    var result = this._http.post(link, source).pipe(catchError((err) => {
+      console.log('error caught in service')
+      console.error(err);
+
+      //Handle the error here
+
+      return throwError(err);    //Rethrow it back to component
+    }),map(res => res));
     return result;
   }
 
@@ -688,22 +737,30 @@ postSearch1( link,source) {
         'Authorization': token
       })
     };
-    console.log('------ ');
+    /* console.log('------ ');
     console.log("endpoint");
     console.log(endpoint);
     console.log(data);
-    console.log(token);
+    console.log(token);*/
     let dataval:any;
-    dataval={source:source,id:data._id}
-    var result = this._http.post(endpoint,dataval, httpOptions).pipe(map(res => res));
+    dataval={source:source,id:data._id};
+    dataval.secretkey=this.secretkey;
+    var result = this._http.post(endpoint,dataval, httpOptions).pipe(catchError((err) => {
+      console.log('error caught in service')
+      console.error(err);
+
+      //Handle the error here
+
+      return throwError(err);    //Rethrow it back to component
+    }),map(res => res));
     return result;
   }
 
-    togglestatus(endpoint:any, data,token,source) {
-      console.log(endpoint);
+  togglestatus(endpoint:any, data,token,source) {
+    /*console.log(endpoint);
       console.log(data);
       console.log(token);
-      console.log(source);
+      console.log(source);*/
 
     const httpOptions = {
       headers: new HttpHeaders({
@@ -711,13 +768,21 @@ postSearch1( link,source) {
         'Authorization': token
       })
     };
-    console.log('------ ');
+    /*console.log('------ ');
     console.log("endpoint");
     console.log(endpoint);
-    console.log(data);
+    console.log(data);*/
     let dataval:any;
-    dataval={source:source,data:data}
-    var result = this._http.post(endpoint,dataval, httpOptions).pipe(map(res => res));
+    dataval={source:source,data:data};
+    dataval.secretkey=this.secretkey;
+    var result = this._http.post(endpoint,dataval, httpOptions).pipe(catchError((err) => {
+      console.log('error caught in service')
+      console.error(err);
+
+      //Handle the error here
+
+      return throwError(err);    //Rethrow it back to component
+    }),map(res => res));
     return result;
   }
 
@@ -728,37 +793,53 @@ postSearch1( link,source) {
         'Authorization': token
       })
     };
-    console.log('------ ');
+    /*console.log('------ ');
     console.log("endpoint");
     console.log(endpoint);
-    console.log(data);
+    console.log(data);*/
     let dataval:any;
-    dataval={source:source,ids:data}
-    var result = this._http.post(endpoint+'many',dataval, httpOptions).pipe(map(res => res));
+    dataval={source:source,ids:data};
+    dataval.secretkey=this.secretkey;
+    var result = this._http.post(endpoint+'many',dataval, httpOptions).pipe(catchError((err) => {
+      console.log('error caught in service')
+      console.error(err);
+
+      //Handle the error here
+
+      return throwError(err);    //Rethrow it back to component
+    }),map(res => res));
     return result;
   }
 
-    togglestatusmany(endpoint:any, data,val,token,source) {
+  togglestatusmany(endpoint:any, data,val,token,source) {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
         'Authorization': token
       })
     };
-    console.log('------ ');
+    /*console.log('------ ');
     console.log("endpoint");
     console.log(endpoint);
-    console.log(data);
+    console.log(data);*/
     let dataval:any;
     dataval={source:source,data:{ids:data,val:val}};
-    var result = this._http.post(endpoint+'many',dataval, httpOptions).pipe(map(res => res));
+    dataval.secretkey=this.secretkey;
+    var result = this._http.post(endpoint+'many',dataval, httpOptions).pipe(catchError((err) => {
+      console.log('error caught in service')
+      console.error(err);
+
+      //Handle the error here
+
+      return throwError(err);    //Rethrow it back to component
+    }),map(res => res));
     return result;
   }
 
 
 
   private getEndpointUrl(endpoint: string) {
-      return '' + endpoint;
+    return '' + endpoint;
   }
 
 }

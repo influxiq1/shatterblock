@@ -2,9 +2,11 @@
 import { ElementRef, EventEmitter } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { UploadOutput, UploadInput, UploadFile, UploaderOptions } from 'ngx-uploader';
+import { CookieService } from 'ngx-cookie-service';
 export declare class ApiService {
     private _http;
     private _authHttp;
+    private cookieService;
     domain_for_fileupload_val: any;
     files: UploadFile[];
     uploadInput: EventEmitter<UploadInput>;
@@ -18,8 +20,9 @@ export declare class ApiService {
     progress: any;
     uploadtype: any;
     uploaderror: any;
+    secretkey: any;
     fileservername: any;
-    constructor(_http: HttpClient, _authHttp: HttpClient);
+    constructor(_http: HttpClient, _authHttp: HttpClient, cookieService: CookieService);
     onUploadOutput(uploadOutput: UploadOutput, arrayvalue: any, uploadtypec: any, uploadpath: any): void;
     isTokenExpired(): void;
     getclientip(): import("rxjs").Observable<Object>;
