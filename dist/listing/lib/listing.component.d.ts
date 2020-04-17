@@ -141,6 +141,9 @@ export declare class ListingComponent implements OnInit {
     pdfFlag(val: any): void;
     grapurl(val: any): void;
     copyText(row: any, val: string): void;
+    openinternallink(val: any): void;
+    openinternallinkwithparam(val: any, data: any): void;
+    openextlinkwithparam(val: any, data: any): void;
     clickurl(val: any, url: any): void;
     /** Whether the number of selected elements matches the total number of rows. */
     isAllSelected(): boolean;

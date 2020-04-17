@@ -61,86 +61,90 @@ import { DformComponent } from './dform/dform.component';
 import { CustomdataComponent } from './customdata/customdata.component';
 
 import { ListingInventoryComponent } from './inventorylist/listing-inventory/listing-inventory.component';
+import { BtnComponent } from './btn/btn.component';
 
 
 @NgModule({
-  declarations: [
-    CheckboxComponent,
-    DateComponent,
-    DynamicFieldDirective,
-    DynamicFormsComponent,
-    //DynamicFormComponent,
-    InputComponent,
-    RadiobuttonComponent,
-    SelectComponent,
-    ButtonComponent,
-    AppComponent,
+    declarations: [
+        CheckboxComponent,
+        DateComponent,
+        DynamicFieldDirective,
+        DynamicFormsComponent,
+        //DynamicFormComponent,
+        InputComponent,
+        RadiobuttonComponent,
+        SelectComponent,
+        ButtonComponent,
+        AppComponent,
 
-    LoginComponent,
-    BrandmanagementComponent,
-    AdminmanagementComponent,
-    InfluencersmanagementComponent,
-    AdmindashbordComponent,
-    BranddashbordComponent,
-    InfluencersdashbordComponent,
-    ForgatepasswordComponent,
-    ChangepasswordComponent,
+        LoginComponent,
+        BrandmanagementComponent,
+        AdminmanagementComponent,
+        InfluencersmanagementComponent,
+        AdmindashbordComponent,
+        BranddashbordComponent,
+        InfluencersdashbordComponent,
+        ForgatepasswordComponent,
+        ChangepasswordComponent,
 
-    ListingComponent,
+        ListingComponent,
 
-    AdminlistComponent,
-    AdminleftpanelComponent,
-    AdminformComponent,
+        AdminlistComponent,
+        AdminleftpanelComponent,
+        AdminformComponent,
 
-    AdminmodalformComponent,
+        AdminmodalformComponent,
 
-    AdminheaderComponent,
+        AdminheaderComponent,
 
-    EditrouteComponent,
+        EditrouteComponent,
 
-    //DynamicFormsComponent,
+        //DynamicFormsComponent,
 
-    DformComponent,
+        DformComponent,
 
-    CustomdataComponent,
-    
-    ListingInventoryComponent,
+        CustomdataComponent,
 
+        ListingInventoryComponent,
 
-
-
-    //Resolveservice,
-
-  ],
-  imports: [
-    BrowserModule,
-    MaterialModule,
-    AppRoutingModule,
-    BrowserAnimationsModule,
-    HttpClientModule,
-    FormsModule, ReactiveFormsModule,
-    DynamicFormBuilderModule,
+        BtnComponent,
 
 
-    //MATERIAL
-    MatSidenavModule,
-    MatTableModule,
-    MatButtonModule,
-    MatDialogModule,
-    MatCardModule,
-    MatFormFieldModule,
-    MatToolbarModule,
-    ListingModule
-  ],
-  providers: [CookieService,Resolveservice,ApiService,AuthGuard],
-  bootstrap: [AppComponent],
-  entryComponents: [
-    InputComponent,
-    ButtonComponent,
-    SelectComponent,
-    DateComponent,
-    RadiobuttonComponent,
-    CheckboxComponent
-  ]
+        //Resolveservice,
+
+    ],
+    imports: [
+        BrowserModule,
+        MaterialModule,
+        AppRoutingModule,
+        BrowserAnimationsModule,
+        HttpClientModule,
+        FormsModule, ReactiveFormsModule,
+        DynamicFormBuilderModule,
+
+
+        //MATERIAL
+        MatSidenavModule,
+        MatTableModule,
+        MatButtonModule,
+        MatDialogModule,
+        MatCardModule,
+        MatFormFieldModule,
+        MatToolbarModule,
+        ListingModule
+    ],
+    providers: [CookieService, Resolveservice, ApiService, AuthGuard],
+    bootstrap: [AppComponent],
+    exports: [
+        BtnComponent
+    ],
+    entryComponents: [
+        InputComponent,
+        ButtonComponent,
+        SelectComponent,
+        DateComponent,
+        RadiobuttonComponent,
+        CheckboxComponent
+    ]
 })
 export class AppModule { }

@@ -155,15 +155,16 @@
         <ng-container *ngIf="tableflag==0" >
             <section class="lib-pager-class">
                 <mat-label>Showing
-                    <ng-container *ngIf="date_search_source_countval > ((limitcondval.pagecount-1)*limitcondval.limit)">
                         {{(limitcondval.pagecount-1)*limitcondval.limit}}
-                    </ng-container>
-                    <ng-container *ngIf="date_search_source_countval!=0 && date_search_source_countval <= ((limitcondval.pagecount-1)*limitcondval.limit)">
-                        {{date_search_source_countval}}
-                    </ng-container>
                     To
 
-                    {{(limitcondval.pagecount)*limitcondval.limit}}
+                    <ng-container *ngIf="date_search_source_countval > ((limitcondval.pagecount)*limitcondval.limit)">
+                        {{(limitcondval.pagecount)*limitcondval.limit}}
+                    </ng-container>
+                    <ng-container *ngIf="date_search_source_countval!=0 && date_search_source_countval <= ((limitcondval.pagecount)*limitcondval.limit)">
+                        {{date_search_source_countval}}
+                    </ng-container>
+
 
 
                     of </mat-label>
@@ -237,7 +238,17 @@
                     <td mat-cell *matCellDef="let row" [ngStyle]="styleCell(column,row)" data-title="{{column.header}}"   class="td-cell-center">
           
                         <span *ngIf="column.columnDef=='status' ">{{ getstatus([column.cell(row)]) }} {{pdfFlag(row)}}</span>
-                        <span *ngIf="column.columnDef!='status' &&  column.columnDef!='image' && column.columnDef!='video'">{{ column.cell(row) }}</span>
+                        <span *ngIf="column.columnDef!='status' &&  column.columnDef!='image' && column.columnDef!='video'">
+                            <ng-container *ngIf="column!=null && row[column.columnDef]!=null">
+                               <!-- {{ column.cell(row) }}-->
+                                <!--{{row[column.columnDef]}}-->
+                                <span [innerHTML]="row[column.columnDef]"></span>
+                            </ng-container>
+                            <ng-container *ngIf="column!=null && row[column.columnDef]==null">
+                               NA
+                            </ng-container>
+
+                        </span>
                         <!-- for image view  -->
                         <span *ngIf="column.columnDef=='image'" (click)="img_modal_view(column.cell(row))"> <span class="module_imgblock"><img src="{{ column.cell(row) }}" alt="{{ column.cell(row) }}" ></span></span>
                         <!-- for video view -->
@@ -291,6 +302,38 @@
                 <ng-container matColumnDef="Actions" *ngIf="libdataval.hideaction==null || libdataval.hideaction==false" >
                     <th mat-header-cell *matHeaderCellDef  class="th-header-center">Actions</th>
                     <td (click)="$event.stopPropagation()" mat-cell  *matCellDef="let row" data-label="Actions"  class="td-cell-center">
+                        <!--custom buttions block -->
+                        <ng-container *ngIf="libdataval !=null && libdataval.custombuttons !=null && libdataval.custombuttons.length >0 ">
+                            <ng-container *ngFor="let custombutton of libdataval.custombuttons">
+                                <ng-container *ngIf="custombutton.type=='externallink'">
+                                    <ng-container *ngIf="custombutton.param==null && (custombutton.cond==null || row[custombutton.cond]==custombutton.condval )">
+                                       <a target="_blank" href="{{custombutton.link}}">
+                                           <button  mat-raised-button color="primary">{{custombutton.label}}</button>
+                                       </a>
+                                    </ng-container>
+
+                                    <ng-container *ngIf="custombutton.param!=null && (custombutton.cond==null || row[custombutton.cond]==custombutton.condval )">
+
+                                            <button  mat-raised-button color="primary" (click)="openextlinkwithparam(custombutton,row)">{{custombutton.label}}</button>
+
+                                    </ng-container>
+
+                                </ng-container>
+                                <ng-container *ngIf="custombutton.type=='internallink'">
+                                    <ng-container *ngIf="custombutton.param==null && (custombutton.cond==null || row[custombutton.cond]==custombutton.condval )">
+                                           <button  mat-raised-button color="primary" (click)="openinternallink(custombutton)" >{{custombutton.label}}</button>
+                                    </ng-container>
+
+                                    <ng-container *ngIf="custombutton.param!=null && (custombutton.cond==null || row[custombutton.cond]==custombutton.condval )">
+
+                                            <button  mat-raised-button color="primary" (click)="openinternallinkwithparam(custombutton,row)">{{custombutton.label}}</button>
+
+                                    </ng-container>
+
+                                </ng-container>
+
+                            </ng-container>
+                        </ng-container>
                         <span *ngIf="selection.selected.length==null || selection.selected.length==0">
                             <span *ngIf="libdataval.hideeditbutton==null || libdataval.hideeditbutton==false" class="cursor" (click)="editdata(row)" >
                                 <i class="material-icons">
@@ -353,15 +396,16 @@
         <ng-container *ngIf="tableflag==0" >
             <section class="lib-pager-class">
                 <mat-label>Showing
-                    <ng-container *ngIf="date_search_source_countval > ((limitcondval.pagecount-1)*limitcondval.limit)">
-                        {{(limitcondval.pagecount-1)*limitcondval.limit}}
-                    </ng-container>
-                    <ng-container *ngIf="date_search_source_countval!=0 && date_search_source_countval <= ((limitcondval.pagecount-1)*limitcondval.limit)">
-                        {{date_search_source_countval}}
-                    </ng-container>
+                    {{(limitcondval.pagecount-1)*limitcondval.limit}}
                     To
 
-                    {{(limitcondval.pagecount)*limitcondval.limit}}
+                    <ng-container *ngIf="date_search_source_countval > ((limitcondval.pagecount)*limitcondval.limit)">
+                        {{(limitcondval.pagecount)*limitcondval.limit}}
+                    </ng-container>
+                    <ng-container *ngIf="date_search_source_countval!=0 && date_search_source_countval <= ((limitcondval.pagecount)*limitcondval.limit)">
+                        {{date_search_source_countval}}
+                    </ng-container>
+
 
 
                     of </mat-label>

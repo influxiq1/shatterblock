@@ -21,6 +21,7 @@ import * as momentImported from 'moment';
 import {ThemePalette} from "@angular/material/core";
 import {MAT_SNACK_BAR_DATA, MatSnackBar, MatSnackBarRef} from '@angular/material/snack-bar';
 //import {ProgressBarMode} from '@angular/material/progress-bar';
+//import  {BtnComponent} from './../../../../src/app/btn/btn.component'
 const moment = momentImported;
 export interface DialogData {
   alldata: any;
@@ -372,6 +373,7 @@ export class ListingComponent implements OnInit {
     for (let i = 0; i < coldef_list.length; i++) {
       let ff = `row.${coldef_list[i]}`
       var tt = { columnDef: `${coldef_list[i]}`, header: `${header_list[i].replace(/_/g, " ")}`, cell: (row) => eval(ff), objlength: header_list.length };
+     // console.log('tt',tt);
       // console.log('tt.columnDef');
       // console.log(tt.columnDef);
       for (let b in this.modify_header_arrayval) {
@@ -382,8 +384,21 @@ export class ListingComponent implements OnInit {
         this.columns.push(tt);
     }
     let displayedcols = this.columns.map(x => x.columnDef);
-    console.log('displayedcols',displayedcols);
-    displayedcols=this.libdataval.tableheaders;
+    let customcols:any=[];
+    //console.log('displayedcols',displayedcols);
+    if(this.libdataval!=null && this.libdataval.tableheaders !=null)
+      customcols=this.libdataval.tableheaders;
+    if(customcols!=null && customcols.length>0){
+      for(let v in customcols){
+        if(displayedcols.includes(customcols[v])==false){
+          this.columns.push({columnDef:customcols[v],header:customcols[v],cell:'NA'});
+        }
+      }
+      displayedcols=customcols;
+    }
+
+
+    console.log('customcols',customcols,displayedcols);
     if(this.libdataval.hideaction==null || this.libdataval.hideaction==false)
     displayedcols.push('Actions');
 
@@ -777,6 +792,48 @@ export class ListingComponent implements OnInit {
     document.body.removeChild(selBox);
   }
 
+  openinternallink(val:any){
+    this.router.navigate([val.route]);
+  }
+  openinternallinkwithparam(val:any,data:any){
+    let rdata:any=[];
+    rdata.push(val.route);
+    for(let v in val.param){
+     rdata.push(data[val.param[v]])
+    }
+    //console.log('radat',rdata);
+    this.router.navigate(rdata);
+  }
+  openextlinkwithparam(val:any,data:any){
+    console.log('val',val,data);
+    let qtext:any='';
+    let fulllink:any='';
+    fulllink=val.link;
+    if(val.paramtype==null) {
+      for (let v in val.param) {
+        qtext = val.param[v].q + "=" + encodeURI(data[val.param[v].key]);
+        //console.log('qtext',qtext);
+        if (parseInt(v) == 0) fulllink = fulllink + '?' + qtext;
+        if (parseInt(v) != 0) fulllink = fulllink + '&' + qtext;
+      }
+      //val.link=fulllink;
+    }
+    if(val.paramtype!=null && val.paramtype=='angular'){
+      for (let v in val.param) {
+        //qtext = val.param[v].q + "=" + encodeURI(data[val.param[v].key]);
+        //console.log('qtext',qtext);
+
+          fulllink = fulllink + '/' + encodeURI(data[val.param[v]]);
+      }
+      //val.link=fulllink;
+    }
+    setTimeout (() => {
+      console.log("Hello from setTimeout");
+      console.log('link',fulllink,data,qtext);
+    }, 10);
+
+    window.open(fulllink, "_blank");
+  }
   clickurl(val: any, url: any) {
     let link = url + '' + val._id + '' + this.pdf_link_val;
     window.open(link, "_blank");

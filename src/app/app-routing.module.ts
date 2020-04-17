@@ -25,6 +25,8 @@ const routes: Routes = [
   { path: "login", component: LoginComponent},
   { path: "", component: LoginComponent},
   { path: "brand", component: BrandmanagementComponent },
+  { path: "brand/:id", component: BrandmanagementComponent },
+  { path: "brand/:id/:title", component: BrandmanagementComponent },
   { path: "influencers", component: InfluencersmanagementComponent },
   { path: "influencersdashbord", component: InfluencersdashbordComponent, canActivate: [AuthGuard], resolve: {results: Resolveservice}, data: { source: 'users', condition: {} }},
   // { path: "adminlist", component: AdminlistComponent, canActivate: [AuthGuard], resolve: {results: Resolveservice}, data: { source: 'users', condition: {} }},

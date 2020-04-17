@@ -7,9 +7,9 @@ declare var moment:any;
 
 
 @Component({
-  selector: 'app-admindashbord',
-  templateUrl: './admindashbord.component.html',
-  styleUrls: ['./admindashbord.component.css']
+    selector: 'app-admindashbord',
+    templateUrl: './admindashbord.component.html',
+    styleUrls: ['./admindashbord.component.css']
 })
 export class AdmindashbordComponent implements OnInit {
     componentRef: any;
@@ -24,7 +24,7 @@ export class AdmindashbordComponent implements OnInit {
 
 
 
-     // use for Download the PDF 
+    // use for Download the PDF
 
     custom_link: any = [{
         label: 'shatterblok',
@@ -45,25 +45,25 @@ export class AdmindashbordComponent implements OnInit {
             field_name: 'name'
         },
         {
-        label: 'shatterblok grab url',
-        url: 'artixtxp.com/',
-        action: 'null'
-    }, {
-        label: 'Audiodateline grab url',
-        url: 'audiodateline.com/',
-        action: 'null'
-    }
-];
+            label: 'shatterblok grab url',
+            url: 'artixtxp.com/',
+            action: 'null'
+        }, {
+            label: 'Audiodateline grab url',
+            url: 'audiodateline.com/',
+            action: 'null'
+        }
+    ];
 
     pendingmodelapplicationarray: any = [];
    
     public status: any = [{ val: 1, 'name': 'Active' }, { val: 0, 'name': 'Inactive' }];
 
-     // use for status search
+    // use for status search
 
     statusarray: any = [{val: 1, name: 'Approve'}, {val: 4, name: 'Decline'}, {val: 3, name: 'Lock'}]; 
 
-     // use for ststic email search
+    // use for ststic email search
     //  Example like this
     emailarray: any = [{val: 'sourotest222@gmail.com', name: 'sourotest222@gmail.com'}, {val: 'octtest@yopmail.com', name: 'octtest@yopmail.com'}, {val: 'septest@yopmail.com', name: 'septest@yopmail.com'}];
 
@@ -90,11 +90,11 @@ export class AdmindashbordComponent implements OnInit {
 
 
 
-      // use for Table Detail Field Skip 
+    // use for Table Detail Field Skip
     pendingmodelapplicationarray_detail_skip: any = ['_id', 'email', 'name'];
 
 
-     // use for Table Detail inside the modal image path 
+    // use for Table Detail inside the modal image path
     pendingmodelapplicationarray_detail_datatype: any = [{
         key: "images",
         value: 'image',
@@ -134,8 +134,66 @@ export class AdmindashbordComponent implements OnInit {
         //hidedeletebutton:true,
         //hideviewbutton:false,
         //hidestatustogglebutton:true,
-       // hideaction:true,
-        tableheaders:['author','priority','blogtitle'],
+        // hideaction:true,
+        tableheaders:['author','priority','blogtitle','status','wrongone'], //not required
+        custombuttons:[
+            {
+                label:"fb search with blog title",
+                link:"https://www.facebook.com/search/top/",
+                type:'externallink',
+                param:[{key:'blogtitle',q:'q'}],
+            },
+            {
+                label:"G search with blog title ACtive",
+                link:"https://www.google.com/search",
+                type:'externallink',
+                param:[{key:'blogtitle',q:'q'},{key:'author',q:'oq'}],
+                cond:'status',
+                condval: 1
+            },{
+                label:"mask blog",
+                link:"https://mask-blog1.influxiq.com/blog-details",
+                type:'externallink',
+                paramtype:'angular',
+                param:['blogtitle','_id'],
+                cond:'status',
+                condval: 0
+            },
+            {
+                label:" fb profile ",
+                link:"https://www.facebook.com/debasiskar007",
+                type:'externallink'
+            },
+            {
+                label:" fb profile for inactive",
+                link:"https://www.facebook.com/debasiskar007",
+                type:'externallink',
+                cond:'status',
+                condval:0
+            },
+            {
+                label:" fb profile for active",
+                link:"https://www.facebook.com/debasiskar007",
+                type:'externallink',
+                cond:'status',
+                condval:1
+            },
+            {
+                label:"see brand",
+                route:"brand",
+                type:'internallink',
+                cond:'status',
+                condval:0
+            },
+            {
+                label:"see brand with param",
+                route:"brand",
+                type:'internallink',
+                cond:'status',
+                condval:0,
+                param:['_id','blogtitle'],
+            }
+        ]
     }
 // send basic sort data
     sortdata:any={
@@ -153,21 +211,21 @@ export class AdmindashbordComponent implements OnInit {
     date_search_source_count: any=0;
 
     // this is use for  All type of search
-     authval:any= [
+    authval:any= [
         { val: 'YmattZ', 'name': 'YmattZ A' },
         { val: 'YmattZ', 'name': 'YmattZ A' },
         { val: 'Ymatt', 'name': 'YmattZ AB' },
         { val: 'Jessica', 'name': 'A Jessica' }
-        ];
+    ];
     search_settings:any={
 
         datesearch:[{startdatelabel:"Start Date",enddatelabel:"End Date",submit:"Search",  field:"created_at"}],   // this is use for  date search
 
         selectsearch:[{ label: 'Search By Status', field: 'status', values: this.status }], // this is use for  select search
 
-         textsearch:[{label:"Search By Title",field:'blogtitle_search'},{label:"Search by auther",field:"author_search"}],  // this is use for  text search
+        textsearch:[{label:"Search By Title",field:'blogtitle_search'},{label:"Search by auther",field:"author_search"}],  // this is use for  text search
 
-         search:[{label:"Search By Author",field:'author_search',values:this.authval}]     // this is use for  Autocomplete search
+        search:[{label:"Search By Author",field:'author_search',values:this.authval}]     // this is use for  Autocomplete search
     };
 
     // this is search block 
@@ -200,10 +258,10 @@ export class AdmindashbordComponent implements OnInit {
                 "limit":10,
                 "skip":0
             },
-        sort:{
-            "type":'desc',
-            "field":'priority'
-        }
+            sort:{
+                "type":'desc',
+                "field":'priority'
+            }
 
         }
         this._apiService.postData(endpointc, data).subscribe((res:any) => {
