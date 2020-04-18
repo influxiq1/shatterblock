@@ -192,6 +192,14 @@ export class AdmindashbordComponent implements OnInit {
                 cond:'status',
                 condval:0,
                 param:['_id','blogtitle'],
+            },
+            {
+                label:"Desc from data",
+                type:'action',
+                datatype:'local',
+                datafields:['description','author','blogtitle','tags_array','image','video'],
+                cond:'status',
+                condval:0
             }
         ]
     }

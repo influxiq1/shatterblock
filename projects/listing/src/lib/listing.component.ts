@@ -805,6 +805,32 @@ export class ListingComponent implements OnInit {
     //console.log('radat',rdata);
     this.router.navigate(rdata);
   }
+  opencustombuttonactionlocaldata(val:any,data:any){
+    //console.log('opencustombuttonactionlocaldata',val,data);
+    let dataarr=[];
+    //dataarr.push(['name','debasis']);
+    //dataarr.push(['desc','test']);
+    for(let v in val.datafields){
+      let temparr=[];
+      temparr.push(val.datafields[v]);
+      if(val.datafields[v]!='image' && val.datafields[v]!='video')
+        temparr.push(data[val.datafields[v]]);
+      if(val.datafields[v]=='image') temparr.push("<img mat-card-image src=" + data[val.datafields[v]] + " > <br/>")
+      if(val.datafields[v]=='video') {
+        let temphtml :any=("<iframe width=560 height=315 src=https://www.youtube.com/embed/"+ data[val.datafields[v]] +" frameborder=0 allow=accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture allowfullscreen></iframe> <br/>");
+        temphtml = this.sanitizer.bypassSecurityTrustHtml(temphtml);
+        temparr.push(temphtml);
+      }
+      //if(val.datafields[v]=='video') temparr.push("<img mat-card-image src=" + data[val.datafields[v]] + " > <br/>")
+      dataarr.push(temparr);
+    }
+    console.log('dataarr',dataarr);
+    const dialogRef = this.dialog.open(Confirmdialog, {
+      height: 'auto',
+      panelClass: 'custom-modalbox',
+      data: { isconfirmation: false, data: dataarr }
+    });
+  }
   openextlinkwithparam(val:any,data:any){
     console.log('val',val,data);
     let qtext:any='';

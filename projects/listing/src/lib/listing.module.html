@@ -331,6 +331,18 @@
                                     </ng-container>
 
                                 </ng-container>
+                                <ng-container *ngIf="custombutton.type=='action'">
+                                    <ng-container *ngIf="custombutton.datatype=='local' && (custombutton.cond==null || row[custombutton.cond]==custombutton.condval )">
+                                           <button  mat-raised-button color="primary" (click)="opencustombuttonactionlocaldata(custombutton,row)" >{{custombutton.label}}</button>
+                                    </ng-container>
+
+                                    <ng-container *ngIf="custombutton.param!=null && (custombutton.cond==null || row[custombutton.cond]==custombutton.condval )">
+
+                                            <button  mat-raised-button color="primary" (click)="openinternallinkwithparam(custombutton,row)">{{custombutton.label}}</button>
+
+                                    </ng-container>
+
+                                </ng-container>
 
                             </ng-container>
                         </ng-container>
