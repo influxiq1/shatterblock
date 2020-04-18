@@ -200,6 +200,15 @@ export class AdmindashbordComponent implements OnInit {
                 datafields:['description','author','blogtitle','tags_array','image','video'],
                 cond:'status',
                 condval:0
+            } ,
+            {
+                label:"Desc from api data",
+                type:'action',
+                datatype:'api',
+                endpoint:'getblogdatabyid',
+                cond:'status',
+                condval:0,
+                param:'blog_id'
             }
         ]
     }
