@@ -19,7 +19,7 @@ import { FormBuilder, FormControl, FormsModule, ReactiveFormsModule } from '@ang
 import { CommonModule } from '@angular/common';
 import { MomentModule } from 'ngx-moment';
 import { NavigationCancel, NavigationEnd, NavigationError, NavigationStart, Router, RouterModule } from '@angular/router';
-import { Injectable, Component, Input, EventEmitter, ViewChild, Inject, ComponentFactoryResolver, ViewContainerRef, NgModule, CUSTOM_ELEMENTS_SCHEMA, defineInjectable } from '@angular/core';
+import { Injectable, EventEmitter, ViewChild, Component, Input, NgModule, CUSTOM_ELEMENTS_SCHEMA, Inject, ComponentFactoryResolver, ViewContainerRef, defineInjectable } from '@angular/core';
 import { DomSanitizer, BrowserModule } from '@angular/platform-browser';
 
 /**
@@ -1415,7 +1415,7 @@ var ListingComponent = /** @class */ (function () {
                 }
             }
             /** @type {?} */
-            var conditionobj = Object.assign({}, textSearch, this.dateSearch_condition, autosearch, this.selectSearch_condition);
+            var conditionobj = Object.assign({}, textSearch, this.dateSearch_condition, autosearch, this.selectSearch_condition, this.libdataval.basecondition);
             source = {
                 "condition": {
                     limit: this.limitcondval.limit,
@@ -1559,7 +1559,7 @@ var ListingComponent = /** @class */ (function () {
             textSearch[i] = { $regex: this.tsearch[i].toLowerCase() };
         }
         /** @type {?} */
-        var conditionobj = Object.assign({}, textSearch, this.dateSearch_condition, this.autosearch, this.selectSearch_condition);
+        var conditionobj = Object.assign({}, textSearch, this.dateSearch_condition, this.autosearch, this.selectSearch_condition, this.libdataval.basecondition);
         /** @type {?} */
         var source = {
             "condition": {
@@ -1908,6 +1908,9 @@ var ListingComponent = /** @class */ (function () {
         var dataarr = [];
         //dataarr.push(['name','debasis']);
         //dataarr.push(['desc','test']);
+        if (val.refreshdata != null && val.refreshdata == true) {
+            this.allSearch();
+        }
         for (var v in val.datafields) {
             /** @type {?} */
             var temparr = [];
@@ -1925,11 +1928,14 @@ var ListingComponent = /** @class */ (function () {
             //if(val.datafields[v]=='video') temparr.push("<img mat-card-image src=" + data[val.datafields[v]] + " > <br/>")
             dataarr.push(temparr);
         }
-        console.log('dataarr', dataarr);
+        //console.log('dataarr',dataarr);
+        if (val.refreshdata != null && val.refreshdata == true) {
+            this.allSearch();
+        }
         /** @type {?} */
         var dialogRef = this.dialog.open(Confirmdialog, {
             height: 'auto',
-            panelClass: 'custom-modalbox',
+            panelClass: 'custom-modalbox-apidata',
             data: { isconfirmation: false, data: dataarr }
         });
     };
@@ -1991,7 +1997,10 @@ var ListingComponent = /** @class */ (function () {
                 //if(val.datafields[v]=='video') temparr.push("<img mat-card-image src=" + data[val.datafields[v]] + " > <br/>")
                 dataarr.push(temparr);
             }
-            console.log('dataarr', dataarr);
+            //console.log('dataarr',dataarr);
+            if (val.refreshdata != null && val.refreshdata == true) {
+                _this.allSearch();
+            }
             /** @type {?} */
             var dialogRef = _this.dialog.open(Confirmdialog, {
                 height: 'auto',
@@ -2696,7 +2705,7 @@ var ListingComponent = /** @class */ (function () {
         }
         //console.log('autos',autosearch);
         /** @type {?} */
-        var conditionobj = Object.assign({}, textSearch, this.dateSearch_condition, autosearch, this.selectSearch_condition);
+        var conditionobj = Object.assign({}, textSearch, this.dateSearch_condition, autosearch, this.selectSearch_condition, this.libdataval.basecondition);
         source = {
             "condition": {
                 limit: this.limitcondval.limit,
@@ -3104,6 +3113,7 @@ var YoutubeplayerComponent = /** @class */ (function () {
  * @fileoverview added by tsickle
  * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
+//import { ShowformComponent } from './showform/showform.component';
 var ListingModule = /** @class */ (function () {
     function ListingModule() {
     }

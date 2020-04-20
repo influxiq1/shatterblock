@@ -62,6 +62,7 @@ import { CustomdataComponent } from './customdata/customdata.component';
 
 import { ListingInventoryComponent } from './inventorylist/listing-inventory/listing-inventory.component';
 import { BtnComponent } from './btn/btn.component';
+import {ShowformComponent} from "../../projects/listing/src/lib/showform/showform.component";
 
 
 @NgModule({
@@ -87,7 +88,7 @@ import { BtnComponent } from './btn/btn.component';
         ForgatepasswordComponent,
         ChangepasswordComponent,
 
-        ListingComponent,
+        ListingComponent,ShowformComponent,
 
         AdminlistComponent,
         AdminleftpanelComponent,

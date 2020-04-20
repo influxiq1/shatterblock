@@ -1341,7 +1341,7 @@
                         }
                     }
                     /** @type {?} */
-                    var conditionobj = Object.assign({}, textSearch, this.dateSearch_condition, autosearch, this.selectSearch_condition);
+                    var conditionobj = Object.assign({}, textSearch, this.dateSearch_condition, autosearch, this.selectSearch_condition, this.libdataval.basecondition);
                     source = {
                         "condition": {
                             limit: this.limitcondval.limit,
@@ -1483,7 +1483,7 @@
                     textSearch[i] = { $regex: this.tsearch[i].toLowerCase() };
                 }
                 /** @type {?} */
-                var conditionobj = Object.assign({}, textSearch, this.dateSearch_condition, this.autosearch, this.selectSearch_condition);
+                var conditionobj = Object.assign({}, textSearch, this.dateSearch_condition, this.autosearch, this.selectSearch_condition, this.libdataval.basecondition);
                 /** @type {?} */
                 var source = {
                     "condition": {
@@ -1830,6 +1830,9 @@
                 var dataarr = [];
                 //dataarr.push(['name','debasis']);
                 //dataarr.push(['desc','test']);
+                if (val.refreshdata != null && val.refreshdata == true) {
+                    this.allSearch();
+                }
                 for (var v in val.datafields) {
                     /** @type {?} */
                     var temparr = [];
@@ -1847,11 +1850,14 @@
                     //if(val.datafields[v]=='video') temparr.push("<img mat-card-image src=" + data[val.datafields[v]] + " > <br/>")
                     dataarr.push(temparr);
                 }
-                console.log('dataarr', dataarr);
+                //console.log('dataarr',dataarr);
+                if (val.refreshdata != null && val.refreshdata == true) {
+                    this.allSearch();
+                }
                 /** @type {?} */
                 var dialogRef = this.dialog.open(Confirmdialog, {
                     height: 'auto',
-                    panelClass: 'custom-modalbox',
+                    panelClass: 'custom-modalbox-apidata',
                     data: { isconfirmation: false, data: dataarr }
                 });
             };
@@ -1912,7 +1918,10 @@
                         //if(val.datafields[v]=='video') temparr.push("<img mat-card-image src=" + data[val.datafields[v]] + " > <br/>")
                         dataarr.push(temparr);
                     }
-                    console.log('dataarr', dataarr);
+                    //console.log('dataarr',dataarr);
+                    if (val.refreshdata != null && val.refreshdata == true) {
+                        _this.allSearch();
+                    }
                     /** @type {?} */
                     var dialogRef = _this.dialog.open(Confirmdialog, {
                         height: 'auto',
@@ -2600,7 +2609,7 @@
                 }
                 //console.log('autos',autosearch);
                 /** @type {?} */
-                var conditionobj = Object.assign({}, textSearch, this.dateSearch_condition, autosearch, this.selectSearch_condition);
+                var conditionobj = Object.assign({}, textSearch, this.dateSearch_condition, autosearch, this.selectSearch_condition, this.libdataval.basecondition);
                 source = {
                     "condition": {
                         limit: this.limitcondval.limit,
@@ -3018,6 +3027,7 @@
      * @fileoverview added by tsickle
      * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
      */
+    //import { ShowformComponent } from './showform/showform.component';
     var ListingModule = /** @class */ (function () {
         function ListingModule() {
         }

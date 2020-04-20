@@ -474,7 +474,7 @@ export class ListingComponent implements OnInit {
         }
       }
 
-      let conditionobj = Object.assign({}, textSearch, this.dateSearch_condition, autosearch, this.selectSearch_condition);
+      let conditionobj = Object.assign({}, textSearch, this.dateSearch_condition, autosearch, this.selectSearch_condition,this.libdataval.basecondition);
       source = {
         "condition":{
           limit:this.limitcondval.limit,
@@ -588,7 +588,7 @@ export class ListingComponent implements OnInit {
       textSearch[i]={$regex:this.tsearch[i].toLowerCase()};
     }
 
-    let conditionobj = Object.assign({}, textSearch, this.dateSearch_condition, this.autosearch, this.selectSearch_condition);
+    let conditionobj = Object.assign({}, textSearch, this.dateSearch_condition, this.autosearch, this.selectSearch_condition,this.libdataval.basecondition);
     let source = {
       "condition":{
         limit:this.limitcondval.limit,
@@ -810,6 +810,9 @@ export class ListingComponent implements OnInit {
     let dataarr=[];
     //dataarr.push(['name','debasis']);
     //dataarr.push(['desc','test']);
+    if(val.refreshdata!=null && val.refreshdata == true){
+      this.allSearch();
+    }
     for(let v in val.datafields){
       let temparr=[];
       temparr.push(val.datafields[v]);
@@ -824,10 +827,13 @@ export class ListingComponent implements OnInit {
       //if(val.datafields[v]=='video') temparr.push("<img mat-card-image src=" + data[val.datafields[v]] + " > <br/>")
       dataarr.push(temparr);
     }
-    console.log('dataarr',dataarr);
+    //console.log('dataarr',dataarr);
+    if(val.refreshdata!=null && val.refreshdata == true){
+      this.allSearch();
+    }
     const dialogRef = this.dialog.open(Confirmdialog, {
       height: 'auto',
-      panelClass: 'custom-modalbox',
+      panelClass: 'custom-modalbox-apidata',
       data: { isconfirmation: false, data: dataarr }
     });
   }
@@ -865,8 +871,12 @@ export class ListingComponent implements OnInit {
         }
         //if(val.datafields[v]=='video') temparr.push("<img mat-card-image src=" + data[val.datafields[v]] + " > <br/>")
         dataarr.push(temparr);
+
       }
-      console.log('dataarr',dataarr);
+      //console.log('dataarr',dataarr);
+      if(val.refreshdata!=null && val.refreshdata == true){
+        this.allSearch();
+      }
       const dialogRef = this.dialog.open(Confirmdialog, {
         height: 'auto',
         panelClass: 'custom-modalbox',
@@ -1344,7 +1354,7 @@ export class ListingComponent implements OnInit {
 
 
 
-    let conditionobj = Object.assign({}, textSearch, this.dateSearch_condition, autosearch, this.selectSearch_condition);
+    let conditionobj = Object.assign({}, textSearch, this.dateSearch_condition, autosearch, this.selectSearch_condition,this.libdataval.basecondition);
     source = {
       "condition":{
         limit:this.limitcondval.limit,

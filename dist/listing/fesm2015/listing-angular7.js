@@ -19,7 +19,7 @@ import { FormBuilder, FormControl, FormsModule, ReactiveFormsModule } from '@ang
 import { CommonModule } from '@angular/common';
 import { MomentModule } from 'ngx-moment';
 import { NavigationCancel, NavigationEnd, NavigationError, NavigationStart, Router, RouterModule } from '@angular/router';
-import { Injectable, EventEmitter, ViewChild, Component, Input, Inject, ComponentFactoryResolver, ViewContainerRef, NgModule, CUSTOM_ELEMENTS_SCHEMA, defineInjectable } from '@angular/core';
+import { Injectable, Component, Input, EventEmitter, ViewChild, NgModule, CUSTOM_ELEMENTS_SCHEMA, Inject, ComponentFactoryResolver, ViewContainerRef, defineInjectable } from '@angular/core';
 import { DomSanitizer, BrowserModule } from '@angular/platform-browser';
 
 /**
@@ -1188,7 +1188,7 @@ class ListingComponent {
                 }
             }
             /** @type {?} */
-            let conditionobj = Object.assign({}, textSearch, this.dateSearch_condition, autosearch, this.selectSearch_condition);
+            let conditionobj = Object.assign({}, textSearch, this.dateSearch_condition, autosearch, this.selectSearch_condition, this.libdataval.basecondition);
             source = {
                 "condition": {
                     limit: this.limitcondval.limit,
@@ -1322,7 +1322,7 @@ class ListingComponent {
             textSearch[i] = { $regex: this.tsearch[i].toLowerCase() };
         }
         /** @type {?} */
-        let conditionobj = Object.assign({}, textSearch, this.dateSearch_condition, this.autosearch, this.selectSearch_condition);
+        let conditionobj = Object.assign({}, textSearch, this.dateSearch_condition, this.autosearch, this.selectSearch_condition, this.libdataval.basecondition);
         /** @type {?} */
         let source = {
             "condition": {
@@ -1609,6 +1609,9 @@ class ListingComponent {
         let dataarr = [];
         //dataarr.push(['name','debasis']);
         //dataarr.push(['desc','test']);
+        if (val.refreshdata != null && val.refreshdata == true) {
+            this.allSearch();
+        }
         for (let v in val.datafields) {
             /** @type {?} */
             let temparr = [];
@@ -1626,11 +1629,14 @@ class ListingComponent {
             //if(val.datafields[v]=='video') temparr.push("<img mat-card-image src=" + data[val.datafields[v]] + " > <br/>")
             dataarr.push(temparr);
         }
-        console.log('dataarr', dataarr);
+        //console.log('dataarr',dataarr);
+        if (val.refreshdata != null && val.refreshdata == true) {
+            this.allSearch();
+        }
         /** @type {?} */
         const dialogRef = this.dialog.open(Confirmdialog, {
             height: 'auto',
-            panelClass: 'custom-modalbox',
+            panelClass: 'custom-modalbox-apidata',
             data: { isconfirmation: false, data: dataarr }
         });
     }
@@ -1686,7 +1692,10 @@ class ListingComponent {
                 //if(val.datafields[v]=='video') temparr.push("<img mat-card-image src=" + data[val.datafields[v]] + " > <br/>")
                 dataarr.push(temparr);
             }
-            console.log('dataarr', dataarr);
+            //console.log('dataarr',dataarr);
+            if (val.refreshdata != null && val.refreshdata == true) {
+                this.allSearch();
+            }
             /** @type {?} */
             const dialogRef = this.dialog.open(Confirmdialog, {
                 height: 'auto',
@@ -2272,7 +2281,7 @@ class ListingComponent {
         }
         //console.log('autos',autosearch);
         /** @type {?} */
-        let conditionobj = Object.assign({}, textSearch, this.dateSearch_condition, autosearch, this.selectSearch_condition);
+        let conditionobj = Object.assign({}, textSearch, this.dateSearch_condition, autosearch, this.selectSearch_condition, this.libdataval.basecondition);
         source = {
             "condition": {
                 limit: this.limitcondval.limit,
@@ -2665,6 +2674,7 @@ YoutubeplayerComponent.propDecorators = {
  * @fileoverview added by tsickle
  * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
+//import { ShowformComponent } from './showform/showform.component';
 class ListingModule {
 }
 ListingModule.decorators = [

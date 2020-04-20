@@ -129,6 +129,7 @@ export class AdmindashbordComponent implements OnInit {
 
     // other data
     libdata:any={
+        basecondition:{status:1},
         updateendpoint:'statusupdate1',
         hideeditbutton:true,// all these button options are optional not mandatory
         //hidedeletebutton:true,
@@ -208,7 +209,8 @@ export class AdmindashbordComponent implements OnInit {
                 endpoint:'getblogdatabyid',
                 cond:'status',
                 condval:0,
-                param:'blog_id'
+                param:'blog_id',
+                refreshdata:true
             }
         ]
     }
@@ -262,6 +264,8 @@ export class AdmindashbordComponent implements OnInit {
 
 
     // editroute:any = [{val: 1, name:"hi"}];
+    //everything we need for formlibconfiguration
+
 
     constructor(public router: Router, private route: ActivatedRoute, private _apiService: ApiService) {
         // console.log('custom_link');
