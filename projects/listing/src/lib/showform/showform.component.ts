@@ -58,9 +58,13 @@ export class ShowformComponent implements OnInit {
     }
   }
 
+  inputblur(val: any) {
+    //console.log('on blur .....');
+    this.formGroup.controls[val].markAsUntouched();
+  }
+
 
   createForm() {
-    let emailregex: RegExp = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
     /*this.formGroup = this.formBuilder.group({
       'email': [null, [Validators.required, Validators.pattern(emailregex)], this.checkInUseEmail],
       'fullname': [null, Validators.required],
@@ -82,13 +86,19 @@ export class ShowformComponent implements OnInit {
 
       if(this.formdataval.fields[n].validations!=null && this.formdataval.fields[n].validations.length>0){
         for(let v in this.formdataval.fields[n].validations ){
+          if(this.formdataval.fields[n].validations[v].message==null)
+            this.formdataval.fields[n].validations[v].message="Not Valid !!"
           if(this.formdataval.fields[n].validations[v].rule=='required')
             temvalidationrule.push(Validators.required);
-          if(this.formdataval.fields[n].validations[v].rule=='email')
-            temvalidationrule.push(Validators.pattern(emailregex));
-          if(this.formdataval.fields[n].validations[v].rule=='max')
+          if(this.formdataval.fields[n].validations[v].rule=='pattern')
+            temvalidationrule.push(Validators.pattern(this.formdataval.fields[n].validations[v].value));
+          if(this.formdataval.fields[n].validations[v].rule=='maxLength')
             temvalidationrule.push(Validators.maxLength(this.formdataval.fields[n].validations[v].value));
           if(this.formdataval.fields[n].validations[v].rule=='min')
+            temvalidationrule.push(Validators.min(this.formdataval.fields[n].validations[v].value));
+          if(this.formdataval.fields[n].validations[v].rule=='max')
+            temvalidationrule.push(Validators.max(this.formdataval.fields[n].validations[v].value));
+          if(this.formdataval.fields[n].validations[v].rule=='minLength')
             temvalidationrule.push(Validators.minLength(this.formdataval.fields[n].validations[v].value));
         }
       }
@@ -144,7 +154,8 @@ export class ShowformComponent implements OnInit {
     })
   }
 
-  getErrorEmail() {
+  getError(data:any) {
+    console.log('getError',data);
     return this.formGroup.get('email').hasError('required') ? 'Field is required' :
         this.formGroup.get('email').hasError('pattern') ? 'Not a valid emailaddress' :
             this.formGroup.get('email').hasError('alreadyInUse') ? 'This emailaddress is already in use' : '';
@@ -157,6 +168,10 @@ export class ShowformComponent implements OnInit {
 
   onSubmit(post) {
     this.post = post;
+    for (let x in this.formGroup.controls) {
+      this.formGroup.controls[x].markAsTouched();
+      console.log(this.formGroup.controls[x].errors,x,'err');
+    }
     console.log(post,'post',this.formGroup.valid,this.formdataval);
   }
 

@@ -860,26 +860,28 @@ export class ListingComponent implements OnInit {
     this._apiService.postSearch(link, this.jwttokenval, source).subscribe(res => {
       let result: any = {};
       result = res;
-     //console.log('res',result);
-     let resdata:any={};
-     this.loading=false;
-     if(result.res[0]!=null){
-       resdata=result.res[0];
-     }else{
-       resdata=result.res;
-     }
+      if(result.status == 'success'){
 
-      let dataarr=[];
+      //console.log('res',result);
+      let resdata: any = {};
+      this.loading = false;
+      if (result.res[0] != null) {
+        resdata = result.res[0];
+      } else {
+        resdata = result.res;
+      }
+
+      let dataarr = [];
       //dataarr.push(['name','debasis']);
       //dataarr.push(['desc','test']);
-      for(let v in resdata){
-        let temparr=[];
+      for (let v in resdata) {
+        let temparr = [];
         temparr.push(v);
-        if(v!='image' && v!='video')
+        if (v != 'image' && v != 'video')
           temparr.push(resdata[v]);
-        if(v=='image') temparr.push("<img mat-card-image src=" + resdata[v] + " > <br/>")
-        if(v=='video') {
-          let temphtml :any=("<iframe width=560 height=315 src=https://www.youtube.com/embed/"+resdata[v] +" frameborder=0 allow=accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture allowfullscreen></iframe> <br/>");
+        if (v == 'image') temparr.push("<img mat-card-image src=" + resdata[v] + " > <br/>")
+        if (v == 'video') {
+          let temphtml: any = ("<iframe width=560 height=315 src=https://www.youtube.com/embed/" + resdata[v] + " frameborder=0 allow=accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture allowfullscreen></iframe> <br/>");
           temphtml = this.sanitizer.bypassSecurityTrustHtml(temphtml);
           temparr.push(temphtml);
         }
@@ -888,16 +890,30 @@ export class ListingComponent implements OnInit {
 
       }
       //console.log('dataarr',dataarr);
-      if(val.refreshdata!=null && val.refreshdata == true){
+      if (val.refreshdata != null && val.refreshdata == true) {
         this.allSearch();
       }
       const dialogRef = this.dialog.open(Confirmdialog, {
         height: 'auto',
         panelClass: 'custom-modalbox',
-        data: { isconfirmation: false, data: dataarr }
+        data: {isconfirmation: false, data: dataarr}
       });
+    }
+      if(result.status == 'error'){
+        this._snackBar.openFromComponent(SnackbarComponent, {
+          duration:   6000,
+          data:result
+        });
+      }
 
-    });
+    }, error => {
+          //console.log('Oooops!');
+          this._snackBar.openFromComponent(SnackbarComponent, {
+            duration:   6000,
+            data: {errormessage:'Something Went Wrong ,Try Again!!'}
+          });
+          this.loading=false;
+        });
     return;
 
   }

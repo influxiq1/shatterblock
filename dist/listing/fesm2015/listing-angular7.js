@@ -19,7 +19,7 @@ import { FormBuilder, FormControl, FormsModule, ReactiveFormsModule } from '@ang
 import { CommonModule } from '@angular/common';
 import { MomentModule } from 'ngx-moment';
 import { NavigationCancel, NavigationEnd, NavigationError, NavigationStart, Router, RouterModule } from '@angular/router';
-import { Injectable, EventEmitter, ViewChild, Component, Input, NgModule, CUSTOM_ELEMENTS_SCHEMA, Inject, ComponentFactoryResolver, ViewContainerRef, defineInjectable } from '@angular/core';
+import { Injectable, Component, Input, EventEmitter, ViewChild, NgModule, CUSTOM_ELEMENTS_SCHEMA, Inject, ComponentFactoryResolver, ViewContainerRef, defineInjectable } from '@angular/core';
 import { DomSanitizer, BrowserModule } from '@angular/platform-browser';
 
 /**
@@ -1682,47 +1682,66 @@ class ListingComponent {
             /** @type {?} */
             let result = {};
             result = res;
-            //console.log('res',result);
-            /** @type {?} */
-            let resdata = {};
-            this.loading = false;
-            if (result.res[0] != null) {
-                resdata = result.res[0];
-            }
-            else {
-                resdata = result.res;
-            }
-            /** @type {?} */
-            let dataarr = [];
-            //dataarr.push(['name','debasis']);
-            //dataarr.push(['desc','test']);
-            for (let v in resdata) {
+            if (result.status == 'success') {
+                //console.log('res',result);
                 /** @type {?} */
-                let temparr = [];
-                temparr.push(v);
-                if (v != 'image' && v != 'video')
-                    temparr.push(resdata[v]);
-                if (v == 'image')
-                    temparr.push("<img mat-card-image src=" + resdata[v] + " > <br/>");
-                if (v == 'video') {
-                    /** @type {?} */
-                    let temphtml = ("<iframe width=560 height=315 src=https://www.youtube.com/embed/" + resdata[v] + " frameborder=0 allow=accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture allowfullscreen></iframe> <br/>");
-                    temphtml = this.sanitizer.bypassSecurityTrustHtml(temphtml);
-                    temparr.push(temphtml);
+                let resdata = {};
+                this.loading = false;
+                if (result.res[0] != null) {
+                    resdata = result.res[0];
                 }
-                //if(val.datafields[v]=='video') temparr.push("<img mat-card-image src=" + data[val.datafields[v]] + " > <br/>")
-                dataarr.push(temparr);
+                else {
+                    resdata = result.res;
+                }
+                /** @type {?} */
+                let dataarr = [];
+                //dataarr.push(['name','debasis']);
+                //dataarr.push(['desc','test']);
+                for (let v in resdata) {
+                    /** @type {?} */
+                    let temparr = [];
+                    temparr.push(v);
+                    if (v != 'image' && v != 'video')
+                        temparr.push(resdata[v]);
+                    if (v == 'image')
+                        temparr.push("<img mat-card-image src=" + resdata[v] + " > <br/>");
+                    if (v == 'video') {
+                        /** @type {?} */
+                        let temphtml = ("<iframe width=560 height=315 src=https://www.youtube.com/embed/" + resdata[v] + " frameborder=0 allow=accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture allowfullscreen></iframe> <br/>");
+                        temphtml = this.sanitizer.bypassSecurityTrustHtml(temphtml);
+                        temparr.push(temphtml);
+                    }
+                    //if(val.datafields[v]=='video') temparr.push("<img mat-card-image src=" + data[val.datafields[v]] + " > <br/>")
+                    dataarr.push(temparr);
+                }
+                //console.log('dataarr',dataarr);
+                if (val.refreshdata != null && val.refreshdata == true) {
+                    this.allSearch();
+                }
+                /** @type {?} */
+                const dialogRef = this.dialog.open(Confirmdialog, {
+                    height: 'auto',
+                    panelClass: 'custom-modalbox',
+                    data: { isconfirmation: false, data: dataarr }
+                });
             }
-            //console.log('dataarr',dataarr);
-            if (val.refreshdata != null && val.refreshdata == true) {
-                this.allSearch();
+            if (result.status == 'error') {
+                this._snackBar.openFromComponent(SnackbarComponent, {
+                    duration: 6000,
+                    data: result
+                });
             }
-            /** @type {?} */
-            const dialogRef = this.dialog.open(Confirmdialog, {
-                height: 'auto',
-                panelClass: 'custom-modalbox',
-                data: { isconfirmation: false, data: dataarr }
+        }), (/**
+         * @param {?} error
+         * @return {?}
+         */
+        error => {
+            //console.log('Oooops!');
+            this._snackBar.openFromComponent(SnackbarComponent, {
+                duration: 6000,
+                data: { errormessage: 'Something Went Wrong ,Try Again!!' }
             });
+            this.loading = false;
         }));
         return;
     }

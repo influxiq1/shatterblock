@@ -207,9 +207,9 @@ export class AdmindashbordComponent implements OnInit {
                 label:"Desc from api data",
                 type:'action',
                 datatype:'api',
-                endpoint:'getblogdatabyid',
-                cond:'status',
-                condval:0,
+                endpoint:'getblogdatabyid9',
+                //cond:'status',
+                //condval:0,
                 param:'blog_id',
                 refreshdata:true
             }
@@ -268,6 +268,7 @@ export class AdmindashbordComponent implements OnInit {
     //everything we need for formlibconfiguration
 
 
+    emailregex: RegExp = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
 
     temtdata:any='';
     // formdata
@@ -284,12 +285,42 @@ export class AdmindashbordComponent implements OnInit {
                 label:"Name",
                 name:"fullname",
                 value:'Test',
-                validations:[{rule:'required'},{rule:'max',value:10},{rule:'min',value: 2}]
+                type:"text",
+                validations:[
+                    {rule:'required'},
+                    {rule:'maxLength',value:10},
+                    {rule:'minLength',value: 2}
+                    ]
             },
             {
                 label:"Email",
                 name:"email",
-                validations:[{rule:'required'},{rule:'email'}]
+                type:'email',
+                hint:"abc@gmail.com",
+                validations:[
+                    {rule:'required',message:"Email field Needs to be required"},
+                    {rule:'pattern',value: this.emailregex,message: "Must be a valid Email"}]
+            },
+            {
+                label:"Age",
+                name:"age",
+                type:'number',
+                validations:[
+                    {rule:'required'},
+                    {rule:'min',value:5},
+                    {rule:'max',value:50,message: "Age can't be more than 50 "}
+                    ]
+            } ,
+            {
+                label:"City",
+                name:"city",
+                type:'text'
+            },
+            {
+                //label:"City",
+                name:"pid",
+                type:'hidden',
+                value: "900"
             }
         ]
     };

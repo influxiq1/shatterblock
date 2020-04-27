@@ -7,13 +7,29 @@
 
       <ng-container  *ngIf="formdataval.fields!=null && formdataval.fields.length>0">
         <ng-container *ngFor="let fields of formdataval.fields">
-          <mat-card class="form_header_{{fields.name}}" *ngIf="fields.heading!=null && formGroup.controls[fields.name]!=null " [innerHTML]="fields.heading"></mat-card>
-          <mat-form-field *ngIf="formGroup.controls[fields.name]!=null" class="form-element form_field_{{fields.name}}">
-          <input matInput placeholder="{{fields.label}}" formControlName="{{fields.name}}">
+          <mat-card class="form_header_{{fields.name}}" *ngIf="fields.heading!=null && formGroup.controls[fields.name]!=null "></mat-card>
+          <mat-form-field *ngIf="formGroup.controls[fields.name]!=null && (fields.type=='email' || fields.type=='number' || fields.type=='text')" class="form-element form_field_{{fields.name}}">
+          <input matInput (blur)="inputblur(fields.name)" type="{{fields.type}}" placeholder="{{fields.label}}" formControlName="{{fields.name}}">
           <mat-error *ngIf="!formGroup.controls[fields.name].valid && formGroup.controls[fields.name].touched">
-            {{ getErrorEmail() }}
+            <ng-container *ngFor="let valdidations of fields.validations">
+              <span *ngIf="formGroup.controls[fields.name].errors[valdidations.rule.toLowerCase()]">{{valdidations.message}}</span>
+            </ng-container>
           </mat-error>
+
+            <mat-hint *ngIf="fields.hint!=null && formGroup.controls[fields.name]!=null " align="start" [innerHTML]="fields.hint">}</mat-hint>
+
     </mat-form-field>
+
+          <div *ngIf="formGroup.controls[fields.name]!=null && (fields.type=='hidden' )" class="form-element form_field_{{fields.name}}">
+            <input  (blur)="inputblur(fields.name)" type="{{fields.type}}" placeholder="{{fields.label}}" formControlName="{{fields.name}}">
+            <mat-error *ngIf="!formGroup.controls[fields.name].valid && formGroup.controls[fields.name].touched">
+              <ng-container *ngFor="let valdidations of fields.validations">
+                <span *ngIf="formGroup.controls[fields.name].errors[valdidations.rule.toLowerCase()]">{{valdidations.message}}</span>
+              </ng-container>
+            </mat-error>
+          </div>
+
+
         </ng-container>
       </ng-container>
 

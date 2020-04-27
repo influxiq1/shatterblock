@@ -1995,47 +1995,66 @@ var ListingComponent = /** @class */ (function () {
             /** @type {?} */
             var result = {};
             result = res;
-            //console.log('res',result);
-            /** @type {?} */
-            var resdata = {};
-            _this.loading = false;
-            if (result.res[0] != null) {
-                resdata = result.res[0];
-            }
-            else {
-                resdata = result.res;
-            }
-            /** @type {?} */
-            var dataarr = [];
-            //dataarr.push(['name','debasis']);
-            //dataarr.push(['desc','test']);
-            for (var v in resdata) {
+            if (result.status == 'success') {
+                //console.log('res',result);
                 /** @type {?} */
-                var temparr = [];
-                temparr.push(v);
-                if (v != 'image' && v != 'video')
-                    temparr.push(resdata[v]);
-                if (v == 'image')
-                    temparr.push("<img mat-card-image src=" + resdata[v] + " > <br/>");
-                if (v == 'video') {
-                    /** @type {?} */
-                    var temphtml = ("<iframe width=560 height=315 src=https://www.youtube.com/embed/" + resdata[v] + " frameborder=0 allow=accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture allowfullscreen></iframe> <br/>");
-                    temphtml = _this.sanitizer.bypassSecurityTrustHtml(temphtml);
-                    temparr.push(temphtml);
+                var resdata = {};
+                _this.loading = false;
+                if (result.res[0] != null) {
+                    resdata = result.res[0];
                 }
-                //if(val.datafields[v]=='video') temparr.push("<img mat-card-image src=" + data[val.datafields[v]] + " > <br/>")
-                dataarr.push(temparr);
+                else {
+                    resdata = result.res;
+                }
+                /** @type {?} */
+                var dataarr = [];
+                //dataarr.push(['name','debasis']);
+                //dataarr.push(['desc','test']);
+                for (var v in resdata) {
+                    /** @type {?} */
+                    var temparr = [];
+                    temparr.push(v);
+                    if (v != 'image' && v != 'video')
+                        temparr.push(resdata[v]);
+                    if (v == 'image')
+                        temparr.push("<img mat-card-image src=" + resdata[v] + " > <br/>");
+                    if (v == 'video') {
+                        /** @type {?} */
+                        var temphtml = ("<iframe width=560 height=315 src=https://www.youtube.com/embed/" + resdata[v] + " frameborder=0 allow=accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture allowfullscreen></iframe> <br/>");
+                        temphtml = _this.sanitizer.bypassSecurityTrustHtml(temphtml);
+                        temparr.push(temphtml);
+                    }
+                    //if(val.datafields[v]=='video') temparr.push("<img mat-card-image src=" + data[val.datafields[v]] + " > <br/>")
+                    dataarr.push(temparr);
+                }
+                //console.log('dataarr',dataarr);
+                if (val.refreshdata != null && val.refreshdata == true) {
+                    _this.allSearch();
+                }
+                /** @type {?} */
+                var dialogRef = _this.dialog.open(Confirmdialog, {
+                    height: 'auto',
+                    panelClass: 'custom-modalbox',
+                    data: { isconfirmation: false, data: dataarr }
+                });
             }
-            //console.log('dataarr',dataarr);
-            if (val.refreshdata != null && val.refreshdata == true) {
-                _this.allSearch();
+            if (result.status == 'error') {
+                _this._snackBar.openFromComponent(SnackbarComponent, {
+                    duration: 6000,
+                    data: result
+                });
             }
-            /** @type {?} */
-            var dialogRef = _this.dialog.open(Confirmdialog, {
-                height: 'auto',
-                panelClass: 'custom-modalbox',
-                data: { isconfirmation: false, data: dataarr }
+        }), (/**
+         * @param {?} error
+         * @return {?}
+         */
+        function (error) {
+            //console.log('Oooops!');
+            _this._snackBar.openFromComponent(SnackbarComponent, {
+                duration: 6000,
+                data: { errormessage: 'Something Went Wrong ,Try Again!!' }
             });
+            _this.loading = false;
         }));
         return;
     };
