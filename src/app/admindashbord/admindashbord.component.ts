@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import { Router,ActivatedRoute } from '@angular/router';
 import { ApiService } from '../api.service';
 import { Validators } from "@angular/forms";
 import {FieldConfig} from "../field.interface";
+//import {ShowformComponent} from;
 declare var moment:any;
 
 
@@ -267,6 +268,33 @@ export class AdmindashbordComponent implements OnInit {
     //everything we need for formlibconfiguration
 
 
+
+    temtdata:any='';
+    // formdata
+    formfieldrefresh:boolean=false;
+    updatetable:boolean=false;
+    formfieldrefreshdata:any=null;
+    formdata:any={
+        successmessage:"Added Successfully !!",
+        redirecturl:"admindashbord1",
+        submitactive:true, //optional, default true
+        fields:[
+            {
+                heading:"This is Name Header",
+                label:"Name",
+                name:"fullname",
+                value:'Test',
+                validations:[{rule:'required'},{rule:'max',value:10},{rule:'min',value: 2}]
+            },
+            {
+                label:"Email",
+                name:"email",
+                validations:[{rule:'required'},{rule:'email'}]
+            }
+        ]
+    };
+
+
     constructor(public router: Router, private route: ActivatedRoute, private _apiService: ApiService) {
         // console.log('custom_link');
         // console.log(this.custom_link);
@@ -308,6 +336,12 @@ export class AdmindashbordComponent implements OnInit {
     }
 
     ngOnInit() {
+
+    }
+    updateformval(){
+        this.formdata.fields[0].value=this.temtdata;
+        this.formfieldrefreshdata={field:'email',value:this.temtdata};
+        this.updatetable=!this.updatetable;
 
     }
 

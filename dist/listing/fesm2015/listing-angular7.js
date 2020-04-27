@@ -19,7 +19,7 @@ import { FormBuilder, FormControl, FormsModule, ReactiveFormsModule } from '@ang
 import { CommonModule } from '@angular/common';
 import { MomentModule } from 'ngx-moment';
 import { NavigationCancel, NavigationEnd, NavigationError, NavigationStart, Router, RouterModule } from '@angular/router';
-import { Injectable, Component, Input, EventEmitter, ViewChild, NgModule, CUSTOM_ELEMENTS_SCHEMA, Inject, ComponentFactoryResolver, ViewContainerRef, defineInjectable } from '@angular/core';
+import { Injectable, EventEmitter, ViewChild, Component, Input, NgModule, CUSTOM_ELEMENTS_SCHEMA, Inject, ComponentFactoryResolver, ViewContainerRef, defineInjectable } from '@angular/core';
 import { DomSanitizer, BrowserModule } from '@angular/platform-browser';
 
 /**
@@ -714,6 +714,7 @@ class ListingComponent {
         this.art = false;
         this.aud2 = false;
         this.aud = false;
+        this.updatetableval = false;
         /*for progress bar*/
         this.color = 'primary';
         this.mode = 'indeterminate';
@@ -789,7 +790,7 @@ class ListingComponent {
      */
     set limitcond(limitcondval) {
         this.limitcondval = limitcondval;
-        console.log('limitcondval', this.limitcondval);
+        //console.log('limitcondval',this.limitcondval);
     }
     /**
      * @param {?} date_search_source_countval
@@ -799,7 +800,7 @@ class ListingComponent {
         this.date_search_source_countval = date_search_source_countval;
         if (this.date_search_source_countval == 0)
             this.limitcondval.pagecount = 1;
-        console.log('date_search_source_count', this.date_search_source_countval);
+        //console.log('date_search_source_count',this.date_search_source_countval);
     }
     /**
      * @param {?} grab_link
@@ -828,7 +829,7 @@ class ListingComponent {
      */
     set sortdata(sortdataval) {
         this.sortdataval = sortdataval;
-        console.log(this.sortdataval, 'sortdataval');
+        //console.log(this.sortdataval,'sortdataval');
     }
     /**
      * @param {?} date_search_endpoint
@@ -944,6 +945,13 @@ class ListingComponent {
         this.apiurlval = apiurl;
     }
     /**
+     * @param {?} updatetable
+     * @return {?}
+     */
+    set updatetable(updatetable) {
+        this.updatetableval = updatetable;
+    }
+    /**
      * @param {?} jwttoken
      * @return {?}
      */
@@ -986,6 +994,19 @@ class ListingComponent {
     /*@Directive({
         selector: '[Listing]'
       })*/
+    /**
+     * @param {?} changes
+     * @return {?}
+     */
+    ngOnChanges(changes) {
+        // console.log('ngonchange',changes);
+        for (let v in changes) {
+            //console.log(v,changes[v],'vv');
+            if (v == 'updatetable') {
+                this.allSearch();
+            }
+        }
+    }
     /**
      * @param {?} val
      * @return {?}
@@ -1096,7 +1117,7 @@ class ListingComponent {
             }
             displayedcols = customcols;
         }
-        console.log('customcols', customcols, displayedcols);
+        //console.log('customcols',customcols,displayedcols);
         if (this.libdataval.hideaction == null || this.libdataval.hideaction == false)
             displayedcols.push('Actions');
         this.displayedColumns = displayedcols;
@@ -1146,7 +1167,7 @@ class ListingComponent {
      * @return {?}
      */
     dateSearch(val) {
-        console.log("start date");
+        //console.log("start date");
         // console.log(this.start_date);
         // console.log(this.end_date);
         // let sd = moment(this.start_date).unix();
@@ -1231,7 +1252,7 @@ class ListingComponent {
                     this.tableflag = 1;
                 else
                     this.tableflag = 0;
-                console.log('count', result);
+                //console.log('count',result);
                 // this.dataSource.paginator = this.paginator;
                 //this.dataSource.sort = this.sort;
             }));
@@ -1363,7 +1384,7 @@ class ListingComponent {
      * @return {?}
      */
     addautosearchdata(val) {
-        console.log('v', val);
+        //console.log('v',val);
     }
     /**
      * @param {?} val
@@ -1646,7 +1667,7 @@ class ListingComponent {
      * @return {?}
      */
     opencustombuttonactionapidata(val, data) {
-        console.log('opencustombuttonactionapidata', val, data);
+        //console.log('opencustombuttonactionapidata',val,data);
         this.loading = true;
         /** @type {?} */
         let link = this.apiurlval + val.endpoint;
@@ -1661,7 +1682,7 @@ class ListingComponent {
             /** @type {?} */
             let result = {};
             result = res;
-            console.log('res', result);
+            //console.log('res',result);
             /** @type {?} */
             let resdata = {};
             this.loading = false;
@@ -1711,7 +1732,7 @@ class ListingComponent {
      * @return {?}
      */
     openextlinkwithparam(val, data) {
-        console.log('val', val, data);
+        //console.log('val',val,data);
         /** @type {?} */
         let qtext = '';
         /** @type {?} */
@@ -1740,8 +1761,8 @@ class ListingComponent {
          * @return {?}
          */
         () => {
-            console.log("Hello from setTimeout");
-            console.log('link', fulllink, data, qtext);
+            //console.log("Hello from setTimeout");
+            //console.log('link',fulllink,data,qtext);
         }), 10);
         window.open(fulllink, "_blank");
     }
@@ -1985,7 +2006,7 @@ class ListingComponent {
                  * @return {?}
                  */
                 error => {
-                    console.log('Oooops!');
+                    //console.log('Oooops!');
                     this._snackBar.openFromComponent(SnackbarComponent, {
                         duration: 6000,
                         data: { errormessage: 'Something Went Wrong ,Try Again!!' }
@@ -2075,7 +2096,7 @@ class ListingComponent {
                  * @return {?}
                  */
                 error => {
-                    console.log('Oooops!');
+                    //console.log('Oooops!');
                     this._snackBar.openFromComponent(SnackbarComponent, {
                         duration: 6000,
                         data: { errormessage: 'Something Went Wrong ,Try Again!!' }
@@ -2145,7 +2166,7 @@ class ListingComponent {
                  * @return {?}
                  */
                 error => {
-                    console.log('Oooops!');
+                    //console.log('Oooops!');
                     this._snackBar.openFromComponent(SnackbarComponent, {
                         duration: 6000,
                         data: { errormessage: 'Something Went Wrong ,Try Again!!' }
@@ -2220,7 +2241,7 @@ class ListingComponent {
                  * @return {?}
                  */
                 error => {
-                    console.log('Oooops!');
+                    //console.log('Oooops!');
                     this._snackBar.openFromComponent(SnackbarComponent, {
                         duration: 6000,
                         data: { errormessage: 'Something Went Wrong ,Try Again!!' }
@@ -2251,7 +2272,8 @@ class ListingComponent {
      * @return {?}
      */
     allSearch() {
-        console.log("hit");
+        //console.log("hit");
+        //console.log("hit");
         /** @type {?} */
         let link = this.apiurlval + '' + this.datacollectionval;
         /** @type {?} */
@@ -2259,10 +2281,7 @@ class ListingComponent {
         /** @type {?} */
         let source;
         /** @type {?} */
-        let condition;
-        /** @type {?} */
         let textSearch = {};
-        condition = {};
         for (let i in this.tsearch) {
             textSearch[i] = { $regex: this.tsearch[i].toLowerCase() };
         }
@@ -2293,8 +2312,8 @@ class ListingComponent {
             },
             searchcondition: conditionobj,
         };
-        console.log('con...', conditionobj, this.end_date);
-        console.warn('cond', condition, this.dateSearch_condition, conditionobj, this.tsearch, textSearch);
+        //console.log('con...',conditionobj,this.end_date);
+        //console.warn('cond',condition,this.dateSearch_condition,conditionobj,this.tsearch,textSearch);
         //return;
         this.date_search_source_countval = 0;
         this.loading = true;
@@ -2405,6 +2424,7 @@ ListingComponent.propDecorators = {
     deleteendpoint: [{ type: Input }],
     updateendpoint: [{ type: Input }],
     apiurl: [{ type: Input }],
+    updatetable: [{ type: Input }],
     jwttoken: [{ type: Input }],
     statusarr: [{ type: Input }],
     emailarray: [{ type: Input }],
@@ -2463,7 +2483,7 @@ class BottomSheet {
     constructor(bottomSheetRef, data) {
         this.bottomSheetRef = bottomSheetRef;
         this.data = data;
-        console.warn("bottom-sheet", data);
+        //console.warn("bottom-sheet",data);
     }
     /**
      * @param {?} val
@@ -2554,7 +2574,7 @@ class SnackbarComponent {
     constructor(snackBarRef, data) {
         this.snackBarRef = snackBarRef;
         this.data = data;
-        console.log('snack', this.data);
+        //console.log('snack',this.data);
     }
 }
 SnackbarComponent.decorators = [

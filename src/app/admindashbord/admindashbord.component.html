@@ -1,7 +1,13 @@
 
 <!--<lib-myfrom [fields]="regConfig" (submit)="submit($event)"></lib-myfrom>-->
-<div style="background: white">
-    <lib-showform> </lib-showform>
+<div style="background: white;color: black">
+    <input [(ngModel)]="temtdata" >
+    <button (click)="updateformval()">Update Form and Table </button>
+    <lib-showform *ngIf="formdata !=null"
+                  [formdata]="formdata"
+                  [formfieldrefresh]="formfieldrefresh"
+                  [formfieldrefreshdata]="formfieldrefreshdata"
+    > </lib-showform>
 </div>
 
 
@@ -28,6 +34,7 @@
              [datacollection]="datacollection"
              [date_search_source_count]="date_search_source_count"
              [libdata]="libdata"
+             [updatetable]="updatetable"
              [limitcond]="limitcond"></lib-listing>
 
 

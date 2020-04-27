@@ -7,7 +7,7 @@ export const environment = {
     // API_URL: 'https://nodessl.influxiq.com:6053/',
     // API_URL: 'http://72.167.9.38:7050/',
     // API_URL: 'https://nodessl.influxiq.com:6053/',
-    API_URL: 'https://9ozbyvv5v0.execute-api.us-east-1.amazonaws.com/production/api/',
+    API_URL: 'https://p6ttrc8ikc.execute-api.us-east-1.amazonaws.com/production/api/',
 
     Pdf_link: '&environment=development',
     uplodeimg_url: 'https://developmentapi.audiodeadline.com/nodeserver/uploads/modelimages/',

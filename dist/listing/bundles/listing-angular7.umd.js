@@ -752,6 +752,7 @@
             this.art = false;
             this.aud2 = false;
             this.aud = false;
+            this.updatetableval = false;
             /*for progress bar*/
             this.color = 'primary';
             this.mode = 'indeterminate';
@@ -832,7 +833,7 @@
              * @return {?}
              */ function (limitcondval) {
                 this.limitcondval = limitcondval;
-                console.log('limitcondval', this.limitcondval);
+                //console.log('limitcondval',this.limitcondval);
             },
             enumerable: true,
             configurable: true
@@ -845,7 +846,7 @@
                 this.date_search_source_countval = date_search_source_countval;
                 if (this.date_search_source_countval == 0)
                     this.limitcondval.pagecount = 1;
-                console.log('date_search_source_count', this.date_search_source_countval);
+                //console.log('date_search_source_count',this.date_search_source_countval);
             },
             enumerable: true,
             configurable: true
@@ -886,7 +887,7 @@
              * @return {?}
              */ function (sortdataval) {
                 this.sortdataval = sortdataval;
-                console.log(this.sortdataval, 'sortdataval');
+                //console.log(this.sortdataval,'sortdataval');
             },
             enumerable: true,
             configurable: true
@@ -1052,6 +1053,16 @@
             enumerable: true,
             configurable: true
         });
+        Object.defineProperty(ListingComponent.prototype, "updatetable", {
+            set: /**
+             * @param {?} updatetable
+             * @return {?}
+             */ function (updatetable) {
+                this.updatetableval = updatetable;
+            },
+            enumerable: true,
+            configurable: true
+        });
         Object.defineProperty(ListingComponent.prototype, "jwttoken", {
             set: /**
              * @param {?} jwttoken
@@ -1116,16 +1127,33 @@
             selector: '[Listing]'
           })*/
         /**
-         * @param {?} val
+         * @param {?} changes
          * @return {?}
          */
-        ListingComponent.prototype.inputblur = /*@Directive({
+        ListingComponent.prototype.ngOnChanges = /*@Directive({
             selector: '[Listing]'
           })*/
             /**
-             * @param {?} val
+             * @param {?} changes
              * @return {?}
              */
+            function (changes) {
+                // console.log('ngonchange',changes);
+                for (var v in changes) {
+                    //console.log(v,changes[v],'vv');
+                    if (v == 'updatetable') {
+                        this.allSearch();
+                    }
+                }
+            };
+        /**
+         * @param {?} val
+         * @return {?}
+         */
+        ListingComponent.prototype.inputblur = /**
+         * @param {?} val
+         * @return {?}
+         */
             function (val) {
                 //console.log('on blur .....');
                 this.myForm.controls[val].markAsUntouched();
@@ -1235,7 +1263,7 @@
                     }
                     displayedcols = customcols;
                 }
-                console.log('customcols', customcols, displayedcols);
+                //console.log('customcols',customcols,displayedcols);
                 if (this.libdataval.hideaction == null || this.libdataval.hideaction == false)
                     displayedcols.push('Actions');
                 this.displayedColumns = displayedcols;
@@ -1299,7 +1327,7 @@
          */
             function (val) {
                 var _this = this;
-                console.log("start date");
+                //console.log("start date");
                 // console.log(this.start_date);
                 // console.log(this.end_date);
                 // let sd = moment(this.start_date).unix();
@@ -1382,7 +1410,7 @@
                             _this.tableflag = 1;
                         else
                             _this.tableflag = 0;
-                        console.log('count', result);
+                        //console.log('count',result);
                         // this.dataSource.paginator = this.paginator;
                         //this.dataSource.sort = this.sort;
                     }));
@@ -1527,7 +1555,7 @@
          * @return {?}
          */
             function (val) {
-                console.log('v', val);
+                //console.log('v',val);
             };
         /**
          * @param {?} val
@@ -1873,7 +1901,7 @@
          */
             function (val, data) {
                 var _this = this;
-                console.log('opencustombuttonactionapidata', val, data);
+                //console.log('opencustombuttonactionapidata',val,data);
                 this.loading = true;
                 /** @type {?} */
                 var link = this.apiurlval + val.endpoint;
@@ -1887,7 +1915,7 @@
                     /** @type {?} */
                     var result = {};
                     result = res;
-                    console.log('res', result);
+                    //console.log('res',result);
                     /** @type {?} */
                     var resdata = {};
                     _this.loading = false;
@@ -1942,7 +1970,7 @@
          * @return {?}
          */
             function (val, data) {
-                console.log('val', val, data);
+                //console.log('val',val,data);
                 /** @type {?} */
                 var qtext = '';
                 /** @type {?} */
@@ -1970,8 +1998,8 @@
                 setTimeout(( /**
                  * @return {?}
                  */function () {
-                    console.log("Hello from setTimeout");
-                    console.log('link', fulllink, data, qtext);
+                    //console.log("Hello from setTimeout");
+                    //console.log('link',fulllink,data,qtext);
                 }), 10);
                 window.open(fulllink, "_blank");
             };
@@ -2288,7 +2316,7 @@
                          * @param {?} error
                          * @return {?}
                          */function (error) {
-                            console.log('Oooops!');
+                            //console.log('Oooops!');
                             _this._snackBar.openFromComponent(SnackbarComponent, {
                                 duration: 6000,
                                 data: { errormessage: 'Something Went Wrong ,Try Again!!' }
@@ -2386,7 +2414,7 @@
                          * @param {?} error
                          * @return {?}
                          */function (error) {
-                            console.log('Oooops!');
+                            //console.log('Oooops!');
                             _this._snackBar.openFromComponent(SnackbarComponent, {
                                 duration: 6000,
                                 data: { errormessage: 'Something Went Wrong ,Try Again!!' }
@@ -2459,7 +2487,7 @@
                          * @param {?} error
                          * @return {?}
                          */function (error) {
-                            console.log('Oooops!');
+                            //console.log('Oooops!');
                             _this._snackBar.openFromComponent(SnackbarComponent, {
                                 duration: 6000,
                                 data: { errormessage: 'Something Went Wrong ,Try Again!!' }
@@ -2535,7 +2563,7 @@
                          * @param {?} error
                          * @return {?}
                          */function (error) {
-                            console.log('Oooops!');
+                            //console.log('Oooops!');
                             _this._snackBar.openFromComponent(SnackbarComponent, {
                                 duration: 6000,
                                 data: { errormessage: 'Something Went Wrong ,Try Again!!' }
@@ -2578,8 +2606,9 @@
          * @return {?}
          */
             function () {
+                //console.log("hit");
                 var _this = this;
-                console.log("hit");
+                //console.log("hit");
                 /** @type {?} */
                 var link = this.apiurlval + '' + this.datacollectionval;
                 /** @type {?} */
@@ -2587,10 +2616,7 @@
                 /** @type {?} */
                 var source;
                 /** @type {?} */
-                var condition;
-                /** @type {?} */
                 var textSearch = {};
-                condition = {};
                 for (var i in this.tsearch) {
                     textSearch[i] = { $regex: this.tsearch[i].toLowerCase() };
                 }
@@ -2621,8 +2647,8 @@
                     },
                     searchcondition: conditionobj,
                 };
-                console.log('con...', conditionobj, this.end_date);
-                console.warn('cond', condition, this.dateSearch_condition, conditionobj, this.tsearch, textSearch);
+                //console.log('con...',conditionobj,this.end_date);
+                //console.warn('cond',condition,this.dateSearch_condition,conditionobj,this.tsearch,textSearch);
                 //return;
                 this.date_search_source_countval = 0;
                 this.loading = true;
@@ -2738,6 +2764,7 @@
             deleteendpoint: [{ type: i0.Input }],
             updateendpoint: [{ type: i0.Input }],
             apiurl: [{ type: i0.Input }],
+            updatetable: [{ type: i0.Input }],
             jwttoken: [{ type: i0.Input }],
             statusarr: [{ type: i0.Input }],
             emailarray: [{ type: i0.Input }],
@@ -2801,7 +2828,7 @@
         function BottomSheet(bottomSheetRef, data) {
             this.bottomSheetRef = bottomSheetRef;
             this.data = data;
-            console.warn("bottom-sheet", data);
+            //console.warn("bottom-sheet",data);
         }
         /**
          * @param {?} val
@@ -2899,7 +2926,7 @@
         function SnackbarComponent(snackBarRef, data) {
             this.snackBarRef = snackBarRef;
             this.data = data;
-            console.log('snack', this.data);
+            //console.log('snack',this.data);
         }
         SnackbarComponent.decorators = [
             { type: i0.Component, args: [{

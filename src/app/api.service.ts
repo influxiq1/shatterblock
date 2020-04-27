@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable, interval, pipe } from 'rxjs';
+import {Observable, interval, pipe, Subject} from 'rxjs';
 import { switchMap, map, takeWhile } from 'rxjs/operators';
 import { environment } from '../environments/environment';
 import { HttpClient, HttpHeaders} from '@angular/common/http';
@@ -7,6 +7,8 @@ import { CookieService } from 'ngx-cookie-service';
 
 @Injectable()
 export class ApiService {
+  private liblistrerefresh = new Subject<string>();
+  private libformvaluerefresh = new Subject<string>();
 
   public domain =  environment["API_URL"];
   public _url = environment["API_URL"];
@@ -27,6 +29,12 @@ export class ApiService {
 
   }
 
+  updateliblistrerefreshvalue(val:any){
+    this.liblistrerefresh.next(val);
+  }
+  updatelibformvaluerefresh(val:any){
+    this.liblistrerefresh.next(val);
+  }
 
   isTokenExpired() {
 

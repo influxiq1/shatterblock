@@ -33,6 +33,8 @@ const routes: Routes = [
   { path: "branddashbord", component: BranddashbordComponent, canActivate: [AuthGuard], resolve: {results: Resolveservice}, data: { source: 'users', condition: {} }},
   { path: "admindashbord", component: AdmindashbordComponent
   // , canActivate: [AuthGuard], resolve: {results: Resolveservice}, data: { source: 'admindashboard', condition: {} }
+},{ path: "admindashbord1", component: AdmindashbordComponent
+  // , canActivate: [AuthGuard], resolve: {results: Resolveservice}, data: { source: 'admindashboard', condition: {} }
 },
   { path: 'forgatepassword', component: ForgatepasswordComponent},
   { path: 'dynamicforms', component: DynamicFormsComponent},

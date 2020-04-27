@@ -1,4 +1,4 @@
-import { OnInit, ComponentFactoryResolver, ViewContainerRef } from '@angular/core';
+import { OnInit, ComponentFactoryResolver, ViewContainerRef, SimpleChange } from '@angular/core';
 import { MatSort, MatTableDataSource, MatPaginator } from '@angular/material';
 import { ApiService } from './api.service';
 import { MatDialog, MatDialogRef } from '@angular/material';
@@ -67,6 +67,7 @@ export declare class ListingComponent implements OnInit {
     art: any;
     aud2: any;
     aud: any;
+    updatetableval: any;
     color: ThemePalette;
     mode: any;
     value: number;
@@ -97,6 +98,7 @@ export declare class ListingComponent implements OnInit {
     deleteendpoint: any;
     updateendpoint: any;
     apiurl: any;
+    updatetable: any;
     jwttoken: any;
     statusarr: any;
     emailarray: any;
@@ -122,6 +124,9 @@ export declare class ListingComponent implements OnInit {
     paginator: MatPaginator;
     myForm: any;
     constructor(_apiService: ApiService, dialog: MatDialog, bottomSheet: MatBottomSheet, fb: FormBuilder, router: Router, resolver: ComponentFactoryResolver, container: ViewContainerRef, _http: HttpClient, sanitizer: DomSanitizer, _snackBar: MatSnackBar);
+    ngOnChanges(changes: {
+        [propKey: string]: SimpleChange;
+    }): void;
     inputblur(val: any): void;
     ngOnInit(): void;
     /**image view modal */

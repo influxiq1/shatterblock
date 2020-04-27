@@ -3,7 +3,7 @@ import {
   ComponentFactoryResolver,
   ComponentRef,
   Directive,
-  ViewContainerRef
+  ViewContainerRef, SimpleChange
 } from '@angular/core';
 import { MatSort, MatTableDataSource, MatPaginator } from '@angular/material';
 import { SelectionModel } from '@angular/cdk/collections';
@@ -78,6 +78,7 @@ export class ListingComponent implements OnInit {
   public art: any = false;
   public aud2: any = false;
   public aud: any = false;
+  public updatetableval: any = false;
 
   /*for progress bar*/
 
@@ -111,13 +112,13 @@ export class ListingComponent implements OnInit {
   @Input()
   set limitcond(limitcondval: any) {
     this.limitcondval = limitcondval;
-    console.log('limitcondval',this.limitcondval);
+    //console.log('limitcondval',this.limitcondval);
   }
   @Input()
   set date_search_source_count(date_search_source_countval: any) {
     this.date_search_source_countval = date_search_source_countval;
     if(this.date_search_source_countval==0) this.limitcondval.pagecount=1;
-    console.log('date_search_source_count',this.date_search_source_countval);
+    //console.log('date_search_source_count',this.date_search_source_countval);
   }
 
   @Input()
@@ -136,7 +137,7 @@ export class ListingComponent implements OnInit {
   @Input()
   set sortdata(sortdataval: any) {
     this.sortdataval = sortdataval;
-    console.log(this.sortdataval,'sortdataval');
+    //console.log(this.sortdataval,'sortdataval');
   }
 
   @Input()
@@ -209,6 +210,9 @@ export class ListingComponent implements OnInit {
   @Input()
   set apiurl(apiurl: any) {
     this.apiurlval = apiurl;
+  } @Input()
+  set updatetable(updatetable: any) {
+    this.updatetableval = updatetable;
   }
 
   @Input()
@@ -307,6 +311,16 @@ export class ListingComponent implements OnInit {
 
 
 
+  ngOnChanges(changes: {[propKey: string]: SimpleChange}) {
+
+    // console.log('ngonchange',changes);
+    for(let v in changes){
+      //console.log(v,changes[v],'vv');
+      if(v=='updatetable'){
+       this.allSearch();
+      }
+    }
+  }
 
 
 
@@ -399,7 +413,7 @@ export class ListingComponent implements OnInit {
     }
 
 
-    console.log('customcols',customcols,displayedcols);
+    //console.log('customcols',customcols,displayedcols);
     if(this.libdataval.hideaction==null || this.libdataval.hideaction==false)
     displayedcols.push('Actions');
 
@@ -435,7 +449,7 @@ export class ListingComponent implements OnInit {
     }
   }
   dateSearch(val: any) {
-    console.log("start date");
+    //console.log("start date");
     // console.log(this.start_date);
     // console.log(this.end_date);
     // let sd = moment(this.start_date).unix();
@@ -507,7 +521,7 @@ export class ListingComponent implements OnInit {
         this.date_search_source_countval = (result.count);
         if(result.count==0) this.tableflag=1;
         else this.tableflag=0; 
-        console.log('count',result);
+        //console.log('count',result);
         // this.dataSource.paginator = this.paginator;
         //this.dataSource.sort = this.sort;
       })
@@ -623,7 +637,7 @@ export class ListingComponent implements OnInit {
   }
 
   addautosearchdata(val:any){
-    console.log('v',val);
+    //console.log('v',val);
 
   }
   remove(val:any,i:any,field:any){
@@ -838,7 +852,7 @@ export class ListingComponent implements OnInit {
     });
   }
   opencustombuttonactionapidata(val:any,data:any){
-    console.log('opencustombuttonactionapidata',val,data);
+    //console.log('opencustombuttonactionapidata',val,data);
     this.loading=true;
     let link:any=this.apiurlval +val.endpoint;
     let source:any={};
@@ -846,7 +860,7 @@ export class ListingComponent implements OnInit {
     this._apiService.postSearch(link, this.jwttokenval, source).subscribe(res => {
       let result: any = {};
       result = res;
-     console.log('res',result);
+     //console.log('res',result);
      let resdata:any={};
      this.loading=false;
      if(result.res[0]!=null){
@@ -888,7 +902,7 @@ export class ListingComponent implements OnInit {
 
   }
   openextlinkwithparam(val:any,data:any){
-    console.log('val',val,data);
+    //console.log('val',val,data);
     let qtext:any='';
     let fulllink:any='';
     fulllink=val.link;
@@ -911,8 +925,8 @@ export class ListingComponent implements OnInit {
       //val.link=fulllink;
     }
     setTimeout (() => {
-      console.log("Hello from setTimeout");
-      console.log('link',fulllink,data,qtext);
+      //console.log("Hello from setTimeout");
+      //console.log('link',fulllink,data,qtext);
     }, 10);
 
     window.open(fulllink, "_blank");
@@ -1121,7 +1135,7 @@ export class ListingComponent implements OnInit {
           }
 
         }, error => {
-          console.log('Oooops!');
+          //console.log('Oooops!');
           this._snackBar.openFromComponent(SnackbarComponent, {
             duration:   6000,
             data: {errormessage:'Something Went Wrong ,Try Again!!'}
@@ -1197,7 +1211,7 @@ export class ListingComponent implements OnInit {
           }
 
         }, error => {
-          console.log('Oooops!');
+          //console.log('Oooops!');
           this._snackBar.openFromComponent(SnackbarComponent, {
             duration:   6000,
             data: {errormessage:'Something Went Wrong ,Try Again!!'}
@@ -1252,7 +1266,7 @@ export class ListingComponent implements OnInit {
           }
 
         }, error => {
-          console.log('Oooops!');
+          //console.log('Oooops!');
           this._snackBar.openFromComponent(SnackbarComponent, {
             duration:   6000,
             data: {errormessage:'Something Went Wrong ,Try Again!!'}
@@ -1303,7 +1317,7 @@ export class ListingComponent implements OnInit {
           }
 
         }, error => {
-          console.log('Oooops!');
+          //console.log('Oooops!');
           this._snackBar.openFromComponent(SnackbarComponent, {
             duration:   6000,
             data: {errormessage:'Something Went Wrong ,Try Again!!'}
@@ -1328,7 +1342,7 @@ export class ListingComponent implements OnInit {
   }
 
   allSearch(){
-    console.log("hit");
+    //console.log("hit");
 
     let link = this.apiurlval + '' + this.datacollectionval;
     let link1 = this.apiurlval + '' + this.datacollectionval+'-count';
@@ -1367,8 +1381,8 @@ export class ListingComponent implements OnInit {
       searchcondition: conditionobj,
     };
 
-    console.log('con...',conditionobj,this.end_date);
-    console.warn('cond',condition,this.dateSearch_condition,conditionobj,this.tsearch,textSearch);
+    //console.log('con...',conditionobj,this.end_date);
+    //console.warn('cond',condition,this.dateSearch_condition,conditionobj,this.tsearch,textSearch);
     //return;
     this.date_search_source_countval=0;
     this.loading=true;
@@ -1455,7 +1469,7 @@ export class Confirmdialog {
 })
 export class BottomSheet {
   constructor(private bottomSheetRef: MatBottomSheetRef<BottomSheet>, @Inject(MAT_BOTTOM_SHEET_DATA) public data: any) {
-    console.warn("bottom-sheet",data);
+    //console.warn("bottom-sheet",data);
   }
 
   openLink(val: any): void {
@@ -1513,6 +1527,6 @@ export class SnackbarComponent {
       public snackBarRef: MatSnackBarRef<SnackbarComponent>,
       @Inject(MAT_SNACK_BAR_DATA) public data: any
   ) {
-    console.log('snack',this.data);
+    //console.log('snack',this.data);
   }
 }
