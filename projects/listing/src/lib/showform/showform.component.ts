@@ -1,6 +1,11 @@
 import {Component, OnInit, ViewChild, Input, Inject, SimpleChange} from '@angular/core';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { Observable }    from 'rxjs/Observable';
+import { ApiService } from '../api.service';
+import {Confirmdialog, SnackbarComponent} from "../listing.component";
+import {DomSanitizer} from "@angular/platform-browser";
+import {MAT_SNACK_BAR_DATA, MatSnackBar, MatSnackBarRef} from '@angular/material/snack-bar';
+//import {MatSnackBar} from "@angular/material/snack-bar";
 @Component({
   selector: 'lib-showform',
   templateUrl: './showform.component.html',
@@ -11,6 +16,7 @@ export class ShowformComponent implements OnInit {
   titleAlert: string = 'This field is required';
   post: any = '';
   showform:boolean=false;
+  loading:boolean=false;
   formfieldrefreshval:boolean=false;
   formdataval: any = {};
   formfieldrefreshdataval: any = {};
@@ -30,7 +36,7 @@ export class ShowformComponent implements OnInit {
     console.log(this.formfieldrefreshval);
   }
 
-  constructor(private formBuilder: FormBuilder) { }
+  constructor(private formBuilder: FormBuilder,public _apiService: ApiService,private _snackBar: MatSnackBar) { }
 
   ngOnInit() {
     this.createForm();
@@ -41,7 +47,7 @@ export class ShowformComponent implements OnInit {
 
   ngOnChanges(changes: {[propKey: string]: SimpleChange}) {
 
-   // console.log('ngonchange',changes);
+    console.log('ngonchange',changes);
     for(let v in changes){
       //console.log(v,changes[v],'vv');
       if(v=='formfieldrefresh'){
@@ -86,10 +92,14 @@ export class ShowformComponent implements OnInit {
 
       if(this.formdataval.fields[n].validations!=null && this.formdataval.fields[n].validations.length>0){
         for(let v in this.formdataval.fields[n].validations ){
+         // setTimeout( ()=>{
           if(this.formdataval.fields[n].validations[v].message==null)
             this.formdataval.fields[n].validations[v].message="Not Valid !!"
           if(this.formdataval.fields[n].validations[v].rule=='required')
             temvalidationrule.push(Validators.required);
+          if(this.formdataval.fields[n].validations[v].rule=='match') {
+              this.formGroup.setValidators(this.checkPasswords);
+          }
           if(this.formdataval.fields[n].validations[v].rule=='pattern')
             temvalidationrule.push(Validators.pattern(this.formdataval.fields[n].validations[v].value));
           if(this.formdataval.fields[n].validations[v].rule=='maxLength')
@@ -100,6 +110,7 @@ export class ShowformComponent implements OnInit {
             temvalidationrule.push(Validators.max(this.formdataval.fields[n].validations[v].value));
           if(this.formdataval.fields[n].validations[v].rule=='minLength')
             temvalidationrule.push(Validators.minLength(this.formdataval.fields[n].validations[v].value));
+          //},0);
         }
       }
 
@@ -107,6 +118,7 @@ export class ShowformComponent implements OnInit {
       this.formGroup.addControl(this.formdataval.fields[n].name,new FormControl(temcontrolarr[0],temvalidationrule));
       //'newControl', new FormControl('', Validators.required)
     }
+    //=this.checkPasswords(this.formGroup);
     //this.formGroup = this.formBuilder.group(demoArray);
 
     setTimeout (() => {
@@ -136,6 +148,21 @@ export class ShowformComponent implements OnInit {
     return this.formGroup.get('name') as FormControl
   }
 
+
+  checkPasswords(group: FormGroup) { // here we have the 'passwords' group
+    let pass = group.controls.password.value;
+    let confirmPass = group.controls.confirmpassword.value;
+    if(confirmPass==null || confirmPass==''){
+      group.controls.confirmpassword.setErrors({required:true});
+      return { required: true };
+    }
+    if(pass!=confirmPass){
+      group.controls.confirmpassword.setErrors({'match':true});
+      return {match:true};
+    }
+
+    //return pass === confirmPass ? null : { notSame: true }
+  }
   checkPassword(control) {
     let enteredPassword = control.value
     let passwordCheck = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,})/;
@@ -172,7 +199,36 @@ export class ShowformComponent implements OnInit {
       this.formGroup.controls[x].markAsTouched();
       console.log(this.formGroup.controls[x].errors,x,'err');
     }
-    console.log(post,'post',this.formGroup.valid,this.formdataval);
+    console.log(post,'post',this.formGroup.valid,this.formdataval,this.formdataval.apiUrl);
+    this.loading=true;
+    let link:any=this.formdataval.apiUrl +this.formdataval.endpoint;
+    let source:any={};
+    //source[val.param]=data._id;
+    this._apiService.postSearch(link, this.formdataval.jwttoken, source).subscribe(res => {
+      let result: any = {};
+      result = res;
+      if(result.status == 'success'){
+        console.log(result,'red');
+      }
+      if(result.status == 'error'){
+        this._snackBar.openFromComponent(SnackbarComponent, {
+          duration:   6000,
+          data:result
+        });
+      }
+
+    }, error => {
+      //console.log('Oooops!');
+      this._snackBar.openFromComponent(SnackbarComponent, {
+        duration:   6000,
+        data: {errormessage:'Something Went Wrong ,Try Again!!'}
+      });
+      this.loading=false;
+    });
+    if(this.formGroup.valid){
+
+    }
+
   }
 
 }

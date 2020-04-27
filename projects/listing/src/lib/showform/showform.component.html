@@ -8,15 +8,46 @@
       <ng-container  *ngIf="formdataval.fields!=null && formdataval.fields.length>0">
         <ng-container *ngFor="let fields of formdataval.fields">
           <mat-card class="form_header_{{fields.name}}" *ngIf="fields.heading!=null && formGroup.controls[fields.name]!=null "></mat-card>
-          <mat-form-field *ngIf="formGroup.controls[fields.name]!=null && (fields.type=='email' || fields.type=='number' || fields.type=='text')" class="form-element form_field_{{fields.name}}">
-          <input matInput (blur)="inputblur(fields.name)" type="{{fields.type}}" placeholder="{{fields.label}}" formControlName="{{fields.name}}">
-          <mat-error *ngIf="!formGroup.controls[fields.name].valid && formGroup.controls[fields.name].touched">
-            <ng-container *ngFor="let valdidations of fields.validations">
-              <span *ngIf="formGroup.controls[fields.name].errors[valdidations.rule.toLowerCase()]">{{valdidations.message}}</span>
-            </ng-container>
-          </mat-error>
+          <mat-form-field *ngIf="formGroup.controls[fields.name]!=null && (fields.type=='select'  )" class="form-element form_field_{{fields.name}}">
+            <!-- for select-->
+             <!-- <div>ff</div> -->
+              <mat-label> Select {{fields.label}}  </mat-label>
+              <mat-select [formControlName]="fields.name">
+                <mat-option *ngFor="let data of fields.val"  [value]="data.val"> {{data.name}}</mat-option>
+              </mat-select>
 
-            <mat-hint *ngIf="fields.hint!=null && formGroup.controls[fields.name]!=null " align="start" [innerHTML]="fields.hint">}</mat-hint>
+            <ng-container *ngIf="!formGroup.controls[fields.name].valid && formGroup.controls[fields.name].touched">
+
+              <mat-error >
+                <ng-container *ngFor="let valdidations of fields.validations">
+                  <span *ngIf="formGroup.controls[fields.name].errors[valdidations.rule.toLowerCase()]">{{valdidations.message}}</span>
+                </ng-container>
+              </mat-error>
+            </ng-container>
+
+            <ng-container *ngIf="  fields.hint!=null && formGroup.controls[fields.name]!=null  ">
+              <mat-hint  align="start" >{{fields.hint}}</mat-hint>
+            </ng-container>
+
+
+    </mat-form-field>
+          <mat-form-field *ngIf="formGroup.controls[fields.name]!=null && (fields.type=='email' || fields.type=='number' || fields.type=='text' || fields.type=='password')" class="form-element form_field_{{fields.name}}">
+            <mat-label  [innerHTML]="fields.label"></mat-label>
+          <input matInput  (blur)="inputblur(fields.name)" [type]="fields.type" [placeholder]="fields.label" [formControlName]="fields.name">
+
+            <ng-container *ngIf="!formGroup.controls[fields.name].valid && formGroup.controls[fields.name].touched">
+
+              <mat-error >
+                <ng-container *ngFor="let valdidations of fields.validations">
+                  <span *ngIf="formGroup.controls[fields.name].errors[valdidations.rule.toLowerCase()]">{{valdidations.message}}</span>
+                </ng-container>
+              </mat-error>
+            </ng-container>
+
+            <ng-container *ngIf="  fields.hint!=null && formGroup.controls[fields.name]!=null  ">
+              <mat-hint  align="start" >{{fields.hint}}</mat-hint>
+            </ng-container>
+
 
     </mat-form-field>
 

@@ -268,7 +268,8 @@ export class AdmindashbordComponent implements OnInit {
     //everything we need for formlibconfiguration
 
 
-    emailregex: RegExp = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+    emailregex: RegExp = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    passwordregex: RegExp = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,})/;
 
     temtdata:any='';
     // formdata
@@ -279,6 +280,9 @@ export class AdmindashbordComponent implements OnInit {
         successmessage:"Added Successfully !!",
         redirecturl:"admindashbord1",
         submitactive:true, //optional, default true
+        apiUrl:this._apiService.domain,
+        endpoint:'addformdata',
+        jwttoken:this._apiService.jwttoken,
         fields:[
             {
                 heading:"This is Name Header",
@@ -302,13 +306,45 @@ export class AdmindashbordComponent implements OnInit {
                     {rule:'pattern',value: this.emailregex,message: "Must be a valid Email"}]
             },
             {
+                label:"Password",
+                name:"password",
+                type:'password',
+                hint:"******",
+                validations:[
+                    {rule:'required',message:"Password field Needs to be required"},
+                    {rule:'pattern',value: this.passwordregex,message: "Must contain a Capital Letter and a Number"}
+                    ]
+            },{
+                label:"Confirm Password",
+                name:"confirmpassword",
+                type:'password',
+                hint:"******",
+                validations:[
+                    {rule:'required',message:"Confirm Password field Needs to be required"},
+                    {rule:'match',message:"Confirm Password field Needs to  match Password"},
+                    //{rule:'pattern',value: this.passwordregex,message: "Must contain a Capital Letter and a Number"}
+                    ]
+            },
+            {
                 label:"Age",
                 name:"age",
                 type:'number',
+                hint:'dddd',
                 validations:[
                     {rule:'required'},
                     {rule:'min',value:5},
                     {rule:'max',value:50,message: "Age can't be more than 50 "}
+                    ]
+            } ,
+            {
+                label:"Status",
+                name:"status",
+                hint:',0000',
+                type:'select',
+                val: this.status,
+                //value: '',
+                validations:[
+                    {rule:'required'}
                     ]
             } ,
             {
