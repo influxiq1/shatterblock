@@ -200,33 +200,35 @@ export class ShowformComponent implements OnInit {
       console.log(this.formGroup.controls[x].errors,x,'err');
     }
     console.log(post,'post',this.formGroup.valid,this.formdataval,this.formdataval.apiUrl);
-    this.loading=true;
-    let link:any=this.formdataval.apiUrl +this.formdataval.endpoint;
-    let source:any={};
-    source['data']=this.formGroup.value;
-    this._apiService.postSearch(link, this.formdataval.jwttoken, source).subscribe(res => {
-      let result: any = {};
-      result = res;
-      if(result.status == 'success'){
-        console.log(result,'red');
-      }
-      if(result.status == 'error'){
-        this._snackBar.openFromComponent(SnackbarComponent, {
-          duration:   6000,
-          data:result
-        });
-      }
 
-    }, error => {
-      //console.log('Oooops!');
-      this._snackBar.openFromComponent(SnackbarComponent, {
-        duration:   6000,
-        data: {errormessage:'Something Went Wrong ,Try Again!!'}
-      });
-      this.loading=false;
-    });
     if(this.formGroup.valid){
 
+      this.loading=true;
+      let link:any=this.formdataval.apiUrl +this.formdataval.endpoint;
+      let source:any={};
+      source['data']=this.formGroup.value;
+      this._apiService.postSearch(link, this.formdataval.jwttoken, source).subscribe(res => {
+        let result: any = {};
+        result = res;
+        if(result.status == 'success'){
+          console.log(result,'red');
+          //if(this.formdataval.re)
+        }
+        if(result.status == 'error'){
+          this._snackBar.openFromComponent(SnackbarComponent, {
+            duration:   6000,
+            data:result
+          });
+        }
+
+      }, error => {
+        //console.log('Oooops!');
+        this._snackBar.openFromComponent(SnackbarComponent, {
+          duration:   6000,
+          data: {errormessage:'Something Went Wrong ,Try Again!!'}
+        });
+        this.loading=false;
+      });
     }
 
   }

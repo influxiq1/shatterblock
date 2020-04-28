@@ -137,7 +137,7 @@ export class AdmindashbordComponent implements OnInit {
         //hideviewbutton:false,
         //hidestatustogglebutton:true,
         // hideaction:true,
-        tableheaders:['author','priority','blogtitle','status','wrongone'], //not required
+        tableheaders:['author','priority','blogtitle','status','wrongone','created_date','created_datetime'], //not required
         custombuttons:[
             {
                 label:"fb search with blog title",
