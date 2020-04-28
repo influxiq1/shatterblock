@@ -1,6 +1,6 @@
-<mat-toolbar color="primary">
+<!--<mat-toolbar color="primary">
   <span class="fill-remaining-space">My Reactive Form with Material</span>
-</mat-toolbar>
+</mat-toolbar>-->
 
 <div class="container" *ngIf="showform; else forminfo" novalidate>
   <form [formGroup]="formGroup" (ngSubmit)="onSubmit(formGroup.value)" class="form">

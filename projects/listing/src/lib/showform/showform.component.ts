@@ -203,7 +203,7 @@ export class ShowformComponent implements OnInit {
     this.loading=true;
     let link:any=this.formdataval.apiUrl +this.formdataval.endpoint;
     let source:any={};
-    //source[val.param]=data._id;
+    source['data']=this.formGroup.value;
     this._apiService.postSearch(link, this.formdataval.jwttoken, source).subscribe(res => {
       let result: any = {};
       result = res;
