@@ -278,7 +278,7 @@ export class AdmindashbordComponent implements OnInit {
     formfieldrefreshdata:any=null;
     formdata:any={
         successmessage:"Added Successfully !!",
-        redirecturl:"admindashbord1",
+        redirectpath:"/admindashbord1",
         submitactive:true, //optional, default true
         apiUrl:this._apiService.domain,
         endpoint:'addformdata',
@@ -342,6 +342,17 @@ export class AdmindashbordComponent implements OnInit {
                 hint:',0000',
                 type:'select',
                 val: this.status,
+                //value: '',
+                validations:[
+                    {rule:'required'}
+                    ]
+            } ,
+            {
+                label:"Active",
+                name:"active",
+                hint:'check ???',
+                type:'checkbox',
+                val: null,
                 //value: '',
                 validations:[
                     {rule:'required'}

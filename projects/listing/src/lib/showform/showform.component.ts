@@ -5,6 +5,8 @@ import { ApiService } from '../api.service';
 import {Confirmdialog, SnackbarComponent} from "../listing.component";
 import {DomSanitizer} from "@angular/platform-browser";
 import {MAT_SNACK_BAR_DATA, MatSnackBar, MatSnackBarRef} from '@angular/material/snack-bar';
+import {ThemePalette} from "@angular/material/core";
+import {Router} from "@angular/router";
 //import {MatSnackBar} from "@angular/material/snack-bar";
 @Component({
   selector: 'lib-showform',
@@ -20,6 +22,14 @@ export class ShowformComponent implements OnInit {
   formfieldrefreshval:boolean=false;
   formdataval: any = {};
   formfieldrefreshdataval: any = {};
+
+  /*for progress bar*/
+
+  color: ThemePalette = 'primary';
+  mode: any = 'indeterminate';
+  value = 50;
+  bufferValue = 75;
+
   @Input()
   set formdata(formdata: any) {
     this.formdataval = formdata;
@@ -36,7 +46,7 @@ export class ShowformComponent implements OnInit {
     console.log(this.formfieldrefreshval);
   }
 
-  constructor(private formBuilder: FormBuilder,public _apiService: ApiService,private _snackBar: MatSnackBar) { }
+  constructor(private formBuilder: FormBuilder,public _apiService: ApiService,private _snackBar: MatSnackBar,private router: Router) { }
 
   ngOnInit() {
     this.createForm();
@@ -211,8 +221,15 @@ export class ShowformComponent implements OnInit {
         let result: any = {};
         result = res;
         if(result.status == 'success'){
-          console.log(result,'red');
-          //if(this.formdataval.re)
+          this.formGroup.reset();
+          this._snackBar.openFromComponent(SnackbarComponent, {
+            duration:   6000,
+            data: {errormessage:this.formdataval.successmessage}
+          });
+          console.log(result,'red',this.formdataval.redirectpath);
+          if(this.formdataval.redirectpath!=null){
+            this.router.navigate([this.formdataval.redirectpath]);
+          }
         }
         if(result.status == 'error'){
           this._snackBar.openFromComponent(SnackbarComponent, {

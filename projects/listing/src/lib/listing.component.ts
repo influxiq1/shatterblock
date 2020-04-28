@@ -313,10 +313,12 @@ export class ListingComponent implements OnInit {
 
   ngOnChanges(changes: {[propKey: string]: SimpleChange}) {
 
-    // console.log('ngonchange',changes);
+     //console.log('ngonchange ..',changes);
     for(let v in changes){
       //console.log(v,changes[v],'vv');
       if(v=='updatetable'){
+       // console.log('updatetable');
+        if(changes[v].previousValue!=null)
        this.allSearch();
       }
     }

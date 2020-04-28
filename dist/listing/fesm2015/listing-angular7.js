@@ -999,11 +999,13 @@ class ListingComponent {
      * @return {?}
      */
     ngOnChanges(changes) {
-        // console.log('ngonchange',changes);
+        //console.log('ngonchange ..',changes);
         for (let v in changes) {
             //console.log(v,changes[v],'vv');
             if (v == 'updatetable') {
-                this.allSearch();
+                // console.log('updatetable');
+                if (changes[v].previousValue != null)
+                    this.allSearch();
             }
         }
     }
