@@ -57,19 +57,20 @@ export class ShowformComponent implements OnInit {
 
   ngOnChanges(changes: {[propKey: string]: SimpleChange}) {
 
-    console.log('ngonchange',changes);
+    console.log('ngonchange in form !!!',changes,'frv',this.formfieldrefreshdataval);
     for(let v in changes){
       //console.log(v,changes[v],'vv');
-      if(v=='formfieldrefresh'){
+      if(v=='formfieldrefreshdata'){
         setTimeout (() => {
+          console.log('fff in set tt');
           if (this.formfieldrefreshdataval != null) {
-            /*console.log(this.formfieldrefreshdataval,'m');
+            console.log(this.formfieldrefreshdataval,'m');
             console.log(this.formfieldrefreshdataval.field);
-            console.log(this.formfieldrefreshdataval.value);*/
+            console.log(this.formfieldrefreshdataval.value);
               if(this.formGroup!=null )this.formGroup.controls[this.formfieldrefreshdataval.field].patchValue(this.formfieldrefreshdataval.value)
 
           }
-        },10);
+        },0);
       }
     }
   }

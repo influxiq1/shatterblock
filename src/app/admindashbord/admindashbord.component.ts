@@ -418,7 +418,10 @@ export class AdmindashbordComponent implements OnInit {
     }
     updateformval(){
         this.formdata.fields[0].value=this.temtdata;
-        this.formfieldrefreshdata={field:'email',value:this.temtdata};
+        this.formfieldrefreshdata={field:'fullname',value:this.temtdata};
+        setTimeout (() => {
+            this.formfieldrefreshdata = {field: 'email', value: this.temtdata + '@gmail.com'};
+        },50);
         this.updatetable=!this.updatetable;
 
     }
