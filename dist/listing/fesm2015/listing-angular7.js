@@ -19,7 +19,7 @@ import { FormBuilder, FormControl, FormsModule, ReactiveFormsModule } from '@ang
 import { CommonModule } from '@angular/common';
 import { MomentModule } from 'ngx-moment';
 import { NavigationCancel, NavigationEnd, NavigationError, NavigationStart, Router, RouterModule } from '@angular/router';
-import { Injectable, EventEmitter, ViewChild, Component, Input, NgModule, CUSTOM_ELEMENTS_SCHEMA, Inject, ComponentFactoryResolver, ViewContainerRef, defineInjectable } from '@angular/core';
+import { Injectable, EventEmitter, ViewChild, Component, Input, Inject, ComponentFactoryResolver, ViewContainerRef, NgModule, CUSTOM_ELEMENTS_SCHEMA, defineInjectable } from '@angular/core';
 import { DomSanitizer, BrowserModule } from '@angular/platform-browser';
 
 /**
@@ -1236,7 +1236,19 @@ class ListingComponent {
                 /** @type {?} */
                 let result = {};
                 result = res;
-                this.dataSource = new MatTableDataSource(result.results.res);
+                if (result.results.res != null && result.results.res.length > 0) {
+                    this.dataSource = new MatTableDataSource(result.results.res);
+                    this._snackBar.openFromComponent(SnackbarComponent, {
+                        duration: 2000,
+                        data: { errormessage: "New Search of data loaded" }
+                    });
+                }
+                else {
+                    this._snackBar.openFromComponent(SnackbarComponent, {
+                        duration: 6000,
+                        data: { errormessage: "No such search recod found !!" }
+                    });
+                }
                 this.loading = false;
                 // this.dataSource.paginator = this.paginator;
                 //this.dataSource.sort = this.sort;
@@ -1375,7 +1387,19 @@ class ListingComponent {
         res => {
             this.result = res;
             //console.log(this.result,'res');
-            this.dataSource = new MatTableDataSource(this.result.results.res);
+            if (this.result.results.res != null && this.result.results.res.length > 0) {
+                this.dataSource = new MatTableDataSource(this.result.results.res);
+                this._snackBar.openFromComponent(SnackbarComponent, {
+                    duration: 2000,
+                    data: { errormessage: "New range of data loaded" }
+                });
+            }
+            else {
+                this._snackBar.openFromComponent(SnackbarComponent, {
+                    duration: 6000,
+                    data: { errormessage: "No Data Found in this range !!" }
+                });
+            }
             this.loading = false;
             //this.dataSource.paginator = this.paginator;
             //this.dataSource.sort = this.sort;
@@ -1652,6 +1676,26 @@ class ListingComponent {
             //if(val.datafields[v]=='video') temparr.push("<img mat-card-image src=" + data[val.datafields[v]] + " > <br/>")
             dataarr.push(temparr);
         }
+        /** @type {?} */
+        let res = dataarr;
+        if (this.libdataval.detailview_override != null && this.libdataval.detailview_override.length > 0) {
+            /** @type {?} */
+            let resdata = [];
+            for (let b in res) {
+                for (let c in this.libdataval.detailview_override) {
+                    //console.log('hww',c,this.libdataval.detailview_override[c].key,res[b],res[b][0],res[b][1]);
+                    if (this.libdataval.detailview_override[c].key == res[b][0]) {
+                        console.log('h', c, this.libdataval.detailview_override[c]);
+                        resdata[b] = [this.libdataval.detailview_override[c].val, res[b][1]];
+                    }
+                }
+                if (resdata[b] == null)
+                    resdata[b] = res[b];
+            }
+            //console.log('c',res,resdata);
+            res = resdata;
+            //console.log('c',res,resdata);
+        }
         //console.log('dataarr',dataarr);
         if (val.refreshdata != null && val.refreshdata == true) {
             this.allSearch();
@@ -1660,7 +1704,7 @@ class ListingComponent {
         const dialogRef = this.dialog.open(Confirmdialog, {
             height: 'auto',
             panelClass: 'custom-modalbox-apidata',
-            data: { isconfirmation: false, data: dataarr }
+            data: { isconfirmation: false, data: res }
         });
     }
     /**
@@ -1715,6 +1759,24 @@ class ListingComponent {
                     }
                     //if(val.datafields[v]=='video') temparr.push("<img mat-card-image src=" + data[val.datafields[v]] + " > <br/>")
                     dataarr.push(temparr);
+                }
+                if (this.libdataval.detailview_override != null && this.libdataval.detailview_override.length > 0) {
+                    /** @type {?} */
+                    let resdata = [];
+                    for (let b in dataarr) {
+                        for (let c in this.libdataval.detailview_override) {
+                            //console.log('hww',c,this.libdataval.detailview_override[c].key,res[b],res[b][0],res[b][1]);
+                            if (this.libdataval.detailview_override[c].key == dataarr[b][0]) {
+                                console.log('h', c, this.libdataval.detailview_override[c]);
+                                resdata[b] = [this.libdataval.detailview_override[c].val, dataarr[b][1]];
+                            }
+                        }
+                        if (resdata[b] == null)
+                            resdata[b] = dataarr[b];
+                    }
+                    //console.log('c',res,resdata);
+                    dataarr = resdata;
+                    //console.log('c',res,resdata);
                 }
                 //console.log('dataarr',dataarr);
                 if (val.refreshdata != null && val.refreshdata == true) {
@@ -1968,6 +2030,25 @@ class ListingComponent {
         }
         /** @type {?} */
         let res = Object.entries(data2);
+        //console.log('view data',res);
+        if (this.libdataval.detailview_override != null && this.libdataval.detailview_override.length > 0) {
+            /** @type {?} */
+            let resdata = [];
+            for (let b in res) {
+                for (let c in this.libdataval.detailview_override) {
+                    //console.log('hww',c,this.libdataval.detailview_override[c].key,res[b],res[b][0],res[b][1]);
+                    if (this.libdataval.detailview_override[c].key == res[b][0]) {
+                        console.log('h', c, this.libdataval.detailview_override[c]);
+                        resdata[b] = [this.libdataval.detailview_override[c].val, res[b][1]];
+                    }
+                }
+                if (resdata[b] == null)
+                    resdata[b] = res[b];
+            }
+            //console.log('c',res,resdata);
+            res = resdata;
+            //console.log('c',res,resdata);
+        }
         /** @type {?} */
         const dialogRef = this.dialog.open(Confirmdialog, {
             height: 'auto',
@@ -2009,7 +2090,7 @@ class ListingComponent {
                         this.selection = new SelectionModel(true, []);
                         this.dataSource.paginator = this.paginator;
                         this.dataSource.sort = this.sort;
-                        this.allSearch();
+                        //this.allSearch();
                         /** @type {?} */
                         let dialogRef = this.dialog.open(Confirmdialog, {
                             panelClass: 'custom-modalbox',
@@ -2105,7 +2186,7 @@ class ListingComponent {
                         this.selection = new SelectionModel(true, []);
                         this.dataSource.paginator = this.paginator;
                         this.dataSource.sort = this.sort;
-                        this.allSearch();
+                        //this.allSearch();
                         /** @type {?} */
                         let dialogRef = this.dialog.open(Confirmdialog, {
                             panelClass: 'custom-modalbox',
@@ -2346,7 +2427,19 @@ class ListingComponent {
             /** @type {?} */
             let result = {};
             result = res;
-            this.dataSource = new MatTableDataSource(result.results.res);
+            if (result.results.res != null && result.results.res.length > 0) {
+                this.dataSource = new MatTableDataSource(result.results.res);
+                this._snackBar.openFromComponent(SnackbarComponent, {
+                    duration: 2000,
+                    data: { errormessage: "New Search of data loaded" }
+                });
+            }
+            else {
+                this._snackBar.openFromComponent(SnackbarComponent, {
+                    duration: 6000,
+                    data: { errormessage: "No such search recod found !!" }
+                });
+            }
             this.loading = false;
             // this.dataSource.paginator = this.paginator;
             //this.dataSource.sort = this.sort;

@@ -24,6 +24,8 @@
               <mat-select [formControlName]="fields.name">
                 <mat-option *ngFor="let data of fields.val"  [value]="data.val"> {{data.name}}</mat-option>
               </mat-select>
+            <span *ngIf="fields.prefix!=null" matPrefix> {{fields.prefix}} &nbsp;</span>
+            <span *ngIf="fields.suffix!=null" matSuffix>{{fields.suffix}}</span>
 
             <ng-container *ngIf="!formGroup.controls[fields.name].valid && formGroup.controls[fields.name].touched">
 
@@ -43,6 +45,8 @@
           <div *ngIf="formGroup.controls[fields.name]!=null && (fields.type=='checkbox' )" class="form-element form_field_{{fields.name}}">
          <!-- <input   (blur)="inputblur(fields.name)" [type]="fields.type"  [formControlName]="fields.name">-->
             <mat-checkbox class="example-margin" (blur)="inputblur(fields.name)"   [formControlName]="fields.name">{{fields.label}}</mat-checkbox>
+            <span *ngIf="fields.prefix!=null" matPrefix> {{fields.prefix}} &nbsp;</span>
+            <span *ngIf="fields.suffix!=null" matSuffix>{{fields.suffix}}</span>
 
             <ng-container *ngIf="!formGroup.controls[fields.name].valid && formGroup.controls[fields.name].touched">
 
@@ -62,6 +66,8 @@
           <mat-form-field *ngIf="formGroup.controls[fields.name]!=null && (fields.type=='email' || fields.type=='number' || fields.type=='text' || fields.type=='password')" class="form-element form_field_{{fields.name}}">
             <mat-label  [innerHTML]="fields.label"></mat-label>
           <input matInput  (blur)="inputblur(fields.name)" [type]="fields.type" [placeholder]="fields.label" [formControlName]="fields.name">
+            <span *ngIf="fields.prefix!=null" matPrefix> {{fields.prefix}} &nbsp;</span>
+            <span *ngIf="fields.suffix!=null" matSuffix>{{fields.suffix}}</span>
 
             <ng-container *ngIf="!formGroup.controls[fields.name].valid && formGroup.controls[fields.name].touched">
 

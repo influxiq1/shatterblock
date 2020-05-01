@@ -1395,7 +1395,19 @@
                         /** @type {?} */
                         var result = {};
                         result = res;
-                        _this.dataSource = new material.MatTableDataSource(result.results.res);
+                        if (result.results.res != null && result.results.res.length > 0) {
+                            _this.dataSource = new material.MatTableDataSource(result.results.res);
+                            _this._snackBar.openFromComponent(SnackbarComponent, {
+                                duration: 2000,
+                                data: { errormessage: "New Search of data loaded" }
+                            });
+                        }
+                        else {
+                            _this._snackBar.openFromComponent(SnackbarComponent, {
+                                duration: 6000,
+                                data: { errormessage: "No such search recod found !!" }
+                            });
+                        }
                         _this.loading = false;
                         // this.dataSource.paginator = this.paginator;
                         //this.dataSource.sort = this.sort;
@@ -1542,7 +1554,19 @@
                  */function (res) {
                     _this.result = res;
                     //console.log(this.result,'res');
-                    _this.dataSource = new material.MatTableDataSource(_this.result.results.res);
+                    if (_this.result.results.res != null && _this.result.results.res.length > 0) {
+                        _this.dataSource = new material.MatTableDataSource(_this.result.results.res);
+                        _this._snackBar.openFromComponent(SnackbarComponent, {
+                            duration: 2000,
+                            data: { errormessage: "New range of data loaded" }
+                        });
+                    }
+                    else {
+                        _this._snackBar.openFromComponent(SnackbarComponent, {
+                            duration: 6000,
+                            data: { errormessage: "No Data Found in this range !!" }
+                        });
+                    }
                     _this.loading = false;
                     //this.dataSource.paginator = this.paginator;
                     //this.dataSource.sort = this.sort;
@@ -1880,6 +1904,26 @@
                     //if(val.datafields[v]=='video') temparr.push("<img mat-card-image src=" + data[val.datafields[v]] + " > <br/>")
                     dataarr.push(temparr);
                 }
+                /** @type {?} */
+                var res = dataarr;
+                if (this.libdataval.detailview_override != null && this.libdataval.detailview_override.length > 0) {
+                    /** @type {?} */
+                    var resdata = [];
+                    for (var b in res) {
+                        for (var c in this.libdataval.detailview_override) {
+                            //console.log('hww',c,this.libdataval.detailview_override[c].key,res[b],res[b][0],res[b][1]);
+                            if (this.libdataval.detailview_override[c].key == res[b][0]) {
+                                console.log('h', c, this.libdataval.detailview_override[c]);
+                                resdata[b] = [this.libdataval.detailview_override[c].val, res[b][1]];
+                            }
+                        }
+                        if (resdata[b] == null)
+                            resdata[b] = res[b];
+                    }
+                    //console.log('c',res,resdata);
+                    res = resdata;
+                    //console.log('c',res,resdata);
+                }
                 //console.log('dataarr',dataarr);
                 if (val.refreshdata != null && val.refreshdata == true) {
                     this.allSearch();
@@ -1888,7 +1932,7 @@
                 var dialogRef = this.dialog.open(Confirmdialog, {
                     height: 'auto',
                     panelClass: 'custom-modalbox-apidata',
-                    data: { isconfirmation: false, data: dataarr }
+                    data: { isconfirmation: false, data: res }
                 });
             };
         /**
@@ -1948,6 +1992,24 @@
                             }
                             //if(val.datafields[v]=='video') temparr.push("<img mat-card-image src=" + data[val.datafields[v]] + " > <br/>")
                             dataarr.push(temparr);
+                        }
+                        if (_this.libdataval.detailview_override != null && _this.libdataval.detailview_override.length > 0) {
+                            /** @type {?} */
+                            var resdata_1 = [];
+                            for (var b in dataarr) {
+                                for (var c in _this.libdataval.detailview_override) {
+                                    //console.log('hww',c,this.libdataval.detailview_override[c].key,res[b],res[b][0],res[b][1]);
+                                    if (_this.libdataval.detailview_override[c].key == dataarr[b][0]) {
+                                        console.log('h', c, _this.libdataval.detailview_override[c]);
+                                        resdata_1[b] = [_this.libdataval.detailview_override[c].val, dataarr[b][1]];
+                                    }
+                                }
+                                if (resdata_1[b] == null)
+                                    resdata_1[b] = dataarr[b];
+                            }
+                            //console.log('c',res,resdata);
+                            dataarr = resdata_1;
+                            //console.log('c',res,resdata);
                         }
                         //console.log('dataarr',dataarr);
                         if (val.refreshdata != null && val.refreshdata == true) {
@@ -2275,6 +2337,25 @@
                 }
                 /** @type {?} */
                 var res = Object.entries(data2);
+                //console.log('view data',res);
+                if (this.libdataval.detailview_override != null && this.libdataval.detailview_override.length > 0) {
+                    /** @type {?} */
+                    var resdata = [];
+                    for (var b in res) {
+                        for (var c in this.libdataval.detailview_override) {
+                            //console.log('hww',c,this.libdataval.detailview_override[c].key,res[b],res[b][0],res[b][1]);
+                            if (this.libdataval.detailview_override[c].key == res[b][0]) {
+                                console.log('h', c, this.libdataval.detailview_override[c]);
+                                resdata[b] = [this.libdataval.detailview_override[c].val, res[b][1]];
+                            }
+                        }
+                        if (resdata[b] == null)
+                            resdata[b] = res[b];
+                    }
+                    //console.log('c',res,resdata);
+                    res = resdata;
+                    //console.log('c',res,resdata);
+                }
                 /** @type {?} */
                 var dialogRef = this.dialog.open(Confirmdialog, {
                     height: 'auto',
@@ -2319,7 +2400,7 @@
                                 _this.selection = new collections.SelectionModel(true, []);
                                 _this.dataSource.paginator = _this.paginator;
                                 _this.dataSource.sort = _this.sort;
-                                _this.allSearch();
+                                //this.allSearch();
                                 /** @type {?} */
                                 var dialogRef = _this.dialog.open(Confirmdialog, {
                                     panelClass: 'custom-modalbox',
@@ -2423,7 +2504,7 @@
                                 _this.selection = new collections.SelectionModel(true, []);
                                 _this.dataSource.paginator = _this.paginator;
                                 _this.dataSource.sort = _this.sort;
-                                _this.allSearch();
+                                //this.allSearch();
                                 /** @type {?} */
                                 var dialogRef = _this.dialog.open(Confirmdialog, {
                                     panelClass: 'custom-modalbox',
@@ -2679,7 +2760,19 @@
                     /** @type {?} */
                     var result = {};
                     result = res;
-                    _this.dataSource = new material.MatTableDataSource(result.results.res);
+                    if (result.results.res != null && result.results.res.length > 0) {
+                        _this.dataSource = new material.MatTableDataSource(result.results.res);
+                        _this._snackBar.openFromComponent(SnackbarComponent, {
+                            duration: 2000,
+                            data: { errormessage: "New Search of data loaded" }
+                        });
+                    }
+                    else {
+                        _this._snackBar.openFromComponent(SnackbarComponent, {
+                            duration: 6000,
+                            data: { errormessage: "No such search recod found !!" }
+                        });
+                    }
                     _this.loading = false;
                     // this.dataSource.paginator = this.paginator;
                     //this.dataSource.sort = this.sort;

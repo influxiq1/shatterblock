@@ -130,8 +130,9 @@ export class AdmindashbordComponent implements OnInit {
 
     // other data
     libdata:any={
-        basecondition:{status:1},
-        updateendpoint:'statusupdate1',
+        //basecondition:{status:1},
+        detailview_override:[{key:"tags_array",val:"Tags"},{key:"author",val:"Written By"},{key:"blogtitle",val:"Title"}], // optional
+        updateendpoint:'statusupdate',
         hideeditbutton:true,// all these button options are optional not mandatory
         //hidedeletebutton:true,
         //hideviewbutton:false,
@@ -207,7 +208,7 @@ export class AdmindashbordComponent implements OnInit {
                 label:"Desc from api data",
                 type:'action',
                 datatype:'api',
-                endpoint:'getblogdatabyid9',
+                endpoint:'getblogdatabyid',
                 //cond:'status',
                 //condval:0,
                 param:'blog_id',
@@ -294,7 +295,9 @@ export class AdmindashbordComponent implements OnInit {
                     {rule:'required'},
                     {rule:'maxLength',value:10},
                     {rule:'minLength',value: 2}
-                    ]
+                    ],
+                prefix:"http://google.com/",
+                suffix:"PM"
             },
             {
                 label:"Email",
@@ -345,7 +348,9 @@ export class AdmindashbordComponent implements OnInit {
                 //value: '',
                 validations:[
                     {rule:'required'}
-                    ]
+                    ],
+                prefix:"http://google.com/",
+                suffix:"PM"
             } ,
             {
                 label:"Active",
@@ -356,7 +361,10 @@ export class AdmindashbordComponent implements OnInit {
                 //value: '',
                 validations:[
                     {rule:'required'}
-                    ]
+                    ],
+                prefix:"http://google.com/",
+                suffix:"PM"
+
             } ,
             {
                 label:"City",

@@ -24,7 +24,8 @@ export class ApiService {
               ) {
     //console.log('this.domain');
     //console.log(this.domain);
-    cookieService.set('jwttoken','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmb28iOiJiYXIiLCJleHAiOjE1ODU2NTM1MzksImlhdCI6MTU4NTU2NzEzOX0.ErmNEt1IOnbKQMfTveF2Tt0PY0TprflzQ1DngaGGUhA');
+    //if(!this.cookieService.check('jwttoken'))
+    cookieService.set('jwttoken','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmb28iOiJiYXIiLCJleHAiOjE1ODg0MDU3NTEsImlhdCI6MTU4ODMxOTM1MX0.M5TGx6QdtdTl5pF98CLOfv-kqU4rR1TfJ9cqvgQm6jQ');
     this.jwttoken=this.cookieService.get('jwttoken');
 
   }
