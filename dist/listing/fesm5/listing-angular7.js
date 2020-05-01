@@ -5,6 +5,7 @@ import { throwError } from 'rxjs';
 import { map, catchError, startWith } from 'rxjs/operators';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import * as momentImported from 'moment';
+import { Observable } from 'rxjs/Observable';
 import { MAT_SNACK_BAR_DATA, MatSnackBar, MatSnackBarRef } from '@angular/material/snack-bar';
 import { A11yModule } from '@angular/cdk/a11y';
 import { DragDropModule } from '@angular/cdk/drag-drop';
@@ -15,7 +16,7 @@ import { CdkTableModule } from '@angular/cdk/table';
 import { CdkTreeModule } from '@angular/cdk/tree';
 import { MatSort, MatTableDataSource, MatPaginator, MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatBottomSheet, MatBottomSheetRef, MAT_BOTTOM_SHEET_DATA, MatAutocompleteModule, MatBadgeModule, MatBottomSheetModule, MatButtonModule, MatButtonToggleModule, MatCardModule, MatCheckboxModule, MatChipsModule, MatDatepickerModule, MatDialogModule, MatDividerModule, MatExpansionModule, MatGridListModule, MatIconModule, MatInputModule, MatListModule, MatMenuModule, MatNativeDateModule, MatPaginatorModule, MatProgressBarModule, MatProgressSpinnerModule, MatRadioModule, MatRippleModule, MatSelectModule, MatSidenavModule, MatSliderModule, MatSlideToggleModule, MatSnackBarModule, MatSortModule, MatStepperModule, MatTableModule, MatTabsModule, MatToolbarModule, MatTooltipModule, MatTreeModule } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { FormBuilder, FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormControl, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { MomentModule } from 'ngx-moment';
 import { NavigationCancel, NavigationEnd, NavigationError, NavigationStart, Router, RouterModule } from '@angular/router';
@@ -3151,6 +3152,392 @@ var SnackbarComponent = /** @class */ (function () {
  * @fileoverview added by tsickle
  * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
+//import {MatSnackBar} from "@angular/material/snack-bar";
+var ShowformComponent = /** @class */ (function () {
+    function ShowformComponent(formBuilder, _apiService, _snackBar, router) {
+        this.formBuilder = formBuilder;
+        this._apiService = _apiService;
+        this._snackBar = _snackBar;
+        this.router = router;
+        this.titleAlert = 'This field is required';
+        this.post = '';
+        this.showform = false;
+        this.loading = false;
+        this.formfieldrefreshval = false;
+        this.formdataval = {};
+        this.formfieldrefreshdataval = {};
+        /*for progress bar*/
+        this.color = 'primary';
+        this.mode = 'indeterminate';
+        this.value = 50;
+        this.bufferValue = 75;
+    }
+    Object.defineProperty(ShowformComponent.prototype, "formdata", {
+        set: /**
+         * @param {?} formdata
+         * @return {?}
+         */
+        function (formdata) {
+            this.formdataval = formdata;
+            console.log(this.formdataval);
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(ShowformComponent.prototype, "formfieldrefreshdata", {
+        set: /**
+         * @param {?} formfieldrefreshdata
+         * @return {?}
+         */
+        function (formfieldrefreshdata) {
+            this.formfieldrefreshdataval = formfieldrefreshdata;
+            console.log(this.formfieldrefreshdataval);
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(ShowformComponent.prototype, "formfieldrefresh", {
+        set: /**
+         * @param {?} formfieldrefresh
+         * @return {?}
+         */
+        function (formfieldrefresh) {
+            this.formfieldrefreshval = formfieldrefresh;
+            console.log(this.formfieldrefreshval);
+        },
+        enumerable: true,
+        configurable: true
+    });
+    /**
+     * @return {?}
+     */
+    ShowformComponent.prototype.ngOnInit = /**
+     * @return {?}
+     */
+    function () {
+        this.createForm();
+        //this.setChangeValidate()
+    };
+    /**
+     * @param {?} changes
+     * @return {?}
+     */
+    ShowformComponent.prototype.ngOnChanges = /**
+     * @param {?} changes
+     * @return {?}
+     */
+    function (changes) {
+        var _this = this;
+        console.log('ngonchange in form !!!', changes, 'frv', this.formfieldrefreshdataval);
+        for (var v in changes) {
+            //console.log(v,changes[v],'vv');
+            if (v == 'formfieldrefreshdata') {
+                setTimeout((/**
+                 * @return {?}
+                 */
+                function () {
+                    console.log('fff in set tt');
+                    if (_this.formfieldrefreshdataval != null) {
+                        console.log(_this.formfieldrefreshdataval, 'm');
+                        console.log(_this.formfieldrefreshdataval.field);
+                        console.log(_this.formfieldrefreshdataval.value);
+                        if (_this.formGroup != null)
+                            _this.formGroup.controls[_this.formfieldrefreshdataval.field].patchValue(_this.formfieldrefreshdataval.value);
+                    }
+                }), 0);
+            }
+        }
+    };
+    /**
+     * @param {?} val
+     * @return {?}
+     */
+    ShowformComponent.prototype.inputblur = /**
+     * @param {?} val
+     * @return {?}
+     */
+    function (val) {
+        //console.log('on blur .....');
+        this.formGroup.controls[val].markAsUntouched();
+    };
+    /**
+     * @return {?}
+     */
+    ShowformComponent.prototype.createForm = /**
+     * @return {?}
+     */
+    function () {
+        var _this = this;
+        /*this.formGroup = this.formBuilder.group({
+          'email': [null, [Validators.required, Validators.pattern(emailregex)], this.checkInUseEmail],
+          'fullname': [null, Validators.required],
+         // 'password': [null, [Validators.required, this.checkPassword]],
+          //'description': [null, [Validators.required, Validators.minLength(5), Validators.maxLength(10)]],
+          //'validate': ''
+        });*/
+        //let demoArray:any=[];
+        this.formGroup = this.formBuilder.group({});
+        console.log(this.formGroup, 'fg');
+        for (var n in this.formdataval.fields) {
+            /** @type {?} */
+            var temcontrolarr = [];
+            /** @type {?} */
+            var temvalidationrule = [];
+            if (this.formdataval.fields[n].value != null)
+                temcontrolarr.push(this.formdataval.fields[n].value);
+            else
+                temcontrolarr.push('');
+            if (this.formdataval.fields[n].validations != null && this.formdataval.fields[n].validations.length > 0) {
+                for (var v in this.formdataval.fields[n].validations) {
+                    // setTimeout( ()=>{
+                    if (this.formdataval.fields[n].validations[v].message == null)
+                        this.formdataval.fields[n].validations[v].message = "Not Valid !!";
+                    if (this.formdataval.fields[n].validations[v].rule == 'required')
+                        temvalidationrule.push(Validators.required);
+                    if (this.formdataval.fields[n].validations[v].rule == 'match') {
+                        this.formGroup.setValidators(this.checkPasswords);
+                    }
+                    if (this.formdataval.fields[n].validations[v].rule == 'pattern')
+                        temvalidationrule.push(Validators.pattern(this.formdataval.fields[n].validations[v].value));
+                    if (this.formdataval.fields[n].validations[v].rule == 'maxLength')
+                        temvalidationrule.push(Validators.maxLength(this.formdataval.fields[n].validations[v].value));
+                    if (this.formdataval.fields[n].validations[v].rule == 'min')
+                        temvalidationrule.push(Validators.min(this.formdataval.fields[n].validations[v].value));
+                    if (this.formdataval.fields[n].validations[v].rule == 'max')
+                        temvalidationrule.push(Validators.max(this.formdataval.fields[n].validations[v].value));
+                    if (this.formdataval.fields[n].validations[v].rule == 'minLength')
+                        temvalidationrule.push(Validators.minLength(this.formdataval.fields[n].validations[v].value));
+                    //},0);
+                }
+            }
+            // demoArray[this.formdataval.fields[n].name]=new FormControl('');
+            this.formGroup.addControl(this.formdataval.fields[n].name, new FormControl(temcontrolarr[0], temvalidationrule));
+            //'newControl', new FormControl('', Validators.required)
+        }
+        //=this.checkPasswords(this.formGroup);
+        //this.formGroup = this.formBuilder.group(demoArray);
+        setTimeout((/**
+         * @return {?}
+         */
+        function () {
+            //console.log(this.formGroup,'fg',demoArray);
+            _this.showform = true;
+            if (_this.formdataval.submitactive == null)
+                _this.formdataval.submitactive = true;
+        }), 100);
+    };
+    /**
+     * @return {?}
+     */
+    ShowformComponent.prototype.setChangeValidate = /**
+     * @return {?}
+     */
+    function () {
+        var _this = this;
+        this.formGroup.get('validate').valueChanges.subscribe((/**
+         * @param {?} validate
+         * @return {?}
+         */
+        function (validate) {
+            if (validate == '1') {
+                _this.formGroup.get('name').setValidators([Validators.required, Validators.minLength(3)]);
+                _this.titleAlert = "You need to specify at least 3 characters";
+            }
+            else {
+                _this.formGroup.get('name').setValidators(Validators.required);
+            }
+            _this.formGroup.get('name').updateValueAndValidity();
+        }));
+    };
+    Object.defineProperty(ShowformComponent.prototype, "name", {
+        get: /**
+         * @return {?}
+         */
+        function () {
+            return (/** @type {?} */ (this.formGroup.get('name')));
+        },
+        enumerable: true,
+        configurable: true
+    });
+    /**
+     * @param {?} group
+     * @return {?}
+     */
+    ShowformComponent.prototype.checkPasswords = /**
+     * @param {?} group
+     * @return {?}
+     */
+    function (group) {
+        // here we have the 'passwords' group
+        /** @type {?} */
+        var pass = group.controls.password.value;
+        /** @type {?} */
+        var confirmPass = group.controls.confirmpassword.value;
+        if (confirmPass == null || confirmPass == '') {
+            group.controls.confirmpassword.setErrors({ required: true });
+            return { required: true };
+        }
+        if (pass != confirmPass) {
+            group.controls.confirmpassword.setErrors({ 'match': true });
+            return { match: true };
+        }
+        //return pass === confirmPass ? null : { notSame: true }
+    };
+    /**
+     * @param {?} control
+     * @return {?}
+     */
+    ShowformComponent.prototype.checkPassword = /**
+     * @param {?} control
+     * @return {?}
+     */
+    function (control) {
+        /** @type {?} */
+        var enteredPassword = control.value;
+        /** @type {?} */
+        var passwordCheck = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,})/;
+        return (!passwordCheck.test(enteredPassword) && enteredPassword) ? { 'requirements': true } : null;
+    };
+    /**
+     * @param {?} control
+     * @return {?}
+     */
+    ShowformComponent.prototype.checkInUseEmail = /**
+     * @param {?} control
+     * @return {?}
+     */
+    function (control) {
+        // mimic http database access
+        /** @type {?} */
+        var db = ['tony@gmail.com'];
+        return new Observable((/**
+         * @param {?} observer
+         * @return {?}
+         */
+        function (observer) {
+            setTimeout((/**
+             * @return {?}
+             */
+            function () {
+                /** @type {?} */
+                var result = (db.indexOf(control.value) !== -1) ? { 'alreadyInUse': true } : null;
+                observer.next(result);
+                observer.complete();
+            }), 4000);
+        }));
+    };
+    /**
+     * @param {?} data
+     * @return {?}
+     */
+    ShowformComponent.prototype.getError = /**
+     * @param {?} data
+     * @return {?}
+     */
+    function (data) {
+        console.log('getError', data);
+        return this.formGroup.get('email').hasError('required') ? 'Field is required' :
+            this.formGroup.get('email').hasError('pattern') ? 'Not a valid emailaddress' :
+                this.formGroup.get('email').hasError('alreadyInUse') ? 'This emailaddress is already in use' : '';
+    };
+    /**
+     * @return {?}
+     */
+    ShowformComponent.prototype.getErrorPassword = /**
+     * @return {?}
+     */
+    function () {
+        return this.formGroup.get('password').hasError('required') ? 'Field is required (at least eight characters, one uppercase letter and one number)' :
+            this.formGroup.get('password').hasError('requirements') ? 'Password needs to be at least eight characters, one uppercase letter and one number' : '';
+    };
+    /**
+     * @param {?} post
+     * @return {?}
+     */
+    ShowformComponent.prototype.onSubmit = /**
+     * @param {?} post
+     * @return {?}
+     */
+    function (post) {
+        var _this = this;
+        this.post = post;
+        for (var x in this.formGroup.controls) {
+            this.formGroup.controls[x].markAsTouched();
+            console.log(this.formGroup.controls[x].errors, x, 'err');
+        }
+        console.log(post, 'post', this.formGroup.valid, this.formdataval, this.formdataval.apiUrl);
+        if (this.formGroup.valid) {
+            this.loading = true;
+            /** @type {?} */
+            var link = this.formdataval.apiUrl + this.formdataval.endpoint;
+            /** @type {?} */
+            var source = {};
+            source['data'] = this.formGroup.value;
+            this._apiService.postSearch(link, this.formdataval.jwttoken, source).subscribe((/**
+             * @param {?} res
+             * @return {?}
+             */
+            function (res) {
+                /** @type {?} */
+                var result = {};
+                result = res;
+                if (result.status == 'success') {
+                    _this.formGroup.reset();
+                    _this._snackBar.openFromComponent(SnackbarComponent, {
+                        duration: 6000,
+                        data: { errormessage: _this.formdataval.successmessage }
+                    });
+                    console.log(result, 'red', _this.formdataval.redirectpath);
+                    if (_this.formdataval.redirectpath != null) {
+                        _this.router.navigate([_this.formdataval.redirectpath]);
+                    }
+                }
+                if (result.status == 'error') {
+                    _this._snackBar.openFromComponent(SnackbarComponent, {
+                        duration: 6000,
+                        data: result
+                    });
+                }
+            }), (/**
+             * @param {?} error
+             * @return {?}
+             */
+            function (error) {
+                //console.log('Oooops!');
+                _this._snackBar.openFromComponent(SnackbarComponent, {
+                    duration: 6000,
+                    data: { errormessage: 'Something Went Wrong ,Try Again!!' }
+                });
+                _this.loading = false;
+            }));
+        }
+    };
+    ShowformComponent.decorators = [
+        { type: Component, args: [{
+                    selector: 'lib-showform',
+                    template: "<!--<mat-toolbar color=\"primary\">\n  <span class=\"fill-remaining-space\">My Reactive Form with Material</span>\n</mat-toolbar>-->\n\n<section *ngIf=\"loading == true\"  class=\"example-section\">\n  <mat-progress-bar\n          class=\"example-margin\"\n          [color]=\"color\"\n          [mode]=\"mode\"\n          [value]=\"value\"\n          [bufferValue]=\"bufferValue\">\n  </mat-progress-bar>\n</section>\n<div class=\"container\" *ngIf=\"showform; else forminfo\" novalidate>\n  <form [formGroup]=\"formGroup\" (ngSubmit)=\"onSubmit(formGroup.value)\" class=\"form\">\n\n      <ng-container  *ngIf=\"formdataval.fields!=null && formdataval.fields.length>0\">\n        <ng-container *ngFor=\"let fields of formdataval.fields\">\n          <mat-card class=\"form_header_{{fields.name}}\" *ngIf=\"fields.heading!=null && formGroup.controls[fields.name]!=null \"></mat-card>\n          <mat-form-field *ngIf=\"formGroup.controls[fields.name]!=null && (fields.type=='select'  )\" class=\"form-element form_field_{{fields.name}}\">\n            <!-- for select-->\n             <!-- <div>ff</div> -->\n              <mat-label> Select {{fields.label}}  </mat-label>\n              <mat-select [formControlName]=\"fields.name\">\n                <mat-option *ngFor=\"let data of fields.val\"  [value]=\"data.val\"> {{data.name}}</mat-option>\n              </mat-select>\n            <span *ngIf=\"fields.prefix!=null\" matPrefix> {{fields.prefix}} &nbsp;</span>\n            <span *ngIf=\"fields.suffix!=null\" matSuffix>{{fields.suffix}}</span>\n\n            <ng-container *ngIf=\"!formGroup.controls[fields.name].valid && formGroup.controls[fields.name].touched\">\n\n              <mat-error >\n                <ng-container *ngFor=\"let valdidations of fields.validations\">\n                  <span *ngIf=\"formGroup.controls[fields.name].errors[valdidations.rule.toLowerCase()]\">{{valdidations.message}}</span>\n                </ng-container>\n              </mat-error>\n            </ng-container>\n\n            <ng-container *ngIf=\"  fields.hint!=null && formGroup.controls[fields.name]!=null  \">\n              <mat-hint  align=\"start\" >{{fields.hint}}</mat-hint>\n            </ng-container>\n\n\n    </mat-form-field>\n          <div *ngIf=\"formGroup.controls[fields.name]!=null && (fields.type=='checkbox' )\" class=\"form-element form_field_{{fields.name}}\">\n         <!-- <input   (blur)=\"inputblur(fields.name)\" [type]=\"fields.type\"  [formControlName]=\"fields.name\">-->\n            <mat-checkbox class=\"example-margin\" (blur)=\"inputblur(fields.name)\"   [formControlName]=\"fields.name\">{{fields.label}}</mat-checkbox>\n            <span *ngIf=\"fields.prefix!=null\" matPrefix> {{fields.prefix}} &nbsp;</span>\n            <span *ngIf=\"fields.suffix!=null\" matSuffix>{{fields.suffix}}</span>\n\n            <ng-container *ngIf=\"!formGroup.controls[fields.name].valid && formGroup.controls[fields.name].touched\">\n\n              <mat-error >\n                <ng-container *ngFor=\"let valdidations of fields.validations\">\n                  <span *ngIf=\"formGroup.controls[fields.name].errors[valdidations.rule.toLowerCase()]\">{{valdidations.message}}</span>\n                </ng-container>\n              </mat-error>\n            </ng-container>\n\n            <ng-container *ngIf=\"  fields.hint!=null && formGroup.controls[fields.name]!=null  \">\n              <mat-hint  align=\"start\" >{{fields.hint}}</mat-hint>\n            </ng-container>\n\n\n    </div>\n          <mat-form-field *ngIf=\"formGroup.controls[fields.name]!=null && (fields.type=='email' || fields.type=='number' || fields.type=='text' || fields.type=='password')\" class=\"form-element form_field_{{fields.name}}\">\n            <mat-label  [innerHTML]=\"fields.label\"></mat-label>\n          <input matInput  (blur)=\"inputblur(fields.name)\" [type]=\"fields.type\" [placeholder]=\"fields.label\" [formControlName]=\"fields.name\">\n            <span *ngIf=\"fields.prefix!=null\" matPrefix> {{fields.prefix}} &nbsp;</span>\n            <span *ngIf=\"fields.suffix!=null\" matSuffix>{{fields.suffix}}</span>\n\n            <ng-container *ngIf=\"!formGroup.controls[fields.name].valid && formGroup.controls[fields.name].touched\">\n\n              <mat-error >\n                <ng-container *ngFor=\"let valdidations of fields.validations\">\n                  <span *ngIf=\"formGroup.controls[fields.name].errors[valdidations.rule.toLowerCase()]\">{{valdidations.message}}</span>\n                </ng-container>\n              </mat-error>\n            </ng-container>\n\n            <ng-container *ngIf=\"  fields.hint!=null && formGroup.controls[fields.name]!=null  \">\n              <mat-hint  align=\"start\" >{{fields.hint}}</mat-hint>\n            </ng-container>\n\n\n    </mat-form-field>\n\n          <div *ngIf=\"formGroup.controls[fields.name]!=null && (fields.type=='hidden' )\" class=\"form-element form_field_{{fields.name}}\">\n            <input  (blur)=\"inputblur(fields.name)\" type=\"{{fields.type}}\" placeholder=\"{{fields.label}}\" formControlName=\"{{fields.name}}\">\n            <mat-error *ngIf=\"!formGroup.controls[fields.name].valid && formGroup.controls[fields.name].touched\">\n              <ng-container *ngFor=\"let valdidations of fields.validations\">\n                <span *ngIf=\"formGroup.controls[fields.name].errors[valdidations.rule.toLowerCase()]\">{{valdidations.message}}</span>\n              </ng-container>\n            </mat-error>\n          </div>\n\n\n        </ng-container>\n      </ng-container>\n\n    <!--<mat-form-field class=\"form-element\">\n      <input matInput placeholder=\"Emailaddress\" formControlName=\"email\">\n      <mat-error *ngIf=\"!formGroup.controls['email'].valid && formGroup.controls['email'].touched\">\n        {{ getErrorEmail() }}\n      </mat-error>\n    </mat-form-field>\n\n    <mat-form-field class=\"form-element\">\n      <input matInput placeholder=\"Name\" formControlName=\"name\">\n      <mat-error *ngIf=\"!name.valid && name.touched\">\n        {{ titleAlert }}\n      </mat-error>\n    </mat-form-field>\n\n    <mat-form-field class=\"form-element\">\n      <textarea matInput placeholder=\"Description\" matTextareaAutosize matAutosizeMinRows=\"2\" matAutosizeMaxRows=\"5\" formControlName=\"description\"></textarea>\n      <mat-error *ngIf=\"!formGroup.controls['description'].valid && formGroup.controls['description'].touched\">\n        Required field, must be between 5 and 10 characters.\n      </mat-error>\n    </mat-form-field>\n\n    <mat-form-field class=\"form-element\">\n      <input matInput placeholder=\"Password\" formControlName=\"password\">\n      <mat-hint>Choose a password of at least eight characters, one uppercase letter and one number</mat-hint>\n      <mat-error *ngIf=\"!formGroup.controls['password'].valid && formGroup.controls['password'].touched\">\n        {{ getErrorPassword() }}\n      </mat-error>\n    </mat-form-field>\n\n    <div class=\"form-element\">\n      <mat-checkbox formControlName=\"validate\" value=\"1\">Name min. 3 characters</mat-checkbox>\n    </div>-->\n\n    <div class=\"form-element\">\n      <button mat-raised-button color=\"primary\" type=\"submit\" class=\"button\" [disabled]=\"!formdataval.submitactive\">Submit Form</button>\n    </div>\n\n  </form>\n</div>\n\n<ng-template #forminfo>\n  <div class=\"container\">\n    {{ post | json }}\n  </div>\n</ng-template>\n",
+                    styles: [""]
+                }] }
+    ];
+    /** @nocollapse */
+    ShowformComponent.ctorParameters = function () { return [
+        { type: FormBuilder },
+        { type: ApiService },
+        { type: MatSnackBar },
+        { type: Router }
+    ]; };
+    ShowformComponent.propDecorators = {
+        formdata: [{ type: Input }],
+        formfieldrefreshdata: [{ type: Input }],
+        formfieldrefresh: [{ type: Input }]
+    };
+    return ShowformComponent;
+}());
+
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ */
 var DemoMaterialModule = /** @class */ (function () {
     function DemoMaterialModule() {
     }
@@ -3261,17 +3648,17 @@ var ListingModule = /** @class */ (function () {
     }
     ListingModule.decorators = [
         { type: NgModule, args: [{
-                    declarations: [ListingComponent, Confirmdialog, BottomSheet, YoutubeplayerComponent, VideoPlayer, ImageView, SnackbarComponent],
+                    declarations: [ListingComponent, Confirmdialog, BottomSheet, YoutubeplayerComponent, VideoPlayer, ImageView, SnackbarComponent, ShowformComponent],
                     imports: [
                         CommonModule,
                         BrowserModule, BrowserAnimationsModule,
                         DemoMaterialModule,
                         FormsModule, ReactiveFormsModule,
                         RouterModule,
-                        MomentModule
+                        MomentModule,
                     ],
                     schemas: [CUSTOM_ELEMENTS_SCHEMA],
-                    exports: [ListingComponent,
+                    exports: [ListingComponent, ShowformComponent
                     ],
                     providers: [ApiService],
                     entryComponents: [Confirmdialog, BottomSheet, VideoPlayer, ImageView, SnackbarComponent],
@@ -3290,6 +3677,6 @@ var ListingModule = /** @class */ (function () {
  * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 
-export { ListingService, ListingComponent, Confirmdialog, BottomSheet, VideoPlayer, ImageView, SnackbarComponent, ListingModule, ApiService as ɵa, DemoMaterialModule as ɵc, YoutubeplayerComponent as ɵb };
+export { ListingService, ListingComponent, Confirmdialog, BottomSheet, VideoPlayer, ImageView, SnackbarComponent, ShowformComponent, ListingModule, ApiService as ɵa, DemoMaterialModule as ɵc, YoutubeplayerComponent as ɵb };
 
 //# sourceMappingURL=listing-angular7.js.map
