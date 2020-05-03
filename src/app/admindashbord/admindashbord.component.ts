@@ -300,13 +300,43 @@ export class AdmindashbordComponent implements OnInit {
                 suffix:"PM"
             },
             {
+                label:"Description",
+                name:"desc",
+                type:'textarea',
+                value:"This test !!",
+                hint:"Desc .... ",
+                validations:[
+                    {rule:'required',message:"Email field Needs to be required"},
+                    ]
+            },
+            {
                 label:"Email",
                 name:"email",
                 type:'email',
                 hint:"abc@gmail.com",
                 validations:[
                     {rule:'required',message:"Email field Needs to be required"},
-                    {rule:'pattern',value: this.emailregex,message: "Must be a valid Email"}]
+                    {rule:'pattern',value: this.emailregex,message: "Must be a valid Email"}
+                    ]
+            },
+            {
+                label:"DOB",
+                name:"dob",
+                type:'date',
+                value:new Date().toISOString(),
+                hint:"05/05/2020",
+                validations:[
+                    {rule:'required',message:"Email field Needs to be required"}
+                    ]
+            },{
+                label:"DOJ",
+                name:"doj",
+                type:'date',
+                value:new Date(2018, 11, 24, 10, 33, 30, 0).toISOString(),
+                hint:"05/05/2020",
+                validations:[
+                    {rule:'required',message:"Email field Needs to be required"}
+                    ]
             },
             {
                 label:"Password",

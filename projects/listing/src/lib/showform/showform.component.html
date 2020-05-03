@@ -132,7 +132,8 @@
                 </div>
                 <mat-form-field *ngIf="formGroup.controls[fields.name]!=null && (fields.type=='email' || fields.type=='number' || fields.type=='text' || fields.type=='password')" class="form-element form_field_{{fields.name}}">
                     <mat-label  [innerHTML]="fields.label"></mat-label>
-                    <input matInput  (blur)="inputblur(fields.name)" [type]="fields.type" [placeholder]="fields.label" [formControlName]="fields.name">
+                    <input  matInput  (blur)="inputblur(fields.name)" [type]="fields.type" [placeholder]="fields.label" [formControlName]="fields.name">
+                  
                     <span *ngIf="fields.prefix!=null" matPrefix> {{fields.prefix}} &nbsp;</span>
                     <span *ngIf="fields.suffix!=null" matSuffix>{{fields.suffix}}</span>
 
@@ -151,6 +152,70 @@
 
 
                 </mat-form-field>
+
+                 <mat-form-field *ngIf="formGroup.controls[fields.name]!=null && fields.type=='textarea' " class="form-element form_field_{{fields.name}}">
+                    <mat-label  [innerHTML]="fields.label"></mat-label>
+                    <textarea matInput 
+     placeholder="Comment" 
+     [formControlName]="fields.name" 
+     (change)="inputblur(fields.name)">
+  </textarea>
+                    <span *ngIf="fields.prefix!=null" matPrefix> {{fields.prefix}} &nbsp;</span>
+                    <span *ngIf="fields.suffix!=null" matSuffix>{{fields.suffix}}</span>
+
+                    <ng-container *ngIf="!formGroup.controls[fields.name].valid && formGroup.controls[fields.name].touched">
+
+                        <mat-error >
+                            <ng-container *ngFor="let valdidations of fields.validations">
+                                <span *ngIf="formGroup.controls[fields.name].errors[valdidations.rule.toLowerCase()]">{{valdidations.message}}</span>
+                            </ng-container>
+                        </mat-error>
+                    </ng-container>
+
+                    <ng-container *ngIf="  fields.hint!=null && formGroup.controls[fields.name]!=null  ">
+                        <mat-hint  align="start" >{{fields.hint}}</mat-hint>
+                    </ng-container>
+
+
+                </mat-form-field>
+
+
+                 <mat-form-field *ngIf="formGroup.controls[fields.name]!=null && fields.type=='date' " class="form-element form_field_{{fields.name}}">
+                    <mat-label  [innerHTML]="fields.label"></mat-label>
+
+                    <input matInput [matDatepicker]="picker1" [formControlName]="fields.name">
+  <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+  <mat-datepicker #picker1></mat-datepicker>
+                    <!-- <textarea matInput 
+     placeholder="Comment" 
+     [formControlName]="fields.name" 
+     (change)="inputblur(fields.name)">
+  </textarea> -->
+                    <span *ngIf="fields.prefix!=null" matPrefix> {{fields.prefix}} &nbsp;</span>
+                    <span *ngIf="fields.suffix!=null" matSuffix>{{fields.suffix}}</span>
+
+                    <ng-container *ngIf="!formGroup.controls[fields.name].valid && formGroup.controls[fields.name].touched">
+
+                        <mat-error >
+                            <ng-container *ngFor="let valdidations of fields.validations">
+                                <span *ngIf="formGroup.controls[fields.name].errors[valdidations.rule.toLowerCase()]">{{valdidations.message}}</span>
+                            </ng-container>
+                        </mat-error>
+                    </ng-container>
+
+                    <ng-container *ngIf="  fields.hint!=null && formGroup.controls[fields.name]!=null  ">
+                        <mat-hint  align="start" >{{fields.hint}}</mat-hint>
+                    </ng-container>
+
+
+                </mat-form-field>
+
+
+
+
+
+
+
 
                 <div *ngIf="formGroup.controls[fields.name]!=null && (fields.type=='hidden' )" class="form-element form_field_{{fields.name}}">
                     <input  (blur)="inputblur(fields.name)" type="{{fields.type}}" placeholder="{{fields.label}}" formControlName="{{fields.name}}">
