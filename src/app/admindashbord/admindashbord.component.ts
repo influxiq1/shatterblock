@@ -286,7 +286,7 @@ export class AdmindashbordComponent implements OnInit {
         jwttoken:this._apiService.jwttoken,
         fields:[
             {
-                heading:"This is Name Header",
+                heading:"This is Name Header <h1> Fill the form Up !! </h1>",
                 label:"Name",
                 name:"fullname",
                 value:'Test',
@@ -345,6 +345,7 @@ export class AdmindashbordComponent implements OnInit {
                 hint:',0000',
                 type:'select',
                 val: this.status,
+                value:1,
                 //value: '',
                 validations:[
                     {rule:'required'}
@@ -353,11 +354,23 @@ export class AdmindashbordComponent implements OnInit {
                 suffix:"PM"
             } ,
             {
+                label:"Married ",
+                name:"married",
+                hint:'Yes/No',
+                type:'radio',
+                val: [{key:0,val:'Yes'},{key:1,val:'No'},{key:3,val:'Separated'},{key:4,val:'Window'}],
+                //value: '',
+                validations:[
+                    {rule:'required'}
+                    ]
+            } ,
+            {
                 label:"Active",
                 name:"active",
                 hint:'check ???',
                 type:'checkbox',
-                val: null,
+                val: true,
+                labelPosition:'after',
                 //value: '',
                 validations:[
                     {rule:'required'}

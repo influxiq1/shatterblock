@@ -137,7 +137,7 @@ export class ShowformComponent implements OnInit {
       this.showform=true;
       if(this.formdataval.submitactive==null)
         this.formdataval.submitactive=true;
-    }, 100);
+    }, 300);
 
   }
 
