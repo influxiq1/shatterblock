@@ -21,7 +21,7 @@
                     <!-- for select-->
                     <!-- <div>ff</div> -->
                     <mat-label> Select {{fields.label}}  </mat-label>
-                    <mat-select [formControlName]="fields.name">
+                    <mat-select [formControlName]="fields.name" [multiple]="fields.multiple?true:false">
                         <mat-option *ngFor="let data of fields.val"  [value]="data.val"> {{data.name}}</mat-option>
                     </mat-select>
                     <span *ngIf="fields.prefix!=null" matPrefix> {{fields.prefix}} &nbsp;</span>

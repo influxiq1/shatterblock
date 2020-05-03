@@ -354,6 +354,29 @@ export class AdmindashbordComponent implements OnInit {
                 suffix:"PM"
             } ,
             {
+                label:"Year",
+                name:"year",
+                hint:',0000',
+                type:'select',
+                val: [
+                {val:2020,name:2020},
+                {val:2021,name:2021},
+                {val:2022,name:2022},
+                {val:2023,name:2023},
+                {val:2024,name:2024},
+                {val:2025,name:2025}
+
+                ],
+                value:[2021,2022],
+                multiple:true,
+                //value: '',
+                validations:[
+                    {rule:'required'}
+                    ],
+                prefix:"http://google.com/",
+                suffix:"PM"
+            } ,
+            {
                 label:"Married ",
                 name:"married",
                 hint:'Yes/No',
