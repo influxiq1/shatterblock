@@ -22,6 +22,7 @@ export class ShowformComponent implements OnInit {
   formfieldrefreshval:boolean=false;
   formdataval: any = {};
   formfieldrefreshdataval: any = {};
+  filerfielddata:any=[];
 
   /*for progress bar*/
 
@@ -78,6 +79,21 @@ export class ShowformComponent implements OnInit {
   inputblur(val: any) {
     //console.log('on blur .....');
     this.formGroup.controls[val].markAsUntouched();
+  }
+
+  filterautocomplete(val:any,data:any){
+    console.log('cc',this.formGroup.controls[val].value,data.val);
+    let fieldval=this.formGroup.controls[val].value;
+    if(fieldval=='' || fieldval==null){
+      this.filerfielddata=data.val;
+    }else{
+    let filterval = data.val.filter(function (e) {
+      console.log('e',e,fieldval)
+    return e.val.includes(fieldval);
+});
+    this.filerfielddata=filterval;
+    console.log('fil',filterval);
+  }
   }
 
 

@@ -18,6 +18,7 @@ export declare class ShowformComponent implements OnInit {
     formfieldrefreshval: boolean;
     formdataval: any;
     formfieldrefreshdataval: any;
+    filerfielddata: any;
     color: ThemePalette;
     mode: any;
     value: number;
@@ -31,6 +32,7 @@ export declare class ShowformComponent implements OnInit {
         [propKey: string]: SimpleChange;
     }): void;
     inputblur(val: any): void;
+    filterautocomplete(val: any, data: any): void;
     createForm(): void;
     setChangeValidate(): void;
     readonly name: FormControl;

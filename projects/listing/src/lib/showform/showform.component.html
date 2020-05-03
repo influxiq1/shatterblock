@@ -209,6 +209,44 @@
 
 
                 </mat-form-field>
+<mat-form-field *ngIf="formGroup.controls[fields.name]!=null && fields.type=='autocomplete' " class="form-element form_field_{{fields.name}}">
+                    <mat-label  [innerHTML]="fields.label"></mat-label> 
+                    <!-- {{fields.val.length}}
+ -->
+                    <input matInput (blur)="inputblur(fields.name)" (keyup)=filterautocomplete(fields.name,fields)  [formControlName]="fields.name" placeholder="{{fields.label}}"
+           [matAutocomplete]="auto">
+
+    <mat-autocomplete #auto="matAutocomplete">
+      <mat-option *ngFor="let vals of filerfielddata " [value]="vals.key">
+        <!-- <img class="example-option-img" aria-hidden [src]="state.flag" height="25"> -->
+        <span>{{vals.val}}</span>
+        <!-- <small>Population: {{state.population}}</small> -->
+      </mat-option>
+    </mat-autocomplete>
+  
+                    <!-- <textarea matInput 
+     placeholder="Comment" 
+     [formControlName]="fields.name" 
+     (change)="inputblur(fields.name)">
+  </textarea> -->
+                    <span *ngIf="fields.prefix!=null" matPrefix> {{fields.prefix}} &nbsp;</span>
+                    <span *ngIf="fields.suffix!=null" matSuffix>{{fields.suffix}}</span>
+
+                    <ng-container *ngIf="!formGroup.controls[fields.name].valid && formGroup.controls[fields.name].touched">
+
+                        <mat-error >
+                            <ng-container *ngFor="let valdidations of fields.validations">
+                                <span *ngIf="formGroup.controls[fields.name].errors[valdidations.rule.toLowerCase()]">{{valdidations.message}}</span>
+                            </ng-container>
+                        </mat-error>
+                    </ng-container>
+
+                    <ng-container *ngIf="  fields.hint!=null && formGroup.controls[fields.name]!=null  ">
+                        <mat-hint  align="start" >{{fields.hint}}</mat-hint>
+                    </ng-container>
+
+
+                </mat-form-field>
 
 
 

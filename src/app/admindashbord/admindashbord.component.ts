@@ -430,6 +430,18 @@ export class AdmindashbordComponent implements OnInit {
                     ]
             } ,
             {
+                label:"Last Visit Auto",
+                name:"lastvisita",
+                hint:'In months',
+                type:'autocomplete',
+                //multiple:true,
+                val: [{key:0,val:'Less than 1'},{key:1,val:'less than 3'},{key:2,val:'less than 6'},{key:3,val:'less than 12'}],
+                //value: [3,0],
+                validations:[
+                    {rule:'required'}
+                    ]
+            } ,
+            {
                 label:"Active",
                 name:"active",
                 hint:'check ???',
