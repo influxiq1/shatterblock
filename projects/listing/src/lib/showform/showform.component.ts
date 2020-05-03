@@ -1,5 +1,5 @@
 import {Component, OnInit, ViewChild, Input, Inject, SimpleChange} from '@angular/core';
-import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, FormControl, Validators,FormArray } from '@angular/forms';
 import { Observable }    from 'rxjs/Observable';
 import { ApiService } from '../api.service';
 import {Confirmdialog, SnackbarComponent} from "../listing.component";
@@ -97,9 +97,26 @@ export class ShowformComponent implements OnInit {
       let temcontrolarr:any=[];
       let temvalidationrule:any=[];
       if(this.formdataval.fields[n].value!=null)
-      temcontrolarr.push(this.formdataval.fields[n].value)
+      temcontrolarr.push(this.formdataval.fields[n].value);
       else
         temcontrolarr.push('');
+      if(this.formdataval.fields[n].type=='checkbox' && this.formdataval.fields[n].multiple!=null && this.formdataval.fields[n].multiple==true){
+        if(this.formdataval.fields[n].value==null)  temcontrolarr.push([]);
+        else{
+          if(this.formdataval.fields[n].val!=null){
+            let tcharr:any=[];
+            for(let b in this.formdataval.fields[n].val){
+              console.log('b',b,this.formdataval.fields[n].val[b]);
+              if(this.formdataval.fields[n].value.includes(this.formdataval.fields[n].val[b].key)){
+                tcharr.push(true);
+              }else tcharr.push(false);
+            }
+            // push the val
+            temcontrolarr.push(tcharr);
+            console.log('tch',tcharr);
+          }
+        }
+      }
 
       if(this.formdataval.fields[n].validations!=null && this.formdataval.fields[n].validations.length>0){
         for(let v in this.formdataval.fields[n].validations ){
@@ -125,8 +142,40 @@ export class ShowformComponent implements OnInit {
         }
       }
 
-     // demoArray[this.formdataval.fields[n].name]=new FormControl('');
-      this.formGroup.addControl(this.formdataval.fields[n].name,new FormControl(temcontrolarr[0],temvalidationrule));
+      // demoArray[this.formdataval.fields[n].name]=new FormControl('');
+      if(this.formdataval.fields[n].type=='checkbox' && this.formdataval.fields[n].multiple != null && this.formdataval.fields[n].multiple == true ) {
+        let tchvar:any=false;
+        //let
+        console.log('vv ??? ',this.formdataval.fields[n].value,this.formdataval.fields[n].name,this.formdataval.fields[n].multiple);
+        //this.formGroup.addControl(this.formdataval.fields[n].name, new FormArray([]));
+        for(let j in this.formdataval.fields[n].val){
+          if(this.formdataval.fields[n].value.includes(this.formdataval.fields[n].val[j].key))
+            tchvar=true;
+          else tchvar=false;
+          console.log('n',n,j,tchvar);
+          this.formGroup.addControl(this.formdataval.fields[n].name+'__'+j, new FormControl(tchvar, temvalidationrule));
+           /*const control = new FormControl(tchvar); // if first item set to true, else false
+      (this.formGroup.controls[this.formdataval.fields[n].name] as FormArray).push(control);*/
+          //this.formGroup.addControl(this.formdataval.fields[n].name,this.formBuilder.array([
+      //this.formBuilder.control(tchvar)
+    //]));
+        }
+
+        /*this.formGroup.addControl(this.formdataval.fields[n].name,this.formBuilder.array([
+      this.formBuilder.control(false),
+      this.formBuilder.control(true),
+      this.formBuilder.control(true),
+      this.formBuilder.control(false),
+    ]));*/
+    //this.formGroup.addControl(this.formdataval.fields[n].name, new FormControl(temcontrolarr[0], temvalidationrule));
+
+
+      }
+      else {
+        
+
+      this.formGroup.addControl(this.formdataval.fields[n].name, new FormControl(temcontrolarr[0], temvalidationrule));
+      }
       //'newControl', new FormControl('', Validators.required)
     }
     //=this.checkPasswords(this.formGroup);
@@ -137,7 +186,8 @@ export class ShowformComponent implements OnInit {
       this.showform=true;
       if(this.formdataval.submitactive==null)
         this.formdataval.submitactive=true;
-    }, 300);
+      console.log('grp',this.formGroup.controls);
+    }, 10);
 
   }
 
@@ -206,13 +256,40 @@ export class ShowformComponent implements OnInit {
 
   onSubmit(post) {
     this.post = post;
+    let tempformval:any={};
     for (let x in this.formGroup.controls) {
       this.formGroup.controls[x].markAsTouched();
-      console.log(this.formGroup.controls[x].errors,x,'err');
+      //console.log(this.formGroup.controls[x].errors,x,'err');
+      //if(this.formGroup.controls[x].valid){
+        //console.log('x',x);
+        let b=x.split('__');
+        //console.log('b',b,b.length,b[0]);
+        for(let m in this.formdataval.fields){
+          if(b.length>1 && b[0]==this.formdataval.fields[m].name &&  this.formdataval.fields[m].name!=x && this.formdataval.fields[m].type=='checkbox' && this.formdataval.fields[m].multiple!=null){
+            console.log('aaaaff...');
+            if(this.formGroup.controls[x].value==true){
+              for(let k in this.formdataval.fields[m].val){
+                if(this.formdataval.fields[m].val[k]['key']==b[1]){
+                  if(tempformval[this.formdataval.fields[m].name]==null)
+                    tempformval[this.formdataval.fields[m].name]=[];
+                  tempformval[this.formdataval.fields[m].name].push(b[1]);
+                  console.log('gv',b[1]);
+                }
+              }
+            }
+          }
+          else{
+            if(x==this.formdataval.fields[m].name)
+        tempformval[x]=this.formGroup.controls[x].value;
+      }
+        }
+      
+      //}
     }
-    console.log(post,'post',this.formGroup.valid,this.formdataval,this.formdataval.apiUrl);
+    console.log(post,'post',this.formGroup.valid,this.formdataval,this.formdataval.apiUrl,'ffff',tempformval);
 
     if(this.formGroup.valid){
+
 
       this.loading=true;
       let link:any=this.formdataval.apiUrl +this.formdataval.endpoint;

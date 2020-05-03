@@ -1,13 +1,28 @@
 
 <!--<lib-myfrom [fields]="regConfig" (submit)="submit($event)"></lib-myfrom>-->
-<div style="background: white;color: black">
+<div style="background: white;color: black;height: auto">
     <input [(ngModel)]="temtdata" >
     <button (click)="updateformval()">Update Form and Table </button>
+
+ 
+
+
+
+    <!--form part of library-->
     <lib-showform *ngIf="formdata !=null"
                   [formdata]="formdata"
                   [formfieldrefresh]="formfieldrefresh"
                   [formfieldrefreshdata]="formfieldrefreshdata"
     > </lib-showform>
+
+
+
+
+
+
+
+
+
 </div>
 
 

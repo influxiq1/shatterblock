@@ -358,8 +358,20 @@ export class AdmindashbordComponent implements OnInit {
                 name:"married",
                 hint:'Yes/No',
                 type:'radio',
-                val: [{key:0,val:'Yes'},{key:1,val:'No'},{key:3,val:'Separated'},{key:4,val:'Window'}],
-                //value: '',
+                val: [{key:0,val:'Yes'},{key:1,val:'No'},{key:3,val:'Separated'},{key:4,val:'Widow'}],
+                value: 4,
+                validations:[
+                    {rule:'required'}
+                    ]
+            } ,
+            {
+                label:"Last Visit ",
+                name:"lastvisit",
+                hint:'In months',
+                type:'checkbox',
+                multiple:true,
+                val: [{key:0,val:'Less than 1'},{key:1,val:'less than 3'},{key:2,val:'less than 6'},{key:3,val:'less than 12'}],
+                value: [3,0],
                 validations:[
                     {rule:'required'}
                     ]
@@ -369,9 +381,8 @@ export class AdmindashbordComponent implements OnInit {
                 name:"active",
                 hint:'check ???',
                 type:'checkbox',
-                val: true,
                 labelPosition:'after',
-                //value: '',
+                value: true,
                 validations:[
                     {rule:'required'}
                     ],
@@ -392,6 +403,7 @@ export class AdmindashbordComponent implements OnInit {
             }
         ]
     };
+    
 
 
     constructor(public router: Router, private route: ActivatedRoute, private _apiService: ApiService) {

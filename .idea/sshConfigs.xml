@@ -36,6 +36,10 @@
       <sshConfig authType="PASSWORD" host="192.169.196.208" id="c9438640-0cb8-4f0a-b4ec-b2cdfc617f35" port="22" customName="shatterblock_server" nameFormat="CUSTOM" />
       <sshConfig authType="PASSWORD" host="192.169.196.208" id="9b52ebdb-eb00-4211-bf72-c2282fa61e1d" port="22" customName="shatterblock_server" nameFormat="CUSTOM" />
       <sshConfig authType="PASSWORD" host="192.169.196.208" id="78223e45-9e5b-4f5d-86c3-e1da81d85df1" port="22" customName="shatterblock_server" nameFormat="CUSTOM" />
+      <sshConfig authType="PASSWORD" host="192.169.196.208" id="ecd89f3c-84d1-48fd-8de4-20f49b11ad29" port="22" customName="shatterblock_server" nameFormat="CUSTOM" />
+      <sshConfig authType="PASSWORD" host="192.169.196.208" id="919f31c3-2008-45ea-9391-156c80d48ed2" port="22" customName="shatterblock_server" nameFormat="CUSTOM" />
+      <sshConfig authType="PASSWORD" host="192.169.196.208" id="d2d12a31-1dfc-47ab-a42c-19b547f23e91" port="22" customName="shatterblock_server" nameFormat="CUSTOM" />
+      <sshConfig authType="PASSWORD" host="192.169.196.208" id="4625851a-5802-4f7f-8f58-42a418a98c61" port="22" customName="shatterblock_server" nameFormat="CUSTOM" />
     </configs>
   </component>
 </project>
