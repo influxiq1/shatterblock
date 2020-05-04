@@ -310,6 +310,16 @@ export class AdmindashbordComponent implements OnInit {
                     ]
             },
             {
+                label:"Html Description",
+                name:"htmldesc",
+                type:'editor',
+                value:"This test html <b>ff</b> !!",
+                hint:"Desc .... ",
+                validations:[
+                    {rule:'required',message:"Html Desc field Needs to be required"},
+                    ]
+            },
+            {
                 label:"Email",
                 name:"email",
                 type:'email',
@@ -428,14 +438,32 @@ export class AdmindashbordComponent implements OnInit {
                 validations:[
                     {rule:'required'}
                     ]
-            } ,
+            } , 
+            // {
+            //     label:"Last Visit Auto",
+            //     name:"lastvisita",
+            //     hint:'In months',
+            //     type:'autocomplete',
+            //     //multiple:true,
+            //     val: [{key:0,val:'Less than 1'},{key:1,val:'less than 3'},{key:2,val:'less than 6'},{key:3,val:'less than 12'}],
+            //     //value: [3,0],
+            //     validations:[
+            //         {rule:'required'}
+            //         ]
+            // } ,
             {
-                label:"Last Visit Auto",
-                name:"lastvisita",
-                hint:'In months',
+                label:"Last Visit Auto multiple",
+                name:"lastvisitamultiple",
+                hint:'In months multiple ',
                 type:'autocomplete',
-                //multiple:true,
-                val: [{key:0,val:'Less than 1'},{key:1,val:'less than 3'},{key:2,val:'less than 6'},{key:3,val:'less than 12'}],
+                multiple:true,
+                val: [{key:0,val:'Less than 51'},
+                {key:1,val:'less than 63'},
+                {key:2,val:'less than 36'},
+                {key:3,val:'less than 12'},
+                {key:4,val:'less than 82'},
+                {key:5,val:'less than 46'},
+            ],
                 //value: [3,0],
                 validations:[
                     {rule:'required'}

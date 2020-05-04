@@ -213,11 +213,38 @@
                     <mat-label  [innerHTML]="fields.label"></mat-label> 
                     <!-- {{fields.val.length}}
  -->
+                
+ <mat-chip-list *ngIf="autocompletefiledvalue[fields.name] !=null && fields.multiple==null" aria-label="{{fields.name}} data">
+     <ng-container *ngFor="let vals of fields.val ">
+     <ng-container *ngIf="vals.key==autocompletefiledvalue[fields.name]">
+        <mat-chip  [removable]=true  >{{vals.val}}
+            <mat-icon matChipRemove (click)="removechipsingle(fields)">cancel</mat-icon>
+        </mat-chip>
+         </ng-container>
+
+     </ng-container>
+    
+  </mat-chip-list>
+
+
+  <mat-chip-list *ngIf="autocompletefiledvalue[fields.name] !=null && fields.multiple!=null" aria-label="{{fields.name}} data">
+    <ng-container *ngFor="let vals of fields.val ">
+    <ng-container  *ngFor="let avals of autocompletefiledvalue[fields.name] ; let ib=index ">
+    <ng-container *ngIf="vals.key==avals">
+       <mat-chip  [removable]=true  >{{vals.val}}
+           <mat-icon matChipRemove (click)="removechipmultiple(fields,ib)">cancel</mat-icon>
+       </mat-chip>
+       </ng-container>
+        </ng-container>
+
+    </ng-container>
+   
+ </mat-chip-list>
                     <input matInput (blur)="inputblur(fields.name)" (keyup)=filterautocomplete(fields.name,fields)  [formControlName]="fields.name" placeholder="{{fields.label}}"
            [matAutocomplete]="auto">
 
     <mat-autocomplete #auto="matAutocomplete">
-      <mat-option *ngFor="let vals of filerfielddata " [value]="vals.key">
+      <mat-option *ngFor="let vals of filerfielddata " [value]="vals.key" (click)="setautocompletevalue(vals,fields)">
         <!-- <img class="example-option-img" aria-hidden [src]="state.flag" height="25"> -->
         <span>{{vals.val}}</span>
         <!-- <small>Population: {{state.population}}</small> -->
@@ -248,9 +275,49 @@
 
                 </mat-form-field>
 
+<!-- [config]="{uiColor: '#99000'}" 
+
+[readonly]="false"
+                (change)="onChange($event)"
+                (editorChange)="onEditorChange($event)" 
+                (ready)="onReady($event)"
+                (focus)="onFocus($event)"
+                (blur)="onBlur($event)"
+                (contentDom)="onContentDom($event)"
+                (fileUploadRequest)="onFileUploadRequest($event)"
+                (fileUploadResponse)="onFileUploadResponse($event)"
+                (paste)="onPaste($event)"
+                (drop)="onDrop($event)"
+                debounce="500"
+
+                 [ngModelOptions]="{standalone: true}
+
+
+                   <ckeditor
+                [(ngModel)]="ckeditorContent"
+                [ngModelOptions]="{standalone: true}"
+                
+                
+                >
+              </ckeditor>
+-->
 
 
 
+<div *ngIf="formGroup.controls[fields.name]!=null && (fields.type=='editor' )" class="form-element form_field_{{fields.name}}">
+    <!-- <input  (blur)="inputblur(fields.name)" type="{{fields.type}}" placeholder="{{fields.label}}" formControlName="{{fields.name}}"> -->
+    <ckeditor
+    [formControlName]="fields.name"
+    >
+  </ckeditor>
+    <mat-error *ngIf="!formGroup.controls[fields.name].valid && formGroup.controls[fields.name].touched">
+        <ng-container *ngFor="let valdidations of fields.validations">
+            <span *ngIf="formGroup.controls[fields.name].errors[valdidations.rule.toLowerCase()]">{{valdidations.message}}</span>
+        </ng-container>
+    </mat-error>
+</div>
+
+              
 
 
 

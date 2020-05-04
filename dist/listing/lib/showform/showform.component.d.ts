@@ -19,6 +19,7 @@ export declare class ShowformComponent implements OnInit {
     formdataval: any;
     formfieldrefreshdataval: any;
     filerfielddata: any;
+    autocompletefiledvalue: any;
     color: ThemePalette;
     mode: any;
     value: number;
@@ -34,6 +35,9 @@ export declare class ShowformComponent implements OnInit {
     inputblur(val: any): void;
     filterautocomplete(val: any, data: any): void;
     createForm(): void;
+    removechipsingle(val: any): void;
+    removechipmultiple(val: any, index: any): void;
+    setautocompletevalue(val: any, field: any): void;
     setChangeValidate(): void;
     readonly name: FormControl;
     checkPasswords(group: FormGroup): {
@@ -45,6 +49,9 @@ export declare class ShowformComponent implements OnInit {
     };
     checkPassword(control: any): {
         'requirements': boolean;
+    };
+    autorequired(group: any): {
+        autorequired: boolean;
     };
     checkInUseEmail(control: any): Observable<{}>;
     getError(data: any): "" | "Field is required" | "Not a valid emailaddress" | "This emailaddress is already in use";

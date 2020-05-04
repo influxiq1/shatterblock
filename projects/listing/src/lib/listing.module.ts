@@ -11,6 +11,7 @@ import {RouterModule} from "@angular/router";
 import {YoutubeplayerComponent} from './youtubeplayer/youtubeplayer.component';
 import {ShowformComponent} from "./showform/showform.component";
 //import { ShowformComponent } from './showform/showform.component';
+import { CKEditorModule } from 'ng2-ckeditor';
 
 
 @NgModule({
@@ -21,7 +22,7 @@ import {ShowformComponent} from "./showform/showform.component";
         DemoMaterialModule,
         FormsModule, ReactiveFormsModule,
         RouterModule,
-        MomentModule,
+        MomentModule,CKEditorModule
         
 
     ],

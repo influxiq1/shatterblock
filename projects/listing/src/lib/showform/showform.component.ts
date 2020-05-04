@@ -7,6 +7,7 @@ import {DomSanitizer} from "@angular/platform-browser";
 import {MAT_SNACK_BAR_DATA, MatSnackBar, MatSnackBarRef} from '@angular/material/snack-bar';
 import {ThemePalette} from "@angular/material/core";
 import {Router} from "@angular/router";
+
 //import {MatSnackBar} from "@angular/material/snack-bar";
 @Component({
   selector: 'lib-showform',
@@ -23,6 +24,7 @@ export class ShowformComponent implements OnInit {
   formdataval: any = {};
   formfieldrefreshdataval: any = {};
   filerfielddata:any=[];
+  autocompletefiledvalue:any=[];
 
   /*for progress bar*/
 
@@ -82,6 +84,7 @@ export class ShowformComponent implements OnInit {
   }
 
   filterautocomplete(val:any,data:any){
+    this.inputblur(val);
     console.log('cc',this.formGroup.controls[val].value,data.val);
     let fieldval=this.formGroup.controls[val].value;
     if(fieldval=='' || fieldval==null){
@@ -94,6 +97,7 @@ export class ShowformComponent implements OnInit {
     this.filerfielddata=filterval;
     console.log('fil',filterval);
   }
+  
   }
 
 
@@ -144,6 +148,9 @@ export class ShowformComponent implements OnInit {
           if(this.formdataval.fields[n].validations[v].rule=='match') {
               this.formGroup.setValidators(this.checkPasswords);
           }
+          if(this.formdataval.fields[n].validations[v].rule=='autorequired') {
+            this.formGroup.setValidators(this.autorequired);
+        }
           if(this.formdataval.fields[n].validations[v].rule=='pattern')
             temvalidationrule.push(Validators.pattern(this.formdataval.fields[n].validations[v].value));
           if(this.formdataval.fields[n].validations[v].rule=='maxLength')
@@ -206,6 +213,28 @@ export class ShowformComponent implements OnInit {
     }, 10);
 
   }
+  removechipsingle(val:any){
+    this.autocompletefiledvalue[val.name]=null;
+  }
+  removechipmultiple(val:any,index:any){
+    this.autocompletefiledvalue[val.name].splice(index,1);
+    if(this.autocompletefiledvalue[val.name].length==0)
+    this.autocompletefiledvalue[val.name]=null;
+  }
+  setautocompletevalue(val:any,field:any){
+    console.log('ff',val,field);
+    if(field.multiple==null){
+      this.autocompletefiledvalue[field.name]=val.key;
+    }else{
+      if(this.autocompletefiledvalue[field.name]==null)
+      this.autocompletefiledvalue[field.name]=[];
+      this.autocompletefiledvalue[field.name].push(val.key);
+
+    }
+    this.inputblur(field.name);
+    this.formGroup.controls[field.name].patchValue(null);
+    
+  }
 
   setChangeValidate() {
     this.formGroup.get('validate').valueChanges.subscribe(
@@ -245,6 +274,33 @@ export class ShowformComponent implements OnInit {
     let passwordCheck = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,})/;
     return (!passwordCheck.test(enteredPassword) && enteredPassword) ? { 'requirements': true } : null;
   }
+  autorequired(group: any) { // here we have the 'passwords' group
+
+  for(let b in group){
+    if(group[b].type=='autocomplete' && group[b].validations!=null && group[b].validations[0]!=null && group[b].validations[0].rule=='autorequired' && this.autocompletefiledvalue[group[b].name]==null){
+
+      this.formGroup.controls[group.name].setErrors({'autorequired':true});
+      return {autorequired:true};
+    }
+  }
+  // console.log('bgrrr',group,group.name);
+  // if(this.formGroup.controls[group.name] !=null && group.validations!=null && group.validations[0]!=null && group.validations[0].rule=='autorequired' && this.autocompletefiledvalue[group.name]==null){
+  
+  
+
+  // let pass = group.controls.password.value;
+  // let confirmPass = group.controls.confirmpassword.value;
+  // if(confirmPass==null || confirmPass==''){
+  //   group.controls.confirmpassword.setErrors({required:true});
+  //   return { required: true };
+  // }
+  // if(pass!=confirmPass){
+  //   group.controls.confirmpassword.setErrors({'match':true});
+  //   return {match:true};
+  // }
+
+  //return pass === confirmPass ? null : { notSame: true }
+}
 
   checkInUseEmail(control) {
     // mimic http database access
@@ -275,12 +331,26 @@ export class ShowformComponent implements OnInit {
     let tempformval:any={};
     for (let x in this.formGroup.controls) {
       this.formGroup.controls[x].markAsTouched();
-      //console.log(this.formGroup.controls[x].errors,x,'err');
+      console.log(this.formGroup.controls[x].errors,x,'err');
       //if(this.formGroup.controls[x].valid){
         //console.log('x',x);
         let b=x.split('__');
         //console.log('b',b,b.length,b[0]);
         for(let m in this.formdataval.fields){
+          if(this.formdataval.fields[m].type=='autocomplete'){
+            if(this.autocompletefiledvalue !=null && this.autocompletefiledvalue[this.formdataval.fields[m].name]!=null && this.formdataval.fields[m].validations!=null){
+              console.log('autoerror',this.formGroup.controls[this.formdataval.fields[m].name].errors);
+              this.formGroup.controls[this.formdataval.fields[m].name].setErrors({required:null});
+              console.log('autoerror after ',this.formGroup.controls[this.formdataval.fields[m].name].errors);
+            }else{
+              console.log('autoerror set',this.formGroup.controls[this.formdataval.fields[m].name].errors);
+              this.formGroup.controls[this.formdataval.fields[m].name].setErrors({required:true});
+              console.log('autoerror set after ',this.formGroup.controls[this.formdataval.fields[m].name].errors);
+
+            }
+            if(x==this.formdataval.fields[m].name && tempformval[x]==null) 
+            tempformval[x]=this.autocompletefiledvalue[this.formdataval.fields[m].name];
+          }
           if(b.length>1 && b[0]==this.formdataval.fields[m].name &&  this.formdataval.fields[m].name!=x && this.formdataval.fields[m].type=='checkbox' && this.formdataval.fields[m].multiple!=null){
             console.log('aaaaff...');
             if(this.formGroup.controls[x].value==true){
@@ -294,11 +364,12 @@ export class ShowformComponent implements OnInit {
               }
             }
           }
-          else{
-            if(x==this.formdataval.fields[m].name)
+         // else{
+        if(x==this.formdataval.fields[m].name && tempformval[x]==null)
         tempformval[x]=this.formGroup.controls[x].value;
-      }
+    //  }
         }
+        console.log(this.formGroup.controls[x].errors,x,'err22');
       
       //}
     }
