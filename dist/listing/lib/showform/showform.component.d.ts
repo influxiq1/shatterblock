@@ -33,6 +33,7 @@ export declare class ShowformComponent implements OnInit {
         [propKey: string]: SimpleChange;
     }): void;
     inputblur(val: any): void;
+    checkchange(field: any, index: any): void;
     filterautocomplete(val: any, data: any): void;
     createForm(): void;
     removechipsingle(val: any): void;

@@ -82,6 +82,48 @@ export class ShowformComponent implements OnInit {
     //console.log('on blur .....');
     this.formGroup.controls[val].markAsUntouched();
   }
+  checkchange(field:any,index:any){
+    console.log(field,'change',this.formGroup.controls[field.name].value);
+    if(field.dependent!=null){
+      if(field.dependent.condval==this.formGroup.controls[field.name].value){
+        let temvalidationrulet:any=[];
+
+        for(let v in  field.dependent.field.validations){
+          // setTimeout( ()=>{
+           if(field.dependent.field.validations[v].message==null)
+           field.dependent.field.validations[v].message="Not Valid !!"
+           if(field.dependent.field.validations[v].rule=='required')
+             temvalidationrulet.push(Validators.required);
+           if(field.dependent.field.validations[v].rule=='match') {
+               this.formGroup.setValidators(this.checkPasswords);
+           }
+           if(field.dependent.field.validations[v].rule=='autorequired') {
+             this.formGroup.setValidators(this.autorequired);
+         }
+           if(field.dependent.field.validations[v].rule=='pattern')
+           temvalidationrulet.push(Validators.pattern(field.dependent.field.validations[v].value));
+           if(field.dependent.field.validations[v].rule=='maxLength')
+           temvalidationrulet.push(Validators.maxLength(field.dependent.field.validations[v].value));
+           if(field.dependent.field.validations[v].rule=='min')
+           temvalidationrulet.push(Validators.min(field.dependent.field.validations[v].value));
+           if(field.dependent.field.validations[v].rule=='max')
+           temvalidationrulet.push(Validators.max(field.dependent.field.validations[v].value));
+           if(field.dependent.field.validations[v].rule=='minLength')
+           temvalidationrulet.push(Validators.minLength(field.dependent.field.validations[v].value));
+           //},0);
+         }
+
+        this.formGroup.addControl(field.dependent.field.name, new FormControl(field.dependent.field.value, temvalidationrulet));
+        this.formdataval.fields.splice(index+1,0,field.dependent.field);
+
+      }else{
+        this.formGroup.removeControl(field.dependent.field.name);
+        this.formdataval.fields.splice(index+1,1);
+        
+
+      }
+    }
+  }
 
   filterautocomplete(val:any,data:any){
     this.inputblur(val);

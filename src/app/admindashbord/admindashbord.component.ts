@@ -484,6 +484,67 @@ export class AdmindashbordComponent implements OnInit {
 
             } ,
             {
+                label:"Has Child?",
+                name:"child",
+                hint:'has child ???',
+                type:'checkbox',
+                labelPosition:'after',
+                value: null,
+                dependent:{
+
+                    condval:true,
+                    field:{
+                        label:"How many",
+                        name:"childcount",
+                        type:'number',
+                        hint:'1to 3',
+                        validations:[
+                            {rule:'required'},
+                            {rule:'min',value:1},
+                            {rule:'max',value:3,message: "Age can't be more than 50 "}
+                            ]
+                    }
+                },
+                validations:[
+                    {rule:'required'}
+                    ],
+                prefix:"http://google.com/",
+                suffix:"PM"
+
+            } ,
+            {
+                label:"Purchaseable ?",
+                name:"is_purchaseble",
+                //hint:'has child ???',
+                type:'checkbox',
+                labelPosition:'after',
+                value: null,
+                dependent:{
+
+                    condval:true,
+                    field:{
+                        label:" Product",
+                        name:"product",
+                        type:'select',
+                        val:[{ val: 1, 'name': 'P1' },
+                         { val: 0, 'name': 'P2' },
+                         { val: 2, 'name': 'P3' },
+                         { val: 3, 'name': 'P4' },
+                        ],
+                        hint:'choose product',
+                        validations:[
+                            {rule:'required'}
+                            ]
+                    }
+                },
+                validations:[
+                    {rule:'required'}
+                    ],
+                prefix:"http://google.com/",
+                suffix:"PM"
+
+            } ,
+            {
                 label:"City",
                 name:"city",
                 type:'text'

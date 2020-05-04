@@ -15,7 +15,7 @@
     <form [formGroup]="formGroup" (ngSubmit)="onSubmit(formGroup.value)" class="form">
 
         <ng-container  *ngIf="formdataval.fields!=null && formdataval.fields.length>0">
-            <ng-container *ngFor="let fields of formdataval.fields">
+            <ng-container *ngFor="let fields of formdataval.fields ; let ival=index;">
                 <mat-card class="form_header_{{fields.name}}" *ngIf="fields.heading!=null && formGroup.controls[fields.name]!=null " [innerHTML]="fields.heading"></mat-card>
                 <mat-form-field *ngIf="formGroup.controls[fields.name]!=null && (fields.type=='select'  )" class="form-element form_field_{{fields.name}}">
                     <!-- for select-->
@@ -45,7 +45,7 @@
                 <div *ngIf="formGroup.controls[fields.name]!=null && (fields.type=='checkbox' && fields.multiple==null )" class="form-element form_field_{{fields.name}}">
                     <!-- <input   (blur)="inputblur(fields.name)" [type]="fields.type"  [formControlName]="fields.name">-->
                     <mat-label *ngIf="fields.multiple !=null && fields.multiple"  [innerHTML]="fields.label"></mat-label>
-                    <mat-checkbox *ngIf="fields.multiple ==null && !fields.multiple" class=" example-margin" (blur)="inputblur(fields.name)"   [formControlName]="fields.name" [labelPosition]="fields.labelPosition"> {{fields.label}} </mat-checkbox>
+                    <mat-checkbox *ngIf="fields.multiple ==null && !fields.multiple" class=" example-margin" (blur)="inputblur(fields.name)" (change)="checkchange(fields,ival)"   [formControlName]="fields.name" [labelPosition]="fields.labelPosition"> {{fields.label}} </mat-checkbox>
 
                     <span *ngIf="fields.prefix!=null" matPrefix> {{fields.prefix}} &nbsp;</span>
                     <span *ngIf="fields.suffix!=null" matSuffix>{{fields.suffix}}</span>
