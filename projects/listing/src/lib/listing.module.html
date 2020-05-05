@@ -1,13 +1,7 @@
 <div class="container">
     <mat-card>
         <mat-toolbar-row class="searchbar">
-            <span class="inputfilter">
-                <!-- <mat-form-field class="searchdiv">
-
-      <input  class="filterForFilter" matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
-    </mat-form-field> -->
-            </span>
-            <span class="inputfilterForloop" *ngIf="search_settingsval !=null && search_settingsval.textsearch != null ">
+            <ng-container class="inputfilterForloop" *ngIf="search_settingsval !=null && search_settingsval.textsearch != null ">
                 <ng-container *ngFor="let item of search_settingsval.textsearch" >
                     <mat-form-field class="searchdiv pad-gap">
 
@@ -18,9 +12,9 @@
                     </mat-form-field>
                 </ng-container>
 
-            </span>
+            </ng-container>
 
-            <span class="inputfilterForAuto" *ngIf="search_settingsval !=null && search_settingsval.search != null ">
+            <ng-container class="inputfilterForAuto" *ngIf="search_settingsval !=null && search_settingsval.search != null ">
                 <mat-form-field class="filterForAuto" *ngFor="let item of search_settingsval.search">
 
 
@@ -57,7 +51,7 @@
                         </mat-option>
                     </mat-autocomplete>
                 </mat-form-field>
-            </span>
+            </ng-container>
 
 
 
@@ -96,7 +90,7 @@
 
 
             <ng-container *ngIf="date_search_endpointval !=null && date_search_sourceval != null && search_settingsval.datesearch != null ">
-                <span  class="filterFordatesearch" *ngFor="let status of this.search_settingsval.datesearch">
+                <ng-container  class="filterFordatesearch" *ngFor="let status of this.search_settingsval.datesearch">
                     <mat-form-field class="filterFordatesearchformfield">
                         <input class="filterFordatesearchinput" matInput [matDatepicker]="picker"autocomplete="off"  placeholder="{{status.startdatelabel}}"  [(ngModel)]="start_date" >
                         <mat-datepicker-toggle matSuffix [for]="picker" ></mat-datepicker-toggle>
@@ -108,7 +102,7 @@
                         <mat-datepicker #picker1 ></mat-datepicker>
                     </mat-form-field>
                     <button mat-raised-button color="primary" class="add_button"  (click)="dateSearch(status.field)">{{status.submit}}</button>
-                </span>
+                </ng-container>
             </ng-container>
 
 
@@ -149,9 +143,10 @@
                     [value]="value"
                     [bufferValue]="bufferValue">
             </mat-progress-bar>
+            <br/>
+        <br/>
         </section>
-        <br/>
-        <br/>
+        
         <ng-container *ngIf="tableflag==0" >
             <section class="lib-pager-class">
                 <mat-label>Showing
@@ -262,7 +257,7 @@
                         </span>
 
                         <span *ngIf="column.columnDef=='grab_url && grab_linkval!=null && grab_linkval[0]!=null' ">{{grapurl(row[this.grab_linkval[0].field_name])}}</span>
-                        <br>
+                
 
                         <!--          <span *ngIf="sh==true">-->
                         <span *ngIf="column.columnDef=='contractssigned' && sh==true && urlval !=null" class="cursor">
@@ -282,7 +277,7 @@
                         <span *ngIf=" grab_linkval!=null && grab_linkval[0]!=null && column.columnDef==[grab_linkval[0].col_name]" class="cursor">
                             <button mat-button (click)="copyText(row[grab_linkval[0].field_name],grab_linkval[1].url)">{{grab_linkval[1].label}}</button>
                         </span>
-                        <br>
+                    
                         <!--          </span>-->
                         <!--          <span *ngIf="aud==true">-->
                         <span *ngIf="grab_linkval!=null && grab_linkval[0]!=null &&column.columnDef== [grab_linkval[0].col_name]">
@@ -308,7 +303,8 @@
                     <td (click)="$event.stopPropagation()" mat-cell  *matCellDef="let row" data-label="Actions"  class="td-cell-center">
                         <!--custom buttions block -->
                         <ng-container *ngIf="libdataval !=null && libdataval.custombuttons !=null && libdataval.custombuttons.length >0 ">
-                            <ng-container *ngFor="let custombutton of libdataval.custombuttons">
+                            <ng-container *ngFor="let custombutton of libdataval.custombuttons; let cb=index">
+                                <section class="custombutton{{cb}}">
                                 <ng-container *ngIf="custombutton.type=='externallink'">
                                     <ng-container *ngIf="custombutton.param==null && (custombutton.cond==null || row[custombutton.cond]==custombutton.condval )">
                                        <a target="_blank" href="{{custombutton.link}}">
@@ -344,6 +340,7 @@
                                     </ng-container>
 
                                 </ng-container>
+                            </section>
 
                             </ng-container>
                         </ng-container>
