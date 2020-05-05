@@ -1,4 +1,4 @@
-import { OnInit, SimpleChange } from '@angular/core';
+import { OnInit, SimpleChange, ElementRef } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { ApiService } from '../api.service';
@@ -10,6 +10,7 @@ export declare class ShowformComponent implements OnInit {
     _apiService: ApiService;
     private _snackBar;
     private router;
+    private elementRef;
     formGroup: FormGroup;
     titleAlert: string;
     post: any;
@@ -27,9 +28,12 @@ export declare class ShowformComponent implements OnInit {
     formdata: any;
     formfieldrefreshdata: any;
     formfieldrefresh: any;
-    constructor(formBuilder: FormBuilder, _apiService: ApiService, _snackBar: MatSnackBar, router: Router);
+    constructor(formBuilder: FormBuilder, _apiService: ApiService, _snackBar: MatSnackBar, router: Router, elementRef: ElementRef);
     ngOnInit(): void;
     navtocancel(): void;
+    ngAfterViewInit(): void;
+    cancel(e: any): boolean;
+    handleDrop(e: any): boolean;
     ngOnChanges(changes: {
         [propKey: string]: SimpleChange;
     }): void;
