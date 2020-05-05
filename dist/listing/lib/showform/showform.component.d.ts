@@ -1,6 +1,6 @@
 import { OnInit, SimpleChange } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { ApiService } from '../api.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ThemePalette } from "@angular/material/core";
@@ -29,6 +29,7 @@ export declare class ShowformComponent implements OnInit {
     formfieldrefresh: any;
     constructor(formBuilder: FormBuilder, _apiService: ApiService, _snackBar: MatSnackBar, router: Router);
     ngOnInit(): void;
+    navtocancel(): void;
     ngOnChanges(changes: {
         [propKey: string]: SimpleChange;
     }): void;

@@ -82,7 +82,12 @@ export class AdmindashbordComponent implements OnInit {
         'email': 'Email Id',
         'lastname': 'Last Name',
         'name': "Full Name",
-        'blogtitle':"Blog Title"
+        'blogtitle':"Blog Title 9",
+        "created_datetime":"Created Date with Time",
+        "created_date":"Dated Added",
+        "author":"Author Name",
+        "author_search":"A Search",
+        "priority":"Priority"
     };
 
 
@@ -131,14 +136,20 @@ export class AdmindashbordComponent implements OnInit {
     // other data
     libdata:any={
         //basecondition:{status:1},
-        detailview_override:[{key:"tags_array",val:"Tags"},{key:"author",val:"Written By"},{key:"blogtitle",val:"Title"}], // optional
+        detailview_override:[
+            {key:"tags_array",val:"Tags"},
+            {key:"author",val:"Written By"},
+            {key:"blogtitle",val:"Title"},
+            {key:"created_datetime",val:"Date Added with time"},
+            {key:"created_date",val:"Date Added only"},
+        ], // optional
         updateendpoint:'statusupdate',
         hideeditbutton:true,// all these button options are optional not mandatory
         //hidedeletebutton:true,
         //hideviewbutton:false,
         //hidestatustogglebutton:true,
         // hideaction:true,
-        tableheaders:['author','priority','blogtitle','status','wrongone','created_date','created_datetime'], //not required
+        tableheaders:['author','priority','blogtitle','status','wrongone','created_date','created_datetime','author_search'], //not required
         custombuttons:[
             {
                 label:"fb search with blog title",
@@ -200,7 +211,7 @@ export class AdmindashbordComponent implements OnInit {
                 label:"Desc from data",
                 type:'action',
                 datatype:'local',
-                datafields:['description','author','blogtitle','tags_array','image','video'],
+                datafields:['description','author','blogtitle','tags_array','image','video','created_date','created_datetime'],
                 cond:'status',
                 condval:0
             } ,
@@ -284,6 +295,9 @@ export class AdmindashbordComponent implements OnInit {
         apiUrl:this._apiService.domain,
         endpoint:'addformdata',
         jwttoken:this._apiService.jwttoken,
+        //hidereset:true,
+        //hidecancel:true,
+        cancelroute:'/brand',
         fields:[
             {
                 heading:"This is Name Header <h1> Fill the form Up !! </h1>",
