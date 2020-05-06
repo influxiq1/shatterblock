@@ -19,7 +19,7 @@
                 </mat-card-header>
                 <!--<img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu">-->
                 <mat-card-content  id="dialogdata{{item[0]}}">
-                    <p *ngIf="item[2]==null" [innerHtml]="item[1]">
+                    <p *ngIf="item[2]==null || ( !item[2].includes('date') && !item[2].includes('datetime') )" [innerHtml]="item[1]">
 
                     </p>
                      <p *ngIf="item[2]!=null && item[2].includes('date') && !item[2].includes('datetime') ">
