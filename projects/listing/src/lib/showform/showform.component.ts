@@ -32,7 +32,6 @@ export class ShowformComponent implements OnInit {
   mode: any = 'indeterminate';
   value = 50;
   bufferValue = 75;
-
   @Input()
   set formdata(formdata: any) {
     this.formdataval = formdata;
