@@ -1,6 +1,6 @@
 import {Component, OnInit, ViewChild, Input, Inject, SimpleChange} from '@angular/core';
 import { FormBuilder, FormGroup, FormControl, Validators,FormArray } from '@angular/forms';
-import { Observable }    from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { ApiService } from '../api.service';
 import {Confirmdialog, SnackbarComponent} from "../listing.component";
 import {DomSanitizer} from "@angular/platform-browser";

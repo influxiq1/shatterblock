@@ -9,8 +9,7 @@ import {CommonModule} from "@angular/common";
 import { MomentModule } from 'ngx-moment';
 import {RouterModule} from "@angular/router";
 import {YoutubeplayerComponent} from './youtubeplayer/youtubeplayer.component';
-import {ShowformComponent} from "./showform/showform.component";
-//import { ShowformComponent } from './showform/showform.component';
+import { ShowformComponent } from './showform/showform.component';
 import { CKEditorModule } from 'ng2-ckeditor';
 
 

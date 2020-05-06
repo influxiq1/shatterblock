@@ -54,7 +54,7 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import { AdminmodalformComponent } from './adminmodalform/adminmodalform.component';
 import { AdminheaderComponent } from './adminheader/adminheader.component';
 import {MatToolbarModule} from '@angular/material/toolbar';
-import {ListingModule} from '../../projects/listing/src/lib/listing.module';
+import {ListingModule} from 'listing';
 import { EditrouteComponent } from './editroute/editroute.component';
 import { DynamicFormsComponent } from './dynamic-forms/dynamic-forms.component';
 import { DformComponent } from './dform/dform.component';
