@@ -317,6 +317,7 @@
     </mat-error>
 </div>
 
+
               
 
 
@@ -334,6 +335,27 @@
 
             </ng-container>
         </ng-container>
+
+
+
+        <div class="aligner">
+            <div id="drop">Drop files here.</div>
+            <div id="list">
+              <h1>Uploaded Files:</h1>
+            </div>
+          </div>
+
+        <!-- <label for="singleFile">Upload file</label>
+<input id="singleFile" type="file" [fileUploadInputFor]= "fileUploadQueue"/>
+<br>
+
+<mat-file-upload-queue #fileUploadQueue
+    [fileAlias]="'file'"
+    [httpUrl]="'https://tge24bc2ne.execute-api.us-east-1.amazonaws.com/dev'">
+
+    <mat-file-upload [file]="file" [id]="i" *ngFor="let file of fileUploadQueue.files; let i = index"></mat-file-upload>
+</mat-file-upload-queue> -->
+        
 
         <!--<mat-form-field class="form-element">
       <input matInput placeholder="Emailaddress" formControlName="email">
@@ -370,6 +392,8 @@
 
         <div class="form-element">
             <button mat-raised-button color="primary" type="submit" class="button" [disabled]="!formdataval.submitactive">Submit Form</button>
+            <button mat-raised-button color="primary" *ngIf="!formdataval.hidecancel" type="button" class="button" (click)="navtocancel()" >Cancel</button>
+            <button mat-raised-button color="primary" *ngIf="!formdataval.hidereset" type="reset" class="button"  >Reset</button>
         </div>
 
     </form>

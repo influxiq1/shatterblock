@@ -389,7 +389,7 @@ export class ListingComponent implements OnInit {
 
     for (let i = 0; i < coldef_list.length; i++) {
       let ff = `row.${coldef_list[i]}`
-      var tt = { columnDef: `${coldef_list[i]}`, header: `${header_list[i].replace(/_/g, " ")}`, cell: (row) => eval(ff), objlength: header_list.length };
+      var tt = { columnDef: `${coldef_list[i]}`, header: `${header_list[i]}`, cell: (row) => eval(ff), objlength: header_list.length };
      // console.log('tt',tt);
       // console.log('tt.columnDef');
       // console.log(tt.columnDef);
@@ -415,7 +415,7 @@ export class ListingComponent implements OnInit {
     }
 
 
-    //console.log('customcols',customcols,displayedcols);
+    //console.log('customcols',customcols,displayedcols,this.columns);
     if(this.libdataval.hideaction==null || this.libdataval.hideaction==false)
     displayedcols.push('Actions');
 
@@ -876,7 +876,7 @@ export class ListingComponent implements OnInit {
           //console.log('hww',c,this.libdataval.detailview_override[c].key,res[b],res[b][0],res[b][1]);
           if (this.libdataval.detailview_override[c].key == res[b][0]) {
             console.log('h',c,this.libdataval.detailview_override[c]);
-            resdata[b] = [this.libdataval.detailview_override[c].val,res[b][1]];
+            resdata[b] = [this.libdataval.detailview_override[c].val,res[b][1],res[b][0]];
           }
         }
         if(resdata[b]==null) resdata[b]=res[b];
@@ -942,7 +942,7 @@ export class ListingComponent implements OnInit {
               //console.log('hww',c,this.libdataval.detailview_override[c].key,res[b],res[b][0],res[b][1]);
               if (this.libdataval.detailview_override[c].key == dataarr[b][0]) {
                 console.log('h',c,this.libdataval.detailview_override[c]);
-                resdata[b] = [this.libdataval.detailview_override[c].val,dataarr[b][1]];
+                resdata[b] = [this.libdataval.detailview_override[c].val,dataarr[b][1],dataarr[b][0]];
               }
             }
             if(resdata[b]==null) resdata[b]=dataarr[b];
@@ -1178,7 +1178,7 @@ export class ListingComponent implements OnInit {
           //console.log('hww',c,this.libdataval.detailview_override[c].key,res[b],res[b][0],res[b][1]);
           if (this.libdataval.detailview_override[c].key == res[b][0]) {
             console.log('h',c,this.libdataval.detailview_override[c]);
-            resdata[b] = [this.libdataval.detailview_override[c].val,res[b][1]];
+            resdata[b] = [this.libdataval.detailview_override[c].val,res[b][1],res[b][0]];
           }
         }
         if(resdata[b]==null) resdata[b]=res[b];
