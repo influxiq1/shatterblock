@@ -567,6 +567,28 @@ export class AdmindashbordComponent implements OnInit {
                 type:'text'
             },
             {
+                label:"File 1",
+                name:"file1",
+                type:'file'
+            },
+            {
+                label:"City2",
+                name:"city2",
+                type:'text'
+            },
+            {
+                label:"City3",
+                name:"city3",
+                type:'text'
+            },
+            {
+                label:"File 2",
+                name:"file2",
+                type:'file',
+                multiple:true
+            },
+            
+            {
                 //label:"City",
                 name:"pid",
                 type:'hidden',

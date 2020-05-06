@@ -21,6 +21,7 @@ export declare class ShowformComponent implements OnInit {
     formfieldrefreshdataval: any;
     filerfielddata: any;
     autocompletefiledvalue: any;
+    filearray: any;
     color: ThemePalette;
     mode: any;
     value: number;
@@ -32,8 +33,10 @@ export declare class ShowformComponent implements OnInit {
     ngOnInit(): void;
     navtocancel(): void;
     ngAfterViewInit(): void;
+    triggerevents(val: any): void;
     cancel(e: any): boolean;
     handleDrop(e: any): boolean;
+    uploadfile(val: any): void;
     ngOnChanges(changes: {
         [propKey: string]: SimpleChange;
     }): void;

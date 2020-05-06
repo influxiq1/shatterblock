@@ -25,6 +25,7 @@ export class ShowformComponent implements OnInit {
   formfieldrefreshdataval: any = {};
   filerfielddata:any=[];
   autocompletefiledvalue:any=[];
+  filearray:any=[];
 
   /*for progress bar*/
 
@@ -64,14 +65,32 @@ export class ShowformComponent implements OnInit {
   }
   ngAfterViewInit() {
     setTimeout (() => {
-    this.elementRef.nativeElement.querySelector('#drop').addEventListener('drop', this.handleDrop.bind(this));
-    this.elementRef.nativeElement.querySelector('#drop').addEventListener('dragenter', this.cancel.bind(this));
-    this.elementRef.nativeElement.querySelector('#drop').addEventListener('dragover', this.cancel.bind(this));
-    },3000);
+      console.log('in after view init trigger');
+      for(let g in this.formdataval.fields){
+        if(this.formdataval.fields[g].type=='file'){
+          this.elementRef.nativeElement.querySelector('#drop'+this.formdataval.fields[g].name).addEventListener('drop', this.handleDrop.bind(this));
+          this.elementRef.nativeElement.querySelector('#drop'+this.formdataval.fields[g].name).addEventListener('dragenter', this.cancel.bind(this));
+          this.elementRef.nativeElement.querySelector('#drop'+this.formdataval.fields[g].name).addEventListener('dragover', this.cancel.bind(this));
+
+        }
+      }
+   
+    },1000);
+  }
+
+  triggerevents(val:any){
+    console.log('in triggerevents');
+    setTimeout (() => {
+      console.log('val loadeed trigger',val);
+      this.elementRef.nativeElement.querySelector('#drop'+val.name).addEventListener('drop', this.handleDrop.bind(this));
+      this.elementRef.nativeElement.querySelector('#drop'+val.name).addEventListener('dragenter', this.cancel.bind(this));
+      this.elementRef.nativeElement.querySelector('#drop'+val.name).addEventListener('dragdragover', this.cancel.bind(this));
+      },1000);
+
   }
 
   cancel(e) {
-    console.log('cancel',e);
+    //console.log('cancel',e);
     e.preventDefault();
     return false;
   }
@@ -80,41 +99,94 @@ export class ShowformComponent implements OnInit {
     var list = document.getElementById('list');
     let apiBaseURL = "https://tge24bc2ne.execute-api.us-east-1.amazonaws.com/dev";
     e.preventDefault();
-    console.log('handleDrop',e);
+    //console.log('handleDrop',e);
     var dt    = e.dataTransfer;
     var files = dt.files;
     for (var i=0; i<files.length; i++) {
       var file = files[i];
-      var reader = new FileReader();
-      reader.addEventListener('loadend', function(e){
-        fetch(apiBaseURL+"/requestUploadURL", {
-          method: "POST",
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            name: file.name,
-            type: file.type
-          })
-        })
-        .then(function(response){
-          return response.json();
-        })
-        .then(function(json){
-          return fetch(json.uploadURL, {
-            method: "PUT",
-            body: new Blob([reader.result], {type: file.type})
-          })
-        })
-        .then(function(){
-          var uploadedFileNode = document.createElement('div');
-          uploadedFileNode.innerHTML = '<a href="//s3.amazonaws.com/slsupload/'+ file.name +'">'+ file.name +'</a>';
-          list.appendChild(uploadedFileNode);
-        });
-      });
-      reader.readAsArrayBuffer(file);
+      console.log(files,'files',e.target.id);
+      console.log('farr',this.filearray);
+      for(let g in this.formdataval.fields){
+        if(this.formdataval.fields[g].type=='file' && this.formdataval.fields[g].name==e.target.id.replace('drop','')){
+          console.log('file details',this.formdataval.fields[g]);
+         if(this.formdataval.fields[g].multiple==null){
+          this.filearray[e.target.id.replace('drop','')]=files[0];
+          
+         }else{
+          if(this.filearray[e.target.id.replace('drop','')]==null){
+          this.filearray[e.target.id.replace('drop','')]=[]; 
+          }
+         this.filearray[e.target.id.replace('drop','')].push(files[0]);
+
+         }
+
+        }
+      }
+      console.log('this.filearray',this.filearray);
+
+      // var reader = new FileReader();
+      // reader.addEventListener('loadend', function(e){
+      //   fetch(apiBaseURL+"/requestUploadURL", {
+      //     method: "POST",
+      //     headers: {
+      //       'Content-Type': 'application/json'
+      //     },
+      //     body: JSON.stringify({
+      //       name: file.name,
+      //       type: file.type
+      //     })
+      //   })
+      //   .then(function(response){
+      //     return response.json();
+      //   })
+      //   .then(function(json){
+      //     return fetch(json.uploadURL, {
+      //       method: "PUT",
+      //       body: new Blob([reader.result], {type: file.type})
+      //     })
+      //   })
+      //   .then(function(){
+      //     var uploadedFileNode = document.createElement('div');
+      //     uploadedFileNode.innerHTML = '<a href="//s3.amazonaws.com/slsupload/'+ file.name +'">'+ file.name +'</a>';
+      //     list.appendChild(uploadedFileNode);
+      //   });
+      // });
+      //reader.readAsArrayBuffer(file);
     }
     return false;
+  }
+  uploadfile(val:any){
+    let apiBaseURL = "https://tge24bc2ne.execute-api.us-east-1.amazonaws.com/dev";
+    var reader = new FileReader();
+    let file:any=this.filearray[val.name];
+    reader.addEventListener('loadend', function(e){
+      fetch(apiBaseURL+"/requestUploadURL", {
+        method: "POST",
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          name: file.name,
+          type: file.type
+        })
+      })
+      .then(function(response){
+        return response.json();
+      })
+      .then(function(json){
+        return fetch(json.uploadURL, {
+          method: "PUT",
+          body: new Blob([reader.result], {type: file.type})
+        })
+      })
+      .then(function(){
+        // var uploadedFileNode = document.createElement('div');
+        // uploadedFileNode.innerHTML = '<a href="//s3.amazonaws.com/slsupload/'+ file.name +'">'+ file.name +'</a>';
+        // list.appendChild(uploadedFileNode);
+      });
+    });
+    reader.readAsArrayBuffer(file);
+
   }
   ngOnChanges(changes: {[propKey: string]: SimpleChange}) {
 

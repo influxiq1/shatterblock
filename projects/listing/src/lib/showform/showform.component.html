@@ -333,18 +333,47 @@
                     </mat-error>
                 </div>
 
+                <div *ngIf="formGroup.controls[fields.name]!=null && (fields.type=='file' )" class="form-element form_field_{{fields.name}}">
+                    <mat-label  [innerHTML]="fields.label"></mat-label>
+                    <div class="aligner" (load)="triggerevents(fields)">
+                        <div class="drop" [attr.fileid]="fields.name" id="drop{{fields.name}}" >Drop files here.</div>
+                        <div class="id"  id="list{{fields.name}}">
+                          <h1>Files:</h1>
+                          <ng-container *ngIf="filearray[fields.name]!=null && filearray[fields.name].length>0 && fields.multiple!=null">
+                          <ng-container *ngFor="let files of filearray[fields.name]">
+                              <span>{{files.name}}</span>
+                              <span>{{files.type}}</span>
+                              <button mat-raised-button type="button">Upload</button>
+                          </ng-container>
+
+                          </ng-container>
+                          <ng-container *ngIf="filearray[fields.name]!=null  && fields.multiple==null">
+                                <span>{{filearray[fields.name].name}}</span>
+                                <span>{{filearray[fields.name].type}}</span>
+                                <button mat-raised-button (click)="uploadfile(fields)" type="button">Upload</button>
+  
+                            </ng-container>
+                        </div>
+                      </div>
+
+                    <mat-error *ngIf="!formGroup.controls[fields.name].valid && formGroup.controls[fields.name].touched">
+                        <ng-container *ngFor="let valdidations of fields.validations">
+                            <span *ngIf="formGroup.controls[fields.name].errors[valdidations.rule.toLowerCase()]">{{valdidations.message}}</span>
+                        </ng-container>
+                    </mat-error>
+                </div>
 
             </ng-container>
         </ng-container>
 
 
 
-        <div class="aligner">
+        <!-- <div class="aligner">
             <div id="drop">Drop files here.</div>
             <div id="list">
               <h1>Uploaded Files:</h1>
             </div>
-          </div>
+          </div> -->
 
         <!-- <label for="singleFile">Upload file</label>
 <input id="singleFile" type="file" [fileUploadInputFor]= "fileUploadQueue"/>
