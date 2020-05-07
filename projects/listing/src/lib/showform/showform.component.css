@@ -1,4 +1,4 @@
-#drop {
+.drop {
     height: 200px;
     width: 200px;
     border-radius: 100px;
@@ -10,7 +10,7 @@
   }
   .aligner {
     height: 100%;
-    display: none;
+    display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: column;
