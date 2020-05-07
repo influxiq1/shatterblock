@@ -19,7 +19,7 @@ import { FormBuilder, FormControl, Validators, FormsModule, ReactiveFormsModule 
 import { CommonModule } from '@angular/common';
 import { MomentModule } from 'ngx-moment';
 import { NavigationCancel, NavigationEnd, NavigationError, NavigationStart, Router, RouterModule } from '@angular/router';
-import { Injectable, Component, Input, ElementRef, EventEmitter, ViewChild, NgModule, CUSTOM_ELEMENTS_SCHEMA, Inject, ComponentFactoryResolver, ViewContainerRef, defineInjectable } from '@angular/core';
+import { Injectable, ElementRef, EventEmitter, ViewChild, Component, Input, NgModule, CUSTOM_ELEMENTS_SCHEMA, Inject, ComponentFactoryResolver, ViewContainerRef, defineInjectable } from '@angular/core';
 import { DomSanitizer, BrowserModule } from '@angular/platform-browser';
 import { CKEditorModule } from 'ng2-ckeditor';
 
@@ -1022,26 +1022,19 @@ class ListingComponent {
      * @return {?}
      */
     ngOnInit() {
-        if (this.search_settingsval != null && this.search_settingsval.search != null && this.search_settingsval.search != '') {
-            /** @type {?} */
-            let source;
-            /** @type {?} */
-            let condition = {};
-            source = {
-                source: this.date_search_sourceval,
-                condition: condition
-            };
-            /** @type {?} */
-            let link = this.apiurlval + '' + this.date_search_endpointval;
-            this._apiService.postSearch(link, this.jwttokenval, source).subscribe((/**
-             * @param {?} res
-             * @return {?}
-             */
-            res => {
-                this.result = res;
-                this.preresult = this.result.res;
-            }));
-        }
+        // if (this.search_settingsval != null && this.search_settingsval.search != null && this.search_settingsval.search != '') {
+        //   let source: any;
+        //   let condition: any = {};
+        //   source = {
+        //     source: this.date_search_sourceval,
+        //     condition: condition
+        //   };
+        //   let link = this.apiurlval + '' + this.date_search_endpointval;
+        //   this._apiService.postSearch(link, this.jwttokenval, source).subscribe(res => {
+        //     this.result = res;
+        //     this.preresult = this.result.res;
+        //   });
+        // }
         // this._service.success(this.columns[0].date,'dndnnd',this.options);
         /* this.stateGroupOptions = this.myControl.valueChanges
              .pipe(
