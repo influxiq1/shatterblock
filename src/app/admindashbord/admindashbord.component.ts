@@ -290,6 +290,9 @@ export class AdmindashbordComponent implements OnInit {
     formfieldrefreshdata:any=null;
     formdata:any={
         successmessage:"Added Successfully !!",
+        submittext:"Rush Now",
+        canceltext:"Cancel Now",
+        resettext:"reset This",
         redirectpath:"/admindashbord1",
         submitactive:true, //optional, default true
         apiUrl:this._apiService.domain,

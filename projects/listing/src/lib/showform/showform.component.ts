@@ -1,6 +1,6 @@
-import {Component, OnInit, ViewChild, Input, Inject, SimpleChange} from '@angular/core';
+import {Component, OnInit, ViewChild, Input, Inject, SimpleChange,ElementRef} from '@angular/core';
 import { FormBuilder, FormGroup, FormControl, Validators,FormArray } from '@angular/forms';
-import { Observable } from 'rxjs';
+import { Observable }    from 'rxjs';
 import { ApiService } from '../api.service';
 import {Confirmdialog, SnackbarComponent} from "../listing.component";
 import {DomSanitizer} from "@angular/platform-browser";
@@ -48,7 +48,7 @@ export class ShowformComponent implements OnInit {
     console.log(this.formfieldrefreshval);
   }
 
-  constructor(private formBuilder: FormBuilder,public _apiService: ApiService,private _snackBar: MatSnackBar,private router: Router) { }
+  constructor(private formBuilder: FormBuilder,public _apiService: ApiService,private _snackBar: MatSnackBar,private router: Router,private elementRef:ElementRef) { }
 
   ngOnInit() {
     this.createForm();
@@ -56,7 +56,65 @@ export class ShowformComponent implements OnInit {
 
     //this.setChangeValidate()
   }
+  navtocancel(){
+    if(this.formdataval.cancelroute!=null){
+      this.router.navigate([this.formdataval.cancelroute]);
+    }
+  }
+  ngAfterViewInit() {
+    setTimeout (() => {
+    this.elementRef.nativeElement.querySelector('#drop').addEventListener('drop', this.handleDrop.bind(this));
+    this.elementRef.nativeElement.querySelector('#drop').addEventListener('dragenter', this.cancel.bind(this));
+    this.elementRef.nativeElement.querySelector('#drop').addEventListener('dragover', this.cancel.bind(this));
+    },3000);
+  }
 
+  cancel(e) {
+    console.log('cancel',e);
+    e.preventDefault();
+    return false;
+  }
+  handleDrop(e){
+    //let apiBaseURL=""
+    var list = document.getElementById('list');
+    let apiBaseURL = "https://tge24bc2ne.execute-api.us-east-1.amazonaws.com/dev";
+    e.preventDefault();
+    console.log('handleDrop',e);
+    var dt    = e.dataTransfer;
+    var files = dt.files;
+    for (var i=0; i<files.length; i++) {
+      var file = files[i];
+      var reader = new FileReader();
+      reader.addEventListener('loadend', function(e){
+        fetch(apiBaseURL+"/requestUploadURL", {
+          method: "POST",
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            name: file.name,
+            type: file.type
+          })
+        })
+        .then(function(response){
+          return response.json();
+        })
+        .then(function(json){
+          return fetch(json.uploadURL, {
+            method: "PUT",
+            body: new Blob([reader.result], {type: file.type})
+          })
+        })
+        .then(function(){
+          var uploadedFileNode = document.createElement('div');
+          uploadedFileNode.innerHTML = '<a href="//s3.amazonaws.com/slsupload/'+ file.name +'">'+ file.name +'</a>';
+          list.appendChild(uploadedFileNode);
+        });
+      });
+      reader.readAsArrayBuffer(file);
+    }
+    return false;
+  }
   ngOnChanges(changes: {[propKey: string]: SimpleChange}) {
 
     console.log('ngonchange in form !!!',changes,'frv',this.formfieldrefreshdataval);

@@ -391,9 +391,15 @@
     </div>-->
 
         <div class="form-element">
+<<<<<<< HEAD
             <button mat-raised-button color="primary" type="submit" class="button" [disabled]="!formdataval.submitactive">Submit Form</button>
             <button mat-raised-button color="primary" *ngIf="!formdataval.hidecancel" type="button" class="button" (click)="navtocancel()" >Cancel</button>
             <button mat-raised-button color="primary" *ngIf="!formdataval.hidereset" type="reset" class="button"  >Reset</button>
+=======
+            <button mat-raised-button color="primary" type="submit" class="button" [disabled]="!formdataval.submitactive">{{formdataval.submittext}}</button>
+            <button mat-raised-button color="primary" *ngIf="!formdataval.hidecancel" type="button" class="button" (click)="navtocancel()" >{{formdataval.canceltext}}</button>
+            <button mat-raised-button color="primary" *ngIf="!formdataval.hidereset" type="reset" class="button"  >{{formdataval.resettext}}</button>
+>>>>>>> 5724ead4808f9171b153d859ba0e33405c935cb0
         </div>
 
     </form>
