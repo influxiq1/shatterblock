@@ -2,6 +2,7 @@
 <!--<lib-myfrom [fields]="regConfig" (submit)="submit($event)"></lib-myfrom>-->
 <div style="background: white;color: black;height: auto">
     <input [(ngModel)]="temtdata" >
+    <input [(ngModel)]="formdata.fields[0].value" >
     <button (click)="updateformval()">Update Form and Table </button>
 
  
@@ -13,6 +14,7 @@
                   [formdata]="formdata"
                   [formfieldrefresh]="formfieldrefresh"
                   [formfieldrefreshdata]="formfieldrefreshdata"
+                  (onFormFieldChange)="listenFormFieldChange($event)"
     > </lib-showform>
 
 

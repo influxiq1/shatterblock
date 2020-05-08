@@ -18,8 +18,8 @@ import { HttpClient } from "@angular/common/http";
 import { DomSanitizer } from '@angular/platform-browser';
 declare var $: any;
 import * as momentImported from 'moment';
-import {ThemePalette} from "@angular/material/core";
-import {MAT_SNACK_BAR_DATA, MatSnackBar, MatSnackBarRef} from '@angular/material/snack-bar';
+import { ThemePalette } from "@angular/material/core";
+import { MAT_SNACK_BAR_DATA, MatSnackBar, MatSnackBarRef } from '@angular/material/snack-bar';
 //import {ProgressBarMode} from '@angular/material/progress-bar';
 //import  {BtnComponent} from './../../../../src/app/btn/btn.component'
 const moment = momentImported;
@@ -69,8 +69,8 @@ export class ListingComponent implements OnInit {
   tableflag: any = 0;
   autosearch: any = [];
   public x: any;
-  public libdataval:any={};
-  public limitcondval: any={};
+  public libdataval: any = {};
+  public limitcondval: any = {};
   public custombuttonval: any;
   public result: any = {};
   public sortdataval: any = {};
@@ -89,7 +89,7 @@ export class ListingComponent implements OnInit {
 
   /* this variable for artist xp preview */
   previewFlug: any = false;
-  selectsearch:any=[];
+  selectsearch: any = [];
 
 
   @Input()
@@ -117,7 +117,7 @@ export class ListingComponent implements OnInit {
   @Input()
   set date_search_source_count(date_search_source_countval: any) {
     this.date_search_source_countval = date_search_source_countval;
-    if(this.date_search_source_countval==0) this.limitcondval.pagecount=1;
+    if (this.date_search_source_countval == 0) this.limitcondval.pagecount = 1;
     //console.log('date_search_source_count',this.date_search_source_countval);
   }
 
@@ -217,8 +217,8 @@ export class ListingComponent implements OnInit {
 
   @Input()
   set jwttoken(jwttoken: any) {
-    if(jwttoken!=null)this.jwttokenval = jwttoken;
-    else this.jwttokenval='';
+    if (jwttoken != null) this.jwttokenval = jwttoken;
+    else this.jwttokenval = '';
     //console.log(this.jwttokenval,'token')
   }
 
@@ -272,10 +272,10 @@ export class ListingComponent implements OnInit {
   // myForm:any;
 
   constructor(public _apiService: ApiService, public dialog: MatDialog,
-              public bottomSheet: MatBottomSheet, public fb: FormBuilder,
-              private router: Router, private resolver: ComponentFactoryResolver,
-              private container: ViewContainerRef, public _http: HttpClient,
-              public sanitizer: DomSanitizer,private _snackBar: MatSnackBar) {
+    public bottomSheet: MatBottomSheet, public fb: FormBuilder,
+    private router: Router, private resolver: ComponentFactoryResolver,
+    private container: ViewContainerRef, public _http: HttpClient,
+    public sanitizer: DomSanitizer, private _snackBar: MatSnackBar) {
 
     this.router.events.subscribe((event: Event) => {
       switch (true) {
@@ -311,19 +311,18 @@ export class ListingComponent implements OnInit {
 
 
 
-  ngOnChanges(changes: {[propKey: string]: SimpleChange}) {
+  ngOnChanges(changes: { [propKey: string]: SimpleChange }) {
 
-     //console.log('ngonchange ..',changes);
-    for(let v in changes){
+    //console.log('ngonchange ..',changes);
+    for (let v in changes) {
       //console.log(v,changes[v],'vv');
-      if(v=='updatetable'){
-       // console.log('updatetable');
-        if(changes[v].previousValue!=null)
-       this.allSearch();
+      if (v == 'updatetable') {
+        // console.log('updatetable');
+        if (changes[v].previousValue != null)
+          this.allSearch();
       }
     }
   }
-
 
 
   inputblur(val: any) {
@@ -348,6 +347,8 @@ export class ListingComponent implements OnInit {
 
     // }
 
+    //not needed ,
+
     // this._service.success(this.columns[0].date,'dndnnd',this.options);
     /* this.stateGroupOptions = this.myControl.valueChanges
          .pipe(
@@ -356,10 +357,10 @@ export class ListingComponent implements OnInit {
          );*/
 
     this.stateGroup = this.myControl.valueChanges
-        .pipe(
-            startWith(''),
-            map(value => this._filter(value))
-        );
+      .pipe(
+        startWith(''),
+        map(value => this._filter(value))
+      );
 
     /*const factory = this.resolver.resolveComponentFactory(
         componentMapper[this.field.type]
@@ -390,7 +391,7 @@ export class ListingComponent implements OnInit {
     for (let i = 0; i < coldef_list.length; i++) {
       let ff = `row.${coldef_list[i]}`
       var tt = { columnDef: `${coldef_list[i]}`, header: `${header_list[i]}`, cell: (row) => eval(ff), objlength: header_list.length };
-     // console.log('tt',tt);
+      // console.log('tt',tt);
       // console.log('tt.columnDef');
       // console.log(tt.columnDef);
       for (let b in this.modify_header_arrayval) {
@@ -401,23 +402,23 @@ export class ListingComponent implements OnInit {
         this.columns.push(tt);
     }
     let displayedcols = this.columns.map(x => x.columnDef);
-    let customcols:any=[];
+    let customcols: any = [];
     //console.log('displayedcols',displayedcols);
-    if(this.libdataval!=null && this.libdataval.tableheaders !=null)
-      customcols=this.libdataval.tableheaders;
-    if(customcols!=null && customcols.length>0){
-      for(let v in customcols){
-        if(displayedcols.includes(customcols[v])==false){
-          this.columns.push({columnDef:customcols[v],header:customcols[v],cell:'NA'});
+    if (this.libdataval != null && this.libdataval.tableheaders != null)
+      customcols = this.libdataval.tableheaders;
+    if (customcols != null && customcols.length > 0) {
+      for (let v in customcols) {
+        if (displayedcols.includes(customcols[v]) == false) {
+          this.columns.push({ columnDef: customcols[v], header: customcols[v], cell: 'NA' });
         }
       }
-      displayedcols=customcols;
+      displayedcols = customcols;
     }
 
 
     //console.log('customcols',customcols,displayedcols,this.columns);
-    if(this.libdataval.hideaction==null || this.libdataval.hideaction==false)
-    displayedcols.push('Actions');
+    if (this.libdataval.hideaction == null || this.libdataval.hideaction == false)
+      displayedcols.push('Actions');
 
     this.displayedColumns = displayedcols;
     this.displayedColumns.unshift('#');        /*adds select column in table by unshift function*/
@@ -434,8 +435,8 @@ export class ListingComponent implements OnInit {
     //this.dataSource.sort = this.sort;
   }
   /**image view modal */
-  img_modal_view(img:any){
-//console.warn("img_modal_view",img)
+  img_modal_view(img: any) {
+    //console.warn("img_modal_view",img)
     const dialogRef = this.dialog.open(ImageView, {
       panelClass: 'custom-modalbox-image-preview',
       height: 'auto',
@@ -457,10 +458,10 @@ export class ListingComponent implements OnInit {
     // let sd = moment(this.start_date).unix();
     // let ed = moment(this.end_date).unix();
     let link = this.apiurlval + '' + this.datacollectionval;
-    let link1 = this.apiurlval + '' + this.datacollectionval+'-count';
+    let link1 = this.apiurlval + '' + this.datacollectionval + '-count';
     let source: any;
     let condition: any;
-    let textSearch:any={};
+    let textSearch: any = {};
     condition = {};
     if (moment(this.end_date).unix() != null && moment(this.start_date).unix() != null) {
 
@@ -469,63 +470,63 @@ export class ListingComponent implements OnInit {
       this.dateSearch_condition = {};
       this.dateSearch_condition = condition;
 
-      if(this.end_date!=null && this.start_date!=null) {
+      if (this.end_date != null && this.start_date != null) {
         condition[val] = {
           $lte: new Date(this.end_date).getTime(),
           $gte: new Date(this.start_date).getTime(),
         };
       }
-      for(let i in this.tsearch){
-        textSearch[i]={$regex:this.tsearch[i].toLowerCase()};
+      for (let i in this.tsearch) {
+        textSearch[i] = { $regex: this.tsearch[i].toLowerCase() };
       }
 
-      let autosearch:any={};
+      let autosearch: any = {};
       //this.autosearch;
-      for(let b in this.autosearch){
-        for(let m in this.autosearch[b]){
-          let tv:any={};
-          tv[b]=this.autosearch[b][m].val.toLowerCase();
-          if(autosearch['$or']==null) autosearch['$or']=[];
+      for (let b in this.autosearch) {
+        for (let m in this.autosearch[b]) {
+          let tv: any = {};
+          tv[b] = this.autosearch[b][m].val.toLowerCase();
+          if (autosearch['$or'] == null) autosearch['$or'] = [];
           autosearch['$or'].push(tv);
         }
       }
 
-      let conditionobj = Object.assign({}, textSearch, this.dateSearch_condition, autosearch, this.selectSearch_condition,this.libdataval.basecondition);
+      let conditionobj = Object.assign({}, textSearch, this.dateSearch_condition, autosearch, this.selectSearch_condition, this.libdataval.basecondition);
       source = {
-        "condition":{
-          limit:this.limitcondval.limit,
-          skip:0
+        "condition": {
+          limit: this.limitcondval.limit,
+          skip: 0
         },
-        sort:{
-          field:this.sortdataval.field,
-          type:this.sortdataval.type
+        sort: {
+          field: this.sortdataval.field,
+          type: this.sortdataval.type
         },
         searchcondition: conditionobj,
       };
 
-     // console.log('con...',conditionobj,this.end_date);
+      // console.log('con...',conditionobj,this.end_date);
       //console.warn('cond',condition,this.dateSearch_condition,conditionobj,this.tsearch,textSearch);
       //return;
-      this.date_search_source_countval=0;
-      this.loading=true;
+      this.date_search_source_countval = 0;
+      this.loading = true;
       this._apiService.postSearch(link, this.jwttokenval, source).subscribe(res => {
         let result: any = {};
         result = res;
-        if(result.results.res !=null && result.results.res.length>0){
+        if (result.results.res != null && result.results.res.length > 0) {
           this.dataSource = new MatTableDataSource(result.results.res);
           this._snackBar.openFromComponent(SnackbarComponent, {
-            duration:   2000,
-            data: {errormessage:"New Search of data loaded"}
+            duration: 2000,
+            data: { errormessage: "New Search of data loaded" }
           });
-        }else{
+        } else {
 
           this._snackBar.openFromComponent(SnackbarComponent, {
-            duration:   6000,
-            data: {errormessage:"No such search recod found !!"}
+            duration: 6000,
+            data: { errormessage: "No such search recod found !!" }
           });
 
         }
-        this.loading=false;
+        this.loading = false;
         // this.dataSource.paginator = this.paginator;
         //this.dataSource.sort = this.sort;
       })
@@ -534,8 +535,8 @@ export class ListingComponent implements OnInit {
         let result: any = {};
         result = res;
         this.date_search_source_countval = (result.count);
-        if(result.count==0) this.tableflag=1;
-        else this.tableflag=0; 
+        if (result.count == 0) this.tableflag = 1;
+        else this.tableflag = 0;
         //console.log('count',result);
         // this.dataSource.paginator = this.paginator;
         //this.dataSource.sort = this.sort;
@@ -593,39 +594,39 @@ export class ListingComponent implements OnInit {
     // console.log("error");
   }
 
-  paging(val:any){
-    if(val==1) {
-      this.limitcondval.skip=(this.limitcondval.pagecount)*this.limitcondval.limit;
+  paging(val: any) {
+    if (val == 1) {
+      this.limitcondval.skip = (this.limitcondval.pagecount) * this.limitcondval.limit;
       this.limitcondval.pagecount++;
     }
-    if(val==-1 && this.limitcondval.skip>this.limitcondval.limit) {
-      this.limitcondval.skip=(this.limitcondval.pagecount-1)*this.limitcondval.limit;
+    if (val == -1 && this.limitcondval.skip > this.limitcondval.limit) {
+      this.limitcondval.skip = (this.limitcondval.pagecount - 1) * this.limitcondval.limit;
       this.limitcondval.pagecount--;
     }
-    if(val>1){
-      if(this.limitcondval.pagecount==1) this.limitcondval.skip=0;
-      else this.limitcondval.skip=(this.limitcondval.pagecount-1)*this.limitcondval.limit;
+    if (val > 1) {
+      if (this.limitcondval.pagecount == 1) this.limitcondval.skip = 0;
+      else this.limitcondval.skip = (this.limitcondval.pagecount - 1) * this.limitcondval.limit;
       //this.limitcondval.pagecount--;
 
     }
-    if(val==-1 && this.limitcondval.skip<this.limitcondval.limit) return;
+    if (val == -1 && this.limitcondval.skip < this.limitcondval.limit) return;
     //console.log(val,'ss',this.datacollectionval,this.limitcondval);
-    let textSearch:any={};
+    let textSearch: any = {};
 
 
-    for(let i in this.tsearch){
-      textSearch[i]={$regex:this.tsearch[i].toLowerCase()};
+    for (let i in this.tsearch) {
+      textSearch[i] = { $regex: this.tsearch[i].toLowerCase() };
     }
 
-    let conditionobj = Object.assign({}, textSearch, this.dateSearch_condition, this.autosearch, this.selectSearch_condition,this.libdataval.basecondition);
+    let conditionobj = Object.assign({}, textSearch, this.dateSearch_condition, this.autosearch, this.selectSearch_condition, this.libdataval.basecondition);
     let source = {
-      "condition":{
-        limit:this.limitcondval.limit,
-        skip:this.limitcondval.skip
+      "condition": {
+        limit: this.limitcondval.limit,
+        skip: this.limitcondval.skip
       },
-      sort:{
-        field:this.sortdataval.field,
-        type:this.sortdataval.type
+      sort: {
+        field: this.sortdataval.field,
+        type: this.sortdataval.type
       },
       searchcondition: conditionobj,
     };
@@ -642,16 +643,16 @@ export class ListingComponent implements OnInit {
     this._apiService.postSearch(link, this.jwttokenval, source).subscribe(res => {
       this.result = res;
       //console.log(this.result,'res');
-      if(this.result.results.res !=null && this.result.results.res.length >0) {
+      if (this.result.results.res != null && this.result.results.res.length > 0) {
         this.dataSource = new MatTableDataSource(this.result.results.res);
         this._snackBar.openFromComponent(SnackbarComponent, {
-          duration:   2000,
-          data: {errormessage:"New range of data loaded"}
+          duration: 2000,
+          data: { errormessage: "New range of data loaded" }
         });
-      }else{
+      } else {
         this._snackBar.openFromComponent(SnackbarComponent, {
-          duration:   6000,
-          data: {errormessage:"No Data Found in this range !!"}
+          duration: 6000,
+          data: { errormessage: "No Data Found in this range !!" }
         });
       }
       this.loading = false;
@@ -662,19 +663,19 @@ export class ListingComponent implements OnInit {
 
   }
 
-  addautosearchdata(val:any){
+  addautosearchdata(val: any) {
     //console.log('v',val);
 
   }
-  remove(val:any,i:any,field:any){
+  remove(val: any, i: any, field: any) {
 
-    if(this.autosearch[field] !=null)this.autosearch[field].splice(i,1);
+    if (this.autosearch[field] != null) this.autosearch[field].splice(i, 1);
   }
-  autosearchfunction(value: any,data:any) {
-    this.autosearchinput[value]='';
+  autosearchfunction(value: any, data: any) {
+    this.autosearchinput[value] = '';
     //console.log(this.autosearchinput,'asi');
-    if(this.autosearch[value]==null) {
-      this.autosearch[value]=[];
+    if (this.autosearch[value] == null) {
+      this.autosearch[value] = [];
       ;
     }
     this.autosearch[value].push(data);
@@ -704,13 +705,12 @@ export class ListingComponent implements OnInit {
     let link = this.apiurlval + '' + this.date_search_endpointval;
     let source: any;
     let condition: any = {};
-    let val='';
-    if(this.tsearch!=null && this.tsearch[value]!=null)
-    {
-      val= this.tsearch[value].toLowerCase();
+    let val = '';
+    if (this.tsearch != null && this.tsearch[value] != null) {
+      val = this.tsearch[value].toLowerCase();
     }
-   
-    if (this.tsearch[value]!=null && this.tsearch[value].length > 1 && { $or: [this.tsearch[value].toLowerCase(), this.tsearch[value].toUpperCase()] }) condition[value + '_regex'] = val;
+
+    if (this.tsearch[value] != null && this.tsearch[value].length > 1 && { $or: [this.tsearch[value].toLowerCase(), this.tsearch[value].toUpperCase()] }) condition[value + '_regex'] = val;
     this.textSearch_condition = {};
     this.textSearch_condition = condition;
     //console.warn(this.tsearch);
@@ -738,15 +738,15 @@ export class ListingComponent implements OnInit {
     // console.log("error");
   }
 
-  refreshdata(){
-    this.autosearch=[];
-    this.tsearch=[];
-    this.selectsearch=[];
-    this.start_date=null;
-    this.limitcondval.skip=0;
-    this.end_date=null;
-    this.selectSearch_condition={};
-    this.dateSearch_condition={};
+  refreshdata() {
+    this.autosearch = [];
+    this.tsearch = [];
+    this.selectsearch = [];
+    this.start_date = null;
+    this.limitcondval.skip = 0;
+    this.end_date = null;
+    this.selectSearch_condition = {};
+    this.dateSearch_condition = {};
     this.allSearch();
   }
   refreshalldata(val: any) {
@@ -755,7 +755,7 @@ export class ListingComponent implements OnInit {
     //this.dataSource.paginator = this.paginator;
     //this.dataSource.sort = this.sort;
 
-    if (val.filteredData !=null && val.filteredData.length < this.olddata.length) {
+    if (val.filteredData != null && val.filteredData.length < this.olddata.length) {
       let dialogRef = this.dialog.open(Confirmdialog, {
         panelClass: 'custom-modalbox',
         data: { message: 'Refresh successfully!!', isconfirmation: false }
@@ -833,62 +833,85 @@ export class ListingComponent implements OnInit {
     document.body.removeChild(selBox);
   }
 
-  openinternallink(val:any){
+  openinternallink(val: any) {
     this.router.navigate([val.route]);
   }
-  openinternallinkwithparam(val:any,data:any){
-    let rdata:any=[];
+  openinternallinkwithparam(val: any, data: any) {
+    let rdata: any = [];
     rdata.push(val.route);
-    for(let v in val.param){
-     rdata.push(data[val.param[v]])
+    for (let v in val.param) {
+      rdata.push(data[val.param[v]])
     }
-    //console.log('radat',rdata);
+    console.log('radat', rdata);
     this.router.navigate(rdata);
   }
-  opencustombuttonactionlocaldata(val:any,data:any){
+  opencustombuttonactionlocaldata(val: any, data: any) {
     //console.log('opencustombuttonactionlocaldata',val,data);
-    let dataarr=[];
+    let dataarr = [];
     //dataarr.push(['name','debasis']);
     //dataarr.push(['desc','test']);
-    if(val.refreshdata!=null && val.refreshdata == true){
+    if (val.refreshdata != null && val.refreshdata == true) {
       this.allSearch();
     }
-    for(let v in val.datafields){
-      let temparr=[];
+    for (let v in val.datafields) {
+      let temparr = [];
       temparr.push(val.datafields[v]);
-      if(val.datafields[v]!='image' && val.datafields[v]!='video')
-        temparr.push(data[val.datafields[v]]);
-      if(val.datafields[v]=='image') temparr.push("<img mat-card-image src=" + data[val.datafields[v]] + " > <br/>")
-      if(val.datafields[v]=='video') {
-        let temphtml :any=("<iframe width=560 height=315 src=https://www.youtube.com/embed/"+ data[val.datafields[v]] +" frameborder=0 allow=accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture allowfullscreen></iframe> <br/>");
-        temphtml = this.sanitizer.bypassSecurityTrustHtml(temphtml);
-        temparr.push(temphtml);
+      if (val.datafields[v] != 'image' && val.datafields[v] != 'video') {
+        //console.log('ss',val.datafields[v]);
+        if (typeof (data[val.datafields[v]]) != 'object') {
+          if (data[val.datafields[v]] != null && data[val.datafields[v]].includes('iframe') ) {
+            //console.log('in safe');
+            temparr.push(this.sanitizer.bypassSecurityTrustHtml(data[val.datafields[v]]));
+          }
+          else
+            temparr.push((data[val.datafields[v]]));
+        }
+        else {
+          //console.log('ss22',val.datafields[v]);
+
+
+          //else
+          temparr.push(data[val.datafields[v]]);
+        }
       }
+      if (val.datafields[v] == 'image') temparr.push("<img mat-card-image src=" + data[val.datafields[v]] + " > <br/>")
+      if (val.datafields[v] == 'video') {
+        if (data[val.datafields[v]] != null && data[val.datafields[v]] != '') {
+          let temphtml: any = ("<iframe width=560 height=315 src=https://www.youtube.com/embed/" + data[val.datafields[v]] + " frameborder=0 allow=accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture allowfullscreen></iframe> <br/>");
+          temphtml = this.sanitizer.bypassSecurityTrustHtml(temphtml);
+          temparr.push(temphtml);
+          console.log('thtml', temphtml, data[val.datafields], data[val.datafields[v]]);
+        } else {
+          temparr.push('N/A');
+        }
+      }
+
       //if(val.datafields[v]=='video') temparr.push("<img mat-card-image src=" + data[val.datafields[v]] + " > <br/>")
       dataarr.push(temparr);
     }
-    let res:any=dataarr;
+    console.log('local data m', dataarr);
+    let res: any = dataarr;
 
-    if(this.libdataval.detailview_override!=null && this.libdataval.detailview_override.length>0) {
+    if (this.libdataval.detailview_override != null && this.libdataval.detailview_override.length > 0) {
       let resdata: any = [];
       for (let b in res) {
         for (let c in this.libdataval.detailview_override) {
           //console.log('hww',c,this.libdataval.detailview_override[c].key,res[b],res[b][0],res[b][1]);
           if (this.libdataval.detailview_override[c].key == res[b][0]) {
-            console.log('h',c,this.libdataval.detailview_override[c]);
-            resdata[b] = [this.libdataval.detailview_override[c].val,res[b][1],res[b][0]];
+            console.log('h', c, this.libdataval.detailview_override[c]);
+            resdata[b] = [this.libdataval.detailview_override[c].val, res[b][1], res[b][0]];
           }
         }
-        if(resdata[b]==null) resdata[b]=res[b];
+        if (resdata[b] == null) resdata[b] = res[b];
 
       }
       //console.log('c',res,resdata);
-      res=resdata;
+      res = resdata;
       //console.log('c',res,resdata);
     }
 
     //console.log('dataarr',dataarr);
-    if(val.refreshdata!=null && val.refreshdata == true){
+    if (val.refreshdata != null && val.refreshdata == true) {
       this.allSearch();
     }
     const dialogRef = this.dialog.open(Confirmdialog, {
@@ -897,95 +920,103 @@ export class ListingComponent implements OnInit {
       data: { isconfirmation: false, data: res }
     });
   }
-  opencustombuttonactionapidata(val:any,data:any){
+  opencustombuttonactionapidata(val: any, data: any) {
     //console.log('opencustombuttonactionapidata',val,data);
-    this.loading=true;
-    let link:any=this.apiurlval +val.endpoint;
-    let source:any={};
-    source[val.param]=data._id;
+    this.loading = true;
+    let link: any = this.apiurlval + val.endpoint;
+    let source: any = {};
+    source[val.param] = data._id;
+    if (val.otherparam != null) {
+      for (let n in val.otherparam) {
+        source[val.otherparam[n]] = data[val.otherparam[n]];
+
+      }
+    }
     this._apiService.postSearch(link, this.jwttokenval, source).subscribe(res => {
       let result: any = {};
       result = res;
-      if(result.status == 'success'){
+      if (result.status == 'success') {
 
-      //console.log('res',result);
-      let resdata: any = {};
-      this.loading = false;
-      if (result.res[0] != null) {
-        resdata = result.res[0];
-      } else {
-        resdata = result.res;
-      }
-
-      let dataarr = [];
-      //dataarr.push(['name','debasis']);
-      //dataarr.push(['desc','test']);
-      for (let v in resdata) {
-        let temparr = [];
-        temparr.push(v);
-        if (v != 'image' && v != 'video')
-          temparr.push(resdata[v]);
-        if (v == 'image') temparr.push("<img mat-card-image src=" + resdata[v] + " > <br/>")
-        if (v == 'video') {
-          let temphtml: any = ("<iframe width=560 height=315 src=https://www.youtube.com/embed/" + resdata[v] + " frameborder=0 allow=accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture allowfullscreen></iframe> <br/>");
-          temphtml = this.sanitizer.bypassSecurityTrustHtml(temphtml);
-          temparr.push(temphtml);
+        //console.log('res',result);
+        let resdata: any = {};
+        this.loading = false;
+        if (result.res[0] != null) {
+          resdata = result.res[0];
+        } else {
+          resdata = result.res;
         }
-        //if(val.datafields[v]=='video') temparr.push("<img mat-card-image src=" + data[val.datafields[v]] + " > <br/>")
-        dataarr.push(temparr);
 
-      }
-        if(this.libdataval.detailview_override!=null && this.libdataval.detailview_override.length>0) {
+        let dataarr = [];
+        //dataarr.push(['name','debasis']);
+        //dataarr.push(['desc','test']);
+        for (let v in resdata) {
+          let temparr = [];
+          temparr.push(v);
+          if (v != 'image' && v != 'video') {
+            if (typeof (resdata[v]) != 'object') temparr.push(this.sanitizer.bypassSecurityTrustHtml(resdata[v]));
+            else temparr.push(resdata[v]);
+          }
+          if (v == 'image') temparr.push("<img mat-card-image src=" + resdata[v] + " > <br/>")
+          if (v == 'video') {
+            let temphtml: any = ("<iframe width=560 height=315 src=https://www.youtube.com/embed/" + resdata[v] + " frameborder=0 allow=accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture allowfullscreen></iframe> <br/>");
+            temphtml = this.sanitizer.bypassSecurityTrustHtml(temphtml);
+            temparr.push(temphtml);
+          }
+          //if(val.datafields[v]=='video') temparr.push("<img mat-card-image src=" + data[val.datafields[v]] + " > <br/>")
+          dataarr.push(temparr);
+
+        }
+        if (this.libdataval.detailview_override != null && this.libdataval.detailview_override.length > 0) {
           let resdata: any = [];
           for (let b in dataarr) {
             for (let c in this.libdataval.detailview_override) {
               //console.log('hww',c,this.libdataval.detailview_override[c].key,res[b],res[b][0],res[b][1]);
               if (this.libdataval.detailview_override[c].key == dataarr[b][0]) {
-                console.log('h',c,this.libdataval.detailview_override[c]);
-                resdata[b] = [this.libdataval.detailview_override[c].val,dataarr[b][1],dataarr[b][0]];
+                console.log('h', c, this.libdataval.detailview_override[c]);
+                resdata[b] = [this.libdataval.detailview_override[c].val, dataarr[b][1], dataarr[b][0]];
               }
             }
-            if(resdata[b]==null) resdata[b]=dataarr[b];
+            if (resdata[b] == null) resdata[b] = dataarr[b];
 
           }
           //console.log('c',res,resdata);
-          dataarr=resdata;
+          dataarr = resdata;
           //console.log('c',res,resdata);
         }
-      //console.log('dataarr',dataarr);
-      if (val.refreshdata != null && val.refreshdata == true) {
-        this.allSearch();
+        //console.log('dataarr',dataarr);
+        if (val.refreshdata != null && val.refreshdata == true) {
+          this.allSearch();
+        }
+        const dialogRef = this.dialog.open(Confirmdialog, {
+          height: 'auto',
+          panelClass: 'custom-modalbox',
+          data: { isconfirmation: false, data: dataarr }
+        });
       }
-      const dialogRef = this.dialog.open(Confirmdialog, {
-        height: 'auto',
-        panelClass: 'custom-modalbox',
-        data: {isconfirmation: false, data: dataarr}
-      });
-    }
-      if(result.status == 'error'){
+      if (result.status == 'error') {
         this._snackBar.openFromComponent(SnackbarComponent, {
-          duration:   6000,
-          data:result
+          duration: 6000,
+          data: result
         });
       }
 
     }, error => {
-          //console.log('Oooops!');
-          this._snackBar.openFromComponent(SnackbarComponent, {
-            duration:   6000,
-            data: {errormessage:'Something Went Wrong ,Try Again!!'}
-          });
-          this.loading=false;
-        });
+      //console.log('Oooops!');
+      this._snackBar.openFromComponent(SnackbarComponent, {
+        duration: 6000,
+        data: { errormessage: 'Something Went Wrong ,Try Again!!' }
+      });
+      this.loading = false;
+    });
     return;
 
   }
-  openextlinkwithparam(val:any,data:any){
+  openextlinkwithparam(val: any, data: any) {
     //console.log('val',val,data);
-    let qtext:any='';
-    let fulllink:any='';
-    fulllink=val.link;
-    if(val.paramtype==null) {
+    let qtext: any = '';
+    let fulllink: any = '';
+    fulllink = val.link;
+    if (val.paramtype == null) {
       for (let v in val.param) {
         qtext = val.param[v].q + "=" + encodeURI(data[val.param[v].key]);
         //console.log('qtext',qtext);
@@ -994,16 +1025,16 @@ export class ListingComponent implements OnInit {
       }
       //val.link=fulllink;
     }
-    if(val.paramtype!=null && val.paramtype=='angular'){
+    if (val.paramtype != null && val.paramtype == 'angular') {
       for (let v in val.param) {
         //qtext = val.param[v].q + "=" + encodeURI(data[val.param[v].key]);
         //console.log('qtext',qtext);
 
-          fulllink = fulllink + '/' + encodeURI(data[val.param[v]]);
+        fulllink = fulllink + '/' + encodeURI(data[val.param[v]]);
       }
       //val.link=fulllink;
     }
-    setTimeout (() => {
+    setTimeout(() => {
       //console.log("Hello from setTimeout");
       //console.log('link',fulllink,data,qtext);
     }, 10);
@@ -1018,7 +1049,7 @@ export class ListingComponent implements OnInit {
 
   /** Whether the number of selected elements matches the total number of rows. */
   isAllSelected() {
-    if(this.selection!=null && this.selection.select) {
+    if (this.selection != null && this.selection.select) {
       const numSelected = this.selection.selected.length;
       const numRows = this.dataSource.data.length;
       return numSelected === numRows;
@@ -1028,8 +1059,8 @@ export class ListingComponent implements OnInit {
   /** Selects all rows if they are not all selected; otherwise clear selection. */
   masterToggle() {
     this.isAllSelected() ?
-        this.selection.clear() :
-        this.dataSource.data.forEach(row => this.selection.select(row));
+      this.selection.clear() :
+      this.dataSource.data.forEach(row => this.selection.select(row));
   }
 
   /** The label for the checkbox on the passed row */
@@ -1085,7 +1116,7 @@ export class ListingComponent implements OnInit {
     return {}
   }
   /**show video modal on click of thamnail function by sourav */
-  fetchvideo(videodata:any){
+  fetchvideo(videodata: any) {
     //console.warn('videodata',videodata);
     const dialogRef = this.dialog.open(VideoPlayer, {
       panelClass: 'custom-modalbox-videoplayer-preview',
@@ -1171,21 +1202,21 @@ export class ListingComponent implements OnInit {
     }
     let res = Object.entries(data2);
     //console.log('view data',res);
-    if(this.libdataval.detailview_override!=null && this.libdataval.detailview_override.length>0) {
+    if (this.libdataval.detailview_override != null && this.libdataval.detailview_override.length > 0) {
       let resdata: any = [];
       for (let b in res) {
         for (let c in this.libdataval.detailview_override) {
           //console.log('hww',c,this.libdataval.detailview_override[c].key,res[b],res[b][0],res[b][1]);
           if (this.libdataval.detailview_override[c].key == res[b][0]) {
-            console.log('h',c,this.libdataval.detailview_override[c]);
-            resdata[b] = [this.libdataval.detailview_override[c].val,res[b][1],res[b][0]];
+            console.log('h', c, this.libdataval.detailview_override[c]);
+            resdata[b] = [this.libdataval.detailview_override[c].val, res[b][1], res[b][0]];
           }
         }
-        if(resdata[b]==null) resdata[b]=res[b];
+        if (resdata[b] == null) resdata[b] = res[b];
 
       }
       //console.log('c',res,resdata);
-      res=resdata;
+      res = resdata;
       //console.log('c',res,resdata);
     }
     const dialogRef = this.dialog.open(Confirmdialog, {
@@ -1224,18 +1255,18 @@ export class ListingComponent implements OnInit {
             });
 
           }
-          if(result.status == 'error'){
+          if (result.status == 'error') {
             this._snackBar.openFromComponent(SnackbarComponent, {
-              duration:   6000,
-              data:result
+              duration: 6000,
+              data: result
             });
           }
 
         }, error => {
           //console.log('Oooops!');
           this._snackBar.openFromComponent(SnackbarComponent, {
-            duration:   6000,
-            data: {errormessage:'Something Went Wrong ,Try Again!!'}
+            duration: 6000,
+            data: { errormessage: 'Something Went Wrong ,Try Again!!' }
           });
         });
       }
@@ -1310,8 +1341,8 @@ export class ListingComponent implements OnInit {
         }, error => {
           //console.log('Oooops!');
           this._snackBar.openFromComponent(SnackbarComponent, {
-            duration:   6000,
-            data: {errormessage:'Something Went Wrong ,Try Again!!'}
+            duration: 6000,
+            data: { errormessage: 'Something Went Wrong ,Try Again!!' }
           });
         });
       }
@@ -1355,18 +1386,18 @@ export class ListingComponent implements OnInit {
             });
 
           }
-          if(result.status == 'error'){
+          if (result.status == 'error') {
             this._snackBar.openFromComponent(SnackbarComponent, {
-              duration:   6000,
-              data:result
+              duration: 6000,
+              data: result
             });
           }
 
         }, error => {
           //console.log('Oooops!');
           this._snackBar.openFromComponent(SnackbarComponent, {
-            duration:   6000,
-            data: {errormessage:'Something Went Wrong ,Try Again!!'}
+            duration: 6000,
+            data: { errormessage: 'Something Went Wrong ,Try Again!!' }
           });
         });
 
@@ -1406,18 +1437,18 @@ export class ListingComponent implements OnInit {
               data: { message: 'Record  deleted successfully !!', isconfirmation: false }
             });
           }
-          if(result.status == 'error'){
+          if (result.status == 'error') {
             this._snackBar.openFromComponent(SnackbarComponent, {
-              duration:   6000,
-              data:result
+              duration: 6000,
+              data: result
             });
           }
 
         }, error => {
           //console.log('Oooops!');
           this._snackBar.openFromComponent(SnackbarComponent, {
-            duration:   6000,
-            data: {errormessage:'Something Went Wrong ,Try Again!!'}
+            duration: 6000,
+            data: { errormessage: 'Something Went Wrong ,Try Again!!' }
           });
         });
 
@@ -1432,32 +1463,32 @@ export class ListingComponent implements OnInit {
   }
 
 
-  sorttable(field:any,type:any){
-    this.sortdataval.field=field;
-    this.sortdataval.type=type;
+  sorttable(field: any, type: any) {
+    this.sortdataval.field = field;
+    this.sortdataval.type = type;
     this.allSearch();
   }
 
-  allSearch(){
+  allSearch() {
     //console.log("hit");
 
     let link = this.apiurlval + '' + this.datacollectionval;
-    let link1 = this.apiurlval + '' + this.datacollectionval+'-count';
+    let link1 = this.apiurlval + '' + this.datacollectionval + '-count';
     let source: any;
     let condition: any;
-    let textSearch:any={};
+    let textSearch: any = {};
     condition = {};
-    for(let i in this.tsearch){
-      textSearch[i]={$regex:this.tsearch[i].toLowerCase()};
+    for (let i in this.tsearch) {
+      textSearch[i] = { $regex: this.tsearch[i].toLowerCase() };
     }
 
-    let autosearch:any={};
+    let autosearch: any = {};
     //this.autosearch;
-    for(let b in this.autosearch){
-      for(let m in this.autosearch[b]){
-        let tv:any={};
-        tv[b]=this.autosearch[b][m].val.toLowerCase();
-        if(autosearch['$or']==null) autosearch['$or']=[];
+    for (let b in this.autosearch) {
+      for (let m in this.autosearch[b]) {
+        let tv: any = {};
+        tv[b] = this.autosearch[b][m].val.toLowerCase();
+        if (autosearch['$or'] == null) autosearch['$or'] = [];
         autosearch['$or'].push(tv);
       }
     }
@@ -1465,15 +1496,15 @@ export class ListingComponent implements OnInit {
 
 
 
-    let conditionobj = Object.assign({}, textSearch, this.dateSearch_condition, autosearch, this.selectSearch_condition,this.libdataval.basecondition);
+    let conditionobj = Object.assign({}, textSearch, this.dateSearch_condition, autosearch, this.selectSearch_condition, this.libdataval.basecondition);
     source = {
-      "condition":{
-        limit:this.limitcondval.limit,
-        skip:0
+      "condition": {
+        limit: this.limitcondval.limit,
+        skip: 0
       },
-      sort:{
-        field:this.sortdataval.field,
-        type:this.sortdataval.type
+      sort: {
+        field: this.sortdataval.field,
+        type: this.sortdataval.type
       },
       searchcondition: conditionobj,
     };
@@ -1481,27 +1512,27 @@ export class ListingComponent implements OnInit {
     //console.log('con...',conditionobj,this.end_date);
     //console.warn('cond',condition,this.dateSearch_condition,conditionobj,this.tsearch,textSearch);
     //return;
-    this.date_search_source_countval=0;
-    this.loading=true;
+    this.date_search_source_countval = 0;
+    this.loading = true;
     this._apiService.postSearch(link, this.jwttokenval, source).subscribe(res => {
       let result: any = {};
       result = res;
-      if(result.results.res !=null && result.results.res.length>0){
+      if (result.results.res != null && result.results.res.length > 0) {
         this.dataSource = new MatTableDataSource(result.results.res);
         this._snackBar.openFromComponent(SnackbarComponent, {
-          duration:   2000,
-          data: {errormessage:"New Search of data loaded"}
+          duration: 2000,
+          data: { errormessage: "New Search of data loaded" }
         });
-      }else{
+      } else {
 
         this._snackBar.openFromComponent(SnackbarComponent, {
-          duration:   6000,
-          data: {errormessage:"No such search recod found !!"}
+          duration: 6000,
+          data: { errormessage: "No such search recod found !!" }
         });
 
       }
 
-      this.loading=false;
+      this.loading = false;
       // this.dataSource.paginator = this.paginator;
       //this.dataSource.sort = this.sort;
     })
@@ -1510,15 +1541,18 @@ export class ListingComponent implements OnInit {
       let result: any = {};
       result = res;
       this.date_search_source_countval = (result.count);
-      if(result.count==0) this.tableflag=1;
-      else this.tableflag=0;
-     // console.log('count',result);
+      if (result.count == 0) this.tableflag = 1;
+      else this.tableflag = 0;
+      // console.log('count',result);
       // this.dataSource.paginator = this.paginator;
       //this.dataSource.sort = this.sort;
     })
 
   }
 
+  gettypeof(val: any) {
+    return typeof (val);
+  }
 
 
 
@@ -1553,13 +1587,16 @@ export class ListingComponent implements OnInit {
 export class Confirmdialog {
 
   constructor(
-      public dialogRef: MatDialogRef<Confirmdialog>,
-      @Inject(MAT_DIALOG_DATA) public data: any, public sanitizer: DomSanitizer) {
+    public dialogRef: MatDialogRef<Confirmdialog>,
+    @Inject(MAT_DIALOG_DATA) public data: any, public sanitizer: DomSanitizer) {
 
   }
 
   onNoClick(): void {
     this.dialogRef.close();
+  }
+  gettypeof(val: any) {
+    return typeof (val);
   }
   sanitizeUrl(unsafeurl: any, data: any, rowdata: any) {
     for (let b in data) {
@@ -1596,8 +1633,8 @@ export class BottomSheet {
 export class VideoPlayer {
 
   constructor(
-      public dialogRef: MatDialogRef<VideoPlayer>,
-      @Inject(MAT_DIALOG_DATA) public data: any) {
+    public dialogRef: MatDialogRef<VideoPlayer>,
+    @Inject(MAT_DIALOG_DATA) public data: any) {
     //console.warn('videoplayerModal',data.previewData.video);
   }
 
@@ -1614,8 +1651,8 @@ export class VideoPlayer {
 export class ImageView {
 
   constructor(
-      public dialogRef: MatDialogRef<ImageView>,
-      @Inject(MAT_DIALOG_DATA) public data: any) {
+    public dialogRef: MatDialogRef<ImageView>,
+    @Inject(MAT_DIALOG_DATA) public data: any) {
     //console.warn('ImageViewModal',data.alldata);
   }
 
@@ -1635,8 +1672,8 @@ export class ImageView {
 })
 export class SnackbarComponent {
   constructor(
-      public snackBarRef: MatSnackBarRef<SnackbarComponent>,
-      @Inject(MAT_SNACK_BAR_DATA) public data: any
+    public snackBarRef: MatSnackBarRef<SnackbarComponent>,
+    @Inject(MAT_SNACK_BAR_DATA) public data: any
   ) {
     //console.log('snack',this.data);
   }

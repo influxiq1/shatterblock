@@ -1,60 +1,81 @@
-
 <div class="maindialog maindialognew">
 
-<div class="dialoghead" *ngIf="data.preview != true">
-    <h1 mat-dialog-title *ngIf="data!=null && data.message!=null" >Hey !</h1>
-    <h1 mat-dialog-title *ngIf="data!=null && data.data!=null && data.data[0]==null">Details </h1>
-    <div mat-dialog-content>
-        <p *ngIf="data!=null && data.message!=null">{{data.message}}</p>
+    <div class="dialoghead" *ngIf="data.preview != true">
+        <h1 mat-dialog-title *ngIf="data!=null && data.message!=null">Hey !</h1>
+        <h1 mat-dialog-title *ngIf="data!=null && data.data!=null && data.data[0]==null">Details </h1>
+        <div mat-dialog-content>
+            <p *ngIf="data!=null && data.message!=null">{{data.message}}</p>
 
 
-        <div *ngIf="data!=null && data.data!=null">
+            <div *ngIf="data!=null && data.data!=null">
 
 
 
-            <mat-card class="example-card" *ngFor="let item of data.data;">
-                <mat-card-header id="dialogdata{{item[0]}}">
-                    <!--<div mat-card-avatar class="example-header-image"></div>-->
-                    <mat-card-title>{{item[0]}}</mat-card-title>
-                </mat-card-header>
-                <!--<img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu">-->
-                <mat-card-content  id="dialogdata{{item[0]}}">
-                    <p *ngIf="item[2]==null || ( !item[2].includes('date') && !item[2].includes('datetime') )" [innerHtml]="item[1]">
+                <mat-card class="example-card" *ngFor="let item of data.data;">
+                    <mat-card-header id="dialogdata{{item[0]}}">
+                        <!--<div mat-card-avatar class="example-header-image"></div>-->
+                        <mat-card-title>{{item[0]}}</mat-card-title>
+                    </mat-card-header>
+                    <!--<img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu">-->
+                    <mat-card-content id="dialogdata{{item[0]}}">
+                        {{gettypeof(item[1])}}
+                        <p class="innerhtml-content"
+                            *ngIf="(item[2]==null && gettypeof(item[1]) !='object' ) || ( item[2]!=null &&  !item[2].includes('date') && !item[2].includes('datetime') && gettypeof(item[1]) != 'object')"
+                            [innerHtml]="item[1]">
+                        </p>
+                        <p class="innerhtml-content-video"
+                            *ngIf="(item[2]==null && gettypeof(item[1]) =='object' && item[0]!='image_array' ) || ( item[2]!=null &&  !item[2].includes('date') && !item[2].includes('datetime') && gettypeof(item[1]) == 'object' && (item[0]=='video' || item[0]='vd_array' )) "
+                            [innerHtml]="item[1]">
 
-                    </p>
-                     <p *ngIf="item[2]!=null && item[2].includes('date') && !item[2].includes('datetime') ">
-                        {{item[1] | date}}
-                    </p>
-                    <p *ngIf="item[2]!=null && item[2].includes('date') && item[2].includes('datetime') ">
-                        {{item[1] | date:'medium' }} 
-                    </p>
-                </mat-card-content>
-            </mat-card>
+                        </p>
+                        <p *ngIf="item[2]!=null && item[2].includes('date') && !item[2].includes('datetime') ">
+                            {{item[1] | date}}
+                        </p>
+                        <p *ngIf="item[2]!=null && item[2].includes('date') && item[2].includes('datetime') ">
+                            {{item[1] | date:'medium' }}
+                        </p>
+                        <!-- length : {{item[1].length}} {{gettypeof(item[1])}} -->
+                        <p *ngIf=" gettypeof(item[1]) == 'object' && item[0]!=='video' && !item[0].includes('vd')  ">
+                            <!-- in ng for .. -->
+                            <!-- <ng-container *ngFor="let arr of item[1];">
+                            <span *ngIf=" !item[0].includes('image') &&  (item[2]!=null &&   !item[2].includes('image') && !item[0].includes('vd')) && item[0] !='video_array'" [innerHtml]="arr"></span>
+                            <span *ngIf="item[0].includes('image') || (item[2]!=null && item[2].includes('image')) " >
+                                <img [src]="arr" [alt]="arr" >    
+                            </span>
+                            <span *ngIf="item[0].includes('video_array') || (item[2]!=null && item[2].includes('video_array'))"  [innerHtml]="arr" >
+                                
+                            </span>
+
+                        </ng-container> -->
+                        </p>
+                    </mat-card-content>
+                </mat-card>
+
+            </div>
+
+            <!--for custom page in modal(mainly used for tree)-->
+            <div *ngIf="data!=null && data.data!=null  && data.data[0]!=null &&  data.data[0].customdata!=null">
+
+                <iframe class="custom-datadiv" height="auto" [src]="data.data[0].customdata"></iframe>
+
+            </div>
 
         </div>
-
-        <!--for custom page in modal(mainly used for tree)-->
-        <div *ngIf="data!=null && data.data!=null  && data.data[0]!=null &&  data.data[0].customdata!=null">
-
-            <iframe class="custom-datadiv" height="auto"  [src]="data.data[0].customdata" ></iframe>
-
-        </div>
-
     </div>
-</div>
 
 
-<div *ngIf="data.preview == true">
-    <lib-singlepost [post1]="data.previewData.res[0].posts" [user]=""></lib-singlepost>
-</div>
-
-
+    <div *ngIf="data.preview == true">
+        <lib-singlepost [post1]="data.previewData.res[0].posts" [user]=""></lib-singlepost>
+    </div>
 
 
 
-<div mat-dialog-actions *ngIf="data.preview != true">
-    <button mat-button *ngIf="data.isconfirmation==null ||  data.isconfirmation!=false" (click)="onNoClick()">No Thanks</button>
-    <button mat-button mat-dialog-close="yes" cdkFocusInitial>Ok</button>
-</div>
+
+
+    <div mat-dialog-actions *ngIf="data.preview != true">
+        <button mat-button *ngIf="data.isconfirmation==null ||  data.isconfirmation!=false" (click)="onNoClick()">No
+            Thanks</button>
+        <button mat-button mat-dialog-close="yes" cdkFocusInitial>Ok</button>
+    </div>
 
 </div>

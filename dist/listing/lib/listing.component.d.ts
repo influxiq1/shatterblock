@@ -172,6 +172,7 @@ export declare class ListingComponent implements OnInit {
     editdata(data: any): void;
     sorttable(field: any, type: any): void;
     allSearch(): void;
+    gettypeof(val: any): "string" | "number" | "bigint" | "boolean" | "symbol" | "undefined" | "object" | "function";
     artistxpPreview(singleData: any): void;
 }
 export declare class Confirmdialog {
@@ -180,6 +181,7 @@ export declare class Confirmdialog {
     sanitizer: DomSanitizer;
     constructor(dialogRef: MatDialogRef<Confirmdialog>, data: any, sanitizer: DomSanitizer);
     onNoClick(): void;
+    gettypeof(val: any): "string" | "number" | "bigint" | "boolean" | "symbol" | "undefined" | "object" | "function";
     sanitizeUrl(unsafeurl: any, data: any, rowdata: any): import("@angular/platform-browser").SafeResourceUrl;
 }
 export declare class BottomSheet {
