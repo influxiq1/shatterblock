@@ -401,7 +401,8 @@
                             <ng-container *ngIf="filearray[fields.name]!=null  && fields.multiple==null">
                                 <span>{{filearray[fields.name].name}}</span>
                                 <span>{{filearray[fields.name].type}}</span>
-                                <button mat-raised-button (click)="uploadfile(fields)" type="button">Upload</button>
+                                <button *ngIf="filearray[fields.name].uploaded==null " mat-raised-button (click)="uploadfile(fields)" type="button">Upload</button>
+                                <button *ngIf="filearray[fields.name].uploaded==1" mat-raised-button (click)="deletefile(fields)" type="button">Delete</button>
 
                             </ng-container>
                         </div>

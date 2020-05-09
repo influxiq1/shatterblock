@@ -711,8 +711,10 @@ export class AdmindashbordComponent implements OnInit {
                 name: "file1",
                 type: 'file',
                 prefix: "Test-" + Date.now(),
-                path: '/test/t1/',
+                path: 'test/t1/',
                 bucket: 'awsbackend-dev-patient-files-test',
+                apiurl:"https://tge24bc2ne.execute-api.us-east-1.amazonaws.com/dev/requestUploadURL",
+                apideleteurl:"https://tge24bc2ne.execute-api.us-east-1.amazonaws.com/dev/deletefilefromBucket",
                 validations: [
                     { rule: 'required', message: 'File  required !!' }
                 ]

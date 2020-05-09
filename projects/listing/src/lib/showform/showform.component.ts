@@ -158,13 +158,21 @@ export class ShowformComponent implements OnInit {
     }
     return false;
   }
-  uploadfile(val: any) {
-    let apiBaseURL = "https://tge24bc2ne.execute-api.us-east-1.amazonaws.com/dev";
+  // uploadfile(val: any) {
+  //   //let apiBaseURL = "https://tge24bc2ne.execute-api.us-east-1.amazonaws.com/dev";
+  //   let h:any=this.bucketupload(val);
+  //   console.log('upppp',h);
+    
+
+  // }
+
+  uploadfile(val:any){
     var reader = new FileReader();
     let file: any = this.filearray[val.name];
-    console.log('file val',val);
-    reader.addEventListener('loadend', function (e) {
-      fetch(apiBaseURL + "/requestUploadURL", {
+    console.log('file val',val); 
+    //reader.addEventListener('loadend', function (e) {
+      reader.onloadend = (e) =>  { 
+      fetch(val.apiurl, {
         method: "POST",
         headers: {
           'Content-Type': 'application/json'
@@ -177,6 +185,7 @@ export class ShowformComponent implements OnInit {
         })
       })
         .then(function (response) {
+          console.log('buck',response);
           return response.json();
         })
         .then(function (json) {
@@ -186,13 +195,49 @@ export class ShowformComponent implements OnInit {
           })
         })
         .then(function () {
+          //return 'success';
+          file.uploaded=1;
+          file.fileservername=val.prefix+file.name;
           // var uploadedFileNode = document.createElement('div');
           // uploadedFileNode.innerHTML = '<a href="//s3.amazonaws.com/slsupload/'+ file.name +'">'+ file.name +'</a>';
           // list.appendChild(uploadedFileNode);
         });
-    });
+    //});
+  };
     reader.readAsArrayBuffer(file);
+  }
+  deletefile(val:any){
+    let source:any={};
+    let file: any = this.filearray[val.name];
+    source['file']=val.prefix+file.name;
+    source['path']=val.path;
+    source['bucket']=val.bucket;
+    this._apiService.postSearch(val.apideleteurl, this.formdataval.jwttoken, source).subscribe(res => {
+      let result: any = {};
+      result = res;
+      if (result.status == 'success') {
+        this.formGroup.reset();
+        this._snackBar.openFromComponent(SnackbarComponent, {
+          duration: 6000,
+          data: { errormessage: "Deleted !!" }
+        });
+        this.filearray[val.name]=null;
+      }
+      if (result.status == 'error') {
+        this._snackBar.openFromComponent(SnackbarComponent, {
+          duration: 6000,
+          data: result
+        });
+      }
 
+    }, error => {
+      //console.log('Oooops!');
+      this._snackBar.openFromComponent(SnackbarComponent, {
+        duration: 6000,
+        data: { errormessage: 'Something Went Wrong ,Try Again!!' }
+      });
+      this.loading = false;
+    });
   }
   ngOnChanges(changes: { [propKey: string]: SimpleChange }) {
 
