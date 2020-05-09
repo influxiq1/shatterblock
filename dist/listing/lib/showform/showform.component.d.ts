@@ -23,6 +23,7 @@ export declare class ShowformComponent implements OnInit {
     autocompletefiledvalue: any;
     filearray: any;
     currentautocomplete: any;
+    fieldloading: any;
     color: ThemePalette;
     mode: any;
     value: number;
@@ -48,8 +49,9 @@ export declare class ShowformComponent implements OnInit {
     removechipsingle(val: any): void;
     removechipmultiple(val: any, index: any): void;
     setautocompletevalue(val: any, field: any): void;
+    managefromcontrol(field: any, type: any): void;
     checkchange(field: any, index: any): void;
-    createForm(): void;
+    createForm(initialize?: any): void;
     setChangeValidate(): void;
     readonly name: FormControl;
     checkPasswords(group: FormGroup): {

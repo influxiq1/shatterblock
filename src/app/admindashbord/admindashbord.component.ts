@@ -596,11 +596,11 @@ export class AdmindashbordComponent implements OnInit {
             },
             {
                 label: "Has Child   select?",
-                name: "child",
+                name: "haschildsel",
                 hint: 'has child ???',
                 type: 'select',
                 labelPosition: 'after',
-                val:[{val:1,name:'yes'},{val:2,name:'no'}],
+                val:[{val:1,name:'Yes'},{val:2,name:'No'}],
                // value: null,
                 dependent: [
 
@@ -608,7 +608,7 @@ export class AdmindashbordComponent implements OnInit {
                         condval: 1,
                         field:
                         {
-                            label: "How many CC",
+                            label: "How many Child text Sel",
                             name: "childcount1",
                             type: 'number',
                             hint: '1to 3',
@@ -625,7 +625,7 @@ export class AdmindashbordComponent implements OnInit {
                             label: "How many girls ??",
                             name: "childcountgirls1",
                             type: 'number',
-                            hint: '1to 3',
+                            hint: '1to 2',
                             validations: [
                                 { rule: 'required' },
                                 { rule: 'min', value: 1 },
@@ -639,7 +639,7 @@ export class AdmindashbordComponent implements OnInit {
                             label: "How many boys ??",
                             name: "childcountboys1",
                             type: 'number',
-                            hint: '1to 3',
+                            hint: 'up to 2',
                             validations: [
                                 { rule: 'required' },
                                 { rule: 'min', value: 1 },
@@ -652,7 +652,7 @@ export class AdmindashbordComponent implements OnInit {
                 validations: [
                     { rule: 'required' }
                 ],
-                prefix: "http://google.com/",
+                prefix: "Sel hc",
                 suffix: "PM"
 
             },
@@ -797,6 +797,26 @@ export class AdmindashbordComponent implements OnInit {
             this.formfieldrefreshdata = { field: 'email', value: this.temtdata + '@gmail.com' };
         }, 50);
         this.updatetable = !this.updatetable;
+
+    }
+    showfieldloader(){
+        this.formfieldrefreshdata = { field: 'showfieldloader', value: 'email' };
+        setTimeout(() => {
+            this.formfieldrefreshdata = { field: 'showfieldloader', value: '' };
+        }, 6000);
+
+    }
+    deleteformfield(){
+        this.formfieldrefreshdata = { field: 'removefromcontrol', value: {name:'desc'} };
+        
+    }
+    addformfield() {
+        this.formfieldrefreshdata = { field: 'addfromcontrol', value: {
+            label: "Pet Name",
+            name: "petname",
+            type: 'text',
+            after:'email'
+        }};
 
     }
 

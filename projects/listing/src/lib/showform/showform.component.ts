@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, Input, Inject, SimpleChange, ElementRef,EventEmitter ,Output} from '@angular/core';
+import { Component, OnInit, ViewChild, Input, Inject, SimpleChange, ElementRef, EventEmitter, Output } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl, Validators, FormArray } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { ApiService } from '../api.service';
@@ -27,6 +27,7 @@ export class ShowformComponent implements OnInit {
   autocompletefiledvalue: any = [];
   filearray: any = [];
   currentautocomplete: any = '';
+  fieldloading: any = '';
 
   /*for progress bar*/
 
@@ -202,7 +203,16 @@ export class ShowformComponent implements OnInit {
             console.log(this.formfieldrefreshdataval, 'm');
             console.log(this.formfieldrefreshdataval.field);
             console.log(this.formfieldrefreshdataval.value);
-            if (this.formGroup != null) this.formGroup.controls[this.formfieldrefreshdataval.field].patchValue(this.formfieldrefreshdataval.value)
+            if (this.formGroup != null && this.formGroup.controls[this.formfieldrefreshdataval.field] != null) this.formGroup.controls[this.formfieldrefreshdataval.field].patchValue(this.formfieldrefreshdataval.value)
+            if (this.formfieldrefreshdataval.field == 'showfieldloader') {
+              this.fieldloading = this.formfieldrefreshdataval.value;
+            }
+            if (this.formfieldrefreshdataval.field == 'addfromcontrol') {
+              this.managefromcontrol(this.formfieldrefreshdataval.value,'add');
+            }
+            if (this.formfieldrefreshdataval.field == 'removefromcontrol') {
+              this.managefromcontrol(this.formfieldrefreshdataval.value,'remove');
+            }
 
           }
         }, 0);
@@ -254,53 +264,58 @@ export class ShowformComponent implements OnInit {
       this.autocompletefiledvalue[field.name].push(val.key);
 
     }
-    this.formGroup.controls[field.name].patchValue(null );
+    this.formGroup.controls[field.name].patchValue(null);
     this.inputblur(field.name);
+
+  }
+  managefromcontrol(field: any, type: any){
+    console.log('manage control',field,type);
+    if(type=='remove'){
+      for (let y in this.formdataval.fields) {
+        if (this.formdataval.fields[y].name == field.name) {
+          this.formdataval.fields.splice(parseInt(y), 1);
+          this.formGroup.removeControl(field.name);
+          console.log('removed',field['name'], 'c', y);
+        }
+      }
+    }
+    if(type=='add'){
+      console.log('in add form');
+      for (let y in this.formdataval.fields) {
+        if (this.formdataval.fields[y].name == field.after) {
+          this.formdataval.fields.splice(parseInt(y)+1, 0, field);
+          this.createForm(1);
+          console.log('added ..',field['name'], 'c', y);
+        }
+      }
+    }
 
   }
   checkchange(field: any, index: any) {
     console.log(field, 'change', this.formGroup.controls[field.name].value);
-    this.onFormFieldChange.emit({field:field,fieldval:this.formGroup.controls[field.name].value});
+    this.onFormFieldChange.emit({ field: field, fieldval: this.formGroup.controls[field.name].value });
     if (field.dependent != null && field.dependent.length > 0) {
-      let vc:any=0;
+      let vc: any = 0;
       for (let n in field.dependent) {
 
-        if (field.dependent[n].condval == this.formGroup.controls[field.name].value) {
-          let temvalidationrulet: any = [];
+        if (field.dependent[n].condval.toString() == this.formGroup.controls[field.name].value.toString()) {
+          // let temvalidationrulet: any = [];
           vc++;
-          for (let v in field.dependent[n].field.validations) {
-            // setTimeout( ()=>{
-            if (field.dependent[n].field.validations[v].message == null)
-              field.dependent[n].field.validations[v].message = "Not Valid !!"
-            if (field.dependent[n].field.validations[v].rule == 'required')
-              temvalidationrulet.push(Validators.required);
-            if (field.dependent[n].field.validations[v].rule == 'match') {
-              this.formGroup.setValidators(this.checkPasswords);
-            }
-            if (field.dependent[n].field.validations[v].rule == 'autorequired') {
-              this.formGroup.setValidators(this.autorequired);
-            }
-            if (field.dependent[n].field.validations[v].rule == 'pattern')
-              temvalidationrulet.push(Validators.pattern(field.dependent[n].field.validations[v].value));
-            if (field.dependent[n].field.validations[v].rule == 'maxLength')
-              temvalidationrulet.push(Validators.maxLength(field.dependent[n].field.validations[v].value));
-            if (field.dependent[n].field.validations[v].rule == 'min')
-              temvalidationrulet.push(Validators.min(field.dependent[n].field.validations[v].value));
-            if (field.dependent[n].field.validations[v].rule == 'max')
-              temvalidationrulet.push(Validators.max(field.dependent[n].field.validations[v].value));
-            if (field.dependent[n].field.validations[v].rule == 'minLength')
-              temvalidationrulet.push(Validators.minLength(field.dependent[n].field.validations[v].value));
-            //},0);
-          }
-
-          this.formGroup.addControl(field.dependent[n].field.name, new FormControl(field.dependent[n].field.value, temvalidationrulet));
-          //console.log('nnnnn','--',parseInt(index+1+n),'--',n+index+1,index,n);
-          
-          this.formdataval.fields.splice(parseInt(index + 1 + parseInt(vc)), 0, field.dependent[n].field);
+          //this.formGroup.addControl(field.dependent[n].field.name, new FormControl(field.dependent[n].field.value, temvalidationrulet));
+          console.log('nnnnn', '--', parseInt(index + 1 + parseInt(vc)), '--', vc + index + 1, index, vc, field.dependent[n].field['name']);
+          this.formdataval.fields.splice(parseInt(index + parseInt(vc)), 0, field.dependent[n].field);
+          this.createForm(1);
 
         } else {
-          this.formGroup.removeControl(field.dependent[n].field.name);
-          this.formdataval.fields.splice(parseInt(index + 1 + parseInt(vc)), 1);
+
+          for (let y in this.formdataval.fields) {
+            if (this.formdataval.fields[y].name == field.dependent[n].field.name) {
+              this.formdataval.fields.splice(parseInt(y), 1);
+              this.formGroup.removeControl(field.dependent[n].field.name);
+              console.log('removed', field.dependent[n].field['name'], 'c', y);
+            }
+          }
+
 
 
         }
@@ -310,7 +325,7 @@ export class ShowformComponent implements OnInit {
 
 
 
-  createForm() {
+  createForm(initialize: any = 0) {
     /*this.formGroup = this.formBuilder.group({
       'email': [null, [Validators.required, Validators.pattern(emailregex)], this.checkInUseEmail],
       'fullname': [null, Validators.required],
@@ -319,96 +334,99 @@ export class ShowformComponent implements OnInit {
       //'validate': ''
     });*/
     //let demoArray:any=[];
-    this.formGroup = this.formBuilder.group({
-    });
+    if (initialize == 0)
+      this.formGroup = this.formBuilder.group({
+      });
     console.log(this.formGroup, 'fg')
     for (let n in this.formdataval.fields) {
-      let temcontrolarr: any = [];
-      let temvalidationrule: any = [];
-      if (this.formdataval.fields[n].value != null)
-        temcontrolarr.push(this.formdataval.fields[n].value);
-      else
-        temcontrolarr.push('');
-      if (this.formdataval.fields[n].type == 'checkbox' && this.formdataval.fields[n].multiple != null && this.formdataval.fields[n].multiple == true) {
-        if (this.formdataval.fields[n].value == null) temcontrolarr.push([]);
-        else {
-          if (this.formdataval.fields[n].val != null) {
-            let tcharr: any = [];
-            for (let b in this.formdataval.fields[n].val) {
-              console.log('b', b, this.formdataval.fields[n].val[b]);
-              if (this.formdataval.fields[n].value.includes(this.formdataval.fields[n].val[b].key)) {
-                tcharr.push(true);
-              } else tcharr.push(false);
+      if (this.formGroup.controls[this.formdataval.fields[n]] == null) {
+        let temcontrolarr: any = [];
+        let temvalidationrule: any = [];
+        if (this.formdataval.fields[n].value != null)
+          temcontrolarr.push(this.formdataval.fields[n].value);
+        else
+          temcontrolarr.push('');
+        if (this.formdataval.fields[n].type == 'checkbox' && this.formdataval.fields[n].multiple != null && this.formdataval.fields[n].multiple == true) {
+          if (this.formdataval.fields[n].value == null) temcontrolarr.push([]);
+          else {
+            if (this.formdataval.fields[n].val != null) {
+              let tcharr: any = [];
+              for (let b in this.formdataval.fields[n].val) {
+                console.log('b', b, this.formdataval.fields[n].val[b]);
+                if (this.formdataval.fields[n].value.includes(this.formdataval.fields[n].val[b].key)) {
+                  tcharr.push(true);
+                } else tcharr.push(false);
+              }
+              // push the val
+              temcontrolarr.push(tcharr);
+              console.log('tch', tcharr);
             }
-            // push the val
-            temcontrolarr.push(tcharr);
-            console.log('tch', tcharr);
           }
         }
-      }
 
-      if (this.formdataval.fields[n].validations != null && this.formdataval.fields[n].validations.length > 0) {
-        for (let v in this.formdataval.fields[n].validations) {
-          // setTimeout( ()=>{
-          if (this.formdataval.fields[n].validations[v].message == null)
-            this.formdataval.fields[n].validations[v].message = "Not Valid !!"
-          if (this.formdataval.fields[n].validations[v].rule == 'required')
-            temvalidationrule.push(Validators.required);
-          if (this.formdataval.fields[n].validations[v].rule == 'match') {
-            this.formGroup.setValidators(this.checkPasswords);
+        if (this.formdataval.fields[n].validations != null && this.formdataval.fields[n].validations.length > 0) {
+          for (let v in this.formdataval.fields[n].validations) {
+            // setTimeout( ()=>{
+            if (this.formdataval.fields[n].validations[v].message == null)
+              this.formdataval.fields[n].validations[v].message = "Not Valid !!"
+            if (this.formdataval.fields[n].validations[v].rule == 'required')
+              temvalidationrule.push(Validators.required);
+            if (this.formdataval.fields[n].validations[v].rule == 'match') {
+              this.formGroup.setValidators(this.checkPasswords);
+            }
+            if (this.formdataval.fields[n].validations[v].rule == 'autorequired') {
+              this.formGroup.setValidators(this.autorequired);
+            }
+            if (this.formdataval.fields[n].validations[v].rule == 'pattern')
+              temvalidationrule.push(Validators.pattern(this.formdataval.fields[n].validations[v].value));
+            if (this.formdataval.fields[n].validations[v].rule == 'maxLength')
+              temvalidationrule.push(Validators.maxLength(this.formdataval.fields[n].validations[v].value));
+            if (this.formdataval.fields[n].validations[v].rule == 'min')
+              temvalidationrule.push(Validators.min(this.formdataval.fields[n].validations[v].value));
+            if (this.formdataval.fields[n].validations[v].rule == 'max')
+              temvalidationrule.push(Validators.max(this.formdataval.fields[n].validations[v].value));
+            if (this.formdataval.fields[n].validations[v].rule == 'minLength')
+              temvalidationrule.push(Validators.minLength(this.formdataval.fields[n].validations[v].value));
+            //},0);
           }
-          if (this.formdataval.fields[n].validations[v].rule == 'autorequired') {
-            this.formGroup.setValidators(this.autorequired);
-          }
-          if (this.formdataval.fields[n].validations[v].rule == 'pattern')
-            temvalidationrule.push(Validators.pattern(this.formdataval.fields[n].validations[v].value));
-          if (this.formdataval.fields[n].validations[v].rule == 'maxLength')
-            temvalidationrule.push(Validators.maxLength(this.formdataval.fields[n].validations[v].value));
-          if (this.formdataval.fields[n].validations[v].rule == 'min')
-            temvalidationrule.push(Validators.min(this.formdataval.fields[n].validations[v].value));
-          if (this.formdataval.fields[n].validations[v].rule == 'max')
-            temvalidationrule.push(Validators.max(this.formdataval.fields[n].validations[v].value));
-          if (this.formdataval.fields[n].validations[v].rule == 'minLength')
-            temvalidationrule.push(Validators.minLength(this.formdataval.fields[n].validations[v].value));
-          //},0);
-        }
-      }
-
-      // demoArray[this.formdataval.fields[n].name]=new FormControl('');
-      if (this.formdataval.fields[n].type == 'checkbox' && this.formdataval.fields[n].multiple != null && this.formdataval.fields[n].multiple == true) {
-        let tchvar: any = false;
-        //let
-        console.log('vv ??? ', this.formdataval.fields[n].value, this.formdataval.fields[n].name, this.formdataval.fields[n].multiple);
-        //this.formGroup.addControl(this.formdataval.fields[n].name, new FormArray([]));
-        for (let j in this.formdataval.fields[n].val) {
-          if (this.formdataval.fields[n].value.includes(this.formdataval.fields[n].val[j].key))
-            tchvar = true;
-          else tchvar = false;
-          console.log('n', n, j, tchvar);
-          this.formGroup.addControl(this.formdataval.fields[n].name + '__' + j, new FormControl(tchvar, temvalidationrule));
-          /*const control = new FormControl(tchvar); // if first item set to true, else false
-     (this.formGroup.controls[this.formdataval.fields[n].name] as FormArray).push(control);*/
-          //this.formGroup.addControl(this.formdataval.fields[n].name,this.formBuilder.array([
-          //this.formBuilder.control(tchvar)
-          //]));
         }
 
-        /*this.formGroup.addControl(this.formdataval.fields[n].name,this.formBuilder.array([
-      this.formBuilder.control(false),
-      this.formBuilder.control(true),
-      this.formBuilder.control(true),
-      this.formBuilder.control(false),
-    ]));*/
-        //this.formGroup.addControl(this.formdataval.fields[n].name, new FormControl(temcontrolarr[0], temvalidationrule));
+        // demoArray[this.formdataval.fields[n].name]=new FormControl('');
+        if (this.formdataval.fields[n].type == 'checkbox' && this.formdataval.fields[n].multiple != null && this.formdataval.fields[n].multiple == true) {
+          let tchvar: any = false;
+          //let
+          console.log('vv ??? ', this.formdataval.fields[n].value, this.formdataval.fields[n].name, this.formdataval.fields[n].multiple);
+          //this.formGroup.addControl(this.formdataval.fields[n].name, new FormArray([]));
+          for (let j in this.formdataval.fields[n].val) {
+            if (this.formdataval.fields[n].value.includes(this.formdataval.fields[n].val[j].key))
+              tchvar = true;
+            else tchvar = false;
+            console.log('n', n, j, tchvar);
+            this.formGroup.addControl(this.formdataval.fields[n].name + '__' + j, new FormControl(tchvar, temvalidationrule));
+            /*const control = new FormControl(tchvar); // if first item set to true, else false
+       (this.formGroup.controls[this.formdataval.fields[n].name] as FormArray).push(control);*/
+            //this.formGroup.addControl(this.formdataval.fields[n].name,this.formBuilder.array([
+            //this.formBuilder.control(tchvar)
+            //]));
+          }
+
+          /*this.formGroup.addControl(this.formdataval.fields[n].name,this.formBuilder.array([
+        this.formBuilder.control(false),
+        this.formBuilder.control(true),
+        this.formBuilder.control(true),
+        this.formBuilder.control(false),
+      ]));*/
+          //this.formGroup.addControl(this.formdataval.fields[n].name, new FormControl(temcontrolarr[0], temvalidationrule));
 
 
+        }
+        else {
+
+
+          this.formGroup.addControl(this.formdataval.fields[n].name, new FormControl({ value: temcontrolarr[0], disabled: this.formdataval.fields[n].disabled }, temvalidationrule));
+        }
+        //'newControl', new FormControl('', Validators.required)
       }
-      else {
-
-
-        this.formGroup.addControl(this.formdataval.fields[n].name, new FormControl({value:temcontrolarr[0],disabled:this.formdataval.fields[n].disabled}, temvalidationrule));
-      }
-      //'newControl', new FormControl('', Validators.required)
     }
     //=this.checkPasswords(this.formGroup);
     //this.formGroup = this.formBuilder.group(demoArray);
