@@ -162,6 +162,7 @@ export class ShowformComponent implements OnInit {
     let apiBaseURL = "https://tge24bc2ne.execute-api.us-east-1.amazonaws.com/dev";
     var reader = new FileReader();
     let file: any = this.filearray[val.name];
+    console.log('file val',val);
     reader.addEventListener('loadend', function (e) {
       fetch(apiBaseURL + "/requestUploadURL", {
         method: "POST",
@@ -169,8 +170,10 @@ export class ShowformComponent implements OnInit {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          name: file.name,
-          type: file.type
+          name: val.prefix+file.name,
+          type: file.type,
+          path:val.path,
+          bucket:val.bucket
         })
       })
         .then(function (response) {

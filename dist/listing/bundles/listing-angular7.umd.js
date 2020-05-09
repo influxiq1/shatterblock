@@ -3328,6 +3328,7 @@
                 var reader = new FileReader();
                 /** @type {?} */
                 var file = this.filearray[val.name];
+                console.log('file val', val);
                 reader.addEventListener('loadend', ( /**
                  * @param {?} e
                  * @return {?}
@@ -3338,8 +3339,10 @@
                             'Content-Type': 'application/json'
                         },
                         body: JSON.stringify({
-                            name: file.name,
-                            type: file.type
+                            name: val.prefix + file.name,
+                            type: file.type,
+                            path: val.path,
+                            bucket: val.bucket
                         })
                     })
                         .then(( /**

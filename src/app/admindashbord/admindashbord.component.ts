@@ -320,7 +320,7 @@ export class AdmindashbordComponent implements OnInit {
                 name: "fullname",
                 value: 'Test N',
                 type: "text",
-                disabled:true,
+                disabled: true,
                 validations: [
                     { rule: 'required' },
                     { rule: 'maxLength', value: 10 },
@@ -415,8 +415,8 @@ export class AdmindashbordComponent implements OnInit {
                 hint: ',0000',
                 type: 'select',
                 val: this.status,
-                disabled:true,
-                value:1,
+                disabled: true,
+                value: 1,
                 //value: '',
                 validations: [
                     { rule: 'required' }
@@ -600,8 +600,8 @@ export class AdmindashbordComponent implements OnInit {
                 hint: 'has child ???',
                 type: 'select',
                 labelPosition: 'after',
-                val:[{val:1,name:'Yes'},{val:2,name:'No'}],
-               // value: null,
+                val: [{ val: 1, name: 'Yes' }, { val: 2, name: 'No' }],
+                // value: null,
                 dependent: [
 
                     {
@@ -664,9 +664,9 @@ export class AdmindashbordComponent implements OnInit {
                 type: 'checkbox',
                 labelPosition: 'after',
                 value: null,
-                disabled:true
+                disabled: true
             },
-            
+
             {
                 label: "Purchaseable ?",
                 name: "is_purchaseble",
@@ -702,12 +702,17 @@ export class AdmindashbordComponent implements OnInit {
             {
                 label: "City",
                 name: "city",
-                type: 'text'
+                type: 'text',
+                
+
             },
             {
                 label: "File 1",
                 name: "file1",
                 type: 'file',
+                prefix: "Test-" + Date.now(),
+                path: '/test/t1/',
+                bucket: 'awsbackend-dev-patient-files-test',
                 validations: [
                     { rule: 'required', message: 'File  required !!' }
                 ]
@@ -784,9 +789,9 @@ export class AdmindashbordComponent implements OnInit {
     ngOnInit() {
 
     }
-    listenFormFieldChange(val:any){
-        console.log('listenFormFieldChange',val);
-        if(val.field.name=='fullname' && val.fieldval=='Debasis'){
+    listenFormFieldChange(val: any) {
+        console.log('listenFormFieldChange', val);
+        if (val.field.name == 'age' && val.fieldval == 23) {
             this.formfieldrefreshdata = { field: 'email', value: 'debasiskar7@gmail.com' };
         }
     }
@@ -799,24 +804,26 @@ export class AdmindashbordComponent implements OnInit {
         this.updatetable = !this.updatetable;
 
     }
-    showfieldloader(){
+    showfieldloader() {
         this.formfieldrefreshdata = { field: 'showfieldloader', value: 'email' };
         setTimeout(() => {
             this.formfieldrefreshdata = { field: 'showfieldloader', value: '' };
         }, 6000);
 
     }
-    deleteformfield(){
-        this.formfieldrefreshdata = { field: 'removefromcontrol', value: {name:'desc'} };
-        
+    deleteformfield() {
+        this.formfieldrefreshdata = { field: 'removefromcontrol', value: { name: 'desc' } };
+
     }
     addformfield() {
-        this.formfieldrefreshdata = { field: 'addfromcontrol', value: {
-            label: "Pet Name",
-            name: "petname",
-            type: 'text',
-            after:'email'
-        }};
+        this.formfieldrefreshdata = {
+            field: 'addfromcontrol', value: {
+                label: "Pet Name",
+                name: "petname",
+                type: 'text',
+                after: 'fullname'
+            }
+        };
 
     }
 
