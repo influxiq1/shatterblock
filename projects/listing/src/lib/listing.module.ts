@@ -11,7 +11,7 @@ import {RouterModule} from "@angular/router";
 import {YoutubeplayerComponent} from './youtubeplayer/youtubeplayer.component';
 import { ShowformComponent } from './showform/showform.component';
 import { CKEditorModule } from 'ng2-ckeditor';
-import { MatFileUploadModule } from 'angular-material-fileupload';
+//import { MatFileUploadModule } from 'angular-material-fileupload';
 
 
 @NgModule({
@@ -22,7 +22,7 @@ import { MatFileUploadModule } from 'angular-material-fileupload';
         DemoMaterialModule,
         FormsModule, ReactiveFormsModule,
         RouterModule,
-        MomentModule,CKEditorModule,MatFileUploadModule
+        MomentModule,CKEditorModule
         
 
     ],
