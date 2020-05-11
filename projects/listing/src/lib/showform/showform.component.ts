@@ -26,6 +26,7 @@ export class ShowformComponent implements OnInit {
   filerfielddata: any = [];
   autocompletefiledvalue: any = [];
   filearray: any = [];
+  filecount:any=[];
   currentautocomplete: any = '';
   fieldloading: any = '';
 
@@ -224,6 +225,71 @@ export class ShowformComponent implements OnInit {
     };
     reader.readAsArrayBuffer(file);
   }
+  uploadall(val: any) {
+    // this.filearray[val.name].uploadall = 1;
+    for (let y in this.filearray[val.name]) {
+      let c: any = parseInt(y) * 500;
+      this.uploadfilemultiple(val, this.filearray[val.name][y], y);
+
+    }
+
+  }
+  deletefilemultipleall(val: any) {
+    for (let y in this.filearray[val.name]) {
+      let c: any = parseInt(y) * 500;
+      this.deletefilemultiple(val, this.filearray[val.name][y], y);
+    }
+    setTimeout(() => {
+      this.filearray[val.name] = null;
+    }, 2000);
+
+  }
+  uploadfilemultiple(val: any, f: any, indexf: any) {
+    var reader = new FileReader();
+    let file: any = this.filearray[val.name][indexf];
+    if(this.filecount[val.name]==null)this.filecount[val.name] =0;
+    this.filecount[val.name]++;
+    // console.log('file val in m 2', val, f, indexf, 'if',file); 
+    file.uploaded = 2; // show progressbar 
+    let temploader: any = this.fieldloading[val.name];
+    temploader = val.name;
+    //reader.addEventListener('loadend', function (e) {
+    reader.onloadend = (e) => {
+      fetch(val.apiurl, {
+        method: "POST",
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          name: val.prefix + file.name,
+          type: file.type,
+          path: val.path,
+          bucket: val.bucket
+        })
+      })
+        .then(function (response) {
+          console.log('buck', response);
+          return response.json();
+        })
+        .then(function (json) {
+          return fetch(json.uploadURL, {
+            method: "PUT",
+            body: new Blob([reader.result], { type: file.type })
+          })
+        })
+        .then(function () {
+          //return 'success';
+          file.uploaded = 1;
+          file.fileservername = val.prefix + file.name;
+          // temploader = null;
+          // var uploadedFileNode = document.createElement('div');
+          // uploadedFileNode.innerHTML = '<a href="//s3.amazonaws.com/slsupload/'+ file.name +'">'+ file.name +'</a>';
+          // list.appendChild(uploadedFileNode);
+        });
+      //});
+    };
+    reader.readAsArrayBuffer(file);
+  }
   deletefile(val: any, flag: any = '') {
     let source: any = {};
     let file: any = this.filearray[val.name];
@@ -257,6 +323,42 @@ export class ShowformComponent implements OnInit {
       this.loading = false;
     });
   }
+  deletefilemultiple(val: any, field: any = '', index: any) {
+    let source: any = {};
+    let file: any = this.filearray[val.name][index];
+    this.filecount[val.name]--;
+    source['file'] = val.prefix + file.name;
+    source['path'] = val.path;
+    source['bucket'] = val.bucket;
+    this._apiService.postSearch(val.apideleteurl, this.formdataval.jwttoken, source).subscribe(res => {
+      let result: any = {};
+      result = res;
+      if (result.status == 'success') {
+        this.formGroup.reset();
+        this._snackBar.openFromComponent(SnackbarComponent, {
+          duration: 6000,
+          data: { errormessage: "Deleted !!" }
+        });
+        this.filearray[val.name].splice(index, 1);
+      }
+      if (result.status == 'error') {
+        this._snackBar.openFromComponent(SnackbarComponent, {
+          duration: 6000,
+          data: result
+        });
+      }
+
+    }, error => {
+      //console.log('Oooops!');
+      this._snackBar.openFromComponent(SnackbarComponent, {
+        duration: 6000,
+        data: { errormessage: 'Something Went Wrong ,Try Again!!' }
+      });
+      this.loading = false;
+    });
+  }
+
+
   ngOnChanges(changes: { [propKey: string]: SimpleChange }) {
 
     //console.log('ngonchange in form !!!', changes, 'frv', this.formfieldrefreshdataval);
@@ -609,8 +711,8 @@ export class ShowformComponent implements OnInit {
       let b = x.split('__');
       //console.log('b',b,b.length,b[0]);
       for (let m in this.formdataval.fields) {
-        if (this.formdataval.fields[m].type == 'file' && this.formdataval.fields[m].multiple == null) {
-          if (this.filearray[this.formdataval.fields[m].name].uploaded == 1) {
+        if (this.formdataval.fields[m].type == 'file' && this.formdataval.fields[m].multiple == null && this.filearray[this.formdataval.fields[m].name] != null) {
+          if (this.filearray[this.formdataval.fields[m].name] != null && this.filearray[this.formdataval.fields[m].name].uploaded == 1) {
             // fileservername: "Test-1589216992392My Saved Schema.json"
             // lastModified: 1589174477504
             // lastModifiedDate: Mon May 11 2020 10: 51: 17 GMT + 0530(India Standard Time) { }
@@ -626,6 +728,29 @@ export class ShowformComponent implements OnInit {
             tfile.path = this.formdataval.fields[m].path,
               tfile.bucket = this.formdataval.fields[m].bucket,
               this.formGroup.controls[this.formdataval.fields[m].name].patchValue(tfile);
+          }
+        }
+        if (this.formdataval.fields[m].type == 'file' && this.formdataval.fields[m].multiple != null && this.formdataval.fields[m].multiple == true) {
+          let tfilearr: any = [];
+          for (let g in this.filearray[this.formdataval.fields[m].name]) {
+            if (this.filearray[this.formdataval.fields[m].name][g] != null && this.filearray[this.formdataval.fields[m].name][g].uploaded == 1) {
+              // fileservername: "Test-1589216992392My Saved Schema.json"
+              // lastModified: 1589174477504
+              // lastModifiedDate: Mon May 11 2020 10: 51: 17 GMT + 0530(India Standard Time) { }
+              // name: "My Saved Schema.json"
+              // size: 135096
+              // type: "application/json"
+              // uploaded: 1
+              let tfile: any = {};
+              tfile.fileservername = this.filearray[this.formdataval.fields[m].name][g].fileservername;
+              tfile.name = this.filearray[this.formdataval.fields[m].name][g].name;
+              tfile.size = this.filearray[this.formdataval.fields[m].name][g].size;
+              tfile.type = this.filearray[this.formdataval.fields[m].name][g].type;
+              tfile.path = this.formdataval.fields[m].path;
+              tfile.bucket = this.formdataval.fields[m].bucket;
+              tfilearr.push(tfile);
+            }
+            this.formGroup.controls[this.formdataval.fields[m].name].patchValue(tfilearr);
           }
         }
         if (this.formdataval.fields[m].type == 'autocomplete') {

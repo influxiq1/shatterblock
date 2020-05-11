@@ -22,6 +22,7 @@ export declare class ShowformComponent implements OnInit {
     filerfielddata: any;
     autocompletefiledvalue: any;
     filearray: any;
+    filecount: any;
     currentautocomplete: any;
     fieldloading: any;
     color: ThemePalette;
@@ -40,7 +41,11 @@ export declare class ShowformComponent implements OnInit {
     cancel(e: any): boolean;
     handleDrop(e: any): boolean;
     uploadfile(val: any): void;
+    uploadall(val: any): void;
+    deletefilemultipleall(val: any): void;
+    uploadfilemultiple(val: any, f: any, indexf: any): void;
     deletefile(val: any, flag?: any): void;
+    deletefilemultiple(val: any, field: any, index: any): void;
     ngOnChanges(changes: {
         [propKey: string]: SimpleChange;
     }): void;

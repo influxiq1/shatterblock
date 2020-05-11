@@ -387,20 +387,11 @@
                     <mat-label [innerHTML]="fields.label"></mat-label>
                     <div class="aligner" (load)="triggerevents(fields)">
                         <div class="drop" [attr.fileid]="fields.name" id="drop{{fields.name}}">Drop files here.</div>
-                        <div class="id" id="list{{fields.name}}">
-                            <h1>Files:</h1>
-                            <ng-container
-                                *ngIf="filearray[fields.name]!=null && filearray[fields.name].length>0 && fields.multiple!=null">
-                                <ng-container *ngFor="let files of filearray[fields.name]">
-                                    <span>{{files.name}}</span>
-                                    <span>{{files.type}}</span>
-                                    <button mat-raised-button type="button">Upload</button>
-                                </ng-container>
-
-                            </ng-container>
+                        <div class="filesid" id="list{{fields.name}}">
+                            <h1 *ngIf="filearray[fields.name]!=null ">Files:</h1>
                             <ng-container *ngIf="filearray[fields.name]!=null  && fields.multiple==null">
                                 <span>{{filearray[fields.name].name}}</span>
-                                <br/>
+                                <br />
                                 <span>{{filearray[fields.name].type}}</span>
                                 <button *ngIf="filearray[fields.name].uploaded==null " mat-raised-button
                                     (click)="uploadfile(fields)" type="button">Upload</button>
@@ -413,6 +404,33 @@
                                     </mat-progress-bar>
                                 </section>
                             </ng-container>
+                            <!-- for multiple file uploads  -->
+                            <ng-container
+                                *ngIf="filearray[fields.name]!=null && fields.multiple!=null  && fields.multiple==true">
+                                <ng-container *ngFor="let files of filearray[fields.name]; let fi=index; ">
+                                    <span>{{files.name}} </span>
+                                    <br />
+                                    <span>{{files.type}}</span>
+                                    <button *ngIf="files.uploaded==null " mat-raised-button
+                                        (click)="uploadfilemultiple(fields,files,fi)" type="button">Upload</button>
+                                    <button *ngIf="files.uploaded==1" mat-raised-button
+                                        (click)="deletefilemultiple(fields,files,fi)" type="button">Delete</button>
+
+                                    <section *ngIf="files.uploaded==2 " class="example-section">
+                                        <mat-progress-bar class="example-margin" [color]="color" [mode]="mode"
+                                            [value]="value" [bufferValue]="bufferValue">
+                                        </mat-progress-bar>
+                                    </section>
+                                    <br />
+                                </ng-container>
+                                <button
+                                    *ngIf="(filecount[fields.name]!=null && filecount[fields.name] !=filearray[fields.name].length ) || filecount[fields.name]==null"
+                                    mat-raised-button (click)="uploadall(fields)" type="button">Upload All</button>
+                                <button mat-raised-button (click)="deletefilemultipleall(fields)" type="button">Delete
+                                    All</button>
+                            </ng-container>
+
+
                         </div>
                     </div>
 

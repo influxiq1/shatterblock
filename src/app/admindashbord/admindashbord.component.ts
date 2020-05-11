@@ -147,9 +147,9 @@ export class AdmindashbordComponent implements OnInit {
         ], // optional
         updateendpoint: 'statusupdate',
         hideeditbutton: true,// all these button options are optional not mandatory
-        hidedeletebutton:true,
+        hidedeletebutton: true,
         //hideviewbutton:false,
-        hidestatustogglebutton:true,
+        hidestatustogglebutton: true,
         // hideaction:true,
         tableheaders: ['author', 'priority', 'blogtitle', 'status', 'wrongone', 'created_date', 'created_datetime', 'author_search', 'description'], //not required
         custombuttons: [
@@ -166,7 +166,7 @@ export class AdmindashbordComponent implements OnInit {
                 param: [{ key: 'blogtitle', q: 'q' }, { key: 'author', q: 'oq' }],
                 cond: 'status',
                 condval: 1
-            }, 
+            },
             {
                 label: "mask blog",
                 link: "https://mask-blog1.influxiq.com/blog-details",
@@ -222,7 +222,7 @@ export class AdmindashbordComponent implements OnInit {
                 type: 'internallink',
                 //cond:'status',
                 //condval:0,
-                param: [ 'blogtitle','_id'],
+                param: ['blogtitle', '_id'],
             },
             {
                 label: "Desc from data",
@@ -328,7 +328,7 @@ export class AdmindashbordComponent implements OnInit {
                 type: "text",
                 disabled: true,
                 validations: [
-                    { rule: 'required'},
+                    { rule: 'required' },
                     { rule: 'maxLength', value: 10 },
                     { rule: 'minLength', value: 2 }
                 ],
@@ -709,7 +709,7 @@ export class AdmindashbordComponent implements OnInit {
                 label: "City",
                 name: "city",
                 type: 'text',
-                
+
 
             },
             {
@@ -719,8 +719,8 @@ export class AdmindashbordComponent implements OnInit {
                 prefix: "Test-" + Date.now(),
                 path: 'test/t1/',
                 bucket: 'awsbackend-dev-patient-files-test',
-                apiurl:"https://tge24bc2ne.execute-api.us-east-1.amazonaws.com/dev/requestUploadURL",
-                apideleteurl:"https://tge24bc2ne.execute-api.us-east-1.amazonaws.com/dev/deletefilefromBucket",
+                apiurl: "https://tge24bc2ne.execute-api.us-east-1.amazonaws.com/dev/requestUploadURL",
+                apideleteurl: "https://tge24bc2ne.execute-api.us-east-1.amazonaws.com/dev/deletefilefromBucket",
                 validations: [
                     { rule: 'required', message: 'File  required !!' }
                 ]
@@ -740,7 +740,12 @@ export class AdmindashbordComponent implements OnInit {
                 label: "File 2",
                 name: "file2",
                 type: 'file',
-                multiple: true
+                multiple: true,
+                prefix: "Test-" + Date.now(),
+                path: 'test/t1/',
+                bucket: 'awsbackend-dev-patient-files-test',
+                apiurl: "https://tge24bc2ne.execute-api.us-east-1.amazonaws.com/dev/requestUploadURL",
+                apideleteurl: "https://tge24bc2ne.execute-api.us-east-1.amazonaws.com/dev/deletefilefromBucket",
             },
 
             {
@@ -751,14 +756,14 @@ export class AdmindashbordComponent implements OnInit {
             }
         ]
     };
-    
+
 
 
 
     constructor(public router: Router, private route: ActivatedRoute, private _apiService: ApiService) {
         // console.log('custom_link');
         // console.log(this.custom_link);
-        console.log(this.formdata,'formdataformdataformdataformdataformdata')
+        console.log(this.formdata, 'formdataformdataformdataformdataformdata')
         this.datasource = '';
         let endpoint = 'getadminbloglistdata'; // for main data endpoint
         let endpointc = 'getadminbloglistdata-count'; // for count endpoint
