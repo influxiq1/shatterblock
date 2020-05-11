@@ -4,7 +4,7 @@
 
 
     <a *ngFor="let item of data.items;"  mat-list-item (click)="openLink(item)">
-        <span mat-line>{{item.name}}</span>
+        <span class="bottom-sheet{{item.name}}" mat-line>{{item.name}}</span>
     </a>
 
 

@@ -1,4 +1,4 @@
-import { OnInit, SimpleChange, ElementRef } from '@angular/core';
+import { OnInit, SimpleChange, ElementRef, EventEmitter } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { ApiService } from '../api.service';
@@ -22,6 +22,8 @@ export declare class ShowformComponent implements OnInit {
     filerfielddata: any;
     autocompletefiledvalue: any;
     filearray: any;
+    currentautocomplete: any;
+    fieldloading: any;
     color: ThemePalette;
     mode: any;
     value: number;
@@ -29,6 +31,7 @@ export declare class ShowformComponent implements OnInit {
     formdata: any;
     formfieldrefreshdata: any;
     formfieldrefresh: any;
+    onFormFieldChange: EventEmitter<any>;
     constructor(formBuilder: FormBuilder, _apiService: ApiService, _snackBar: MatSnackBar, router: Router, elementRef: ElementRef);
     ngOnInit(): void;
     navtocancel(): void;
@@ -37,16 +40,19 @@ export declare class ShowformComponent implements OnInit {
     cancel(e: any): boolean;
     handleDrop(e: any): boolean;
     uploadfile(val: any): void;
+    deletefile(val: any): void;
     ngOnChanges(changes: {
         [propKey: string]: SimpleChange;
     }): void;
     inputblur(val: any): void;
-    checkchange(field: any, index: any): void;
     filterautocomplete(val: any, data: any): void;
-    createForm(): void;
+    reloadautocomplete(val: any): void;
     removechipsingle(val: any): void;
     removechipmultiple(val: any, index: any): void;
     setautocompletevalue(val: any, field: any): void;
+    managefromcontrol(field: any, type: any): void;
+    checkchange(field: any, index: any): void;
+    createForm(initialize?: any): void;
     setChangeValidate(): void;
     readonly name: FormControl;
     checkPasswords(group: FormGroup): {

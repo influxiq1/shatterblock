@@ -2,7 +2,11 @@
 <!--<lib-myfrom [fields]="regConfig" (submit)="submit($event)"></lib-myfrom>-->
 <div style="background: white;color: black;height: auto">
     <input [(ngModel)]="temtdata" >
+    <input [(ngModel)]="formdata.fields[0].value" >
     <button (click)="updateformval()">Update Form and Table </button>
+    <button (click)="showfieldloader()"> show form field loader</button>
+    <button (click)="deleteformfield()"> Delete Desc Field</button>
+    <button (click)="addformfield()"> Add Pet Name Field</button>
 
  
 
@@ -13,6 +17,7 @@
                   [formdata]="formdata"
                   [formfieldrefresh]="formfieldrefresh"
                   [formfieldrefreshdata]="formfieldrefreshdata"
+                  (onFormFieldChange)="listenFormFieldChange($event)"
     > </lib-showform>
 
 
@@ -34,8 +39,8 @@
              [deleteendpoint]="deleteendpoint"
              [updateendpoint]="updateendpoint"
              [jwttoken]="_apiService.jwttoken"
-             [date_search_source]="date_search_source"
-             [date_search_endpoint]="date_search_endpoint"
+             [date_search_source]=""
+             [date_search_endpoint]=""
              [sourcedata]="tablename"
              [statusarr]="statusarray"
              [detail_datatype]="pendingmodelapplicationarray_detail_datatype"

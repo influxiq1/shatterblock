@@ -2,75 +2,88 @@
   <span class="fill-remaining-space">My Reactive Form with Material</span>
 </mat-toolbar>-->
 
-<section *ngIf="loading == true"  class="example-section">
-    <mat-progress-bar
-            class="example-margin"
-            [color]="color"
-            [mode]="mode"
-            [value]="value"
-            [bufferValue]="bufferValue">
+<section *ngIf="loading == true" class="example-section">
+    <mat-progress-bar class="example-margin" [color]="color" [mode]="mode" [value]="value" [bufferValue]="bufferValue">
     </mat-progress-bar>
 </section>
 <div class="container" *ngIf="showform; else forminfo" novalidate>
     <form [formGroup]="formGroup" (ngSubmit)="onSubmit(formGroup.value)" class="form">
 
-        <ng-container  *ngIf="formdataval.fields!=null && formdataval.fields.length>0">
+        <ng-container *ngIf="formdataval.fields!=null && formdataval.fields.length>0">
             <ng-container *ngFor="let fields of formdataval.fields ; let ival=index;">
-                <mat-card class="form_header_{{fields.name}}" *ngIf="fields.heading!=null && formGroup.controls[fields.name]!=null " [innerHTML]="fields.heading"></mat-card>
-                <mat-form-field *ngIf="formGroup.controls[fields.name]!=null && (fields.type=='select'  )" class="form-element form_field_{{fields.name}}">
+
+
+                <mat-card class="form_header_{{fields.name}}"
+                    *ngIf="fields.heading!=null && formGroup.controls[fields.name]!=null " [innerHTML]="fields.heading">
+                </mat-card>
+                <mat-form-field *ngIf="formGroup.controls[fields.name]!=null && (fields.type=='select'  )"
+                    class="form-element form_field_{{fields.name}}">
                     <!-- for select-->
                     <!-- <div>ff</div> -->
-                    <mat-label> Select {{fields.label}}  </mat-label>
-                    <mat-select [formControlName]="fields.name" [multiple]="fields.multiple?true:false">
-                        <mat-option *ngFor="let data of fields.val"  [value]="data.val"> {{data.name}}</mat-option>
+                    <mat-label> Select {{fields.label}} </mat-label>
+                    <mat-select (blur)="inputblur(fields.name)" (selectionChange)="checkchange(fields,ival)"
+                        [formControlName]="fields.name" [multiple]="fields.multiple?true:false">
+                        <mat-option *ngFor="let data of fields.val" [value]="data.val"> {{data.name}}</mat-option>
                     </mat-select>
                     <span *ngIf="fields.prefix!=null" matPrefix> {{fields.prefix}} &nbsp;</span>
                     <span *ngIf="fields.suffix!=null" matSuffix>{{fields.suffix}}</span>
 
-                    <ng-container *ngIf="!formGroup.controls[fields.name].valid && formGroup.controls[fields.name].touched">
+                    <ng-container
+                        *ngIf="!formGroup.controls[fields.name].valid && formGroup.controls[fields.name].touched">
 
-                        <mat-error >
+                        <mat-error>
                             <ng-container *ngFor="let valdidations of fields.validations">
-                                <span *ngIf="formGroup.controls[fields.name].errors[valdidations.rule.toLowerCase()]">{{valdidations.message}}</span>
+                                <span
+                                    *ngIf="formGroup.controls[fields.name].errors!=null && formGroup.controls[fields.name].errors[valdidations.rule.toLowerCase()]">{{valdidations.message}}</span>
                             </ng-container>
                         </mat-error>
                     </ng-container>
 
                     <ng-container *ngIf="  fields.hint!=null && formGroup.controls[fields.name]!=null  ">
-                        <mat-hint  align="start" >{{fields.hint}}</mat-hint>
+                        <mat-hint align="start">{{fields.hint}}</mat-hint>
                     </ng-container>
 
 
                 </mat-form-field>
-                <div *ngIf="formGroup.controls[fields.name]!=null && (fields.type=='checkbox' && fields.multiple==null )" class="form-element form_field_{{fields.name}}">
+                <div *ngIf="formGroup.controls[fields.name]!=null && (fields.type=='checkbox' && fields.multiple==null )"
+                    class="form-element form_field_{{fields.name}}">
                     <!-- <input   (blur)="inputblur(fields.name)" [type]="fields.type"  [formControlName]="fields.name">-->
-                    <mat-label *ngIf="fields.multiple !=null && fields.multiple"  [innerHTML]="fields.label"></mat-label>
-                    <mat-checkbox *ngIf="fields.multiple ==null && !fields.multiple" class=" example-margin" (blur)="inputblur(fields.name)" (change)="checkchange(fields,ival)"   [formControlName]="fields.name" [labelPosition]="fields.labelPosition"> {{fields.label}} </mat-checkbox>
+                    <mat-label *ngIf="fields.multiple !=null && fields.multiple" [innerHTML]="fields.label"></mat-label>
+                    <mat-checkbox *ngIf="fields.multiple ==null && !fields.multiple" class=" example-margin"
+                        (blur)="inputblur(fields.name)" (change)="checkchange(fields,ival)"
+                        [formControlName]="fields.name" [labelPosition]="fields.labelPosition"> {{fields.label}}
+                    </mat-checkbox>
 
                     <span *ngIf="fields.prefix!=null" matPrefix> {{fields.prefix}} &nbsp;</span>
                     <span *ngIf="fields.suffix!=null" matSuffix>{{fields.suffix}}</span>
 
-                    <ng-container *ngIf="!formGroup.controls[fields.name].valid && formGroup.controls[fields.name].touched">
+                    <ng-container
+                        *ngIf="!formGroup.controls[fields.name].valid && formGroup.controls[fields.name].touched">
 
-                        <mat-error >
+                        <mat-error>
                             <ng-container *ngFor="let valdidations of fields.validations">
-                                <span *ngIf="formGroup.controls[fields.name].errors[valdidations.rule.toLowerCase()]">{{valdidations.message}}</span>
+                                <span
+                                    *ngIf=" formGroup.controls[fields.name].errors!=null && formGroup.controls[fields.name].errors[valdidations.rule.toLowerCase()]">{{valdidations.message}}</span>
                             </ng-container>
                         </mat-error>
                     </ng-container>
 
                     <ng-container *ngIf="  fields.hint!=null && formGroup.controls[fields.name]!=null  ">
-                        <mat-hint  align="start" >{{fields.hint}}</mat-hint>
+                        <mat-hint align="start">{{fields.hint}}</mat-hint>
                     </ng-container>
 
                 </div>
-                <div *ngIf="fields.name!=null && (fields.type=='checkbox' ) && fields.multiple !=null && fields.multiple==true " class="form-element form_field_{{fields.name}}">
+                <div *ngIf="fields.name!=null && (fields.type=='checkbox' ) && fields.multiple !=null && fields.multiple==true "
+                    class="form-element form_field_{{fields.name}}">
                     <!-- <input   (blur)="inputblur(fields.name)" [type]="fields.type"  [formControlName]="fields.name">-->
-                    <mat-label *ngIf="fields.multiple !=null && fields.multiple"  [innerHTML]="fields.label"></mat-label>
+                    <mat-label *ngIf="fields.multiple !=null && fields.multiple" [innerHTML]="fields.label"></mat-label>
 
                     <ng-container *ngIf="fields.multiple !=null && fields.multiple">
                         <ng-container *ngFor="let vals of fields.val , let vi=index;">
-                            <mat-checkbox class="example-radio-button" (blur)="inputblur(fields.name)"   formControlName="{{fields.name}}__{{vi}}" [value]="vals.key">{{vals.val}} </mat-checkbox>
+                            <mat-checkbox class="example-radio-button" (blur)="inputblur(fields.name)"
+                                (change)="checkchange(fields,ival)" formControlName="{{fields.name}}__{{vi}}"
+                                [value]="vals.key">{{vals.val}}
+                            </mat-checkbox>
 
                         </ng-container>
                     </ng-container>
@@ -78,7 +91,7 @@
                     <span *ngIf="fields.prefix!=null" matPrefix> {{fields.prefix}} &nbsp;</span>
                     <span *ngIf="fields.suffix!=null" matSuffix>{{fields.suffix}}</span>
 
-                   <!-- <ng-container *ngIf="!formGroup.controls[fields.name].valid && formGroup.controls[fields.name].touched">
+                    <!-- <ng-container *ngIf="!formGroup.controls[fields.name].valid && formGroup.controls[fields.name].touched">
 
                         <mat-error >
                             <ng-container *ngFor="let valdidations of fields.validations">
@@ -89,19 +102,19 @@
                     </ng-container>-->
 
                     <ng-container *ngIf="  fields.hint!=null && formGroup.controls[fields.name]!=null  ">
-                        <mat-hint  align="start" >{{fields.hint}}</mat-hint>
+                        <mat-hint align="start">{{fields.hint}}</mat-hint>
                     </ng-container>
 
 
                 </div>
-                <div *ngIf="formGroup.controls[fields.name]!=null && (fields.type=='radio' )" class="form-element form_field_{{fields.name}}">
-                    <mat-label  [innerHTML]="fields.label"></mat-label>
+                <div *ngIf="formGroup.controls[fields.name]!=null && (fields.type=='radio' )"
+                    class="form-element form_field_{{fields.name}}">
+                    <mat-label [innerHTML]="fields.label"></mat-label>
 
-                    <mat-radio-group
-                            aria-labelledby="example-radio-group-label"
-                            class="example-radio-group form_field_{{fields.name}}"
-                            [formControlName]="fields.name" >
-                        <mat-radio-button class=" example-radio-button" (blur)="inputblur(fields.name)" *ngFor="let vals of fields.val" [value]="vals.key">
+                    <mat-radio-group aria-labelledby="example-radio-group-label"
+                        class="example-radio-group form_field_{{fields.name}}" [formControlName]="fields.name">
+                        <mat-radio-button class=" example-radio-button" (blur)="inputblur(fields.name)"
+                            (change)="checkchange(fields,ival)" *ngFor="let vals of fields.val" [value]="vals.key">
                             {{vals.val}}
                         </mat-radio-button>
                     </mat-radio-group>
@@ -115,77 +128,86 @@
                     <span *ngIf="fields.prefix!=null" matPrefix> {{fields.prefix}} &nbsp;</span>
                     <span *ngIf="fields.suffix!=null" matSuffix>{{fields.suffix}}</span>
 
-                    <ng-container *ngIf="!formGroup.controls[fields.name].valid && formGroup.controls[fields.name].touched">
+                    <ng-container
+                        *ngIf="!formGroup.controls[fields.name].valid && formGroup.controls[fields.name].touched">
 
-                        <mat-error >
+                        <mat-error>
                             <ng-container *ngFor="let valdidations of fields.validations">
-                                <span *ngIf="formGroup.controls[fields.name].errors[valdidations.rule.toLowerCase()]">{{valdidations.message}}</span>
+                                <span
+                                    *ngIf=" formGroup.controls[fields.name].errors!=null && formGroup.controls[fields.name].errors[valdidations.rule.toLowerCase()]">{{valdidations.message}}</span>
                             </ng-container>
                         </mat-error>
                     </ng-container>
 
                     <ng-container *ngIf="  fields.hint!=null && formGroup.controls[fields.name]!=null  ">
-                        <mat-hint  align="start" >{{fields.hint}}</mat-hint>
+                        <mat-hint align="start">{{fields.hint}}</mat-hint>
                     </ng-container>
 
 
                 </div>
-                <mat-form-field *ngIf="formGroup.controls[fields.name]!=null && (fields.type=='email' || fields.type=='number' || fields.type=='text' || fields.type=='password')" class="form-element form_field_{{fields.name}}">
-                    <mat-label  [innerHTML]="fields.label"></mat-label>
-                    <input  matInput  (blur)="inputblur(fields.name)" [type]="fields.type" [placeholder]="fields.label" [formControlName]="fields.name">
-                  
+                <mat-form-field
+                    *ngIf="formGroup.controls[fields.name]!=null && (fields.type=='email' || fields.type=='number' || fields.type=='text' || fields.type=='password')"
+                    class="form-element form_field_{{fields.name}}">
+                    <mat-label [innerHTML]="fields.label"></mat-label>
+                    <input matInput (blur)="inputblur(fields.name)" [type]="fields.type" [placeholder]="fields.label"
+                        (change)="checkchange(fields,ival)" [formControlName]="fields.name">
+
                     <span *ngIf="fields.prefix!=null" matPrefix> {{fields.prefix}} &nbsp;</span>
                     <span *ngIf="fields.suffix!=null" matSuffix>{{fields.suffix}}</span>
 
-                    <ng-container *ngIf="!formGroup.controls[fields.name].valid && formGroup.controls[fields.name].touched">
+                    <ng-container
+                        *ngIf="formGroup.controls[fields.name] !=null && !formGroup.controls[fields.name].valid && formGroup.controls[fields.name].touched">
 
-                        <mat-error >
+                        <mat-error>
                             <ng-container *ngFor="let valdidations of fields.validations">
-                                <span *ngIf="formGroup.controls[fields.name].errors[valdidations.rule.toLowerCase()]">{{valdidations.message}}</span>
+                                <span
+                                    *ngIf="formGroup.controls[fields.name].errors!=null && formGroup.controls[fields.name].errors[valdidations.rule.toLowerCase()]">{{valdidations.message}}</span>
                             </ng-container>
                         </mat-error>
                     </ng-container>
 
                     <ng-container *ngIf="  fields.hint!=null && formGroup.controls[fields.name]!=null  ">
-                        <mat-hint  align="start" >{{fields.hint}}</mat-hint>
+                        <mat-hint align="start">{{fields.hint}}</mat-hint>
                     </ng-container>
 
 
                 </mat-form-field>
 
-                 <mat-form-field *ngIf="formGroup.controls[fields.name]!=null && fields.type=='textarea' " class="form-element form_field_{{fields.name}}">
-                    <mat-label  [innerHTML]="fields.label"></mat-label>
-                    <textarea matInput 
-     placeholder="Comment" 
-     [formControlName]="fields.name" 
-     (change)="inputblur(fields.name)">
+                <mat-form-field *ngIf="formGroup.controls[fields.name]!=null && fields.type=='textarea' "
+                    class="form-element form_field_{{fields.name}}">
+                    <mat-label [innerHTML]="fields.label"></mat-label>
+                    <textarea matInput placeholder="Comment" [formControlName]="fields.name"
+                        (change)="inputblur(fields.name)">
   </textarea>
                     <span *ngIf="fields.prefix!=null" matPrefix> {{fields.prefix}} &nbsp;</span>
                     <span *ngIf="fields.suffix!=null" matSuffix>{{fields.suffix}}</span>
 
-                    <ng-container *ngIf="!formGroup.controls[fields.name].valid && formGroup.controls[fields.name].touched">
+                    <ng-container
+                        *ngIf="!formGroup.controls[fields.name].valid && formGroup.controls[fields.name].touched">
 
-                        <mat-error >
+                        <mat-error>
                             <ng-container *ngFor="let valdidations of fields.validations">
-                                <span *ngIf="formGroup.controls[fields.name].errors[valdidations.rule.toLowerCase()]">{{valdidations.message}}</span>
+                                <span
+                                    *ngIf="formGroup.controls[fields.name].errors!=null && formGroup.controls[fields.name].errors[valdidations.rule.toLowerCase()]">{{valdidations.message}}</span>
                             </ng-container>
                         </mat-error>
                     </ng-container>
 
                     <ng-container *ngIf="  fields.hint!=null && formGroup.controls[fields.name]!=null  ">
-                        <mat-hint  align="start" >{{fields.hint}}</mat-hint>
+                        <mat-hint align="start">{{fields.hint}}</mat-hint>
                     </ng-container>
 
 
                 </mat-form-field>
 
 
-                 <mat-form-field *ngIf="formGroup.controls[fields.name]!=null && fields.type=='date' " class="form-element form_field_{{fields.name}}">
-                    <mat-label  [innerHTML]="fields.label"></mat-label>
+                <mat-form-field *ngIf="formGroup.controls[fields.name]!=null && fields.type=='date' "
+                    class="form-element form_field_{{fields.name}}">
+                    <mat-label [innerHTML]="fields.label"></mat-label>
 
                     <input matInput [matDatepicker]="picker1" [formControlName]="fields.name">
-  <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
-  <mat-datepicker #picker1></mat-datepicker>
+                    <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                    <mat-datepicker #picker1></mat-datepicker>
                     <!-- <textarea matInput 
      placeholder="Comment" 
      [formControlName]="fields.name" 
@@ -194,63 +216,84 @@
                     <span *ngIf="fields.prefix!=null" matPrefix> {{fields.prefix}} &nbsp;</span>
                     <span *ngIf="fields.suffix!=null" matSuffix>{{fields.suffix}}</span>
 
-                    <ng-container *ngIf="!formGroup.controls[fields.name].valid && formGroup.controls[fields.name].touched">
+                    <ng-container
+                        *ngIf="!formGroup.controls[fields.name].valid && formGroup.controls[fields.name].touched">
 
-                        <mat-error >
+                        <mat-error>
                             <ng-container *ngFor="let valdidations of fields.validations">
-                                <span *ngIf="formGroup.controls[fields.name].errors[valdidations.rule.toLowerCase()]">{{valdidations.message}}</span>
+                                <span
+                                    *ngIf="formGroup.controls[fields.name].errors!=null && formGroup.controls[fields.name].errors[valdidations.rule.toLowerCase()]">{{valdidations.message}}</span>
                             </ng-container>
                         </mat-error>
                     </ng-container>
 
                     <ng-container *ngIf="  fields.hint!=null && formGroup.controls[fields.name]!=null  ">
-                        <mat-hint  align="start" >{{fields.hint}}</mat-hint>
+                        <mat-hint align="start">{{fields.hint}}</mat-hint>
                     </ng-container>
 
 
                 </mat-form-field>
-<mat-form-field *ngIf="formGroup.controls[fields.name]!=null && fields.type=='autocomplete' " class="form-element form_field_{{fields.name}}">
-                    <mat-label  [innerHTML]="fields.label"></mat-label> 
+                <mat-form-field *ngIf="formGroup.controls[fields.name]!=null && fields.type=='autocomplete' "
+                    class="form-element form_field_{{fields.name}}">
+                    <mat-label [innerHTML]="fields.label"></mat-label>
                     <!-- {{fields.val.length}}
  -->
-                
- <mat-chip-list *ngIf="autocompletefiledvalue[fields.name] !=null && fields.multiple==null" aria-label="{{fields.name}} data">
-     <ng-container *ngFor="let vals of fields.val ">
-     <ng-container *ngIf="vals.key==autocompletefiledvalue[fields.name]">
-        <mat-chip  [removable]=true  >{{vals.val}}
-            <mat-icon matChipRemove (click)="removechipsingle(fields)">cancel</mat-icon>
-        </mat-chip>
-         </ng-container>
-
-     </ng-container>
-    
-  </mat-chip-list>
 
 
-  <mat-chip-list *ngIf="autocompletefiledvalue[fields.name] !=null && fields.multiple!=null" aria-label="{{fields.name}} data">
-    <ng-container *ngFor="let vals of fields.val ">
-    <ng-container  *ngFor="let avals of autocompletefiledvalue[fields.name] ; let ib=index ">
-    <ng-container *ngIf="vals.key==avals">
-       <mat-chip  [removable]=true  >{{vals.val}}
-           <mat-icon matChipRemove (click)="removechipmultiple(fields,ib)">cancel</mat-icon>
-       </mat-chip>
-       </ng-container>
-        </ng-container>
 
-    </ng-container>
-   
- </mat-chip-list>
-                    <input matInput (blur)="inputblur(fields.name)" (keyup)=filterautocomplete(fields.name,fields)  [formControlName]="fields.name" placeholder="{{fields.label}}"
-           [matAutocomplete]="auto">
+                    <!-- mat-input-element mat-form-field-autofill-control cdk-text-field-autofill-monitored ng-untouched ng-dirty ng-valid -->
+                    <!-- mat-input-element mat-form-field-autofill-control cdk-text-field-autofill-monitored ng-untouched ng-dirty ng-invalid -->
 
-    <mat-autocomplete #auto="matAutocomplete">
-      <mat-option *ngFor="let vals of filerfielddata " [value]="vals.key" (click)="setautocompletevalue(vals,fields)">
-        <!-- <img class="example-option-img" aria-hidden [src]="state.flag" height="25"> -->
-        <span>{{vals.val}}</span>
-        <!-- <small>Population: {{state.population}}</small> -->
-      </mat-option>
-    </mat-autocomplete>
-  
+                    <input matInput (blur)="inputblur(fields.name)" (click)="reloadautocomplete(fields)"
+                        (keyup)=filterautocomplete(fields.name,fields) [formControlName]="fields.name"
+                        placeholder="{{fields.label}}" [matAutocomplete]="auto">
+
+                    <!-- <mat-autocomplete #auto="matAutocomplete" *ngIf="currentautocomplete==fields.name || currentautocomplete=='' "> -->
+                    <mat-autocomplete #auto="matAutocomplete">
+                        <ng-container *ngIf="filerfielddata!=null && filerfielddata.length>0 ">
+                            <mat-option *ngFor="let vals of filerfielddata " [value]="vals.key"
+                                (click)="setautocompletevalue(vals,fields)">
+                                <!-- <img class="example-option-img" aria-hidden [src]="state.flag" height="25"> -->
+                                <span>{{vals.val}}</span>
+                                <!-- <small>Population: {{state.population}}</small> -->
+                            </mat-option>
+                        </ng-container>
+                    </mat-autocomplete>
+
+
+
+
+
+                    <mat-chip-list *ngIf="autocompletefiledvalue[fields.name] !=null && fields.multiple==null"
+                        aria-label="{{fields.name}} data">
+                        <ng-container *ngFor="let vals of fields.val ">
+                            <ng-container *ngIf="vals.key==autocompletefiledvalue[fields.name]">
+                                <mat-chip [removable]=true>{{vals.val}}
+                                    <mat-icon matChipRemove (click)="removechipsingle(fields)">cancel</mat-icon>
+                                </mat-chip>
+                            </ng-container>
+
+                        </ng-container>
+
+                    </mat-chip-list>
+
+
+                    <mat-chip-list *ngIf="autocompletefiledvalue[fields.name] !=null && fields.multiple!=null"
+                        aria-label="{{fields.name}} data">
+                        <ng-container *ngFor="let vals of fields.val ">
+                            <ng-container *ngFor="let avals of autocompletefiledvalue[fields.name] ; let ib=index ">
+                                <ng-container *ngIf="vals.key==avals">
+                                    <mat-chip [removable]=true>{{vals.val}}
+                                        <mat-icon matChipRemove (click)="removechipmultiple(fields,ib)">cancel
+                                        </mat-icon>
+                                    </mat-chip>
+                                </ng-container>
+                            </ng-container>
+
+                        </ng-container>
+
+                    </mat-chip-list>
+
                     <!-- <textarea matInput 
      placeholder="Comment" 
      [formControlName]="fields.name" 
@@ -259,23 +302,25 @@
                     <span *ngIf="fields.prefix!=null" matPrefix> {{fields.prefix}} &nbsp;</span>
                     <span *ngIf="fields.suffix!=null" matSuffix>{{fields.suffix}}</span>
 
-                    <ng-container *ngIf="!formGroup.controls[fields.name].valid && formGroup.controls[fields.name].touched">
+                    <ng-container
+                        *ngIf="!formGroup.controls[fields.name].valid && formGroup.controls[fields.name].touched">
 
-                        <mat-error >
+                        <mat-error>
                             <ng-container *ngFor="let valdidations of fields.validations">
-                                <span *ngIf="formGroup.controls[fields.name].errors[valdidations.rule.toLowerCase()]">{{valdidations.message}}</span>
+                                <span
+                                    *ngIf="formGroup.controls[fields.name].errors!=null && formGroup.controls[fields.name].errors[valdidations.rule.toLowerCase()]">{{valdidations.message}}</span>
                             </ng-container>
                         </mat-error>
                     </ng-container>
 
                     <ng-container *ngIf="  fields.hint!=null && formGroup.controls[fields.name]!=null  ">
-                        <mat-hint  align="start" >{{fields.hint}}</mat-hint>
+                        <mat-hint align="start">{{fields.hint}}</mat-hint>
                     </ng-container>
 
 
                 </mat-form-field>
 
-<!-- [config]="{uiColor: '#99000'}" 
+                <!-- [config]="{uiColor: '#99000'}" 
 
 [readonly]="false"
                 (change)="onChange($event)"
@@ -304,64 +349,79 @@
 
 
 
-<div *ngIf="formGroup.controls[fields.name]!=null && (fields.type=='editor' )" class="form-element form_field_{{fields.name}}">
-    <!-- <input  (blur)="inputblur(fields.name)" type="{{fields.type}}" placeholder="{{fields.label}}" formControlName="{{fields.name}}"> -->
-    <ckeditor
-    (blur)="inputblur(fields.name)"
-    [formControlName]="fields.name"
-    >
-  </ckeditor>
-    <mat-error *ngIf="!formGroup.controls[fields.name].valid && formGroup.controls[fields.name].touched">
-        <ng-container *ngFor="let valdidations of fields.validations">
-            <span *ngIf="formGroup.controls[fields.name].errors[valdidations.rule.toLowerCase()]">{{valdidations.message}}</span>
-        </ng-container>
-    </mat-error>
-</div>
-
-
-              
-
-
-
-
-                <div *ngIf="formGroup.controls[fields.name]!=null && (fields.type=='hidden' )" class="form-element form_field_{{fields.name}}">
-                    <input  (blur)="inputblur(fields.name)" type="{{fields.type}}" placeholder="{{fields.label}}" formControlName="{{fields.name}}">
-                    <mat-error *ngIf="!formGroup.controls[fields.name].valid && formGroup.controls[fields.name].touched">
+                <div *ngIf="formGroup.controls[fields.name]!=null && (fields.type=='editor' )"
+                    class="form-element form_field_{{fields.name}}">
+                    <!-- <input  (blur)="inputblur(fields.name)" type="{{fields.type}}" placeholder="{{fields.label}}" formControlName="{{fields.name}}"> -->
+                    <ckeditor (blur)="inputblur(fields.name)" [formControlName]="fields.name">
+                    </ckeditor>
+                    <mat-error
+                        *ngIf="!formGroup.controls[fields.name].valid && formGroup.controls[fields.name].touched">
                         <ng-container *ngFor="let valdidations of fields.validations">
-                            <span *ngIf="formGroup.controls[fields.name].errors[valdidations.rule.toLowerCase()]">{{valdidations.message}}</span>
+                            <span
+                                *ngIf="formGroup.controls[fields.name].errors!=null && formGroup.controls[fields.name].errors[valdidations.rule.toLowerCase()]">{{valdidations.message}}</span>
                         </ng-container>
                     </mat-error>
                 </div>
 
-                <div *ngIf="formGroup.controls[fields.name]!=null && (fields.type=='file' )" class="form-element form_field_{{fields.name}}">
-                    <mat-label  [innerHTML]="fields.label"></mat-label>
-                    <div class="aligner" (load)="triggerevents(fields)">
-                        <div class="drop" [attr.fileid]="fields.name" id="drop{{fields.name}}" >Drop files here.</div>
-                        <div class="id"  id="list{{fields.name}}">
-                          <h1>Files:</h1>
-                          <ng-container *ngIf="filearray[fields.name]!=null && filearray[fields.name].length>0 && fields.multiple!=null">
-                          <ng-container *ngFor="let files of filearray[fields.name]">
-                              <span>{{files.name}}</span>
-                              <span>{{files.type}}</span>
-                              <button mat-raised-button type="button">Upload</button>
-                          </ng-container>
 
-                          </ng-container>
-                          <ng-container *ngIf="filearray[fields.name]!=null  && fields.multiple==null">
+
+
+
+
+
+                <div *ngIf="formGroup.controls[fields.name]!=null && (fields.type=='hidden' )"
+                    class="form-element form_field_{{fields.name}}">
+                    <input (blur)="inputblur(fields.name)" type="{{fields.type}}" placeholder="{{fields.label}}"
+                        formControlName="{{fields.name}}">
+                    <mat-error
+                        *ngIf="!formGroup.controls[fields.name].valid && formGroup.controls[fields.name].touched">
+                        <ng-container *ngFor="let valdidations of fields.validations">
+                            <span
+                                *ngIf="formGroup.controls[fields.name].errors!=null && formGroup.controls[fields.name].errors[valdidations.rule.toLowerCase()]">{{valdidations.message}}</span>
+                        </ng-container>
+                    </mat-error>
+                </div>
+
+                <div *ngIf="formGroup.controls[fields.name]!=null && (fields.type=='file' )"
+                    class="form-element form_field_{{fields.name}}">
+                    <mat-label [innerHTML]="fields.label"></mat-label>
+                    <div class="aligner" (load)="triggerevents(fields)">
+                        <div class="drop" [attr.fileid]="fields.name" id="drop{{fields.name}}">Drop files here.</div>
+                        <div class="id" id="list{{fields.name}}">
+                            <h1>Files:</h1>
+                            <ng-container
+                                *ngIf="filearray[fields.name]!=null && filearray[fields.name].length>0 && fields.multiple!=null">
+                                <ng-container *ngFor="let files of filearray[fields.name]">
+                                    <span>{{files.name}}</span>
+                                    <span>{{files.type}}</span>
+                                    <button mat-raised-button type="button">Upload</button>
+                                </ng-container>
+
+                            </ng-container>
+                            <ng-container *ngIf="filearray[fields.name]!=null  && fields.multiple==null">
                                 <span>{{filearray[fields.name].name}}</span>
                                 <span>{{filearray[fields.name].type}}</span>
-                                <button mat-raised-button (click)="uploadfile(fields)" type="button">Upload</button>
-  
+                                <button *ngIf="filearray[fields.name].uploaded==null " mat-raised-button (click)="uploadfile(fields)" type="button">Upload</button>
+                                <button *ngIf="filearray[fields.name].uploaded==1" mat-raised-button (click)="deletefile(fields)" type="button">Delete</button>
+
                             </ng-container>
                         </div>
-                      </div>
+                    </div>
 
-                    <mat-error *ngIf="!formGroup.controls[fields.name].valid && formGroup.controls[fields.name].touched">
+                    <mat-error
+                        *ngIf="!formGroup.controls[fields.name].valid && formGroup.controls[fields.name].touched">
                         <ng-container *ngFor="let valdidations of fields.validations">
-                            <span *ngIf="formGroup.controls[fields.name].errors[valdidations.rule.toLowerCase()]">{{valdidations.message}}</span>
+                            <span
+                                *ngIf="formGroup.controls[fields.name].errors!=null && formGroup.controls[fields.name].errors[valdidations.rule.toLowerCase()]">{{valdidations.message}}</span>
                         </ng-container>
                     </mat-error>
                 </div>
+
+
+                <section *ngIf="fieldloading == fields.name " class="example-section">
+                    <mat-progress-bar class="example-margin" [color]="color" [mode]="mode" [value]="value" [bufferValue]="bufferValue">
+                    </mat-progress-bar>
+                </section>
 
             </ng-container>
         </ng-container>
@@ -385,7 +445,7 @@
 
     <mat-file-upload [file]="file" [id]="i" *ngFor="let file of fileUploadQueue.files; let i = index"></mat-file-upload>
 </mat-file-upload-queue> -->
-        
+
 
         <!--<mat-form-field class="form-element">
       <input matInput placeholder="Emailaddress" formControlName="email">
@@ -421,9 +481,12 @@
     </div>-->
 
         <div class="form-element">
-            <button mat-raised-button color="primary" type="submit" class="button" [disabled]="!formdataval.submitactive">{{formdataval.submittext}}</button>
-            <button mat-raised-button color="primary" *ngIf="!formdataval.hidecancel" type="button" class="button" (click)="navtocancel()" >{{formdataval.canceltext}}</button>
-            <button mat-raised-button color="primary" *ngIf="!formdataval.hidereset" type="reset" class="button"  >{{formdataval.resettext}}</button>
+            <button mat-raised-button color="primary" type="submit" class="button"
+                [disabled]="!formdataval.submitactive">{{formdataval.submittext}}</button>
+            <button mat-raised-button color="primary" *ngIf="!formdataval.hidecancel" type="button" class="button"
+                (click)="navtocancel()">{{formdataval.canceltext}}</button>
+            <button mat-raised-button color="primary" *ngIf="!formdataval.hidereset" type="reset"
+                class="button">{{formdataval.resettext}}</button>
         </div>
 
     </form>
