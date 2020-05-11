@@ -92,12 +92,12 @@ export class AdmindashbordComponent implements OnInit {
 
 
     // use for Table Header Skip 
-    pendingmodelapplicationarray_skip: any = ['_id','video_thamnail','type', 'password','description','blogs_image','created_at'];
+    pendingmodelapplicationarray_skip: any = ['_id','video_thamnail','type', 'password','description','created_at'];
 
 
 
     // use for Table Detail Field Skip
-    pendingmodelapplicationarray_detail_skip: any = ['_id', 'email', 'name'];
+    pendingmodelapplicationarray_detail_skip: any = ['_id', 'email', 'name', 'blogtitle', 'Blogs image'];
 
 
     // use for Table Detail inside the modal image path
@@ -128,7 +128,7 @@ export class AdmindashbordComponent implements OnInit {
     date_search_endpoint: any='datalist';
     // send basic limit data
     limitcond:any={
-        "limit":10,
+        "limit":15,
         "skip":0,
         "pagecount":1
     };
@@ -139,17 +139,19 @@ export class AdmindashbordComponent implements OnInit {
         detailview_override:[
             {key:"tags_array",val:"Tags"},
             {key:"author",val:"Written By"},
+            {key:"description_html",val:"Blogs Image"},
+            {key:"blogs image",val:"Blogs Image"},
             {key:"blogtitle",val:"Title"},
             {key:"created_datetime",val:"Date Added with time"},
             {key:"created_date",val:"Date Added only"},
         ], // optional
         updateendpoint:'statusupdate',
         hideeditbutton:true,// all these button options are optional not mandatory
-        //hidedeletebutton:true,
+        hidedeletebutton:true,
         //hideviewbutton:false,
-        //hidestatustogglebutton:true,
+        hidestatustogglebutton:true,
         // hideaction:true,
-        tableheaders:['author','priority','blogtitle','status','wrongone','created_date','created_datetime','author_search'], //not required
+        tableheaders:['status','author','priority','blogtitle','wrongone','created_date','created_datetime','author_search'], //not required
         custombuttons:[
             {
                 label:"fb search with blog title",
@@ -164,7 +166,8 @@ export class AdmindashbordComponent implements OnInit {
                 param:[{key:'blogtitle',q:'q'},{key:'author',q:'oq'}],
                 cond:'status',
                 condval: 1
-            },{
+            },
+            {
                 label:"mask blog",
                 link:"https://mask-blog1.influxiq.com/blog-details",
                 type:'externallink',
@@ -175,19 +178,19 @@ export class AdmindashbordComponent implements OnInit {
             },
             {
                 label:" fb profile ",
-                link:"https://www.facebook.com/debasiskar007",
+                link:"https://www.facebook.com/madhumita.nayak.7355",
                 type:'externallink'
             },
             {
                 label:" fb profile for inactive",
-                link:"https://www.facebook.com/debasiskar007",
+                link:"https://www.facebook.com/madhumita.nayak.7355",
                 type:'externallink',
                 cond:'status',
                 condval:0
             },
             {
                 label:" fb profile for active",
-                link:"https://www.facebook.com/debasiskar007",
+                link:"https://www.facebook.com/himadri.bar.73",
                 type:'externallink',
                 cond:'status',
                 condval:1
@@ -608,7 +611,7 @@ export class AdmindashbordComponent implements OnInit {
         // data param for conditionlimit and search
         let data:any={
             "condition":{
-                "limit":10,
+                "limit":15,
                 "skip":0
             },
             sort:{
@@ -628,10 +631,8 @@ export class AdmindashbordComponent implements OnInit {
         });
 
         this._apiService.postData(endpoint,data).subscribe((res:any) => {
-            // console.log('in constructor');
-            // console.log(result);
             this.pendingmodelapplicationarray =res.results.res;
-            //console.warn('blogData',res);
+            console.warn('blogData',res.results.res);
 
         }, error => {
             console.log('Oooops!');
