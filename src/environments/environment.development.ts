@@ -10,6 +10,8 @@ export const environment = {
     API_URL: 'https://p6ttrc8ikc.execute-api.us-east-1.amazonaws.com/production/api/',
     // API_URL: 'https://x4gcdrxvbh.execute-api.us-east-1.amazonaws.com/dev/api1/',
     // https://x4gcdrxvbh.execute-api.us-east-1.amazonaws.com/dev/api1/getblogmanagementlistdata
+    // API_URL: 'https://x4gcdrxvbh.execute-api.us-east-1.amazonaws.com/dev/api1/',
+    // https://x4gcdrxvbh.execute-api.us-east-1.amazonaws.com/dev/api1/getblogmanagementlistdata
     
 
     Pdf_link: '&environment=development',

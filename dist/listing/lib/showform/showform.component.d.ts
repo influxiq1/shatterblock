@@ -40,7 +40,7 @@ export declare class ShowformComponent implements OnInit {
     cancel(e: any): boolean;
     handleDrop(e: any): boolean;
     uploadfile(val: any): void;
-    deletefile(val: any): void;
+    deletefile(val: any, flag?: any): void;
     ngOnChanges(changes: {
         [propKey: string]: SimpleChange;
     }): void;

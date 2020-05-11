@@ -112,7 +112,22 @@ export class ShowformComponent implements OnInit {
         if (this.formdataval.fields[g].type == 'file' && this.formdataval.fields[g].name == e.target.id.replace('drop', '')) {
           console.log('file details', this.formdataval.fields[g]);
           if (this.formdataval.fields[g].multiple == null) {
-            this.filearray[e.target.id.replace('drop', '')] = files[0];
+
+            // this.deletefile(va)
+            if (this.filearray[e.target.id.replace('drop', '')] != null) {
+              for (let n in this.formdataval.fields) {
+                if (this.formdataval.fields[n].name == e.target.id.replace('drop', '')) {
+                  this.deletefile(this.formdataval.fields[n], 1);
+                  setTimeout(() => {
+
+                    this.filearray[e.target.id.replace('drop', '')] = files[0];
+                  }, 300);
+                }
+              }
+            } else {
+              this.filearray[e.target.id.replace('drop', '')] = files[0];
+
+            }
 
           } else {
             if (this.filearray[e.target.id.replace('drop', '')] == null) {
@@ -161,30 +176,33 @@ export class ShowformComponent implements OnInit {
   //   //let apiBaseURL = "https://tge24bc2ne.execute-api.us-east-1.amazonaws.com/dev";
   //   let h:any=this.bucketupload(val);
   //   console.log('upppp',h);
-    
+
 
   // }
 
-  uploadfile(val:any){
+  uploadfile(val: any) {
     var reader = new FileReader();
     let file: any = this.filearray[val.name];
-    console.log('file val',val); 
+    console.log('file val', val);
+    file.uploaded = 2; // show progressbar 
+    let temploader: any = this.fieldloading[val.name];
+    temploader = val.name;
     //reader.addEventListener('loadend', function (e) {
-      reader.onloadend = (e) =>  { 
+    reader.onloadend = (e) => {
       fetch(val.apiurl, {
         method: "POST",
         headers: {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          name: val.prefix+file.name,
+          name: val.prefix + file.name,
           type: file.type,
-          path:val.path,
-          bucket:val.bucket
+          path: val.path,
+          bucket: val.bucket
         })
       })
         .then(function (response) {
-          console.log('buck',response);
+          console.log('buck', response);
           return response.json();
         })
         .then(function (json) {
@@ -195,32 +213,33 @@ export class ShowformComponent implements OnInit {
         })
         .then(function () {
           //return 'success';
-          file.uploaded=1;
-          file.fileservername=val.prefix+file.name;
+          file.uploaded = 1;
+          file.fileservername = val.prefix + file.name;
+          // temploader = null;
           // var uploadedFileNode = document.createElement('div');
           // uploadedFileNode.innerHTML = '<a href="//s3.amazonaws.com/slsupload/'+ file.name +'">'+ file.name +'</a>';
           // list.appendChild(uploadedFileNode);
         });
-    //});
-  };
+      //});
+    };
     reader.readAsArrayBuffer(file);
   }
-  deletefile(val:any){
-    let source:any={};
+  deletefile(val: any, flag: any = '') {
+    let source: any = {};
     let file: any = this.filearray[val.name];
-    source['file']=val.prefix+file.name;
-    source['path']=val.path;
-    source['bucket']=val.bucket;
+    source['file'] = val.prefix + file.name;
+    source['path'] = val.path;
+    source['bucket'] = val.bucket;
     this._apiService.postSearch(val.apideleteurl, this.formdataval.jwttoken, source).subscribe(res => {
       let result: any = {};
       result = res;
-      if (result.status == 'success') {
+      if (result.status == 'success' && flag == '') {
         this.formGroup.reset();
         this._snackBar.openFromComponent(SnackbarComponent, {
           duration: 6000,
           data: { errormessage: "Deleted !!" }
         });
-        this.filearray[val.name]=null;
+        this.filearray[val.name] = null;
       }
       if (result.status == 'error') {
         this._snackBar.openFromComponent(SnackbarComponent, {
@@ -240,25 +259,25 @@ export class ShowformComponent implements OnInit {
   }
   ngOnChanges(changes: { [propKey: string]: SimpleChange }) {
 
-    console.log('ngonchange in form !!!', changes, 'frv', this.formfieldrefreshdataval);
+    //console.log('ngonchange in form !!!', changes, 'frv', this.formfieldrefreshdataval);
     for (let v in changes) {
       //console.log(v,changes[v],'vv');
       if (v == 'formfieldrefreshdata') {
         setTimeout(() => {
-          console.log('fff in set tt');
+          //console.log('fff in set tt');
           if (this.formfieldrefreshdataval != null) {
-            console.log(this.formfieldrefreshdataval, 'm');
-            console.log(this.formfieldrefreshdataval.field);
-            console.log(this.formfieldrefreshdataval.value);
+            //console.log(this.formfieldrefreshdataval, 'm');
+            //console.log(this.formfieldrefreshdataval.field);
+            //console.log(this.formfieldrefreshdataval.value);
             if (this.formGroup != null && this.formGroup.controls[this.formfieldrefreshdataval.field] != null) this.formGroup.controls[this.formfieldrefreshdataval.field].patchValue(this.formfieldrefreshdataval.value)
             if (this.formfieldrefreshdataval.field == 'showfieldloader') {
               this.fieldloading = this.formfieldrefreshdataval.value;
             }
             if (this.formfieldrefreshdataval.field == 'addfromcontrol') {
-              this.managefromcontrol(this.formfieldrefreshdataval.value,'add');
+              this.managefromcontrol(this.formfieldrefreshdataval.value, 'add');
             }
             if (this.formfieldrefreshdataval.field == 'removefromcontrol') {
-              this.managefromcontrol(this.formfieldrefreshdataval.value,'remove');
+              this.managefromcontrol(this.formfieldrefreshdataval.value, 'remove');
             }
 
           }
@@ -274,18 +293,18 @@ export class ShowformComponent implements OnInit {
 
   filterautocomplete(val: any, data: any) {
     this.inputblur(val);
-    console.log('cc', this.formGroup.controls[val].value, data.val);
+    //console.log('cc', this.formGroup.controls[val].value, data.val);
     let fieldval = this.formGroup.controls[val].value;
     if (fieldval == '' || fieldval == null) {
       this.filerfielddata = [];
     } else {
       let filterval = data.val.filter(function (e) {
-        console.log('e', e, fieldval)
+        //console.log('e', e, fieldval)
         return e.val.includes(fieldval);
       });
       this.filerfielddata = [];
       this.filerfielddata = filterval;
-      console.log('fil', filterval);
+      //console.log('fil', filterval);
     }
 
   }
@@ -315,31 +334,31 @@ export class ShowformComponent implements OnInit {
     this.inputblur(field.name);
 
   }
-  managefromcontrol(field: any, type: any){
-    console.log('manage control',field,type);
-    if(type=='remove'){
+  managefromcontrol(field: any, type: any) {
+    //console.log('manage control',field,type);
+    if (type == 'remove') {
       for (let y in this.formdataval.fields) {
         if (this.formdataval.fields[y].name == field.name) {
           this.formdataval.fields.splice(parseInt(y), 1);
           this.formGroup.removeControl(field.name);
-          console.log('removed',field['name'], 'c', y);
+          //console.log('removed',field['name'], 'c', y);
         }
       }
     }
-    if(type=='add'){
-      console.log('in add form');
+    if (type == 'add') {
+      //console.log('in add form');
       for (let y in this.formdataval.fields) {
         if (this.formdataval.fields[y].name == field.after) {
-          this.formdataval.fields.splice(parseInt(y)+1, 0, field);
+          this.formdataval.fields.splice(parseInt(y) + 1, 0, field);
           this.createForm(1);
-          console.log('added ..',field['name'], 'c', y);
+          console.log('added ..', field['name'], 'c', y);
         }
       }
     }
 
   }
   checkchange(field: any, index: any) {
-    console.log(field, 'change', this.formGroup.controls[field.name].value);
+    //console.log(field, 'change', this.formGroup.controls[field.name].value);
     this.onFormFieldChange.emit({ field: field, fieldval: this.formGroup.controls[field.name].value });
     if (field.dependent != null && field.dependent.length > 0) {
       let vc: any = 0;
@@ -349,7 +368,7 @@ export class ShowformComponent implements OnInit {
           // let temvalidationrulet: any = [];
           vc++;
           //this.formGroup.addControl(field.dependent[n].field.name, new FormControl(field.dependent[n].field.value, temvalidationrulet));
-          console.log('nnnnn', '--', parseInt(index + 1 + parseInt(vc)), '--', vc + index + 1, index, vc, field.dependent[n].field['name']);
+          //console.log('nnnnn', '--', parseInt(index + 1 + parseInt(vc)), '--', vc + index + 1, index, vc, field.dependent[n].field['name']);
           this.formdataval.fields.splice(parseInt(index + parseInt(vc)), 0, field.dependent[n].field);
           this.createForm(1);
 
@@ -359,7 +378,7 @@ export class ShowformComponent implements OnInit {
             if (this.formdataval.fields[y].name == field.dependent[n].field.name) {
               this.formdataval.fields.splice(parseInt(y), 1);
               this.formGroup.removeControl(field.dependent[n].field.name);
-              console.log('removed', field.dependent[n].field['name'], 'c', y);
+              //console.log('removed', field.dependent[n].field['name'], 'c', y);
             }
           }
 
@@ -384,7 +403,7 @@ export class ShowformComponent implements OnInit {
     if (initialize == 0)
       this.formGroup = this.formBuilder.group({
       });
-    console.log(this.formGroup, 'fg')
+    //console.log(this.formGroup, 'fg')
     for (let n in this.formdataval.fields) {
       if (this.formGroup.controls[this.formdataval.fields[n]] == null) {
         let temcontrolarr: any = [];
@@ -399,14 +418,14 @@ export class ShowformComponent implements OnInit {
             if (this.formdataval.fields[n].val != null) {
               let tcharr: any = [];
               for (let b in this.formdataval.fields[n].val) {
-                console.log('b', b, this.formdataval.fields[n].val[b]);
+                //console.log('b', b, this.formdataval.fields[n].val[b]);
                 if (this.formdataval.fields[n].value.includes(this.formdataval.fields[n].val[b].key)) {
                   tcharr.push(true);
                 } else tcharr.push(false);
               }
               // push the val
               temcontrolarr.push(tcharr);
-              console.log('tch', tcharr);
+              //console.log('tch', tcharr);
             }
           }
         }
@@ -442,13 +461,13 @@ export class ShowformComponent implements OnInit {
         if (this.formdataval.fields[n].type == 'checkbox' && this.formdataval.fields[n].multiple != null && this.formdataval.fields[n].multiple == true) {
           let tchvar: any = false;
           //let
-          console.log('vv ??? ', this.formdataval.fields[n].value, this.formdataval.fields[n].name, this.formdataval.fields[n].multiple);
+          //console.log('vv ??? ', this.formdataval.fields[n].value, this.formdataval.fields[n].name, this.formdataval.fields[n].multiple);
           //this.formGroup.addControl(this.formdataval.fields[n].name, new FormArray([]));
           for (let j in this.formdataval.fields[n].val) {
             if (this.formdataval.fields[n].value.includes(this.formdataval.fields[n].val[j].key))
               tchvar = true;
             else tchvar = false;
-            console.log('n', n, j, tchvar);
+            //console.log('n', n, j, tchvar);
             this.formGroup.addControl(this.formdataval.fields[n].name + '__' + j, new FormControl(tchvar, temvalidationrule));
             /*const control = new FormControl(tchvar); // if first item set to true, else false
        (this.formGroup.controls[this.formdataval.fields[n].name] as FormArray).push(control);*/
@@ -483,7 +502,7 @@ export class ShowformComponent implements OnInit {
       this.showform = true;
       if (this.formdataval.submitactive == null)
         this.formdataval.submitactive = true;
-      console.log('grp', this.formGroup.controls);
+      //console.log('grp', this.formGroup.controls);
     }, 10);
 
   }
@@ -568,7 +587,7 @@ export class ShowformComponent implements OnInit {
   }
 
   getError(data: any) {
-    console.log('getError', data);
+    //console.log('getError', data);
     return this.formGroup.get('email').hasError('required') ? 'Field is required' :
       this.formGroup.get('email').hasError('pattern') ? 'Not a valid emailaddress' :
         this.formGroup.get('email').hasError('alreadyInUse') ? 'This emailaddress is already in use' : '';
@@ -584,35 +603,54 @@ export class ShowformComponent implements OnInit {
     let tempformval: any = {};
     for (let x in this.formGroup.controls) {
       this.formGroup.controls[x].markAsTouched();
-      console.log(this.formGroup.controls[x].errors, x, 'err');
+      //console.log(this.formGroup.controls[x].errors, x, 'err');
       //if(this.formGroup.controls[x].valid){
       //console.log('x',x);
       let b = x.split('__');
       //console.log('b',b,b.length,b[0]);
       for (let m in this.formdataval.fields) {
+        if (this.formdataval.fields[m].type == 'file' && this.formdataval.fields[m].multiple == null) {
+          if (this.filearray[this.formdataval.fields[m].name].uploaded == 1) {
+            // fileservername: "Test-1589216992392My Saved Schema.json"
+            // lastModified: 1589174477504
+            // lastModifiedDate: Mon May 11 2020 10: 51: 17 GMT + 0530(India Standard Time) { }
+            // name: "My Saved Schema.json"
+            // size: 135096
+            // type: "application/json"
+            // uploaded: 1
+            let tfile: any = {};
+            tfile.fileservername = this.filearray[this.formdataval.fields[m].name].fileservername;
+            tfile.name = this.filearray[this.formdataval.fields[m].name].name;
+            tfile.size = this.filearray[this.formdataval.fields[m].name].size;
+            tfile.type = this.filearray[this.formdataval.fields[m].name].type;
+            tfile.path = this.formdataval.fields[m].path,
+              tfile.bucket = this.formdataval.fields[m].bucket,
+              this.formGroup.controls[this.formdataval.fields[m].name].patchValue(tfile);
+          }
+        }
         if (this.formdataval.fields[m].type == 'autocomplete') {
           if (this.autocompletefiledvalue != null && this.autocompletefiledvalue[this.formdataval.fields[m].name] != null && this.formdataval.fields[m].validations != null) {
-            console.log('autoerror', this.formGroup.controls[this.formdataval.fields[m].name].errors);
+            //console.log('autoerror', this.formGroup.controls[this.formdataval.fields[m].name].errors);
             this.formGroup.controls[this.formdataval.fields[m].name].setErrors({ required: null });
-            console.log('autoerror after ', this.formGroup.controls[this.formdataval.fields[m].name].errors);
+            //console.log('autoerror after ', this.formGroup.controls[this.formdataval.fields[m].name].errors);
           } else {
-            console.log('autoerror set', this.formGroup.controls[this.formdataval.fields[m].name].errors);
+            //console.log('autoerror set', this.formGroup.controls[this.formdataval.fields[m].name].errors);
             this.formGroup.controls[this.formdataval.fields[m].name].setErrors({ required: true });
-            console.log('autoerror set after ', this.formGroup.controls[this.formdataval.fields[m].name].errors);
+            //console.log('autoerror set after ', this.formGroup.controls[this.formdataval.fields[m].name].errors);
 
           }
           if (x == this.formdataval.fields[m].name && tempformval[x] == null)
             tempformval[x] = this.autocompletefiledvalue[this.formdataval.fields[m].name];
         }
         if (b.length > 1 && b[0] == this.formdataval.fields[m].name && this.formdataval.fields[m].name != x && this.formdataval.fields[m].type == 'checkbox' && this.formdataval.fields[m].multiple != null) {
-          console.log('aaaaff...');
+          //console.log('aaaaff...');
           if (this.formGroup.controls[x].value == true) {
             for (let k in this.formdataval.fields[m].val) {
               if (this.formdataval.fields[m].val[k]['key'] == b[1]) {
                 if (tempformval[this.formdataval.fields[m].name] == null)
                   tempformval[this.formdataval.fields[m].name] = [];
                 tempformval[this.formdataval.fields[m].name].push(b[1]);
-                console.log('gv', b[1]);
+                //console.log('gv', b[1]);
               }
             }
           }
@@ -622,7 +660,7 @@ export class ShowformComponent implements OnInit {
           tempformval[x] = this.formGroup.controls[x].value;
         //  }
       }
-      console.log(this.formGroup.controls[x].errors, x, 'err22');
+      //console.log(this.formGroup.controls[x].errors, x, 'err22');
 
       //}
     }
@@ -644,7 +682,7 @@ export class ShowformComponent implements OnInit {
             duration: 6000,
             data: { errormessage: this.formdataval.successmessage }
           });
-          console.log(result, 'red', this.formdataval.redirectpath);
+          //console.log(result, 'red', this.formdataval.redirectpath);
           if (this.formdataval.redirectpath != null) {
             this.router.navigate([this.formdataval.redirectpath]);
           }

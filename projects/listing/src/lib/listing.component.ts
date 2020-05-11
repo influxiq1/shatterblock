@@ -858,19 +858,18 @@ export class ListingComponent implements OnInit {
       temparr.push(val.datafields[v]);
       if (val.datafields[v] != 'image' && val.datafields[v] != 'video') {
         //console.log('ss',val.datafields[v]);
-        if (typeof (data[val.datafields[v]]) != 'object') {
-        //   if (data[val.datafields[v]] != null && data[val.datafields[v]].includes('iframe') ) {
-        //     console.log('in safe',data[val.datafields[v]]);
-        //     temparr.push(this.sanitizer.bypassSecurityTrustHtml(data[val.datafields[v]]));
-        //   }
-        //   else
+        if (data[val.datafields[v]] != null && typeof (data[val.datafields[v]]) != 'object') {
+          // console.log('df', data[val.datafields[v]].toString());
+          if (data[val.datafields[v]] != null && data[val.datafields[v]].toString().includes('iframe') ) {
+            console.log('in safe',data[val.datafields[v]]);
+            temparr.push(this.sanitizer.bypassSecurityTrustHtml(data[val.datafields[v]]));
+          } 
+          else
             temparr.push((data[val.datafields[v]]));
         }
         else {
           //console.log('ss22',val.datafields[v]);
-
-
-          //else
+          //else  
           temparr.push(data[val.datafields[v]]);
         }
       }
@@ -889,7 +888,7 @@ export class ListingComponent implements OnInit {
       //if(val.datafields[v]=='video') temparr.push("<img mat-card-image src=" + data[val.datafields[v]] + " > <br/>")
       dataarr.push(temparr);
     }
-    console.log('local data m', dataarr);
+    //console.log('local data m', dataarr);
     let res: any = dataarr;
 
     if (this.libdataval.detailview_override != null && this.libdataval.detailview_override.length > 0) {
@@ -898,7 +897,7 @@ export class ListingComponent implements OnInit {
         for (let c in this.libdataval.detailview_override) {
           //console.log('hww',c,this.libdataval.detailview_override[c].key,res[b],res[b][0],res[b][1]);
           if (this.libdataval.detailview_override[c].key == res[b][0]) {
-            console.log('h', c, this.libdataval.detailview_override[c]);
+            //console.log('h', c, this.libdataval.detailview_override[c]);
             resdata[b] = [this.libdataval.detailview_override[c].val, res[b][1], res[b][0]];
           }
         }
@@ -972,7 +971,7 @@ export class ListingComponent implements OnInit {
             for (let c in this.libdataval.detailview_override) {
               //console.log('hww',c,this.libdataval.detailview_override[c].key,res[b],res[b][0],res[b][1]);
               if (this.libdataval.detailview_override[c].key == dataarr[b][0]) {
-                console.log('h', c, this.libdataval.detailview_override[c]);
+                //console.log('h', c, this.libdataval.detailview_override[c]);
                 resdata[b] = [this.libdataval.detailview_override[c].val, dataarr[b][1], dataarr[b][0]];
               }
             }
@@ -1208,7 +1207,7 @@ export class ListingComponent implements OnInit {
         for (let c in this.libdataval.detailview_override) {
           //console.log('hww',c,this.libdataval.detailview_override[c].key,res[b],res[b][0],res[b][1]);
           if (this.libdataval.detailview_override[c].key == res[b][0]) {
-            console.log('h', c, this.libdataval.detailview_override[c]);
+            //console.log('h', c, this.libdataval.detailview_override[c]);
             resdata[b] = [this.libdataval.detailview_override[c].val, res[b][1], res[b][0]];
           }
         }
@@ -1406,7 +1405,7 @@ export class ListingComponent implements OnInit {
     });
   }
   deletedata(data: any) {
-    console.log(data);
+    //console.log(data);
     //alert(5);
     //this._apiService.deteOneData(this.apiurlval+this.deleteendpointval,data,this.jwttokenval);
     // console.log('data 889 ---');

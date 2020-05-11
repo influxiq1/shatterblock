@@ -400,10 +400,18 @@
                             </ng-container>
                             <ng-container *ngIf="filearray[fields.name]!=null  && fields.multiple==null">
                                 <span>{{filearray[fields.name].name}}</span>
+                                <br/>
                                 <span>{{filearray[fields.name].type}}</span>
-                                <button *ngIf="filearray[fields.name].uploaded==null " mat-raised-button (click)="uploadfile(fields)" type="button">Upload</button>
-                                <button *ngIf="filearray[fields.name].uploaded==1" mat-raised-button (click)="deletefile(fields)" type="button">Delete</button>
+                                <button *ngIf="filearray[fields.name].uploaded==null " mat-raised-button
+                                    (click)="uploadfile(fields)" type="button">Upload</button>
+                                <button *ngIf="filearray[fields.name].uploaded==1" mat-raised-button
+                                    (click)="deletefile(fields)" type="button">Delete</button>
 
+                                <section *ngIf="filearray[fields.name].uploaded==2 " class="example-section">
+                                    <mat-progress-bar class="example-margin" [color]="color" [mode]="mode"
+                                        [value]="value" [bufferValue]="bufferValue">
+                                    </mat-progress-bar>
+                                </section>
                             </ng-container>
                         </div>
                     </div>
@@ -419,7 +427,8 @@
 
 
                 <section *ngIf="fieldloading == fields.name " class="example-section">
-                    <mat-progress-bar class="example-margin" [color]="color" [mode]="mode" [value]="value" [bufferValue]="bufferValue">
+                    <mat-progress-bar class="example-margin" [color]="color" [mode]="mode" [value]="value"
+                        [bufferValue]="bufferValue">
                     </mat-progress-bar>
                 </section>
 

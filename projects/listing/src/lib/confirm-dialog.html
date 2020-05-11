@@ -36,9 +36,9 @@
                         </p>
                         <!-- length : {{item[1].length}} {{gettypeof(item[1])}} -->
                         <p *ngIf=" gettypeof(item[1]) == 'object' && item[0]!=='video' && !item[0].includes('vd')  ">
-                            <!-- in ng for .. -->
-                            <!-- <ng-container *ngFor="let arr of item[1];">
-                            <span *ngIf=" !item[0].includes('image') &&  (item[2]!=null &&   !item[2].includes('image') && !item[0].includes('vd')) && item[0] !='video_array'" [innerHtml]="arr"></span>
+                            <!-- in ng for .. --> 
+                            <ng-container *ngFor="let arr of item[1];">
+                            <span *ngIf=" !item[0].includes('image') &&  (item[2]!=null &&   !item[2].includes('image') ) && item[0] !='video_array'" [innerHtml]="arr"></span>
                             <span *ngIf="item[0].includes('image') || (item[2]!=null && item[2].includes('image')) " >
                                 <img [src]="arr" [alt]="arr" >    
                             </span>
@@ -46,7 +46,7 @@
                                 
                             </span>
 
-                        </ng-container> -->
+                        </ng-container>
                         </p>
                     </mat-card-content>
                 </mat-card>
