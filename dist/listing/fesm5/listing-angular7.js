@@ -19,7 +19,7 @@ import { FormBuilder, FormControl, Validators, FormsModule, ReactiveFormsModule 
 import { CommonModule } from '@angular/common';
 import { MomentModule } from 'ngx-moment';
 import { NavigationCancel, NavigationEnd, NavigationError, NavigationStart, Router, RouterModule } from '@angular/router';
-import { Injectable, Component, Input, ElementRef, EventEmitter, ViewChild, Inject, ComponentFactoryResolver, ViewContainerRef, NgModule, CUSTOM_ELEMENTS_SCHEMA, Output, defineInjectable } from '@angular/core';
+import { Injectable, ElementRef, EventEmitter, ViewChild, Component, Input, NgModule, CUSTOM_ELEMENTS_SCHEMA, Inject, ComponentFactoryResolver, ViewContainerRef, Output, defineInjectable } from '@angular/core';
 import { DomSanitizer, BrowserModule } from '@angular/platform-browser';
 import { CKEditorModule } from 'ng2-ckeditor';
 
@@ -3985,6 +3985,18 @@ var ShowformComponent = /** @class */ (function () {
                     temcontrolarr.push(this.formdataval.fields[n].value);
                 else
                     temcontrolarr.push('');
+                if (this.formdataval.fields[n].type == 'file') {
+                    this.filearray[this.formdataval.fields[n].name] = this.formdataval.fields[n].value;
+                    if (this.formdataval.fields[n].multiple != null && this.formdataval.fields[n].multiple == true) {
+                        for (var fa in this.filearray[this.formdataval.fields[n].name]) {
+                            this.filearray[this.formdataval.fields[n].name].uploaded = 1;
+                        }
+                        this.filecount[this.formdataval.fields[n].name] = this.filearray[this.formdataval.fields[n].name].length;
+                    }
+                    else {
+                        this.filearray[this.formdataval.fields[n].name].uploaded = 1;
+                    }
+                }
                 if (this.formdataval.fields[n].type == 'checkbox' && this.formdataval.fields[n].multiple != null && this.formdataval.fields[n].multiple == true) {
                     if (this.formdataval.fields[n].value == null)
                         temcontrolarr.push([]);
@@ -4269,9 +4281,10 @@ var ShowformComponent = /** @class */ (function () {
                         tfile.name = this.filearray[this.formdataval.fields[m].name].name;
                         tfile.size = this.filearray[this.formdataval.fields[m].name].size;
                         tfile.type = this.filearray[this.formdataval.fields[m].name].type;
-                        tfile.path = this.formdataval.fields[m].path,
-                            tfile.bucket = this.formdataval.fields[m].bucket,
-                            this.formGroup.controls[this.formdataval.fields[m].name].patchValue(tfile);
+                        tfile.path = this.formdataval.fields[m].path;
+                        tfile.bucket = this.formdataval.fields[m].bucket;
+                        tfile.baseurl = this.formdataval.fields[m].baseurl;
+                        this.formGroup.controls[this.formdataval.fields[m].name].patchValue(tfile);
                     }
                 }
                 if (this.formdataval.fields[m].type == 'file' && this.formdataval.fields[m].multiple != null && this.formdataval.fields[m].multiple == true) {
@@ -4294,6 +4307,7 @@ var ShowformComponent = /** @class */ (function () {
                             tfile.type = this.filearray[this.formdataval.fields[m].name][g].type;
                             tfile.path = this.formdataval.fields[m].path;
                             tfile.bucket = this.formdataval.fields[m].bucket;
+                            tfile.baseurl = this.formdataval.fields[m].baseurl;
                             tfilearr.push(tfile);
                         }
                         this.formGroup.controls[this.formdataval.fields[m].name].patchValue(tfilearr);

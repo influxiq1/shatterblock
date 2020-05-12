@@ -26,7 +26,7 @@ export class ShowformComponent implements OnInit {
   filerfielddata: any = [];
   autocompletefiledvalue: any = [];
   filearray: any = [];
-  filecount:any=[];
+  filecount: any = [];
   currentautocomplete: any = '';
   fieldloading: any = '';
 
@@ -247,7 +247,7 @@ export class ShowformComponent implements OnInit {
   uploadfilemultiple(val: any, f: any, indexf: any) {
     var reader = new FileReader();
     let file: any = this.filearray[val.name][indexf];
-    if(this.filecount[val.name]==null)this.filecount[val.name] =0;
+    if (this.filecount[val.name] == null) this.filecount[val.name] = 0;
     this.filecount[val.name]++;
     // console.log('file val in m 2', val, f, indexf, 'if',file); 
     file.uploaded = 2; // show progressbar 
@@ -503,8 +503,7 @@ export class ShowformComponent implements OnInit {
     });*/
     //let demoArray:any=[];
     if (initialize == 0)
-      this.formGroup = this.formBuilder.group({
-      });
+      this.formGroup = this.formBuilder.group({});
     //console.log(this.formGroup, 'fg')
     for (let n in this.formdataval.fields) {
       if (this.formGroup.controls[this.formdataval.fields[n]] == null) {
@@ -514,7 +513,20 @@ export class ShowformComponent implements OnInit {
           temcontrolarr.push(this.formdataval.fields[n].value);
         else
           temcontrolarr.push('');
-        if (this.formdataval.fields[n].type == 'checkbox' && this.formdataval.fields[n].multiple != null && this.formdataval.fields[n].multiple == true) {
+        if (this.formdataval.fields[n].type == 'file') {
+          this.filearray[this.formdataval.fields[n].name]=this.formdataval.fields[n].value;
+          if(this.formdataval.fields[n].multiple != null && this.formdataval.fields[n].multiple == true){
+            for(let fa in this.filearray[this.formdataval.fields[n].name]){
+              this.filearray[this.formdataval.fields[n].name].uploaded=1; 
+              
+            }
+            this.filecount[this.formdataval.fields[n].name]=this.filearray[this.formdataval.fields[n].name].length;
+
+          }else{
+            this.filearray[this.formdataval.fields[n].name].uploaded=1;
+          }
+        }
+          if (this.formdataval.fields[n].type == 'checkbox' && this.formdataval.fields[n].multiple != null && this.formdataval.fields[n].multiple == true) {
           if (this.formdataval.fields[n].value == null) temcontrolarr.push([]);
           else {
             if (this.formdataval.fields[n].val != null) {
@@ -725,9 +737,10 @@ export class ShowformComponent implements OnInit {
             tfile.name = this.filearray[this.formdataval.fields[m].name].name;
             tfile.size = this.filearray[this.formdataval.fields[m].name].size;
             tfile.type = this.filearray[this.formdataval.fields[m].name].type;
-            tfile.path = this.formdataval.fields[m].path,
-              tfile.bucket = this.formdataval.fields[m].bucket,
-              this.formGroup.controls[this.formdataval.fields[m].name].patchValue(tfile);
+            tfile.path = this.formdataval.fields[m].path;
+            tfile.bucket = this.formdataval.fields[m].bucket;
+            tfile.baseurl = this.formdataval.fields[m].baseurl;
+            this.formGroup.controls[this.formdataval.fields[m].name].patchValue(tfile);
           }
         }
         if (this.formdataval.fields[m].type == 'file' && this.formdataval.fields[m].multiple != null && this.formdataval.fields[m].multiple == true) {
@@ -748,6 +761,7 @@ export class ShowformComponent implements OnInit {
               tfile.type = this.filearray[this.formdataval.fields[m].name][g].type;
               tfile.path = this.formdataval.fields[m].path;
               tfile.bucket = this.formdataval.fields[m].bucket;
+              tfile.baseurl = this.formdataval.fields[m].baseurl;
               tfilearr.push(tfile);
             }
             this.formGroup.controls[this.formdataval.fields[m].name].patchValue(tfilearr);
