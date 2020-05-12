@@ -41,18 +41,18 @@ export class AdmindashbordComponent implements OnInit {
 
     // use for grab the link
     grab_link: any = {
-        colom_name:[
-        {
-            col_name: 'author',
-            field_name: 'author'
-        }],
-        field:[
-        {
-            label: 'shatterblok grab url',
-            url: 'artixtxp.com/',
-            action: 'null'
-        }]
-        
+        colom_name: [
+            {
+                col_name: 'author',
+                field_name: 'author'
+            }],
+        field: [
+            {
+                label: 'shatterblok grab url',
+                url: 'artixtxp.com/',
+                action: 'null'
+            }]
+
     };
 
     pendingmodelapplicationarray: any = [];
@@ -145,6 +145,8 @@ export class AdmindashbordComponent implements OnInit {
             { key: "created_date", val: "Date Added only" },
         ], // optional
         updateendpoint: 'statusupdate',
+        updateendpointmany:'updateendpointmany',
+        deleteendpointmany:'deleteendpointmany',
         hideeditbutton: true,// all these button options are optional not mandatory
         hidedeletebutton: true,
         //hideviewbutton:false,
@@ -718,6 +720,14 @@ export class AdmindashbordComponent implements OnInit {
                 prefix: "Test-" + Date.now(),
                 path: 'test/t1/',
                 baseurl: 'test/t1/',
+                value: {
+                    fileservername: "file-1589270133418images (5).jpeg",
+                    name: "images (5).jpeg",
+                    size: 49184,
+                    type: "image/jpeg",
+                    path: "resource/file/",
+                    bucket: "awsbackend-dev-patient-files-test"
+                },
                 bucket: 'awsbackend-dev-patient-files-test',
                 apiurl: "https://tge24bc2ne.execute-api.us-east-1.amazonaws.com/dev/requestUploadURL",
                 apideleteurl: "https://tge24bc2ne.execute-api.us-east-1.amazonaws.com/dev/deletefilefromBucket",
@@ -741,6 +751,22 @@ export class AdmindashbordComponent implements OnInit {
                 name: "file2",
                 type: 'file',
                 multiple: true,
+                value: [{
+                    fileservername: "file-1589270133418images (5).jpeg",
+                    name: "images (5).jpeg",
+                    size: 49184,
+                    type: "image/jpeg",
+                    path: "resource/file/",
+                    bucket: "awsbackend-dev-patient-files-test"
+                },{
+                    fileservername: "file-1589270133418images (5).jpeg",
+                    name: "images (5).jpeg",
+                    size: 49184,
+                    type: "image/jpeg",
+                    path: "resource/file/",
+                    bucket: "awsbackend-dev-patient-files-test"
+                }],
+                
                 prefix: "Test-" + Date.now(),
                 path: 'test/t1/',
                 baseurl: 'test/t1/',

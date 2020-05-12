@@ -56,7 +56,7 @@ export class ShowformComponent implements OnInit {
   constructor(private formBuilder: FormBuilder, public _apiService: ApiService, private _snackBar: MatSnackBar, private router: Router, private elementRef: ElementRef) { }
 
   ngOnInit() {
-    this.createForm();
+    this.createForm(0);
 
 
     //this.setChangeValidate()
@@ -515,10 +515,14 @@ export class ShowformComponent implements OnInit {
           temcontrolarr.push('');
         if (this.formdataval.fields[n].type == 'file') {
           this.filearray[this.formdataval.fields[n].name] = this.formdataval.fields[n].value;
+          console.log('db', this.filearray[this.formdataval.fields[n].name], this.formdataval.fields[n].name);
           if (this.formdataval.fields[n].multiple != null && this.formdataval.fields[n].multiple == true) {
             for (let fa in this.filearray[this.formdataval.fields[n].name]) {
-              if (this.filearray[this.formdataval.fields[n].name[fa]] != null)
+              console.log('fv', fa); 
+              if (this.filearray[this.formdataval.fields[n].name][fa] != null) {
+                console.log('fr', this.filearray[this.formdataval.fields[n].name][fa]);
                 this.filearray[this.formdataval.fields[n].name][fa].uploaded = 1;
+              }
 
             }
             if (this.filearray[this.formdataval.fields[n].name] != null) {
@@ -601,12 +605,8 @@ export class ShowformComponent implements OnInit {
         this.formBuilder.control(false),
       ]));*/
           //this.formGroup.addControl(this.formdataval.fields[n].name, new FormControl(temcontrolarr[0], temvalidationrule));
-
-
         }
         else {
-
-
           this.formGroup.addControl(this.formdataval.fields[n].name, new FormControl({ value: temcontrolarr[0], disabled: this.formdataval.fields[n].disabled }, temvalidationrule));
         }
         //'newControl', new FormControl('', Validators.required)

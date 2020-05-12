@@ -1315,7 +1315,7 @@ export class ListingComponent implements OnInit {
         //data.status = result.val;
         //data.id = data._id;
         let newstatus: any = result.val;
-        this._apiService.togglestatusmany(this.apiurlval + 'statusupdate', ids, result.val, this.jwttokenval, this.sourcedataval).subscribe(res => {
+        this._apiService.togglestatusmany(this.apiurlval + this.libdataval.updateendpointmany, ids, result.val, this.jwttokenval, this.sourcedataval).subscribe(res => {
           let result: any = {};
           result = res;
           if (result.status == 'success') {
@@ -1367,7 +1367,7 @@ export class ListingComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
 
       if (result == 'yes') {
-        this._apiService.deteManyData(this.apiurlval + this.deleteendpointval, ids, this.jwttokenval, this.sourcedataval).subscribe(res => {
+        this._apiService.deteManyData(this.apiurlval + this.libdataval.deleteendpointmany, ids, this.jwttokenval, this.sourcedataval).subscribe(res => {
           let result: any = {};
           result = res;
           if (result.status == 'success') {
