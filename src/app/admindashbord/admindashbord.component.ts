@@ -40,21 +40,20 @@ export class AdmindashbordComponent implements OnInit {
 
 
     // use for grab the link
-    grab_link: any = [
+    grab_link: any = {
+        colom_name:[
         {
-            col_name: 'grab_url',
-            field_name: 'name'
-        },
+            col_name: 'author',
+            field_name: 'author'
+        }],
+        field:[
         {
             label: 'shatterblok grab url',
             url: 'artixtxp.com/',
             action: 'null'
-        }, {
-            label: 'Audiodateline grab url',
-            url: 'audiodateline.com/',
-            action: 'null'
-        }
-    ];
+        }]
+        
+    };
 
     pendingmodelapplicationarray: any = [];
 
