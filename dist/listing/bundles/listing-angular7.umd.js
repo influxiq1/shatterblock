@@ -3886,12 +3886,16 @@
                             this.filearray[this.formdataval.fields[n].name] = this.formdataval.fields[n].value;
                             if (this.formdataval.fields[n].multiple != null && this.formdataval.fields[n].multiple == true) {
                                 for (var fa in this.filearray[this.formdataval.fields[n].name]) {
-                                    this.filearray[this.formdataval.fields[n].name].uploaded = 1;
+                                    if (this.filearray[this.formdataval.fields[n].name[fa]] != null)
+                                        this.filearray[this.formdataval.fields[n].name][fa].uploaded = 1;
                                 }
-                                this.filecount[this.formdataval.fields[n].name] = this.filearray[this.formdataval.fields[n].name].length;
+                                if (this.filearray[this.formdataval.fields[n].name] != null) {
+                                    this.filecount[this.formdataval.fields[n].name] = this.filearray[this.formdataval.fields[n].name].length;
+                                }
                             }
                             else {
-                                this.filearray[this.formdataval.fields[n].name].uploaded = 1;
+                                if (this.filearray[this.formdataval.fields[n].name] != null)
+                                    this.filearray[this.formdataval.fields[n].name].uploaded = 1;
                             }
                         }
                         if (this.formdataval.fields[n].type == 'checkbox' && this.formdataval.fields[n].multiple != null && this.formdataval.fields[n].multiple == true) {

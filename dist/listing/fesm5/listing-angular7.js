@@ -19,7 +19,7 @@ import { FormBuilder, FormControl, Validators, FormsModule, ReactiveFormsModule 
 import { CommonModule } from '@angular/common';
 import { MomentModule } from 'ngx-moment';
 import { NavigationCancel, NavigationEnd, NavigationError, NavigationStart, Router, RouterModule } from '@angular/router';
-import { Injectable, Component, Input, ElementRef, EventEmitter, ViewChild, NgModule, CUSTOM_ELEMENTS_SCHEMA, Inject, ComponentFactoryResolver, ViewContainerRef, Output, defineInjectable } from '@angular/core';
+import { Injectable, ElementRef, EventEmitter, ViewChild, Component, Input, NgModule, CUSTOM_ELEMENTS_SCHEMA, Output, Inject, ComponentFactoryResolver, ViewContainerRef, defineInjectable } from '@angular/core';
 import { DomSanitizer, BrowserModule } from '@angular/platform-browser';
 import { CKEditorModule } from 'ng2-ckeditor';
 
@@ -3990,12 +3990,16 @@ var ShowformComponent = /** @class */ (function () {
                     this.filearray[this.formdataval.fields[n].name] = this.formdataval.fields[n].value;
                     if (this.formdataval.fields[n].multiple != null && this.formdataval.fields[n].multiple == true) {
                         for (var fa in this.filearray[this.formdataval.fields[n].name]) {
-                            this.filearray[this.formdataval.fields[n].name].uploaded = 1;
+                            if (this.filearray[this.formdataval.fields[n].name[fa]] != null)
+                                this.filearray[this.formdataval.fields[n].name][fa].uploaded = 1;
                         }
-                        this.filecount[this.formdataval.fields[n].name] = this.filearray[this.formdataval.fields[n].name].length;
+                        if (this.filearray[this.formdataval.fields[n].name] != null) {
+                            this.filecount[this.formdataval.fields[n].name] = this.filearray[this.formdataval.fields[n].name].length;
+                        }
                     }
                     else {
-                        this.filearray[this.formdataval.fields[n].name].uploaded = 1;
+                        if (this.filearray[this.formdataval.fields[n].name] != null)
+                            this.filearray[this.formdataval.fields[n].name].uploaded = 1;
                     }
                 }
                 if (this.formdataval.fields[n].type == 'checkbox' && this.formdataval.fields[n].multiple != null && this.formdataval.fields[n].multiple == true) {
