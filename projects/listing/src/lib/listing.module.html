@@ -304,22 +304,27 @@
 
                         <!--// for grap url//-->
 
-
-
                         <span
+                        *ngIf=" grab_linkval!=null && column.columnDef==[grab_linkval.colom_name[0].col_name]"
+                        class="cursor">
+                        <ng-container *ngFor="let item of grab_linkval.field">
+                            <!-- <p>{{item | json}}</p> -->
+                        <button mat-button
+                            (click)="copyText(row[grab_linkval.colom_name[0].field_name],item.url)">{{item.label}}</button>
+                        </ng-container>
+                    </span>
+
+                        <!-- <span
                             *ngIf=" grab_linkval!=null && grab_linkval[0]!=null && column.columnDef==[grab_linkval[0].col_name]"
                             class="cursor">
                             <button mat-button
                                 (click)="copyText(row[grab_linkval[0].field_name],grab_linkval[1].url)">{{grab_linkval[1].label}}</button>
                         </span>
-
-                        <!--          </span>-->
-                        <!--          <span *ngIf="aud==true">-->
                         <span
                             *ngIf="grab_linkval!=null && grab_linkval[0]!=null &&column.columnDef== [grab_linkval[0].col_name]">
                             <button mat-button
                                 (click)="copyText(row[grab_linkval[0].field_name],grab_linkval[2].url)">{{grab_linkval[2].label}}</button>
-                        </span>
+                        </span> -->
 
                         <!--          //grap url end//-->
 

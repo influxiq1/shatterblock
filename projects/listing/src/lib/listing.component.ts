@@ -124,6 +124,7 @@ export class ListingComponent implements OnInit {
   @Input()
   set grab_link(grab_link: any) {
     this.grab_linkval = grab_link;
+    console.log( this.grab_linkval)
   }
   @Input()
   set custombutton(custombutton: any) {
