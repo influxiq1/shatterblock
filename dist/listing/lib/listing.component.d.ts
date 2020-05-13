@@ -163,6 +163,7 @@ export declare class ListingComponent implements OnInit {
     styleCell(col_name: any, row: any): {};
     /**show video modal on click of thamnail function by sourav */
     fetchvideo(videodata: any): void;
+    opennotes(val: any): void;
     viewdata(data1: any): void;
     managestatus(data: any): void;
     custombuttonfunc(data: any): void;
@@ -176,11 +177,13 @@ export declare class ListingComponent implements OnInit {
     artistxpPreview(singleData: any): void;
 }
 export declare class Confirmdialog {
+    _apiService: ApiService;
     dialogRef: MatDialogRef<Confirmdialog>;
     data: any;
     sanitizer: DomSanitizer;
-    constructor(dialogRef: MatDialogRef<Confirmdialog>, data: any, sanitizer: DomSanitizer);
+    constructor(_apiService: ApiService, dialogRef: MatDialogRef<Confirmdialog>, data: any, sanitizer: DomSanitizer);
     onNoClick(): void;
+    addnotes(): void;
     gettypeof(val: any): "string" | "number" | "bigint" | "boolean" | "symbol" | "undefined" | "object" | "function";
     sanitizeUrl(unsafeurl: any, data: any, rowdata: any): import("@angular/platform-browser").SafeResourceUrl;
 }
@@ -202,6 +205,7 @@ export declare class ImageView {
     dialogRef: MatDialogRef<ImageView>;
     data: any;
     constructor(dialogRef: MatDialogRef<ImageView>, data: any);
+    addnotes(): void;
     onNoClick(): void;
 }
 export declare class SnackbarComponent {

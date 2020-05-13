@@ -145,8 +145,15 @@ export class AdmindashbordComponent implements OnInit {
             { key: "created_date", val: "Date Added only" },
         ], // optional
         updateendpoint: 'statusupdate',
-        updateendpointmany:'updateendpointmany',
-        deleteendpointmany:'deleteendpointmany',
+        notes: {
+            label: "Notes",
+            addendpoint: "addnotedata",
+            deleteendpoint: "addnotedata",
+            listendpoint: "listnotedata",
+            user: "5e0c844f2953d935d63dca20"
+        },
+        updateendpointmany: 'updateendpointmany',
+        deleteendpointmany: 'deleteendpointmany',
         hideeditbutton: true,// all these button options are optional not mandatory
         hidedeletebutton: true,
         //hideviewbutton:false,
@@ -486,7 +493,7 @@ export class AdmindashbordComponent implements OnInit {
                 type: 'checkbox',
                 multiple: true,
                 val: [{ key: 0, val: 'Less than 1' }, { key: 1, val: 'less than 3' }, { key: 2, val: 'less than 6' }, { key: 3, val: 'less than 12' }],
-                value: [3, 0],
+                // value: [3, 0],
                 validations: [
                     { rule: 'required' }
                 ]
@@ -680,12 +687,12 @@ export class AdmindashbordComponent implements OnInit {
                 //hint:'has child ???',
                 type: 'checkbox',
                 labelPosition: 'after',
-                value: null,
-                dependent: {
+                value: null,//
+                dependent: [{
 
                     condval: true,
                     field: {
-                        label: " Product",
+                        label: " Product Name",
                         name: "product",
                         type: 'select',
                         val: [{ val: 1, 'name': 'P1' },
@@ -698,7 +705,7 @@ export class AdmindashbordComponent implements OnInit {
                             { rule: 'required' }
                         ]
                     }
-                },
+                }],
                 validations: [
                     { rule: 'required' }
                 ],
@@ -758,7 +765,7 @@ export class AdmindashbordComponent implements OnInit {
                     type: "image/jpeg",
                     path: "resource/file/",
                     bucket: "awsbackend-dev-patient-files-test"
-                },{
+                }, {
                     fileservername: "file-1589270133418images (5).jpeg",
                     name: "images (5).jpeg",
                     size: 49184,
@@ -766,7 +773,7 @@ export class AdmindashbordComponent implements OnInit {
                     path: "resource/file/",
                     bucket: "awsbackend-dev-patient-files-test"
                 }],
-                
+
                 prefix: "Test-" + Date.now(),
                 path: 'test/t1/',
                 baseurl: 'test/t1/',
@@ -857,6 +864,31 @@ export class AdmindashbordComponent implements OnInit {
         this.formfieldrefreshdata = { field: 'removefromcontrol', value: { name: 'desc' } };
 
     }
+    addformfieldarray() {
+
+        this.formfieldrefreshdata = {
+            field: 'addfromcontrol', value: [
+                {
+                    label: "Pet Name 2",
+                    name: "petname2",
+                    type: 'text',
+                    after: 'fullname'
+                },
+                {
+                    label: "Pet Name 3",
+                    name: "petname3",
+                    type: 'text',
+                    after: 'petname2'
+                },
+                {
+                    label: "Pet Name 4",
+                    name: "petname4",
+                    type: 'text',
+                    after: 'petname3'
+                }
+            ]
+        };
+    }
     addformfield() {
         this.formfieldrefreshdata = {
             field: 'addfromcontrol', value: {
@@ -867,6 +899,9 @@ export class AdmindashbordComponent implements OnInit {
             }
         };
 
-    }
 
+
+
+
+    }
 }

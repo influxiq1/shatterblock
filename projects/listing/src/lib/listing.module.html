@@ -345,6 +345,11 @@
                     <th mat-header-cell *matHeaderCellDef class="th-header-center">Actions</th>
                     <td (click)="$event.stopPropagation()" mat-cell *matCellDef="let row" data-label="Actions"
                         class="td-cell-center">
+                        <!-- note block -->
+                        <ng-container *ngIf="libdataval.notes!=null">
+                            <button mat-raised-button color="primary"
+                            (click)="opennotes(row)">Notes</button>
+                        </ng-container>
                         <!--custom buttions block -->
                         <ng-container
                             *ngIf="libdataval !=null && libdataval.custombuttons !=null && libdataval.custombuttons.length >0 ">

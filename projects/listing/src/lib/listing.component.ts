@@ -124,7 +124,7 @@ export class ListingComponent implements OnInit {
   @Input()
   set grab_link(grab_link: any) {
     this.grab_linkval = grab_link;
-    console.log( this.grab_linkval)
+    console.log(this.grab_linkval)
   }
   @Input()
   set custombutton(custombutton: any) {
@@ -861,10 +861,10 @@ export class ListingComponent implements OnInit {
         //console.log('ss',val.datafields[v]);
         if (data[val.datafields[v]] != null && typeof (data[val.datafields[v]]) != 'object') {
           // console.log('df', data[val.datafields[v]].toString());
-          if (data[val.datafields[v]] != null && data[val.datafields[v]].toString().includes('iframe') ) {
-            console.log('in safe',data[val.datafields[v]]);
+          if (data[val.datafields[v]] != null && data[val.datafields[v]].toString().includes('iframe')) {
+            console.log('in safe', data[val.datafields[v]]);
             temparr.push(this.sanitizer.bypassSecurityTrustHtml(data[val.datafields[v]]));
-          } 
+          }
           else
             temparr.push((data[val.datafields[v]]));
         }
@@ -1123,6 +1123,24 @@ export class ListingComponent implements OnInit {
       height: 'auto',
       data: { previewData: videodata }
     });
+  }
+  opennotes(val: any) {
+    this._apiService.postSearch(this.apiurlval + this.libdataval.notes.listendpoint, this.jwttokenval, { id: val._id }).subscribe(res => {
+      let result: any = {};
+      result = res;
+      console.log(result, 'list notes');
+      // console.log('count',result);
+      // this.dataSource.paginator = this.paginator;
+      //this.dataSource.sort = this.sort;
+      // this.data.notesval = '';
+      console.log('notes', val);
+      const dialogRef = this.dialog.open(Confirmdialog, {
+        height: 'auto',
+        panelClass: 'custom-modalbox',
+        data: { isconfirmation: false, notes: true, apiurl: this.apiurlval, notedata: this.libdataval.notes, rowdata: val, jwttokenval: this.jwttokenval, listdata: result.res }
+      });
+    });
+
   }
 
   viewdata(data1: any) {
@@ -1588,14 +1606,38 @@ export class ListingComponent implements OnInit {
 export class Confirmdialog {
 
   constructor(
+    public _apiService: ApiService,
+    // public notesval:any=null,
     public dialogRef: MatDialogRef<Confirmdialog>,
     @Inject(MAT_DIALOG_DATA) public data: any, public sanitizer: DomSanitizer) {
+      console.log('lib data in modal ',this.data);
 
   }
 
   onNoClick(): void {
     this.dialogRef.close();
   }
+  addnotes() {
+    console.log('log', this.data);
+    if (this.data.notesval != null && this.data.notesval != '') {
+      let source: any = {
+
+        id: this.data.data._id,
+        note: this.data.notesval,
+        user: this.data.notedata.user,
+      };
+      this._apiService.postSearch(this.data.apiurl + this.data.notedata.addendpoint, this.data.jwttokenval, source).subscribe(res => {
+        let result: any = {};
+        result = res;
+        console.log(result, 'add notes');
+        // console.log('count',result);
+        // this.dataSource.paginator = this.paginator;
+        //this.dataSource.sort = this.sort;
+        this.data.notesval = '';
+      });
+    }
+  }
+
   gettypeof(val: any) {
     return typeof (val);
   }
@@ -1651,10 +1693,14 @@ export class VideoPlayer {
 })
 export class ImageView {
 
+  // public data:any;
   constructor(
     public dialogRef: MatDialogRef<ImageView>,
     @Inject(MAT_DIALOG_DATA) public data: any) {
-    //console.warn('ImageViewModal',data.alldata);
+    // console.warn('ImageViewModal', data);
+  }
+  addnotes() {
+    console.log('log', this.data);
   }
 
   onNoClick(): void {
