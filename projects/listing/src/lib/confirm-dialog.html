@@ -8,14 +8,39 @@
 
             <ng-container *ngIf="data.notes!=null && data.notes==true">
                 <!-- <ng-container *ngFor="let note of data.listdata;"> -->
-
                 <mat-list>
                     <div mat-subheader>Notes</div>
-                    <mat-list-item *ngFor="let note of data.listdata">
-                        <!-- <mat-icon mat-list-icon>folder</mat-icon> -->
-                        <div mat-line> {{note.note }}  </div>
-                        <div mat-line>{{note.userid}}</div>
-                        <div mat-line> {{note.created_date | date:'medium' }} </div>
+                    <!-- <section class="example-section">
+                        <mat-progress-bar class="example-margin" [color]="data.color" [mode]="data.mode"
+                            [value]="data.loadervalue" [bufferValue]="data.bufferValue">
+                        </mat-progress-bar>
+                        <br />
+                        <br />
+                    </section> -->
+                    <mat-list-item *ngFor="let note of data.listdata;let notej=index;">
+                        <span class="material-icons">
+                            notes
+                        </span>
+                        <div mat-line>
+                            {{note.note }}
+                        </div>
+                        <div mat-line class="line-user"><span>By:</span>{{note.userid}}</div>
+                        <div mat-line class="line-datetime"> <span>On:</span> {{note.created_date | date:'medium' }}
+                        </div>
+                        <span class="material-icons" (click)="deletenote(notej)">
+                            delete
+                        </span>
+                        <div mat-line *ngIf="data.loading1!=null && data.loading1== notej ">
+                            <section class="example-section">
+                                <mat-progress-bar class="example-margin" [color]="data.color" [mode]="data.mode"
+                                    [value]="data.loadervalue" [bufferValue]="data.bufferValue">
+                                </mat-progress-bar>
+                                <br />
+                                <br />
+                            </section>
+                        </div>
+
+
                     </mat-list-item>
                     <mat-divider></mat-divider>
                 </mat-list>
@@ -25,6 +50,13 @@
                     <button mat-button (click)="addnotes()">Add Note</button>
 
                 </div>
+                <section *ngIf="data.loading !=null && data.loading == true" class="example-section">
+                    <mat-progress-bar class="example-margin" [color]="data.color" [mode]="data.mode"
+                        [value]="data.loadervalue" [bufferValue]="data.bufferValue">
+                    </mat-progress-bar>
+                    <br />
+                    <br />
+                </section>
                 <!-- </ng-container> -->
             </ng-container>
 

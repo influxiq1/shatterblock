@@ -79,6 +79,7 @@ export class ListingComponent implements OnInit {
   public aud2: any = false;
   public aud: any = false;
   public updatetableval: any = false;
+  loaderrow: any = null;
 
   /*for progress bar*/
 
@@ -932,6 +933,7 @@ export class ListingComponent implements OnInit {
 
       }
     }
+    this.loaderrow = data._id;
     this._apiService.postSearch(link, this.jwttokenval, source).subscribe(res => {
       let result: any = {};
       result = res;
@@ -939,6 +941,7 @@ export class ListingComponent implements OnInit {
 
         //console.log('res',result);
         let resdata: any = {};
+        this.loaderrow = null;
         this.loading = false;
         if (result.res[0] != null) {
           resdata = result.res[0];
@@ -1125,10 +1128,14 @@ export class ListingComponent implements OnInit {
     });
   }
   opennotes(val: any) {
+    this.loading = true;
+    this.loaderrow = val._id;
     this._apiService.postSearch(this.apiurlval + this.libdataval.notes.listendpoint, this.jwttokenval, { id: val._id }).subscribe(res => {
       let result: any = {};
       result = res;
       console.log(result, 'list notes');
+      this.loading = false;
+      this.loaderrow = null;
       // console.log('count',result);
       // this.dataSource.paginator = this.paginator;
       //this.dataSource.sort = this.sort;
@@ -1610,30 +1617,68 @@ export class Confirmdialog {
     // public notesval:any=null,
     public dialogRef: MatDialogRef<Confirmdialog>,
     @Inject(MAT_DIALOG_DATA) public data: any, public sanitizer: DomSanitizer) {
-      console.log('lib data in modal ',this.data);
-
+    console.log('lib data in modal ', this.data);
+    this.data.color = 'primary';
+    this.data.mode = 'indeterminate';
+    this.data.loadervalue = 50;
+    this.data.bufferValue = 76;
   }
 
   onNoClick(): void {
     this.dialogRef.close();
+  }
+  deletenote(index: any) {
+    console.log('log', this.data);
+    // if (this.data.notesval != null && this.data.notesval != '') {
+    let source: any = {
+
+      blogidid: this.data.rowdata._id,
+      index: index
+      // note: this.data.notesval,
+      // user: this.data.notedata.user,
+    };
+    this.data.loading1 = index;
+    this._apiService.postSearch(this.data.apiurl + this.data.notedata.deleteendpoint, this.data.jwttokenval, source).subscribe(res => {
+      let result: any = {};
+      result = res;
+      console.log(result, 'add notes');
+      if (result.status == 'success') {
+        // this.data.listdata.push({ userid: this.data.notedata.currentuserfullname, note: this.data.notesval, created_date: Date.now() });
+        // this.data.notesval = '';
+        this.data.listdata.splice(index, 1);
+        this.data.loading1 = null;
+      }
+      // console.log('count',result);
+      // this.dataSource.paginator = this.paginator;
+      //this.dataSource.sort = this.sort;
+
+    });
+    // }
   }
   addnotes() {
     console.log('log', this.data);
     if (this.data.notesval != null && this.data.notesval != '') {
       let source: any = {
 
-        id: this.data.data._id,
+        id: this.data.rowdata._id,
         note: this.data.notesval,
         user: this.data.notedata.user,
       };
+      this.data.loading = true;
       this._apiService.postSearch(this.data.apiurl + this.data.notedata.addendpoint, this.data.jwttokenval, source).subscribe(res => {
         let result: any = {};
         result = res;
         console.log(result, 'add notes');
+        if (result.status == 'success') {
+          if (this.data.listdata == null) this.data.listdata = [];
+          this.data.listdata.unshift({ userid: this.data.notedata.currentuserfullname, note: this.data.notesval, created_date: Date.now() });
+          this.data.notesval = '';
+          this.data.loading = null;
+        }
         // console.log('count',result);
         // this.dataSource.paginator = this.paginator;
         //this.dataSource.sort = this.sort;
-        this.data.notesval = '';
+
       });
     }
   }

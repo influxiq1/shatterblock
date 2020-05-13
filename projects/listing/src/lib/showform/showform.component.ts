@@ -458,16 +458,18 @@ export class ShowformComponent implements OnInit {
           }
         }
       } else {
-        console.log('in array form  add');
-        for (let v in field) {
-          for (let y in this.formdataval.fields) {
-            if (this.formdataval.fields[y].name == field[v].after) {
-              this.formdataval.fields.splice(parseInt(y) + 1, 0, field[v]);
-              this.createForm(1);
-              console.log('array field added ..', field[v]['name'], 'c', y);
+        if (typeof (field) == 'object') {
+          console.log('in array form  add');
+          for (let v in field) {
+            for (let y in this.formdataval.fields) {
+              if (field[v] != null && field[v]['name'] != null && this.formdataval.fields[y].name == field[v].after) {
+                this.formdataval.fields.splice(parseInt(y) + 1, 0, field[v]);
+                this.createForm(1);
+                console.log('array field added ..', field[v]['name'], 'c', y);
+              }
             }
-          }
 
+          }
         }
       }
 

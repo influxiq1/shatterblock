@@ -68,6 +68,7 @@ export declare class ListingComponent implements OnInit {
     aud2: any;
     aud: any;
     updatetableval: any;
+    loaderrow: any;
     color: ThemePalette;
     mode: any;
     value: number;
@@ -183,6 +184,7 @@ export declare class Confirmdialog {
     sanitizer: DomSanitizer;
     constructor(_apiService: ApiService, dialogRef: MatDialogRef<Confirmdialog>, data: any, sanitizer: DomSanitizer);
     onNoClick(): void;
+    deletenote(index: any): void;
     addnotes(): void;
     gettypeof(val: any): "string" | "number" | "bigint" | "boolean" | "symbol" | "undefined" | "object" | "function";
     sanitizeUrl(unsafeurl: any, data: any, rowdata: any): import("@angular/platform-browser").SafeResourceUrl;

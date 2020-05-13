@@ -148,9 +148,11 @@ export class AdmindashbordComponent implements OnInit {
         notes: {
             label: "Notes",
             addendpoint: "addnotedata",
-            deleteendpoint: "addnotedata",
+            deleteendpoint: "deletenotedata",
             listendpoint: "listnotedata",
-            user: "5e0c844f2953d935d63dca20"
+            user: "5e0c844f2953d935d63dca20",
+            currentuserfullname:"Debasis",
+            header:'blogtitle'
         },
         updateendpointmany: 'updateendpointmany',
         deleteendpointmany: 'deleteendpointmany',
