@@ -1632,7 +1632,7 @@ export class Confirmdialog {
     // if (this.data.notesval != null && this.data.notesval != '') {
     let source: any = {
 
-      blogidid: this.data.rowdata._id,
+      id: this.data.rowdata._id,
       index: index
       // note: this.data.notesval,
       // user: this.data.notedata.user,
@@ -1671,7 +1671,7 @@ export class Confirmdialog {
         console.log(result, 'add notes');
         if (result.status == 'success') {
           if (this.data.listdata == null) this.data.listdata = [];
-          this.data.listdata.unshift({ userid: this.data.notedata.currentuserfullname, note: this.data.notesval, created_date: Date.now() });
+          this.data.listdata.unshift({ user: this.data.notedata.currentuserfullname, note: { userid: this.data.notedata.currentuserfullname, note: this.data.notesval, created_date: Date.now() } });
           this.data.notesval = '';
           this.data.loading = null;
         }

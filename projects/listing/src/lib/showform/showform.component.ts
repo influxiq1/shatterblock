@@ -39,17 +39,17 @@ export class ShowformComponent implements OnInit {
   @Input()
   set formdata(formdata: any) {
     this.formdataval = formdata;
-    console.log(this.formdataval);
+    // console.log(this.formdataval);
   }
   @Input()
   set formfieldrefreshdata(formfieldrefreshdata: any) {
     this.formfieldrefreshdataval = formfieldrefreshdata;
-    console.log(this.formfieldrefreshdataval);
+    // console.log(this.formfieldrefreshdataval);
   }
   @Input()
   set formfieldrefresh(formfieldrefresh: any) {
     this.formfieldrefreshval = formfieldrefresh;
-    console.log(this.formfieldrefreshval);
+    // console.log(this.formfieldrefreshval);
   }
   @Output() onFormFieldChange = new EventEmitter<any>();
 
@@ -68,7 +68,7 @@ export class ShowformComponent implements OnInit {
   }
   ngAfterViewInit() {
     setTimeout(() => {
-      console.log('in after view init trigger');
+      // console.log('in after view init trigger');
       for (let g in this.formdataval.fields) {
         if (this.formdataval.fields[g].type == 'file') {
           this.elementRef.nativeElement.querySelector('#drop' + this.formdataval.fields[g].name).addEventListener('drop', this.handleDrop.bind(this));
@@ -82,9 +82,9 @@ export class ShowformComponent implements OnInit {
   }
 
   triggerevents(val: any) {
-    console.log('in triggerevents');
+    // console.log('in triggerevents');
     setTimeout(() => {
-      console.log('val loadeed trigger', val);
+      // console.log('val loadeed trigger', val);
       this.elementRef.nativeElement.querySelector('#drop' + val.name).addEventListener('drop', this.handleDrop.bind(this));
       this.elementRef.nativeElement.querySelector('#drop' + val.name).addEventListener('dragenter', this.cancel.bind(this));
       this.elementRef.nativeElement.querySelector('#drop' + val.name).addEventListener('dragdragover', this.cancel.bind(this));
@@ -107,29 +107,25 @@ export class ShowformComponent implements OnInit {
     var files = dt.files;
     for (var i = 0; i < files.length; i++) {
       var file = files[i];
-      console.log(files, 'files', e.target.id);
+      // console.log(files, 'files', e.target.id);
       console.log('farr', this.filearray);
       for (let g in this.formdataval.fields) {
         if (this.formdataval.fields[g].type == 'file' && this.formdataval.fields[g].name == e.target.id.replace('drop', '')) {
-          console.log('file details', this.formdataval.fields[g]);
+          // console.log('file details', this.formdataval.fields[g]);
           if (this.formdataval.fields[g].multiple == null) {
-
             // this.deletefile(va)
             if (this.filearray[e.target.id.replace('drop', '')] != null) {
               for (let n in this.formdataval.fields) {
                 if (this.formdataval.fields[n].name == e.target.id.replace('drop', '')) {
                   this.deletefile(this.formdataval.fields[n], 1);
                   setTimeout(() => {
-
                     this.filearray[e.target.id.replace('drop', '')] = files[0];
                   }, 300);
                 }
               }
             } else {
               this.filearray[e.target.id.replace('drop', '')] = files[0];
-
             }
-
           } else {
             if (this.filearray[e.target.id.replace('drop', '')] == null) {
               this.filearray[e.target.id.replace('drop', '')] = [];
@@ -140,7 +136,7 @@ export class ShowformComponent implements OnInit {
 
         }
       }
-      console.log('this.filearray', this.filearray);
+      // console.log('this.filearray', this.filearray);
 
       // var reader = new FileReader();
       // reader.addEventListener('loadend', function(e){
@@ -184,7 +180,7 @@ export class ShowformComponent implements OnInit {
   uploadfile(val: any) {
     var reader = new FileReader();
     let file: any = this.filearray[val.name];
-    console.log('file val', val);
+    // console.log('file val', val);
     file.uploaded = 2; // show progressbar 
     let temploader: any = this.fieldloading[val.name];
     temploader = val.name;
@@ -203,7 +199,7 @@ export class ShowformComponent implements OnInit {
         })
       })
         .then(function (response) {
-          console.log('buck', response);
+          // console.log('buck', response);
           return response.json();
         })
         .then(function (json) {
@@ -268,7 +264,7 @@ export class ShowformComponent implements OnInit {
         })
       })
         .then(function (response) {
-          console.log('buck', response);
+          // console.log('buck', response);
           return response.json();
         })
         .then(function (json) {
@@ -423,7 +419,7 @@ export class ShowformComponent implements OnInit {
       this.autocompletefiledvalue[val.name] = null;
   }
   setautocompletevalue(val: any, field: any) {
-    console.log('ff', val, field);
+    // console.log('ff', val, field);
     if (field.multiple == null) {
       this.autocompletefiledvalue[field.name] = val.key;
     } else {
@@ -473,7 +469,6 @@ export class ShowformComponent implements OnInit {
         }
       }
 
-
     }
 
   }
@@ -493,7 +488,6 @@ export class ShowformComponent implements OnInit {
           this.createForm(1);
 
         } else {
-
           for (let y in this.formdataval.fields) {
             if (this.formdataval.fields[y].name == field.dependent[n].field.name) {
               this.formdataval.fields.splice(parseInt(y), 1);
@@ -501,8 +495,6 @@ export class ShowformComponent implements OnInit {
               //console.log('removed', field.dependent[n].field['name'], 'c', y);
             }
           }
-
-
 
         }
       }

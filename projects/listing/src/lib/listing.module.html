@@ -352,7 +352,8 @@
                         </section>
                         <!-- note block -->
                         <ng-container *ngIf="libdataval.notes!=null">
-                            <button mat-raised-button color="primary" (click)="opennotes(row)">Notes</button>
+                            <button mat-raised-button color="primary"
+                                (click)="opennotes(row)">{{libdataval.notes.label}}({{row.notes}})</button>
                         </ng-container>
                         <!--custom buttions block -->
                         <ng-container

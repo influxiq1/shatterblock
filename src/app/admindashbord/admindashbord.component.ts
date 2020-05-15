@@ -146,13 +146,13 @@ export class AdmindashbordComponent implements OnInit {
         ], // optional
         updateendpoint: 'statusupdate',
         notes: {
-            label: "Notes",
+            label: "Blog Notes",
             addendpoint: "addnotedata",
             deleteendpoint: "deletenotedata",
             listendpoint: "listnotedata",
-            user: "5e0c844f2953d935d63dca20",
-            currentuserfullname:"Debasis",
-            header:'blogtitle'
+            user: "5e0c80cd3a339a042de8717d",
+            currentuserfullname: "Debasis",
+            header: 'blogtitle',
         },
         updateendpointmany: 'updateendpointmany',
         deleteendpointmany: 'deleteendpointmany',
@@ -441,7 +441,46 @@ export class AdmindashbordComponent implements OnInit {
                 suffix: "PM"
             },
             {
-                label: "Status",
+                heading: "This is Heading For group 1",
+                name: "statusgroup", 
+                hint: ',0000',
+                type: 'group',
+                fields: [
+                    {
+                        label: "Age1",
+                        name: "age1",
+                        type: 'number',
+                        hint: 'Age ??',
+                        validations: [
+                            { rule: 'required' },
+                            { rule: 'min', value: 5 },
+                            { rule: 'max', value: 50, message: "Age can't be more than 50 " }
+                        ]
+                    },
+                    {
+                        label: "DOJ1",
+                        name: "doj1",
+                        type: 'date',
+                        value: new Date(2018, 11, 24, 10, 33, 30, 0).toISOString(),
+                        hint: "05/05/2020",
+                        validations: [
+                            { rule: 'required', message: "Email field Needs to be required" }
+                        ]
+                    },
+                    {
+                        label: "Description1",
+                        name: "desc1",
+                        type: 'textarea',
+                        value: "This test  1!!",
+                        hint: "Desc ....1 ",
+                        validations: [
+                            { rule: 'required', message: "Email field Needs to be required" },
+                        ]
+                    },
+                ]
+            },
+            {
+                label: "Status after gRP ",
                 name: "status",
                 hint: ',0000',
                 type: 'select',
