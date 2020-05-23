@@ -79,6 +79,7 @@ export class ListingComponent implements OnInit {
   public aud2: any = false;
   public aud: any = false;
   public updatetableval: any = false;
+  loaderrow: any = null;
 
   /*for progress bar*/
 
@@ -124,7 +125,7 @@ export class ListingComponent implements OnInit {
   @Input()
   set grab_link(grab_link: any) {
     this.grab_linkval = grab_link;
-    console.log( this.grab_linkval)
+    console.log(this.grab_linkval)
   }
   @Input()
   set custombutton(custombutton: any) {
@@ -861,10 +862,10 @@ export class ListingComponent implements OnInit {
         //console.log('ss',val.datafields[v]);
         if (data[val.datafields[v]] != null && typeof (data[val.datafields[v]]) != 'object') {
           // console.log('df', data[val.datafields[v]].toString());
-          if (data[val.datafields[v]] != null && data[val.datafields[v]].toString().includes('iframe') ) {
-            console.log('in safe',data[val.datafields[v]]);
+          if (data[val.datafields[v]] != null && data[val.datafields[v]].toString().includes('iframe')) {
+            console.log('in safe', data[val.datafields[v]]);
             temparr.push(this.sanitizer.bypassSecurityTrustHtml(data[val.datafields[v]]));
-          } 
+          }
           else
             temparr.push((data[val.datafields[v]]));
         }
@@ -932,6 +933,7 @@ export class ListingComponent implements OnInit {
 
       }
     }
+    this.loaderrow = data._id;
     this._apiService.postSearch(link, this.jwttokenval, source).subscribe(res => {
       let result: any = {};
       result = res;
@@ -939,6 +941,7 @@ export class ListingComponent implements OnInit {
 
         //console.log('res',result);
         let resdata: any = {};
+        this.loaderrow = null;
         this.loading = false;
         if (result.res[0] != null) {
           resdata = result.res[0];
@@ -1033,6 +1036,7 @@ export class ListingComponent implements OnInit {
         fulllink = fulllink + '/' + encodeURI(data[val.param[v]]);
       }
       //val.link=fulllink;
+      
     }
     setTimeout(() => {
       //console.log("Hello from setTimeout");
@@ -1123,6 +1127,28 @@ export class ListingComponent implements OnInit {
       height: 'auto',
       data: { previewData: videodata }
     });
+  }
+  opennotes(val: any) {
+    this.loading = true;
+    this.loaderrow = val._id;
+    this._apiService.postSearch(this.apiurlval + this.libdataval.notes.listendpoint, this.jwttokenval, { id: val._id }).subscribe(res => {
+      let result: any = {};
+      result = res;
+      console.log(result.res, 'list notes');
+      this.loading = false;
+      this.loaderrow = null;
+      // console.log('count',result);
+      // this.dataSource.paginator = this.paginator;
+      //this.dataSource.sort = this.sort;
+      // this.data.notesval = '';
+      console.log('notes', val);
+      const dialogRef = this.dialog.open(Confirmdialog, {
+        height: 'auto',
+        panelClass: 'custom-modalbox',
+        data: { isconfirmation: false, notes: true, apiurl: this.apiurlval, notedata: this.libdataval.notes, rowdata: val, jwttokenval: this.jwttokenval, listdata: result.res }
+      });
+    });
+
   }
 
   viewdata(data1: any) {
@@ -1315,7 +1341,7 @@ export class ListingComponent implements OnInit {
         //data.status = result.val;
         //data.id = data._id;
         let newstatus: any = result.val;
-        this._apiService.togglestatusmany(this.apiurlval + 'statusupdate', ids, result.val, this.jwttokenval, this.sourcedataval).subscribe(res => {
+        this._apiService.togglestatusmany(this.apiurlval + this.libdataval.updateendpointmany, ids, result.val, this.jwttokenval, this.sourcedataval).subscribe(res => {
           let result: any = {};
           result = res;
           if (result.status == 'success') {
@@ -1367,7 +1393,7 @@ export class ListingComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
 
       if (result == 'yes') {
-        this._apiService.deteManyData(this.apiurlval + this.deleteendpointval, ids, this.jwttokenval, this.sourcedataval).subscribe(res => {
+        this._apiService.deteManyData(this.apiurlval + this.libdataval.deleteendpointmany, ids, this.jwttokenval, this.sourcedataval).subscribe(res => {
           let result: any = {};
           result = res;
           if (result.status == 'success') {
@@ -1588,14 +1614,76 @@ export class ListingComponent implements OnInit {
 export class Confirmdialog {
 
   constructor(
+    public _apiService: ApiService,
+    // public notesval:any=null,
     public dialogRef: MatDialogRef<Confirmdialog>,
     @Inject(MAT_DIALOG_DATA) public data: any, public sanitizer: DomSanitizer) {
-
+    console.log('lib data in modal ', this.data);
+    this.data.color = 'primary';
+    this.data.mode = 'indeterminate';
+    this.data.loadervalue = 50;
+    this.data.bufferValue = 76;
   }
 
   onNoClick(): void {
     this.dialogRef.close();
   }
+  deletenote(index: any) {
+    console.log('log', this.data);
+    // if (this.data.notesval != null && this.data.notesval != '') {
+    let source: any = {
+
+      id: this.data.rowdata._id,
+      index: index
+      // note: this.data.notesval,
+      // user: this.data.notedata.user,
+    };
+    this.data.loading1 = index;
+    this._apiService.postSearch(this.data.apiurl + this.data.notedata.deleteendpoint, this.data.jwttokenval, source).subscribe(res => {
+      let result: any = {};
+      result = res;
+      console.log(result, 'add notes');
+      if (result.status == 'success') {
+        // this.data.listdata.push({ userid: this.data.notedata.currentuserfullname, note: this.data.notesval, created_date: Date.now() });
+        // this.data.notesval = '';
+        this.data.listdata.splice(index, 1);
+        this.data.loading1 = null;
+      }
+      // console.log('count',result);
+      // this.dataSource.paginator = this.paginator;
+      //this.dataSource.sort = this.sort;
+
+    });
+    // }
+  }
+  addnotes() {
+    console.log('log', this.data);
+    if (this.data.notesval != null && this.data.notesval != '') {
+      let source: any = {
+
+        id: this.data.rowdata._id,
+        note: this.data.notesval,
+        user: this.data.notedata.user,
+      };
+      this.data.loading = true;
+      this._apiService.postSearch(this.data.apiurl + this.data.notedata.addendpoint, this.data.jwttokenval, source).subscribe(res => {
+        let result: any = {};
+        result = res;
+        console.log(result, 'add notes');
+        if (result.status == 'success') {
+          if (this.data.listdata == null) this.data.listdata = [];
+          this.data.listdata.unshift({_id: this.data.rowdata._id, notes: { userid: this.data.notedata.user, note: this.data.notesval,  user: this.data.notedata.currentuserfullname, created_date: Date.now() } });
+          this.data.notesval = '';
+          this.data.loading = null;
+        }
+        console.log('count',this.data.listdata);
+        // this.dataSource.paginator = this.paginator;
+        //this.dataSource.sort = this.sort;
+
+      });
+    }
+  }
+
   gettypeof(val: any) {
     return typeof (val);
   }
@@ -1651,10 +1739,14 @@ export class VideoPlayer {
 })
 export class ImageView {
 
+  // public data:any;
   constructor(
     public dialogRef: MatDialogRef<ImageView>,
     @Inject(MAT_DIALOG_DATA) public data: any) {
-    //console.warn('ImageViewModal',data.alldata);
+    // console.warn('ImageViewModal', data);
+  }
+  addnotes() {
+    console.log('log', this.data);
   }
 
   onNoClick(): void {

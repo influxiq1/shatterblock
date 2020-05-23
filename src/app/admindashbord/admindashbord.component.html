@@ -7,18 +7,19 @@
     <button (click)="showfieldloader()"> show form field loader</button>
     <button (click)="deleteformfield()"> Delete Desc Field</button>
     <button (click)="addformfield()"> Add Pet Name Field</button>
+    <button (click)="addformfieldarray()"> Add Pet Name Field Array</button>
 
  
 
 
 
     <!--form part of library-->
-    <!-- <lib-showform *ngIf="formdata !=null"
+    <lib-showform *ngIf="formdata !=null"
                   [formdata]="formdata"
                   [formfieldrefresh]="formfieldrefresh"
                   [formfieldrefreshdata]="formfieldrefreshdata"
                   (onFormFieldChange)="listenFormFieldChange($event)"
-    > </lib-showform> -->
+    > </lib-showform> 
 
 
 

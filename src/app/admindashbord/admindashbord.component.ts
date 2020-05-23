@@ -41,18 +41,18 @@ export class AdmindashbordComponent implements OnInit {
 
     // use for grab the link
     grab_link: any = {
-        colom_name:[
-        {
-            col_name: 'author',
-            field_name: 'author'
-        }],
-        field:[
-        {
-            label: 'shatterblok grab url',
-            url: 'artixtxp.com/',
-            action: 'null'
-        }]
-        
+        colom_name: [
+            {
+                col_name: 'author',
+                field_name: 'author'
+            }],
+        field: [
+            {
+                label: 'shatterblok grab url',
+                url: 'artixtxp.com/',
+                action: 'null'
+            }]
+
     };
 
     pendingmodelapplicationarray: any = [];
@@ -144,7 +144,19 @@ export class AdmindashbordComponent implements OnInit {
             { key: "created_datetime", val: "Date Added with time" },
             { key: "created_date", val: "Date Added only" },
         ], // optional
+        
         updateendpoint: 'statusupdate',
+        notes: {
+            label: "Blog Notes",
+            addendpoint: "addnotedata",
+            deleteendpoint: "deletenotedata",
+            listendpoint: "listnotedata",
+            user: "5e0c80cd3a339a042de8717d",
+            currentuserfullname: "Debasis",
+            header: 'blogtitle',
+        },
+        updateendpointmany: 'updateendpointmany',
+        deleteendpointmany: 'deleteendpointmany',
         hideeditbutton: true,// all these button options are optional not mandatory
         hidedeletebutton: true,
         //hideviewbutton:false,
@@ -430,7 +442,46 @@ export class AdmindashbordComponent implements OnInit {
                 suffix: "PM"
             },
             {
-                label: "Status",
+                heading: "This is Heading For group 1",
+                name: "statusgroup", 
+                hint: ',0000',
+                type: 'group',
+                fields: [
+                    {
+                        label: "Age1",
+                        name: "age1",
+                        type: 'number',
+                        hint: 'Age ??',
+                        validations: [
+                            { rule: 'required' },
+                            { rule: 'min', value: 5 },
+                            { rule: 'max', value: 50, message: "Age can't be more than 50 " }
+                        ]
+                    },
+                    {
+                        label: "DOJ1",
+                        name: "doj1",
+                        type: 'date',
+                        value: new Date(2018, 11, 24, 10, 33, 30, 0).toISOString(),
+                        hint: "05/05/2020",
+                        validations: [
+                            { rule: 'required', message: "Email field Needs to be required" }
+                        ]
+                    },
+                    {
+                        label: "Description1",
+                        name: "desc1",
+                        type: 'textarea',
+                        value: "This test  1!!",
+                        hint: "Desc ....1 ",
+                        validations: [
+                            { rule: 'required', message: "Email field Needs to be required" },
+                        ]
+                    },
+                ]
+            },
+            {
+                label: "Status after gRP ",
                 name: "status",
                 hint: ',0000',
                 type: 'select',
@@ -484,7 +535,7 @@ export class AdmindashbordComponent implements OnInit {
                 type: 'checkbox',
                 multiple: true,
                 val: [{ key: 0, val: 'Less than 1' }, { key: 1, val: 'less than 3' }, { key: 2, val: 'less than 6' }, { key: 3, val: 'less than 12' }],
-                value: [3, 0],
+                // value: [3, 0],
                 validations: [
                     { rule: 'required' }
                 ]
@@ -678,12 +729,12 @@ export class AdmindashbordComponent implements OnInit {
                 //hint:'has child ???',
                 type: 'checkbox',
                 labelPosition: 'after',
-                value: null,
-                dependent: {
+                value: null,//
+                dependent: [{
 
                     condval: true,
                     field: {
-                        label: " Product",
+                        label: " Product Name",
                         name: "product",
                         type: 'select',
                         val: [{ val: 1, 'name': 'P1' },
@@ -696,7 +747,7 @@ export class AdmindashbordComponent implements OnInit {
                             { rule: 'required' }
                         ]
                     }
-                },
+                }],
                 validations: [
                     { rule: 'required' }
                 ],
@@ -717,6 +768,15 @@ export class AdmindashbordComponent implements OnInit {
                 type: 'file',
                 prefix: "Test-" + Date.now(),
                 path: 'test/t1/',
+                baseurl: 'test/t1/',
+                value: {
+                    fileservername: "file-1589270133418images (5).jpeg",
+                    name: "images (5).jpeg",
+                    size: 49184,
+                    type: "image/jpeg",
+                    path: "resource/file/",
+                    bucket: "awsbackend-dev-patient-files-test"
+                },
                 bucket: 'awsbackend-dev-patient-files-test',
                 apiurl: "https://tge24bc2ne.execute-api.us-east-1.amazonaws.com/dev/requestUploadURL",
                 apideleteurl: "https://tge24bc2ne.execute-api.us-east-1.amazonaws.com/dev/deletefilefromBucket",
@@ -740,8 +800,25 @@ export class AdmindashbordComponent implements OnInit {
                 name: "file2",
                 type: 'file',
                 multiple: true,
+                value: [{
+                    fileservername: "file-1589270133418images (5).jpeg",
+                    name: "images (5).jpeg",
+                    size: 49184,
+                    type: "image/jpeg",
+                    path: "resource/file/",
+                    bucket: "awsbackend-dev-patient-files-test"
+                }, {
+                    fileservername: "file-1589270133418images (5).jpeg",
+                    name: "images (5).jpeg",
+                    size: 49184,
+                    type: "image/jpeg",
+                    path: "resource/file/",
+                    bucket: "awsbackend-dev-patient-files-test"
+                }],
+
                 prefix: "Test-" + Date.now(),
                 path: 'test/t1/',
+                baseurl: 'test/t1/',
                 bucket: 'awsbackend-dev-patient-files-test',
                 apiurl: "https://tge24bc2ne.execute-api.us-east-1.amazonaws.com/dev/requestUploadURL",
                 apideleteurl: "https://tge24bc2ne.execute-api.us-east-1.amazonaws.com/dev/deletefilefromBucket",
@@ -829,6 +906,31 @@ export class AdmindashbordComponent implements OnInit {
         this.formfieldrefreshdata = { field: 'removefromcontrol', value: { name: 'desc' } };
 
     }
+    addformfieldarray() {
+
+        this.formfieldrefreshdata = {
+            field: 'addfromcontrol', value: [
+                {
+                    label: "Pet Name 2",
+                    name: "petname2",
+                    type: 'text',
+                    after: 'fullname'
+                },
+                {
+                    label: "Pet Name 3",
+                    name: "petname3",
+                    type: 'text',
+                    after: 'petname2'
+                },
+                {
+                    label: "Pet Name 4",
+                    name: "petname4",
+                    type: 'text',
+                    after: 'petname3'
+                }
+            ]
+        };
+    }
     addformfield() {
         this.formfieldrefreshdata = {
             field: 'addfromcontrol', value: {
@@ -839,6 +941,9 @@ export class AdmindashbordComponent implements OnInit {
             }
         };
 
-    }
 
+
+
+
+    }
 }

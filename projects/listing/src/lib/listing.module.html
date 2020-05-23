@@ -304,15 +304,14 @@
 
                         <!--// for grap url//-->
 
-                        <span
-                        *ngIf=" grab_linkval!=null && column.columnDef==[grab_linkval.colom_name[0].col_name]"
-                        class="cursor">
-                        <ng-container *ngFor="let item of grab_linkval.field">
-                            <!-- <p>{{item | json}}</p> -->
-                        <button mat-button
-                            (click)="copyText(row[grab_linkval.colom_name[0].field_name],item.url)">{{item.label}}</button>
-                        </ng-container>
-                    </span>
+                        <span *ngIf=" grab_linkval!=null && column.columnDef==[grab_linkval.colom_name[0].col_name]"
+                            class="cursor">
+                            <ng-container *ngFor="let item of grab_linkval.field">
+                                <!-- <p>{{item | json}}</p> -->
+                                <button mat-button
+                                    (click)="copyText(row[grab_linkval.colom_name[0].field_name],item.url)">{{item.label}}</button>
+                            </ng-container>
+                        </span>
 
                         <!-- <span
                             *ngIf=" grab_linkval!=null && grab_linkval[0]!=null && column.columnDef==[grab_linkval[0].col_name]"
@@ -345,6 +344,17 @@
                     <th mat-header-cell *matHeaderCellDef class="th-header-center">Actions</th>
                     <td (click)="$event.stopPropagation()" mat-cell *matCellDef="let row" data-label="Actions"
                         class="td-cell-center">
+                        <!-- loader -->
+                        <section class="example-section">
+                            <mat-progress-bar *ngIf="loaderrow!=null && loaderrow==row._id " class="example-margin"
+                                [color]="color" [mode]="mode" [value]="value" [bufferValue]="bufferValue">
+                            </mat-progress-bar>
+                        </section>
+                        <!-- note block -->
+                        <ng-container *ngIf="libdataval.notes!=null">
+                            <button mat-raised-button color="primary"
+                                (click)="opennotes(row)">{{libdataval.notes.label}}({{row.notescount}})</button>
+                        </ng-container>
                         <!--custom buttions block -->
                         <ng-container
                             *ngIf="libdataval !=null && libdataval.custombuttons !=null && libdataval.custombuttons.length >0 ">
@@ -519,6 +529,13 @@
 
 
         </ng-container>
+        <section *ngIf="loading == true" class="example-section">
+            <mat-progress-bar class="example-margin" [color]="color" [mode]="mode" [value]="value"
+                [bufferValue]="bufferValue">
+            </mat-progress-bar>
+            <br />
+            <br />
+        </section>
 
 
 
