@@ -178,6 +178,7 @@ export class ShowformComponent implements OnInit {
   // }
 
   uploadfile(val: any) {
+    console.log('upppp',val);
     var reader = new FileReader();
     let file: any = this.filearray[val.name];
     // console.log('file val', val);
@@ -287,6 +288,9 @@ export class ShowformComponent implements OnInit {
     reader.readAsArrayBuffer(file);
   }
   deletefile(val: any, flag: any = '') {
+    console.log('this.filearray',this.filearray);
+    console.log('val',val);
+    console.log(val.name);
     let source: any = {};
     let file: any = this.filearray[val.name];
     source['file'] = val.prefix + file.name;
@@ -296,7 +300,7 @@ export class ShowformComponent implements OnInit {
       let result: any = {};
       result = res;
       if (result.status == 'success' && flag == '') {
-        this.formGroup.reset();
+        // this.formGroup.reset();
         this._snackBar.openFromComponent(SnackbarComponent, {
           duration: 6000,
           data: { errormessage: "Deleted !!" }
@@ -330,7 +334,7 @@ export class ShowformComponent implements OnInit {
       let result: any = {};
       result = res;
       if (result.status == 'success') {
-        this.formGroup.reset();
+        // this.formGroup.reset();
         this._snackBar.openFromComponent(SnackbarComponent, {
           duration: 6000,
           data: { errormessage: "Deleted !!" }
@@ -474,7 +478,7 @@ export class ShowformComponent implements OnInit {
   }
   checkchange(field: any, index: any) {
     //console.log(field, 'change', this.formGroup.controls[field.name].value);
-    this.onFormFieldChange.emit({ field: field, fieldval: this.formGroup.controls[field.name].value });
+    this.onFormFieldChange.emit({ field: field, fieldval: this.formGroup.controls[field.name].value, fromval: this.formGroup.value });
     if (field.dependent != null && field.dependent.length > 0) {
       let vc: any = 0;
       for (let n in field.dependent) {
@@ -830,6 +834,7 @@ export class ShowformComponent implements OnInit {
         let result: any = {};
         result = res;
         if (result.status == 'success') {
+          this.onFormFieldChange.emit({ field: 'fromsubmit', fieldval: result.status, fromval: result });
           this.formGroup.reset();
           this._snackBar.openFromComponent(SnackbarComponent, {
             duration: 6000,
@@ -841,6 +846,7 @@ export class ShowformComponent implements OnInit {
           }
         }
         if (result.status == 'error') {
+          this.onFormFieldChange.emit({ field: 'fromsubmit', fieldval: result.status, fromval: result });
           this._snackBar.openFromComponent(SnackbarComponent, {
             duration: 6000,
             data: result

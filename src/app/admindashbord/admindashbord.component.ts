@@ -82,13 +82,12 @@ export class AdmindashbordComponent implements OnInit {
         'lastname': 'Last Name',
         'name': "Full Name",
         'blogtitle': "Blog Title 9",
-        "created_datetime": "Created Date with Time",
+        "created_datetime": "Created Date with Time 111",
         "created_date": "Dated Added",
         "author": "Author Name",
-        "author_search": "A Search",
         "priority": "Priority of B ",
-        description: "Desc",
-        status: "Active ?"
+        "description_html": "Desc",
+        "status": "Active ?"
     };
 
 
@@ -162,7 +161,7 @@ export class AdmindashbordComponent implements OnInit {
         //hideviewbutton:false,
         hidestatustogglebutton: true,
         // hideaction:true,
-        tableheaders: ['author', 'priority', 'blogtitle', 'status', 'wrongone', 'created_date', 'created_datetime', 'author_search', 'description'], //not required
+        tableheaders: ['author', 'priority', 'blogtitle', 'status', 'wrongone', 'created_date', 'created_datetime', 'description_html'], //not required
         custombuttons: [
             {
                 label: "fb search with blog title",
@@ -248,7 +247,7 @@ export class AdmindashbordComponent implements OnInit {
                 type: 'action',
                 datatype: 'api',
                 endpoint: 'getblogdatabyid',
-                otherparam: ['author', 'blogtitle'],
+                otherparam: [],
                 //cond:'status',
                 //condval:0,
                 param: 'blog_id',

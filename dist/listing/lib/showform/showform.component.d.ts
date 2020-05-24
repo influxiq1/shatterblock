@@ -1,0 +1,80 @@
+import { OnInit, SimpleChange, ElementRef, EventEmitter } from '@angular/core';
+import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
+import { Observable } from 'rxjs';
+import { ApiService } from '../api.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { ThemePalette } from "@angular/material/core";
+import { Router } from "@angular/router";
+export declare class ShowformComponent implements OnInit {
+    private formBuilder;
+    _apiService: ApiService;
+    private _snackBar;
+    private router;
+    private elementRef;
+    formGroup: FormGroup;
+    titleAlert: string;
+    post: any;
+    showform: boolean;
+    loading: boolean;
+    formfieldrefreshval: boolean;
+    formdataval: any;
+    formfieldrefreshdataval: any;
+    filerfielddata: any;
+    autocompletefiledvalue: any;
+    filearray: any;
+    filecount: any;
+    currentautocomplete: any;
+    fieldloading: any;
+    color: ThemePalette;
+    mode: any;
+    value: number;
+    bufferValue: number;
+    formdata: any;
+    formfieldrefreshdata: any;
+    formfieldrefresh: any;
+    onFormFieldChange: EventEmitter<any>;
+    constructor(formBuilder: FormBuilder, _apiService: ApiService, _snackBar: MatSnackBar, router: Router, elementRef: ElementRef);
+    ngOnInit(): void;
+    navtocancel(): void;
+    ngAfterViewInit(): void;
+    triggerevents(val: any): void;
+    cancel(e: any): boolean;
+    handleDrop(e: any): boolean;
+    uploadfile(val: any): void;
+    uploadall(val: any): void;
+    deletefilemultipleall(val: any): void;
+    uploadfilemultiple(val: any, f: any, indexf: any): void;
+    deletefile(val: any, flag?: any): void;
+    deletefilemultiple(val: any, field: any, index: any): void;
+    ngOnChanges(changes: {
+        [propKey: string]: SimpleChange;
+    }): void;
+    inputblur(val: any): void;
+    filterautocomplete(val: any, data: any): void;
+    reloadautocomplete(val: any): void;
+    removechipsingle(val: any): void;
+    removechipmultiple(val: any, index: any): void;
+    setautocompletevalue(val: any, field: any): void;
+    managefromcontrol(field: any, type: any): void;
+    checkchange(field: any, index: any): void;
+    createForm(initialize?: any): void;
+    setChangeValidate(): void;
+    readonly name: FormControl;
+    checkPasswords(group: FormGroup): {
+        required: boolean;
+        match?: undefined;
+    } | {
+        match: boolean;
+        required?: undefined;
+    };
+    checkPassword(control: any): {
+        'requirements': boolean;
+    };
+    autorequired(group: any): {
+        autorequired: boolean;
+    };
+    checkInUseEmail(control: any): Observable<{}>;
+    getError(data: any): "" | "Field is required" | "Not a valid emailaddress" | "This emailaddress is already in use";
+    getErrorPassword(): "" | "Field is required (at least eight characters, one uppercase letter and one number)" | "Password needs to be at least eight characters, one uppercase letter and one number";
+    onSubmit(post: any): void;
+}
