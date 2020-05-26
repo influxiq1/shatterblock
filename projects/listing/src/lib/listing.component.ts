@@ -424,8 +424,9 @@ export class ListingComponent implements OnInit {
 
     this.displayedColumns = displayedcols;
     this.displayedColumns.unshift('#');        /*adds select column in table by unshift function*/
+    if(this.libdataval.hidemultipleselectbutton != true){
     this.displayedColumns.unshift('select');        /*adds select column in table by unshift function*/
-
+    }
     let data_list = [];
     for (let i = 0; i < this.x.length; i++) {
       data_list.push(this.createData(x[i]));
@@ -476,6 +477,16 @@ export class ListingComponent implements OnInit {
         condition[val] = {
           $lte: new Date(this.end_date).getTime(),
           $gte: new Date(this.start_date).getTime(),
+        };
+      }
+      if (this.start_date != null && (this.end_date == null || this.end_date.length == 0)) {
+        condition[val] = {
+          $gte: new Date(this.start_date).getTime(),
+        };
+      }
+      if (this.end_date != null && (this.start_date == null || this.start_date.length == 0)) {
+        condition[val] = {
+          $lte: new Date(this.end_date).getTime()
         };
       }
       for (let i in this.tsearch) {
@@ -662,7 +673,7 @@ export class ListingComponent implements OnInit {
       //this.dataSource.sort = this.sort;
 
     });
-
+this.selection.clear();
   }
 
   addautosearchdata(val: any) {
@@ -844,7 +855,7 @@ export class ListingComponent implements OnInit {
     for (let v in val.param) {
       rdata.push(data[val.param[v]])
     }
-    console.log('radat', rdata);
+    // console.log('radat', rdata);
     this.router.navigate(rdata);
   }
   opencustombuttonactionlocaldata(val: any, data: any) {
@@ -863,7 +874,7 @@ export class ListingComponent implements OnInit {
         if (data[val.datafields[v]] != null && typeof (data[val.datafields[v]]) != 'object') {
           // console.log('df', data[val.datafields[v]].toString());
           if (data[val.datafields[v]] != null && data[val.datafields[v]].toString().includes('iframe')) {
-            console.log('in safe', data[val.datafields[v]]);
+            // console.log('in safe', data[val.datafields[v]]);
             temparr.push(this.sanitizer.bypassSecurityTrustHtml(data[val.datafields[v]]));
           }
           else
@@ -881,7 +892,7 @@ export class ListingComponent implements OnInit {
           let temphtml: any = ("<iframe width=560 height=315 src=https://www.youtube.com/embed/" + data[val.datafields[v]] + " frameborder=0 allow=accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture allowfullscreen></iframe> <br/>");
           temphtml = this.sanitizer.bypassSecurityTrustHtml(temphtml);
           temparr.push(temphtml);
-          console.log('thtml', temphtml, data[val.datafields], data[val.datafields[v]]);
+          // console.log('thtml', temphtml, data[val.datafields], data[val.datafields[v]]);
         } else {
           temparr.push('N/A');
         }
@@ -1053,7 +1064,9 @@ export class ListingComponent implements OnInit {
 
   /** Whether the number of selected elements matches the total number of rows. */
   isAllSelected() {
+    console.log("isAllSelected");
     if (this.selection != null && this.selection.select) {
+      console.log("isAllSelected",this.dataSource.data.length, this.selection.selected.length);
       const numSelected = this.selection.selected.length;
       const numRows = this.dataSource.data.length;
       return numSelected === numRows;
@@ -1134,14 +1147,14 @@ export class ListingComponent implements OnInit {
     this._apiService.postSearch(this.apiurlval + this.libdataval.notes.listendpoint, this.jwttokenval, { id: val._id }).subscribe(res => {
       let result: any = {};
       result = res;
-      console.log(result.res, 'list notes');
+      // console.log(result.res, 'list notes');
       this.loading = false;
       this.loaderrow = null;
       // console.log('count',result);
       // this.dataSource.paginator = this.paginator;
       //this.dataSource.sort = this.sort;
       // this.data.notesval = '';
-      console.log('notes', val);
+      // console.log('notes', val);
       const dialogRef = this.dialog.open(Confirmdialog, {
         height: 'auto',
         panelClass: 'custom-modalbox',
@@ -1618,7 +1631,7 @@ export class Confirmdialog {
     // public notesval:any=null,
     public dialogRef: MatDialogRef<Confirmdialog>,
     @Inject(MAT_DIALOG_DATA) public data: any, public sanitizer: DomSanitizer) {
-    console.log('lib data in modal ', this.data);
+    // console.log('lib data in modal ', this.data);
     this.data.color = 'primary';
     this.data.mode = 'indeterminate';
     this.data.loadervalue = 50;
@@ -1629,7 +1642,7 @@ export class Confirmdialog {
     this.dialogRef.close();
   }
   deletenote(index: any) {
-    console.log('log', this.data);
+    // console.log('log', this.data);
     // if (this.data.notesval != null && this.data.notesval != '') {
     let source: any = {
 
@@ -1642,7 +1655,7 @@ export class Confirmdialog {
     this._apiService.postSearch(this.data.apiurl + this.data.notedata.deleteendpoint, this.data.jwttokenval, source).subscribe(res => {
       let result: any = {};
       result = res;
-      console.log(result, 'add notes');
+      // console.log(result, 'add notes');
       if (result.status == 'success') {
         // this.data.listdata.push({ userid: this.data.notedata.currentuserfullname, note: this.data.notesval, created_date: Date.now() });
         // this.data.notesval = '';
@@ -1657,7 +1670,7 @@ export class Confirmdialog {
     // }
   }
   addnotes() {
-    console.log('log', this.data);
+    // console.log('log', this.data);
     if (this.data.notesval != null && this.data.notesval != '') {
       let source: any = {
 
@@ -1669,14 +1682,14 @@ export class Confirmdialog {
       this._apiService.postSearch(this.data.apiurl + this.data.notedata.addendpoint, this.data.jwttokenval, source).subscribe(res => {
         let result: any = {};
         result = res;
-        console.log(result, 'add notes');
+        // console.log(result, 'add notes');
         if (result.status == 'success') {
           if (this.data.listdata == null) this.data.listdata = [];
           this.data.listdata.unshift({_id: this.data.rowdata._id, notes: { userid: this.data.notedata.user, note: this.data.notesval,  user: this.data.notedata.currentuserfullname, created_date: Date.now() } });
           this.data.notesval = '';
           this.data.loading = null;
         }
-        console.log('count',this.data.listdata);
+        // console.log('count',this.data.listdata);
         // this.dataSource.paginator = this.paginator;
         //this.dataSource.sort = this.sort;
 
@@ -1746,7 +1759,7 @@ export class ImageView {
     // console.warn('ImageViewModal', data);
   }
   addnotes() {
-    console.log('log', this.data);
+    // console.log('log', this.data);
   }
 
   onNoClick(): void {

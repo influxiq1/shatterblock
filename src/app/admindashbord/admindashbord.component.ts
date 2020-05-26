@@ -82,8 +82,8 @@ export class AdmindashbordComponent implements OnInit {
         'lastname': 'Last Name',
         'name': "Full Name",
         'blogtitle': "Blog Title 9",
-        "created_datetime": "Created Date with Time 111",
         "created_date": "Dated Added",
+        "created_datetime": "Created Date with Time 111",
         "author": "Author Name",
         "priority": "Priority of B ",
         "description_html": "Desc",
@@ -160,6 +160,9 @@ export class AdmindashbordComponent implements OnInit {
         hidedeletebutton: true,
         //hideviewbutton:false,
         hidestatustogglebutton: true,
+        hidemultipleselectbutton: false,
+        hidedeletemany: true,
+        hideupdatemany: false,
         // hideaction:true,
         tableheaders: ['author', 'priority', 'blogtitle', 'status', 'wrongone', 'created_date', 'created_datetime', 'description_html'], //not required
         custombuttons: [

@@ -5,6 +5,7 @@ import { ApiService } from '../api.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ThemePalette } from "@angular/material/core";
 import { Router } from "@angular/router";
+import { ImageCroppedEvent } from 'ngx-image-cropper';
 export declare class ShowformComponent implements OnInit {
     private formBuilder;
     _apiService: ApiService;
@@ -77,4 +78,11 @@ export declare class ShowformComponent implements OnInit {
     getError(data: any): "" | "Field is required" | "Not a valid emailaddress" | "This emailaddress is already in use";
     getErrorPassword(): "" | "Field is required (at least eight characters, one uppercase letter and one number)" | "Password needs to be at least eight characters, one uppercase letter and one number";
     onSubmit(post: any): void;
+    imageChangedEvent: any;
+    croppedImage: any;
+    fileChangeEvent(event: any): void;
+    imageCropped(event: ImageCroppedEvent): void;
+    imageLoaded(): void;
+    cropperReady(): void;
+    loadImageFailed(): void;
 }

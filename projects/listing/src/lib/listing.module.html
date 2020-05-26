@@ -138,8 +138,8 @@
             *ngIf="selection.selected !=null && selection.selected.length!=null && selection.selected.length>0">
             <span class="multipledeleteandupdatebuttan">
 
-                <button mat-raised-button (click)="deletemultiple()"> Delete </button>
-                <button mat-raised-button (click)="managestatusmultiple()"> Update Status </button>
+                <button *ngIf="libdataval.hidedeletemany==null || libdataval.hidedeletemany==false" mat-raised-button (click)="deletemultiple()"> Delete </button>
+                <button *ngIf="libdataval.hideupdatemany==null || libdataval.hideupdatemany==false"  mat-raised-button (click)="managestatusmultiple()"> Update Status </button>
 
             </span>
         </ng-container>
@@ -281,7 +281,7 @@
                         <span
                             *ngIf="column.columnDef=='video' && row[column.columnDef] !=null && row[column.columnDef] !='' "><span
                                 class="module_videoblock" (click)="fetchvideo(row)">
-                                <img src="https://img.youtube.com/vi/row[column.columnDef]/sddefault.jpg"
+                                <img src="https://img.youtube.com/vi/{{row[column.columnDef]}}/sddefault.jpg"
                                     alt="{{row[column.columnDef]}}" (click)="fetchvideo(row)"></span>
                         </span>
 
