@@ -705,7 +705,6 @@ export class AdmindashbordComponent implements OnInit {
                             ]
                         }
                     }
-
                 ],
                 validations: [
                     { rule: 'required' }

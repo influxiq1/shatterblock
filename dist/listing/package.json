@@ -1,6 +1,6 @@
 {
   "name": "listing-angular7",
-  "version": "0.1.73",
+  "version": "0.1.74",
   "bugs": "https://github.com/debasiskar-devel-007/angular7-listing/issues",
   "repository": {
     "type": "git",
@@ -11,7 +11,8 @@
     "@angular/core": "^7.2.0",
     "@angular/material": "latest",
     "@angular/cdk": "latest",
-    "@angular/animations": "latest"
+    "@angular/animations": "latest",
+    "ngx-image-cropper": "^3.1.9"
   },
   "main": "bundles/listing-angular7.umd.js",
   "module": "fesm5/listing-angular7.js",
