@@ -76,12 +76,12 @@
 
             <ng-container class="filterForTexticon"
                 *ngIf="search_settingsval !=null && search_settingsval.selectsearch != null ">
-                <mat-form-field class="searchdiv" *ngFor="let status of this.search_settingsval.selectsearch">
+                <mat-form-field class="searchdiv" *ngFor="let status of search_settingsval.selectsearch">
                     <mat-label>{{status.label}}</mat-label>
-                    <mat-select [(ngModel)]="selectsearch[status.field]">
+                    <mat-select [(ngModel)]="selectsearch[status.field]" [(value)]="selectsearch[status.field]">
                         <mat-option *ngFor="let statusval of status.values" [value]="statusval"
                             (click)="selectSearch(statusval.val, status)">
-                            {{statusval.name}}
+                            {{statusval.name}}{{selectsearch[status.field]}}
                         </mat-option>
                     </mat-select>
                 </mat-form-field>
@@ -107,9 +107,9 @@
 
 
                     <span class="search_class">
-                    <button mat-raised-button color="primary" class="add_button"
-                        (click)="dateSearch(status.field)">{{status.submit}}</button>
-                     </span>
+                        <button mat-raised-button color="primary" class="add_button"
+                            (click)="dateSearch(status.field)">{{status.submit}}</button>
+                    </span>
 
 
 
@@ -146,8 +146,10 @@
             *ngIf="selection.selected !=null && selection.selected.length!=null && selection.selected.length>0">
             <span class="multipledeleteandupdatebuttan">
 
-                <button *ngIf="libdataval.hidedeletemany==null || libdataval.hidedeletemany==false" mat-raised-button (click)="deletemultiple()"> Delete </button>
-                <button *ngIf="libdataval.hideupdatemany==null || libdataval.hideupdatemany==false"  mat-raised-button (click)="managestatusmultiple()"> Update Status </button>
+                <button *ngIf="libdataval.hidedeletemany==null || libdataval.hidedeletemany==false" mat-raised-button
+                    (click)="deletemultiple()"> Delete </button>
+                <button *ngIf="libdataval.hideupdatemany==null || libdataval.hideupdatemany==false" mat-raised-button
+                    (click)="managestatusmultiple()"> Update Status </button>
 
             </span>
         </ng-container>
@@ -167,12 +169,13 @@
                     {{(limitcondval.pagecount-1)*limitcondval.limit}}
                     To
 
-                    <ng-container *ngIf="date_search_source_countval > ((limitcondval.pagecount)*limitcondval.limit) || date_search_source_countval==0">
-                        {{(limitcondval.pagecount)*limitcondval.limit}} 
+                    <ng-container
+                        *ngIf="date_search_source_countval > ((limitcondval.pagecount)*limitcondval.limit) || date_search_source_countval==0">
+                        {{(limitcondval.pagecount)*limitcondval.limit}}
                     </ng-container>
                     <ng-container
                         *ngIf="date_search_source_countval!=0 && date_search_source_countval <= ((limitcondval.pagecount)*limitcondval.limit)">
-                        {{date_search_source_countval}} 
+                        {{date_search_source_countval}}
                     </ng-container>
 
 
@@ -496,7 +499,8 @@
                     {{(limitcondval.pagecount-1)*limitcondval.limit}}
                     To
 
-                    <ng-container *ngIf="date_search_source_countval > ((limitcondval.pagecount)*limitcondval.limit) ||  date_search_source_countval==0">
+                    <ng-container
+                        *ngIf="date_search_source_countval > ((limitcondval.pagecount)*limitcondval.limit) ||  date_search_source_countval==0">
                         {{(limitcondval.pagecount)*limitcondval.limit}}
                     </ng-container>
                     <ng-container

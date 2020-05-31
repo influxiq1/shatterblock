@@ -3,7 +3,8 @@
     <div class="dialoghead" *ngIf="data.preview != true">
         <h1 mat-dialog-title *ngIf="data!=null && data.message!=null">Hey !</h1>
         <h1 mat-dialog-title *ngIf="data!=null && data.data!=null && data.data[0]==null">Details </h1>
-        <h1 mat-dialog-title *ngIf="data!=null  && data.data.message!=null">{{data.data.message}} </h1>  
+        <h1 mat-dialog-title *ngIf="data!=null  && data.data!=null &&  data.data.message!=null">{{data.data.message}}
+        </h1>
         <div mat-dialog-content>
             <p *ngIf="data!=null && data.message!=null">{{data.message}}</p>
 
@@ -96,7 +97,8 @@
                             {{item[1] | date:'medium' }}
                         </p>
                         <!-- length : {{item[1].length}} {{gettypeof(item[1])}} -->
-                        <p *ngIf=" gettypeof(item[1]) == 'object' && item[1].length>1 &&  item[0]!=='video' && !item[0].includes('vd')  ">
+                        <p
+                            *ngIf=" gettypeof(item[1]) == 'object' && item[1].length>1 &&  item[0]!=='video' && !item[0].includes('vd')  ">
                             <!-- in ng for .. -->
                             <ng-container *ngFor="let arr of item[1]">
                                 <span

@@ -436,6 +436,36 @@ export class ListingComponent implements OnInit {
     this.selection = new SelectionModel(true, []);
     //this.dataSource.paginator = this.paginator;
     //this.dataSource.sort = this.sort;
+
+
+    //load search predefinded data
+    setTimeout(() => {
+
+      // this.selectsearch['status'] = '0';
+      console.log('selectsearch', this.selectsearch);
+      if (this.search_settingsval.selectsearch != null) {
+        console.log('s1', this.search_settingsval.selectsearch)
+        for (let sl in this.search_settingsval.selectsearch) {
+          if (this.search_settingsval.selectsearch[sl].value != null) {
+            this.selectsearch[this.search_settingsval.selectsearch[sl].field] = this.search_settingsval.selectsearch[sl].value;
+            console.log('s', this.search_settingsval.selectsearch, this.selectsearch);
+          }
+        }
+      }
+
+      if (this.search_settingsval.textsearch != null) {
+        console.log('t1', this.search_settingsval.textsearch)
+        for (let sl in this.search_settingsval.textsearch) {
+          if (this.search_settingsval.textsearch[sl].value != null) {
+            this.tsearch[this.search_settingsval.textsearch[sl].field] = this.search_settingsval.textsearch[sl].value;
+            console.log('t', this.search_settingsval.textsearch);
+          }
+        }
+      }
+
+    }, 1000);
+
+
   }
   /**image view modal */
   img_modal_view(img: any) {
@@ -1666,7 +1696,7 @@ export class Confirmdialog {
     // public notesval:any=null,
     public dialogRef: MatDialogRef<Confirmdialog>,
     @Inject(MAT_DIALOG_DATA) public data: any, public sanitizer: DomSanitizer) {
-    console.log('lib data in modal ', this.data, this.data.data.message);
+    // console.log('lib data in modal ', this.data, this.data.data.message);
     this.data.color = 'primary';
     this.data.mode = 'indeterminate';
     this.data.loadervalue = 50;

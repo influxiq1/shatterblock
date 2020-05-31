@@ -129,8 +129,8 @@ export class AdmindashbordComponent implements OnInit {
     // send basic limit data
     limitcond: any = {
         "limit": 10,
-        "skip": 0,
-        "pagecount": 1
+        "skip": 30,
+        "pagecount": 4
     };
 
     // other data
@@ -143,7 +143,7 @@ export class AdmindashbordComponent implements OnInit {
             { key: "created_datetime", val: "Date Added with time" },
             { key: "created_date", val: "Date Added only" },
         ], // optional
-        
+
         updateendpoint: 'statusupdate',
         notes: {
             label: "Blog Notes",
@@ -241,8 +241,8 @@ export class AdmindashbordComponent implements OnInit {
                 label: "Desc from data",
                 type: 'action',
                 datatype: 'local',
-                datafields: ['created_date','description', 'author', 'blogtitle', 'tags_array', 'image', 'video_array', 'created_datetime', 'image_array', 'video', 'img_array', 'vd_array'],
-                headermessage:'Local Info',
+                datafields: ['created_date', 'description', 'author', 'blogtitle', 'tags_array', 'image', 'video_array', 'created_datetime', 'image_array', 'video', 'img_array', 'vd_array'],
+                headermessage: 'Local Info',
                 // cond:'status',
                 // condval:0
             },
@@ -255,9 +255,9 @@ export class AdmindashbordComponent implements OnInit {
                 //cond:'status',
                 //condval:0,
                 param: 'blog_id',
-                datafields: ['created_date','blogtitle','description', 'author','created_datetime'],
+                datafields: ['created_date', 'blogtitle', 'description', 'author', 'created_datetime'],
                 // refreshdata: true,
-                headermessage:'Api Info',
+                headermessage: 'Api Info',
             }
         ]
     }
@@ -285,11 +285,12 @@ export class AdmindashbordComponent implements OnInit {
     ];
     search_settings: any = {
 
-        datesearch: [{ startdatelabel: "Start Date", enddatelabel: "End Date", submit: "Search", field: "created_at" }],   // this is use for  date search
+        datesearch: [{ startdatelabel: "Start Date", enddatelabel: "End Date", submit: "Search", field: "created_datetime" }],   // this is use for  date search
 
-        selectsearch: [{ label: 'Search By Status', field: 'status', values: this.status }], // this is use for  select search
+        selectsearch: [{ label: 'Search By Status', field: 'status', values: this.status, value: 1 }], // this is use for  select search
 
-        textsearch: [{ label: "Search By Title", field: 'blogtitle_search' }, { label: "Search by auther", field: "author_search" }],  // this is use for  text search
+        textsearch: [{ label: "Search By Title", field: 'blogtitle_search', value: "Test t" },
+        { label: "Search by auther", field: "author_search", value: "AUth" }],  // this is use for  text search
 
         search: [{ label: "Search By Author", field: 'author_search', values: this.authval }]     // this is use for  Autocomplete search
     };
@@ -448,7 +449,7 @@ export class AdmindashbordComponent implements OnInit {
             },
             {
                 heading: "This is Heading For group 1",
-                name: "statusgroup", 
+                name: "statusgroup",
                 hint: ',0000',
                 type: 'group',
                 fields: [
