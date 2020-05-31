@@ -159,12 +159,12 @@
                     {{(limitcondval.pagecount-1)*limitcondval.limit}}
                     To
 
-                    <ng-container *ngIf="date_search_source_countval > ((limitcondval.pagecount)*limitcondval.limit)">
-                        {{(limitcondval.pagecount)*limitcondval.limit}}
+                    <ng-container *ngIf="date_search_source_countval > ((limitcondval.pagecount)*limitcondval.limit) || date_search_source_countval==0">
+                        {{(limitcondval.pagecount)*limitcondval.limit}} 
                     </ng-container>
                     <ng-container
                         *ngIf="date_search_source_countval!=0 && date_search_source_countval <= ((limitcondval.pagecount)*limitcondval.limit)">
-                        {{date_search_source_countval}}
+                        {{date_search_source_countval}} 
                     </ng-container>
 
 
@@ -488,7 +488,7 @@
                     {{(limitcondval.pagecount-1)*limitcondval.limit}}
                     To
 
-                    <ng-container *ngIf="date_search_source_countval > ((limitcondval.pagecount)*limitcondval.limit)">
+                    <ng-container *ngIf="date_search_source_countval > ((limitcondval.pagecount)*limitcondval.limit) ||  date_search_source_countval==0">
                         {{(limitcondval.pagecount)*limitcondval.limit}}
                     </ng-container>
                     <ng-container

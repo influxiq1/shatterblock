@@ -595,14 +595,18 @@ export class ListingComponent implements OnInit {
     // }
     // console.log("error");
   }
+  //for managing pagination 
 
   paging(val: any) {
     if (val == 1) {
       this.limitcondval.skip = (this.limitcondval.pagecount) * this.limitcondval.limit;
       this.limitcondval.pagecount++;
     }
-    if (val == -1 && this.limitcondval.skip > this.limitcondval.limit) {
-      this.limitcondval.skip = (this.limitcondval.pagecount - 1) * this.limitcondval.limit;
+    if (val == -1 && this.limitcondval.skip < this.limitcondval.limit)
+      return;
+    if (val == -1 && this.limitcondval.skip >= this.limitcondval.limit) {
+      console.log('in skip block');
+      this.limitcondval.skip = (this.limitcondval.pagecount - 2) * this.limitcondval.limit;
       this.limitcondval.pagecount--;
     }
     if (val > 1) {
@@ -611,7 +615,7 @@ export class ListingComponent implements OnInit {
       //this.limitcondval.pagecount--;
 
     }
-    if (val == -1 && this.limitcondval.skip < this.limitcondval.limit) return;
+
     //console.log(val,'ss',this.datacollectionval,this.limitcondval);
     let textSearch: any = {};
 
@@ -652,6 +656,12 @@ export class ListingComponent implements OnInit {
           data: { errormessage: "New range of data loaded" }
         });
       } else {
+        if (val == 1) {
+          this.limitcondval.pagecount--;
+        }
+        if (val == -1) {
+          this.limitcondval.pagecount++;
+        }
         this._snackBar.openFromComponent(SnackbarComponent, {
           duration: 6000,
           data: { errormessage: "No Data Found in this range !!" }
@@ -662,6 +672,7 @@ export class ListingComponent implements OnInit {
       //this.dataSource.sort = this.sort;
 
     });
+
 
   }
 
