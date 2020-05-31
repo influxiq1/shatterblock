@@ -936,6 +936,7 @@ export class ListingComponent implements OnInit {
     if (val.refreshdata != null && val.refreshdata == true) {
       this.allSearch();
     }
+    res.message = val.headermessage;
     const dialogRef = this.dialog.open(Confirmdialog, {
       height: 'auto',
       panelClass: 'custom-modalbox-apidata',
@@ -1034,6 +1035,7 @@ export class ListingComponent implements OnInit {
         if (val.refreshdata != null && val.refreshdata == true) {
           this.allSearch();
         }
+        dataarr['message'] = val.headermessage;
         const dialogRef = this.dialog.open(Confirmdialog, {
           height: 'auto',
           panelClass: 'custom-modalbox',
@@ -1664,7 +1666,7 @@ export class Confirmdialog {
     // public notesval:any=null,
     public dialogRef: MatDialogRef<Confirmdialog>,
     @Inject(MAT_DIALOG_DATA) public data: any, public sanitizer: DomSanitizer) {
-    // console.log('lib data in modal ', this.data);
+    console.log('lib data in modal ', this.data, this.data.data.message);
     this.data.color = 'primary';
     this.data.mode = 'indeterminate';
     this.data.loadervalue = 50;
