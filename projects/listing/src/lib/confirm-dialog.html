@@ -18,19 +18,20 @@
                         <br />
                     </section> -->
                     <mat-list-item *ngFor="let note of data.listdata;let notej=index;">
+                        <!-- <p>{{note.notes | json}}</p> -->
                         <span class="material-icons">
                             notes
                         </span>
                         <div mat-line>
-                            {{note.note.note }}
+                            {{note.notes.note }}
                         </div>
                         <!-- <div mat-line class="line-user"><span>By:</span>{{note.note.userid}}</div> -->
                         <!-- <div mat-line class="line-user"><span>This User:</span>{{data.notedata.user}}</div> -->
-                        <div mat-line class="line-user"><span>By:</span>{{note.user}}</div>
+                        <div mat-line class="line-user"><span>By:</span>{{note.notes.user}}</div>
                         <div mat-line class="line-datetime"> <span>On:</span>
-                            {{note.note.created_date | date:'medium' }}
+                            {{note.notes.created_date | date:'medium' }}
                         </div>
-                        <span *ngIf="note.note.userid==data.notedata.user" class="material-icons"
+                        <span *ngIf="note.notes.userid==data.notedata.user" class="material-icons"
                             (click)="deletenote(notej)">
                             delete
                         </span>

@@ -12,6 +12,7 @@ import {YoutubeplayerComponent} from './youtubeplayer/youtubeplayer.component';
 import { ShowformComponent } from './showform/showform.component';
 import { CKEditorModule } from 'ng2-ckeditor';
 //import { MatFileUploadModule } from 'angular-material-fileupload';
+import { ImageCropperModule } from 'ngx-image-cropper';
 
 
 @NgModule({
@@ -22,7 +23,8 @@ import { CKEditorModule } from 'ng2-ckeditor';
         DemoMaterialModule,
         FormsModule, ReactiveFormsModule,
         RouterModule,
-        MomentModule,CKEditorModule
+        MomentModule,CKEditorModule,
+        ImageCropperModule
         
 
     ],

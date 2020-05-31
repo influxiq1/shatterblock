@@ -82,13 +82,12 @@ export class AdmindashbordComponent implements OnInit {
         'lastname': 'Last Name',
         'name': "Full Name",
         'blogtitle': "Blog Title 9",
-        "created_datetime": "Created Date with Time",
         "created_date": "Dated Added",
+        "created_datetime": "Created Date with Time 111",
         "author": "Author Name",
-        "author_search": "A Search",
         "priority": "Priority of B ",
-        description: "Desc",
-        status: "Active ?"
+        "description_html": "Desc",
+        "status": "Active ?"
     };
 
 
@@ -144,6 +143,7 @@ export class AdmindashbordComponent implements OnInit {
             { key: "created_datetime", val: "Date Added with time" },
             { key: "created_date", val: "Date Added only" },
         ], // optional
+        
         updateendpoint: 'statusupdate',
         notes: {
             label: "Blog Notes",
@@ -160,8 +160,11 @@ export class AdmindashbordComponent implements OnInit {
         hidedeletebutton: true,
         //hideviewbutton:false,
         hidestatustogglebutton: true,
+        hidemultipleselectbutton: false,
+        hidedeletemany: true,
+        hideupdatemany: false,
         // hideaction:true,
-        tableheaders: ['author', 'priority', 'blogtitle', 'status', 'wrongone', 'created_date', 'created_datetime', 'author_search', 'description'], //not required
+        tableheaders: ['author', 'priority', 'blogtitle', 'status', 'wrongone', 'created_date', 'created_datetime', 'description_html'], //not required
         custombuttons: [
             {
                 label: "fb search with blog title",
@@ -247,7 +250,7 @@ export class AdmindashbordComponent implements OnInit {
                 type: 'action',
                 datatype: 'api',
                 endpoint: 'getblogdatabyid',
-                otherparam: ['author', 'blogtitle'],
+                otherparam: [],
                 //cond:'status',
                 //condval:0,
                 param: 'blog_id',
@@ -702,7 +705,6 @@ export class AdmindashbordComponent implements OnInit {
                             ]
                         }
                     }
-
                 ],
                 validations: [
                     { rule: 'required' }

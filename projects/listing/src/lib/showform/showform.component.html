@@ -2,6 +2,10 @@
   <span class="fill-remaining-space">My Reactive Form with Material</span>
 </mat-toolbar>-->
 
+
+
+
+
 <section *ngIf="loading == true" class="example-section">
     <mat-progress-bar class="example-margin" [color]="color" [mode]="mode" [value]="value" [bufferValue]="bufferValue">
     </mat-progress-bar>
@@ -390,14 +394,51 @@
                         class="form-element form_field_{{fields.name}}">
                         <mat-label [innerHTML]="fields.label"></mat-label>
                         <div class="aligner" (load)="triggerevents(fields)">
-                            <div class="drop" [attr.fileid]="fields.name" id="drop{{fields.name}}">Drop files here.
+                            <div class="drop" (change)="fileChangeEvent($event)" [attr.fileid]="fields.name" id="drop{{fields.name}}" >Drop files here. 
+                                <!-- Or <br><input type="file" (change)="fileChangeEvent($event)" /> -->
                             </div>
+
+
+
+
+                            <!-- <input type="file" (change)="fileChangeEvent($event)" /> -->
+
+                            <image-cropper
+                                [imageChangedEvent]="imageChangedEvent"
+                                [maintainAspectRatio]="true"
+                                [aspectRatio]="4 / 3"
+                                format="jpeg"
+                                (imageCropped)="imageCropped($event)"
+                                (imageLoaded)="imageLoaded()"
+                                (cropperReady)="cropperReady()"
+                                (loadImageFailed)="loadImageFailed()"
+                            ></image-cropper>
+                            
+                            <img [src]="croppedImage" />
+                            
+
+
                             <div class="filesid" id="list{{fields.name}}">
                                 <h1 *ngIf="filearray[fields.name]!=null ">Files:</h1>
                                 <ng-container *ngIf="filearray[fields.name]!=null  && fields.multiple==null">
                                     <span *ngIf="filearray[fields.name].uploaded==1"
                                         class="material-icons fileuploadcompleteicon ">
                                         cloud_done
+                                    </span>
+                                    <span class="material-icons" *ngIf="filearray[fields.name].type == 'image/jpeg' || filearray[fields.name].type == 'image/png' || filearray[fields.name].type == 'image/jpg'">
+                                        image
+                                    </span>
+                                
+                                    <span class="material-icons" *ngIf="filearray[fields.name].type == 'application/pdf'">
+                                        picture_as_pdf
+                                    </span>
+                                
+                                    <span class="material-icons" *ngIf="filearray[fields.name].type == 'video/mp4'">
+                                        movie_filter
+                                    </span>
+                                
+                                    <span class="material-icons" *ngIf="filearray[fields.name].type == 'text/csv' || filearray[fields.name].type == 'text/plain'">
+                                        description
                                     </span>
                                     <span
                                         class="uploadedfilename uploadedfilename_{{filearray[fields.name]}}">{{filearray[fields.name].name}}</span>
@@ -423,7 +464,25 @@
                                         <span *ngIf="files.uploaded==1" class="material-icons fileuploadcompleteicon">
                                             cloud_done
                                         </span>
-                                        <span class="fileuploadednameclass">{{files.name}} </span>
+
+                                        <span class="material-icons" *ngIf="files.type == 'image/jpeg' || files.type == 'image/png' || files.type == 'image/jpg'">
+                                            image
+                                        </span>
+                                    
+                                        <span class="material-icons" *ngIf="files.type == 'application/pdf'">
+                                            picture_as_pdf
+                                        </span>
+                                    
+                                        <span class="material-icons" *ngIf="files.type == 'video/mp4'">
+                                            movie_filter
+                                        </span>
+                                    
+                                        <span class="material-icons" *ngIf="files.type == 'text/csv' || files.type == 'text/plain'">
+                                            description
+                                        </span>
+                                        
+
+                                        <span class="fileuploadednameclass">{{files.name}}</span>
                                         <br />
                                         <span class="fileuploadedtypeclass">{{files.type}}</span>
                                         <mat-chip class="fileuploadbutton" *ngIf="files.uploaded==null "

@@ -103,8 +103,16 @@
                         <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
                         <mat-datepicker #picker1></mat-datepicker>
                     </mat-form-field>
+
+
+
+                    <span class="search_class">
                     <button mat-raised-button color="primary" class="add_button"
                         (click)="dateSearch(status.field)">{{status.submit}}</button>
+                     </span>
+
+
+
                 </ng-container>
             </ng-container>
 
@@ -138,8 +146,8 @@
             *ngIf="selection.selected !=null && selection.selected.length!=null && selection.selected.length>0">
             <span class="multipledeleteandupdatebuttan">
 
-                <button mat-raised-button (click)="deletemultiple()"> Delete </button>
-                <button mat-raised-button (click)="managestatusmultiple()"> Update Status </button>
+                <button *ngIf="libdataval.hidedeletemany==null || libdataval.hidedeletemany==false" mat-raised-button (click)="deletemultiple()"> Delete </button>
+                <button *ngIf="libdataval.hideupdatemany==null || libdataval.hideupdatemany==false"  mat-raised-button (click)="managestatusmultiple()"> Update Status </button>
 
             </span>
         </ng-container>
@@ -281,7 +289,7 @@
                         <span
                             *ngIf="column.columnDef=='video' && row[column.columnDef] !=null && row[column.columnDef] !='' "><span
                                 class="module_videoblock" (click)="fetchvideo(row)">
-                                <img src="https://img.youtube.com/vi/row[column.columnDef]/sddefault.jpg"
+                                <img src="https://img.youtube.com/vi/{{row[column.columnDef]}}/sddefault.jpg"
                                     alt="{{row[column.columnDef]}}" (click)="fetchvideo(row)"></span>
                         </span>
 
@@ -353,7 +361,7 @@
                         <!-- note block -->
                         <ng-container *ngIf="libdataval.notes!=null">
                             <button mat-raised-button color="primary"
-                                (click)="opennotes(row)">{{libdataval.notes.label}}({{row.notes}})</button>
+                                (click)="opennotes(row)">{{libdataval.notes.label}}({{row.notescount}})</button>
                         </ng-container>
                         <!--custom buttions block -->
                         <ng-container

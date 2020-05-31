@@ -7,7 +7,7 @@ import { DomSanitizer } from "@angular/platform-browser";
 import { MAT_SNACK_BAR_DATA, MatSnackBar, MatSnackBarRef } from '@angular/material/snack-bar';
 import { ThemePalette } from "@angular/material/core";
 import { Router } from "@angular/router";
-
+import { ImageCroppedEvent } from 'ngx-image-cropper';
 //import {MatSnackBar} from "@angular/material/snack-bar";
 @Component({
   selector: 'lib-showform',
@@ -68,7 +68,7 @@ export class ShowformComponent implements OnInit {
   }
   ngAfterViewInit() {
     setTimeout(() => {
-      // console.log('in after view init trigger');
+      console.log('in after view init trigger');
       for (let g in this.formdataval.fields) {
         if (this.formdataval.fields[g].type == 'file') {
           this.elementRef.nativeElement.querySelector('#drop' + this.formdataval.fields[g].name).addEventListener('drop', this.handleDrop.bind(this));
@@ -82,9 +82,9 @@ export class ShowformComponent implements OnInit {
   }
 
   triggerevents(val: any) {
-    // console.log('in triggerevents');
+    console.log('in triggerevents', val);
     setTimeout(() => {
-      // console.log('val loadeed trigger', val);
+      console.log('val loadeed trigger', val);
       this.elementRef.nativeElement.querySelector('#drop' + val.name).addEventListener('drop', this.handleDrop.bind(this));
       this.elementRef.nativeElement.querySelector('#drop' + val.name).addEventListener('dragenter', this.cancel.bind(this));
       this.elementRef.nativeElement.querySelector('#drop' + val.name).addEventListener('dragdragover', this.cancel.bind(this));
@@ -99,19 +99,20 @@ export class ShowformComponent implements OnInit {
   }
   handleDrop(e) {
     //let apiBaseURL=""
+    // this.imageChangedEvent = e;
     var list = document.getElementById('list');
     let apiBaseURL = "https://tge24bc2ne.execute-api.us-east-1.amazonaws.com/dev";
     e.preventDefault();
-    //console.log('handleDrop',e);
+    console.log('handleDrop',e);
     var dt = e.dataTransfer;
     var files = dt.files;
     for (var i = 0; i < files.length; i++) {
       var file = files[i];
-      // console.log(files, 'files', e.target.id);
+      console.log(files, 'files', e.target.id);
       console.log('farr', this.filearray);
       for (let g in this.formdataval.fields) {
         if (this.formdataval.fields[g].type == 'file' && this.formdataval.fields[g].name == e.target.id.replace('drop', '')) {
-          // console.log('file details', this.formdataval.fields[g]);
+          console.log('file details', this.formdataval.fields[g]);
           if (this.formdataval.fields[g].multiple == null) {
             // this.deletefile(va)
             if (this.filearray[e.target.id.replace('drop', '')] != null) {
@@ -131,7 +132,7 @@ export class ShowformComponent implements OnInit {
               this.filearray[e.target.id.replace('drop', '')] = [];
             }
             this.filearray[e.target.id.replace('drop', '')].push(files[0]);
-
+console.log('files[0]',files[0])
           }
 
         }
@@ -178,6 +179,7 @@ export class ShowformComponent implements OnInit {
   // }
 
   uploadfile(val: any) {
+    console.log('upppp',val);
     var reader = new FileReader();
     let file: any = this.filearray[val.name];
     // console.log('file val', val);
@@ -212,6 +214,7 @@ export class ShowformComponent implements OnInit {
           //return 'success';
           file.uploaded = 1;
           file.fileservername = val.prefix + file.name;
+          console.log(file.type,'file.type')
           // temploader = null;
           // var uploadedFileNode = document.createElement('div');
           // uploadedFileNode.innerHTML = '<a href="//s3.amazonaws.com/slsupload/'+ file.name +'">'+ file.name +'</a>';
@@ -243,6 +246,9 @@ export class ShowformComponent implements OnInit {
   uploadfilemultiple(val: any, f: any, indexf: any) {
     var reader = new FileReader();
     let file: any = this.filearray[val.name][indexf];
+    // console.log(file,'file');
+    // console.log(val,'val');
+    // console.log(f,'f');
     if (this.filecount[val.name] == null) this.filecount[val.name] = 0;
     this.filecount[val.name]++;
     // console.log('file val in m 2', val, f, indexf, 'if',file); 
@@ -277,6 +283,7 @@ export class ShowformComponent implements OnInit {
           //return 'success';
           file.uploaded = 1;
           file.fileservername = val.prefix + file.name;
+          // console.log(file.type,'file.type')
           // temploader = null;
           // var uploadedFileNode = document.createElement('div');
           // uploadedFileNode.innerHTML = '<a href="//s3.amazonaws.com/slsupload/'+ file.name +'">'+ file.name +'</a>';
@@ -287,6 +294,9 @@ export class ShowformComponent implements OnInit {
     reader.readAsArrayBuffer(file);
   }
   deletefile(val: any, flag: any = '') {
+    // console.log('this.filearray',this.filearray);
+    // console.log('val',val);
+    // console.log(val.name);
     let source: any = {};
     let file: any = this.filearray[val.name];
     source['file'] = val.prefix + file.name;
@@ -296,7 +306,7 @@ export class ShowformComponent implements OnInit {
       let result: any = {};
       result = res;
       if (result.status == 'success' && flag == '') {
-        this.formGroup.reset();
+        // this.formGroup.reset();
         this._snackBar.openFromComponent(SnackbarComponent, {
           duration: 6000,
           data: { errormessage: "Deleted !!" }
@@ -330,7 +340,7 @@ export class ShowformComponent implements OnInit {
       let result: any = {};
       result = res;
       if (result.status == 'success') {
-        this.formGroup.reset();
+        // this.formGroup.reset();
         this._snackBar.openFromComponent(SnackbarComponent, {
           duration: 6000,
           data: { errormessage: "Deleted !!" }
@@ -450,18 +460,18 @@ export class ShowformComponent implements OnInit {
           if (this.formdataval.fields[y].name == field.after) {
             this.formdataval.fields.splice(parseInt(y) + 1, 0, field);
             this.createForm(1);
-            console.log('added ..', field['name'], 'c', y);
+            // console.log('added ..', field['name'], 'c', y);
           }
         }
       } else {
         if (typeof (field) == 'object') {
-          console.log('in array form  add');
+          // console.log('in array form  add');
           for (let v in field) {
             for (let y in this.formdataval.fields) {
               if (field[v] != null && field[v]['name'] != null && this.formdataval.fields[y].name == field[v].after) {
                 this.formdataval.fields.splice(parseInt(y) + 1, 0, field[v]);
                 this.createForm(1);
-                console.log('array field added ..', field[v]['name'], 'c', y);
+                // console.log('array field added ..', field[v]['name'], 'c', y);
               }
             }
 
@@ -473,8 +483,8 @@ export class ShowformComponent implements OnInit {
 
   }
   checkchange(field: any, index: any) {
-    //console.log(field, 'change', this.formGroup.controls[field.name].value);
-    this.onFormFieldChange.emit({ field: field, fieldval: this.formGroup.controls[field.name].value });
+    console.log(field, 'change', index, 'index');
+    this.onFormFieldChange.emit({ field: field, fieldval: this.formGroup.controls[field.name].value, fromval: this.formGroup.value });
     if (field.dependent != null && field.dependent.length > 0) {
       let vc: any = 0;
       for (let n in field.dependent) {
@@ -777,6 +787,7 @@ export class ShowformComponent implements OnInit {
               tfile.bucket = this.formdataval.fields[m].bucket;
               tfile.baseurl = this.formdataval.fields[m].baseurl;
               tfilearr.push(tfile);
+              
             }
             this.formGroup.controls[this.formdataval.fields[m].name].patchValue(tfilearr);
           }
@@ -817,7 +828,7 @@ export class ShowformComponent implements OnInit {
 
       //}
     }
-    console.log(post, 'post', this.formGroup.valid, this.formdataval, this.formdataval.apiUrl, 'ffff', tempformval);
+    // console.log(post, 'post', this.formGroup.valid, this.formdataval, this.formdataval.apiUrl, 'ffff', tempformval);
 
     if (this.formGroup.valid) {
 
@@ -830,22 +841,27 @@ export class ShowformComponent implements OnInit {
         let result: any = {};
         result = res;
         if (result.status == 'success') {
+          this.onFormFieldChange.emit({ field: 'fromsubmit', fieldval: result.status, fromval: result });
           this.formGroup.reset();
           this._snackBar.openFromComponent(SnackbarComponent, {
             duration: 6000,
             data: { errormessage: this.formdataval.successmessage }
           });
           //console.log(result, 'red', this.formdataval.redirectpath);
-          if (this.formdataval.redirectpath != null) {
+          if (this.formdataval.redirectpath != null && this.formdataval.redirectpath != "" && this.formdataval.redirectpath != "/") {
             this.router.navigate([this.formdataval.redirectpath]);
+          } else {
+            this.loading = false;
           }
         }
         if (result.status == 'error') {
+          this.onFormFieldChange.emit({ field: 'fromsubmit', fieldval: result.status, fromval: result });
           this._snackBar.openFromComponent(SnackbarComponent, {
             duration: 6000,
             data: result
           });
         }
+        
 
       }, error => {
         //console.log('Oooops!');
@@ -858,5 +874,30 @@ export class ShowformComponent implements OnInit {
     }
 
   }
+
+
+
+
+
+  imageChangedEvent: any = '';
+    croppedImage: any = '';
+    
+    fileChangeEvent(event: any): void {
+        this.imageChangedEvent = event;
+        console.log('event',event)
+    }
+    imageCropped(event: ImageCroppedEvent) {
+        this.croppedImage = event.base64;
+        console.log('this.croppedImage',event);
+    }
+    imageLoaded() {
+        // show cropper
+    }
+    cropperReady() {
+        // cropper ready
+    }
+    loadImageFailed() {
+        // show message
+    }
 
 }
