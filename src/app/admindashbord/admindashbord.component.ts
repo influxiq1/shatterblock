@@ -241,7 +241,7 @@ export class AdmindashbordComponent implements OnInit {
                 label: "Desc from data",
                 type: 'action',
                 datatype: 'local',
-                datafields: ['description', 'author', 'blogtitle', 'tags_array', 'image', 'video_array', 'created_date', 'created_datetime', 'image_array', 'video', 'img_array', 'vd_array'],
+                datafields: ['created_date','description', 'author', 'blogtitle', 'tags_array', 'image', 'video_array', 'created_datetime', 'image_array', 'video', 'img_array', 'vd_array'],
                 // cond:'status',
                 // condval:0
             },
@@ -254,7 +254,8 @@ export class AdmindashbordComponent implements OnInit {
                 //cond:'status',
                 //condval:0,
                 param: 'blog_id',
-                refreshdata: true,
+                datafields: ['created_date','blogtitle','description', 'author','created_datetime'],
+                // refreshdata: true,
             }
         ]
     }

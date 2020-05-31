@@ -424,8 +424,8 @@ export class ListingComponent implements OnInit {
 
     this.displayedColumns = displayedcols;
     this.displayedColumns.unshift('#');        /*adds select column in table by unshift function*/
-    if(this.libdataval.hidemultipleselectbutton != true){
-    this.displayedColumns.unshift('select');        /*adds select column in table by unshift function*/
+    if (this.libdataval.hidemultipleselectbutton != true) {
+      this.displayedColumns.unshift('select');        /*adds select column in table by unshift function*/
     }
     let data_list = [];
     for (let i = 0; i < this.x.length; i++) {
@@ -683,12 +683,7 @@ export class ListingComponent implements OnInit {
       //this.dataSource.sort = this.sort;
 
     });
-<<<<<<< HEAD
-
-
-=======
-this.selection.clear();
->>>>>>> b8d4b3a164c790a4e6f76bf5f5b3106da671f7e9
+    this.selection.clear();
   }
 
   addautosearchdata(val: any) {
@@ -974,6 +969,21 @@ this.selection.clear();
         } else {
           resdata = result.res;
         }
+        let temprdata: any = {};
+        console.log('resdata>>>', resdata);
+        if (val.datafields != null) {
+          for (let b1 in val.datafields) {
+            console.log('val.datafields', val.datafields[b1]);
+            //for (let b2 in dataarr) {
+            // console.log('b2',b2,data[b2],dataarr[b2][0]);
+            // if (dataarr[b2][0] == val.datafields[b1]) resdataformodal[b1] = [dataarr[b2][0], dataarr[b2][1]];
+            temprdata[val.datafields[b1]] = resdata[val.datafields[b1]];
+          }
+          // }
+          resdata = temprdata;
+
+
+        }
 
         let dataarr = [];
         //dataarr.push(['name','debasis']);
@@ -982,7 +992,12 @@ this.selection.clear();
           let temparr = [];
           temparr.push(v);
           if (v != 'image' && v != 'video') {
-            if (typeof (resdata[v]) != 'object') temparr.push(this.sanitizer.bypassSecurityTrustHtml(resdata[v]));
+            if (resdata[v] != null && typeof (resdata[v]) != 'object') {
+              // console.log('resv', resdata[v]);
+              if (resdata[v].toString().includes("iframe"))
+                temparr.push(this.sanitizer.bypassSecurityTrustHtml(resdata[v]));
+              else temparr.push(resdata[v]);
+            }
             else temparr.push(resdata[v]);
           }
           if (v == 'image') temparr.push("<img mat-card-image src=" + resdata[v] + " > <br/>")
@@ -1010,9 +1025,12 @@ this.selection.clear();
           }
           //console.log('c',res,resdata);
           dataarr = resdata;
-          //console.log('c',res,resdata);
+
         }
-        //console.log('dataarr',dataarr);
+        // console.log('c api data ', resdata);
+        // let resdataformodal: any = {};
+
+        // console.log('resdataformodal', dataarr, dataarr);
         if (val.refreshdata != null && val.refreshdata == true) {
           this.allSearch();
         }
@@ -1062,7 +1080,7 @@ this.selection.clear();
         fulllink = fulllink + '/' + encodeURI(data[val.param[v]]);
       }
       //val.link=fulllink;
-      
+
     }
     setTimeout(() => {
       //console.log("Hello from setTimeout");
@@ -1081,7 +1099,7 @@ this.selection.clear();
   isAllSelected() {
     console.log("isAllSelected");
     if (this.selection != null && this.selection.select) {
-      console.log("isAllSelected",this.dataSource.data.length, this.selection.selected.length);
+      console.log("isAllSelected", this.dataSource.data.length, this.selection.selected.length);
       const numSelected = this.selection.selected.length;
       const numRows = this.dataSource.data.length;
       return numSelected === numRows;
@@ -1700,7 +1718,7 @@ export class Confirmdialog {
         // console.log(result, 'add notes');
         if (result.status == 'success') {
           if (this.data.listdata == null) this.data.listdata = [];
-          this.data.listdata.unshift({_id: this.data.rowdata._id, notes: { userid: this.data.notedata.user, note: this.data.notesval,  user: this.data.notedata.currentuserfullname, created_date: Date.now() } });
+          this.data.listdata.unshift({ _id: this.data.rowdata._id, notes: { userid: this.data.notedata.user, note: this.data.notesval, user: this.data.notedata.currentuserfullname, created_date: Date.now() } });
           this.data.notesval = '';
           this.data.loading = null;
         }
