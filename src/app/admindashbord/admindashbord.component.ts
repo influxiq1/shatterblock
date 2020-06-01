@@ -287,7 +287,7 @@ export class AdmindashbordComponent implements OnInit {
 
         datesearch: [{ startdatelabel: "Start Date", enddatelabel: "End Date", submit: "Search", field: "created_datetime" }],   // this is use for  date search
 
-        selectsearch: [{ label: 'Search By Status', field: 'status', values: this.status, value: 1 }], // this is use for  select search
+        selectsearch: [{ label: 'Search By Status', field: 'status', values: this.status, value: 0 }], // this is use for  select search
 
         textsearch: [{ label: "Search By Title", field: 'blogtitle_search', value: "Test t" },
         { label: "Search by auther", field: "author_search", value: "AUth" }],  // this is use for  text search

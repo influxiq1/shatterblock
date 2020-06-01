@@ -448,7 +448,7 @@ export class ListingComponent implements OnInit {
         for (let sl in this.search_settingsval.selectsearch) {
           if (this.search_settingsval.selectsearch[sl].value != null) {
             this.selectsearch[this.search_settingsval.selectsearch[sl].field] = this.search_settingsval.selectsearch[sl].value;
-            console.log('s', this.search_settingsval.selectsearch, this.selectsearch);
+            console.log('s', this.search_settingsval.selectsearch,'++++++', this.selectsearch);
           }
         }
       }
@@ -520,7 +520,10 @@ export class ListingComponent implements OnInit {
         };
       }
       for (let i in this.tsearch) {
-        textSearch[i] = { $regex: this.tsearch[i].toLowerCase() };
+        console.log('this.tsearch',this.tsearch)
+        if (this.tsearch[i] != null && this.tsearch[i] !='') {
+          textSearch[i] = { $regex: this.tsearch[i].toLowerCase() };
+        }
       }
 
       let autosearch: any = {};
@@ -610,6 +613,32 @@ export class ListingComponent implements OnInit {
 
 
   selectSearch(value: any, type: any) {
+
+
+    // let link = this.apiurlval + '' + this.date_search_endpointval;
+    // let source: any;
+    // let condition: any = {};
+    let val = '';
+    if (this.tsearch != null && this.tsearch[value] != null) {
+      val = this.tsearch[value].toLowerCase();
+    }
+
+    // if (this.tsearch[value] != null && this.tsearch[value].length > 1 && { $or: [this.tsearch[value].toLowerCase(), this.tsearch[value].toUpperCase()] }) condition[value + '_regex'] = val;
+    // this.textSearch_condition = {};
+    // this.textSearch_condition = condition;
+    // //console.warn(this.tsearch);
+    // let conditionobj = Object.assign({}, this.textSearch_condition, this.dateSearch_condition, this.autoSearch_condition, this.selectSearch_condition);
+    // source = {
+    //   source: this.date_search_sourceval,
+    //   condition: conditionobj
+    // };
+
+
+
+
+
+
+    console.log(this.tsearch ,'czxcxczxc',this.search_settingsval.selectsearch,this.selectsearch,value, type);
     let link = this.apiurlval + '' + this.date_search_endpointval;
     let source: any;
     let condition: any;
@@ -1584,7 +1613,10 @@ export class ListingComponent implements OnInit {
     let textSearch: any = {};
     condition = {};
     for (let i in this.tsearch) {
-      textSearch[i] = { $regex: this.tsearch[i].toLowerCase() };
+      console.log('all search this.tsearch', this.tsearch[i]);
+      if (this.tsearch[i] != null && this.tsearch[i] !='') {
+        textSearch[i] = { $regex: this.tsearch[i].toLowerCase() };
+      }
     }
 
     let autosearch: any = {};

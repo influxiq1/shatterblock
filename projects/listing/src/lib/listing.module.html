@@ -78,10 +78,11 @@
                 *ngIf="search_settingsval !=null && search_settingsval.selectsearch != null ">
                 <mat-form-field class="searchdiv" *ngFor="let status of search_settingsval.selectsearch">
                     <mat-label>{{status.label}}</mat-label>
-                    <mat-select [(ngModel)]="selectsearch[status.field]" [(value)]="selectsearch[status.field]">
-                        <mat-option *ngFor="let statusval of status.values" [value]="statusval"
+                    <!-- <mat-select [(ngModel)]="selectsearch[status.field]" [(value)]="selectsearch[status.field]"> -->
+                        <mat-select [(ngModel)]="selectsearch[status.field]" [(value)]="status.value"[(ngModel)]='tsearch[status.field]'>
+                        <mat-option *ngFor="let statusval of status.values" [value]="statusval.val"
                             (click)="selectSearch(statusval.val, status)">
-                            {{statusval.name}}{{selectsearch[status.field]}}
+                            {{statusval.name}}
                         </mat-option>
                     </mat-select>
                 </mat-form-field>
