@@ -484,7 +484,7 @@ export class ShowformComponent implements OnInit {
       this.autocompletefiledvalue[val.name] = null;
   }
   setautocompletevalue(val: any, field: any) {
-    console.log('ff auto complete set ', val, field);
+    // console.log('ff auto complete set ', val, field);
 
 
 
@@ -696,18 +696,18 @@ export class ShowformComponent implements OnInit {
 
         if (this.formdataval.fields[n].type == 'autocomplete' && this.formdataval.fields[n].multiple != null && this.formdataval.fields[n].multiple == true) {
           for (let at in this.formdataval.fields[n].val) {
-            console.log('at ...', this.formdataval.fields[n].val[at], at, this.formdataval.fields[n].value, this.formdataval.fields[n].val[at].key);
+            // console.log('at ...', this.formdataval.fields[n].val[at], at, this.formdataval.fields[n].value, this.formdataval.fields[n].val[at].key);
             if (this.formdataval.fields[n].value != null && typeof (this.formdataval.fields[n].value) == 'object' && this.formdataval.fields[n].value.indexOf(this.formdataval.fields[n].val[at].key) != -1) {
-              console.log(this.formdataval.fields[n].val[at].key, 'multi autocomplete triggered  !! ');
+              // console.log(this.formdataval.fields[n].val[at].key, 'multi autocomplete triggered  !! ');
               this.setautocompletevalue(this.formdataval.fields[n].val[at], this.formdataval.fields[n]);
             }
           }
         }
         if (this.formdataval.fields[n].type == 'autocomplete' && (this.formdataval.fields[n].multiple == null || this.formdataval.fields[n].multiple == false)) {
-          console.log('single auto complete trigger block', this.formdataval.fields[n]);
+          // console.log('single auto complete trigger block', this.formdataval.fields[n]);
 
           if (this.formdataval.fields[n].value != null) {
-            console.log('set auto complete single triggered', this.formdataval.fields[n]);
+            // console.log('set auto complete single triggered', this.formdataval.fields[n]);
             this.setautocompletevalue(this.formdataval.fields[n].val[0], this.formdataval.fields[n]);
 
           }

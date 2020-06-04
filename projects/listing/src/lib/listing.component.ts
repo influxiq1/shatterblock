@@ -64,6 +64,7 @@ export class ListingComponent implements OnInit {
   emailarrayval: any;
   columns: any = [];
   autosearchinput: any = [];
+  currentautosearcharr: any = [];
   olddata: any = [];
   tsearch: any = [];
   tableflag: any = 0;
@@ -756,14 +757,28 @@ export class ListingComponent implements OnInit {
 
     if (this.autosearch[field] != null) this.autosearch[field].splice(i, 1);
   }
+  filterautoval(data: any) {
+    // console.log('filterautoval', data, this.autosearchinput[data.field]);
+    let autoselval = this.autosearchinput[data.field];
+    this.currentautosearcharr = [];
+    if (this.autosearchinput[data.field] != null && this.autosearchinput[data.field] != '') {
+      let filterval = data.values.filter(function (e) {
+        //console.log('e', e, fieldval)
+        return e.name.toString().toLowerCase().includes(autoselval.toLowerCase());
+      });
+      this.currentautosearcharr = filterval;
+    }
+  }
   autosearchfunction(value: any, data: any) {
     this.autosearchinput[value] = '';
     //console.log(this.autosearchinput,'asi');
     if (this.autosearch[value] == null) {
       this.autosearch[value] = [];
-      ;
     }
     this.autosearch[value].push(data);
+    console.log(value, 'selected auto', this.autosearchinput[value]);
+    this.autosearchinput[value] = null;
+    console.log(value, 'selected auto', this.autosearchinput[value]);
     //console.log(value,data,'ss',this.autosearch);
     /*let val: any = this.autosearch[value];
     let source: any;

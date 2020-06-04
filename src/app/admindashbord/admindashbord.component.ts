@@ -281,22 +281,22 @@ export class AdmindashbordComponent implements OnInit {
         {
             "_id": "5dc54c9764f5cdfcff5f8a76",
             "val": "CAR BUYING ADVICE",
-            "name": "5dc54c9764f5cdfcff5f8a76"
+            "name": "A"
         },
         {
             "_id": "5dc54cbc64f5cd7b9b5f8a77",
             "val": "COMPARISON",
-            "name": "5dc54cbc64f5cd7b9b5f8a77"
+            "name": "B"
         },
         {
             "_id": "5dc54cd364f5cd70245f8a78",
             "val": "FOREIGN MAKES",
-            "name": "5dc54cd364f5cd70245f8a78"
+            "name": "C"
         },
         {
             "_id": "5dc54d2f64f5cd087e5f8a79",
             "val": "MISCELLANEOUS",
-            "name": "5dc54d2f64f5cd087e5f8a79"
+            "name": "D"
         }
     ]
     search_settings: any = {
@@ -308,7 +308,7 @@ export class AdmindashbordComponent implements OnInit {
         textsearch: [{ label: "Search By Title", field: 'blogtitle_search', value: "Test t" },
         { label: "Search by auther", field: "author_search", value: "AUth" }],  // this is use for  text search
 
-        search: [{ label: "Search By Author", field: 'author_search', values: this.authval }]     // this is use for  Autocomplete search
+        search: [{ label: "Search By Author static ", field: 'author_search', values: this.authval }]     // this is use for  Autocomplete search
     };
 
     // this is search block 
@@ -970,6 +970,7 @@ export class AdmindashbordComponent implements OnInit {
         this.datasource = '';
         let endpoint = 'getadminbloglistdata'; // for main data endpoint
         let endpointc = 'getadminbloglistdata-count'; // for count endpoint
+        let autodataendpoint = 'exitsing-list'; // for count endpoint
         // data param for conditionlimit and search
         let data: any = {
             "condition": {
@@ -982,6 +983,19 @@ export class AdmindashbordComponent implements OnInit {
             }
 
         }
+
+        this._apiService.postData(autodataendpoint, {}).subscribe((res: any) => {
+            // console.log('in constructor');
+            console.log(res, 'auto res', res.result, res.result.blog_cat_list, res.result.blog_tag_list);
+            // search: [{ label: "Search By Author", field: 'author_search', values: this.authval }] 
+            this.search_settings.search.push({ label: "Search By Cat", field: 'category_search', values: res.result.blog_cat_list });
+            this.search_settings.search.push({ label: "Search By Tags from server", field: 'tag_search', values: res.result.blog_tag_list });
+            // this.date_search_source_count = res.count;
+            //console.warn('blogData c',res);
+
+        }, error => {
+            console.log('Oooops!');
+        });
         this._apiService.postData(endpointc, data).subscribe((res: any) => {
             // console.log('in constructor');
             // console.log(result);
