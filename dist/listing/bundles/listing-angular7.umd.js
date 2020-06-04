@@ -1368,6 +1368,8 @@
                 /** @type {?} */
                 var textSearch = {};
                 condition = {};
+                this.limitcondval.pagecount = 1;
+                this.limitcondval.skip = 0;
                 if (moment(this.end_date).unix() != null && moment(this.start_date).unix() != null) {
                     this.dateSearch_condition = {};
                     this.dateSearch_condition = condition;
@@ -1390,7 +1392,7 @@
                     for (var i in this.tsearch) {
                         console.log('this.tsearch', this.tsearch);
                         if (this.tsearch[i] != null && this.tsearch[i] != '') {
-                            textSearch[i] = { $regex: this.tsearch[i].toLowerCase() };
+                            textSearch[i] = { $regex: this.tsearch[i].toString().toLowerCase() };
                         }
                     }
                     /** @type {?} */
@@ -1400,7 +1402,7 @@
                         for (var m in this.autosearch[b]) {
                             /** @type {?} */
                             var tv = {};
-                            tv[b] = this.autosearch[b][m].val.toLowerCase();
+                            tv[b] = this.autosearch[b][m].val.toString().toLowerCase();
                             if (autosearch['$or'] == null)
                                 autosearch['$or'] = [];
                             autosearch['$or'].push(tv);
@@ -1503,7 +1505,7 @@
                 /** @type {?} */
                 var val = '';
                 if (this.tsearch != null && this.tsearch[value] != null) {
-                    val = this.tsearch[value].toLowerCase();
+                    val = this.tsearch[value].toString().toLowerCase();
                 }
                 // if (this.tsearch[value] != null && this.tsearch[value].length > 1 && { $or: [this.tsearch[value].toLowerCase(), this.tsearch[value].toUpperCase()] }) condition[value + '_regex'] = val;
                 // this.textSearch_condition = {};
@@ -1581,7 +1583,8 @@
                 /** @type {?} */
                 var textSearch = {};
                 for (var i in this.tsearch) {
-                    textSearch[i] = { $regex: this.tsearch[i].toLowerCase() };
+                    if (this.tsearch[i].toString().toLowerCase() != null && this.tsearch[i].toString().toLowerCase() != '')
+                        textSearch[i] = { $regex: this.tsearch[i].toString().toLowerCase() };
                 }
                 /** @type {?} */
                 var conditionobj = Object.assign({}, textSearch, this.dateSearch_condition, this.autosearch, this.selectSearch_condition, this.libdataval.basecondition);
@@ -1720,9 +1723,9 @@
                 /** @type {?} */
                 var val = '';
                 if (this.tsearch != null && this.tsearch[value] != null) {
-                    val = this.tsearch[value].toLowerCase();
+                    val = this.tsearch[value].toString().toLowerCase();
                 }
-                if (this.tsearch[value] != null && this.tsearch[value].length > 1 && { $or: [this.tsearch[value].toLowerCase(), this.tsearch[value].toUpperCase()] })
+                if (this.tsearch[value] != null && this.tsearch[value].length > 1 && { $or: [this.tsearch[value].toString().toLowerCase(), this.tsearch[value].toUpperCase()] })
                     condition[value + '_regex'] = val;
                 this.textSearch_condition = {};
                 this.textSearch_condition = condition;
@@ -1808,11 +1811,11 @@
          */
             function (value) {
                 /** @type {?} */
-                var filterValue = value.toLowerCase();
+                var filterValue = value.toString().toLowerCase();
                 return this.searchListval.filter(( /**
                  * @param {?} option
                  * @return {?}
-                 */function (option) { return option.toLowerCase().includes(filterValue); }));
+                 */function (option) { return option.toString().toLowerCase().includes(filterValue); }));
             };
         /**
          * @param {?} val
@@ -2304,7 +2307,7 @@
          * @return {?}
          */
             function (filterValue) {
-                this.dataSource.filter = filterValue.trim().toLowerCase();
+                this.dataSource.filter = filterValue.trim().toString().toLowerCase();
                 if (this.dataSource.paginator) {
                     this.dataSource.paginator.firstPage();
                 }
@@ -2880,8 +2883,8 @@
                 var textSearch = {};
                 for (var i in this.tsearch) {
                     console.log('all search this.tsearch', this.tsearch[i]);
-                    if (this.tsearch[i] != null && this.tsearch[i] != '') {
-                        textSearch[i] = { $regex: this.tsearch[i].toLowerCase() };
+                    if (this.tsearch[i] != null && this.tsearch[i].toString().toLowerCase() != '') {
+                        textSearch[i] = { $regex: this.tsearch[i].toString().toLowerCase() };
                     }
                 }
                 /** @type {?} */
@@ -2891,13 +2894,15 @@
                     for (var m in this.autosearch[b]) {
                         /** @type {?} */
                         var tv = {};
-                        tv[b] = this.autosearch[b][m].val.toLowerCase();
+                        tv[b] = this.autosearch[b][m].val.toString().toLowerCase();
                         if (autosearch['$or'] == null)
                             autosearch['$or'] = [];
                         autosearch['$or'].push(tv);
                     }
                 }
                 //console.log('autos',autosearch);
+                this.limitcondval.pagecount = 1;
+                this.limitcondval.skip = 0;
                 /** @type {?} */
                 var conditionobj = Object.assign({}, textSearch, this.dateSearch_condition, autosearch, this.selectSearch_condition, this.libdataval.basecondition);
                 source = {
@@ -3904,10 +3909,10 @@
                                 if (_this.formGroup != null && _this.formfieldrefreshdataval.field != null && _this.formGroup.controls[_this.formfieldrefreshdataval.field] != null) {
                                     _this.formGroup.controls[_this.formfieldrefreshdataval.field].patchValue(_this.formfieldrefreshdataval.value);
                                 }
-                                if (_this.formfieldrefreshdataval.field == null && _this.formfieldrefreshdataval.data != null && typeof (_this.formfieldrefreshdataval.data) == 'object') {
-                                    for (var formkey in _this.formfieldrefreshdataval.data) {
-                                        console.log('this.formfieldrefreshdataval.data[formkey]', _this.formfieldrefreshdataval.data[formkey]);
-                                        _this.formGroup.controls[formkey].patchValue(_this.formfieldrefreshdataval.data[formkey]);
+                                if (_this.formfieldrefreshdataval.field == null && _this.formfieldrefreshdataval.formvaldata != null && typeof (_this.formfieldrefreshdataval.formvaldata) == 'object') {
+                                    for (var formkey in _this.formfieldrefreshdataval.formvaldata) {
+                                        console.log('this.formfieldrefreshdataval.data[formkey]', _this.formfieldrefreshdataval.formvaldata[formkey]);
+                                        _this.formGroup.controls[formkey].patchValue(_this.formfieldrefreshdataval.formvaldata[formkey]);
                                     }
                                 }
                                 if (_this.formfieldrefreshdataval.field == 'showfieldloader') {
@@ -4016,7 +4021,7 @@
          * @return {?}
          */
             function (val, field) {
-                console.log('ff', val, field);
+                console.log('ff auto complete set ', val, field);
                 if (field.multiple == null) {
                     this.autocompletefiledvalue[field.name] = val.key;
                 }
@@ -4025,8 +4030,10 @@
                         this.autocompletefiledvalue[field.name] = [];
                     this.autocompletefiledvalue[field.name].push(val.key);
                 }
-                this.formGroup.controls[field.name].patchValue(null);
-                this.inputblur(field.name);
+                if (this.formGroup.controls[field.name] != null) {
+                    this.formGroup.controls[field.name].patchValue(null);
+                    this.inputblur(field.name);
+                }
             };
         /**
          * @param {?} field
@@ -4087,8 +4094,9 @@
          * @return {?}
          */
             function (field, index) {
-                console.log(field, 'change', index, 'index');
-                this.onFormFieldChange.emit({ field: field, fieldval: this.formGroup.controls[field.name].value, fromval: this.formGroup.value });
+                console.log(field, 'change', index, 'index2');
+                if (this.formGroup.controls[field.name] != null)
+                    this.onFormFieldChange.emit({ field: field, fieldval: this.formGroup.controls[field.name].value, fromval: this.formGroup.value });
                 if (field.dependent != null && field.dependent.length > 0) {
                     /** @type {?} */
                     var vc = 0;
@@ -4228,6 +4236,7 @@
                                     tchvar = false;
                                 //console.log('n', n, j, tchvar);
                                 this.formGroup.addControl(this.formdataval.fields[n].name + '__' + j, new forms.FormControl(tchvar, temvalidationrule));
+                                // if()
                                 /*const control = new FormControl(tchvar); // if first item set to true, else false
                            (this.formGroup.controls[this.formdataval.fields[n].name] as FormArray).push(control);*/
                                 //this.formGroup.addControl(this.formdataval.fields[n].name,this.formBuilder.array([
@@ -4244,6 +4253,22 @@
                         }
                         else {
                             this.formGroup.addControl(this.formdataval.fields[n].name, new forms.FormControl({ value: temcontrolarr[0], disabled: this.formdataval.fields[n].disabled }, temvalidationrule));
+                        }
+                        if (this.formdataval.fields[n].type == 'autocomplete' && this.formdataval.fields[n].multiple != null && this.formdataval.fields[n].multiple == true) {
+                            for (var at in this.formdataval.fields[n].val) {
+                                console.log('at ...', this.formdataval.fields[n].val[at], at, this.formdataval.fields[n].value, this.formdataval.fields[n].val[at].key);
+                                if (this.formdataval.fields[n].value != null && typeof (this.formdataval.fields[n].value) == 'object' && this.formdataval.fields[n].value.indexOf(this.formdataval.fields[n].val[at].key) != -1) {
+                                    console.log(this.formdataval.fields[n].val[at].key, 'multi autocomplete triggered  !! ');
+                                    this.setautocompletevalue(this.formdataval.fields[n].val[at], this.formdataval.fields[n]);
+                                }
+                            }
+                        }
+                        if (this.formdataval.fields[n].type == 'autocomplete' && (this.formdataval.fields[n].multiple == null || this.formdataval.fields[n].multiple == false)) {
+                            console.log('single auto complete trigger block', this.formdataval.fields[n]);
+                            if (this.formdataval.fields[n].value != null) {
+                                console.log('set auto complete single triggered', this.formdataval.fields[n]);
+                                this.setautocompletevalue(this.formdataval.fields[n].val[0], this.formdataval.fields[n]);
+                            }
                         }
                         //'newControl', new FormControl('', Validators.required)
                     }

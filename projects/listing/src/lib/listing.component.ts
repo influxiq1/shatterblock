@@ -448,7 +448,7 @@ export class ListingComponent implements OnInit {
         for (let sl in this.search_settingsval.selectsearch) {
           if (this.search_settingsval.selectsearch[sl].value != null) {
             this.selectsearch[this.search_settingsval.selectsearch[sl].field] = this.search_settingsval.selectsearch[sl].value;
-            console.log('s', this.search_settingsval.selectsearch,'++++++', this.selectsearch);
+            console.log('s', this.search_settingsval.selectsearch, '++++++', this.selectsearch);
           }
         }
       }
@@ -496,6 +496,8 @@ export class ListingComponent implements OnInit {
     let condition: any;
     let textSearch: any = {};
     condition = {};
+    this.limitcondval.pagecount = 1
+    this.limitcondval.skip = 0
     if (moment(this.end_date).unix() != null && moment(this.start_date).unix() != null) {
 
 
@@ -520,9 +522,9 @@ export class ListingComponent implements OnInit {
         };
       }
       for (let i in this.tsearch) {
-        console.log('this.tsearch',this.tsearch)
-        if (this.tsearch[i] != null && this.tsearch[i] !='') {
-          textSearch[i] = { $regex: this.tsearch[i].toLowerCase() };
+        console.log('this.tsearch', this.tsearch)
+        if (this.tsearch[i] != null && this.tsearch[i] != '') {
+          textSearch[i] = { $regex: this.tsearch[i].toString().toLowerCase() };
         }
       }
 
@@ -531,7 +533,7 @@ export class ListingComponent implements OnInit {
       for (let b in this.autosearch) {
         for (let m in this.autosearch[b]) {
           let tv: any = {};
-          tv[b] = this.autosearch[b][m].val.toLowerCase();
+          tv[b] = this.autosearch[b][m].val.toString().toLowerCase();
           if (autosearch['$or'] == null) autosearch['$or'] = [];
           autosearch['$or'].push(tv);
         }
@@ -620,7 +622,7 @@ export class ListingComponent implements OnInit {
     // let condition: any = {};
     let val = '';
     if (this.tsearch != null && this.tsearch[value] != null) {
-      val = this.tsearch[value].toLowerCase();
+      val = this.tsearch[value].toString().toLowerCase();
     }
 
     // if (this.tsearch[value] != null && this.tsearch[value].length > 1 && { $or: [this.tsearch[value].toLowerCase(), this.tsearch[value].toUpperCase()] }) condition[value + '_regex'] = val;
@@ -638,7 +640,7 @@ export class ListingComponent implements OnInit {
 
 
 
-    console.log(this.tsearch ,'czxcxczxc',this.search_settingsval.selectsearch,this.selectsearch,value, type);
+    console.log(this.tsearch, 'czxcxczxc', this.search_settingsval.selectsearch, this.selectsearch, value, type);
     let link = this.apiurlval + '' + this.date_search_endpointval;
     let source: any;
     let condition: any;
@@ -691,7 +693,8 @@ export class ListingComponent implements OnInit {
 
 
     for (let i in this.tsearch) {
-      textSearch[i] = { $regex: this.tsearch[i].toLowerCase() };
+      if (this.tsearch[i].toString().toLowerCase() != null && this.tsearch[i].toString().toLowerCase() != '')
+        textSearch[i] = { $regex: this.tsearch[i].toString().toLowerCase() };
     }
 
     let conditionobj = Object.assign({}, textSearch, this.dateSearch_condition, this.autosearch, this.selectSearch_condition, this.libdataval.basecondition);
@@ -789,10 +792,10 @@ export class ListingComponent implements OnInit {
     let condition: any = {};
     let val = '';
     if (this.tsearch != null && this.tsearch[value] != null) {
-      val = this.tsearch[value].toLowerCase();
+      val = this.tsearch[value].toString().toLowerCase();
     }
 
-    if (this.tsearch[value] != null && this.tsearch[value].length > 1 && { $or: [this.tsearch[value].toLowerCase(), this.tsearch[value].toUpperCase()] }) condition[value + '_regex'] = val;
+    if (this.tsearch[value] != null && this.tsearch[value].length > 1 && { $or: [this.tsearch[value].toString().toLowerCase(), this.tsearch[value].toUpperCase()] }) condition[value + '_regex'] = val;
     this.textSearch_condition = {};
     this.textSearch_condition = condition;
     //console.warn(this.tsearch);
@@ -854,9 +857,9 @@ export class ListingComponent implements OnInit {
 
 
   private _filter(value: string): string[] {
-    const filterValue = value.toLowerCase();
+    const filterValue = value.toString().toLowerCase();
 
-    return this.searchListval.filter(option => option.toLowerCase().includes(filterValue));
+    return this.searchListval.filter(option => option.toString().toLowerCase().includes(filterValue));
   }
 
   getstatus(val: any) {
@@ -1192,7 +1195,7 @@ export class ListingComponent implements OnInit {
   }
 
   applyFilter(filterValue: string) {
-    this.dataSource.filter = filterValue.trim().toLowerCase();
+    this.dataSource.filter = filterValue.trim().toString().toLowerCase();
 
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
@@ -1614,8 +1617,8 @@ export class ListingComponent implements OnInit {
     condition = {};
     for (let i in this.tsearch) {
       console.log('all search this.tsearch', this.tsearch[i]);
-      if (this.tsearch[i] != null && this.tsearch[i] !='') {
-        textSearch[i] = { $regex: this.tsearch[i].toLowerCase() };
+      if (this.tsearch[i] != null && this.tsearch[i].toString().toLowerCase() != '') {
+        textSearch[i] = { $regex: this.tsearch[i].toString().toLowerCase() };
       }
     }
 
@@ -1624,13 +1627,15 @@ export class ListingComponent implements OnInit {
     for (let b in this.autosearch) {
       for (let m in this.autosearch[b]) {
         let tv: any = {};
-        tv[b] = this.autosearch[b][m].val.toLowerCase();
+        tv[b] = this.autosearch[b][m].val.toString().toLowerCase();
         if (autosearch['$or'] == null) autosearch['$or'] = [];
         autosearch['$or'].push(tv);
       }
     }
     //console.log('autos',autosearch);
 
+    this.limitcondval.pagecount = 1;
+    this.limitcondval.skip = 0;
 
 
     let conditionobj = Object.assign({}, textSearch, this.dateSearch_condition, autosearch, this.selectSearch_condition, this.libdataval.basecondition);

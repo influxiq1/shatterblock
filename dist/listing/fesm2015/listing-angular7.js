@@ -19,7 +19,7 @@ import { FormBuilder, FormControl, Validators, FormsModule, ReactiveFormsModule 
 import { CommonModule } from '@angular/common';
 import { MomentModule } from 'ngx-moment';
 import { NavigationCancel, NavigationEnd, NavigationError, NavigationStart, Router, RouterModule } from '@angular/router';
-import { Injectable, ElementRef, EventEmitter, ViewChild, Component, Input, Inject, ComponentFactoryResolver, ViewContainerRef, NgModule, CUSTOM_ELEMENTS_SCHEMA, Output, defineInjectable } from '@angular/core';
+import { Injectable, Component, Input, ElementRef, EventEmitter, ViewChild, NgModule, CUSTOM_ELEMENTS_SCHEMA, Inject, ComponentFactoryResolver, ViewContainerRef, Output, defineInjectable } from '@angular/core';
 import { DomSanitizer, BrowserModule } from '@angular/platform-browser';
 import { CKEditorModule } from 'ng2-ckeditor';
 import { ImageCropperModule } from 'ngx-image-cropper';
@@ -1210,6 +1210,8 @@ class ListingComponent {
         /** @type {?} */
         let textSearch = {};
         condition = {};
+        this.limitcondval.pagecount = 1;
+        this.limitcondval.skip = 0;
         if (moment(this.end_date).unix() != null && moment(this.start_date).unix() != null) {
             this.dateSearch_condition = {};
             this.dateSearch_condition = condition;
@@ -1232,7 +1234,7 @@ class ListingComponent {
             for (let i in this.tsearch) {
                 console.log('this.tsearch', this.tsearch);
                 if (this.tsearch[i] != null && this.tsearch[i] != '') {
-                    textSearch[i] = { $regex: this.tsearch[i].toLowerCase() };
+                    textSearch[i] = { $regex: this.tsearch[i].toString().toLowerCase() };
                 }
             }
             /** @type {?} */
@@ -1242,7 +1244,7 @@ class ListingComponent {
                 for (let m in this.autosearch[b]) {
                     /** @type {?} */
                     let tv = {};
-                    tv[b] = this.autosearch[b][m].val.toLowerCase();
+                    tv[b] = this.autosearch[b][m].val.toString().toLowerCase();
                     if (autosearch['$or'] == null)
                         autosearch['$or'] = [];
                     autosearch['$or'].push(tv);
@@ -1342,7 +1344,7 @@ class ListingComponent {
         /** @type {?} */
         let val = '';
         if (this.tsearch != null && this.tsearch[value] != null) {
-            val = this.tsearch[value].toLowerCase();
+            val = this.tsearch[value].toString().toLowerCase();
         }
         // if (this.tsearch[value] != null && this.tsearch[value].length > 1 && { $or: [this.tsearch[value].toLowerCase(), this.tsearch[value].toUpperCase()] }) condition[value + '_regex'] = val;
         // this.textSearch_condition = {};
@@ -1412,7 +1414,8 @@ class ListingComponent {
         /** @type {?} */
         let textSearch = {};
         for (let i in this.tsearch) {
-            textSearch[i] = { $regex: this.tsearch[i].toLowerCase() };
+            if (this.tsearch[i].toString().toLowerCase() != null && this.tsearch[i].toString().toLowerCase() != '')
+                textSearch[i] = { $regex: this.tsearch[i].toString().toLowerCase() };
         }
         /** @type {?} */
         let conditionobj = Object.assign({}, textSearch, this.dateSearch_condition, this.autosearch, this.selectSearch_condition, this.libdataval.basecondition);
@@ -1533,9 +1536,9 @@ class ListingComponent {
         /** @type {?} */
         let val = '';
         if (this.tsearch != null && this.tsearch[value] != null) {
-            val = this.tsearch[value].toLowerCase();
+            val = this.tsearch[value].toString().toLowerCase();
         }
-        if (this.tsearch[value] != null && this.tsearch[value].length > 1 && { $or: [this.tsearch[value].toLowerCase(), this.tsearch[value].toUpperCase()] })
+        if (this.tsearch[value] != null && this.tsearch[value].length > 1 && { $or: [this.tsearch[value].toString().toLowerCase(), this.tsearch[value].toUpperCase()] })
             condition[value + '_regex'] = val;
         this.textSearch_condition = {};
         this.textSearch_condition = condition;
@@ -1609,12 +1612,12 @@ class ListingComponent {
      */
     _filter(value) {
         /** @type {?} */
-        const filterValue = value.toLowerCase();
+        const filterValue = value.toString().toLowerCase();
         return this.searchListval.filter((/**
          * @param {?} option
          * @return {?}
          */
-        option => option.toLowerCase().includes(filterValue)));
+        option => option.toString().toLowerCase().includes(filterValue)));
     }
     /**
      * @param {?} val
@@ -2039,7 +2042,7 @@ class ListingComponent {
      * @return {?}
      */
     applyFilter(filterValue) {
-        this.dataSource.filter = filterValue.trim().toLowerCase();
+        this.dataSource.filter = filterValue.trim().toString().toLowerCase();
         if (this.dataSource.paginator) {
             this.dataSource.paginator.firstPage();
         }
@@ -2541,8 +2544,8 @@ class ListingComponent {
         let textSearch = {};
         for (let i in this.tsearch) {
             console.log('all search this.tsearch', this.tsearch[i]);
-            if (this.tsearch[i] != null && this.tsearch[i] != '') {
-                textSearch[i] = { $regex: this.tsearch[i].toLowerCase() };
+            if (this.tsearch[i] != null && this.tsearch[i].toString().toLowerCase() != '') {
+                textSearch[i] = { $regex: this.tsearch[i].toString().toLowerCase() };
             }
         }
         /** @type {?} */
@@ -2552,13 +2555,15 @@ class ListingComponent {
             for (let m in this.autosearch[b]) {
                 /** @type {?} */
                 let tv = {};
-                tv[b] = this.autosearch[b][m].val.toLowerCase();
+                tv[b] = this.autosearch[b][m].val.toString().toLowerCase();
                 if (autosearch['$or'] == null)
                     autosearch['$or'] = [];
                 autosearch['$or'].push(tv);
             }
         }
         //console.log('autos',autosearch);
+        this.limitcondval.pagecount = 1;
+        this.limitcondval.skip = 0;
         /** @type {?} */
         let conditionobj = Object.assign({}, textSearch, this.dateSearch_condition, autosearch, this.selectSearch_condition, this.libdataval.basecondition);
         source = {
@@ -3469,10 +3474,10 @@ class ShowformComponent {
                         if (this.formGroup != null && this.formfieldrefreshdataval.field != null && this.formGroup.controls[this.formfieldrefreshdataval.field] != null) {
                             this.formGroup.controls[this.formfieldrefreshdataval.field].patchValue(this.formfieldrefreshdataval.value);
                         }
-                        if (this.formfieldrefreshdataval.field == null && this.formfieldrefreshdataval.data != null && typeof (this.formfieldrefreshdataval.data) == 'object') {
-                            for (let formkey in this.formfieldrefreshdataval.data) {
-                                console.log('this.formfieldrefreshdataval.data[formkey]', this.formfieldrefreshdataval.data[formkey]);
-                                this.formGroup.controls[formkey].patchValue(this.formfieldrefreshdataval.data[formkey]);
+                        if (this.formfieldrefreshdataval.field == null && this.formfieldrefreshdataval.formvaldata != null && typeof (this.formfieldrefreshdataval.formvaldata) == 'object') {
+                            for (let formkey in this.formfieldrefreshdataval.formvaldata) {
+                                console.log('this.formfieldrefreshdataval.data[formkey]', this.formfieldrefreshdataval.formvaldata[formkey]);
+                                this.formGroup.controls[formkey].patchValue(this.formfieldrefreshdataval.formvaldata[formkey]);
                             }
                         }
                         if (this.formfieldrefreshdataval.field == 'showfieldloader') {
@@ -3555,7 +3560,7 @@ class ShowformComponent {
      * @return {?}
      */
     setautocompletevalue(val, field) {
-        console.log('ff', val, field);
+        console.log('ff auto complete set ', val, field);
         if (field.multiple == null) {
             this.autocompletefiledvalue[field.name] = val.key;
         }
@@ -3564,8 +3569,10 @@ class ShowformComponent {
                 this.autocompletefiledvalue[field.name] = [];
             this.autocompletefiledvalue[field.name].push(val.key);
         }
-        this.formGroup.controls[field.name].patchValue(null);
-        this.inputblur(field.name);
+        if (this.formGroup.controls[field.name] != null) {
+            this.formGroup.controls[field.name].patchValue(null);
+            this.inputblur(field.name);
+        }
     }
     /**
      * @param {?} field
@@ -3616,8 +3623,9 @@ class ShowformComponent {
      * @return {?}
      */
     checkchange(field, index) {
-        console.log(field, 'change', index, 'index');
-        this.onFormFieldChange.emit({ field: field, fieldval: this.formGroup.controls[field.name].value, fromval: this.formGroup.value });
+        console.log(field, 'change', index, 'index2');
+        if (this.formGroup.controls[field.name] != null)
+            this.onFormFieldChange.emit({ field: field, fieldval: this.formGroup.controls[field.name].value, fromval: this.formGroup.value });
         if (field.dependent != null && field.dependent.length > 0) {
             /** @type {?} */
             let vc = 0;
@@ -3749,6 +3757,7 @@ class ShowformComponent {
                             tchvar = false;
                         //console.log('n', n, j, tchvar);
                         this.formGroup.addControl(this.formdataval.fields[n].name + '__' + j, new FormControl(tchvar, temvalidationrule));
+                        // if()
                         /*const control = new FormControl(tchvar); // if first item set to true, else false
                    (this.formGroup.controls[this.formdataval.fields[n].name] as FormArray).push(control);*/
                         //this.formGroup.addControl(this.formdataval.fields[n].name,this.formBuilder.array([
@@ -3765,6 +3774,22 @@ class ShowformComponent {
                 }
                 else {
                     this.formGroup.addControl(this.formdataval.fields[n].name, new FormControl({ value: temcontrolarr[0], disabled: this.formdataval.fields[n].disabled }, temvalidationrule));
+                }
+                if (this.formdataval.fields[n].type == 'autocomplete' && this.formdataval.fields[n].multiple != null && this.formdataval.fields[n].multiple == true) {
+                    for (let at in this.formdataval.fields[n].val) {
+                        console.log('at ...', this.formdataval.fields[n].val[at], at, this.formdataval.fields[n].value, this.formdataval.fields[n].val[at].key);
+                        if (this.formdataval.fields[n].value != null && typeof (this.formdataval.fields[n].value) == 'object' && this.formdataval.fields[n].value.indexOf(this.formdataval.fields[n].val[at].key) != -1) {
+                            console.log(this.formdataval.fields[n].val[at].key, 'multi autocomplete triggered  !! ');
+                            this.setautocompletevalue(this.formdataval.fields[n].val[at], this.formdataval.fields[n]);
+                        }
+                    }
+                }
+                if (this.formdataval.fields[n].type == 'autocomplete' && (this.formdataval.fields[n].multiple == null || this.formdataval.fields[n].multiple == false)) {
+                    console.log('single auto complete trigger block', this.formdataval.fields[n]);
+                    if (this.formdataval.fields[n].value != null) {
+                        console.log('set auto complete single triggered', this.formdataval.fields[n]);
+                        this.setautocompletevalue(this.formdataval.fields[n].val[0], this.formdataval.fields[n]);
+                    }
                 }
                 //'newControl', new FormControl('', Validators.required)
             }

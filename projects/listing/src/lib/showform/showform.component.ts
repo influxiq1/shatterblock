@@ -377,12 +377,12 @@ export class ShowformComponent implements OnInit {
             //console.log(this.formfieldrefreshdataval, 'm');
             //console.log(this.formfieldrefreshdataval.field);
             //console.log(this.formfieldrefreshdataval.value);
-            if (this.formGroup != null && this.formfieldrefreshdataval.field !=null && this.formGroup.controls[this.formfieldrefreshdataval.field] != null) {
+            if (this.formGroup != null && this.formfieldrefreshdataval.field != null && this.formGroup.controls[this.formfieldrefreshdataval.field] != null) {
               this.formGroup.controls[this.formfieldrefreshdataval.field].patchValue(this.formfieldrefreshdataval.value);
-            }if(this.formfieldrefreshdataval.field ==null && this.formfieldrefreshdataval.data !=null && typeof(this.formfieldrefreshdataval.data)=='object'){
-              for(let formkey in this.formfieldrefreshdataval.data){
-                console.log('this.formfieldrefreshdataval.data[formkey]',this.formfieldrefreshdataval.data[formkey])
-                this.formGroup.controls[formkey].patchValue(this.formfieldrefreshdataval.data[formkey]);
+            } if (this.formfieldrefreshdataval.field == null && this.formfieldrefreshdataval.formvaldata != null && typeof (this.formfieldrefreshdataval.formvaldata) == 'object') {
+              for (let formkey in this.formfieldrefreshdataval.formvaldata) {
+                console.log('this.formfieldrefreshdataval.data[formkey]', this.formfieldrefreshdataval.formvaldata[formkey]);
+                this.formGroup.controls[formkey].patchValue(this.formfieldrefreshdataval.formvaldata[formkey]);
               }
 
 
@@ -438,7 +438,7 @@ export class ShowformComponent implements OnInit {
       this.autocompletefiledvalue[val.name] = null;
   }
   setautocompletevalue(val: any, field: any) {
-    console.log('ff', val, field);
+    console.log('ff auto complete set ', val, field);
 
 
 
@@ -450,8 +450,10 @@ export class ShowformComponent implements OnInit {
       this.autocompletefiledvalue[field.name].push(val.key);
 
     }
-    this.formGroup.controls[field.name].patchValue(null);
-    this.inputblur(field.name);
+    if (this.formGroup.controls[field.name] != null) {
+      this.formGroup.controls[field.name].patchValue(null);
+      this.inputblur(field.name);
+    }
 
   }
   managefromcontrol(field: any, type: any) {
@@ -495,8 +497,9 @@ export class ShowformComponent implements OnInit {
 
   }
   checkchange(field: any, index: any) {
-    console.log(field, 'change', index, 'index');
-    this.onFormFieldChange.emit({ field: field, fieldval: this.formGroup.controls[field.name].value, fromval: this.formGroup.value });
+    console.log(field, 'change', index, 'index2');
+    if (this.formGroup.controls[field.name] != null)
+      this.onFormFieldChange.emit({ field: field, fieldval: this.formGroup.controls[field.name].value, fromval: this.formGroup.value });
     if (field.dependent != null && field.dependent.length > 0) {
       let vc: any = 0;
       for (let n in field.dependent) {
@@ -566,6 +569,7 @@ export class ShowformComponent implements OnInit {
               this.filearray[this.formdataval.fields[n].name].uploaded = 1;
           }
         }
+
         if (this.formdataval.fields[n].type == 'checkbox' && this.formdataval.fields[n].multiple != null && this.formdataval.fields[n].multiple == true) {
           if (this.formdataval.fields[n].value == null) temcontrolarr.push([]);
           else {
@@ -623,6 +627,7 @@ export class ShowformComponent implements OnInit {
             else tchvar = false;
             //console.log('n', n, j, tchvar);
             this.formGroup.addControl(this.formdataval.fields[n].name + '__' + j, new FormControl(tchvar, temvalidationrule));
+            // if()
             /*const control = new FormControl(tchvar); // if first item set to true, else false
        (this.formGroup.controls[this.formdataval.fields[n].name] as FormArray).push(control);*/
             //this.formGroup.addControl(this.formdataval.fields[n].name,this.formBuilder.array([
@@ -641,6 +646,30 @@ export class ShowformComponent implements OnInit {
         else {
           this.formGroup.addControl(this.formdataval.fields[n].name, new FormControl({ value: temcontrolarr[0], disabled: this.formdataval.fields[n].disabled }, temvalidationrule));
         }
+
+
+        if (this.formdataval.fields[n].type == 'autocomplete' && this.formdataval.fields[n].multiple != null && this.formdataval.fields[n].multiple == true) {
+          for (let at in this.formdataval.fields[n].val) {
+            console.log('at ...', this.formdataval.fields[n].val[at], at, this.formdataval.fields[n].value, this.formdataval.fields[n].val[at].key);
+            if (this.formdataval.fields[n].value != null && typeof (this.formdataval.fields[n].value) == 'object' && this.formdataval.fields[n].value.indexOf(this.formdataval.fields[n].val[at].key) != -1) {
+              console.log(this.formdataval.fields[n].val[at].key,'multi autocomplete triggered  !! ');
+              this.setautocompletevalue(this.formdataval.fields[n].val[at],this.formdataval.fields[n]);
+            }
+          }
+        }
+        if (this.formdataval.fields[n].type == 'autocomplete' && (this.formdataval.fields[n].multiple == null || this.formdataval.fields[n].multiple == false)) {
+          console.log('single auto complete trigger block', this.formdataval.fields[n]);
+
+          if (this.formdataval.fields[n].value != null) {
+            console.log('set auto complete single triggered', this.formdataval.fields[n]);
+            this.setautocompletevalue(this.formdataval.fields[n].val[0], this.formdataval.fields[n]);
+
+          }
+
+        }
+
+
+
         //'newControl', new FormControl('', Validators.required)
       }
     }

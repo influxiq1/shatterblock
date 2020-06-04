@@ -129,8 +129,8 @@ export class AdmindashbordComponent implements OnInit {
     // send basic limit data
     limitcond: any = {
         "limit": 10,
-        "skip": 30,
-        "pagecount": 4
+        "skip": 0,
+        "AUth": 1
     };
 
     // other data
@@ -557,24 +557,78 @@ export class AdmindashbordComponent implements OnInit {
                 type: 'checkbox',
                 multiple: true,
                 val: [{ key: 0, val: 'Less than 1' }, { key: 1, val: 'less than 3' }, { key: 2, val: 'less than 6' }, { key: 3, val: 'less than 12' }],
-                // value: [3, 0],
+                value: [3, 0],
                 validations: [
                     { rule: 'required' }
                 ]
             },
             {
-                label: "Last Visit Auto",
+                label: "Last Visit Auto multi selected ",
                 name: "lastvisita",
                 hint: 'In months',
                 type: 'autocomplete',
-                //multiple:true,
+                multiple: true,
                 val: [
                     { key: 0, val: ' its Less than 1' },
                     { key: 1, val: ' its less than 3' },
                     { key: 2, val: 'its less than 6' },
                     { key: 3, val: 'its less than 12' }
                 ],
-                //value: [3,0],
+                value: [3, 0, 2],
+                validations: [
+                    { rule: 'required' }
+                ]
+            },
+            {
+                label: "Last Visit Auto multi update after load ",
+                name: "lastvisitaupdateafterload",
+                hint: 'In months',
+                type: 'autocomplete',
+                multiple: true,
+                val: [
+                    { key: 0, val: ' its Less than 21' },
+                    { key: 1, val: ' its less than 53' },
+                    { key: 2, val: 'its less than 76' },
+                    { key: 3, val: 'its less than 127' }
+                ],
+                // value: [3, 0, 2],
+                validations: [
+                    { rule: 'required' }
+                ]
+            },
+            {
+                label: "Last Visit Auto single n selected ",
+                name: "lastvisitasingle",
+                hint: 'In months',
+                type: 'autocomplete',
+                // multiple:true,
+                val: [
+                    { key: 0, val: ' its Less than 13' },
+                    { key: 1, val: ' its less than 34' },
+                    { key: 2, val: 'its less than 67' },
+                    { key: 3, val: 'its less than 11' }
+                ],
+                value: 0,
+                validations: [
+                    { rule: 'required' }
+                ]
+            },
+            {
+                label: "Last Visit Auto not selected",
+                name: "lastvisitautonotselected",
+                hint: 'In months',
+                type: 'autocomplete',
+                //multiple:true,
+                val: [
+                    { key: 0, val: ' its Less than 1' },
+                    { key: 5, val: ' its Less than 15' },
+                    { key: 6, val: ' its Less than 6' },
+                    { key: 7, val: ' its Less than 71' },
+                    { key: 1, val: ' its less than 3' },
+                    { key: 2, val: 'its less than 6' },
+                    { key: 3, val: 'its less than 12' }
+                ],
+                // value: [3,0],
                 validations: [
                     { rule: 'required' }
                 ]
@@ -855,28 +909,28 @@ export class AdmindashbordComponent implements OnInit {
     };
 
 
-public blog_cat_list:any =  [
-    {
-        "_id": "5dc54c9764f5cdfcff5f8a76",
-        "val": "CAR BUYING ADVICE",
-        "key": "5dc54c9764f5cdfcff5f8a76"
-    },
-    {
-        "_id": "5dc54cbc64f5cd7b9b5f8a77",
-        "val": "COMPARISON",
-        "key": "5dc54cbc64f5cd7b9b5f8a77"
-    },
-    {
-        "_id": "5dc54cd364f5cd70245f8a78",
-        "val": "FOREIGN MAKES",
-        "key": "5dc54cd364f5cd70245f8a78"
-    },
-    {
-        "_id": "5dc54d2f64f5cd087e5f8a79",
-        "val": "MISCELLANEOUS",
-        "key": "5dc54d2f64f5cd087e5f8a79"
-    }
-]
+    public blog_cat_list: any = [
+        {
+            "_id": "5dc54c9764f5cdfcff5f8a76",
+            "val": "CAR BUYING ADVICE",
+            "key": "5dc54c9764f5cdfcff5f8a76"
+        },
+        {
+            "_id": "5dc54cbc64f5cd7b9b5f8a77",
+            "val": "COMPARISON",
+            "key": "5dc54cbc64f5cd7b9b5f8a77"
+        },
+        {
+            "_id": "5dc54cd364f5cd70245f8a78",
+            "val": "FOREIGN MAKES",
+            "key": "5dc54cd364f5cd70245f8a78"
+        },
+        {
+            "_id": "5dc54d2f64f5cd087e5f8a79",
+            "val": "MISCELLANEOUS",
+            "key": "5dc54d2f64f5cd087e5f8a79"
+        }
+    ]
 
     constructor(public router: Router, private route: ActivatedRoute, private _apiService: ApiService) {
         console.log(this.blog_cat_list);
@@ -927,7 +981,7 @@ public blog_cat_list:any =  [
     listenFormFieldChange(val: any) {
         console.log('listenFormFieldChange', val);
         if (val.field.name == 'age' && val.fieldval == 23) {
-            this.formfieldrefreshdata = { field: 'email', value: 'debasiskar7@gmail.com'};
+            this.formfieldrefreshdata = { field: 'email', value: 'debasiskar7@gmail.com' };
         }
     }
     updateformval() {
@@ -942,15 +996,17 @@ public blog_cat_list:any =  [
     updateformvalmultiple() {
         // this.formdata.fields[0].value = this.temtdata;
         // this.formfieldrefreshdata = { field: 'fullname', value: this.temtdata };
-        let formdata:any={fullname:'Test 90',email:'a45@gmal.com', htmldesc:'htmldesc --------',status:1, year:[2021,2022], status2:1, dob:new Date(2018, 11, 24, 10, 33, 30, 0).toISOString(), age:23, active:true, child:true, is_purchaseble_d:true, is_purchaseble:true, file1:{
-            fileservername: "file-1589270133418images (5).jpeg",
-            name: "images (5).jpeg",
-            size: 49184,
-            type: "image/jpeg",
-            path: "resource/file/",
-            bucket: "awsbackend-dev-patient-files-test"
-        } }
-        this.formfieldrefreshdata = { data:formdata };
+        let formdata: any = {
+            fullname: 'Test 90', email: 'a45@gmal.com', htmldesc: 'htmldesc --------', status: 1, year: [2021, 2022], status2: 1, dob: new Date(2018, 11, 24, 10, 33, 30, 0).toISOString(), age: 23, active: true, child: true, is_purchaseble_d: true, is_purchaseble: true, file1: {
+                fileservername: "file-1589270133418images (5).jpeg",
+                name: "images (5).jpeg",
+                size: 49184,
+                type: "image/jpeg",
+                path: "resource/file/",
+                bucket: "awsbackend-dev-patient-files-test"
+            }
+        }
+        this.formfieldrefreshdata = { formvaldata: formdata }; 
         // setTimeout(() => {
         //     this.formfieldrefreshdata = { field: 'email', value: this.temtdata + '@gmail.com' };
         // }, 50);
