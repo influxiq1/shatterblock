@@ -68,7 +68,7 @@ export class ShowformComponent implements OnInit {
   }
   ngAfterViewInit() {
     setTimeout(() => {
-      console.log('in after view init trigger');
+      // console.log('in after view init trigger');
       for (let g in this.formdataval.fields) {
         if (this.formdataval.fields[g].type == 'file') {
           this.elementRef.nativeElement.querySelector('#drop' + this.formdataval.fields[g].name).addEventListener('drop', this.handleDrop.bind(this));
@@ -82,9 +82,9 @@ export class ShowformComponent implements OnInit {
   }
 
   triggerevents(val: any) {
-    console.log('in triggerevents', val);
+    // console.log('in triggerevents', val);
     setTimeout(() => {
-      console.log('val loadeed trigger', val);
+      // console.log('val loadeed trigger', val);
       this.elementRef.nativeElement.querySelector('#drop' + val.name).addEventListener('drop', this.handleDrop.bind(this));
       this.elementRef.nativeElement.querySelector('#drop' + val.name).addEventListener('dragenter', this.cancel.bind(this));
       this.elementRef.nativeElement.querySelector('#drop' + val.name).addEventListener('dragdragover', this.cancel.bind(this));
@@ -103,13 +103,13 @@ export class ShowformComponent implements OnInit {
     var list = document.getElementById('list');
     let apiBaseURL = "https://tge24bc2ne.execute-api.us-east-1.amazonaws.com/dev";
     e.preventDefault();
-    console.log('handleDrop', e);
+    // console.log('handleDrop', e);
     var dt = e.dataTransfer;
     var files = dt.files;
     for (var i = 0; i < files.length; i++) {
       var file = files[i];
-      console.log(files, 'files', e.target.id);
-      console.log('farr', this.filearray);
+      // console.log(files, 'files', e.target.id);
+      // console.log('farr', this.filearray);
       for (let g in this.formdataval.fields) {
         if (this.formdataval.fields[g].type == 'file' && this.formdataval.fields[g].name == e.target.id.replace('drop', '')) {
           console.log('file details', this.formdataval.fields[g]);
@@ -132,7 +132,7 @@ export class ShowformComponent implements OnInit {
               this.filearray[e.target.id.replace('drop', '')] = [];
             }
             this.filearray[e.target.id.replace('drop', '')].push(files[0]);
-            console.log('files[0]', files[0])
+            // console.log('files[0]', files[0]);
           }
 
         }
@@ -179,7 +179,7 @@ export class ShowformComponent implements OnInit {
   // }
 
   uploadfile(val: any) {
-    console.log('upppp', val);
+    // console.log('upppp', val);
     var reader = new FileReader();
     let file: any = this.filearray[val.name];
     // console.log('file val', val);
@@ -214,7 +214,7 @@ export class ShowformComponent implements OnInit {
           //return 'success';
           file.uploaded = 1;
           file.fileservername = val.prefix + file.name;
-          console.log(file.type, 'file.type')
+          // console.log(file.type, 'file.type');
           // temploader = null;
           // var uploadedFileNode = document.createElement('div');
           // uploadedFileNode.innerHTML = '<a href="//s3.amazonaws.com/slsupload/'+ file.name +'">'+ file.name +'</a>';
@@ -381,8 +381,54 @@ export class ShowformComponent implements OnInit {
               this.formGroup.controls[this.formfieldrefreshdataval.field].patchValue(this.formfieldrefreshdataval.value);
             } if (this.formfieldrefreshdataval.field == null && this.formfieldrefreshdataval.formvaldata != null && typeof (this.formfieldrefreshdataval.formvaldata) == 'object') {
               for (let formkey in this.formfieldrefreshdataval.formvaldata) {
-                console.log('this.formfieldrefreshdataval.data[formkey]', this.formfieldrefreshdataval.formvaldata[formkey]);
-                this.formGroup.controls[formkey].patchValue(this.formfieldrefreshdataval.formvaldata[formkey]);
+                // console.log('this.formfieldrefreshdataval.data[formkey]', this.formfieldrefreshdataval.formvaldata[formkey]);
+                if (this.formGroup.controls[formkey] != null) this.formGroup.controls[formkey].patchValue(this.formfieldrefreshdataval.formvaldata[formkey]);
+                for (let formdatavalkey in this.formdataval.fields) {
+                  if (this.formdataval.fields[formdatavalkey].name == formkey && this.formdataval.fields[formdatavalkey].type == 'autocomplete' && (this.formdataval.fields[formdatavalkey].multiple != null && this.formdataval.fields[formdatavalkey].multiple != false)) {
+                    for (let autoselval in this.formdataval.fields[formdatavalkey].val) {
+                      // console.log('this.formdataval.fields[formdatavalkey].val multiple ', this.formdataval.fields[formdatavalkey].val, autoselval);
+                      if (this.formfieldrefreshdataval.formvaldata[formkey].indexOf(this.formdataval.fields[formdatavalkey].val[autoselval].key) != -1) {
+                        this.setautocompletevalue(this.formdataval.fields[formdatavalkey].val[autoselval], this.formdataval.fields[formdatavalkey]);
+                      }
+
+                    }
+
+                  }
+                  // end of if
+
+                  if (this.formdataval.fields[formdatavalkey].name == formkey && this.formdataval.fields[formdatavalkey].type == 'autocomplete' && (this.formdataval.fields[formdatavalkey].multiple == null || this.formdataval.fields[formdatavalkey].multiple == false)) {
+                    for (let autoselval in this.formdataval.fields[formdatavalkey].val) {
+                      // console.log('this.formdataval.fields[formdatavalkey].val single', this.formdataval.fields[formdatavalkey].val, autoselval);
+                      if (this.formfieldrefreshdataval.formvaldata[formkey] == (this.formdataval.fields[formdatavalkey].val[autoselval].key)) {
+                        this.setautocompletevalue(this.formdataval.fields[formdatavalkey].val[autoselval], this.formdataval.fields[formdatavalkey]);
+                      }
+
+                    }
+
+                  }
+                  // enf of if
+
+                  if (this.formdataval.fields[formdatavalkey].name == formkey && this.formdataval.fields[formdatavalkey].type == 'checkbox' && (this.formdataval.fields[formdatavalkey].multiple != null && this.formdataval.fields[formdatavalkey].multiple != false)) {
+                    for (let autoselval in this.formdataval.fields[formdatavalkey].val) {
+                      // console.log('this.formdataval.fields[formdatavalkey].val check box multiple ', this.formdataval.fields[formdatavalkey].val, autoselval);
+                      // console.log('formkey +  + autoselval', formkey + '__' + autoselval);
+                      if (this.formfieldrefreshdataval.formvaldata[formkey].indexOf(this.formdataval.fields[formdatavalkey].val[autoselval].key) != -1) {
+
+                        if (this.formGroup.controls[formkey + '__' + autoselval] != null) this.formGroup.controls[formkey + '__' + autoselval].patchValue(true);
+                      } else {
+                        if (this.formGroup.controls[formkey + '__' + autoselval] != null) this.formGroup.controls[formkey + '__' + autoselval].patchValue(false);
+
+                      }
+
+                    }
+
+                  }
+                  // enf of if
+
+
+
+
+                }
               }
 
 
@@ -410,7 +456,7 @@ export class ShowformComponent implements OnInit {
 
   filterautocomplete(val: any, data: any) {
     this.inputblur(val);
-    console.log('cc', this.formGroup.controls[val].value, data.val);
+    // console.log('cc', this.formGroup.controls[val].value, data.val);
     let fieldval = this.formGroup.controls[val].value;
     if (fieldval == '' || fieldval == null) {
       this.filerfielddata = [];
@@ -421,7 +467,7 @@ export class ShowformComponent implements OnInit {
       });
       this.filerfielddata = [];
       this.filerfielddata = filterval;
-      console.log('fil', filterval);
+      // console.log('fil', filterval);
     }
 
   }
@@ -652,8 +698,8 @@ export class ShowformComponent implements OnInit {
           for (let at in this.formdataval.fields[n].val) {
             console.log('at ...', this.formdataval.fields[n].val[at], at, this.formdataval.fields[n].value, this.formdataval.fields[n].val[at].key);
             if (this.formdataval.fields[n].value != null && typeof (this.formdataval.fields[n].value) == 'object' && this.formdataval.fields[n].value.indexOf(this.formdataval.fields[n].val[at].key) != -1) {
-              console.log(this.formdataval.fields[n].val[at].key,'multi autocomplete triggered  !! ');
-              this.setautocompletevalue(this.formdataval.fields[n].val[at],this.formdataval.fields[n]);
+              console.log(this.formdataval.fields[n].val[at].key, 'multi autocomplete triggered  !! ');
+              this.setautocompletevalue(this.formdataval.fields[n].val[at], this.formdataval.fields[n]);
             }
           }
         }

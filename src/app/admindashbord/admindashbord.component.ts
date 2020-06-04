@@ -563,6 +563,18 @@ export class AdmindashbordComponent implements OnInit {
                 ]
             },
             {
+                label: "Last Visit update after ",
+                name: "lastvisitupdateafter",
+                hint: 'In months',
+                type: 'checkbox',
+                multiple: true,
+                val: [{ key: 0, val: 'Less than 1c' }, { key: 1, val: 'less than 3v' }, { key: 2, val: 'less than 6c' }, { key: 3, val: 'less than 12c' }],
+                // value: [3, 0],
+                validations: [
+                    { rule: 'required' }
+                ]
+            },
+            {
                 label: "Last Visit Auto multi selected ",
                 name: "lastvisita",
                 hint: 'In months',
@@ -590,6 +602,23 @@ export class AdmindashbordComponent implements OnInit {
                     { key: 1, val: ' its less than 53' },
                     { key: 2, val: 'its less than 76' },
                     { key: 3, val: 'its less than 127' }
+                ],
+                // value: [3, 0, 2],
+                validations: [
+                    { rule: 'required' }
+                ]
+            },
+            {
+                label: "Last Visit Auto single update after load ",
+                name: "lastvisitaupdatesingleafterload",
+                hint: 'In months',
+                type: 'autocomplete',
+                // multiple: true, 
+                val: [
+                    { key: 0, val: ' its Less than 321' },
+                    { key: 1, val: ' its less than 453' },
+                    { key: 2, val: 'its less than 756' },
+                    { key: 3, val: 'its less than 1627' }
                 ],
                 // value: [3, 0, 2],
                 validations: [
@@ -997,7 +1026,9 @@ export class AdmindashbordComponent implements OnInit {
         // this.formdata.fields[0].value = this.temtdata;
         // this.formfieldrefreshdata = { field: 'fullname', value: this.temtdata };
         let formdata: any = {
-            fullname: 'Test 90', email: 'a45@gmal.com', htmldesc: 'htmldesc --------', status: 1, year: [2021, 2022], status2: 1, dob: new Date(2018, 11, 24, 10, 33, 30, 0).toISOString(), age: 23, active: true, child: true, is_purchaseble_d: true, is_purchaseble: true, file1: {
+            fullname: 'Test 90', email: 'a45@gmal.com', htmldesc: 'htmldesc --------', status: 1, year: [2021, 2022], status2: 1, dob: new Date(2018, 11, 24, 10, 33, 30, 0).toISOString(), age: 23, active: true, child: true, is_purchaseble_d: true, is_purchaseble: true,
+            lastvisitaupdateafterload: [2, 3], lastvisitaupdatesingleafterload: 3, lastvisitupdateafter: [3, 1],
+            file1: {
                 fileservername: "file-1589270133418images (5).jpeg",
                 name: "images (5).jpeg",
                 size: 49184,
@@ -1006,7 +1037,7 @@ export class AdmindashbordComponent implements OnInit {
                 bucket: "awsbackend-dev-patient-files-test"
             }
         }
-        this.formfieldrefreshdata = { formvaldata: formdata }; 
+        this.formfieldrefreshdata = { formvaldata: formdata };
         // setTimeout(() => {
         //     this.formfieldrefreshdata = { field: 'email', value: this.temtdata + '@gmail.com' };
         // }, 50);
