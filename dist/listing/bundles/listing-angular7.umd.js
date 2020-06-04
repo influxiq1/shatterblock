@@ -3901,8 +3901,15 @@
                                 //console.log(this.formfieldrefreshdataval, 'm');
                                 //console.log(this.formfieldrefreshdataval.field);
                                 //console.log(this.formfieldrefreshdataval.value);
-                                if (_this.formGroup != null && _this.formGroup.controls[_this.formfieldrefreshdataval.field] != null)
+                                if (_this.formGroup != null && _this.formfieldrefreshdataval.field != null && _this.formGroup.controls[_this.formfieldrefreshdataval.field] != null) {
                                     _this.formGroup.controls[_this.formfieldrefreshdataval.field].patchValue(_this.formfieldrefreshdataval.value);
+                                }
+                                if (_this.formfieldrefreshdataval.field == null && _this.formfieldrefreshdataval.data != null && typeof (_this.formfieldrefreshdataval.data) == 'object') {
+                                    for (var formkey in _this.formfieldrefreshdataval.data) {
+                                        console.log('this.formfieldrefreshdataval.data[formkey]', _this.formfieldrefreshdataval.data[formkey]);
+                                        _this.formGroup.controls[formkey].patchValue(_this.formfieldrefreshdataval.data[formkey]);
+                                    }
+                                }
                                 if (_this.formfieldrefreshdataval.field == 'showfieldloader') {
                                     _this.fieldloading = _this.formfieldrefreshdataval.value;
                                 }
@@ -3941,7 +3948,7 @@
          */
             function (val, data) {
                 this.inputblur(val);
-                //console.log('cc', this.formGroup.controls[val].value, data.val);
+                console.log('cc', this.formGroup.controls[val].value, data.val);
                 /** @type {?} */
                 var fieldval = this.formGroup.controls[val].value;
                 if (fieldval == '' || fieldval == null) {
@@ -3958,7 +3965,7 @@
                     }));
                     this.filerfielddata = [];
                     this.filerfielddata = filterval;
-                    //console.log('fil', filterval);
+                    console.log('fil', filterval);
                 }
             };
         /**
@@ -4009,7 +4016,7 @@
          * @return {?}
          */
             function (val, field) {
-                // console.log('ff', val, field);
+                console.log('ff', val, field);
                 if (field.multiple == null) {
                     this.autocompletefiledvalue[field.name] = val.key;
                 }

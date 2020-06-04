@@ -19,7 +19,7 @@ import { FormBuilder, FormControl, Validators, FormsModule, ReactiveFormsModule 
 import { CommonModule } from '@angular/common';
 import { MomentModule } from 'ngx-moment';
 import { NavigationCancel, NavigationEnd, NavigationError, NavigationStart, Router, RouterModule } from '@angular/router';
-import { Injectable, ElementRef, EventEmitter, ViewChild, Component, Input, NgModule, CUSTOM_ELEMENTS_SCHEMA, Inject, ComponentFactoryResolver, ViewContainerRef, Output, defineInjectable } from '@angular/core';
+import { Injectable, ElementRef, EventEmitter, ViewChild, Component, Input, Inject, ComponentFactoryResolver, ViewContainerRef, NgModule, CUSTOM_ELEMENTS_SCHEMA, Output, defineInjectable } from '@angular/core';
 import { DomSanitizer, BrowserModule } from '@angular/platform-browser';
 import { CKEditorModule } from 'ng2-ckeditor';
 import { ImageCropperModule } from 'ngx-image-cropper';
@@ -3466,8 +3466,15 @@ class ShowformComponent {
                         //console.log(this.formfieldrefreshdataval, 'm');
                         //console.log(this.formfieldrefreshdataval.field);
                         //console.log(this.formfieldrefreshdataval.value);
-                        if (this.formGroup != null && this.formGroup.controls[this.formfieldrefreshdataval.field] != null)
+                        if (this.formGroup != null && this.formfieldrefreshdataval.field != null && this.formGroup.controls[this.formfieldrefreshdataval.field] != null) {
                             this.formGroup.controls[this.formfieldrefreshdataval.field].patchValue(this.formfieldrefreshdataval.value);
+                        }
+                        if (this.formfieldrefreshdataval.field == null && this.formfieldrefreshdataval.data != null && typeof (this.formfieldrefreshdataval.data) == 'object') {
+                            for (let formkey in this.formfieldrefreshdataval.data) {
+                                console.log('this.formfieldrefreshdataval.data[formkey]', this.formfieldrefreshdataval.data[formkey]);
+                                this.formGroup.controls[formkey].patchValue(this.formfieldrefreshdataval.data[formkey]);
+                            }
+                        }
                         if (this.formfieldrefreshdataval.field == 'showfieldloader') {
                             this.fieldloading = this.formfieldrefreshdataval.value;
                         }
@@ -3497,7 +3504,7 @@ class ShowformComponent {
      */
     filterautocomplete(val, data) {
         this.inputblur(val);
-        //console.log('cc', this.formGroup.controls[val].value, data.val);
+        console.log('cc', this.formGroup.controls[val].value, data.val);
         /** @type {?} */
         let fieldval = this.formGroup.controls[val].value;
         if (fieldval == '' || fieldval == null) {
@@ -3515,7 +3522,7 @@ class ShowformComponent {
             }));
             this.filerfielddata = [];
             this.filerfielddata = filterval;
-            //console.log('fil', filterval);
+            console.log('fil', filterval);
         }
     }
     /**
@@ -3548,7 +3555,7 @@ class ShowformComponent {
      * @return {?}
      */
     setautocompletevalue(val, field) {
-        // console.log('ff', val, field);
+        console.log('ff', val, field);
         if (field.multiple == null) {
             this.autocompletefiledvalue[field.name] = val.key;
         }

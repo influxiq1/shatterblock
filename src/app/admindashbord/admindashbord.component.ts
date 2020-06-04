@@ -278,11 +278,27 @@ export class AdmindashbordComponent implements OnInit {
 
     // this is use for  All type of search
     authval: any = [
-        { val: 'YmattZ', 'name': 'YmattZ A' },
-        { val: 'YmattZ', 'name': 'YmattZ A' },
-        { val: 'Ymatt', 'name': 'YmattZ AB' },
-        { val: 'Jessica', 'name': 'A Jessica' }
-    ];
+        {
+            "_id": "5dc54c9764f5cdfcff5f8a76",
+            "val": "CAR BUYING ADVICE",
+            "name": "5dc54c9764f5cdfcff5f8a76"
+        },
+        {
+            "_id": "5dc54cbc64f5cd7b9b5f8a77",
+            "val": "COMPARISON",
+            "name": "5dc54cbc64f5cd7b9b5f8a77"
+        },
+        {
+            "_id": "5dc54cd364f5cd70245f8a78",
+            "val": "FOREIGN MAKES",
+            "name": "5dc54cd364f5cd70245f8a78"
+        },
+        {
+            "_id": "5dc54d2f64f5cd087e5f8a79",
+            "val": "MISCELLANEOUS",
+            "name": "5dc54d2f64f5cd087e5f8a79"
+        }
+    ]
     search_settings: any = {
 
         datesearch: [{ startdatelabel: "Start Date", enddatelabel: "End Date", submit: "Search", field: "created_datetime" }],   // this is use for  date search
@@ -439,7 +455,7 @@ export class AdmindashbordComponent implements OnInit {
                 type: 'select',
                 val: this.status,
                 disabled: true,
-                value: 1,
+                // value: 1,
                 //value: '',
                 validations: [
                     { rule: 'required' }
@@ -492,7 +508,7 @@ export class AdmindashbordComponent implements OnInit {
                 hint: ',0000',
                 type: 'select',
                 val: this.status,
-                //value:1,
+                // value:1,
                 //value: '',
                 validations: [
                     { rule: 'required' }
@@ -587,7 +603,7 @@ export class AdmindashbordComponent implements OnInit {
                 hint: 'check ???',
                 type: 'checkbox',
                 labelPosition: 'after',
-                value: true,
+                // value: true,
                 validations: [
                     { rule: 'required' }
                 ],
@@ -663,7 +679,7 @@ export class AdmindashbordComponent implements OnInit {
                 type: 'select',
                 labelPosition: 'after',
                 val: [{ val: 1, name: 'Yes' }, { val: 2, name: 'No' }],
-                // value: null,
+                value: null,
                 dependent: [
 
                     {
@@ -774,14 +790,14 @@ export class AdmindashbordComponent implements OnInit {
                 prefix: "Test-" + Date.now(),
                 path: 'test/t1/',
                 baseurl: 'test/t1/',
-                value: {
-                    fileservername: "file-1589270133418images (5).jpeg",
-                    name: "images (5).jpeg",
-                    size: 49184,
-                    type: "image/jpeg",
-                    path: "resource/file/",
-                    bucket: "awsbackend-dev-patient-files-test"
-                },
+                // value: {
+                //     fileservername: "file-1589270133418images (5).jpeg",
+                //     name: "images (5).jpeg",
+                //     size: 49184,
+                //     type: "image/jpeg",
+                //     path: "resource/file/",
+                //     bucket: "awsbackend-dev-patient-files-test"
+                // },
                 bucket: 'awsbackend-dev-patient-files-test',
                 apiurl: "https://tge24bc2ne.execute-api.us-east-1.amazonaws.com/dev/requestUploadURL",
                 apideleteurl: "https://tge24bc2ne.execute-api.us-east-1.amazonaws.com/dev/deletefilefromBucket",
@@ -839,9 +855,32 @@ export class AdmindashbordComponent implements OnInit {
     };
 
 
-
+public blog_cat_list:any =  [
+    {
+        "_id": "5dc54c9764f5cdfcff5f8a76",
+        "val": "CAR BUYING ADVICE",
+        "key": "5dc54c9764f5cdfcff5f8a76"
+    },
+    {
+        "_id": "5dc54cbc64f5cd7b9b5f8a77",
+        "val": "COMPARISON",
+        "key": "5dc54cbc64f5cd7b9b5f8a77"
+    },
+    {
+        "_id": "5dc54cd364f5cd70245f8a78",
+        "val": "FOREIGN MAKES",
+        "key": "5dc54cd364f5cd70245f8a78"
+    },
+    {
+        "_id": "5dc54d2f64f5cd087e5f8a79",
+        "val": "MISCELLANEOUS",
+        "key": "5dc54d2f64f5cd087e5f8a79"
+    }
+]
 
     constructor(public router: Router, private route: ActivatedRoute, private _apiService: ApiService) {
+        console.log(this.blog_cat_list);
+        console.log(this.authval)
         // console.log('custom_link');
         // console.log(this.custom_link);
         console.log(this.formdata, 'formdataformdataformdataformdataformdata')
@@ -888,7 +927,7 @@ export class AdmindashbordComponent implements OnInit {
     listenFormFieldChange(val: any) {
         console.log('listenFormFieldChange', val);
         if (val.field.name == 'age' && val.fieldval == 23) {
-            this.formfieldrefreshdata = { field: 'email', value: 'debasiskar7@gmail.com' };
+            this.formfieldrefreshdata = { field: 'email', value: 'debasiskar7@gmail.com'};
         }
     }
     updateformval() {
@@ -898,6 +937,24 @@ export class AdmindashbordComponent implements OnInit {
             this.formfieldrefreshdata = { field: 'email', value: this.temtdata + '@gmail.com' };
         }, 50);
         this.updatetable = !this.updatetable;
+
+    }
+    updateformvalmultiple() {
+        // this.formdata.fields[0].value = this.temtdata;
+        // this.formfieldrefreshdata = { field: 'fullname', value: this.temtdata };
+        let formdata:any={fullname:'Test 90',email:'a45@gmal.com', htmldesc:'htmldesc --------',status:1, year:[2021,2022], status2:1, dob:new Date(2018, 11, 24, 10, 33, 30, 0).toISOString(), age:23, active:true, child:true, is_purchaseble_d:true, is_purchaseble:true, file1:{
+            fileservername: "file-1589270133418images (5).jpeg",
+            name: "images (5).jpeg",
+            size: 49184,
+            type: "image/jpeg",
+            path: "resource/file/",
+            bucket: "awsbackend-dev-patient-files-test"
+        } }
+        this.formfieldrefreshdata = { data:formdata };
+        // setTimeout(() => {
+        //     this.formfieldrefreshdata = { field: 'email', value: this.temtdata + '@gmail.com' };
+        // }, 50);
+        // this.updatetable = !this.updatetable;
 
     }
     showfieldloader() {

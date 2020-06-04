@@ -103,7 +103,7 @@ export class ShowformComponent implements OnInit {
     var list = document.getElementById('list');
     let apiBaseURL = "https://tge24bc2ne.execute-api.us-east-1.amazonaws.com/dev";
     e.preventDefault();
-    console.log('handleDrop',e);
+    console.log('handleDrop', e);
     var dt = e.dataTransfer;
     var files = dt.files;
     for (var i = 0; i < files.length; i++) {
@@ -132,7 +132,7 @@ export class ShowformComponent implements OnInit {
               this.filearray[e.target.id.replace('drop', '')] = [];
             }
             this.filearray[e.target.id.replace('drop', '')].push(files[0]);
-console.log('files[0]',files[0])
+            console.log('files[0]', files[0])
           }
 
         }
@@ -179,7 +179,7 @@ console.log('files[0]',files[0])
   // }
 
   uploadfile(val: any) {
-    console.log('upppp',val);
+    console.log('upppp', val);
     var reader = new FileReader();
     let file: any = this.filearray[val.name];
     // console.log('file val', val);
@@ -214,7 +214,7 @@ console.log('files[0]',files[0])
           //return 'success';
           file.uploaded = 1;
           file.fileservername = val.prefix + file.name;
-          console.log(file.type,'file.type')
+          console.log(file.type, 'file.type')
           // temploader = null;
           // var uploadedFileNode = document.createElement('div');
           // uploadedFileNode.innerHTML = '<a href="//s3.amazonaws.com/slsupload/'+ file.name +'">'+ file.name +'</a>';
@@ -377,7 +377,16 @@ console.log('files[0]',files[0])
             //console.log(this.formfieldrefreshdataval, 'm');
             //console.log(this.formfieldrefreshdataval.field);
             //console.log(this.formfieldrefreshdataval.value);
-            if (this.formGroup != null && this.formGroup.controls[this.formfieldrefreshdataval.field] != null) this.formGroup.controls[this.formfieldrefreshdataval.field].patchValue(this.formfieldrefreshdataval.value)
+            if (this.formGroup != null && this.formfieldrefreshdataval.field !=null && this.formGroup.controls[this.formfieldrefreshdataval.field] != null) {
+              this.formGroup.controls[this.formfieldrefreshdataval.field].patchValue(this.formfieldrefreshdataval.value);
+            }if(this.formfieldrefreshdataval.field ==null && this.formfieldrefreshdataval.data !=null && typeof(this.formfieldrefreshdataval.data)=='object'){
+              for(let formkey in this.formfieldrefreshdataval.data){
+                console.log('this.formfieldrefreshdataval.data[formkey]',this.formfieldrefreshdataval.data[formkey])
+                this.formGroup.controls[formkey].patchValue(this.formfieldrefreshdataval.data[formkey]);
+              }
+
+
+            }
             if (this.formfieldrefreshdataval.field == 'showfieldloader') {
               this.fieldloading = this.formfieldrefreshdataval.value;
             }
@@ -401,7 +410,7 @@ console.log('files[0]',files[0])
 
   filterautocomplete(val: any, data: any) {
     this.inputblur(val);
-    //console.log('cc', this.formGroup.controls[val].value, data.val);
+    console.log('cc', this.formGroup.controls[val].value, data.val);
     let fieldval = this.formGroup.controls[val].value;
     if (fieldval == '' || fieldval == null) {
       this.filerfielddata = [];
@@ -412,7 +421,7 @@ console.log('files[0]',files[0])
       });
       this.filerfielddata = [];
       this.filerfielddata = filterval;
-      //console.log('fil', filterval);
+      console.log('fil', filterval);
     }
 
   }
@@ -429,7 +438,10 @@ console.log('files[0]',files[0])
       this.autocompletefiledvalue[val.name] = null;
   }
   setautocompletevalue(val: any, field: any) {
-    // console.log('ff', val, field);
+    console.log('ff', val, field);
+
+
+
     if (field.multiple == null) {
       this.autocompletefiledvalue[field.name] = val.key;
     } else {
@@ -787,7 +799,7 @@ console.log('files[0]',files[0])
               tfile.bucket = this.formdataval.fields[m].bucket;
               tfile.baseurl = this.formdataval.fields[m].baseurl;
               tfilearr.push(tfile);
-              
+
             }
             this.formGroup.controls[this.formdataval.fields[m].name].patchValue(tfilearr);
           }
@@ -861,7 +873,7 @@ console.log('files[0]',files[0])
             data: result
           });
         }
-        
+
 
       }, error => {
         //console.log('Oooops!');
@@ -880,24 +892,24 @@ console.log('files[0]',files[0])
 
 
   imageChangedEvent: any = '';
-    croppedImage: any = '';
-    
-    fileChangeEvent(event: any): void {
-        this.imageChangedEvent = event;
-        console.log('event',event)
-    }
-    imageCropped(event: ImageCroppedEvent) {
-        this.croppedImage = event.base64;
-        console.log('this.croppedImage',event);
-    }
-    imageLoaded() {
-        // show cropper
-    }
-    cropperReady() {
-        // cropper ready
-    }
-    loadImageFailed() {
-        // show message
-    }
+  croppedImage: any = '';
+
+  fileChangeEvent(event: any): void {
+    this.imageChangedEvent = event;
+    console.log('event', event)
+  }
+  imageCropped(event: ImageCroppedEvent) {
+    this.croppedImage = event.base64;
+    console.log('this.croppedImage', event);
+  }
+  imageLoaded() {
+    // show cropper
+  }
+  cropperReady() {
+    // cropper ready
+  }
+  loadImageFailed() {
+    // show message
+  }
 
 }
