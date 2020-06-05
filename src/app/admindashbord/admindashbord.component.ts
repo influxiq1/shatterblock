@@ -305,8 +305,9 @@ export class AdmindashbordComponent implements OnInit {
 
         selectsearch: [{ label: 'Search By Status', field: 'status', values: this.status, value: 0 }], // this is use for  select search
 
-        textsearch: [{ label: "Search By Title", field: 'blogtitle_search', value: "Test t" },
-        { label: "Search by auther", field: "author_search", value: "AUth" }],  // this is use for  text search
+        textsearch: [{ label: "Search By Title", field: 'blogtitle_search' }],
+        // textsearch: [{ label: "Search By Title", field: 'blogtitle_search', value: "Test t" },
+        // { label: "Search by auther", field: "author_search", value: "AUth" }],  // this is use for  text search
 
         search: [{ label: "Search By Author static ", field: 'author_search', values: this.authval }]     // this is use for  Autocomplete search
     };
@@ -988,8 +989,10 @@ export class AdmindashbordComponent implements OnInit {
             // console.log('in constructor');
             console.log(res, 'auto res', res.result, res.result.blog_cat_list, res.result.blog_tag_list);
             // search: [{ label: "Search By Author", field: 'author_search', values: this.authval }] 
-            this.search_settings.search.push({ label: "Search By Cat", field: 'category_search', values: res.result.blog_cat_list });
+            this.search_settings.search.push({ label: "Search By Cat ID", field: 'blogcat_str', values: res.result.blog_cat_list });
+            this.search_settings.search.push({ label: "Search By Cat Name", field: 'category_search', values: res.result.blog_cat_str_list   });
             this.search_settings.search.push({ label: "Search By Tags from server", field: 'tag_search', values: res.result.blog_tag_list });
+            this.search_settings.search.push({ label: "Search Author from Server", field: 'author_search', values: res.result.blog_author_list });
             // this.date_search_source_count = res.count;
             //console.warn('blogData c',res);
 

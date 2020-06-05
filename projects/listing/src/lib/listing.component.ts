@@ -1630,8 +1630,9 @@ export class ListingComponent implements OnInit {
     let condition: any;
     let textSearch: any = {};
     condition = {};
+    console.log(this.search_settingsval.search,'search_settingsval.search');
     for (let i in this.tsearch) {
-      console.log('all search this.tsearch', this.tsearch[i]);
+      // console.log('all search this.tsearch', this.tsearch[i]);
       if (this.tsearch[i] != null && this.tsearch[i].toString().toLowerCase() != '') {
         textSearch[i] = { $regex: this.tsearch[i].toString().toLowerCase() };
       }

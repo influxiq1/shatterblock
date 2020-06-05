@@ -19,7 +19,7 @@ import { FormBuilder, FormControl, Validators, FormsModule, ReactiveFormsModule 
 import { CommonModule } from '@angular/common';
 import { MomentModule } from 'ngx-moment';
 import { NavigationCancel, NavigationEnd, NavigationError, NavigationStart, Router, RouterModule } from '@angular/router';
-import { Injectable, ElementRef, EventEmitter, ViewChild, Component, Input, NgModule, CUSTOM_ELEMENTS_SCHEMA, Inject, ComponentFactoryResolver, ViewContainerRef, Output, defineInjectable } from '@angular/core';
+import { Injectable, Component, Input, ElementRef, EventEmitter, ViewChild, Inject, ComponentFactoryResolver, ViewContainerRef, NgModule, CUSTOM_ELEMENTS_SCHEMA, Output, defineInjectable } from '@angular/core';
 import { DomSanitizer, BrowserModule } from '@angular/platform-browser';
 import { CKEditorModule } from 'ng2-ckeditor';
 import { ImageCropperModule } from 'ngx-image-cropper';
@@ -3012,8 +3012,9 @@ var ListingComponent = /** @class */ (function () {
         var source;
         /** @type {?} */
         var textSearch = {};
+        console.log(this.search_settingsval.search, 'search_settingsval.search');
         for (var i in this.tsearch) {
-            console.log('all search this.tsearch', this.tsearch[i]);
+            // console.log('all search this.tsearch', this.tsearch[i]);
             if (this.tsearch[i] != null && this.tsearch[i].toString().toLowerCase() != '') {
                 textSearch[i] = { $regex: this.tsearch[i].toString().toLowerCase() };
             }
