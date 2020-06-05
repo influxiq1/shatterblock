@@ -28,8 +28,8 @@
                             {{v.name}}
                             <mat-icon matChipRemove>cancel</mat-icon>
                         </mat-chip>
-                        <input placeholder="{{item.label}}" #fruitInput [matAutocomplete]="auto"
-                            [matChipInputFor]="chipList" [(ngModel)]="autosearchinput[item.field]" (keyup)="filterautoval(item)"> 
+                        <input placeholder="{{item.label}} " [matAutocomplete]="auto" [matChipInputFor]="chipList"
+                            [(ngModel)]="autosearchinput[item.field]" (keyup)="filterautoval(item)">
                     </mat-chip-list>
 
                     <!--[matChipInputSeparatorKeyCodes]="[ENTER, COMMA]"-->

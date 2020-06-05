@@ -571,7 +571,7 @@ export class ListingComponent implements OnInit {
 
           this._snackBar.openFromComponent(SnackbarComponent, {
             duration: 6000,
-            data: { errormessage: "No such search recod found !!" }
+            data: { errormessage: "No such search record found !!" }
           });
 
         }
@@ -770,15 +770,18 @@ export class ListingComponent implements OnInit {
     }
   }
   autosearchfunction(value: any, data: any) {
-    this.autosearchinput[value] = '';
+    // this.autosearchinput[value] = '';
     //console.log(this.autosearchinput,'asi');
     if (this.autosearch[value] == null) {
       this.autosearch[value] = [];
     }
     this.autosearch[value].push(data);
-    console.log(value, 'selected auto', this.autosearchinput[value]);
+    console.log(value, 'selected auto', this.autosearchinput[value], this.autosearchinput[value]);
     this.autosearchinput[value] = null;
-    console.log(value, 'selected auto', this.autosearchinput[value]);
+    this.currentautosearcharr = [];
+    console.log(value, 'selected auto', this.autosearchinput[value], this.autosearchinput[value]);
+    // reset auto search data !
+    // console.log(value, 'selected auto', this.autosearchinput[value]);
     //console.log(value,data,'ss',this.autosearch);
     /*let val: any = this.autosearch[value];
     let source: any;
@@ -1630,7 +1633,7 @@ export class ListingComponent implements OnInit {
     let condition: any;
     let textSearch: any = {};
     condition = {};
-    console.log(this.search_settingsval.search,'search_settingsval.search');
+    console.log(this.search_settingsval.search, 'search_settingsval.search');
     for (let i in this.tsearch) {
       // console.log('all search this.tsearch', this.tsearch[i]);
       if (this.tsearch[i] != null && this.tsearch[i].toString().toLowerCase() != '') {
@@ -1685,7 +1688,7 @@ export class ListingComponent implements OnInit {
 
         this._snackBar.openFromComponent(SnackbarComponent, {
           duration: 6000,
-          data: { errormessage: "No such search recod found !!" }
+          data: { errormessage: "No such search record found !!" }
         });
 
       }
