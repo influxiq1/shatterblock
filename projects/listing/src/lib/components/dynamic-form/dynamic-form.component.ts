@@ -8,15 +8,15 @@ import {
     OnChanges,
     OnInit,
     Output, NgModule
-} from "@angular/core";
+} from '@angular/core';
 import {
     FormGroup,
     FormBuilder,
     Validators,
     FormControl
-} from "@angular/forms";
-import { FieldConfig, Validator} from "../field.interface";
-import {CommonModule} from "@angular/common";
+} from '@angular/forms';
+import { FieldConfig, Validator} from '../field.interface';
+import {CommonModule} from '@angular/common';
 @NgModule({
     declarations: [CommonModule],
     imports: [
@@ -28,8 +28,8 @@ import {CommonModule} from "@angular/common";
 })
 
 @Component({
-    exportAs: "dynamicForm",
-    selector: "dynamic-form",
+    exportAs: 'dynamicForm',
+    selector: 'dynamic-form',
     template: `
   <form class="dynamic-form" [formGroup]="form" (submit)="onSubmit($event)">
   <ng-container *ngFor="let field of fields;" dynamicField [field]="field" [group]="form">
@@ -67,7 +67,7 @@ export class DynamicFormComponent implements OnInit {
     createControl() {
         const group = this.fb.group({});
         this.fields.forEach(field => {
-            if (field.type === "button") return;
+            if (field.type === 'button') { return; }
             const control = this.fb.control(
                 field.value,
                 this.bindValidations(field.validations || [])

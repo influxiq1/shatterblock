@@ -1,7 +1,7 @@
-import {Component,EventEmitter,Input,OnChanges,OnInit,Output,NgModule} from "@angular/core";
-import {FormGroup,FormBuilder,Validators,FormControl} from "@angular/forms";
-import { FieldConfig, Validator} from "./field.interface";
-import {CommonModule, } from "@angular/common";
+import {Component, EventEmitter, Input, OnChanges, OnInit, Output, NgModule} from '@angular/core';
+import {FormGroup, FormBuilder, Validators, FormControl} from '@angular/forms';
+import { FieldConfig, Validator} from './field.interface';
+import {CommonModule, } from '@angular/common';
 @NgModule({
   declarations: [  ],
   imports: [
@@ -44,7 +44,7 @@ export class MyfromComponent implements OnInit {
   createControl() {
     const group = this.fb.group({});
     this.fields.forEach(field => {
-      if (field.type === "button") return;
+      if (field.type === 'button') { return; }
       const control = this.fb.control(
           field.value,
           this.bindValidations(field.validations || [])

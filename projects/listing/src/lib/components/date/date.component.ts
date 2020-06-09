@@ -1,11 +1,11 @@
 /**
  * Created by debasiskar on 17/04/19.
  */
-import { Component, OnInit } from "@angular/core";
-import { FormGroup } from "@angular/forms";
-import { FieldConfig } from "../field.interface";
+import { Component, OnInit } from '@angular/core';
+import { FormGroup } from '@angular/forms';
+import { FieldConfig } from '../field.interface';
 @Component({
-    selector: "app-date",
+    selector: 'app-date',
     template: `
 <mat-form-field class="demo-full-width margin-top" [formGroup]="group">
 <input matInput [matDatepicker]="picker" [formControlName]="field.name" [placeholder]="field.label">

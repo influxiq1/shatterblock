@@ -4,11 +4,11 @@ import { ApiService } from './api.service';
 import { MatDialog, MatDialogRef } from '@angular/material';
 import { MatBottomSheet, MatBottomSheetRef } from '@angular/material';
 import { FormBuilder, FormControl } from '@angular/forms';
-import { Router } from "@angular/router";
-import { Observable } from 'rxjs';
-import { HttpClient } from "@angular/common/http";
+import { Router } from '@angular/router';
+import { Observable, Subject, Subscription } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
 import { DomSanitizer } from '@angular/platform-browser';
-import { ThemePalette } from "@angular/material/core";
+import { ThemePalette } from '@angular/material/core';
 import { MatSnackBar, MatSnackBarRef } from '@angular/material/snack-bar';
 export interface DialogData {
     alldata: any;
@@ -70,6 +70,7 @@ export declare class ListingComponent implements OnInit {
     aud: any;
     updatetableval: any;
     loaderrow: any;
+    currentautocompleteitem: any;
     color: ThemePalette;
     mode: any;
     value: number;
@@ -125,6 +126,10 @@ export declare class ListingComponent implements OnInit {
     sort: MatSort;
     paginator: MatPaginator;
     myForm: any;
+    modelChanged: Subject<any>;
+    modelChangedserver: Subject<any>;
+    subscriptions: Subscription[];
+    subscriptioncount: number;
     constructor(_apiService: ApiService, dialog: MatDialog, bottomSheet: MatBottomSheet, fb: FormBuilder, router: Router, resolver: ComponentFactoryResolver, container: ViewContainerRef, _http: HttpClient, sanitizer: DomSanitizer, _snackBar: MatSnackBar);
     ngOnChanges(changes: {
         [propKey: string]: SimpleChange;
@@ -139,6 +144,7 @@ export declare class ListingComponent implements OnInit {
     paging(val: any): void;
     addautosearchdata(val: any): void;
     remove(val: any, i: any, field: any): void;
+    autocompletechangedetected(item: any): void;
     filterautoval(data: any): void;
     autosearchfunction(value: any, data: any): void;
     textsearchfunction(value: any): void;

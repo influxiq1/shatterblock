@@ -1,7 +1,7 @@
 import {Component, EventEmitter, Input, OnInit} from '@angular/core';
-import {FormGroup, Form, Validators, FormBuilder, FormControl} from "@angular/forms";
+import {FormGroup, Form, Validators, FormBuilder, FormControl} from '@angular/forms';
 import {UploadInput, humanizeBytes, UploaderOptions, UploadFile, UploadOutput} from 'ngx-uploader';
-import { FieldConfig} from "./interface";
+import { FieldConfig} from './interface';
 import {ApiService} from '../api.service';
 
 // import any = jasmine.any;
@@ -19,8 +19,8 @@ export class FooterComponent implements OnInit {
   humanizeBytes: Function;
   dragOver: boolean;
 
-  public uploaderror:any='';
-  fileservername:any=[];
+  public uploaderror: any = '';
+  fileservername: any = [];
 
 
 myForm: FormGroup;
@@ -44,7 +44,7 @@ group: FormGroup;
   name: any = ['username', 'email'];
   message: any = ['error'];*/
 
-  public fields:any = [
+  public fields: any = [
     {
       inputType: 'file',
       type: 'file',
@@ -124,7 +124,7 @@ group: FormGroup;
           message: "Invalid email"
         }
       ]*/
-     name: new FormControl('',[ Validators.compose([Validators.required, Validators.pattern(/^\s*[\w\-\+_]+(\.[\w\-\+_]+)*\@[\w\-\+_]+\.[\w\-\+_]+(\.[\w\-\+_]+)*\s*$/)])]),
+     name: new FormControl('', [ Validators.compose([Validators.required, Validators.pattern(/^\s*[\w\-\+_]+(\.[\w\-\+_]+)*\@[\w\-\+_]+\.[\w\-\+_]+(\.[\w\-\+_]+)*\s*$/)])]),
 
     },
     {
@@ -149,37 +149,37 @@ group: FormGroup;
 
     {
       inputType: 'chackbox',
-      label: "Accept Terms",
+      label: 'Accept Terms',
       name: new FormControl(),
       value: true
     },
     {
-      inputType: "radio",
-      label: "Gender",
+      inputType: 'radio',
+      label: 'Gender',
       name: new FormControl(),
-      radiooptions: ["Male", "Female"],
-      value: "Male"
+      radiooptions: ['Male', 'Female'],
+      value: 'Male'
     },
     {
-      inputType: "date",
-      type: "date",
-      label: "DOB",
+      inputType: 'date',
+      type: 'date',
+      label: 'DOB',
       name: new FormControl(),
       validations: [
         {
-          name: "required",
+          name: 'required',
           validator: Validators.required,
-          message: "Date of Birth Required"
+          message: 'Date of Birth Required'
         }
       ]
     },
     {
-      inputType: "select",
-      type: "select",
-      label: "Country",
+      inputType: 'select',
+      type: 'select',
+      label: 'Country',
       name: new FormControl(),
-      value: "UK",
-      selectoptions: ["India", "UAE", "UK", "US"]
+      value: 'UK',
+      selectoptions: ['India', 'UAE', 'UK', 'US']
     },
     {
       inputType: 'file',
@@ -189,7 +189,7 @@ group: FormGroup;
     ];
   public lengthis: any;
   public percentageis: any;
-  public progress: any=[];
+  public progress: any = [];
   public inprogress: any;
 
 
@@ -209,11 +209,11 @@ group: FormGroup;
       fields: new FormControl(this.fields)
     });
 
-this.myForm1 = this.fb.group({
+    this.myForm1 = this.fb.group({
   name1: ['', Validators.required],
   name2: ['', Validators.required],
   name3: ['', Validators.required],
-})
+});
    /*this.myForm = new FormGroup({})
     console.log('this.fields');
     console.log(this.fields[0].name);*/
@@ -223,7 +223,7 @@ this.myForm1 = this.fb.group({
     console.log('this.fields');
     console.log(this.fields);
 
-    console.log('file uploade')
+    console.log('file uploade');
     console.log(this.apiService.fileservername);
    /* for (let ip of this.fields) {
       console.log(ip.name);
@@ -235,7 +235,7 @@ this.myForm1 = this.fb.group({
   onSubmit() {
     console.log('this.myForm.value');
     // console.log(this.myForm.value);
-    for (let result of this.myForm.value.fields) {
+    for (const result of this.myForm.value.fields) {
       console.log(result.name.value);
       this.f1 = result.name.value;
     }
@@ -245,7 +245,7 @@ this.myForm1 = this.fb.group({
     console.log(this.myForm1.value);
   }
 getloop() {
-    for (let ip of this.fields) {
+    for (const ip of this.fields) {
       console.log(ip);
       this.field = ip.name;
     }

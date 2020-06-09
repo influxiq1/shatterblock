@@ -3,7 +3,7 @@ import {
   ComponentFactoryResolver,
   ComponentRef,
   Directive,
-  ViewContainerRef, SimpleChange
+  ViewContainerRef, SimpleChange, OnDestroy
 } from '@angular/core';
 import { MatSort, MatTableDataSource, MatPaginator } from '@angular/material';
 import { SelectionModel } from '@angular/cdk/collections';
@@ -11,17 +11,17 @@ import { ApiService } from './api.service';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { MatBottomSheet, MatBottomSheetRef, MAT_BOTTOM_SHEET_DATA } from '@angular/material';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { NavigationCancel, NavigationEnd, NavigationError, NavigationStart, Router, Event } from "@angular/router";
-import { Observable } from 'rxjs';
-import { startWith, map } from 'rxjs/operators';
-import { HttpClient } from "@angular/common/http";
+import { NavigationCancel, NavigationEnd, NavigationError, NavigationStart, Router, Event } from '@angular/router';
+import { Observable, Subject, Subscription } from 'rxjs';
+import { startWith, map, debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
+import { HttpClient } from '@angular/common/http';
 import { DomSanitizer } from '@angular/platform-browser';
 declare var $: any;
 import * as momentImported from 'moment';
-import { ThemePalette } from "@angular/material/core";
+import { ThemePalette } from '@angular/material/core';
 import { MAT_SNACK_BAR_DATA, MatSnackBar, MatSnackBarRef } from '@angular/material/snack-bar';
-//import {ProgressBarMode} from '@angular/material/progress-bar';
-//import  {BtnComponent} from './../../../../src/app/btn/btn.component'
+// import {ProgressBarMode} from '@angular/material/progress-bar';
+// import  {BtnComponent} from './../../../../src/app/btn/btn.component'
 const moment = momentImported;
 export interface DialogData {
   alldata: any;
@@ -81,6 +81,7 @@ export class ListingComponent implements OnInit {
   public aud: any = false;
   public updatetableval: any = false;
   loaderrow: any = null;
+  currentautocompleteitem: any;
 
   /*for progress bar*/
 
@@ -114,19 +115,19 @@ export class ListingComponent implements OnInit {
   @Input()
   set limitcond(limitcondval: any) {
     this.limitcondval = limitcondval;
-    //console.log('limitcondval',this.limitcondval);
+    // console.log('limitcondval',this.limitcondval);
   }
   @Input()
   set date_search_source_count(date_search_source_countval: any) {
     this.date_search_source_countval = date_search_source_countval;
-    if (this.date_search_source_countval == 0) this.limitcondval.pagecount = 1;
-    //console.log('date_search_source_count',this.date_search_source_countval);
+    if (this.date_search_source_countval == 0) { this.limitcondval.pagecount = 1; }
+    // console.log('date_search_source_count',this.date_search_source_countval);
   }
 
   @Input()
   set grab_link(grab_link: any) {
     this.grab_linkval = grab_link;
-    console.log(this.grab_linkval)
+    console.log(this.grab_linkval);
   }
   @Input()
   set custombutton(custombutton: any) {
@@ -140,7 +141,7 @@ export class ListingComponent implements OnInit {
   @Input()
   set sortdata(sortdataval: any) {
     this.sortdataval = sortdataval;
-    //console.log(this.sortdataval,'sortdataval');
+    // console.log(this.sortdataval,'sortdataval');
   }
 
   @Input()
@@ -166,7 +167,7 @@ export class ListingComponent implements OnInit {
   @Input()
   set libdata(libdataval: any) {
     this.libdataval = libdataval;
-    //console.log('libdataval',this.libdataval);
+    // console.log('libdataval',this.libdataval);
   }
 
   @Input()
@@ -220,9 +221,8 @@ export class ListingComponent implements OnInit {
 
   @Input()
   set jwttoken(jwttoken: any) {
-    if (jwttoken != null) this.jwttokenval = jwttoken;
-    else this.jwttokenval = '';
-    //console.log(this.jwttokenval,'token')
+    if (jwttoken != null) { this.jwttokenval = jwttoken; } else { this.jwttokenval = ''; }
+    // console.log(this.jwttokenval,'token')
   }
 
   @Input()
@@ -265,7 +265,7 @@ export class ListingComponent implements OnInit {
   public i: any;
   loading: any = false;
   public preresult: any = {};
-  //dataSource = new MatTableDataSource(this.datasourceval);
+  // dataSource = new MatTableDataSource(this.datasourceval);
   dataSource = new MatTableDataSource;
 
   @ViewChild(MatSort) sort: MatSort;
@@ -273,6 +273,11 @@ export class ListingComponent implements OnInit {
   // options: FormGroup;
   myForm: any;
   // myForm:any;
+  modelChanged = new Subject<any>();
+  modelChangedserver = new Subject<any>();
+  subscriptions: Subscription[] = [];
+  subscriptioncount = 0;
+  // searchResult$: Observable<SearchResult[]>;
 
   constructor(public _apiService: ApiService, public dialog: MatDialog,
     public bottomSheet: MatBottomSheet, public fb: FormBuilder,
@@ -298,6 +303,74 @@ export class ListingComponent implements OnInit {
       }
     });
 
+    this.subscriptions[this.subscriptioncount++] = this.modelChanged
+      .pipe(
+        debounceTime(1000))
+      .subscribe(() => {
+        // this.searchResult$ = this.api.search(this.model);
+        console.log('after debounce ', this.autosearchinput, this.currentautocompleteitem);
+        this.filterautoval(this.currentautocompleteitem);
+      });
+
+    this.subscriptions[this.subscriptioncount++] = this.modelChangedserver
+      .pipe(
+        debounceTime(1000),
+        // distinctUntilChanged() 
+      )
+      .subscribe(() => {
+        // this.searchResult$ = this.api.search(this.model);
+        console.log('after debounce  server', this.autosearchinput, this.currentautocompleteitem);
+        // this.filterautoval(this.currentautocompleteitem);
+
+        const link = this.apiurlval + '' + this.currentautocompleteitem.serversearchdata.endpoint;
+
+        let source: any;
+
+        source = {
+          search_str: this.autosearchinput[this.currentautocompleteitem.field],
+          sort: {
+            field: this.sortdataval.field,
+            type: this.sortdataval.type
+          }
+        };
+
+        // console.log('con...',conditionobj,this.end_date);
+        // console.warn('cond',condition,this.dateSearch_condition,conditionobj,this.tsearch,textSearch);
+        // return;
+        this.date_search_source_countval = 0;
+        this.loading = true;
+        this.subscriptions[this.subscriptioncount++] = this._apiService.postSearch(link, this.jwttokenval, source).subscribe(res => {
+          let result: any = {};
+          console.log(res, 'result');
+          this.loading = false;
+          // return;
+          result = res;
+          // this.loading = false;
+          if (result.res != null && result.res.length > 0) {
+            // this.dataSource = new MatTableDataSource(result.results.res);
+            this.currentautosearcharr = result.res;
+            this._snackBar.openFromComponent(SnackbarComponent, {
+              duration: 2000,
+              data: { errormessage: 'New Search of data loaded for AC' }
+            });
+          } else {
+            this.currentautosearcharr = [];
+
+            this._snackBar.openFromComponent(SnackbarComponent, {
+              duration: 6000,
+              data: { errormessage: 'No such search record found !!' }
+            });
+
+          }
+
+          this.loading = false;
+          // this.dataSource.paginator = this.paginator;
+          // this.dataSource.sort = this.sort;
+        });
+
+
+      });
+
 
 
     /* this.myForm = this.fb.group({
@@ -316,20 +389,21 @@ export class ListingComponent implements OnInit {
 
   ngOnChanges(changes: { [propKey: string]: SimpleChange }) {
 
-    //console.log('ngonchange ..',changes);
-    for (let v in changes) {
-      //console.log(v,changes[v],'vv');
+    // console.log('ngonchange ..',changes);
+    for (const v in changes) {
+      // console.log(v,changes[v],'vv');
       if (v == 'updatetable') {
         // console.log('updatetable');
-        if (changes[v].previousValue != null)
+        if (changes[v].previousValue != null) {
           this.allSearch();
+        }
       }
     }
   }
 
 
   inputblur(val: any) {
-    //console.log('on blur .....');
+    // console.log('on blur .....');
     this.myForm.controls[val].markAsUntouched();
   }
   ngOnInit() {
@@ -350,7 +424,7 @@ export class ListingComponent implements OnInit {
 
     // }
 
-    //not needed ,
+    // not needed ,
 
     // this._service.success(this.columns[0].date,'dndnnd',this.options);
     /* this.stateGroupOptions = this.myControl.valueChanges
@@ -374,92 +448,101 @@ export class ListingComponent implements OnInit {
 */
 
     this.x = this.datasourceval;
-    let x = this.x;
+    const x = this.x;
 
-    let temp = []
-    let keys = x[0]
-    temp = Object.keys(keys)    /*by Object.keys() we can find the fieldnames(or keys) in an object, i.e, in temp object field names are saved*/
+    let temp = [];
+    const keys = x[0];
+    temp = Object.keys(keys);    /*by Object.keys() we can find the fieldnames(or keys) in an object, i.e, in temp object field names are saved*/
 
-    let coldef_list = [];
-    let header_list = [];
+    const coldef_list = [];
+    const header_list = [];
     for (let i = 0; i < temp.length; i++) {
-      coldef_list.push(temp[i].replace(/\s/g, "_"));      /*to replace spaces in field name by "_", we use "replace(/\s/g, "_")"*/
-      header_list.push(temp[i])
+      coldef_list.push(temp[i].replace(/\s/g, '_'));      /*to replace spaces in field name by "_", we use "replace(/\s/g, "_")"*/
+      header_list.push(temp[i]);
     }
-    //coldef_list.push('Actions');
-    //header_list.push('Actions')
+    // coldef_list.push('Actions');
+    // header_list.push('Actions')
     // console.log('coldef_list',coldef_list);
     // console.log('header_list',header_list);
 
     for (let i = 0; i < coldef_list.length; i++) {
-      let ff = `row.${coldef_list[i]}`
-      var tt = { columnDef: `${coldef_list[i]}`, header: `${header_list[i]}`, cell: (row) => eval(ff), objlength: header_list.length };
+      const ff = `row.${coldef_list[i]}`;
+      const tt = { columnDef: `${coldef_list[i]}`, header: `${header_list[i]}`, cell: (row) => eval(ff), objlength: header_list.length };
       // console.log('tt',tt);
       // console.log('tt.columnDef');
       // console.log(tt.columnDef);
-      for (let b in this.modify_header_arrayval) {
-        if (b == tt.header) tt.header = this.modify_header_arrayval[b];
+      for (const b in this.modify_header_arrayval) {
+        if (b == tt.header) { tt.header = this.modify_header_arrayval[b]; }
       }
 
-      if (this.skipval.indexOf(tt.columnDef) == -1)
+      if (this.skipval.indexOf(tt.columnDef) == -1) {
         this.columns.push(tt);
+      }
     }
     let displayedcols = this.columns.map(x => x.columnDef);
     let customcols: any = [];
-    //console.log('displayedcols',displayedcols);
-    if (this.libdataval != null && this.libdataval.tableheaders != null)
+    // console.log('displayedcols',displayedcols);
+    if (this.libdataval != null && this.libdataval.tableheaders != null) {
       customcols = this.libdataval.tableheaders;
+    }
     if (customcols != null && customcols.length > 0) {
-      for (let v in customcols) {
+      let ccolval: string = '';
+      for (const v in customcols) {
         if (displayedcols.includes(customcols[v]) == false) {
-          this.columns.push({ columnDef: customcols[v], header: customcols[v], cell: 'NA' });
+          for (const b in this.modify_header_arrayval) {
+            if (b == customcols[v]) { ccolval = this.modify_header_arrayval[b]; }
+          }
+          this.columns.push({ columnDef: customcols[v], header: ccolval, cell: 'NA' });
         }
       }
       displayedcols = customcols;
     }
 
 
-    //console.log('customcols',customcols,displayedcols,this.columns);
-    if (this.libdataval.hideaction == null || this.libdataval.hideaction == false)
+    // console.log('customcols',customcols,displayedcols,this.columns);
+    if (this.libdataval.hideaction == null || this.libdataval.hideaction == false) {
       displayedcols.push('Actions');
+    }
 
     this.displayedColumns = displayedcols;
     this.displayedColumns.unshift('#');        /*adds select column in table by unshift function*/
     if (this.libdataval.hidemultipleselectbutton != true) {
       this.displayedColumns.unshift('select');        /*adds select column in table by unshift function*/
     }
-    let data_list = [];
+    const data_list = [];
     for (let i = 0; i < this.x.length; i++) {
       data_list.push(this.createData(x[i]));
     }
     this.olddata = data_list;
     this.dataSource = new MatTableDataSource(data_list);
     this.selection = new SelectionModel(true, []);
-    //this.dataSource.paginator = this.paginator;
-    //this.dataSource.sort = this.sort;
+    // this.dataSource.paginator = this.paginator;
+    // this.dataSource.sort = this.sort;
 
 
-    //load search predefinded data
+    // load search predefinded data
     setTimeout(() => {
 
       // this.selectsearch['status'] = '0';
       console.log('selectsearch', this.selectsearch);
       if (this.search_settingsval.selectsearch != null) {
-        console.log('s1', this.search_settingsval.selectsearch)
-        for (let sl in this.search_settingsval.selectsearch) {
+        console.log('s1', this.search_settingsval.selectsearch);
+        for (const sl in this.search_settingsval.selectsearch) {
           if (this.search_settingsval.selectsearch[sl].value != null) {
-            this.selectsearch[this.search_settingsval.selectsearch[sl].field] = this.search_settingsval.selectsearch[sl].value;
-            console.log('s', this.search_settingsval.selectsearch, '++++++', this.selectsearch);
+            this.selectsearch[this.search_settingsval.selectsearch[sl].field] =
+              this.search_settingsval.selectsearch[sl].value;
+            // console.log('s', this.search_settingsval.selectsearch, '++++++', this.selectsearch);
           }
         }
       }
 
       if (this.search_settingsval.textsearch != null) {
-        console.log('t1', this.search_settingsval.textsearch)
-        for (let sl in this.search_settingsval.textsearch) {
+        console.log('t1', this.search_settingsval.textsearch);
+        for (const sl in this.search_settingsval.textsearch) {
           if (this.search_settingsval.textsearch[sl].value != null) {
-            this.tsearch[this.search_settingsval.textsearch[sl].field] = this.search_settingsval.textsearch[sl].value;
-            console.log('t', this.search_settingsval.textsearch);
+            this.tsearch[this.search_settingsval.textsearch[sl].field] =
+              this.search_settingsval.textsearch[sl].value;
+            // console.log('t', this.search_settingsval.textsearch);
           }
         }
       }
@@ -470,7 +553,7 @@ export class ListingComponent implements OnInit {
   }
   /**image view modal */
   img_modal_view(img: any) {
-    //console.warn("img_modal_view",img)
+    // console.warn("img_modal_view",img)
     const dialogRef = this.dialog.open(ImageView, {
       panelClass: 'custom-modalbox-image-preview',
       height: 'auto',
@@ -480,25 +563,25 @@ export class ListingComponent implements OnInit {
   onSubmit() {
     let x: any;
     this.errormg = '';
-    let data = this.myForm.value;
+    const data = this.myForm.value;
     for (x in this.myForm.controls) {
       this.myForm.controls[x].markAsTouched();
     }
   }
   dateSearch(val: any) {
-    //console.log("start date");
+    // console.log("start date");
     // console.log(this.start_date);
     // console.log(this.end_date);
     // let sd = moment(this.start_date).unix();
     // let ed = moment(this.end_date).unix();
-    let link = this.apiurlval + '' + this.datacollectionval;
-    let link1 = this.apiurlval + '' + this.datacollectionval + '-count';
+    const link = this.apiurlval + '' + this.datacollectionval;
+    const link1 = this.apiurlval + '' + this.datacollectionval + '-count';
     let source: any;
     let condition: any;
-    let textSearch: any = {};
+    const textSearch: any = {};
     condition = {};
-    this.limitcondval.pagecount = 1
-    this.limitcondval.skip = 0
+    this.limitcondval.pagecount = 1;
+    this.limitcondval.skip = 0;
     if (moment(this.end_date).unix() != null && moment(this.start_date).unix() != null) {
 
 
@@ -522,27 +605,27 @@ export class ListingComponent implements OnInit {
           $lte: new Date(this.end_date).getTime()
         };
       }
-      for (let i in this.tsearch) {
-        console.log('this.tsearch', this.tsearch)
+      for (const i in this.tsearch) {
+        console.log('this.tsearch', this.tsearch);
         if (this.tsearch[i] != null && this.tsearch[i] != '') {
           textSearch[i] = { $regex: this.tsearch[i].toString().toLowerCase() };
         }
       }
 
-      let autosearch: any = {};
-      //this.autosearch;
-      for (let b in this.autosearch) {
-        for (let m in this.autosearch[b]) {
-          let tv: any = {};
+      const autosearch: any = {};
+      // this.autosearch;
+      for (const b in this.autosearch) {
+        for (const m in this.autosearch[b]) {
+          const tv: any = {};
           tv[b] = this.autosearch[b][m].val.toString().toLowerCase();
-          if (autosearch['$or'] == null) autosearch['$or'] = [];
-          autosearch['$or'].push(tv);
+          if (autosearch.$or == null) { autosearch.$or = []; }
+          autosearch.$or.push(tv);
         }
       }
 
-      let conditionobj = Object.assign({}, textSearch, this.dateSearch_condition, autosearch, this.selectSearch_condition, this.libdataval.basecondition);
+      const conditionobj = Object.assign({}, textSearch, this.dateSearch_condition, autosearch, this.selectSearch_condition, this.libdataval.basecondition);
       source = {
-        "condition": {
+        condition: {
           limit: this.limitcondval.limit,
           skip: 0
         },
@@ -554,42 +637,41 @@ export class ListingComponent implements OnInit {
       };
 
       // console.log('con...',conditionobj,this.end_date);
-      //console.warn('cond',condition,this.dateSearch_condition,conditionobj,this.tsearch,textSearch);
-      //return;
+      // console.warn('cond',condition,this.dateSearch_condition,conditionobj,this.tsearch,textSearch);
+      // return;
       this.date_search_source_countval = 0;
       this.loading = true;
-      this._apiService.postSearch(link, this.jwttokenval, source).subscribe(res => {
+      this.subscriptions[this.subscriptioncount++] = this._apiService.postSearch(link, this.jwttokenval, source).subscribe(res => {
         let result: any = {};
         result = res;
         if (result.results.res != null && result.results.res.length > 0) {
           this.dataSource = new MatTableDataSource(result.results.res);
           this._snackBar.openFromComponent(SnackbarComponent, {
             duration: 2000,
-            data: { errormessage: "New Search of data loaded" }
+            data: { errormessage: 'New Search of data loaded' }
           });
         } else {
 
           this._snackBar.openFromComponent(SnackbarComponent, {
             duration: 6000,
-            data: { errormessage: "No such search record found !!" }
+            data: { errormessage: 'No such search record found !!' }
           });
 
         }
         this.loading = false;
         // this.dataSource.paginator = this.paginator;
-        //this.dataSource.sort = this.sort;
-      })
+        // this.dataSource.sort = this.sort;
+      });
 
-      this._apiService.postSearch(link1, this.jwttokenval, source).subscribe(res => {
+      this.subscriptions[this.subscriptioncount++] = this._apiService.postSearch(link1, this.jwttokenval, source).subscribe(res => {
         let result: any = {};
         result = res;
         this.date_search_source_countval = (result.count);
-        if (result.count == 0) this.tableflag = 1;
-        else this.tableflag = 0;
-        //console.log('count',result);
+        if (result.count == 0) { this.tableflag = 1; } else { this.tableflag = 0; }
+        // console.log('count',result);
         // this.dataSource.paginator = this.paginator;
-        //this.dataSource.sort = this.sort;
-      })
+        // this.dataSource.sort = this.sort;
+      });
 
       /*this._http.post(link, {source:this.date_search_sourceval,
         condition: {
@@ -609,8 +691,9 @@ export class ListingComponent implements OnInit {
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
       })*/
-    } else
-      console.log("error");
+    } else {
+      console.log('error');
+    }
   }
 
 
@@ -642,14 +725,14 @@ export class ListingComponent implements OnInit {
 
 
     console.log(this.tsearch, 'czxcxczxc', this.search_settingsval.selectsearch, this.selectsearch, value, type);
-    let link = this.apiurlval + '' + this.date_search_endpointval;
+    const link = this.apiurlval + '' + this.date_search_endpointval;
     let source: any;
     let condition: any;
     condition = {};
     condition[type.field] = value;
     this.selectSearch_condition = {};
     this.selectSearch_condition = condition;
-    let conditionobj = Object.assign({}, this.textSearch_condition, this.dateSearch_condition, this.autoSearch_condition, this.selectSearch_condition);
+    const conditionobj = Object.assign({}, this.textSearch_condition, this.dateSearch_condition, this.autoSearch_condition, this.selectSearch_condition);
     source = {
       source: this.date_search_sourceval,
       condition: conditionobj
@@ -668,39 +751,40 @@ export class ListingComponent implements OnInit {
     // }
     // console.log("error");
   }
-  //for managing pagination 
+  // for managing pagination
 
   paging(val: any) {
     if (val == 1) {
       this.limitcondval.skip = (this.limitcondval.pagecount) * this.limitcondval.limit;
       this.limitcondval.pagecount++;
     }
-    if (val == -1 && this.limitcondval.skip < this.limitcondval.limit)
+    if (val == -1 && this.limitcondval.skip < this.limitcondval.limit) {
       return;
+    }
     if (val == -1 && this.limitcondval.skip >= this.limitcondval.limit) {
       console.log('in skip block');
       this.limitcondval.skip = (this.limitcondval.pagecount - 2) * this.limitcondval.limit;
       this.limitcondval.pagecount--;
     }
     if (val > 1) {
-      if (this.limitcondval.pagecount == 1) this.limitcondval.skip = 0;
-      else this.limitcondval.skip = (this.limitcondval.pagecount - 1) * this.limitcondval.limit;
-      //this.limitcondval.pagecount--;
+      if (this.limitcondval.pagecount == 1) { this.limitcondval.skip = 0; } else { this.limitcondval.skip = (this.limitcondval.pagecount - 1) * this.limitcondval.limit; }
+      // this.limitcondval.pagecount--;
 
     }
 
-    //console.log(val,'ss',this.datacollectionval,this.limitcondval);
-    let textSearch: any = {};
+    // console.log(val,'ss',this.datacollectionval,this.limitcondval);
+    const textSearch: any = {};
 
 
-    for (let i in this.tsearch) {
-      if (this.tsearch[i].toString().toLowerCase() != null && this.tsearch[i].toString().toLowerCase() != '')
+    for (const i in this.tsearch) {
+      if (this.tsearch[i].toString().toLowerCase() != null && this.tsearch[i].toString().toLowerCase() != '') {
         textSearch[i] = { $regex: this.tsearch[i].toString().toLowerCase() };
+      }
     }
 
-    let conditionobj = Object.assign({}, textSearch, this.dateSearch_condition, this.autosearch, this.selectSearch_condition, this.libdataval.basecondition);
-    let source = {
-      "condition": {
+    const conditionobj = Object.assign({}, textSearch, this.dateSearch_condition, this.autosearch, this.selectSearch_condition, this.libdataval.basecondition);
+    const source = {
+      condition: {
         limit: this.limitcondval.limit,
         skip: this.limitcondval.skip
       },
@@ -711,7 +795,7 @@ export class ListingComponent implements OnInit {
       searchcondition: conditionobj,
     };
 
-    let link = this.apiurlval + '' + this.datacollectionval;
+    const link = this.apiurlval + '' + this.datacollectionval;
     /*let data:any={
       "condition":{
         limit:this.limitcondval.limit,
@@ -720,14 +804,14 @@ export class ListingComponent implements OnInit {
 
     }*/
     this.loading = true;
-    this._apiService.postSearch(link, this.jwttokenval, source).subscribe(res => {
+    this.subscriptions[this.subscriptioncount++] = this._apiService.postSearch(link, this.jwttokenval, source).subscribe(res => {
       this.result = res;
-      //console.log(this.result,'res');
+      // console.log(this.result,'res');
       if (this.result.results.res != null && this.result.results.res.length > 0) {
         this.dataSource = new MatTableDataSource(this.result.results.res);
         this._snackBar.openFromComponent(SnackbarComponent, {
           duration: 2000,
-          data: { errormessage: "New range of data loaded" }
+          data: { errormessage: 'New range of data loaded' }
         });
       } else {
         if (val == 1) {
@@ -738,32 +822,44 @@ export class ListingComponent implements OnInit {
         }
         this._snackBar.openFromComponent(SnackbarComponent, {
           duration: 6000,
-          data: { errormessage: "No Data Found in this range !!" }
+          data: { errormessage: 'No Data Found in this range !!' }
         });
       }
       this.loading = false;
-      //this.dataSource.paginator = this.paginator;
-      //this.dataSource.sort = this.sort;
+      // this.dataSource.paginator = this.paginator;
+      // this.dataSource.sort = this.sort;
 
     });
     this.selection.clear();
   }
 
   addautosearchdata(val: any) {
-    //console.log('v',val);
+    // console.log('v',val);
 
   }
   remove(val: any, i: any, field: any) {
 
-    if (this.autosearch[field] != null) this.autosearch[field].splice(i, 1);
+    if (this.autosearch[field] != null) { this.autosearch[field].splice(i, 1); }
+  }
+  autocompletechangedetected(item) {
+    this.currentautocompleteitem = item;
+    this.currentautosearcharr = [];
+    console.log('autocompletechangedetected', this.currentautocompleteitem);
+    if (this.currentautocompleteitem.serversearchdata == null)
+      this.modelChanged.next();
+    else {
+      console.log('in else block of autocompletechangedetected');
+      this.modelChangedserver.next();
+    }
+
   }
   filterautoval(data: any) {
     // console.log('filterautoval', data, this.autosearchinput[data.field]);
-    let autoselval = this.autosearchinput[data.field];
+    const autoselval = this.autosearchinput[data.field];
     this.currentautosearcharr = [];
     if (this.autosearchinput[data.field] != null && this.autosearchinput[data.field] != '') {
-      let filterval = data.values.filter(function (e) {
-        //console.log('e', e, fieldval)
+      const filterval = data.values.filter(function (e) {
+        // console.log('e', e, fieldval)
         return e.name.toString().toLowerCase().includes(autoselval.toLowerCase());
       });
       this.currentautosearcharr = filterval;
@@ -771,7 +867,7 @@ export class ListingComponent implements OnInit {
   }
   autosearchfunction(value: any, data: any) {
     // this.autosearchinput[value] = '';
-    //console.log(this.autosearchinput,'asi');
+    // console.log(this.autosearchinput,'asi');
     if (this.autosearch[value] == null) {
       this.autosearch[value] = [];
     }
@@ -782,7 +878,7 @@ export class ListingComponent implements OnInit {
     console.log(value, 'selected auto', this.autosearchinput[value], this.autosearchinput[value]);
     // reset auto search data !
     // console.log(value, 'selected auto', this.autosearchinput[value]);
-    //console.log(value,data,'ss',this.autosearch);
+    // console.log(value,data,'ss',this.autosearch);
     /*let val: any = this.autosearch[value];
     let source: any;
     let condition: any = {};
@@ -805,24 +901,24 @@ export class ListingComponent implements OnInit {
   }
 
   textsearchfunction(value: any) {
-    let link = this.apiurlval + '' + this.date_search_endpointval;
+    const link = this.apiurlval + '' + this.date_search_endpointval;
     let source: any;
-    let condition: any = {};
+    const condition: any = {};
     let val = '';
     if (this.tsearch != null && this.tsearch[value] != null) {
       val = this.tsearch[value].toString().toLowerCase();
     }
 
-    if (this.tsearch[value] != null && this.tsearch[value].length > 1 && { $or: [this.tsearch[value].toString().toLowerCase(), this.tsearch[value].toUpperCase()] }) condition[value + '_regex'] = val;
+    if (this.tsearch[value] != null && this.tsearch[value].length > 1 && { $or: [this.tsearch[value].toString().toLowerCase(), this.tsearch[value].toUpperCase()] }) { condition[value + '_regex'] = val; }
     this.textSearch_condition = {};
     this.textSearch_condition = condition;
-    //console.warn(this.tsearch);
-    let conditionobj = Object.assign({}, this.textSearch_condition, this.dateSearch_condition, this.autoSearch_condition, this.selectSearch_condition);
+    // console.warn(this.tsearch);
+    const conditionobj = Object.assign({}, this.textSearch_condition, this.dateSearch_condition, this.autoSearch_condition, this.selectSearch_condition);
     source = {
       source: this.date_search_sourceval,
       condition: conditionobj
     };
-    //add loader
+    // add loader
     // this.loading = true;
     // if (value != null) {
     //   this._apiService.postSearch(link, this.jwttokenval, source).subscribe(res => {
@@ -855,16 +951,16 @@ export class ListingComponent implements OnInit {
   refreshalldata(val: any) {
     this.dataSource = new MatTableDataSource(this.olddata);
     this.selection = new SelectionModel(true, []);
-    //this.dataSource.paginator = this.paginator;
-    //this.dataSource.sort = this.sort;
+    // this.dataSource.paginator = this.paginator;
+    // this.dataSource.sort = this.sort;
 
     if (val.filteredData != null && val.filteredData.length < this.olddata.length) {
-      let dialogRef = this.dialog.open(Confirmdialog, {
+      const dialogRef = this.dialog.open(Confirmdialog, {
         panelClass: 'custom-modalbox',
         data: { message: 'Refresh successfully!!', isconfirmation: false }
       });
     } else {
-      let dialogRef = this.dialog.open(Confirmdialog, {
+      const dialogRef = this.dialog.open(Confirmdialog, {
         panelClass: 'custom-modalbox',
         data: { message: ' Updated!!', isconfirmation: false }
       });
@@ -883,12 +979,13 @@ export class ListingComponent implements OnInit {
   getstatus(val: any) {
     // console.log('val');
     // console.log(val);
-    for (let b in this.statusarrval) {
-      if (this.statusarrval[b].val == val)
+    for (const b in this.statusarrval) {
+      if (this.statusarrval[b].val == val) {
         return this.statusarrval[b].name;
+      }
       // console.log(this.statusarrval[b].name);
     }
-    return "N/A";
+    return 'N/A';
   }
   pdfFlag(val: any) {
     if (val.shatterblok_agreement_date != null && val.audiodeadline_agreement_date == null) {
@@ -922,8 +1019,8 @@ export class ListingComponent implements OnInit {
 
   copyText(row: any, val: string) {
 
-    let fullurl = val + '' + row;
-    let selBox = document.createElement('textarea');
+    const fullurl = val + '' + row;
+    const selBox = document.createElement('textarea');
     selBox.style.position = 'fixed';
     selBox.style.left = '0';
     selBox.style.top = '0';
@@ -940,46 +1037,45 @@ export class ListingComponent implements OnInit {
     this.router.navigate([val.route]);
   }
   openinternallinkwithparam(val: any, data: any) {
-    let rdata: any = [];
+    const rdata: any = [];
     rdata.push(val.route);
-    for (let v in val.param) {
-      rdata.push(data[val.param[v]])
+    for (const v in val.param) {
+      rdata.push(data[val.param[v]]);
     }
     // console.log('radat', rdata);
     this.router.navigate(rdata);
   }
   opencustombuttonactionlocaldata(val: any, data: any) {
-    //console.log('opencustombuttonactionlocaldata',val,data);
-    let dataarr = [];
-    //dataarr.push(['name','debasis']);
-    //dataarr.push(['desc','test']);
+    // console.log('opencustombuttonactionlocaldata',val,data);
+    const dataarr = [];
+    // dataarr.push(['name','debasis']);
+    // dataarr.push(['desc','test']);
     if (val.refreshdata != null && val.refreshdata == true) {
       this.allSearch();
     }
-    for (let v in val.datafields) {
-      let temparr = [];
+    for (const v in val.datafields) {
+      const temparr = [];
       temparr.push(val.datafields[v]);
       if (val.datafields[v] != 'image' && val.datafields[v] != 'video') {
-        //console.log('ss',val.datafields[v]);
+        // console.log('ss',val.datafields[v]);
         if (data[val.datafields[v]] != null && typeof (data[val.datafields[v]]) != 'object') {
           // console.log('df', data[val.datafields[v]].toString());
           if (data[val.datafields[v]] != null && data[val.datafields[v]].toString().includes('iframe')) {
             // console.log('in safe', data[val.datafields[v]]);
             temparr.push(this.sanitizer.bypassSecurityTrustHtml(data[val.datafields[v]]));
-          }
-          else
+          } else {
             temparr.push((data[val.datafields[v]]));
-        }
-        else {
-          //console.log('ss22',val.datafields[v]);
-          //else  
+          }
+        } else {
+          // console.log('ss22',val.datafields[v]);
+          // else
           temparr.push(data[val.datafields[v]]);
         }
       }
-      if (val.datafields[v] == 'image') temparr.push("<img mat-card-image src=" + data[val.datafields[v]] + " > <br/>")
+      if (val.datafields[v] == 'image') { temparr.push('<img mat-card-image src=' + data[val.datafields[v]] + ' > <br/>'); }
       if (val.datafields[v] == 'video') {
         if (data[val.datafields[v]] != null && data[val.datafields[v]] != '') {
-          let temphtml: any = ("<iframe width=560 height=315 src=https://www.youtube.com/embed/" + data[val.datafields[v]] + " frameborder=0 allow=accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture allowfullscreen></iframe> <br/>");
+          let temphtml: any = ('<iframe width=560 height=315 src=https://www.youtube.com/embed/' + data[val.datafields[v]] + ' frameborder=0 allow=accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture allowfullscreen></iframe> <br/>');
           temphtml = this.sanitizer.bypassSecurityTrustHtml(temphtml);
           temparr.push(temphtml);
           // console.log('thtml', temphtml, data[val.datafields], data[val.datafields[v]]);
@@ -988,31 +1084,31 @@ export class ListingComponent implements OnInit {
         }
       }
 
-      //if(val.datafields[v]=='video') temparr.push("<img mat-card-image src=" + data[val.datafields[v]] + " > <br/>")
+      // if(val.datafields[v]=='video') temparr.push("<img mat-card-image src=" + data[val.datafields[v]] + " > <br/>")
       dataarr.push(temparr);
     }
-    //console.log('local data m', dataarr);
+    // console.log('local data m', dataarr);
     let res: any = dataarr;
 
     if (this.libdataval.detailview_override != null && this.libdataval.detailview_override.length > 0) {
-      let resdata: any = [];
-      for (let b in res) {
-        for (let c in this.libdataval.detailview_override) {
-          //console.log('hww',c,this.libdataval.detailview_override[c].key,res[b],res[b][0],res[b][1]);
+      const resdata: any = [];
+      for (const b in res) {
+        for (const c in this.libdataval.detailview_override) {
+          // console.log('hww',c,this.libdataval.detailview_override[c].key,res[b],res[b][0],res[b][1]);
           if (this.libdataval.detailview_override[c].key == res[b][0]) {
-            //console.log('h', c, this.libdataval.detailview_override[c]);
+            // console.log('h', c, this.libdataval.detailview_override[c]);
             resdata[b] = [this.libdataval.detailview_override[c].val, res[b][1], res[b][0]];
           }
         }
-        if (resdata[b] == null) resdata[b] = res[b];
+        if (resdata[b] == null) { resdata[b] = res[b]; }
 
       }
-      //console.log('c',res,resdata);
+      // console.log('c',res,resdata);
       res = resdata;
-      //console.log('c',res,resdata);
+      // console.log('c',res,resdata);
     }
 
-    //console.log('dataarr',dataarr);
+    // console.log('dataarr',dataarr);
     if (val.refreshdata != null && val.refreshdata == true) {
       this.allSearch();
     }
@@ -1024,24 +1120,24 @@ export class ListingComponent implements OnInit {
     });
   }
   opencustombuttonactionapidata(val: any, data: any) {
-    //console.log('opencustombuttonactionapidata',val,data);
+    // console.log('opencustombuttonactionapidata',val,data);
     this.loading = true;
-    let link: any = this.apiurlval + val.endpoint;
-    let source: any = {};
+    const link: any = this.apiurlval + val.endpoint;
+    const source: any = {};
     source[val.param] = data._id;
     if (val.otherparam != null) {
-      for (let n in val.otherparam) {
+      for (const n in val.otherparam) {
         source[val.otherparam[n]] = data[val.otherparam[n]];
 
       }
     }
     this.loaderrow = data._id;
-    this._apiService.postSearch(link, this.jwttokenval, source).subscribe(res => {
+    this.subscriptions[this.subscriptioncount++] = this._apiService.postSearch(link, this.jwttokenval, source).subscribe(res => {
       let result: any = {};
       result = res;
       if (result.status == 'success') {
 
-        //console.log('res',result);
+        // console.log('res',result);
         let resdata: any = {};
         this.loaderrow = null;
         this.loading = false;
@@ -1050,12 +1146,12 @@ export class ListingComponent implements OnInit {
         } else {
           resdata = result.res;
         }
-        let temprdata: any = {};
+        const temprdata: any = {};
         console.log('resdata>>>', resdata);
         if (val.datafields != null) {
-          for (let b1 in val.datafields) {
+          for (const b1 in val.datafields) {
             console.log('val.datafields', val.datafields[b1]);
-            //for (let b2 in dataarr) {
+            // for (let b2 in dataarr) {
             // console.log('b2',b2,data[b2],dataarr[b2][0]);
             // if (dataarr[b2][0] == val.datafields[b1]) resdataformodal[b1] = [dataarr[b2][0], dataarr[b2][1]];
             temprdata[val.datafields[b1]] = resdata[val.datafields[b1]];
@@ -1067,44 +1163,43 @@ export class ListingComponent implements OnInit {
         }
 
         let dataarr = [];
-        //dataarr.push(['name','debasis']);
-        //dataarr.push(['desc','test']);
-        for (let v in resdata) {
-          let temparr = [];
+        // dataarr.push(['name','debasis']);
+        // dataarr.push(['desc','test']);
+        for (const v in resdata) {
+          const temparr = [];
           temparr.push(v);
           if (v != 'image' && v != 'video') {
             if (resdata[v] != null && typeof (resdata[v]) != 'object') {
               // console.log('resv', resdata[v]);
-              if (resdata[v].toString().includes("iframe"))
+              if (resdata[v].toString().includes('iframe')) {
                 temparr.push(this.sanitizer.bypassSecurityTrustHtml(resdata[v]));
-              else temparr.push(resdata[v]);
-            }
-            else temparr.push(resdata[v]);
+              } else { temparr.push(resdata[v]); }
+            } else { temparr.push(resdata[v]); }
           }
-          if (v == 'image') temparr.push("<img mat-card-image src=" + resdata[v] + " > <br/>")
+          if (v == 'image') { temparr.push('<img mat-card-image src=' + resdata[v] + ' > <br/>'); }
           if (v == 'video') {
-            let temphtml: any = ("<iframe width=560 height=315 src=https://www.youtube.com/embed/" + resdata[v] + " frameborder=0 allow=accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture allowfullscreen></iframe> <br/>");
+            let temphtml: any = ('<iframe width=560 height=315 src=https://www.youtube.com/embed/' + resdata[v] + ' frameborder=0 allow=accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture allowfullscreen></iframe> <br/>');
             temphtml = this.sanitizer.bypassSecurityTrustHtml(temphtml);
             temparr.push(temphtml);
           }
-          //if(val.datafields[v]=='video') temparr.push("<img mat-card-image src=" + data[val.datafields[v]] + " > <br/>")
+          // if(val.datafields[v]=='video') temparr.push("<img mat-card-image src=" + data[val.datafields[v]] + " > <br/>")
           dataarr.push(temparr);
 
         }
         if (this.libdataval.detailview_override != null && this.libdataval.detailview_override.length > 0) {
-          let resdata: any = [];
-          for (let b in dataarr) {
-            for (let c in this.libdataval.detailview_override) {
-              //console.log('hww',c,this.libdataval.detailview_override[c].key,res[b],res[b][0],res[b][1]);
+          const resdata: any = [];
+          for (const b in dataarr) {
+            for (const c in this.libdataval.detailview_override) {
+              // console.log('hww',c,this.libdataval.detailview_override[c].key,res[b],res[b][0],res[b][1]);
               if (this.libdataval.detailview_override[c].key == dataarr[b][0]) {
-                //console.log('h', c, this.libdataval.detailview_override[c]);
+                // console.log('h', c, this.libdataval.detailview_override[c]);
                 resdata[b] = [this.libdataval.detailview_override[c].val, dataarr[b][1], dataarr[b][0]];
               }
             }
-            if (resdata[b] == null) resdata[b] = dataarr[b];
+            if (resdata[b] == null) { resdata[b] = dataarr[b]; }
 
           }
-          //console.log('c',res,resdata);
+          // console.log('c',res,resdata);
           dataarr = resdata;
 
         }
@@ -1130,7 +1225,7 @@ export class ListingComponent implements OnInit {
       }
 
     }, error => {
-      //console.log('Oooops!');
+      // console.log('Oooops!');
       this._snackBar.openFromComponent(SnackbarComponent, {
         duration: 6000,
         data: { errormessage: 'Something Went Wrong ,Try Again!!' }
@@ -1141,47 +1236,47 @@ export class ListingComponent implements OnInit {
 
   }
   openextlinkwithparam(val: any, data: any) {
-    //console.log('val',val,data);
+    // console.log('val',val,data);
     let qtext: any = '';
     let fulllink: any = '';
     fulllink = val.link;
     if (val.paramtype == null) {
-      for (let v in val.param) {
-        qtext = val.param[v].q + "=" + encodeURI(data[val.param[v].key]);
-        //console.log('qtext',qtext);
-        if (parseInt(v) == 0) fulllink = fulllink + '?' + qtext;
-        if (parseInt(v) != 0) fulllink = fulllink + '&' + qtext;
+      for (const v in val.param) {
+        qtext = val.param[v].q + '=' + encodeURI(data[val.param[v].key]);
+        // console.log('qtext',qtext);
+        if (parseInt(v) == 0) { fulllink = fulllink + '?' + qtext; }
+        if (parseInt(v) != 0) { fulllink = fulllink + '&' + qtext; }
       }
-      //val.link=fulllink;
+      // val.link=fulllink;
     }
     if (val.paramtype != null && val.paramtype == 'angular') {
-      for (let v in val.param) {
-        //qtext = val.param[v].q + "=" + encodeURI(data[val.param[v].key]);
-        //console.log('qtext',qtext);
+      for (const v in val.param) {
+        // qtext = val.param[v].q + "=" + encodeURI(data[val.param[v].key]);
+        // console.log('qtext',qtext);
 
         fulllink = fulllink + '/' + encodeURI(data[val.param[v]]);
       }
-      //val.link=fulllink;
+      // val.link=fulllink;
 
     }
     setTimeout(() => {
-      //console.log("Hello from setTimeout");
-      //console.log('link',fulllink,data,qtext);
+      // console.log("Hello from setTimeout");
+      // console.log('link',fulllink,data,qtext);
     }, 10);
 
-    window.open(fulllink, "_blank");
+    window.open(fulllink, '_blank');
   }
   clickurl(val: any, url: any) {
-    let link = url + '' + val._id + '' + this.pdf_link_val;
-    window.open(link, "_blank");
+    const link = url + '' + val._id + '' + this.pdf_link_val;
+    window.open(link, '_blank');
   }
 
 
   /** Whether the number of selected elements matches the total number of rows. */
   isAllSelected() {
-    console.log("isAllSelected");
+    console.log('isAllSelected');
     if (this.selection != null && this.selection.select) {
-      console.log("isAllSelected", this.dataSource.data.length, this.selection.selected.length);
+      console.log('isAllSelected', this.dataSource.data.length, this.selection.selected.length);
       const numSelected = this.selection.selected.length;
       const numRows = this.dataSource.data.length;
       return numSelected === numRows;
@@ -1205,11 +1300,11 @@ export class ListingComponent implements OnInit {
 
 
   createData(point: any) {
-    let data = {};
+    const data = {};
     Object.keys(point).forEach(function (key) {
-      data[key.replace(/\s/g, "_")] = point[key];
+      data[key.replace(/\s/g, '_')] = point[key];
     });
-    return data
+    return data;
   }
 
   applyFilter(filterValue: string) {
@@ -1245,11 +1340,11 @@ export class ListingComponent implements OnInit {
      */
 
 
-    return {}
+    return {};
   }
   /**show video modal on click of thamnail function by sourav */
   fetchvideo(videodata: any) {
-    //console.warn('videodata',videodata);
+    // console.warn('videodata',videodata);
     const dialogRef = this.dialog.open(VideoPlayer, {
       panelClass: 'custom-modalbox-videoplayer-preview',
       height: 'auto',
@@ -1267,13 +1362,22 @@ export class ListingComponent implements OnInit {
       this.loaderrow = null;
       // console.log('count',result);
       // this.dataSource.paginator = this.paginator;
-      //this.dataSource.sort = this.sort;
+      // this.dataSource.sort = this.sort;
       // this.data.notesval = '';
       // console.log('notes', val);
       const dialogRef = this.dialog.open(Confirmdialog, {
         height: 'auto',
         panelClass: 'custom-modalbox',
-        data: { isconfirmation: false, notes: true, apiurl: this.apiurlval, notedata: this.libdataval.notes, rowdata: val, jwttokenval: this.jwttokenval, listdata: result.res }
+        data: {
+          isconfirmation: false,
+          notes: true, apiurl: this.apiurlval,
+          notedata: this.libdataval.notes, rowdata: val,
+          jwttokenval: this.jwttokenval,
+          listdata: result.res
+        }
+      });
+      dialogRef.afterClosed().subscribe(result => {
+        this.allSearch();
       });
     });
 
@@ -1282,17 +1386,17 @@ export class ListingComponent implements OnInit {
   viewdata(data1: any) {
     let data: any;
     data = data1;
-    let data2: any = [];
+    const data2: any = [];
 
-    for (let key in data) {
-      let flagk: any = '';
+    for (const key in data) {
+      const flagk: any = '';
       if (data.hasOwnProperty(key)) {
         if (typeof (data[key]) == 'boolean') {
-          if (data[key] == true) data[key] = 'Yes';
-          if (data[key] == false) data[key] = 'No';
+          if (data[key] == true) { data[key] = 'Yes'; }
+          if (data[key] == false) { data[key] = 'No'; }
         }
         if (key == 'image') {
-          data[key + ':'] = "<img mat-card-image src=" + data[key] + "><br/>";
+          data[key + ':'] = '<img mat-card-image src=' + data[key] + '><br/>';
 
         }
 
@@ -1302,34 +1406,34 @@ export class ListingComponent implements OnInit {
 
 
         if (typeof (data[key]) == 'object') {
-          let tempdata: any = [];
-          for (let k in data[key]) {
-            for (let p in this.detail_datatypeval) {
+          const tempdata: any = [];
+          for (const k in data[key]) {
+            for (const p in this.detail_datatypeval) {
               if (this.detail_datatypeval[p].key == key && this.detail_datatypeval[p].value == 'image') {
 
                 // let imgval:any=this.detail_datatypeval[p].fileurl+data[key][k];
                 // console.log('imgval');
                 // console.log('imgval');
-                // console.log(imgval);
-                //console.log(data[key][k].replace(/'/g, ''));
-                tempdata.push("<img mat-card-image src=" + data[key][k] + "><br/>");
+                // console.log(imgval);="+
+                // console.log(data[key][k].replace(/'/g, ''));
+                tempdata.push('<img mat-card-image src=' + data[key][k] + '><br/>');
                 // tempdata.push("<span>"+data[key][k]+"</span><br/>")
 
 
               }
               if (this.detail_datatypeval[p].key == key && this.detail_datatypeval[p].value != 'image') {
-                //tempdata.push("<img mat-card-image src="+data[key][k]+"><br/>")
-                tempdata.push("<span>" + data[key][k] + "</span><br/>");
+                // tempdata.push("<img mat-card-image src="+data[key][k]+"><br/>")
+                tempdata.push('<span>' + data[key][k] + '</span><br/>');
 
 
 
 
               }
               if (this.detail_datatypeval[p].key != key) {
-                //tempdata.push("<img mat-card-image src="+data[key][k]+"><br/>")
+                // tempdata.push("<img mat-card-image src="+data[key][k]+"><br/>")
                 if (typeof (data[key][k]) == 'object') {
-                  for (var objk in data[key][k]) {
-                    tempdata.push("<span>" + objk + " : " + data[key][k][objk] + "</span><br/>");
+                  for (const objk in data[key][k]) {
+                    tempdata.push('<span>' + objk + ' : ' + data[key][k][objk] + '</span><br/>');
                   }
 
                 }
@@ -1344,34 +1448,34 @@ export class ListingComponent implements OnInit {
       }
     }
 
-    for (let n in data) {
+    for (const n in data) {
       if (data[n] != null && data[n] != '') {
         data2[n] = data[n];
       }
     }
 
-    for (let v in this.detail_skip_arrayval) {
-      //data2[this.detail_skip_arrayval[v]]='';
+    for (const v in this.detail_skip_arrayval) {
+      // data2[this.detail_skip_arrayval[v]]='';
       delete data2[this.detail_skip_arrayval[v]];
     }
     let res = Object.entries(data2);
-    //console.log('view data',res);
+    // console.log('view data',res);
     if (this.libdataval.detailview_override != null && this.libdataval.detailview_override.length > 0) {
-      let resdata: any = [];
-      for (let b in res) {
-        for (let c in this.libdataval.detailview_override) {
-          //console.log('hww',c,this.libdataval.detailview_override[c].key,res[b],res[b][0],res[b][1]);
+      const resdata: any = [];
+      for (const b in res) {
+        for (const c in this.libdataval.detailview_override) {
+          // console.log('hww',c,this.libdataval.detailview_override[c].key,res[b],res[b][0],res[b][1]);
           if (this.libdataval.detailview_override[c].key == res[b][0]) {
-            //console.log('h', c, this.libdataval.detailview_override[c]);
+            // console.log('h', c, this.libdataval.detailview_override[c]);
             resdata[b] = [this.libdataval.detailview_override[c].val, res[b][1], res[b][0]];
           }
         }
-        if (resdata[b] == null) resdata[b] = res[b];
+        if (resdata[b] == null) { resdata[b] = res[b]; }
 
       }
-      //console.log('c',res,resdata);
+      // console.log('c',res,resdata);
       res = resdata;
-      //console.log('c',res,resdata);
+      // console.log('c',res,resdata);
     }
     const dialogRef = this.dialog.open(Confirmdialog, {
       height: 'auto',
@@ -1381,18 +1485,18 @@ export class ListingComponent implements OnInit {
 
   }
   managestatus(data: any) {
-    let bs = this.bottomSheet.open(BottomSheet, { panelClass: 'custom-bottomsheet', data: { items: this.statusarrval } });
+    const bs = this.bottomSheet.open(BottomSheet, { panelClass: 'custom-bottomsheet', data: { items: this.statusarrval } });
 
-    bs.afterDismissed().subscribe(result => {
+    this.subscriptions[this.subscriptioncount++] = bs.afterDismissed().subscribe(result => {
       if (result != null) {
         data.status = result.val;
         data.id = data._id;
-        this._apiService.togglestatus(this.apiurlval + this.libdataval.updateendpoint, data, this.jwttokenval, this.sourcedataval).subscribe(res => {
+        this.subscriptions[this.subscriptioncount++] = this._apiService.togglestatus(this.apiurlval + this.libdataval.updateendpoint, data, this.jwttokenval, this.sourcedataval).subscribe(res => {
           let result: any = {};
           result = res;
           if (result.status == 'success') {
-            for (let c in this.olddata) {
-              //this.olddata = this.olddata.filter(olddata => olddata._id != ids[c]);
+            for (const c in this.olddata) {
+              // this.olddata = this.olddata.filter(olddata => olddata._id != ids[c]);
               if (this.olddata[c]._id == data._id) {
                 this.olddata[c].status = data.status;
               }
@@ -1401,9 +1505,9 @@ export class ListingComponent implements OnInit {
             this.selection = new SelectionModel(true, []);
             this.dataSource.paginator = this.paginator;
             this.dataSource.sort = this.sort;
-            //this.allSearch();
+            // this.allSearch();
 
-            let dialogRef = this.dialog.open(Confirmdialog, {
+            const dialogRef = this.dialog.open(Confirmdialog, {
               panelClass: 'custom-modalbox',
               data: { message: 'Status updated successfully!!', isconfirmation: false }
             });
@@ -1417,14 +1521,14 @@ export class ListingComponent implements OnInit {
           }
 
         }, error => {
-          //console.log('Oooops!');
+          // console.log('Oooops!');
           this._snackBar.openFromComponent(SnackbarComponent, {
             duration: 6000,
             data: { errormessage: 'Something Went Wrong ,Try Again!!' }
           });
         });
       }
-      //this.animal = result;
+      // this.animal = result;
     });
 
   }
@@ -1434,16 +1538,16 @@ export class ListingComponent implements OnInit {
     // console.log('data');
     // console.log(data);    // row data
     // console.log(this.custombuttonval);    // object from where the library has been used
-    let unsafeurl: any = this.custombuttonval.url;   //iframe url
-    for (let b in this.custombuttonval.fields) {
+    let unsafeurl: any = this.custombuttonval.url;   // iframe url
+    for (const b in this.custombuttonval.fields) {
       unsafeurl = unsafeurl + '/' + data[this.custombuttonval.fields[b]];
     }
-    unsafeurl = this.sanitizer.bypassSecurityTrustResourceUrl(unsafeurl);   //for sanitizing the url for security, otherwise it won't be able to show the page in iframe, hence modal
+    unsafeurl = this.sanitizer.bypassSecurityTrustResourceUrl(unsafeurl);   // for sanitizing the url for security, otherwise it won't be able to show the page in iframe, hence modal
 
     const dialogRef = this.dialog.open(Confirmdialog, {       // for opening the modal
       height: 'auto',
       panelClass: 'custom-data-modal',
-      data: { isconfirmation: false, data: [{ data: data, customdata: unsafeurl }] }
+      data: { isconfirmation: false, data: [{ data, customdata: unsafeurl }] }
     });
 
 
@@ -1453,28 +1557,28 @@ export class ListingComponent implements OnInit {
 
   managestatusmultiple() {
 
-    let ids: any = [];
+    const ids: any = [];
     let c: any;
     for (c in this.selection.selected) {
 
       ids.push(this.selection.selected[c]._id);
     }
-    //console.log('data');
-    //console.log(data);
-    let bs = this.bottomSheet.open(BottomSheet, { data: { items: this.statusarrval } });
+    // console.log('data');
+    // console.log(data);
+    const bs = this.bottomSheet.open(BottomSheet, { data: { items: this.statusarrval } });
 
-    bs.afterDismissed().subscribe(result => {
+    this.subscriptions[this.subscriptioncount++] = bs.afterDismissed().subscribe(result => {
 
       if (result != null) {
-        //data.status = result.val;
-        //data.id = data._id;
-        let newstatus: any = result.val;
-        this._apiService.togglestatusmany(this.apiurlval + this.libdataval.updateendpointmany, ids, result.val, this.jwttokenval, this.sourcedataval).subscribe(res => {
+        // data.status = result.val;
+        // data.id = data._id;
+        const newstatus: any = result.val;
+        this.subscriptions[this.subscriptioncount++] = this._apiService.togglestatusmany(this.apiurlval + this.libdataval.updateendpointmany, ids, result.val, this.jwttokenval, this.sourcedataval).subscribe(res => {
           let result: any = {};
           result = res;
           if (result.status == 'success') {
-            for (let c in this.olddata) {
-              //this.olddata = this.olddata.filter(olddata => olddata._id != ids[c]);
+            for (const c in this.olddata) {
+              // this.olddata = this.olddata.filter(olddata => olddata._id != ids[c]);
               if (ids.indexOf(this.olddata[c]._id) > -1) {
                 this.olddata[c].status = newstatus;
               }
@@ -1483,9 +1587,9 @@ export class ListingComponent implements OnInit {
             this.selection = new SelectionModel(true, []);
             this.dataSource.paginator = this.paginator;
             this.dataSource.sort = this.sort;
-            //this.allSearch();
+            // this.allSearch();
 
-            let dialogRef = this.dialog.open(Confirmdialog, {
+            const dialogRef = this.dialog.open(Confirmdialog, {
               panelClass: 'custom-modalbox',
               data: { message: 'Status updated successfully!!', isconfirmation: false }
             });
@@ -1493,14 +1597,14 @@ export class ListingComponent implements OnInit {
           }
 
         }, error => {
-          //console.log('Oooops!');
+          // console.log('Oooops!');
           this._snackBar.openFromComponent(SnackbarComponent, {
             duration: 6000,
             data: { errormessage: 'Something Went Wrong ,Try Again!!' }
           });
         });
       }
-      //this.animal = result;
+      // this.animal = result;
     });
 
   }
@@ -1511,7 +1615,7 @@ export class ListingComponent implements OnInit {
       panelClass: 'custom-modalbox',
       data: { message: 'Are you sure you want to delete the selected records?' }
     });
-    let ids: any = [];
+    const ids: any = [];
     let c: any;
     for (c in this.selection.selected) {
 
@@ -1521,11 +1625,11 @@ export class ListingComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
 
       if (result == 'yes') {
-        this._apiService.deteManyData(this.apiurlval + this.libdataval.deleteendpointmany, ids, this.jwttokenval, this.sourcedataval).subscribe(res => {
+        this.subscriptions[this.subscriptioncount++] = this._apiService.deteManyData(this.apiurlval + this.libdataval.deleteendpointmany, ids, this.jwttokenval, this.sourcedataval).subscribe(res => {
           let result: any = {};
           result = res;
           if (result.status == 'success') {
-            for (let c in ids) {
+            for (const c in ids) {
               this.olddata = this.olddata.filter(olddata => olddata._id != ids[c]);
             }
             this.dataSource = new MatTableDataSource(this.olddata);
@@ -1534,7 +1638,7 @@ export class ListingComponent implements OnInit {
             this.dataSource.sort = this.sort;
             this.allSearch();
 
-            let dialogRef = this.dialog.open(Confirmdialog, {
+            const dialogRef = this.dialog.open(Confirmdialog, {
               panelClass: 'custom-modalbox',
               data: { message: 'Record(s)  deleted successfully !!', isconfirmation: false }
             });
@@ -1548,7 +1652,7 @@ export class ListingComponent implements OnInit {
           }
 
         }, error => {
-          //console.log('Oooops!');
+          // console.log('Oooops!');
           this._snackBar.openFromComponent(SnackbarComponent, {
             duration: 6000,
             data: { errormessage: 'Something Went Wrong ,Try Again!!' }
@@ -1556,13 +1660,13 @@ export class ListingComponent implements OnInit {
         });
 
       }
-      //this.animal = result;
+      // this.animal = result;
     });
   }
   deletedata(data: any) {
-    //console.log(data);
-    //alert(5);
-    //this._apiService.deteOneData(this.apiurlval+this.deleteendpointval,data,this.jwttokenval);
+    // console.log(data);
+    // alert(5);
+    // this._apiService.deteOneData(this.apiurlval+this.deleteendpointval,data,this.jwttokenval);
     // console.log('data 889 ---');
     // console.log(data);
     // console.log('jwttokenval');
@@ -1577,17 +1681,17 @@ export class ListingComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result == 'yes') {
-        this._apiService.deteOneData(this.apiurlval + this.deleteendpointval, data, this.jwttokenval, this.sourcedataval).subscribe(res => {
+        this.subscriptions[this.subscriptioncount++] = this._apiService.deteOneData(this.apiurlval + this.deleteendpointval, data, this.jwttokenval, this.sourcedataval).subscribe(res => {
           let result: any = {};
           result = res;
           if (result.status == 'success') {
-            this.olddata = this.olddata.filter(olddata => olddata._id != data._id)
+            this.olddata = this.olddata.filter(olddata => olddata._id != data._id);
             this.dataSource = new MatTableDataSource(this.olddata);
             this.selection = new SelectionModel(true, []);
             this.dataSource.paginator = this.paginator;
             this.dataSource.sort = this.sort;
             this.allSearch();
-            let dialogRef = this.dialog.open(Confirmdialog, {
+            const dialogRef = this.dialog.open(Confirmdialog, {
               panelClass: 'custom-modalbox',
               data: { message: 'Record  deleted successfully !!', isconfirmation: false }
             });
@@ -1600,7 +1704,7 @@ export class ListingComponent implements OnInit {
           }
 
         }, error => {
-          //console.log('Oooops!');
+          // console.log('Oooops!');
           this._snackBar.openFromComponent(SnackbarComponent, {
             duration: 6000,
             data: { errormessage: 'Something Went Wrong ,Try Again!!' }
@@ -1608,7 +1712,7 @@ export class ListingComponent implements OnInit {
         });
 
       }
-      //this.animal = result;
+      // this.animal = result;
     });
 
   }
@@ -1625,41 +1729,41 @@ export class ListingComponent implements OnInit {
   }
 
   allSearch() {
-    //console.log("hit");
+    // console.log("hit");
 
-    let link = this.apiurlval + '' + this.datacollectionval;
-    let link1 = this.apiurlval + '' + this.datacollectionval + '-count';
+    const link = this.apiurlval + '' + this.datacollectionval;
+    const link1 = this.apiurlval + '' + this.datacollectionval + '-count';
     let source: any;
     let condition: any;
-    let textSearch: any = {};
+    const textSearch: any = {};
     condition = {};
     console.log(this.search_settingsval.search, 'search_settingsval.search');
-    for (let i in this.tsearch) {
+    for (const i in this.tsearch) {
       // console.log('all search this.tsearch', this.tsearch[i]);
       if (this.tsearch[i] != null && this.tsearch[i].toString().toLowerCase() != '') {
         textSearch[i] = { $regex: this.tsearch[i].toString().toLowerCase() };
       }
     }
 
-    let autosearch: any = {};
-    //this.autosearch;
-    for (let b in this.autosearch) {
-      for (let m in this.autosearch[b]) {
-        let tv: any = {};
+    const autosearch: any = {};
+    // this.autosearch;
+    for (const b in this.autosearch) {
+      for (const m in this.autosearch[b]) {
+        const tv: any = {};
         tv[b] = this.autosearch[b][m].val.toString().toLowerCase();
-        if (autosearch['$or'] == null) autosearch['$or'] = [];
-        autosearch['$or'].push(tv);
+        if (autosearch.$or == null) { autosearch.$or = []; }
+        autosearch.$or.push(tv);
       }
     }
-    //console.log('autos',autosearch);
+    // console.log('autos',autosearch);
 
     this.limitcondval.pagecount = 1;
     this.limitcondval.skip = 0;
 
 
-    let conditionobj = Object.assign({}, textSearch, this.dateSearch_condition, autosearch, this.selectSearch_condition, this.libdataval.basecondition);
+    const conditionobj = Object.assign({}, textSearch, this.dateSearch_condition, autosearch, this.selectSearch_condition, this.libdataval.basecondition);
     source = {
-      "condition": {
+      condition: {
         limit: this.limitcondval.limit,
         skip: 0
       },
@@ -1670,44 +1774,43 @@ export class ListingComponent implements OnInit {
       searchcondition: conditionobj,
     };
 
-    //console.log('con...',conditionobj,this.end_date);
-    //console.warn('cond',condition,this.dateSearch_condition,conditionobj,this.tsearch,textSearch);
-    //return;
+    // console.log('con...',conditionobj,this.end_date);
+    // console.warn('cond',condition,this.dateSearch_condition,conditionobj,this.tsearch,textSearch);
+    // return;
     this.date_search_source_countval = 0;
     this.loading = true;
-    this._apiService.postSearch(link, this.jwttokenval, source).subscribe(res => {
+    this.subscriptions[this.subscriptioncount++] = this._apiService.postSearch(link, this.jwttokenval, source).subscribe(res => {
       let result: any = {};
       result = res;
       if (result.results.res != null && result.results.res.length > 0) {
         this.dataSource = new MatTableDataSource(result.results.res);
         this._snackBar.openFromComponent(SnackbarComponent, {
           duration: 2000,
-          data: { errormessage: "New Search of data loaded" }
+          data: { errormessage: 'New Search of data loaded' }
         });
       } else {
 
         this._snackBar.openFromComponent(SnackbarComponent, {
           duration: 6000,
-          data: { errormessage: "No such search record found !!" }
+          data: { errormessage: 'No such search record found !!' }
         });
 
       }
 
       this.loading = false;
       // this.dataSource.paginator = this.paginator;
-      //this.dataSource.sort = this.sort;
-    })
+      // this.dataSource.sort = this.sort;
+    });
 
-    this._apiService.postSearch(link1, this.jwttokenval, source).subscribe(res => {
+    this.subscriptions[this.subscriptioncount++] = this._apiService.postSearch(link1, this.jwttokenval, source).subscribe(res => {
       let result: any = {};
       result = res;
       this.date_search_source_countval = (result.count);
-      if (result.count == 0) this.tableflag = 1;
-      else this.tableflag = 0;
+      if (result.count == 0) { this.tableflag = 1; } else { this.tableflag = 0; }
       // console.log('count',result);
       // this.dataSource.paginator = this.paginator;
-      //this.dataSource.sort = this.sort;
-    })
+      // this.dataSource.sort = this.sort;
+    });
 
   }
 
@@ -1720,12 +1823,12 @@ export class ListingComponent implements OnInit {
 
   /* artistxp preview button click function start */
   artistxpPreview(singleData: any) {
-    let link = 'http://developmentapi.audiodeadline.com:3090/' + 'datalist';
+    const link = 'http://developmentapi.audiodeadline.com:3090/' + 'datalist';
     /******* not completed ******/
-    let data: any = { "source": "blockchainuser_view", "condition": { "posts_id_object": singleData._id }, "token": this.jwttokenval };
+    const data: any = { source: 'blockchainuser_view', condition: { posts_id_object: singleData._id }, token: this.jwttokenval };
     /******** not completed *****/
-    this._apiService.postData(link, data).subscribe(response => {
-      let restlt: any = response;
+    this.subscriptions[this.subscriptioncount++] = this._apiService.postData(link, data).subscribe(response => {
+      const restlt: any = response;
       /* open dialog */
       const dialogRef = this.dialog.open(Confirmdialog, {
         panelClass: 'custom-modalbox-artistxp-preview',
@@ -1752,7 +1855,7 @@ export class Confirmdialog {
     // public notesval:any=null,
     public dialogRef: MatDialogRef<Confirmdialog>,
     @Inject(MAT_DIALOG_DATA) public data: any, public sanitizer: DomSanitizer) {
-    // console.log('lib data in modal ', this.data, this.data.data.message);
+    // console.log('lib data in modal ', this.data, this.data, this.data.rowdata, this.data.rowdata.blogtitle);
     this.data.color = 'primary';
     this.data.mode = 'indeterminate';
     this.data.loadervalue = 50;
@@ -1765,10 +1868,10 @@ export class Confirmdialog {
   deletenote(index: any) {
     // console.log('log', this.data);
     // if (this.data.notesval != null && this.data.notesval != '') {
-    let source: any = {
+    const source: any = {
 
       id: this.data.rowdata._id,
-      index: index
+      index
       // note: this.data.notesval,
       // user: this.data.notedata.user,
     };
@@ -1785,7 +1888,7 @@ export class Confirmdialog {
       }
       // console.log('count',result);
       // this.dataSource.paginator = this.paginator;
-      //this.dataSource.sort = this.sort;
+      // this.dataSource.sort = this.sort;
 
     });
     // }
@@ -1793,7 +1896,7 @@ export class Confirmdialog {
   addnotes() {
     // console.log('log', this.data);
     if (this.data.notesval != null && this.data.notesval != '') {
-      let source: any = {
+      const source: any = {
 
         id: this.data.rowdata._id,
         note: this.data.notesval,
@@ -1805,14 +1908,14 @@ export class Confirmdialog {
         result = res;
         // console.log(result, 'add notes');
         if (result.status == 'success') {
-          if (this.data.listdata == null) this.data.listdata = [];
+          if (this.data.listdata == null) { this.data.listdata = []; }
           this.data.listdata.unshift({ _id: this.data.rowdata._id, notes: { userid: this.data.notedata.user, note: this.data.notesval, user: this.data.notedata.currentuserfullname, created_date: Date.now() } });
           this.data.notesval = '';
           this.data.loading = null;
         }
         // console.log('count',this.data.listdata);
         // this.dataSource.paginator = this.paginator;
-        //this.dataSource.sort = this.sort;
+        // this.dataSource.sort = this.sort;
 
       });
     }
@@ -1822,7 +1925,7 @@ export class Confirmdialog {
     return typeof (val);
   }
   sanitizeUrl(unsafeurl: any, data: any, rowdata: any) {
-    for (let b in data) {
+    for (const b in data) {
       unsafeurl = unsafeurl + '/' + rowdata[data[b]];
 
     }
@@ -1840,7 +1943,7 @@ export class Confirmdialog {
 })
 export class BottomSheet {
   constructor(private bottomSheetRef: MatBottomSheetRef<BottomSheet>, @Inject(MAT_BOTTOM_SHEET_DATA) public data: any) {
-    //console.warn("bottom-sheet",data);
+    // console.warn("bottom-sheet",data);
   }
 
   openLink(val: any): void {
@@ -1858,7 +1961,7 @@ export class VideoPlayer {
   constructor(
     public dialogRef: MatDialogRef<VideoPlayer>,
     @Inject(MAT_DIALOG_DATA) public data: any) {
-    //console.warn('videoplayerModal',data.previewData.video);
+    // console.warn('videoplayerModal',data.previewData.video);
   }
 
   onNoClick(): void {
@@ -1902,6 +2005,6 @@ export class SnackbarComponent {
     public snackBarRef: MatSnackBarRef<SnackbarComponent>,
     @Inject(MAT_SNACK_BAR_DATA) public data: any
   ) {
-    //console.log('snack',this.data);
+    // console.log('snack',this.data);
   }
 }

@@ -1,11 +1,11 @@
 /**
  * Created by debasiskar on 17/04/19.
  */
-import { Component, OnInit } from "@angular/core";
-import { FormGroup } from "@angular/forms";
-import { FieldConfig } from "../field.interface";
+import { Component, OnInit } from '@angular/core';
+import { FormGroup } from '@angular/forms';
+import { FieldConfig } from '../field.interface';
 @Component({
-    selector: "app-select",
+    selector: 'app-select',
     template: `
 <mat-form-field class="demo-full-width margin-top" [formGroup]="group">
 <mat-select [placeholder]="field.label" [formControlName]="field.name">

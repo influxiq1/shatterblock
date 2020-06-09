@@ -1,11 +1,11 @@
 /**
  * Created by debasiskar on 17/04/19.
  */
-import { Component, OnInit } from "@angular/core";
-import { FormGroup } from "@angular/forms";
-import { FieldConfig } from "./field.interface";
+import { Component, OnInit } from '@angular/core';
+import { FormGroup } from '@angular/forms';
+import { FieldConfig } from './field.interface';
 @Component({
-    selector: "app-radiobutton",
+    selector: 'app-radiobutton',
     template: `
 <div class="demo-full-width margin-top" [formGroup]="group">
 <label class="radio-label-padding">{{field.label}}:</label>

@@ -25,9 +25,9 @@ import { FormGroup } from '@angular/forms';
             <img class="card-img-top" [src]="field.value">
           </div>
         </div>
-      </div> 
+      </div>
     `,
-    styles:[
+    styles: [
         `
       .drop-container {
         background: #fff;
@@ -43,7 +43,7 @@ import { FormGroup } from '@angular/forms';
       p {
         font-size: 16px;
         font-weight: 400;
-        color: #c0c4c7; 
+        color: #c0c4c7;
       }
       .upload-button {
         display: inline-block;
@@ -55,11 +55,11 @@ import { FormGroup } from '@angular/forms';
       .upload-button input {
         display: none;
       }
-      .dropzone { 
+      .dropzone {
         display: flex;
         align-items: center;
         justify-content: center;
-        flex-direction: column; 
+        flex-direction: column;
         border-radius: 5px;
         background: white;
         margin: 10px 0;
@@ -75,8 +75,8 @@ import { FormGroup } from '@angular/forms';
     ]
 })
 export class FileComponent {
-    @Input() field:any = {};
-    @Input() form:FormGroup;
+    @Input() field: any = {};
+    @Input() form: FormGroup;
     get isValid() { return this.form.controls[this.field.name].valid; }
     get isDirty() { return this.form.controls[this.field.name].dirty; }
 
@@ -84,7 +84,7 @@ export class FileComponent {
 
     }
 
-    ngOnChange(){
+    ngOnChange() {
         console.log(this.field.value);
         // this.field.value.
     }

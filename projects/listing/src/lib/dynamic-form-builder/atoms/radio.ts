@@ -14,10 +14,10 @@ import { FormGroup } from '@angular/forms';
             {{opt.label}}
           </label>
         </div>
-      </div> 
+      </div>
     `
 })
 export class RadioComponent {
-    @Input() field:any = {};
-    @Input() form:FormGroup;
+    @Input() field: any = {};
+    @Input() form: FormGroup;
 }

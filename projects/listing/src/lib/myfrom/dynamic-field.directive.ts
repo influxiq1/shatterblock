@@ -8,15 +8,15 @@ import {
     Input,
     OnInit,
     ViewContainerRef
-} from "@angular/core";
-import { FormGroup } from "@angular/forms";
-import { FieldConfig } from "./field.interface";
-import { InputComponent } from "./input.component";
-import { ButtonComponent } from "./button.component";
-import { SelectComponent } from "./select.component";
-import { DateComponent } from "./date.component";
-import { RadiobuttonComponent } from "./radiobutton.component";
-import { CheckboxComponent } from "./checkbox.component";
+} from '@angular/core';
+import { FormGroup } from '@angular/forms';
+import { FieldConfig } from './field.interface';
+import { InputComponent } from './input.component';
+import { ButtonComponent } from './button.component';
+import { SelectComponent } from './select.component';
+import { DateComponent } from './date.component';
+import { RadiobuttonComponent } from './radiobutton.component';
+import { CheckboxComponent } from './checkbox.component';
 
 const componentMapper = {
     input: InputComponent,
@@ -27,7 +27,7 @@ const componentMapper = {
     checkbox: CheckboxComponent
 };
 @Directive({
-    selector: "[dynamicField]"
+    selector: '[dynamicField]'
 })
 export class DynamicFieldDirective implements OnInit {
     @Input() field: FieldConfig;

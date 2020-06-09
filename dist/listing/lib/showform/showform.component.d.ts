@@ -3,8 +3,8 @@ import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { ApiService } from '../api.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ThemePalette } from "@angular/material/core";
-import { Router } from "@angular/router";
+import { ThemePalette } from '@angular/material/core';
+import { Router } from '@angular/router';
 import { ImageCroppedEvent } from 'ngx-image-cropper';
 export declare class ShowformComponent implements OnInit {
     private formBuilder;
@@ -12,6 +12,11 @@ export declare class ShowformComponent implements OnInit {
     private _snackBar;
     private router;
     private elementRef;
+    formdata: any;
+    formfieldrefreshdata: any;
+    formfieldrefresh: any;
+    constructor(formBuilder: FormBuilder, _apiService: ApiService, _snackBar: MatSnackBar, router: Router, elementRef: ElementRef);
+    readonly name: FormControl;
     formGroup: FormGroup;
     titleAlert: string;
     post: any;
@@ -30,11 +35,9 @@ export declare class ShowformComponent implements OnInit {
     mode: any;
     value: number;
     bufferValue: number;
-    formdata: any;
-    formfieldrefreshdata: any;
-    formfieldrefresh: any;
     onFormFieldChange: EventEmitter<any>;
-    constructor(formBuilder: FormBuilder, _apiService: ApiService, _snackBar: MatSnackBar, router: Router, elementRef: ElementRef);
+    imageChangedEvent: any;
+    croppedImage: any;
     ngOnInit(): void;
     navtocancel(): void;
     ngAfterViewInit(): void;
@@ -60,7 +63,6 @@ export declare class ShowformComponent implements OnInit {
     checkchange(field: any, index: any): void;
     createForm(initialize?: any): void;
     setChangeValidate(): void;
-    readonly name: FormControl;
     checkPasswords(group: FormGroup): {
         required: boolean;
         match?: undefined;
@@ -69,7 +71,7 @@ export declare class ShowformComponent implements OnInit {
         required?: undefined;
     };
     checkPassword(control: any): {
-        'requirements': boolean;
+        requirements: boolean;
     };
     autorequired(group: any): {
         autorequired: boolean;
@@ -78,8 +80,6 @@ export declare class ShowformComponent implements OnInit {
     getError(data: any): "" | "Field is required" | "Not a valid emailaddress" | "This emailaddress is already in use";
     getErrorPassword(): "" | "Field is required (at least eight characters, one uppercase letter and one number)" | "Password needs to be at least eight characters, one uppercase letter and one number";
     onSubmit(post: any): void;
-    imageChangedEvent: any;
-    croppedImage: any;
     fileChangeEvent(event: any): void;
     imageCropped(event: ImageCroppedEvent): void;
     imageLoaded(): void;

@@ -3,6 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { ApiService } from '../api.service';
 import { Validators } from "@angular/forms";
 import { FieldConfig } from "../field.interface";
+import { Subscription } from 'rxjs';
 //import {ShowformComponent} from;
 declare var moment: any;
 
@@ -87,7 +88,8 @@ export class AdmindashbordComponent implements OnInit {
         "author": "Author Name",
         "priority": "Priority of B ",
         "description_html": "Desc",
-        "status": "Active ?"
+        "status": "Active ?",
+        'wrongone': 'Wrong O 1'
     };
 
 
@@ -135,13 +137,15 @@ export class AdmindashbordComponent implements OnInit {
 
     // other data
     libdata: any = {
-        //basecondition:{status:1},
+        basecondition: { status: 1 },
         detailview_override: [
             { key: "tags_array", val: "Tags" },
             { key: "author", val: "Written By" },
             { key: "blogtitle", val: "Title" },
             { key: "created_datetime", val: "Date Added with time" },
             { key: "created_date", val: "Date Added only" },
+            { key: "descriptionb", val: "Dc" },
+            { key: "blogtitleb", val: "BT" },
         ], // optional
 
         updateendpoint: 'statusupdate',
@@ -151,8 +155,8 @@ export class AdmindashbordComponent implements OnInit {
             deleteendpoint: "deletenotedata",
             listendpoint: "listnotedata",
             user: "5e0c80cd3a339a042de8717d",
-            currentuserfullname: "Debasis",
-            header: 'blogtitle',
+            currentuserfullname: "Debasis 8 ",
+            header: 'author',
         },
         updateendpointmany: 'updateendpointmany',
         deleteendpointmany: 'deleteendpointmany',
@@ -255,7 +259,7 @@ export class AdmindashbordComponent implements OnInit {
                 //cond:'status',
                 //condval:0,
                 param: 'blog_id',
-                datafields: ['created_date', 'blogtitle', 'description', 'author', 'created_datetime'],
+                datafields: ['blogtitleb', 'descriptionb'],
                 // refreshdata: true,
                 headermessage: 'Api Info',
             }
@@ -309,7 +313,11 @@ export class AdmindashbordComponent implements OnInit {
         // textsearch: [{ label: "Search By Title", field: 'blogtitle_search', value: "Test t" },
         // { label: "Search by auther", field: "author_search", value: "AUth" }],  // this is use for  text search
 
-        search: [{ label: "Search By Author static ", field: 'author_search', values: this.authval }]     // this is use for  Autocomplete search
+        search: [{
+            label: "Search By Author static ", field: 'author_search',
+            values: this.authval,
+            serversearchdata: { endpoint: 'exitsing-list-author' }
+        }]     // this is use for  Autocomplete search
     };
 
     // this is search block 
@@ -960,7 +968,9 @@ export class AdmindashbordComponent implements OnInit {
             "val": "MISCELLANEOUS",
             "key": "5dc54d2f64f5cd087e5f8a79"
         }
-    ]
+    ];
+    subscriptions: Subscription[] = [];
+    subscriptioncount: number = 0;
 
     constructor(public router: Router, private route: ActivatedRoute, private _apiService: ApiService) {
         console.log(this.blog_cat_list);
@@ -985,12 +995,12 @@ export class AdmindashbordComponent implements OnInit {
 
         }
 
-        this._apiService.postData(autodataendpoint, {}).subscribe((res: any) => {
+        this.subscriptions[this.subscriptioncount++] = this._apiService.postData(autodataendpoint, {}).subscribe((res: any) => {
             // console.log('in constructor');
             console.log(res, 'auto res', res.result, res.result.blog_cat_list, res.result.blog_tag_list);
             // search: [{ label: "Search By Author", field: 'author_search', values: this.authval }] 
             this.search_settings.search.push({ label: "Search By Cat ID", field: 'blogcat_str', values: res.result.blog_cat_list });
-            this.search_settings.search.push({ label: "Search By Cat Name", field: 'category_search', values: res.result.blog_cat_str_list   });
+            this.search_settings.search.push({ label: "Search By Cat Name", field: 'category_search', values: res.result.blog_cat_str_list });
             this.search_settings.search.push({ label: "Search By Tags from server", field: 'tag_search', values: res.result.blog_tag_list });
             this.search_settings.search.push({ label: "Search Author from Server", field: 'author_search', values: res.result.blog_author_list });
             // this.date_search_source_count = res.count;
@@ -999,7 +1009,7 @@ export class AdmindashbordComponent implements OnInit {
         }, error => {
             console.log('Oooops!');
         });
-        this._apiService.postData(endpointc, data).subscribe((res: any) => {
+        this.subscriptions[this.subscriptioncount++] = this._apiService.postData(endpointc, data).subscribe((res: any) => {
             // console.log('in constructor');
             // console.log(result);
             this.date_search_source_count = res.count;
@@ -1009,11 +1019,16 @@ export class AdmindashbordComponent implements OnInit {
             console.log('Oooops!');
         });
 
-        this._apiService.postData(endpoint, data).subscribe((res: any) => {
+        this.subscriptions[this.subscriptioncount++] = this._apiService.postData(endpoint, data).subscribe((res: any) => {
             // console.log('in constructor');
             // console.log(result);
+            res.results.res[3].created_date = 0;
+            res.results.res[2].created_date = 'NA';
+            res.results.res[4].created_date = 'na';
+            res.results.res[3].wrongone = "d 78 l";
             this.pendingmodelapplicationarray = res.results.res;
-            //console.warn('blogData',res);
+            // this.pendingmodelapplicationarray[3].wrongone = 'Sdo *9';
+            console.warn('blogData', this.pendingmodelapplicationarray);
 
         }, error => {
             console.log('Oooops!');
@@ -1111,5 +1126,9 @@ export class AdmindashbordComponent implements OnInit {
 
 
 
+    }
+    ngOnDestroy() {
+        // prevent memory leak when component destroyed
+        this.subscriptions.forEach(s => s.unsubscribe());
     }
 }

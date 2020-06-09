@@ -7,15 +7,15 @@ import { DomSanitizer } from '@angular/platform-browser';
   styleUrls: ['./youtubeplayer.component.css']
 })
 export class YoutubeplayerComponent implements OnInit {
-  id:any;
+  id: any;
 
-  @Input()          //setting the server url from project
+  @Input()          // setting the server url from project
   set videoid(id: any) {
     this.id = (id) || '<no name set>';
-    this.id = this.sanitizer.bypassSecurityTrustResourceUrl('https://www.youtube.com/embed/'+id+'?autoplay=1');
+    this.id = this.sanitizer.bypassSecurityTrustResourceUrl('https://www.youtube.com/embed/' + id + '?autoplay=1');
     // console.warn(this.id);
   }
-  constructor(public sanitizer:DomSanitizer) { }
+  constructor(public sanitizer: DomSanitizer) { }
 
   ngOnInit() {
   }

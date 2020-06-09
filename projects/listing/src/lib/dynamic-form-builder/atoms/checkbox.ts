@@ -16,12 +16,12 @@ import { FormGroup } from '@angular/forms';
           </div>
         </div>
 
-      </div> 
+      </div>
     `
 })
 export class CheckBoxComponent {
-    @Input() field:any = {};
-    @Input() form:FormGroup;
+    @Input() field: any = {};
+    @Input() form: FormGroup;
     get isValid() { return this.form.controls[this.field.name].valid; }
     get isDirty() { return this.form.controls[this.field.name].dirty; }
 }

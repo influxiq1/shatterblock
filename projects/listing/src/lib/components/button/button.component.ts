@@ -1,11 +1,11 @@
 /**
  * Created by debasiskar on 17/04/19.
  */
-import { Component, OnInit } from "@angular/core";
-import { FormGroup } from "@angular/forms";
-import { FieldConfig } from "../field.interface";
+import { Component, OnInit } from '@angular/core';
+import { FormGroup } from '@angular/forms';
+import { FieldConfig } from '../field.interface';
 @Component({
-    selector: "app-button",
+    selector: 'app-button',
     template: `
 <div class="demo-full-width margin-top" [formGroup]="group">
 <button type="submit" mat-raised-button color="primary" class="submit_button">{{field.label}}</button>

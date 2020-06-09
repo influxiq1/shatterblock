@@ -1,10 +1,10 @@
 import { SelectionModel } from '@angular/cdk/collections';
 import { humanizeBytes } from 'ngx-uploader';
 import { CookieService } from 'ngx-cookie-service';
-import { map, catchError, startWith } from 'rxjs/operators';
+import { map, catchError, startWith, debounceTime } from 'rxjs/operators';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import * as momentImported from 'moment';
-import { throwError, Observable } from 'rxjs';
+import { throwError, Subject, Observable } from 'rxjs';
 import { MAT_SNACK_BAR_DATA, MatSnackBar, MatSnackBarRef } from '@angular/material/snack-bar';
 import { A11yModule } from '@angular/cdk/a11y';
 import { DragDropModule } from '@angular/cdk/drag-drop';
@@ -19,7 +19,7 @@ import { FormBuilder, FormControl, Validators, FormsModule, ReactiveFormsModule 
 import { CommonModule } from '@angular/common';
 import { MomentModule } from 'ngx-moment';
 import { NavigationCancel, NavigationEnd, NavigationError, NavigationStart, Router, RouterModule } from '@angular/router';
-import { Injectable, Component, Input, ElementRef, EventEmitter, ViewChild, NgModule, CUSTOM_ELEMENTS_SCHEMA, Inject, ComponentFactoryResolver, ViewContainerRef, Output, defineInjectable } from '@angular/core';
+import { Injectable, ElementRef, EventEmitter, ViewChild, Component, Input, NgModule, CUSTOM_ELEMENTS_SCHEMA, Inject, ComponentFactoryResolver, ViewContainerRef, Output, defineInjectable } from '@angular/core';
 import { DomSanitizer, BrowserModule } from '@angular/platform-browser';
 import { CKEditorModule } from 'ng2-ckeditor';
 import { ImageCropperModule } from 'ngx-image-cropper';
@@ -70,10 +70,11 @@ class ApiService {
         this.files = []; // local uploading files array
         this.uploadInput = new EventEmitter(); // input events, we use this to emit data to ngx-uploader
         this.humanizeBytes = humanizeBytes;
-        if (this.cookieService.check('secretkey'))
+        if (this.cookieService.check('secretkey')) {
             this.secretkey = this.cookieService.get('secretkey');
-        //console.log('this.domain');
-        //console.log(this.domain);
+        }
+        // console.log('this.domain');
+        // console.log(this.domain);
     }
     /**
      * @param {?} uploadOutput
@@ -113,8 +114,9 @@ class ApiService {
             file => typeof uploadOutput.file !== 'undefined' && file.id === uploadOutput.file.id));
             this.files[index] = uploadOutput.file;
             this.lengthis = this.files.length;
-            if (this.files[0] != null && this.files[0].progress != null)
+            if (this.files[0] != null && this.files[0].progress != null) {
                 this.percentageis = this.files[0].progress.data.percentage;
+            }
             console.log('this.files==================');
             console.log(this.files);
         }
@@ -137,8 +139,9 @@ class ApiService {
         console.log('files');
         console.log(this.files);
         if (this.files[0] != null && this.files[0].progress != null) {
-            if (this.progress[arrayvalue] == null)
+            if (this.progress[arrayvalue] == null) {
                 this.progress[arrayvalue] = 0;
+            }
             this.inprogress = true;
             console.log('file upload progressing');
             console.log(this.files[0].progress.data.percentage);
@@ -152,19 +155,22 @@ class ApiService {
         }
         if (uploadtypec == 'single') {
             // this.fileservername = [];
-            if (this.fileservername[arrayvalue] == null)
+            if (this.fileservername[arrayvalue] == null) {
                 this.fileservername[arrayvalue] = [];
+            }
             this.fileservername[arrayvalue] = [];
-            if (this.files[0].response != null)
+            if (this.files[0].response != null) {
                 this.fileservername[arrayvalue].push(this.files[0].response);
+            }
         }
         if (uploadtypec == 'multiple') {
             console.log('this.files[0].response');
             // console.log(this.files[0].response);
             console.log(this.files.length);
             console.log(this.files);
-            if (this.fileservername[arrayvalue] == null)
+            if (this.fileservername[arrayvalue] == null) {
                 this.fileservername[arrayvalue] = [];
+            }
             // if(this.files[0].response!=null){
             if (this.files.length == 1) {
                 if (this.files[0] && this.files[0].response != null && this.files[0].response.error_code == null) {
@@ -178,21 +184,21 @@ class ApiService {
             }
             if (this.files.length > 1) {
                 console.log('sdfdsf==== in multiple length ');
-                for (let b in this.files) {
+                for (const b in this.files) {
                     if (this.files[b].response != null && this.files[b].response.error_code == null) {
                         this.fileservername[arrayvalue].push(this.files[b].response);
                     }
                 }
                 this.files = [];
             }
-            //}
+            // }
         }
         console.log('this.fileservername');
         console.log(this.fileservername);
         console.log(this.uploaderror);
-        //this.uploaderservice.filenamevalc1=this.fileservername;
-        //UploaderComponent.filenamevalc1=87;
-        //console.log(classval);
+        // this.uploaderservice.filenamevalc1=this.fileservername;
+        // UploaderComponent.filenamevalc1=87;
+        // console.log(classval);
     }
     /**
      * @return {?}
@@ -213,7 +219,7 @@ class ApiService {
         console.log('endpoint');
         // this.isTokenExpired()
         /** @type {?} */
-        var result = this._http.get("http://ipinfo.io/?format=json&token=9797c42b93078a").pipe(map((/**
+        const result = this._http.get('http://ipinfo.io/?format=json&token=9797c42b93078a').pipe(map((/**
          * @param {?} res
          * @return {?}
          */
@@ -229,7 +235,7 @@ class ApiService {
         const httpOptions = {
             headers: new HttpHeaders({
                 'Content-Type': 'application/json',
-                'Authorization': ''
+                Authorization: ''
             })
         };
         console.log('endpoint');
@@ -239,7 +245,7 @@ class ApiService {
         console.log('');
         // this.isTokenExpired()
         /** @type {?} */
-        var result = this._http.post('' + endpoint.source, {}, httpOptions).pipe(map((/**
+        const result = this._http.post('' + endpoint.source, {}, httpOptions).pipe(map((/**
          * @param {?} res
          * @return {?}
          */
@@ -255,7 +261,7 @@ class ApiService {
         const httpOptions = {
             headers: new HttpHeaders({
                 'Content-Type': 'application/json',
-                'Authorization': ''
+                Authorization: ''
             })
         };
         console.log('endpoint');
@@ -265,15 +271,15 @@ class ApiService {
         console.log('');
         // this.isTokenExpired()
         /** @type {?} */
-        var result = this._http.post('' + 'datalist', endpoint, httpOptions).pipe(catchError((/**
+        const result = this._http.post('' + 'datalist', endpoint, httpOptions).pipe(catchError((/**
          * @param {?} err
          * @return {?}
          */
         (err) => {
             console.log('error caught in service');
             console.error(err);
-            //Handle the error here
-            return throwError(err); //Rethrow it back to component
+            // Handle the error here
+            return throwError(err); // Rethrow it back to component
         })), map((/**
          * @param {?} res
          * @return {?}
@@ -292,7 +298,7 @@ class ApiService {
         const httpOptions = {
             headers: new HttpHeaders({
                 'Content-Type': 'application/json',
-                'Authorization': data.token
+                Authorization: data.token
             })
         };
         console.log('');
@@ -301,15 +307,15 @@ class ApiService {
         console.log('httpOptions');
         console.log(httpOptions);
         /** @type {?} */
-        var result = this._http.post(this.getEndpointUrl(endpoint), JSON.stringify(data), httpOptions).pipe(catchError((/**
+        const result = this._http.post(this.getEndpointUrl(endpoint), JSON.stringify(data), httpOptions).pipe(catchError((/**
          * @param {?} err
          * @return {?}
          */
         (err) => {
             console.log('error caught in service');
             console.error(err);
-            //Handle the error here
-            return throwError(err); //Rethrow it back to component
+            // Handle the error here
+            return throwError(err); // Rethrow it back to component
         })), map((/**
          * @param {?} res
          * @return {?}
@@ -333,15 +339,15 @@ class ApiService {
         console.log('endpoint');
         console.log(endpoint);
         /** @type {?} */
-        var result = this._http.post(this.getEndpointUrl(endpoint), JSON.stringify(data), httpOptions).pipe(catchError((/**
+        const result = this._http.post(this.getEndpointUrl(endpoint), JSON.stringify(data), httpOptions).pipe(catchError((/**
          * @param {?} err
          * @return {?}
          */
         (err) => {
             console.log('error caught in service');
             console.error(err);
-            //Handle the error here
-            return throwError(err); //Rethrow it back to component
+            // Handle the error here
+            return throwError(err); // Rethrow it back to component
         })), map((/**
          * @param {?} res
          * @return {?}
@@ -365,15 +371,15 @@ class ApiService {
         console.log('endpoint');
         console.log(endpoint);
         /** @type {?} */
-        var result = this._http.post(this.getEndpointUrl(endpoint), JSON.stringify(data), httpOptions).pipe(catchError((/**
+        const result = this._http.post(this.getEndpointUrl(endpoint), JSON.stringify(data), httpOptions).pipe(catchError((/**
          * @param {?} err
          * @return {?}
          */
         (err) => {
             console.log('error caught in service');
             console.error(err);
-            //Handle the error here
-            return throwError(err); //Rethrow it back to component
+            // Handle the error here
+            return throwError(err); // Rethrow it back to component
         })), map((/**
          * @param {?} res
          * @return {?}
@@ -393,7 +399,7 @@ class ApiService {
         const httpOptions = {
             headers: new HttpHeaders({
                 'Content-Type': 'application/json',
-                'Authorization': token
+                Authorization: token
             })
         };
         /*console.log('------ ');
@@ -402,15 +408,15 @@ class ApiService {
         console.log(source);*/
         source.secretkey = this.secretkey;
         /** @type {?} */
-        var result = this._http.post(link, source, httpOptions).pipe(catchError((/**
+        const result = this._http.post(link, source, httpOptions).pipe(catchError((/**
          * @param {?} err
          * @return {?}
          */
         (err) => {
             console.log('error caught in service');
             console.error(err);
-            //Handle the error here
-            return throwError(err); //Rethrow it back to component
+            // Handle the error here
+            return throwError(err); // Rethrow it back to component
         })), map((/**
          * @param {?} res
          * @return {?}
@@ -428,22 +434,22 @@ class ApiService {
         const httpOptions = {
             headers: new HttpHeaders({
                 'Content-Type': 'application/json',
-                'Authorization': source.token
+                Authorization: source.token
             })
         };
         console.log('------ ');
-        console.log("link");
+        console.log('link');
         console.log(link);
         /** @type {?} */
-        var result = this._http.post(link, source).pipe(catchError((/**
+        const result = this._http.post(link, source).pipe(catchError((/**
          * @param {?} err
          * @return {?}
          */
         (err) => {
             console.log('error caught in service');
             console.error(err);
-            //Handle the error here
-            return throwError(err); //Rethrow it back to component
+            // Handle the error here
+            return throwError(err); // Rethrow it back to component
         })), map((/**
          * @param {?} res
          * @return {?}
@@ -462,14 +468,14 @@ class ApiService {
         const httpOptions = {
             headers: new HttpHeaders({
                 'Content-Type': 'application/json',
-                'Authorization': ''
+                Authorization: ''
             })
         };
         console.log('');
-        console.log("endpoint");
+        console.log('endpoint');
         console.log(endpoint);
         /** @type {?} */
-        var result = this._http.put(this.getEndpointUrl(endpoint) + '/' + id, JSON.stringify(data), httpOptions).pipe(map((/**
+        const result = this._http.put(this.getEndpointUrl(endpoint) + '/' + id, JSON.stringify(data), httpOptions).pipe(map((/**
          * @param {?} res
          * @return {?}
          */
@@ -488,7 +494,7 @@ class ApiService {
         const httpOptions = {
             headers: new HttpHeaders({
                 'Content-Type': 'application/json',
-                'Authorization': token
+                Authorization: token
             })
         };
         /* console.log('------ ');
@@ -498,18 +504,18 @@ class ApiService {
             console.log(token);*/
         /** @type {?} */
         let dataval;
-        dataval = { source: source, id: data._id };
+        dataval = { source, id: data._id };
         dataval.secretkey = this.secretkey;
         /** @type {?} */
-        var result = this._http.post(endpoint, dataval, httpOptions).pipe(catchError((/**
+        const result = this._http.post(endpoint, dataval, httpOptions).pipe(catchError((/**
          * @param {?} err
          * @return {?}
          */
         (err) => {
             console.log('error caught in service');
             console.error(err);
-            //Handle the error here
-            return throwError(err); //Rethrow it back to component
+            // Handle the error here
+            return throwError(err); // Rethrow it back to component
         })), map((/**
          * @param {?} res
          * @return {?}
@@ -537,7 +543,7 @@ class ApiService {
         const httpOptions = {
             headers: new HttpHeaders({
                 'Content-Type': 'application/json',
-                'Authorization': token
+                Authorization: token
             })
         };
         /*console.log('------ ');
@@ -546,18 +552,18 @@ class ApiService {
             console.log(data);*/
         /** @type {?} */
         let dataval;
-        dataval = { source: source, data: data };
+        dataval = { source, data };
         dataval.secretkey = this.secretkey;
         /** @type {?} */
-        var result = this._http.post(endpoint, dataval, httpOptions).pipe(catchError((/**
+        const result = this._http.post(endpoint, dataval, httpOptions).pipe(catchError((/**
          * @param {?} err
          * @return {?}
          */
         (err) => {
             console.log('error caught in service');
             console.error(err);
-            //Handle the error here
-            return throwError(err); //Rethrow it back to component
+            // Handle the error here
+            return throwError(err); // Rethrow it back to component
         })), map((/**
          * @param {?} res
          * @return {?}
@@ -577,7 +583,7 @@ class ApiService {
         const httpOptions = {
             headers: new HttpHeaders({
                 'Content-Type': 'application/json',
-                'Authorization': token
+                Authorization: token
             })
         };
         /*console.log('------ ');
@@ -586,18 +592,18 @@ class ApiService {
             console.log(data);*/
         /** @type {?} */
         let dataval;
-        dataval = { source: source, ids: data };
+        dataval = { source, ids: data };
         dataval.secretkey = this.secretkey;
         /** @type {?} */
-        var result = this._http.post(endpoint + 'many', dataval, httpOptions).pipe(catchError((/**
+        const result = this._http.post(endpoint + 'many', dataval, httpOptions).pipe(catchError((/**
          * @param {?} err
          * @return {?}
          */
         (err) => {
             console.log('error caught in service');
             console.error(err);
-            //Handle the error here
-            return throwError(err); //Rethrow it back to component
+            // Handle the error here
+            return throwError(err); // Rethrow it back to component
         })), map((/**
          * @param {?} res
          * @return {?}
@@ -618,7 +624,7 @@ class ApiService {
         const httpOptions = {
             headers: new HttpHeaders({
                 'Content-Type': 'application/json',
-                'Authorization': token
+                Authorization: token
             })
         };
         /*console.log('------ ');
@@ -627,18 +633,18 @@ class ApiService {
             console.log(data);*/
         /** @type {?} */
         let dataval;
-        dataval = { source: source, data: { ids: data, val: val } };
+        dataval = { source, data: { ids: data, val } };
         dataval.secretkey = this.secretkey;
         /** @type {?} */
-        var result = this._http.post(endpoint + 'many', dataval, httpOptions).pipe(catchError((/**
+        const result = this._http.post(endpoint + 'many', dataval, httpOptions).pipe(catchError((/**
          * @param {?} err
          * @return {?}
          */
         (err) => {
             console.log('error caught in service');
             console.error(err);
-            //Handle the error here
-            return throwError(err); //Rethrow it back to component
+            // Handle the error here
+            return throwError(err); // Rethrow it back to component
         })), map((/**
          * @param {?} res
          * @return {?}
@@ -672,12 +678,12 @@ ApiService.propDecorators = {
  * @fileoverview added by tsickle
  * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
-//import {ProgressBarMode} from '@angular/material/progress-bar';
-//import  {BtnComponent} from './../../../../src/app/btn/btn.component'
+// import {ProgressBarMode} from '@angular/material/progress-bar';
+// import  {BtnComponent} from './../../../../src/app/btn/btn.component'
 /** @type {?} */
 const moment = momentImported;
 class ListingComponent {
-    // myForm:any;
+    // searchResult$: Observable<SearchResult[]>;
     /**
      * @param {?} _apiService
      * @param {?} dialog
@@ -739,8 +745,13 @@ class ListingComponent {
         this.textSearch_condition = {};
         this.loading = false;
         this.preresult = {};
-        //dataSource = new MatTableDataSource(this.datasourceval);
+        // dataSource = new MatTableDataSource(this.datasourceval);
         this.dataSource = new MatTableDataSource;
+        // myForm:any;
+        this.modelChanged = new Subject();
+        this.modelChangedserver = new Subject();
+        this.subscriptions = [];
+        this.subscriptioncount = 0;
         this.router.events.subscribe((/**
          * @param {?} event
          * @return {?}
@@ -761,6 +772,73 @@ class ListingComponent {
                     break;
                 }
             }
+        }));
+        this.subscriptions[this.subscriptioncount++] = this.modelChanged
+            .pipe(debounceTime(1000))
+            .subscribe((/**
+         * @return {?}
+         */
+        () => {
+            // this.searchResult$ = this.api.search(this.model);
+            console.log('after debounce ', this.autosearchinput, this.currentautocompleteitem);
+            this.filterautoval(this.currentautocompleteitem);
+        }));
+        this.subscriptions[this.subscriptioncount++] = this.modelChangedserver
+            .pipe(debounceTime(1000))
+            .subscribe((/**
+         * @return {?}
+         */
+        () => {
+            // this.searchResult$ = this.api.search(this.model);
+            console.log('after debounce  server', this.autosearchinput, this.currentautocompleteitem);
+            // this.filterautoval(this.currentautocompleteitem);
+            /** @type {?} */
+            const link = this.apiurlval + '' + this.currentautocompleteitem.serversearchdata.endpoint;
+            /** @type {?} */
+            let source;
+            source = {
+                search_str: this.autosearchinput[this.currentautocompleteitem.field],
+                sort: {
+                    field: this.sortdataval.field,
+                    type: this.sortdataval.type
+                }
+            };
+            // console.log('con...',conditionobj,this.end_date);
+            // console.warn('cond',condition,this.dateSearch_condition,conditionobj,this.tsearch,textSearch);
+            // return;
+            this.date_search_source_countval = 0;
+            this.loading = true;
+            this.subscriptions[this.subscriptioncount++] = this._apiService.postSearch(link, this.jwttokenval, source).subscribe((/**
+             * @param {?} res
+             * @return {?}
+             */
+            res => {
+                /** @type {?} */
+                let result = {};
+                console.log(res, 'result');
+                this.loading = false;
+                // return;
+                result = res;
+                // this.loading = false;
+                if (result.res != null && result.res.length > 0) {
+                    // this.dataSource = new MatTableDataSource(result.results.res);
+                    this.currentautosearcharr = result.res;
+                    this._snackBar.openFromComponent(SnackbarComponent, {
+                        duration: 2000,
+                        data: { errormessage: 'New Search of data loaded for AC' }
+                    });
+                }
+                else {
+                    this.currentautosearcharr = [];
+                    this._snackBar.openFromComponent(SnackbarComponent, {
+                        duration: 6000,
+                        data: { errormessage: 'No such search record found !!' }
+                    });
+                }
+                this.loading = false;
+                // this.dataSource.paginator = this.paginator;
+                // this.dataSource.sort = this.sort;
+            }));
         }));
         /* this.myForm = this.fb.group({
            email: ['', Validators.compose([Validators.required, Validators.pattern(/^\s*[\w\-\+_]+(\.[\w\-\+_]+)*\@[\w\-\+_]+\.[\w\-\+_]+(\.[\w\-\+_]+)*\s*$/)])],
@@ -794,7 +872,7 @@ class ListingComponent {
      */
     set limitcond(limitcondval) {
         this.limitcondval = limitcondval;
-        //console.log('limitcondval',this.limitcondval);
+        // console.log('limitcondval',this.limitcondval);
     }
     /**
      * @param {?} date_search_source_countval
@@ -802,9 +880,10 @@ class ListingComponent {
      */
     set date_search_source_count(date_search_source_countval) {
         this.date_search_source_countval = date_search_source_countval;
-        if (this.date_search_source_countval == 0)
+        if (this.date_search_source_countval == 0) {
             this.limitcondval.pagecount = 1;
-        //console.log('date_search_source_count',this.date_search_source_countval);
+        }
+        // console.log('date_search_source_count',this.date_search_source_countval);
     }
     /**
      * @param {?} grab_link
@@ -834,7 +913,7 @@ class ListingComponent {
      */
     set sortdata(sortdataval) {
         this.sortdataval = sortdataval;
-        //console.log(this.sortdataval,'sortdataval');
+        // console.log(this.sortdataval,'sortdataval');
     }
     /**
      * @param {?} date_search_endpoint
@@ -877,7 +956,7 @@ class ListingComponent {
      */
     set libdata(libdataval) {
         this.libdataval = libdataval;
-        //console.log('libdataval',this.libdataval);
+        // console.log('libdataval',this.libdataval);
     }
     /**
      * @param {?} datasource
@@ -961,11 +1040,13 @@ class ListingComponent {
      * @return {?}
      */
     set jwttoken(jwttoken) {
-        if (jwttoken != null)
+        if (jwttoken != null) {
             this.jwttokenval = jwttoken;
-        else
+        }
+        else {
             this.jwttokenval = '';
-        //console.log(this.jwttokenval,'token')
+        }
+        // console.log(this.jwttokenval,'token')
     }
     /**
      * @param {?} statusarr
@@ -1004,13 +1085,14 @@ class ListingComponent {
      * @return {?}
      */
     ngOnChanges(changes) {
-        //console.log('ngonchange ..',changes);
-        for (let v in changes) {
-            //console.log(v,changes[v],'vv');
+        // console.log('ngonchange ..',changes);
+        for (const v in changes) {
+            // console.log(v,changes[v],'vv');
             if (v == 'updatetable') {
                 // console.log('updatetable');
-                if (changes[v].previousValue != null)
+                if (changes[v].previousValue != null) {
                     this.allSearch();
+                }
             }
         }
     }
@@ -1019,7 +1101,7 @@ class ListingComponent {
      * @return {?}
      */
     inputblur(val) {
-        //console.log('on blur .....');
+        // console.log('on blur .....');
         this.myForm.controls[val].markAsUntouched();
     }
     /**
@@ -1039,7 +1121,7 @@ class ListingComponent {
         //     this.preresult = this.result.res;
         //   });
         // }
-        //not needed ,
+        // not needed ,
         // this._service.success(this.columns[0].date,'dndnnd',this.options);
         /* this.stateGroupOptions = this.myControl.valueChanges
              .pipe(
@@ -1061,30 +1143,30 @@ class ListingComponent {
     */
         this.x = this.datasourceval;
         /** @type {?} */
-        let x = this.x;
+        const x = this.x;
         /** @type {?} */
         let temp = [];
         /** @type {?} */
-        let keys = x[0];
+        const keys = x[0];
         temp = Object.keys(keys); /*by Object.keys() we can find the fieldnames(or keys) in an object, i.e, in temp object field names are saved*/
         /*by Object.keys() we can find the fieldnames(or keys) in an object, i.e, in temp object field names are saved*/
         /** @type {?} */
-        let coldef_list = [];
+        const coldef_list = [];
         /** @type {?} */
-        let header_list = [];
+        const header_list = [];
         for (let i = 0; i < temp.length; i++) {
-            coldef_list.push(temp[i].replace(/\s/g, "_")); /*to replace spaces in field name by "_", we use "replace(/\s/g, "_")"*/
+            coldef_list.push(temp[i].replace(/\s/g, '_')); /*to replace spaces in field name by "_", we use "replace(/\s/g, "_")"*/
             header_list.push(temp[i]);
         }
-        //coldef_list.push('Actions');
-        //header_list.push('Actions')
+        // coldef_list.push('Actions');
+        // header_list.push('Actions')
         // console.log('coldef_list',coldef_list);
         // console.log('header_list',header_list);
         for (let i = 0; i < coldef_list.length; i++) {
             /** @type {?} */
-            let ff = `row.${coldef_list[i]}`;
+            const ff = `row.${coldef_list[i]}`;
             /** @type {?} */
-            var tt = { columnDef: `${coldef_list[i]}`, header: `${header_list[i]}`, cell: (/**
+            const tt = { columnDef: `${coldef_list[i]}`, header: `${header_list[i]}`, cell: (/**
                  * @param {?} row
                  * @return {?}
                  */
@@ -1092,12 +1174,14 @@ class ListingComponent {
             // console.log('tt',tt);
             // console.log('tt.columnDef');
             // console.log(tt.columnDef);
-            for (let b in this.modify_header_arrayval) {
-                if (b == tt.header)
+            for (const b in this.modify_header_arrayval) {
+                if (b == tt.header) {
                     tt.header = this.modify_header_arrayval[b];
+                }
             }
-            if (this.skipval.indexOf(tt.columnDef) == -1)
+            if (this.skipval.indexOf(tt.columnDef) == -1) {
                 this.columns.push(tt);
+            }
         }
         /** @type {?} */
         let displayedcols = this.columns.map((/**
@@ -1107,36 +1191,45 @@ class ListingComponent {
         x => x.columnDef));
         /** @type {?} */
         let customcols = [];
-        //console.log('displayedcols',displayedcols);
-        if (this.libdataval != null && this.libdataval.tableheaders != null)
+        // console.log('displayedcols',displayedcols);
+        if (this.libdataval != null && this.libdataval.tableheaders != null) {
             customcols = this.libdataval.tableheaders;
+        }
         if (customcols != null && customcols.length > 0) {
-            for (let v in customcols) {
+            /** @type {?} */
+            let ccolval = '';
+            for (const v in customcols) {
                 if (displayedcols.includes(customcols[v]) == false) {
-                    this.columns.push({ columnDef: customcols[v], header: customcols[v], cell: 'NA' });
+                    for (const b in this.modify_header_arrayval) {
+                        if (b == customcols[v]) {
+                            ccolval = this.modify_header_arrayval[b];
+                        }
+                    }
+                    this.columns.push({ columnDef: customcols[v], header: ccolval, cell: 'NA' });
                 }
             }
             displayedcols = customcols;
         }
-        //console.log('customcols',customcols,displayedcols,this.columns);
-        if (this.libdataval.hideaction == null || this.libdataval.hideaction == false)
+        // console.log('customcols',customcols,displayedcols,this.columns);
+        if (this.libdataval.hideaction == null || this.libdataval.hideaction == false) {
             displayedcols.push('Actions');
+        }
         this.displayedColumns = displayedcols;
         this.displayedColumns.unshift('#'); /*adds select column in table by unshift function*/
         if (this.libdataval.hidemultipleselectbutton != true) {
             this.displayedColumns.unshift('select'); /*adds select column in table by unshift function*/
         }
         /** @type {?} */
-        let data_list = [];
+        const data_list = [];
         for (let i = 0; i < this.x.length; i++) {
             data_list.push(this.createData(x[i]));
         }
         this.olddata = data_list;
         this.dataSource = new MatTableDataSource(data_list);
         this.selection = new SelectionModel(true, []);
-        //this.dataSource.paginator = this.paginator;
-        //this.dataSource.sort = this.sort;
-        //load search predefinded data
+        // this.dataSource.paginator = this.paginator;
+        // this.dataSource.sort = this.sort;
+        // load search predefinded data
         setTimeout((/**
          * @return {?}
          */
@@ -1145,19 +1238,21 @@ class ListingComponent {
             console.log('selectsearch', this.selectsearch);
             if (this.search_settingsval.selectsearch != null) {
                 console.log('s1', this.search_settingsval.selectsearch);
-                for (let sl in this.search_settingsval.selectsearch) {
+                for (const sl in this.search_settingsval.selectsearch) {
                     if (this.search_settingsval.selectsearch[sl].value != null) {
-                        this.selectsearch[this.search_settingsval.selectsearch[sl].field] = this.search_settingsval.selectsearch[sl].value;
-                        console.log('s', this.search_settingsval.selectsearch, '++++++', this.selectsearch);
+                        this.selectsearch[this.search_settingsval.selectsearch[sl].field] =
+                            this.search_settingsval.selectsearch[sl].value;
+                        // console.log('s', this.search_settingsval.selectsearch, '++++++', this.selectsearch);
                     }
                 }
             }
             if (this.search_settingsval.textsearch != null) {
                 console.log('t1', this.search_settingsval.textsearch);
-                for (let sl in this.search_settingsval.textsearch) {
+                for (const sl in this.search_settingsval.textsearch) {
                     if (this.search_settingsval.textsearch[sl].value != null) {
-                        this.tsearch[this.search_settingsval.textsearch[sl].field] = this.search_settingsval.textsearch[sl].value;
-                        console.log('t', this.search_settingsval.textsearch);
+                        this.tsearch[this.search_settingsval.textsearch[sl].field] =
+                            this.search_settingsval.textsearch[sl].value;
+                        // console.log('t', this.search_settingsval.textsearch);
                     }
                 }
             }
@@ -1169,7 +1264,7 @@ class ListingComponent {
      * @return {?}
      */
     img_modal_view(img) {
-        //console.warn("img_modal_view",img)
+        // console.warn("img_modal_view",img)
         /** @type {?} */
         const dialogRef = this.dialog.open(ImageView, {
             panelClass: 'custom-modalbox-image-preview',
@@ -1185,7 +1280,7 @@ class ListingComponent {
         let x;
         this.errormg = '';
         /** @type {?} */
-        let data = this.myForm.value;
+        const data = this.myForm.value;
         for (x in this.myForm.controls) {
             this.myForm.controls[x].markAsTouched();
         }
@@ -1195,21 +1290,21 @@ class ListingComponent {
      * @return {?}
      */
     dateSearch(val) {
-        //console.log("start date");
+        // console.log("start date");
         // console.log(this.start_date);
         // console.log(this.end_date);
         // let sd = moment(this.start_date).unix();
         // let ed = moment(this.end_date).unix();
         /** @type {?} */
-        let link = this.apiurlval + '' + this.datacollectionval;
+        const link = this.apiurlval + '' + this.datacollectionval;
         /** @type {?} */
-        let link1 = this.apiurlval + '' + this.datacollectionval + '-count';
+        const link1 = this.apiurlval + '' + this.datacollectionval + '-count';
         /** @type {?} */
         let source;
         /** @type {?} */
         let condition;
         /** @type {?} */
-        let textSearch = {};
+        const textSearch = {};
         condition = {};
         this.limitcondval.pagecount = 1;
         this.limitcondval.skip = 0;
@@ -1232,29 +1327,30 @@ class ListingComponent {
                     $lte: new Date(this.end_date).getTime()
                 };
             }
-            for (let i in this.tsearch) {
+            for (const i in this.tsearch) {
                 console.log('this.tsearch', this.tsearch);
                 if (this.tsearch[i] != null && this.tsearch[i] != '') {
                     textSearch[i] = { $regex: this.tsearch[i].toString().toLowerCase() };
                 }
             }
             /** @type {?} */
-            let autosearch = {};
-            //this.autosearch;
-            for (let b in this.autosearch) {
-                for (let m in this.autosearch[b]) {
+            const autosearch = {};
+            // this.autosearch;
+            for (const b in this.autosearch) {
+                for (const m in this.autosearch[b]) {
                     /** @type {?} */
-                    let tv = {};
+                    const tv = {};
                     tv[b] = this.autosearch[b][m].val.toString().toLowerCase();
-                    if (autosearch['$or'] == null)
-                        autosearch['$or'] = [];
-                    autosearch['$or'].push(tv);
+                    if (autosearch.$or == null) {
+                        autosearch.$or = [];
+                    }
+                    autosearch.$or.push(tv);
                 }
             }
             /** @type {?} */
-            let conditionobj = Object.assign({}, textSearch, this.dateSearch_condition, autosearch, this.selectSearch_condition, this.libdataval.basecondition);
+            const conditionobj = Object.assign({}, textSearch, this.dateSearch_condition, autosearch, this.selectSearch_condition, this.libdataval.basecondition);
             source = {
-                "condition": {
+                condition: {
                     limit: this.limitcondval.limit,
                     skip: 0
                 },
@@ -1265,11 +1361,11 @@ class ListingComponent {
                 searchcondition: conditionobj,
             };
             // console.log('con...',conditionobj,this.end_date);
-            //console.warn('cond',condition,this.dateSearch_condition,conditionobj,this.tsearch,textSearch);
-            //return;
+            // console.warn('cond',condition,this.dateSearch_condition,conditionobj,this.tsearch,textSearch);
+            // return;
             this.date_search_source_countval = 0;
             this.loading = true;
-            this._apiService.postSearch(link, this.jwttokenval, source).subscribe((/**
+            this.subscriptions[this.subscriptioncount++] = this._apiService.postSearch(link, this.jwttokenval, source).subscribe((/**
              * @param {?} res
              * @return {?}
              */
@@ -1281,20 +1377,20 @@ class ListingComponent {
                     this.dataSource = new MatTableDataSource(result.results.res);
                     this._snackBar.openFromComponent(SnackbarComponent, {
                         duration: 2000,
-                        data: { errormessage: "New Search of data loaded" }
+                        data: { errormessage: 'New Search of data loaded' }
                     });
                 }
                 else {
                     this._snackBar.openFromComponent(SnackbarComponent, {
                         duration: 6000,
-                        data: { errormessage: "No such search record found !!" }
+                        data: { errormessage: 'No such search record found !!' }
                     });
                 }
                 this.loading = false;
                 // this.dataSource.paginator = this.paginator;
-                //this.dataSource.sort = this.sort;
+                // this.dataSource.sort = this.sort;
             }));
-            this._apiService.postSearch(link1, this.jwttokenval, source).subscribe((/**
+            this.subscriptions[this.subscriptioncount++] = this._apiService.postSearch(link1, this.jwttokenval, source).subscribe((/**
              * @param {?} res
              * @return {?}
              */
@@ -1303,13 +1399,15 @@ class ListingComponent {
                 let result = {};
                 result = res;
                 this.date_search_source_countval = (result.count);
-                if (result.count == 0)
+                if (result.count == 0) {
                     this.tableflag = 1;
-                else
+                }
+                else {
                     this.tableflag = 0;
-                //console.log('count',result);
+                }
+                // console.log('count',result);
                 // this.dataSource.paginator = this.paginator;
-                //this.dataSource.sort = this.sort;
+                // this.dataSource.sort = this.sort;
             }));
             /*this._http.post(link, {source:this.date_search_sourceval,
               condition: {
@@ -1330,8 +1428,9 @@ class ListingComponent {
               this.dataSource.sort = this.sort;
             })*/
         }
-        else
-            console.log("error");
+        else {
+            console.log('error');
+        }
     }
     /**
      * @param {?} value
@@ -1358,7 +1457,7 @@ class ListingComponent {
         // };
         console.log(this.tsearch, 'czxcxczxc', this.search_settingsval.selectsearch, this.selectsearch, value, type);
         /** @type {?} */
-        let link = this.apiurlval + '' + this.date_search_endpointval;
+        const link = this.apiurlval + '' + this.date_search_endpointval;
         /** @type {?} */
         let source;
         /** @type {?} */
@@ -1368,7 +1467,7 @@ class ListingComponent {
         this.selectSearch_condition = {};
         this.selectSearch_condition = condition;
         /** @type {?} */
-        let conditionobj = Object.assign({}, this.textSearch_condition, this.dateSearch_condition, this.autoSearch_condition, this.selectSearch_condition);
+        const conditionobj = Object.assign({}, this.textSearch_condition, this.dateSearch_condition, this.autoSearch_condition, this.selectSearch_condition);
         source = {
             source: this.date_search_sourceval,
             condition: conditionobj
@@ -1387,7 +1486,7 @@ class ListingComponent {
         // }
         // console.log("error");
     }
-    //for managing pagination 
+    // for managing pagination
     /**
      * @param {?} val
      * @return {?}
@@ -1397,32 +1496,36 @@ class ListingComponent {
             this.limitcondval.skip = (this.limitcondval.pagecount) * this.limitcondval.limit;
             this.limitcondval.pagecount++;
         }
-        if (val == -1 && this.limitcondval.skip < this.limitcondval.limit)
+        if (val == -1 && this.limitcondval.skip < this.limitcondval.limit) {
             return;
+        }
         if (val == -1 && this.limitcondval.skip >= this.limitcondval.limit) {
             console.log('in skip block');
             this.limitcondval.skip = (this.limitcondval.pagecount - 2) * this.limitcondval.limit;
             this.limitcondval.pagecount--;
         }
         if (val > 1) {
-            if (this.limitcondval.pagecount == 1)
+            if (this.limitcondval.pagecount == 1) {
                 this.limitcondval.skip = 0;
-            else
+            }
+            else {
                 this.limitcondval.skip = (this.limitcondval.pagecount - 1) * this.limitcondval.limit;
-            //this.limitcondval.pagecount--;
+            }
+            // this.limitcondval.pagecount--;
         }
-        //console.log(val,'ss',this.datacollectionval,this.limitcondval);
+        // console.log(val,'ss',this.datacollectionval,this.limitcondval);
         /** @type {?} */
-        let textSearch = {};
-        for (let i in this.tsearch) {
-            if (this.tsearch[i].toString().toLowerCase() != null && this.tsearch[i].toString().toLowerCase() != '')
+        const textSearch = {};
+        for (const i in this.tsearch) {
+            if (this.tsearch[i].toString().toLowerCase() != null && this.tsearch[i].toString().toLowerCase() != '') {
                 textSearch[i] = { $regex: this.tsearch[i].toString().toLowerCase() };
+            }
         }
         /** @type {?} */
-        let conditionobj = Object.assign({}, textSearch, this.dateSearch_condition, this.autosearch, this.selectSearch_condition, this.libdataval.basecondition);
+        const conditionobj = Object.assign({}, textSearch, this.dateSearch_condition, this.autosearch, this.selectSearch_condition, this.libdataval.basecondition);
         /** @type {?} */
-        let source = {
-            "condition": {
+        const source = {
+            condition: {
                 limit: this.limitcondval.limit,
                 skip: this.limitcondval.skip
             },
@@ -1433,7 +1536,7 @@ class ListingComponent {
             searchcondition: conditionobj,
         };
         /** @type {?} */
-        let link = this.apiurlval + '' + this.datacollectionval;
+        const link = this.apiurlval + '' + this.datacollectionval;
         /*let data:any={
           "condition":{
             limit:this.limitcondval.limit,
@@ -1442,18 +1545,18 @@ class ListingComponent {
     
         }*/
         this.loading = true;
-        this._apiService.postSearch(link, this.jwttokenval, source).subscribe((/**
+        this.subscriptions[this.subscriptioncount++] = this._apiService.postSearch(link, this.jwttokenval, source).subscribe((/**
          * @param {?} res
          * @return {?}
          */
         res => {
             this.result = res;
-            //console.log(this.result,'res');
+            // console.log(this.result,'res');
             if (this.result.results.res != null && this.result.results.res.length > 0) {
                 this.dataSource = new MatTableDataSource(this.result.results.res);
                 this._snackBar.openFromComponent(SnackbarComponent, {
                     duration: 2000,
-                    data: { errormessage: "New range of data loaded" }
+                    data: { errormessage: 'New range of data loaded' }
                 });
             }
             else {
@@ -1465,12 +1568,12 @@ class ListingComponent {
                 }
                 this._snackBar.openFromComponent(SnackbarComponent, {
                     duration: 6000,
-                    data: { errormessage: "No Data Found in this range !!" }
+                    data: { errormessage: 'No Data Found in this range !!' }
                 });
             }
             this.loading = false;
-            //this.dataSource.paginator = this.paginator;
-            //this.dataSource.sort = this.sort;
+            // this.dataSource.paginator = this.paginator;
+            // this.dataSource.sort = this.sort;
         }));
         this.selection.clear();
     }
@@ -1479,7 +1582,7 @@ class ListingComponent {
      * @return {?}
      */
     addautosearchdata(val) {
-        //console.log('v',val);
+        // console.log('v',val);
     }
     /**
      * @param {?} val
@@ -1488,8 +1591,24 @@ class ListingComponent {
      * @return {?}
      */
     remove(val, i, field) {
-        if (this.autosearch[field] != null)
+        if (this.autosearch[field] != null) {
             this.autosearch[field].splice(i, 1);
+        }
+    }
+    /**
+     * @param {?} item
+     * @return {?}
+     */
+    autocompletechangedetected(item) {
+        this.currentautocompleteitem = item;
+        this.currentautosearcharr = [];
+        console.log('autocompletechangedetected', this.currentautocompleteitem);
+        if (this.currentautocompleteitem.serversearchdata == null)
+            this.modelChanged.next();
+        else {
+            console.log('in else block of autocompletechangedetected');
+            this.modelChangedserver.next();
+        }
     }
     /**
      * @param {?} data
@@ -1498,16 +1617,16 @@ class ListingComponent {
     filterautoval(data) {
         // console.log('filterautoval', data, this.autosearchinput[data.field]);
         /** @type {?} */
-        let autoselval = this.autosearchinput[data.field];
+        const autoselval = this.autosearchinput[data.field];
         this.currentautosearcharr = [];
         if (this.autosearchinput[data.field] != null && this.autosearchinput[data.field] != '') {
             /** @type {?} */
-            let filterval = data.values.filter((/**
+            const filterval = data.values.filter((/**
              * @param {?} e
              * @return {?}
              */
             function (e) {
-                //console.log('e', e, fieldval)
+                // console.log('e', e, fieldval)
                 return e.name.toString().toLowerCase().includes(autoselval.toLowerCase());
             }));
             this.currentautosearcharr = filterval;
@@ -1520,7 +1639,7 @@ class ListingComponent {
      */
     autosearchfunction(value, data) {
         // this.autosearchinput[value] = '';
-        //console.log(this.autosearchinput,'asi');
+        // console.log(this.autosearchinput,'asi');
         if (this.autosearch[value] == null) {
             this.autosearch[value] = [];
         }
@@ -1531,7 +1650,7 @@ class ListingComponent {
         console.log(value, 'selected auto', this.autosearchinput[value], this.autosearchinput[value]);
         // reset auto search data !
         // console.log(value, 'selected auto', this.autosearchinput[value]);
-        //console.log(value,data,'ss',this.autosearch);
+        // console.log(value,data,'ss',this.autosearch);
         /*let val: any = this.autosearch[value];
         let source: any;
         let condition: any = {};
@@ -1557,28 +1676,29 @@ class ListingComponent {
      */
     textsearchfunction(value) {
         /** @type {?} */
-        let link = this.apiurlval + '' + this.date_search_endpointval;
+        const link = this.apiurlval + '' + this.date_search_endpointval;
         /** @type {?} */
         let source;
         /** @type {?} */
-        let condition = {};
+        const condition = {};
         /** @type {?} */
         let val = '';
         if (this.tsearch != null && this.tsearch[value] != null) {
             val = this.tsearch[value].toString().toLowerCase();
         }
-        if (this.tsearch[value] != null && this.tsearch[value].length > 1 && { $or: [this.tsearch[value].toString().toLowerCase(), this.tsearch[value].toUpperCase()] })
+        if (this.tsearch[value] != null && this.tsearch[value].length > 1 && { $or: [this.tsearch[value].toString().toLowerCase(), this.tsearch[value].toUpperCase()] }) {
             condition[value + '_regex'] = val;
+        }
         this.textSearch_condition = {};
         this.textSearch_condition = condition;
-        //console.warn(this.tsearch);
+        // console.warn(this.tsearch);
         /** @type {?} */
-        let conditionobj = Object.assign({}, this.textSearch_condition, this.dateSearch_condition, this.autoSearch_condition, this.selectSearch_condition);
+        const conditionobj = Object.assign({}, this.textSearch_condition, this.dateSearch_condition, this.autoSearch_condition, this.selectSearch_condition);
         source = {
             source: this.date_search_sourceval,
             condition: conditionobj
         };
-        //add loader
+        // add loader
         // this.loading = true;
         // if (value != null) {
         //   this._apiService.postSearch(link, this.jwttokenval, source).subscribe(res => {
@@ -1617,18 +1737,18 @@ class ListingComponent {
     refreshalldata(val) {
         this.dataSource = new MatTableDataSource(this.olddata);
         this.selection = new SelectionModel(true, []);
-        //this.dataSource.paginator = this.paginator;
-        //this.dataSource.sort = this.sort;
+        // this.dataSource.paginator = this.paginator;
+        // this.dataSource.sort = this.sort;
         if (val.filteredData != null && val.filteredData.length < this.olddata.length) {
             /** @type {?} */
-            let dialogRef = this.dialog.open(Confirmdialog, {
+            const dialogRef = this.dialog.open(Confirmdialog, {
                 panelClass: 'custom-modalbox',
                 data: { message: 'Refresh successfully!!', isconfirmation: false }
             });
         }
         else {
             /** @type {?} */
-            let dialogRef = this.dialog.open(Confirmdialog, {
+            const dialogRef = this.dialog.open(Confirmdialog, {
                 panelClass: 'custom-modalbox',
                 data: { message: ' Updated!!', isconfirmation: false }
             });
@@ -1655,12 +1775,13 @@ class ListingComponent {
     getstatus(val) {
         // console.log('val');
         // console.log(val);
-        for (let b in this.statusarrval) {
-            if (this.statusarrval[b].val == val)
+        for (const b in this.statusarrval) {
+            if (this.statusarrval[b].val == val) {
                 return this.statusarrval[b].name;
+            }
             // console.log(this.statusarrval[b].name);
         }
-        return "N/A";
+        return 'N/A';
     }
     /**
      * @param {?} val
@@ -1706,9 +1827,9 @@ class ListingComponent {
      */
     copyText(row, val) {
         /** @type {?} */
-        let fullurl = val + '' + row;
+        const fullurl = val + '' + row;
         /** @type {?} */
-        let selBox = document.createElement('textarea');
+        const selBox = document.createElement('textarea');
         selBox.style.position = 'fixed';
         selBox.style.left = '0';
         selBox.style.top = '0';
@@ -1734,9 +1855,9 @@ class ListingComponent {
      */
     openinternallinkwithparam(val, data) {
         /** @type {?} */
-        let rdata = [];
+        const rdata = [];
         rdata.push(val.route);
-        for (let v in val.param) {
+        for (const v in val.param) {
             rdata.push(data[val.param[v]]);
         }
         // console.log('radat', rdata);
@@ -1748,41 +1869,43 @@ class ListingComponent {
      * @return {?}
      */
     opencustombuttonactionlocaldata(val, data) {
-        //console.log('opencustombuttonactionlocaldata',val,data);
+        // console.log('opencustombuttonactionlocaldata',val,data);
         /** @type {?} */
-        let dataarr = [];
-        //dataarr.push(['name','debasis']);
-        //dataarr.push(['desc','test']);
+        const dataarr = [];
+        // dataarr.push(['name','debasis']);
+        // dataarr.push(['desc','test']);
         if (val.refreshdata != null && val.refreshdata == true) {
             this.allSearch();
         }
-        for (let v in val.datafields) {
+        for (const v in val.datafields) {
             /** @type {?} */
-            let temparr = [];
+            const temparr = [];
             temparr.push(val.datafields[v]);
             if (val.datafields[v] != 'image' && val.datafields[v] != 'video') {
-                //console.log('ss',val.datafields[v]);
+                // console.log('ss',val.datafields[v]);
                 if (data[val.datafields[v]] != null && typeof (data[val.datafields[v]]) != 'object') {
                     // console.log('df', data[val.datafields[v]].toString());
                     if (data[val.datafields[v]] != null && data[val.datafields[v]].toString().includes('iframe')) {
                         // console.log('in safe', data[val.datafields[v]]);
                         temparr.push(this.sanitizer.bypassSecurityTrustHtml(data[val.datafields[v]]));
                     }
-                    else
+                    else {
                         temparr.push((data[val.datafields[v]]));
+                    }
                 }
                 else {
-                    //console.log('ss22',val.datafields[v]);
-                    //else  
+                    // console.log('ss22',val.datafields[v]);
+                    // else
                     temparr.push(data[val.datafields[v]]);
                 }
             }
-            if (val.datafields[v] == 'image')
-                temparr.push("<img mat-card-image src=" + data[val.datafields[v]] + " > <br/>");
+            if (val.datafields[v] == 'image') {
+                temparr.push('<img mat-card-image src=' + data[val.datafields[v]] + ' > <br/>');
+            }
             if (val.datafields[v] == 'video') {
                 if (data[val.datafields[v]] != null && data[val.datafields[v]] != '') {
                     /** @type {?} */
-                    let temphtml = ("<iframe width=560 height=315 src=https://www.youtube.com/embed/" + data[val.datafields[v]] + " frameborder=0 allow=accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture allowfullscreen></iframe> <br/>");
+                    let temphtml = ('<iframe width=560 height=315 src=https://www.youtube.com/embed/' + data[val.datafields[v]] + ' frameborder=0 allow=accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture allowfullscreen></iframe> <br/>');
                     temphtml = this.sanitizer.bypassSecurityTrustHtml(temphtml);
                     temparr.push(temphtml);
                     // console.log('thtml', temphtml, data[val.datafields], data[val.datafields[v]]);
@@ -1791,31 +1914,32 @@ class ListingComponent {
                     temparr.push('N/A');
                 }
             }
-            //if(val.datafields[v]=='video') temparr.push("<img mat-card-image src=" + data[val.datafields[v]] + " > <br/>")
+            // if(val.datafields[v]=='video') temparr.push("<img mat-card-image src=" + data[val.datafields[v]] + " > <br/>")
             dataarr.push(temparr);
         }
-        //console.log('local data m', dataarr);
+        // console.log('local data m', dataarr);
         /** @type {?} */
         let res = dataarr;
         if (this.libdataval.detailview_override != null && this.libdataval.detailview_override.length > 0) {
             /** @type {?} */
-            let resdata = [];
-            for (let b in res) {
-                for (let c in this.libdataval.detailview_override) {
-                    //console.log('hww',c,this.libdataval.detailview_override[c].key,res[b],res[b][0],res[b][1]);
+            const resdata = [];
+            for (const b in res) {
+                for (const c in this.libdataval.detailview_override) {
+                    // console.log('hww',c,this.libdataval.detailview_override[c].key,res[b],res[b][0],res[b][1]);
                     if (this.libdataval.detailview_override[c].key == res[b][0]) {
-                        //console.log('h', c, this.libdataval.detailview_override[c]);
+                        // console.log('h', c, this.libdataval.detailview_override[c]);
                         resdata[b] = [this.libdataval.detailview_override[c].val, res[b][1], res[b][0]];
                     }
                 }
-                if (resdata[b] == null)
+                if (resdata[b] == null) {
                     resdata[b] = res[b];
+                }
             }
-            //console.log('c',res,resdata);
+            // console.log('c',res,resdata);
             res = resdata;
-            //console.log('c',res,resdata);
+            // console.log('c',res,resdata);
         }
-        //console.log('dataarr',dataarr);
+        // console.log('dataarr',dataarr);
         if (val.refreshdata != null && val.refreshdata == true) {
             this.allSearch();
         }
@@ -1833,20 +1957,20 @@ class ListingComponent {
      * @return {?}
      */
     opencustombuttonactionapidata(val, data) {
-        //console.log('opencustombuttonactionapidata',val,data);
+        // console.log('opencustombuttonactionapidata',val,data);
         this.loading = true;
         /** @type {?} */
-        let link = this.apiurlval + val.endpoint;
+        const link = this.apiurlval + val.endpoint;
         /** @type {?} */
-        let source = {};
+        const source = {};
         source[val.param] = data._id;
         if (val.otherparam != null) {
-            for (let n in val.otherparam) {
+            for (const n in val.otherparam) {
                 source[val.otherparam[n]] = data[val.otherparam[n]];
             }
         }
         this.loaderrow = data._id;
-        this._apiService.postSearch(link, this.jwttokenval, source).subscribe((/**
+        this.subscriptions[this.subscriptioncount++] = this._apiService.postSearch(link, this.jwttokenval, source).subscribe((/**
          * @param {?} res
          * @return {?}
          */
@@ -1855,7 +1979,7 @@ class ListingComponent {
             let result = {};
             result = res;
             if (result.status == 'success') {
-                //console.log('res',result);
+                // console.log('res',result);
                 /** @type {?} */
                 let resdata = {};
                 this.loaderrow = null;
@@ -1867,12 +1991,12 @@ class ListingComponent {
                     resdata = result.res;
                 }
                 /** @type {?} */
-                let temprdata = {};
+                const temprdata = {};
                 console.log('resdata>>>', resdata);
                 if (val.datafields != null) {
-                    for (let b1 in val.datafields) {
+                    for (const b1 in val.datafields) {
                         console.log('val.datafields', val.datafields[b1]);
-                        //for (let b2 in dataarr) {
+                        // for (let b2 in dataarr) {
                         // console.log('b2',b2,data[b2],dataarr[b2][0]);
                         // if (dataarr[b2][0] == val.datafields[b1]) resdataformodal[b1] = [dataarr[b2][0], dataarr[b2][1]];
                         temprdata[val.datafields[b1]] = resdata[val.datafields[b1]];
@@ -1882,49 +2006,54 @@ class ListingComponent {
                 }
                 /** @type {?} */
                 let dataarr = [];
-                //dataarr.push(['name','debasis']);
-                //dataarr.push(['desc','test']);
-                for (let v in resdata) {
+                // dataarr.push(['name','debasis']);
+                // dataarr.push(['desc','test']);
+                for (const v in resdata) {
                     /** @type {?} */
-                    let temparr = [];
+                    const temparr = [];
                     temparr.push(v);
                     if (v != 'image' && v != 'video') {
                         if (resdata[v] != null && typeof (resdata[v]) != 'object') {
                             // console.log('resv', resdata[v]);
-                            if (resdata[v].toString().includes("iframe"))
+                            if (resdata[v].toString().includes('iframe')) {
                                 temparr.push(this.sanitizer.bypassSecurityTrustHtml(resdata[v]));
-                            else
+                            }
+                            else {
                                 temparr.push(resdata[v]);
+                            }
                         }
-                        else
+                        else {
                             temparr.push(resdata[v]);
+                        }
                     }
-                    if (v == 'image')
-                        temparr.push("<img mat-card-image src=" + resdata[v] + " > <br/>");
+                    if (v == 'image') {
+                        temparr.push('<img mat-card-image src=' + resdata[v] + ' > <br/>');
+                    }
                     if (v == 'video') {
                         /** @type {?} */
-                        let temphtml = ("<iframe width=560 height=315 src=https://www.youtube.com/embed/" + resdata[v] + " frameborder=0 allow=accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture allowfullscreen></iframe> <br/>");
+                        let temphtml = ('<iframe width=560 height=315 src=https://www.youtube.com/embed/' + resdata[v] + ' frameborder=0 allow=accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture allowfullscreen></iframe> <br/>');
                         temphtml = this.sanitizer.bypassSecurityTrustHtml(temphtml);
                         temparr.push(temphtml);
                     }
-                    //if(val.datafields[v]=='video') temparr.push("<img mat-card-image src=" + data[val.datafields[v]] + " > <br/>")
+                    // if(val.datafields[v]=='video') temparr.push("<img mat-card-image src=" + data[val.datafields[v]] + " > <br/>")
                     dataarr.push(temparr);
                 }
                 if (this.libdataval.detailview_override != null && this.libdataval.detailview_override.length > 0) {
                     /** @type {?} */
-                    let resdata = [];
-                    for (let b in dataarr) {
-                        for (let c in this.libdataval.detailview_override) {
-                            //console.log('hww',c,this.libdataval.detailview_override[c].key,res[b],res[b][0],res[b][1]);
+                    const resdata = [];
+                    for (const b in dataarr) {
+                        for (const c in this.libdataval.detailview_override) {
+                            // console.log('hww',c,this.libdataval.detailview_override[c].key,res[b],res[b][0],res[b][1]);
                             if (this.libdataval.detailview_override[c].key == dataarr[b][0]) {
-                                //console.log('h', c, this.libdataval.detailview_override[c]);
+                                // console.log('h', c, this.libdataval.detailview_override[c]);
                                 resdata[b] = [this.libdataval.detailview_override[c].val, dataarr[b][1], dataarr[b][0]];
                             }
                         }
-                        if (resdata[b] == null)
+                        if (resdata[b] == null) {
                             resdata[b] = dataarr[b];
+                        }
                     }
-                    //console.log('c',res,resdata);
+                    // console.log('c',res,resdata);
                     dataarr = resdata;
                 }
                 // console.log('c api data ', resdata);
@@ -1952,7 +2081,7 @@ class ListingComponent {
          * @return {?}
          */
         error => {
-            //console.log('Oooops!');
+            // console.log('Oooops!');
             this._snackBar.openFromComponent(SnackbarComponent, {
                 duration: 6000,
                 data: { errormessage: 'Something Went Wrong ,Try Again!!' }
@@ -1967,39 +2096,41 @@ class ListingComponent {
      * @return {?}
      */
     openextlinkwithparam(val, data) {
-        //console.log('val',val,data);
+        // console.log('val',val,data);
         /** @type {?} */
         let qtext = '';
         /** @type {?} */
         let fulllink = '';
         fulllink = val.link;
         if (val.paramtype == null) {
-            for (let v in val.param) {
-                qtext = val.param[v].q + "=" + encodeURI(data[val.param[v].key]);
-                //console.log('qtext',qtext);
-                if (parseInt(v) == 0)
+            for (const v in val.param) {
+                qtext = val.param[v].q + '=' + encodeURI(data[val.param[v].key]);
+                // console.log('qtext',qtext);
+                if (parseInt(v) == 0) {
                     fulllink = fulllink + '?' + qtext;
-                if (parseInt(v) != 0)
+                }
+                if (parseInt(v) != 0) {
                     fulllink = fulllink + '&' + qtext;
+                }
             }
-            //val.link=fulllink;
+            // val.link=fulllink;
         }
         if (val.paramtype != null && val.paramtype == 'angular') {
-            for (let v in val.param) {
-                //qtext = val.param[v].q + "=" + encodeURI(data[val.param[v].key]);
-                //console.log('qtext',qtext);
+            for (const v in val.param) {
+                // qtext = val.param[v].q + "=" + encodeURI(data[val.param[v].key]);
+                // console.log('qtext',qtext);
                 fulllink = fulllink + '/' + encodeURI(data[val.param[v]]);
             }
-            //val.link=fulllink;
+            // val.link=fulllink;
         }
         setTimeout((/**
          * @return {?}
          */
         () => {
-            //console.log("Hello from setTimeout");
-            //console.log('link',fulllink,data,qtext);
+            // console.log("Hello from setTimeout");
+            // console.log('link',fulllink,data,qtext);
         }), 10);
-        window.open(fulllink, "_blank");
+        window.open(fulllink, '_blank');
     }
     /**
      * @param {?} val
@@ -2008,17 +2139,17 @@ class ListingComponent {
      */
     clickurl(val, url) {
         /** @type {?} */
-        let link = url + '' + val._id + '' + this.pdf_link_val;
-        window.open(link, "_blank");
+        const link = url + '' + val._id + '' + this.pdf_link_val;
+        window.open(link, '_blank');
     }
     /**
      * Whether the number of selected elements matches the total number of rows.
      * @return {?}
      */
     isAllSelected() {
-        console.log("isAllSelected");
+        console.log('isAllSelected');
         if (this.selection != null && this.selection.select) {
-            console.log("isAllSelected", this.dataSource.data.length, this.selection.selected.length);
+            console.log('isAllSelected', this.dataSource.data.length, this.selection.selected.length);
             /** @type {?} */
             const numSelected = this.selection.selected.length;
             /** @type {?} */
@@ -2056,13 +2187,13 @@ class ListingComponent {
      */
     createData(point) {
         /** @type {?} */
-        let data = {};
+        const data = {};
         Object.keys(point).forEach((/**
          * @param {?} key
          * @return {?}
          */
         function (key) {
-            data[key.replace(/\s/g, "_")] = point[key];
+            data[key.replace(/\s/g, '_')] = point[key];
         }));
         return data;
     }
@@ -2111,7 +2242,7 @@ class ListingComponent {
      * @return {?}
      */
     fetchvideo(videodata) {
-        //console.warn('videodata',videodata);
+        // console.warn('videodata',videodata);
         /** @type {?} */
         const dialogRef = this.dialog.open(VideoPlayer, {
             panelClass: 'custom-modalbox-videoplayer-preview',
@@ -2139,15 +2270,28 @@ class ListingComponent {
             this.loaderrow = null;
             // console.log('count',result);
             // this.dataSource.paginator = this.paginator;
-            //this.dataSource.sort = this.sort;
+            // this.dataSource.sort = this.sort;
             // this.data.notesval = '';
             // console.log('notes', val);
             /** @type {?} */
             const dialogRef = this.dialog.open(Confirmdialog, {
                 height: 'auto',
                 panelClass: 'custom-modalbox',
-                data: { isconfirmation: false, notes: true, apiurl: this.apiurlval, notedata: this.libdataval.notes, rowdata: val, jwttokenval: this.jwttokenval, listdata: result.res }
+                data: {
+                    isconfirmation: false,
+                    notes: true, apiurl: this.apiurlval,
+                    notedata: this.libdataval.notes, rowdata: val,
+                    jwttokenval: this.jwttokenval,
+                    listdata: result.res
+                }
             });
+            dialogRef.afterClosed().subscribe((/**
+             * @param {?} result
+             * @return {?}
+             */
+            result => {
+                this.allSearch();
+            }));
         }));
     }
     /**
@@ -2159,42 +2303,44 @@ class ListingComponent {
         let data;
         data = data1;
         /** @type {?} */
-        let data2 = [];
-        for (let key in data) {
+        const data2 = [];
+        for (const key in data) {
             if (data.hasOwnProperty(key)) {
                 if (typeof (data[key]) == 'boolean') {
-                    if (data[key] == true)
+                    if (data[key] == true) {
                         data[key] = 'Yes';
-                    if (data[key] == false)
+                    }
+                    if (data[key] == false) {
                         data[key] = 'No';
+                    }
                 }
                 if (key == 'image') {
-                    data[key + ':'] = "<img mat-card-image src=" + data[key] + "><br/>";
+                    data[key + ':'] = '<img mat-card-image src=' + data[key] + '><br/>';
                 }
                 if (typeof (data[key]) == 'object') ;
                 if (typeof (data[key]) == 'object') {
                     /** @type {?} */
-                    let tempdata = [];
-                    for (let k in data[key]) {
-                        for (let p in this.detail_datatypeval) {
+                    const tempdata = [];
+                    for (const k in data[key]) {
+                        for (const p in this.detail_datatypeval) {
                             if (this.detail_datatypeval[p].key == key && this.detail_datatypeval[p].value == 'image') {
                                 // let imgval:any=this.detail_datatypeval[p].fileurl+data[key][k];
                                 // console.log('imgval');
                                 // console.log('imgval');
-                                // console.log(imgval);
-                                //console.log(data[key][k].replace(/'/g, ''));
-                                tempdata.push("<img mat-card-image src=" + data[key][k] + "><br/>");
+                                // console.log(imgval);="+
+                                // console.log(data[key][k].replace(/'/g, ''));
+                                tempdata.push('<img mat-card-image src=' + data[key][k] + '><br/>');
                                 // tempdata.push("<span>"+data[key][k]+"</span><br/>")
                             }
                             if (this.detail_datatypeval[p].key == key && this.detail_datatypeval[p].value != 'image') {
-                                //tempdata.push("<img mat-card-image src="+data[key][k]+"><br/>")
-                                tempdata.push("<span>" + data[key][k] + "</span><br/>");
+                                // tempdata.push("<img mat-card-image src="+data[key][k]+"><br/>")
+                                tempdata.push('<span>' + data[key][k] + '</span><br/>');
                             }
                             if (this.detail_datatypeval[p].key != key) {
-                                //tempdata.push("<img mat-card-image src="+data[key][k]+"><br/>")
+                                // tempdata.push("<img mat-card-image src="+data[key][k]+"><br/>")
                                 if (typeof (data[key][k]) == 'object') {
-                                    for (var objk in data[key][k]) {
-                                        tempdata.push("<span>" + objk + " : " + data[key][k][objk] + "</span><br/>");
+                                    for (const objk in data[key][k]) {
+                                        tempdata.push('<span>' + objk + ' : ' + data[key][k][objk] + '</span><br/>');
                                     }
                                 }
                             }
@@ -2204,35 +2350,36 @@ class ListingComponent {
                 }
             }
         }
-        for (let n in data) {
+        for (const n in data) {
             if (data[n] != null && data[n] != '') {
                 data2[n] = data[n];
             }
         }
-        for (let v in this.detail_skip_arrayval) {
-            //data2[this.detail_skip_arrayval[v]]='';
+        for (const v in this.detail_skip_arrayval) {
+            // data2[this.detail_skip_arrayval[v]]='';
             delete data2[this.detail_skip_arrayval[v]];
         }
         /** @type {?} */
         let res = Object.entries(data2);
-        //console.log('view data',res);
+        // console.log('view data',res);
         if (this.libdataval.detailview_override != null && this.libdataval.detailview_override.length > 0) {
             /** @type {?} */
-            let resdata = [];
-            for (let b in res) {
-                for (let c in this.libdataval.detailview_override) {
-                    //console.log('hww',c,this.libdataval.detailview_override[c].key,res[b],res[b][0],res[b][1]);
+            const resdata = [];
+            for (const b in res) {
+                for (const c in this.libdataval.detailview_override) {
+                    // console.log('hww',c,this.libdataval.detailview_override[c].key,res[b],res[b][0],res[b][1]);
                     if (this.libdataval.detailview_override[c].key == res[b][0]) {
-                        //console.log('h', c, this.libdataval.detailview_override[c]);
+                        // console.log('h', c, this.libdataval.detailview_override[c]);
                         resdata[b] = [this.libdataval.detailview_override[c].val, res[b][1], res[b][0]];
                     }
                 }
-                if (resdata[b] == null)
+                if (resdata[b] == null) {
                     resdata[b] = res[b];
+                }
             }
-            //console.log('c',res,resdata);
+            // console.log('c',res,resdata);
             res = resdata;
-            //console.log('c',res,resdata);
+            // console.log('c',res,resdata);
         }
         /** @type {?} */
         const dialogRef = this.dialog.open(Confirmdialog, {
@@ -2247,8 +2394,8 @@ class ListingComponent {
      */
     managestatus(data) {
         /** @type {?} */
-        let bs = this.bottomSheet.open(BottomSheet, { panelClass: 'custom-bottomsheet', data: { items: this.statusarrval } });
-        bs.afterDismissed().subscribe((/**
+        const bs = this.bottomSheet.open(BottomSheet, { panelClass: 'custom-bottomsheet', data: { items: this.statusarrval } });
+        this.subscriptions[this.subscriptioncount++] = bs.afterDismissed().subscribe((/**
          * @param {?} result
          * @return {?}
          */
@@ -2256,7 +2403,7 @@ class ListingComponent {
             if (result != null) {
                 data.status = result.val;
                 data.id = data._id;
-                this._apiService.togglestatus(this.apiurlval + this.libdataval.updateendpoint, data, this.jwttokenval, this.sourcedataval).subscribe((/**
+                this.subscriptions[this.subscriptioncount++] = this._apiService.togglestatus(this.apiurlval + this.libdataval.updateendpoint, data, this.jwttokenval, this.sourcedataval).subscribe((/**
                  * @param {?} res
                  * @return {?}
                  */
@@ -2265,8 +2412,8 @@ class ListingComponent {
                     let result = {};
                     result = res;
                     if (result.status == 'success') {
-                        for (let c in this.olddata) {
-                            //this.olddata = this.olddata.filter(olddata => olddata._id != ids[c]);
+                        for (const c in this.olddata) {
+                            // this.olddata = this.olddata.filter(olddata => olddata._id != ids[c]);
                             if (this.olddata[c]._id == data._id) {
                                 this.olddata[c].status = data.status;
                             }
@@ -2275,9 +2422,9 @@ class ListingComponent {
                         this.selection = new SelectionModel(true, []);
                         this.dataSource.paginator = this.paginator;
                         this.dataSource.sort = this.sort;
-                        //this.allSearch();
+                        // this.allSearch();
                         /** @type {?} */
-                        let dialogRef = this.dialog.open(Confirmdialog, {
+                        const dialogRef = this.dialog.open(Confirmdialog, {
                             panelClass: 'custom-modalbox',
                             data: { message: 'Status updated successfully!!', isconfirmation: false }
                         });
@@ -2293,14 +2440,14 @@ class ListingComponent {
                  * @return {?}
                  */
                 error => {
-                    //console.log('Oooops!');
+                    // console.log('Oooops!');
                     this._snackBar.openFromComponent(SnackbarComponent, {
                         duration: 6000,
                         data: { errormessage: 'Something Went Wrong ,Try Again!!' }
                     });
                 }));
             }
-            //this.animal = result;
+            // this.animal = result;
         }));
     }
     // for tree view in modal
@@ -2314,17 +2461,17 @@ class ListingComponent {
         // console.log(this.custombuttonval);    // object from where the library has been used
         /** @type {?} */
         let unsafeurl = this.custombuttonval.url;
-        for (let b in this.custombuttonval.fields) {
+        for (const b in this.custombuttonval.fields) {
             unsafeurl = unsafeurl + '/' + data[this.custombuttonval.fields[b]];
         }
-        unsafeurl = this.sanitizer.bypassSecurityTrustResourceUrl(unsafeurl); //for sanitizing the url for security, otherwise it won't be able to show the page in iframe, hence modal
-        //for sanitizing the url for security, otherwise it won't be able to show the page in iframe, hence modal
+        unsafeurl = this.sanitizer.bypassSecurityTrustResourceUrl(unsafeurl); // for sanitizing the url for security, otherwise it won't be able to show the page in iframe, hence modal
+        // for sanitizing the url for security, otherwise it won't be able to show the page in iframe, hence modal
         /** @type {?} */
         const dialogRef = this.dialog.open(Confirmdialog, {
             // for opening the modal
             height: 'auto',
             panelClass: 'custom-data-modal',
-            data: { isconfirmation: false, data: [{ data: data, customdata: unsafeurl }] }
+            data: { isconfirmation: false, data: [{ data, customdata: unsafeurl }] }
         });
     }
     /**
@@ -2332,27 +2479,27 @@ class ListingComponent {
      */
     managestatusmultiple() {
         /** @type {?} */
-        let ids = [];
+        const ids = [];
         /** @type {?} */
         let c;
         for (c in this.selection.selected) {
             ids.push(this.selection.selected[c]._id);
         }
-        //console.log('data');
-        //console.log(data);
+        // console.log('data');
+        // console.log(data);
         /** @type {?} */
-        let bs = this.bottomSheet.open(BottomSheet, { data: { items: this.statusarrval } });
-        bs.afterDismissed().subscribe((/**
+        const bs = this.bottomSheet.open(BottomSheet, { data: { items: this.statusarrval } });
+        this.subscriptions[this.subscriptioncount++] = bs.afterDismissed().subscribe((/**
          * @param {?} result
          * @return {?}
          */
         result => {
             if (result != null) {
-                //data.status = result.val;
-                //data.id = data._id;
+                // data.status = result.val;
+                // data.id = data._id;
                 /** @type {?} */
-                let newstatus = result.val;
-                this._apiService.togglestatusmany(this.apiurlval + this.libdataval.updateendpointmany, ids, result.val, this.jwttokenval, this.sourcedataval).subscribe((/**
+                const newstatus = result.val;
+                this.subscriptions[this.subscriptioncount++] = this._apiService.togglestatusmany(this.apiurlval + this.libdataval.updateendpointmany, ids, result.val, this.jwttokenval, this.sourcedataval).subscribe((/**
                  * @param {?} res
                  * @return {?}
                  */
@@ -2361,8 +2508,8 @@ class ListingComponent {
                     let result = {};
                     result = res;
                     if (result.status == 'success') {
-                        for (let c in this.olddata) {
-                            //this.olddata = this.olddata.filter(olddata => olddata._id != ids[c]);
+                        for (const c in this.olddata) {
+                            // this.olddata = this.olddata.filter(olddata => olddata._id != ids[c]);
                             if (ids.indexOf(this.olddata[c]._id) > -1) {
                                 this.olddata[c].status = newstatus;
                             }
@@ -2371,9 +2518,9 @@ class ListingComponent {
                         this.selection = new SelectionModel(true, []);
                         this.dataSource.paginator = this.paginator;
                         this.dataSource.sort = this.sort;
-                        //this.allSearch();
+                        // this.allSearch();
                         /** @type {?} */
-                        let dialogRef = this.dialog.open(Confirmdialog, {
+                        const dialogRef = this.dialog.open(Confirmdialog, {
                             panelClass: 'custom-modalbox',
                             data: { message: 'Status updated successfully!!', isconfirmation: false }
                         });
@@ -2383,14 +2530,14 @@ class ListingComponent {
                  * @return {?}
                  */
                 error => {
-                    //console.log('Oooops!');
+                    // console.log('Oooops!');
                     this._snackBar.openFromComponent(SnackbarComponent, {
                         duration: 6000,
                         data: { errormessage: 'Something Went Wrong ,Try Again!!' }
                     });
                 }));
             }
-            //this.animal = result;
+            // this.animal = result;
         }));
     }
     /**
@@ -2403,7 +2550,7 @@ class ListingComponent {
             data: { message: 'Are you sure you want to delete the selected records?' }
         });
         /** @type {?} */
-        let ids = [];
+        const ids = [];
         /** @type {?} */
         let c;
         for (c in this.selection.selected) {
@@ -2415,7 +2562,7 @@ class ListingComponent {
          */
         result => {
             if (result == 'yes') {
-                this._apiService.deteManyData(this.apiurlval + this.libdataval.deleteendpointmany, ids, this.jwttokenval, this.sourcedataval).subscribe((/**
+                this.subscriptions[this.subscriptioncount++] = this._apiService.deteManyData(this.apiurlval + this.libdataval.deleteendpointmany, ids, this.jwttokenval, this.sourcedataval).subscribe((/**
                  * @param {?} res
                  * @return {?}
                  */
@@ -2424,7 +2571,7 @@ class ListingComponent {
                     let result = {};
                     result = res;
                     if (result.status == 'success') {
-                        for (let c in ids) {
+                        for (const c in ids) {
                             this.olddata = this.olddata.filter((/**
                              * @param {?} olddata
                              * @return {?}
@@ -2437,7 +2584,7 @@ class ListingComponent {
                         this.dataSource.sort = this.sort;
                         this.allSearch();
                         /** @type {?} */
-                        let dialogRef = this.dialog.open(Confirmdialog, {
+                        const dialogRef = this.dialog.open(Confirmdialog, {
                             panelClass: 'custom-modalbox',
                             data: { message: 'Record(s)  deleted successfully !!', isconfirmation: false }
                         });
@@ -2453,14 +2600,14 @@ class ListingComponent {
                  * @return {?}
                  */
                 error => {
-                    //console.log('Oooops!');
+                    // console.log('Oooops!');
                     this._snackBar.openFromComponent(SnackbarComponent, {
                         duration: 6000,
                         data: { errormessage: 'Something Went Wrong ,Try Again!!' }
                     });
                 }));
             }
-            //this.animal = result;
+            // this.animal = result;
         }));
     }
     /**
@@ -2468,16 +2615,16 @@ class ListingComponent {
      * @return {?}
      */
     deletedata(data) {
-        //console.log(data);
-        //alert(5);
-        //this._apiService.deteOneData(this.apiurlval+this.deleteendpointval,data,this.jwttokenval);
+        // console.log(data);
+        // alert(5);
+        // this._apiService.deteOneData(this.apiurlval+this.deleteendpointval,data,this.jwttokenval);
         // console.log('data 889 ---');
         // console.log(data);
         // console.log('jwttokenval');
         // console.log(this.jwttokenval);
-        //console.log(data);
-        //alert(5);
-        //this._apiService.deteOneData(this.apiurlval+this.deleteendpointval,data,this.jwttokenval);
+        // console.log(data);
+        // alert(5);
+        // this._apiService.deteOneData(this.apiurlval+this.deleteendpointval,data,this.jwttokenval);
         // console.log('data 889 ---');
         // console.log(data);
         // console.log('jwttokenval');
@@ -2494,7 +2641,7 @@ class ListingComponent {
          */
         result => {
             if (result == 'yes') {
-                this._apiService.deteOneData(this.apiurlval + this.deleteendpointval, data, this.jwttokenval, this.sourcedataval).subscribe((/**
+                this.subscriptions[this.subscriptioncount++] = this._apiService.deteOneData(this.apiurlval + this.deleteendpointval, data, this.jwttokenval, this.sourcedataval).subscribe((/**
                  * @param {?} res
                  * @return {?}
                  */
@@ -2514,7 +2661,7 @@ class ListingComponent {
                         this.dataSource.sort = this.sort;
                         this.allSearch();
                         /** @type {?} */
-                        let dialogRef = this.dialog.open(Confirmdialog, {
+                        const dialogRef = this.dialog.open(Confirmdialog, {
                             panelClass: 'custom-modalbox',
                             data: { message: 'Record  deleted successfully !!', isconfirmation: false }
                         });
@@ -2530,14 +2677,14 @@ class ListingComponent {
                  * @return {?}
                  */
                 error => {
-                    //console.log('Oooops!');
+                    // console.log('Oooops!');
                     this._snackBar.openFromComponent(SnackbarComponent, {
                         duration: 6000,
                         data: { errormessage: 'Something Went Wrong ,Try Again!!' }
                     });
                 }));
             }
-            //this.animal = result;
+            // this.animal = result;
         }));
     }
     /**
@@ -2561,43 +2708,44 @@ class ListingComponent {
      * @return {?}
      */
     allSearch() {
-        //console.log("hit");
-        //console.log("hit");
+        // console.log("hit");
+        // console.log("hit");
         /** @type {?} */
-        let link = this.apiurlval + '' + this.datacollectionval;
+        const link = this.apiurlval + '' + this.datacollectionval;
         /** @type {?} */
-        let link1 = this.apiurlval + '' + this.datacollectionval + '-count';
+        const link1 = this.apiurlval + '' + this.datacollectionval + '-count';
         /** @type {?} */
         let source;
         /** @type {?} */
-        let textSearch = {};
+        const textSearch = {};
         console.log(this.search_settingsval.search, 'search_settingsval.search');
-        for (let i in this.tsearch) {
+        for (const i in this.tsearch) {
             // console.log('all search this.tsearch', this.tsearch[i]);
             if (this.tsearch[i] != null && this.tsearch[i].toString().toLowerCase() != '') {
                 textSearch[i] = { $regex: this.tsearch[i].toString().toLowerCase() };
             }
         }
         /** @type {?} */
-        let autosearch = {};
-        //this.autosearch;
-        for (let b in this.autosearch) {
-            for (let m in this.autosearch[b]) {
+        const autosearch = {};
+        // this.autosearch;
+        for (const b in this.autosearch) {
+            for (const m in this.autosearch[b]) {
                 /** @type {?} */
-                let tv = {};
+                const tv = {};
                 tv[b] = this.autosearch[b][m].val.toString().toLowerCase();
-                if (autosearch['$or'] == null)
-                    autosearch['$or'] = [];
-                autosearch['$or'].push(tv);
+                if (autosearch.$or == null) {
+                    autosearch.$or = [];
+                }
+                autosearch.$or.push(tv);
             }
         }
-        //console.log('autos',autosearch);
+        // console.log('autos',autosearch);
         this.limitcondval.pagecount = 1;
         this.limitcondval.skip = 0;
         /** @type {?} */
-        let conditionobj = Object.assign({}, textSearch, this.dateSearch_condition, autosearch, this.selectSearch_condition, this.libdataval.basecondition);
+        const conditionobj = Object.assign({}, textSearch, this.dateSearch_condition, autosearch, this.selectSearch_condition, this.libdataval.basecondition);
         source = {
-            "condition": {
+            condition: {
                 limit: this.limitcondval.limit,
                 skip: 0
             },
@@ -2607,12 +2755,12 @@ class ListingComponent {
             },
             searchcondition: conditionobj,
         };
-        //console.log('con...',conditionobj,this.end_date);
-        //console.warn('cond',condition,this.dateSearch_condition,conditionobj,this.tsearch,textSearch);
-        //return;
+        // console.log('con...',conditionobj,this.end_date);
+        // console.warn('cond',condition,this.dateSearch_condition,conditionobj,this.tsearch,textSearch);
+        // return;
         this.date_search_source_countval = 0;
         this.loading = true;
-        this._apiService.postSearch(link, this.jwttokenval, source).subscribe((/**
+        this.subscriptions[this.subscriptioncount++] = this._apiService.postSearch(link, this.jwttokenval, source).subscribe((/**
          * @param {?} res
          * @return {?}
          */
@@ -2624,20 +2772,20 @@ class ListingComponent {
                 this.dataSource = new MatTableDataSource(result.results.res);
                 this._snackBar.openFromComponent(SnackbarComponent, {
                     duration: 2000,
-                    data: { errormessage: "New Search of data loaded" }
+                    data: { errormessage: 'New Search of data loaded' }
                 });
             }
             else {
                 this._snackBar.openFromComponent(SnackbarComponent, {
                     duration: 6000,
-                    data: { errormessage: "No such search record found !!" }
+                    data: { errormessage: 'No such search record found !!' }
                 });
             }
             this.loading = false;
             // this.dataSource.paginator = this.paginator;
-            //this.dataSource.sort = this.sort;
+            // this.dataSource.sort = this.sort;
         }));
-        this._apiService.postSearch(link1, this.jwttokenval, source).subscribe((/**
+        this.subscriptions[this.subscriptioncount++] = this._apiService.postSearch(link1, this.jwttokenval, source).subscribe((/**
          * @param {?} res
          * @return {?}
          */
@@ -2646,13 +2794,15 @@ class ListingComponent {
             let result = {};
             result = res;
             this.date_search_source_countval = (result.count);
-            if (result.count == 0)
+            if (result.count == 0) {
                 this.tableflag = 1;
-            else
+            }
+            else {
                 this.tableflag = 0;
+            }
             // console.log('count',result);
             // this.dataSource.paginator = this.paginator;
-            //this.dataSource.sort = this.sort;
+            // this.dataSource.sort = this.sort;
         }));
     }
     /**
@@ -2669,20 +2819,20 @@ class ListingComponent {
      */
     artistxpPreview(singleData) {
         /** @type {?} */
-        let link = 'http://developmentapi.audiodeadline.com:3090/' + 'datalist';
+        const link = 'http://developmentapi.audiodeadline.com:3090/' + 'datalist';
         /**
          * **** not completed *****
          * @type {?}
          */
-        let data = { "source": "blockchainuser_view", "condition": { "posts_id_object": singleData._id }, "token": this.jwttokenval };
+        const data = { source: 'blockchainuser_view', condition: { posts_id_object: singleData._id }, token: this.jwttokenval };
         /******** not completed *****/
-        this._apiService.postData(link, data).subscribe((/**
+        this.subscriptions[this.subscriptioncount++] = this._apiService.postData(link, data).subscribe((/**
          * @param {?} response
          * @return {?}
          */
         response => {
             /** @type {?} */
-            let restlt = response;
+            const restlt = response;
             /* open dialog */
             /** @type {?} */
             const dialogRef = this.dialog.open(Confirmdialog, {
@@ -2696,7 +2846,7 @@ class ListingComponent {
 ListingComponent.decorators = [
     { type: Component, args: [{
                 selector: 'lib-listing',
-                template: "<div class=\"container\">\n    <mat-card>\n        <mat-toolbar-row class=\"searchbar\">\n            <ng-container class=\"inputfilterForloop\"\n                *ngIf=\"search_settingsval !=null && search_settingsval.textsearch != null \">\n                <ng-container *ngFor=\"let item of search_settingsval.textsearch\">\n                    <mat-form-field class=\"searchdiv pad-gap\">\n\n                        <input class=\"filterForText\" matInput (change)=\"textsearchfunction(item.field)\"\n                            (keyup)=\"textsearchfunction(item.field)\" [(ngModel)]='tsearch[item.field]'\n                            placeholder=\"{{item.label}}\">\n                        <span class=\"filterForTexticon\" matPrefix><i class=\"material-icons searchicon\">\n                                search\n                            </i> &nbsp;</span>\n                    </mat-form-field>\n                </ng-container>\n\n            </ng-container>\n\n            <ng-container class=\"inputfilterForAuto\"\n                *ngIf=\"search_settingsval !=null && search_settingsval.search != null \">\n                <mat-form-field class=\"filterForAuto searchdiv\" *ngFor=\"let item of search_settingsval.search\">\n\n\n                    <mat-chip-list #chipList aria-label=\"Fruit selection\">\n                        <mat-chip *ngFor=\"let v of autosearch[item.field]; let i=index;\" [selectable]=\"true\"\n                            [removable]=\"true\" (removed)=\"remove(v,i,item.field)\">\n                            {{v.name}}\n                            <mat-icon matChipRemove>cancel</mat-icon>\n                        </mat-chip>\n                        <input placeholder=\"{{item.label}} \" [matAutocomplete]=\"auto\" [matChipInputFor]=\"chipList\"\n                            [(ngModel)]=\"autosearchinput[item.field]\" (keyup)=\"filterautoval(item)\">\n                    </mat-chip-list>\n\n                    <!--[matChipInputSeparatorKeyCodes]=\"[ENTER, COMMA]\"-->\n                    <!--(matChipInputTokenEnd)=\"addautosearchdata($event)\"-->\n\n\n                    <!--<input class=\"filterForAutoInput\"  type=\"text\" placeholder=\"{{item.label}}\" matInput [(ngModel)]=\"autosearch[item.field]\" [matAutocomplete]=\"auto\">-->\n                    <mat-autocomplete #auto=\"matAutocomplete\">\n                        <!--<mat-option *ngFor=\"let option of item.values | async\" [value]=\"option[item.field]\" (click)=\"autosearchfunction(item.field)\">\n                            {{option[item.field]}}\n                        </mat-option>-->\n\n                        <mat-option *ngFor=\"let statusval of currentautosearcharr\" [value]=\"statusval.val\"\n                            (click)=\"autosearchfunction(item.field,statusval)\">\n                            {{statusval.name}}\n                        </mat-option>\n                    </mat-autocomplete>\n                </mat-form-field>\n            </ng-container>\n\n\n\n            <!--      <span *ngIf=\"search_settingsval !=null && search_settingsval != null \">\n\n      <mat-form-field *ngFor=\"let item of search_settingsval.search\">\n        <mat-label>{{item.label}}</mat-label>\n        <mat-select>\n          <mat-option *ngFor=\"let status of preresult\" [value]=\"status\" (click)=\"autosearchfunction(status.email)\">\n            {{status.email}}\n          </mat-option>\n        </mat-select>\n      </mat-form-field>\n\n      </span>-->\n            <!--  <ng-container  *ngIf=\"search_settingsval !=null && search_settingsval.textsearch != null \">\n&lt;!&ndash;        <span *ngFor=\"let status of this.search_settingsval.textsearch\">&ndash;&gt;\n&lt;!&ndash;        <mat-form-field *ngFor=\"let statusval of status.value\">&ndash;&gt;\n        <mat-form-field *ngFor=\"let status of this.search_settingsval.textsearch\">\n              <input matInput (keyup)=\"applyFilter1($event.target.value, status)\" placeholder=\"{{status.label}}\">\n        </mat-form-field>\n&lt;!&ndash;              </span>&ndash;&gt;\n      </ng-container>-->\n\n\n            <ng-container class=\"filterForTexticon\"\n                *ngIf=\"search_settingsval !=null && search_settingsval.selectsearch != null \">\n                <!-- <span>dddddd</span> -->\n                <mat-form-field class=\"searchdiv\" *ngFor=\"let status of search_settingsval.selectsearch\">\n                    <mat-label>{{status.label}}</mat-label>\n                    <!-- <mat-select [(ngModel)]=\"selectsearch[status.field]\" [(value)]=\"selectsearch[status.field]\"> -->\n                    <mat-select [(ngModel)]=\"selectsearch[status.field]\" [(value)]=\"status.value\"\n                        [(ngModel)]='tsearch[status.field]'>\n                        <mat-option *ngFor=\"let statusval of status.values\" [value]=\"statusval.val\"\n                            (click)=\"selectSearch(statusval.val, status)\">\n                            {{statusval.name}}\n                        </mat-option>\n                    </mat-select>\n                </mat-form-field>\n            </ng-container>\n\n\n            <ng-container *ngIf=\" search_settingsval != null && search_settingsval.datesearch != null \">\n                <!-- <span>D search !!</span> -->\n                <ng-container class=\"filterFordatesearch\" *ngFor=\"let status of this.search_settingsval.datesearch\">\n                    <mat-form-field class=\"filterFordatesearchformfield searchdiv\">\n                        <input class=\"filterFordatesearchinput\" matInput [matDatepicker]=\"picker\" autocomplete=\"off\"\n                            placeholder=\"{{status.startdatelabel}}\" [(ngModel)]=\"start_date\">\n                        <mat-datepicker-toggle matSuffix [for]=\"picker\"></mat-datepicker-toggle>\n                        <mat-datepicker #picker></mat-datepicker>\n                    </mat-form-field>\n                    <mat-form-field class=\"filterFordatesearchend\">\n                        <input class=\"filterFordatesearchinput\" matInput [matDatepicker]=\"picker1\" autocomplete=\"off\"\n                            placeholder=\"{{status.enddatelabel}}\" [(ngModel)]=\"end_date\">\n                        <mat-datepicker-toggle matSuffix [for]=\"picker1\"></mat-datepicker-toggle>\n                        <mat-datepicker #picker1></mat-datepicker>\n                    </mat-form-field>\n\n\n\n                    <!-- <span class=\"search_class\">\n                        <button mat-raised-button color=\"primary\" class=\"add_button\"\n                            (click)=\"dateSearch(status.field)\">{{status.submit}}</button>\n                    </span> -->\n\n\n\n                </ng-container>\n            </ng-container>\n\n\n            <!-- use for refresh all data -->\n            <span class=\"search_class\">\n                <ng-container class=\"refresh\">\n                    <i (click)=\"refreshdata()\" class=\"material-icons cursor\">\n                        autorenew\n                    </i>\n                </ng-container>\n                <!-- *ngIf=\"date_search_endpointval ==null || date_search_sourceval == null || search_settingsval.datesearch == null \" -->\n                <ng-container class=\"refresh\">\n                    <button mat-raised-button color=\"primary\" class=\"add_button\" (click)=\"allSearch()\">Search</button>\n                </ng-container>\n\n            </span>\n\n\n\n            <span *ngIf=\"click_to_add_ananother_pageval !=null\">\n                <button mat-raised-button color=\"primary\" class=\"add_button\"\n                    [routerLink]=\"click_to_add_ananother_pageval\">Add</button>\n            </span>\n        </mat-toolbar-row>\n\n\n\n        <ng-container\n            *ngIf=\"selection.selected !=null && selection.selected.length!=null && selection.selected.length>0\">\n            <span class=\"multipledeleteandupdatebuttan\">\n\n                <button *ngIf=\"libdataval.hidedeletemany==null || libdataval.hidedeletemany==false\" mat-raised-button\n                    (click)=\"deletemultiple()\"> Delete </button>\n                <button *ngIf=\"libdataval.hideupdatemany==null || libdataval.hideupdatemany==false\" mat-raised-button\n                    (click)=\"managestatusmultiple()\"> Update Status </button>\n\n            </span>\n        </ng-container>\n\n        <section *ngIf=\"loading == true\" class=\"example-section\">\n            <mat-progress-bar class=\"example-margin\" [color]=\"color\" [mode]=\"mode\" [value]=\"value\"\n                [bufferValue]=\"bufferValue\">\n            </mat-progress-bar>\n            <br />\n            <br />\n        </section>\n\n        <ng-container *ngIf=\"tableflag==0\">\n            <section class=\"lib-pager-class\">\n                <mat-label>\n                    Showing\n                    {{(limitcondval.pagecount-1)*limitcondval.limit}}\n                    To\n\n                    <ng-container\n                        *ngIf=\"date_search_source_countval > ((limitcondval.pagecount)*limitcondval.limit) || date_search_source_countval==0\">\n                        {{(limitcondval.pagecount)*limitcondval.limit}}\n                    </ng-container>\n                    <ng-container\n                        *ngIf=\"date_search_source_countval!=0 && date_search_source_countval <= ((limitcondval.pagecount)*limitcondval.limit)\">\n                        {{date_search_source_countval}}\n                    </ng-container>\n\n\n\n                    of\n                    <span *ngIf=\"date_search_source_countval!=0 \"> {{date_search_source_countval}} </span>\n                    <span *ngIf=\"date_search_source_countval==0 \"> Many </span>\n\n                </mat-label>\n                <span class=\"=pageformfield\">\n                    <mat-form-field>\n                        <mat-label>Page Size</mat-label>\n                        <input matInput [(ngModel)]=\"limitcondval.limit\" type=\"number\" (keyup)=\"paging(10)\">\n                    </mat-form-field>\n\n                    <mat-form-field>\n                        <mat-label>Page No</mat-label>\n                        <input matInput [(ngModel)]=\"limitcondval.pagecount\" type=\"number\" (keyup)=\"paging(10)\">\n                    </mat-form-field>\n                </span>\n                <span>\n\n\n                    <span class=\"material-icons cursor\" (click)=\"paging(-1)\">\n                        skip_previous\n                    </span>\n\n                    <span class=\"material-icons cursor\" (click)=\"paging(1)\">\n                        skip_next\n                    </span>\n                </span>\n            </section>\n\n\n        </ng-container>\n\n        <div class=\"tablewrapper\" *ngIf=\"tableflag==0\">\n\n            <table mat-table [dataSource]=\"dataSource\" class=\"mat-elevation-z8\">\n\n                <ng-container matColumnDef=\"select\">\n                    <th mat-header-cell *matHeaderCellDef>\n                        <mat-checkbox (change)=\"$event ? masterToggle() : null\"\n                            [checked]=\"selection.hasValue() && isAllSelected()\"\n                            [indeterminate]=\"selection.hasValue() && !isAllSelected()\">\n                        </mat-checkbox>\n                    </th>\n                    <td mat-cell *matCellDef=\"let row\" data-label=\"select\">\n                        <mat-checkbox (click)=\"$event.stopPropagation()\"\n                            (change)=\"$event ? selection.toggle(row) : null\" [checked]=\"selection.isSelected(row)\">\n                        </mat-checkbox>\n                    </td>\n                </ng-container>\n                <ng-container matColumnDef=\"#\">\n                    <th mat-header-cell *matHeaderCellDef>\n                        #\n                    </th>\n                    <td mat-cell *matCellDef=\"let element; let i = index\">{{limitcondval.skip+(i+1)}}</td>\n                </ng-container>\n\n                <ng-container *ngFor=\"let column of columns\" [matColumnDef]=\"column.columnDef\">\n                    <th mat-header-cell *matHeaderCellDef class=\"th-header-center\">\n                        <span>\n                            {{column.header}}\n                            <span *ngIf=\"column.columnDef==sortdataval.field && sortdataval.type=='desc'\"\n                                class=\"material-icons cursor float-right\" (click)=\"sorttable(column.columnDef,'asc')\">\n                                arrow_downward\n                            </span>\n                            <span class=\"material-icons cursor float-right\"\n                                *ngIf=\"column.columnDef==sortdataval.field && sortdataval.type=='asc'\"\n                                (click)=\"sorttable(column.columnDef,'desc')\">arrow_upward\n                            </span>\n\n                            <span class=\"material-icons cursor\"\n                                *ngIf=\"sortdataval!=null && sortdataval.options !=null && sortdataval.options.indexOf(column.columnDef) >-1  && column.columnDef!=sortdataval.field\"\n                                (click)=\"sorttable(column.columnDef,'desc')\">\n                                unfold_more\n                            </span>\n\n                        </span>\n\n                    </th>\n                    <td mat-cell *matCellDef=\"let row\" [ngStyle]=\"styleCell(column,row)\" data-title=\"{{column.header}}\"\n                        class=\"td-cell-center\">\n\n                        <span *ngIf=\"column.columnDef=='status' \">{{ getstatus([column.cell(row)]) }}\n                            {{pdfFlag(row)}}</span>\n                        <span\n                            *ngIf=\"column.columnDef!='status' &&  column.columnDef!='image' && column.columnDef!='video' \">\n                            <ng-container\n                                *ngIf=\"column!=null && row[column.columnDef]!=null && !column.columnDef.includes('date') && !column.columnDef.includes('datetime')\">\n                                <span [innerHTML]=\"row[column.columnDef]\"></span>\n                            </ng-container>\n                            <ng-container\n                                *ngIf=\"column!=null && row[column.columnDef]!=null && column.columnDef.includes('date') && !column.columnDef.includes('datetime')\">\n                                {{row[column.columnDef] | date}}\n                            </ng-container>\n                            <ng-container\n                                *ngIf=\"column!=null && row[column.columnDef]!=null && column.columnDef.includes('date') && column.columnDef.includes('datetime')\">\n                                {{row[column.columnDef] | date:'medium'}}\n                            </ng-container>\n                            <ng-container *ngIf=\"column!=null && row[column.columnDef]==null\">\n                                NA\n                            </ng-container>\n\n                        </span>\n                        <!-- for image view  -->\n                        <span\n                            *ngIf=\"column.columnDef=='image' && row[column.columnDef] !=null && row[column.columnDef] !='' \"\n                            (click)=\"img_modal_view(row[column.columnDef])\"> <span class=\"module_imgblock\">\n                                <img src=\"{{row[column.columnDef]}}\" alt=\"{{row[column.columnDef]}}\">\n                            </span></span>\n                        <!-- for video view -->\n                        <span\n                            *ngIf=\"column.columnDef=='video' && row[column.columnDef] !=null && row[column.columnDef] !='' \"><span\n                                class=\"module_videoblock\" (click)=\"fetchvideo(row)\">\n                                <img src=\"https://img.youtube.com/vi/{{row[column.columnDef]}}/sddefault.jpg\"\n                                    alt=\"{{row[column.columnDef]}}\" (click)=\"fetchvideo(row)\"></span>\n                        </span>\n\n                        <span\n                            *ngIf=\"column.columnDef=='grab_url && grab_linkval!=null && grab_linkval[0]!=null' \">{{grapurl(row[this.grab_linkval[0].field_name])}}</span>\n\n\n                        <!--          <span *ngIf=\"sh==true\">-->\n                        <span *ngIf=\"column.columnDef=='contractssigned' && sh==true && urlval !=null\" class=\"cursor\">\n                            <i title=\"{{urlval[0].label}}\" (click)=\"clickurl(row,urlval[0].url)\"\n                                class=\"material-icons\">cloud_download</i>\n                        </span>\n                        <!--          </span>-->\n                        <!--          <span *ngIf=\"aud==true\">-->\n                        <span *ngIf=\"column.columnDef=='contractssigned' && aud==true  && urlval !=null\">\n                            <i title=\"{{urlval[1].label}}\" (click)=\"clickurl(row,urlval[1].url)\"\n                                class=\"material-icons\">cloud_download</i>\n                        </span>\n\n\n                        <!--// for grap url//-->\n\n                        <span *ngIf=\" grab_linkval!=null && column.columnDef==[grab_linkval.colom_name[0].col_name]\"\n                            class=\"cursor\">\n                            <ng-container *ngFor=\"let item of grab_linkval.field\">\n                                <!-- <p>{{item | json}}</p> -->\n                                <button mat-button\n                                    (click)=\"copyText(row[grab_linkval.colom_name[0].field_name],item.url)\">{{item.label}}</button>\n                            </ng-container>\n                        </span>\n\n                        <!-- <span\n                            *ngIf=\" grab_linkval!=null && grab_linkval[0]!=null && column.columnDef==[grab_linkval[0].col_name]\"\n                            class=\"cursor\">\n                            <button mat-button\n                                (click)=\"copyText(row[grab_linkval[0].field_name],grab_linkval[1].url)\">{{grab_linkval[1].label}}</button>\n                        </span>\n                        <span\n                            *ngIf=\"grab_linkval!=null && grab_linkval[0]!=null &&column.columnDef== [grab_linkval[0].col_name]\">\n                            <button mat-button\n                                (click)=\"copyText(row[grab_linkval[0].field_name],grab_linkval[2].url)\">{{grab_linkval[2].label}}</button>\n                        </span> -->\n\n                        <!--          //grap url end//-->\n\n\n                        <!--          </span>-->\n                        <!-- <span *ngIf=\"column.columnDef=='contractssigned' \">\n            <span *ngFor=\"let item of urlval\" class=\"cursor\">\n            <i title=\"{{item.label}}\" (click)=\"clickurl(row,item.url)\" class=\"material-icons\">cloud_download</i>\n          </span>\n          </span>-->\n                    </td>\n                </ng-container>\n\n\n\n                <ng-container matColumnDef=\"Actions\"\n                    *ngIf=\"libdataval.hideaction==null || libdataval.hideaction==false\">\n                    <th mat-header-cell *matHeaderCellDef class=\"th-header-center\">Actions</th>\n                    <td (click)=\"$event.stopPropagation()\" mat-cell *matCellDef=\"let row\" data-label=\"Actions\"\n                        class=\"td-cell-center\">\n                        <!-- loader -->\n                        <section class=\"example-section\">\n                            <mat-progress-bar *ngIf=\"loaderrow!=null && loaderrow==row._id \" class=\"example-margin\"\n                                [color]=\"color\" [mode]=\"mode\" [value]=\"value\" [bufferValue]=\"bufferValue\">\n                            </mat-progress-bar>\n                        </section>\n                        <!-- note block -->\n                        <ng-container *ngIf=\"libdataval.notes!=null\">\n                            <button mat-raised-button color=\"primary\"\n                                (click)=\"opennotes(row)\">{{libdataval.notes.label}}({{row.notescount}})</button>\n                        </ng-container>\n                        <!--custom buttions block -->\n                        <ng-container\n                            *ngIf=\"libdataval !=null && libdataval.custombuttons !=null && libdataval.custombuttons.length >0 \">\n                            <ng-container *ngFor=\"let custombutton of libdataval.custombuttons; let cb=index\">\n                                <section class=\"custombutton{{cb}}\">\n                                    <ng-container *ngIf=\"custombutton.type=='externallink'\">\n                                        <ng-container\n                                            *ngIf=\"custombutton.param==null && (custombutton.cond==null || row[custombutton.cond]==custombutton.condval )\">\n                                            <a target=\"_blank\" href=\"{{custombutton.link}}\">\n                                                <button mat-raised-button\n                                                    color=\"primary\">{{custombutton.label}}</button>\n                                            </a>\n                                        </ng-container>\n\n                                        <ng-container\n                                            *ngIf=\"custombutton.param!=null && (custombutton.cond==null || row[custombutton.cond]==custombutton.condval )\">\n\n                                            <button mat-raised-button color=\"primary\"\n                                                (click)=\"openextlinkwithparam(custombutton,row)\">{{custombutton.label}}</button>\n\n                                        </ng-container>\n\n                                    </ng-container>\n                                    <ng-container *ngIf=\"custombutton.type=='internallink'\">\n                                        <ng-container\n                                            *ngIf=\"custombutton.toggle == null && custombutton.param==null && (custombutton.cond==null || row[custombutton.cond]==custombutton.condval )\">\n                                            <button mat-raised-button color=\"primary\"\n                                                (click)=\"openinternallink(custombutton)\">{{custombutton.label}}</button>\n                                        </ng-container>\n                                        <ng-container\n                                            *ngIf=\"custombutton.toggle != null && custombutton.toggle == 'delete' && custombutton.toggle!=null && (custombutton.cond==null || row[custombutton.cond]==custombutton.condval )\">\n                                            <button mat-raised-button color=\"primary\"\n                                                (click)=\"deletedata(row)\">{{custombutton.label}}</button>\n                                        </ng-container>\n\n                                        <ng-container\n                                            *ngIf=\"custombutton.param!=null && (custombutton.cond==null || row[custombutton.cond]==custombutton.condval )\">\n\n                                            <button mat-raised-button color=\"primary\"\n                                                (click)=\"openinternallinkwithparam(custombutton,row)\">{{custombutton.label}}</button>\n\n                                        </ng-container>\n\n                                    </ng-container>\n                                    <ng-container *ngIf=\"custombutton.type=='action'\">\n                                        <ng-container\n                                            *ngIf=\"custombutton.datatype=='local' && custombutton != null && (custombutton.cond==null || row[custombutton.cond]==custombutton.condval )\">\n                                            <button mat-raised-button color=\"primary\"\n                                                (click)=\"opencustombuttonactionlocaldata(custombutton,row)\">{{custombutton.label}}</button>\n                                        </ng-container>\n                                        <ng-container\n                                            *ngIf=\"custombutton.datatype=='api' && (custombutton.cond==null || row[custombutton.cond]==custombutton.condval )\">\n                                            <button mat-raised-button color=\"primary\"\n                                                (click)=\"opencustombuttonactionapidata(custombutton,row)\">{{custombutton.label}}</button>\n                                        </ng-container>\n\n                                    </ng-container>\n                                </section>\n\n                            </ng-container>\n                        </ng-container>\n                        <span *ngIf=\"selection.selected.length==null || selection.selected.length==0\">\n                            <span *ngIf=\"libdataval.hideeditbutton==null || libdataval.hideeditbutton==false\"\n                                class=\"cursor\" (click)=\"editdata(row)\">\n                                <i class=\"material-icons\">\n                                    edit\n                                </i>\n                            </span>\n\n                            <!--For modern browsers-->\n                            <span *ngIf=\"libdataval.hidedeletebutton==null || libdataval.hidedeletebutton==false\"\n                                class=\"cursor\" (click)=\"deletedata(row)\">\n                                <i class=\"material-icons\">\n                                    delete_outline\n                                </i>\n                            </span>\n\n                            <!--For modern browsers-->\n                            <span *ngIf=\"libdataval.hideviewbutton==null || libdataval.hideviewbutton==false\"\n                                class=\"cursor\" (click)=\"viewdata(row)\">\n                                <i class=\"material-icons\">\n                                    remove_red_eye\n                                </i>\n                            </span>\n\n                            <!--For modern browsers-->\n                            <span class=\"cursor\"\n                                *ngIf=\"libdataval.hidestatustogglebutton==null || libdataval.hidestatustogglebutton==false\"\n                                (click)=\"managestatus(row)\">\n                                <i class=\"material-icons\">\n                                    toggle_off\n                                </i>\n                            </span>\n                            <span *ngIf=\"custombuttonval!=null\" class=\"cursor treeclass\"\n                                (click)=\"custombuttonfunc(row)\">\n                                <i class=\"material-icons treeclass\">\n                                    toggle_off\n                                </i>\n                            </span>\n\n                            <!-- artistxp preview start -->\n                            <span *ngIf=\"previewFlug==true\" class=\"cursor treeclass\" (click)=\"artistxpPreview(row)\">\n                                <i class=\"material-icons\">perm_media</i>\n                            </span>\n                            <!-- artistxp preview end -->\n\n                        </span>\n\n                    </td>\n                </ng-container>\n\n\n\n\n\n\n                <tr mat-header-row *matHeaderRowDef=\"displayedColumns\"></tr>\n                <tr mat-row *matRowDef=\"let row; columns: displayedColumns;\"></tr>\n\n            </table>\n\n        </div>\n\n        <!--for pagination -->\n\n        <mat-card *ngIf=\"tableflag!=0\">No Records Exists !!!</mat-card>\n        <ng-container *ngIf=\"tableflag==0\">\n            <section class=\"lib-pager-class\">\n                <mat-label>\n                    Showing\n                    {{(limitcondval.pagecount-1)*limitcondval.limit}}\n                    To\n\n                    <ng-container\n                        *ngIf=\"date_search_source_countval > ((limitcondval.pagecount)*limitcondval.limit) ||  date_search_source_countval==0\">\n                        {{(limitcondval.pagecount)*limitcondval.limit}}\n                    </ng-container>\n                    <ng-container\n                        *ngIf=\"date_search_source_countval!=0 && date_search_source_countval <= ((limitcondval.pagecount)*limitcondval.limit)\">\n                        {{date_search_source_countval}}\n                    </ng-container>\n\n\n\n                    of\n                    <span *ngIf=\"date_search_source_countval!=0 \"> {{date_search_source_countval}} </span>\n                    <span *ngIf=\"date_search_source_countval==0 \"> Many </span>\n\n                </mat-label>\n                <span class=\"=pageformfield\">\n                    <mat-form-field>\n                        <mat-label>Page Size</mat-label>\n                        <input matInput [(ngModel)]=\"limitcondval.limit\" type=\"number\" (keyup)=\"paging(10)\">\n                    </mat-form-field>\n\n                    <mat-form-field>\n                        <mat-label>Page No</mat-label>\n                        <input matInput [(ngModel)]=\"limitcondval.pagecount\" type=\"number\" (keyup)=\"paging(10)\">\n                    </mat-form-field>\n                </span>\n                <span>\n\n\n                    <span class=\"material-icons cursor\" (click)=\"paging(-1)\">\n                        skip_previous\n                    </span>\n\n                    <span class=\"material-icons cursor\" (click)=\"paging(1)\">\n                        skip_next\n                    </span>\n                </span>\n            </section>\n\n\n        </ng-container>\n        <section *ngIf=\"loading == true\" class=\"example-section\">\n            <mat-progress-bar class=\"example-margin\" [color]=\"color\" [mode]=\"mode\" [value]=\"value\"\n                [bufferValue]=\"bufferValue\">\n            </mat-progress-bar>\n            <br />\n            <br />\n        </section>\n\n\n\n        <!-- <mat-paginator class=\"paginator\" [pageSizeOptions]=\"[5,10, 20, 50,100]\" showFirstLastButtons></mat-paginator>-->\n        <!--<mat-spinner *ngIf=\"loading == true\" ></mat-spinner>-->\n\n\n\n        <!-- <form [formGroup]=\"stateForm\">\n      <mat-form-field>\n        <input type=\"text\" matInput placeholder=\"States Group\" formControlName=\"stateGroup\" required [matAutocomplete]=\"autoGroup\">\n        <mat-autocomplete #autoGroup=\"matAutocomplete\">\n          <mat-optgroup *ngFor=\"let group of stateGroupOptions | async\" [label]=\"group.letter\">\n            <mat-option *ngFor=\"let name of group.names\" [value]=\"name\">\n              {{name}}\n            </mat-option>\n          </mat-optgroup>\n        </mat-autocomplete>\n      </mat-form-field>\n    </form>-->\n\n        <!--<form class=\"example-form\">\n      <mat-form-field class=\"example-full-width\">\n        <input type=\"text\" placeholder=\"Select state\" aria-label=\"Number\" matInput [formControl]=\"myControl\" [matAutocomplete]=\"auto\">\n        <mat-autocomplete #auto=\"matAutocomplete\">\n          <mat-option *ngFor=\"let option of stateGroup | async\" [value]=\"option\">\n            {{option}}\n          </mat-option>\n        </mat-autocomplete>\n      </mat-form-field>\n    </form>\n-->\n\n    </mat-card>\n\n    <!--\n  <mat-card>\n\n    <div class=\"example-container\">\n\n\n      <mat-card-content >\n        <mat-form-field class=\"form-group\">\n            <input (blur)=\"inputblur('email')\" matInput placeholder=\"email\" type=\"email\" [formControl]=\"myForm.controls['email']\" >\n            <mat-error  *ngIf=\"!myForm.controls['email'].valid && myForm.controls['email'].touched && issubmit==1\">email field can not be blank</mat-error>\n        </mat-form-field>\n\n        <mat-form-field class=\"form-group\">\n            <input (blur)=\"inputblur('password')\" matInput placeholder=\"Password\" type=\"password\" [formControl]=\"myForm.controls['password']\" >\n            <mat-error  *ngIf=\"!myForm.controls['password'].valid && myForm.controls['password'].touched && issubmit==1\">Password field can not be blank</mat-error>\n        </mat-form-field>\n\n            <button mat-button  (click)=\"onSubmit()\" class=\"s_getmyoffer_login_button\"  >Login</button>\n        </mat-card-content>\n\n\n    </div>\n\n  </mat-card>-->\n\n\n\n</div>",
+                template: "<div class=\"container\">\n    <mat-card>\n        <mat-toolbar-row class=\"searchbar\">\n            <ng-container class=\"inputfilterForloop\"\n                *ngIf=\"search_settingsval !=null && search_settingsval.textsearch != null \">\n                <ng-container *ngFor=\"let item of search_settingsval.textsearch\">\n                    <mat-form-field class=\"searchdiv pad-gap\">\n\n                        <input class=\"filterForText\" matInput (change)=\"textsearchfunction(item.field)\"\n                            (keyup)=\"textsearchfunction(item.field)\" [(ngModel)]='tsearch[item.field]'\n                            placeholder=\"{{item.label}}\">\n                        <span class=\"filterForTexticon\" matPrefix><i class=\"material-icons searchicon\">\n                                search\n                            </i> &nbsp;</span>\n                    </mat-form-field>\n                </ng-container>\n\n            </ng-container>\n\n            <ng-container class=\"inputfilterForAuto\"\n                *ngIf=\"search_settingsval !=null && search_settingsval.search != null \">\n                <mat-form-field class=\"filterForAuto searchdiv\" *ngFor=\"let item of search_settingsval.search\">\n\n\n                    <mat-chip-list #chipList aria-label=\"Fruit selection\">\n                        <mat-chip *ngFor=\"let v of autosearch[item.field]; let i=index;\" [selectable]=\"true\"\n                            [removable]=\"true\" (removed)=\"remove(v,i,item.field)\">\n                            {{v.name}}\n                            <mat-icon matChipRemove>cancel</mat-icon>\n                        </mat-chip>\n                        <input placeholder=\"{{item.label}} \" [matAutocomplete]=\"auto\" [matChipInputFor]=\"chipList\"\n                            [(ngModel)]=\"autosearchinput[item.field]\" (keyup)=\"autocompletechangedetected(item);\">\n                    </mat-chip-list>\n\n                    <!--[matChipInputSeparatorKeyCodes]=\"[ENTER, COMMA]\"-->\n                    <!--(matChipInputTokenEnd)=\"addautosearchdata($event)\"-->\n\n\n                    <!--<input class=\"filterForAutoInput\"  type=\"text\" placeholder=\"{{item.label}}\" matInput [(ngModel)]=\"autosearch[item.field]\" [matAutocomplete]=\"auto\">-->\n                    <mat-autocomplete #auto=\"matAutocomplete\">\n                        <!--<mat-option *ngFor=\"let option of item.values | async\" [value]=\"option[item.field]\" (click)=\"autosearchfunction(item.field)\">\n                            {{option[item.field]}}\n                        </mat-option>-->\n\n                        <mat-option *ngFor=\"let statusval of currentautosearcharr\" [value]=\"statusval.val\"\n                            (click)=\"autosearchfunction(item.field,statusval)\">\n                            {{statusval.name}}\n                        </mat-option>\n                    </mat-autocomplete>\n                </mat-form-field>\n            </ng-container>\n\n\n\n            <!--      <span *ngIf=\"search_settingsval !=null && search_settingsval != null \">\n\n      <mat-form-field *ngFor=\"let item of search_settingsval.search\">\n        <mat-label>{{item.label}}</mat-label>\n        <mat-select>\n          <mat-option *ngFor=\"let status of preresult\" [value]=\"status\" (click)=\"autosearchfunction(status.email)\">\n            {{status.email}}\n          </mat-option>\n        </mat-select>\n      </mat-form-field>\n\n      </span>-->\n            <!--  <ng-container  *ngIf=\"search_settingsval !=null && search_settingsval.textsearch != null \">\n&lt;!&ndash;        <span *ngFor=\"let status of this.search_settingsval.textsearch\">&ndash;&gt;\n&lt;!&ndash;        <mat-form-field *ngFor=\"let statusval of status.value\">&ndash;&gt;\n        <mat-form-field *ngFor=\"let status of this.search_settingsval.textsearch\">\n              <input matInput (keyup)=\"applyFilter1($event.target.value, status)\" placeholder=\"{{status.label}}\">\n        </mat-form-field>\n&lt;!&ndash;              </span>&ndash;&gt;\n      </ng-container>-->\n\n\n            <ng-container class=\"filterForTexticon\"\n                *ngIf=\"search_settingsval !=null && search_settingsval.selectsearch != null \">\n                <!-- <span>dddddd</span> -->\n                <mat-form-field class=\"searchdiv\" *ngFor=\"let status of search_settingsval.selectsearch\">\n                    <mat-label>{{status.label}}</mat-label>\n                    <!-- <mat-select [(ngModel)]=\"selectsearch[status.field]\" [(value)]=\"selectsearch[status.field]\"> -->\n                    <mat-select [(ngModel)]=\"selectsearch[status.field]\" [(value)]=\"status.value\"\n                        [(ngModel)]='tsearch[status.field]'>\n                        <mat-option *ngFor=\"let statusval of status.values\" [value]=\"statusval.val\"\n                            (click)=\"selectSearch(statusval.val, status)\">\n                            {{statusval.name}}\n                        </mat-option>\n                    </mat-select>\n                </mat-form-field>\n            </ng-container>\n\n\n            <ng-container *ngIf=\" search_settingsval != null && search_settingsval.datesearch != null \">\n                <!-- <span>D search !!</span> -->\n                <ng-container class=\"filterFordatesearch\" *ngFor=\"let status of this.search_settingsval.datesearch\">\n                    <mat-form-field class=\"filterFordatesearchformfield searchdiv\">\n                        <input class=\"filterFordatesearchinput\" matInput [matDatepicker]=\"picker\" autocomplete=\"off\"\n                            placeholder=\"{{status.startdatelabel}}\" [(ngModel)]=\"start_date\">\n                        <mat-datepicker-toggle matSuffix [for]=\"picker\"></mat-datepicker-toggle>\n                        <mat-datepicker #picker></mat-datepicker>\n                    </mat-form-field>\n                    <mat-form-field class=\"filterFordatesearchend\">\n                        <input class=\"filterFordatesearchinput\" matInput [matDatepicker]=\"picker1\" autocomplete=\"off\"\n                            placeholder=\"{{status.enddatelabel}}\" [(ngModel)]=\"end_date\">\n                        <mat-datepicker-toggle matSuffix [for]=\"picker1\"></mat-datepicker-toggle>\n                        <mat-datepicker #picker1></mat-datepicker>\n                    </mat-form-field>\n\n\n\n                    <!-- <span class=\"search_class\">\n                        <button mat-raised-button color=\"primary\" class=\"add_button\"\n                            (click)=\"dateSearch(status.field)\">{{status.submit}}</button>\n                    </span> -->\n\n\n\n                </ng-container>\n            </ng-container>\n\n\n            <!-- use for refresh all data -->\n            <span class=\"search_class\">\n                <ng-container class=\"refresh\">\n                    <i (click)=\"refreshdata()\" class=\"material-icons cursor\">\n                        autorenew\n                    </i>\n                </ng-container>\n                <!-- *ngIf=\"date_search_endpointval ==null || date_search_sourceval == null || search_settingsval.datesearch == null \" -->\n                <ng-container class=\"refresh\">\n                    <button mat-raised-button color=\"primary\" class=\"add_button\" (click)=\"allSearch()\">Search</button>\n                </ng-container>\n\n            </span>\n\n\n\n            <span *ngIf=\"click_to_add_ananother_pageval !=null\">\n                <button mat-raised-button color=\"primary\" class=\"add_button\"\n                    [routerLink]=\"click_to_add_ananother_pageval\">Add</button>\n            </span>\n        </mat-toolbar-row>\n\n\n\n        <ng-container\n            *ngIf=\"selection.selected !=null && selection.selected.length!=null && selection.selected.length>0\">\n            <span class=\"multipledeleteandupdatebuttan\">\n\n                <button *ngIf=\"libdataval.hidedeletemany==null || libdataval.hidedeletemany==false\" mat-raised-button\n                    (click)=\"deletemultiple()\"> Delete </button>\n                <button *ngIf=\"libdataval.hideupdatemany==null || libdataval.hideupdatemany==false\" mat-raised-button\n                    (click)=\"managestatusmultiple()\"> Update Status </button>\n\n            </span>\n        </ng-container>\n\n        <section *ngIf=\"loading == true\" class=\"example-section\">\n            <mat-progress-bar class=\"example-margin\" [color]=\"color\" [mode]=\"mode\" [value]=\"value\"\n                [bufferValue]=\"bufferValue\">\n            </mat-progress-bar>\n            <br />\n            <br />\n        </section>\n\n        <ng-container *ngIf=\"tableflag==0\">\n            <section class=\"lib-pager-class\">\n                <mat-label>\n                    Showing\n                    {{(limitcondval.pagecount-1)*limitcondval.limit}}\n                    To\n\n                    <ng-container\n                        *ngIf=\"date_search_source_countval > ((limitcondval.pagecount)*limitcondval.limit) || date_search_source_countval==0\">\n                        {{(limitcondval.pagecount)*limitcondval.limit}}\n                    </ng-container>\n                    <ng-container\n                        *ngIf=\"date_search_source_countval!=0 && date_search_source_countval <= ((limitcondval.pagecount)*limitcondval.limit)\">\n                        {{date_search_source_countval}}\n                    </ng-container>\n\n\n\n                    of\n                    <span *ngIf=\"date_search_source_countval!=0 \"> {{date_search_source_countval}} </span>\n                    <span *ngIf=\"date_search_source_countval==0 \"> Many </span>\n\n                </mat-label>\n                <span class=\"=pageformfield\">\n                    <mat-form-field>\n                        <mat-label>Page Size</mat-label>\n                        <input matInput [(ngModel)]=\"limitcondval.limit\" type=\"number\" (keyup)=\"paging(10)\">\n                    </mat-form-field>\n\n                    <mat-form-field>\n                        <mat-label>Page No</mat-label>\n                        <input matInput [(ngModel)]=\"limitcondval.pagecount\" type=\"number\" (keyup)=\"paging(10)\">\n                    </mat-form-field>\n                </span>\n                <span>\n\n\n                    <span class=\"material-icons cursor\" (click)=\"paging(-1)\">\n                        skip_previous\n                    </span>\n\n                    <span class=\"material-icons cursor\" (click)=\"paging(1)\">\n                        skip_next\n                    </span>\n                </span>\n            </section>\n\n\n        </ng-container>\n\n        <div class=\"tablewrapper\" *ngIf=\"tableflag==0\">\n\n            <table mat-table [dataSource]=\"dataSource\" class=\"mat-elevation-z8\">\n\n                <ng-container matColumnDef=\"select\">\n                    <th mat-header-cell *matHeaderCellDef>\n                        <mat-checkbox (change)=\"$event ? masterToggle() : null\"\n                            [checked]=\"selection.hasValue() && isAllSelected()\"\n                            [indeterminate]=\"selection.hasValue() && !isAllSelected()\">\n                        </mat-checkbox>\n                    </th>\n                    <td mat-cell *matCellDef=\"let row\" data-label=\"select\">\n                        <mat-checkbox (click)=\"$event.stopPropagation()\"\n                            (change)=\"$event ? selection.toggle(row) : null\" [checked]=\"selection.isSelected(row)\">\n                        </mat-checkbox>\n                    </td>\n                </ng-container>\n                <ng-container matColumnDef=\"#\">\n                    <th mat-header-cell *matHeaderCellDef>\n                        #\n                    </th>\n                    <td mat-cell *matCellDef=\"let element; let i = index\">{{limitcondval.skip+(i+1)}}</td>\n                </ng-container>\n\n                <ng-container *ngFor=\"let column of columns\" [matColumnDef]=\"column.columnDef\">\n                    <th mat-header-cell *matHeaderCellDef class=\"th-header-center\">\n                        <span>\n                            {{column.header}}\n                            <span *ngIf=\"column.columnDef==sortdataval.field && sortdataval.type=='desc'\"\n                                class=\"material-icons cursor float-right\" (click)=\"sorttable(column.columnDef,'asc')\">\n                                arrow_downward\n                            </span>\n                            <span class=\"material-icons cursor float-right\"\n                                *ngIf=\"column.columnDef==sortdataval.field && sortdataval.type=='asc'\"\n                                (click)=\"sorttable(column.columnDef,'desc')\">arrow_upward\n                            </span>\n\n                            <span class=\"material-icons cursor\"\n                                *ngIf=\"sortdataval!=null && sortdataval.options !=null && sortdataval.options.indexOf(column.columnDef) >-1  && column.columnDef!=sortdataval.field\"\n                                (click)=\"sorttable(column.columnDef,'desc')\">\n                                unfold_more\n                            </span>\n\n                        </span>\n\n                    </th>\n                    <td mat-cell *matCellDef=\"let row\" [ngStyle]=\"styleCell(column,row)\" data-title=\"{{column.header}}\"\n                        class=\"td-cell-center\">\n\n                        <span *ngIf=\"column.columnDef=='status' \">{{ getstatus([column.cell(row)]) }}\n                            {{pdfFlag(row)}}</span>\n                        <span\n                            *ngIf=\"column.columnDef!='status' &&  column.columnDef!='image' && column.columnDef!='video' \">\n                            <ng-container\n                                *ngIf=\"column!=null && row[column.columnDef]!=null && !column.columnDef.includes('date') && !column.columnDef.includes('datetime')\">\n                                <span [innerHTML]=\"row[column.columnDef]\"></span>\n                            </ng-container>\n                            <ng-container\n                                *ngIf=\"column!=null && row[column.columnDef]!=null && column.columnDef.includes('date') && !column.columnDef.includes('datetime') && (row[column.columnDef] !=0 && row[column.columnDef] != 'na' && row[column.columnDef] !='NA')\">\n                                {{row[column.columnDef] | date}}\n                            </ng-container>\n                            <ng-container\n                                *ngIf=\"column!=null && row[column.columnDef]!=null && column.columnDef.includes('date') && column.columnDef.includes('datetime') && (row[column.columnDef] !=0 && row[column.columnDef] != 'na' && row[column.columnDef] !='NA') \">\n                                {{row[column.columnDef] | date:'medium'}}\n                            </ng-container>\n                            <ng-container\n                                *ngIf=\"column!=null && row[column.columnDef]!=null && (column.columnDef.includes('date') || column.columnDef.includes('datetime') )&& (row[column.columnDef] ==0 || row[column.columnDef] == 'na' || row[column.columnDef] =='NA') \">\n                                NA\n                            </ng-container>\n                            <ng-container *ngIf=\"column!=null && row[column.columnDef]==null\">\n                                NA\n                            </ng-container>\n\n                        </span>\n                        <!-- for image view  -->\n                        <span\n                            *ngIf=\"column.columnDef=='image' && row[column.columnDef] !=null && row[column.columnDef] !='' \"\n                            (click)=\"img_modal_view(row[column.columnDef])\"> <span class=\"module_imgblock\">\n                                <img src=\"{{row[column.columnDef]}}\" alt=\"{{row[column.columnDef]}}\">\n                            </span></span>\n                        <!-- for video view -->\n                        <span\n                            *ngIf=\"column.columnDef=='video' && row[column.columnDef] !=null && row[column.columnDef] !='' \"><span\n                                class=\"module_videoblock\" (click)=\"fetchvideo(row)\">\n                                <img src=\"https://img.youtube.com/vi/{{row[column.columnDef]}}/sddefault.jpg\"\n                                    alt=\"{{row[column.columnDef]}}\" (click)=\"fetchvideo(row)\"></span>\n                        </span>\n\n                        <span\n                            *ngIf=\"column.columnDef=='grab_url && grab_linkval!=null && grab_linkval[0]!=null' \">{{grapurl(row[this.grab_linkval[0].field_name])}}</span>\n\n\n                        <!--          <span *ngIf=\"sh==true\">-->\n                        <span *ngIf=\"column.columnDef=='contractssigned' && sh==true && urlval !=null\" class=\"cursor\">\n                            <i title=\"{{urlval[0].label}}\" (click)=\"clickurl(row,urlval[0].url)\"\n                                class=\"material-icons\">cloud_download</i>\n                        </span>\n                        <!--          </span>-->\n                        <!--          <span *ngIf=\"aud==true\">-->\n                        <span *ngIf=\"column.columnDef=='contractssigned' && aud==true  && urlval !=null\">\n                            <i title=\"{{urlval[1].label}}\" (click)=\"clickurl(row,urlval[1].url)\"\n                                class=\"material-icons\">cloud_download</i>\n                        </span>\n\n\n                        <!--// for grap url//-->\n\n                        <span *ngIf=\" grab_linkval!=null && column.columnDef==[grab_linkval.colom_name[0].col_name]\"\n                            class=\"cursor\">\n                            <ng-container *ngFor=\"let item of grab_linkval.field\">\n                                <!-- <p>{{item | json}}</p> -->\n                                <button mat-button\n                                    (click)=\"copyText(row[grab_linkval.colom_name[0].field_name],item.url)\">{{item.label}}</button>\n                            </ng-container>\n                        </span>\n\n                        <!-- <span\n                            *ngIf=\" grab_linkval!=null && grab_linkval[0]!=null && column.columnDef==[grab_linkval[0].col_name]\"\n                            class=\"cursor\">\n                            <button mat-button\n                                (click)=\"copyText(row[grab_linkval[0].field_name],grab_linkval[1].url)\">{{grab_linkval[1].label}}</button>\n                        </span>\n                        <span\n                            *ngIf=\"grab_linkval!=null && grab_linkval[0]!=null &&column.columnDef== [grab_linkval[0].col_name]\">\n                            <button mat-button\n                                (click)=\"copyText(row[grab_linkval[0].field_name],grab_linkval[2].url)\">{{grab_linkval[2].label}}</button>\n                        </span> -->\n\n                        <!--          //grap url end//-->\n\n\n                        <!--          </span>-->\n                        <!-- <span *ngIf=\"column.columnDef=='contractssigned' \">\n            <span *ngFor=\"let item of urlval\" class=\"cursor\">\n            <i title=\"{{item.label}}\" (click)=\"clickurl(row,item.url)\" class=\"material-icons\">cloud_download</i>\n          </span>\n          </span>-->\n                    </td>\n                </ng-container>\n\n\n\n                <ng-container matColumnDef=\"Actions\"\n                    *ngIf=\"libdataval.hideaction==null || libdataval.hideaction==false\">\n                    <th mat-header-cell *matHeaderCellDef class=\"th-header-center\">Actions</th>\n                    <td (click)=\"$event.stopPropagation()\" mat-cell *matCellDef=\"let row\" data-label=\"Actions\"\n                        class=\"td-cell-center\">\n                        <!-- loader -->\n                        <section class=\"example-section\">\n                            <mat-progress-bar *ngIf=\"loaderrow!=null && loaderrow==row._id \" class=\"example-margin\"\n                                [color]=\"color\" [mode]=\"mode\" [value]=\"value\" [bufferValue]=\"bufferValue\">\n                            </mat-progress-bar>\n                        </section>\n                        <!-- note block -->\n                        <ng-container *ngIf=\"libdataval.notes!=null\">\n                            <button mat-raised-button color=\"primary\"\n                                (click)=\"opennotes(row)\">{{libdataval.notes.label}}({{row.notescount}})</button>\n                        </ng-container>\n                        <!--custom buttions block -->\n                        <ng-container\n                            *ngIf=\"libdataval !=null && libdataval.custombuttons !=null && libdataval.custombuttons.length >0 \">\n                            <ng-container *ngFor=\"let custombutton of libdataval.custombuttons; let cb=index\">\n                                <section class=\"custombutton{{cb}}\">\n                                    <ng-container *ngIf=\"custombutton.type=='externallink'\">\n                                        <ng-container\n                                            *ngIf=\"custombutton.param==null && (custombutton.cond==null || row[custombutton.cond]==custombutton.condval )\">\n                                            <a target=\"_blank\" href=\"{{custombutton.link}}\">\n                                                <button mat-raised-button\n                                                    color=\"primary\">{{custombutton.label}}</button>\n                                            </a>\n                                        </ng-container>\n\n                                        <ng-container\n                                            *ngIf=\"custombutton.param!=null && (custombutton.cond==null || row[custombutton.cond]==custombutton.condval )\">\n\n                                            <button mat-raised-button color=\"primary\"\n                                                (click)=\"openextlinkwithparam(custombutton,row)\">{{custombutton.label}}</button>\n\n                                        </ng-container>\n\n                                    </ng-container>\n                                    <ng-container *ngIf=\"custombutton.type=='internallink'\">\n                                        <ng-container\n                                            *ngIf=\"custombutton.toggle == null && custombutton.param==null && (custombutton.cond==null || row[custombutton.cond]==custombutton.condval )\">\n                                            <button mat-raised-button color=\"primary\"\n                                                (click)=\"openinternallink(custombutton)\">{{custombutton.label}}</button>\n                                        </ng-container>\n                                        <ng-container\n                                            *ngIf=\"custombutton.toggle != null && custombutton.toggle == 'delete' && custombutton.toggle!=null && (custombutton.cond==null || row[custombutton.cond]==custombutton.condval )\">\n                                            <button mat-raised-button color=\"primary\"\n                                                (click)=\"deletedata(row)\">{{custombutton.label}}</button>\n                                        </ng-container>\n\n                                        <ng-container\n                                            *ngIf=\"custombutton.param!=null && (custombutton.cond==null || row[custombutton.cond]==custombutton.condval )\">\n\n                                            <button mat-raised-button color=\"primary\"\n                                                (click)=\"openinternallinkwithparam(custombutton,row)\">{{custombutton.label}}</button>\n\n                                        </ng-container>\n\n                                    </ng-container>\n                                    <ng-container *ngIf=\"custombutton.type=='action'\">\n                                        <ng-container\n                                            *ngIf=\"custombutton.datatype=='local' && custombutton != null && (custombutton.cond==null || row[custombutton.cond]==custombutton.condval )\">\n                                            <button mat-raised-button color=\"primary\"\n                                                (click)=\"opencustombuttonactionlocaldata(custombutton,row)\">{{custombutton.label}}</button>\n                                        </ng-container>\n                                        <ng-container\n                                            *ngIf=\"custombutton.datatype=='api' && (custombutton.cond==null || row[custombutton.cond]==custombutton.condval )\">\n                                            <button mat-raised-button color=\"primary\"\n                                                (click)=\"opencustombuttonactionapidata(custombutton,row)\">{{custombutton.label}}</button>\n                                        </ng-container>\n\n                                    </ng-container>\n                                </section>\n\n                            </ng-container>\n                        </ng-container>\n                        <span *ngIf=\"selection.selected.length==null || selection.selected.length==0\">\n                            <span *ngIf=\"libdataval.hideeditbutton==null || libdataval.hideeditbutton==false\"\n                                class=\"cursor\" (click)=\"editdata(row)\">\n                                <i class=\"material-icons\">\n                                    edit\n                                </i>\n                            </span>\n\n                            <!--For modern browsers-->\n                            <span *ngIf=\"libdataval.hidedeletebutton==null || libdataval.hidedeletebutton==false\"\n                                class=\"cursor\" (click)=\"deletedata(row)\">\n                                <i class=\"material-icons\">\n                                    delete_outline\n                                </i>\n                            </span>\n\n                            <!--For modern browsers-->\n                            <span *ngIf=\"libdataval.hideviewbutton==null || libdataval.hideviewbutton==false\"\n                                class=\"cursor\" (click)=\"viewdata(row)\">\n                                <i class=\"material-icons\">\n                                    remove_red_eye\n                                </i>\n                            </span>\n\n                            <!--For modern browsers-->\n                            <span class=\"cursor\"\n                                *ngIf=\"libdataval.hidestatustogglebutton==null || libdataval.hidestatustogglebutton==false\"\n                                (click)=\"managestatus(row)\">\n                                <i class=\"material-icons\">\n                                    toggle_off\n                                </i>\n                            </span>\n                            <span *ngIf=\"custombuttonval!=null\" class=\"cursor treeclass\"\n                                (click)=\"custombuttonfunc(row)\">\n                                <i class=\"material-icons treeclass\">\n                                    toggle_off\n                                </i>\n                            </span>\n\n                            <!-- artistxp preview start -->\n                            <span *ngIf=\"previewFlug==true\" class=\"cursor treeclass\" (click)=\"artistxpPreview(row)\">\n                                <i class=\"material-icons\">perm_media</i>\n                            </span>\n                            <!-- artistxp preview end -->\n\n                        </span>\n\n                    </td>\n                </ng-container>\n\n\n\n\n\n\n                <tr mat-header-row *matHeaderRowDef=\"displayedColumns\"></tr>\n                <tr mat-row *matRowDef=\"let row; columns: displayedColumns;\"></tr>\n\n            </table>\n\n        </div>\n\n        <!--for pagination -->\n\n        <mat-card *ngIf=\"tableflag!=0\">No Records Exists !!!</mat-card>\n        <ng-container *ngIf=\"tableflag==0\">\n            <section class=\"lib-pager-class\">\n                <mat-label>\n                    Showing\n                    {{(limitcondval.pagecount-1)*limitcondval.limit}}\n                    To\n\n                    <ng-container\n                        *ngIf=\"date_search_source_countval > ((limitcondval.pagecount)*limitcondval.limit) ||  date_search_source_countval==0\">\n                        {{(limitcondval.pagecount)*limitcondval.limit}}\n                    </ng-container>\n                    <ng-container\n                        *ngIf=\"date_search_source_countval!=0 && date_search_source_countval <= ((limitcondval.pagecount)*limitcondval.limit)\">\n                        {{date_search_source_countval}}\n                    </ng-container>\n\n\n\n                    of\n                    <span *ngIf=\"date_search_source_countval!=0 \"> {{date_search_source_countval}} </span>\n                    <span *ngIf=\"date_search_source_countval==0 \"> Many </span>\n\n                </mat-label>\n                <span class=\"=pageformfield\">\n                    <mat-form-field>\n                        <mat-label>Page Size</mat-label>\n                        <input matInput [(ngModel)]=\"limitcondval.limit\" type=\"number\" (keyup)=\"paging(10)\">\n                    </mat-form-field>\n\n                    <mat-form-field>\n                        <mat-label>Page No</mat-label>\n                        <input matInput [(ngModel)]=\"limitcondval.pagecount\" type=\"number\" (keyup)=\"paging(10)\">\n                    </mat-form-field>\n                </span>\n                <span>\n\n\n                    <span class=\"material-icons cursor\" (click)=\"paging(-1)\">\n                        skip_previous\n                    </span>\n\n                    <span class=\"material-icons cursor\" (click)=\"paging(1)\">\n                        skip_next\n                    </span>\n                </span>\n            </section>\n\n\n        </ng-container>\n        <section *ngIf=\"loading == true\" class=\"example-section\">\n            <mat-progress-bar class=\"example-margin\" [color]=\"color\" [mode]=\"mode\" [value]=\"value\"\n                [bufferValue]=\"bufferValue\">\n            </mat-progress-bar>\n            <br />\n            <br />\n        </section>\n\n\n\n        <!-- <mat-paginator class=\"paginator\" [pageSizeOptions]=\"[5,10, 20, 50,100]\" showFirstLastButtons></mat-paginator>-->\n        <!--<mat-spinner *ngIf=\"loading == true\" ></mat-spinner>-->\n\n\n\n        <!-- <form [formGroup]=\"stateForm\">\n      <mat-form-field>\n        <input type=\"text\" matInput placeholder=\"States Group\" formControlName=\"stateGroup\" required [matAutocomplete]=\"autoGroup\">\n        <mat-autocomplete #autoGroup=\"matAutocomplete\">\n          <mat-optgroup *ngFor=\"let group of stateGroupOptions | async\" [label]=\"group.letter\">\n            <mat-option *ngFor=\"let name of group.names\" [value]=\"name\">\n              {{name}}\n            </mat-option>\n          </mat-optgroup>\n        </mat-autocomplete>\n      </mat-form-field>\n    </form>-->\n\n        <!--<form class=\"example-form\">\n      <mat-form-field class=\"example-full-width\">\n        <input type=\"text\" placeholder=\"Select state\" aria-label=\"Number\" matInput [formControl]=\"myControl\" [matAutocomplete]=\"auto\">\n        <mat-autocomplete #auto=\"matAutocomplete\">\n          <mat-option *ngFor=\"let option of stateGroup | async\" [value]=\"option\">\n            {{option}}\n          </mat-option>\n        </mat-autocomplete>\n      </mat-form-field>\n    </form>\n-->\n\n    </mat-card>\n\n    <!--\n  <mat-card>\n\n    <div class=\"example-container\">\n\n\n      <mat-card-content >\n        <mat-form-field class=\"form-group\">\n            <input (blur)=\"inputblur('email')\" matInput placeholder=\"email\" type=\"email\" [formControl]=\"myForm.controls['email']\" >\n            <mat-error  *ngIf=\"!myForm.controls['email'].valid && myForm.controls['email'].touched && issubmit==1\">email field can not be blank</mat-error>\n        </mat-form-field>\n\n        <mat-form-field class=\"form-group\">\n            <input (blur)=\"inputblur('password')\" matInput placeholder=\"Password\" type=\"password\" [formControl]=\"myForm.controls['password']\" >\n            <mat-error  *ngIf=\"!myForm.controls['password'].valid && myForm.controls['password'].touched && issubmit==1\">Password field can not be blank</mat-error>\n        </mat-form-field>\n\n            <button mat-button  (click)=\"onSubmit()\" class=\"s_getmyoffer_login_button\"  >Login</button>\n        </mat-card-content>\n\n\n    </div>\n\n  </mat-card>-->\n\n\n\n</div>",
                 styles: [".container{background:#fff}.lib-pager-class{display:block;clear:both;float:right}body{font-family:Roboto,Arial,sans-serif;margin:0;display:none!important}.clear{clear:both;display:block}.float-right{float:right;display:inline;clear:none}.pad-gap{margin-left:18px}.basic-container{padding:30px}.version-info{font-size:8pt;float:right}table{width:100%}th.mat-sort-header-sorted{color:#000}.cursor{cursor:pointer!important}.custom-modalbox{display:none}.module_imgblock{display:block;width:100px;overflow:hidden;text-align:center;vertical-align:middle;background:#111}.module_imgblock img{width:100%;height:auto}.module_videoblock{display:block;width:100px;position:relative;overflow:hidden;text-align:center;vertical-align:middle;background:#111}.module_videoblock img{width:100%;height:auto}.module_videoblock::after{content:'';display:block;width:30%;height:38%;background:url(image/video-play-arrow-png.png) 0 0/cover no-repeat;position:absolute;left:31%;top:30%}.tablewrapper tr td,.tablewrapper tr th{padding:5px}"]
             }] }
 ];
@@ -2759,7 +2909,7 @@ class Confirmdialog {
         this.dialogRef = dialogRef;
         this.data = data;
         this.sanitizer = sanitizer;
-        // console.log('lib data in modal ', this.data, this.data.data.message);
+        // console.log('lib data in modal ', this.data, this.data, this.data.rowdata, this.data.rowdata.blogtitle);
         this.data.color = 'primary';
         this.data.mode = 'indeterminate';
         this.data.loadervalue = 50;
@@ -2779,9 +2929,9 @@ class Confirmdialog {
         // console.log('log', this.data);
         // if (this.data.notesval != null && this.data.notesval != '') {
         /** @type {?} */
-        let source = {
+        const source = {
             id: this.data.rowdata._id,
-            index: index
+            index
             // note: this.data.notesval,
             // user: this.data.notedata.user,
         };
@@ -2803,7 +2953,7 @@ class Confirmdialog {
             }
             // console.log('count',result);
             // this.dataSource.paginator = this.paginator;
-            //this.dataSource.sort = this.sort;
+            // this.dataSource.sort = this.sort;
         }));
         // }
     }
@@ -2814,7 +2964,7 @@ class Confirmdialog {
         // console.log('log', this.data);
         if (this.data.notesval != null && this.data.notesval != '') {
             /** @type {?} */
-            let source = {
+            const source = {
                 id: this.data.rowdata._id,
                 note: this.data.notesval,
                 user: this.data.notedata.user,
@@ -2830,15 +2980,16 @@ class Confirmdialog {
                 result = res;
                 // console.log(result, 'add notes');
                 if (result.status == 'success') {
-                    if (this.data.listdata == null)
+                    if (this.data.listdata == null) {
                         this.data.listdata = [];
+                    }
                     this.data.listdata.unshift({ _id: this.data.rowdata._id, notes: { userid: this.data.notedata.user, note: this.data.notesval, user: this.data.notedata.currentuserfullname, created_date: Date.now() } });
                     this.data.notesval = '';
                     this.data.loading = null;
                 }
                 // console.log('count',this.data.listdata);
                 // this.dataSource.paginator = this.paginator;
-                //this.dataSource.sort = this.sort;
+                // this.dataSource.sort = this.sort;
             }));
         }
     }
@@ -2856,7 +3007,7 @@ class Confirmdialog {
      * @return {?}
      */
     sanitizeUrl(unsafeurl, data, rowdata) {
-        for (let b in data) {
+        for (const b in data) {
             unsafeurl = unsafeurl + '/' + rowdata[data[b]];
         }
         return this.sanitizer.bypassSecurityTrustResourceUrl(unsafeurl);
@@ -2865,7 +3016,7 @@ class Confirmdialog {
 Confirmdialog.decorators = [
     { type: Component, args: [{
                 selector: 'confirmdialog',
-                template: "<div class=\"maindialog maindialognew\">\n\n    <div class=\"dialoghead\" *ngIf=\"data.preview != true\">\n        <h1 mat-dialog-title *ngIf=\"data!=null && data.message!=null\">Hey !</h1>\n        <h1 mat-dialog-title *ngIf=\"data!=null && data.data!=null && data.data[0]==null\">Details </h1>\n        <h1 mat-dialog-title *ngIf=\"data!=null  && data.data!=null &&  data.data.message!=null\">{{data.data.message}}\n        </h1>\n        <div mat-dialog-content>\n            <p *ngIf=\"data!=null && data.message!=null\">{{data.message}}</p>\n\n            <ng-container *ngIf=\"data.notes!=null && data.notes==true\">\n                <!-- <ng-container *ngFor=\"let note of data.listdata;\"> -->\n                <mat-list>\n                    <div mat-subheader>Notes</div>\n                    <!-- <section class=\"example-section\">\n                        <mat-progress-bar class=\"example-margin\" [color]=\"data.color\" [mode]=\"data.mode\"\n                            [value]=\"data.loadervalue\" [bufferValue]=\"data.bufferValue\">\n                        </mat-progress-bar>\n                        <br />\n                        <br />\n                    </section> -->\n                    <mat-list-item *ngFor=\"let note of data.listdata;let notej=index;\">\n                        <!-- <p>{{note.notes | json}}</p> -->\n                        <span class=\"material-icons\">\n                            notes\n                        </span>\n                        <div mat-line>\n                            {{note.notes.note }}\n                        </div>\n                        <!-- <div mat-line class=\"line-user\"><span>By:</span>{{note.note.userid}}</div> -->\n                        <!-- <div mat-line class=\"line-user\"><span>This User:</span>{{data.notedata.user}}</div> -->\n                        <div mat-line class=\"line-user\"><span>By:</span>{{note.notes.user}}</div>\n                        <div mat-line class=\"line-datetime\"> <span>On:</span>\n                            {{note.notes.created_date | date:'medium' }}\n                        </div>\n                        <span *ngIf=\"note.notes.userid==data.notedata.user\" class=\"material-icons\"\n                            (click)=\"deletenote(notej)\">\n                            delete\n                        </span>\n                        <div mat-line *ngIf=\"data.loading1!=null && data.loading1== notej \">\n                            <section class=\"example-section\">\n                                <mat-progress-bar class=\"example-margin\" [color]=\"data.color\" [mode]=\"data.mode\"\n                                    [value]=\"data.loadervalue\" [bufferValue]=\"data.bufferValue\">\n                                </mat-progress-bar>\n                                <br />\n                                <br />\n                            </section>\n                        </div>\n\n\n                    </mat-list-item>\n                    <mat-divider></mat-divider>\n                </mat-list>\n                <div>\n                    <textarea rows=\"5\" cols=\"25\" [(ngModel)]=\"data.notesval\">\n                    </textarea>\n                    <button mat-button (click)=\"addnotes()\">Add Note</button>\n\n                </div>\n                <section *ngIf=\"data.loading !=null && data.loading == true\" class=\"example-section\">\n                    <mat-progress-bar class=\"example-margin\" [color]=\"data.color\" [mode]=\"data.mode\"\n                        [value]=\"data.loadervalue\" [bufferValue]=\"data.bufferValue\">\n                    </mat-progress-bar>\n                    <br />\n                    <br />\n                </section>\n                <!-- </ng-container> -->\n            </ng-container>\n\n\n\n            <div *ngIf=\"data!=null && data.data!=null\">\n\n\n\n                <mat-card class=\"example-card\" *ngFor=\"let item of data.data;\">\n                    <mat-card-header id=\"dialogdata{{item[0]}}\">\n                        <!--<div mat-card-avatar class=\"example-header-image\"></div>-->\n                        <mat-card-title>{{item[0]}}</mat-card-title>\n                    </mat-card-header>\n                    <!--<img mat-card-image src=\"https://material.angular.io/assets/img/examples/shiba2.jpg\" alt=\"Photo of a Shiba Inu\">-->\n                    <mat-card-content id=\"dialogdata{{item[0]}}\">\n                        <!-- {{gettypeof(item[1])}} -->\n                        <p class=\"innerhtml-content\"\n                            *ngIf=\"(item[2]==null && gettypeof(item[1]) !='object' ) || ( item[2]!=null &&  !item[2].includes('date') && !item[2].includes('datetime') && gettypeof(item[1]) != 'object')\"\n                            [innerHtml]=\"item[1]\">\n                        </p>\n                        <p class=\"innerhtml-content-video\"\n                            *ngIf=\"(item[2]==null && gettypeof(item[1]) =='object' && item[0]!='image_array' ) || ( item[2]!=null &&  !item[2].includes('date') && !item[2].includes('datetime') && gettypeof(item[1]) == 'object' && (item[0]=='video' || item[0]='vd_array' )) \"\n                            [innerHtml]=\"item[1]\">\n\n                        </p>\n                        <p *ngIf=\"item[2]!=null && item[2].includes('date') && !item[2].includes('datetime') \">\n                            {{item[1] | date}}\n                        </p>\n                        <p *ngIf=\"item[2]!=null && item[2].includes('date') && item[2].includes('datetime') \">\n                            {{item[1] | date:'medium' }}\n                        </p>\n                        <!-- length : {{item[1].length}} {{gettypeof(item[1])}} -->\n                        <p\n                            *ngIf=\" gettypeof(item[1]) == 'object' && item[1].length>1 &&  item[0]!=='video' && !item[0].includes('vd')  \">\n                            <!-- in ng for .. -->\n                            <ng-container *ngFor=\"let arr of item[1]\">\n                                <span\n                                    *ngIf=\" !item[0].includes('image') &&  (item[2]!=null &&   !item[2].includes('image') ) && item[0] !='video_array'\"\n                                    [innerHtml]=\"arr\"></span>\n                                <span\n                                    *ngIf=\"item[0].includes('image') || (item[2]!=null && item[2].includes('image')) \">\n                                    <img [src]=\"arr\" [alt]=\"arr\">\n                                </span>\n                                <span\n                                    *ngIf=\"item[0].includes('video_array') || (item[2]!=null && item[2].includes('video_array'))\"\n                                    [innerHtml]=\"arr\">\n\n                                </span>\n\n                            </ng-container>\n                        </p>\n                    </mat-card-content>\n                </mat-card>\n\n            </div>\n\n            <!--for custom page in modal(mainly used for tree)-->\n            <div *ngIf=\"data!=null && data.data!=null  && data.data[0]!=null &&  data.data[0].customdata!=null\">\n\n                <iframe class=\"custom-datadiv\" height=\"auto\" [src]=\"data.data[0].customdata\"></iframe>\n\n            </div>\n\n        </div>\n    </div>\n\n\n    <div *ngIf=\"data.preview == true\">\n        <lib-singlepost [post1]=\"data.previewData.res[0].posts\" [user]=\"\"></lib-singlepost>\n    </div>\n\n\n\n\n\n    <div mat-dialog-actions *ngIf=\"data.preview != true\">\n        <button mat-button *ngIf=\"data.isconfirmation==null ||  data.isconfirmation!=false\" (click)=\"onNoClick()\">No\n            Thanks</button>\n        <button mat-button mat-dialog-close=\"yes\" cdkFocusInitial>Ok</button>\n    </div>\n\n</div>"
+                template: "<div class=\"maindialog maindialognew\">\n\n    <div class=\"dialoghead\" *ngIf=\"data.preview != true\">\n        <h1 mat-dialog-title *ngIf=\"data!=null && data.message!=null\">Hey !</h1>\n        <h1 mat-dialog-title *ngIf=\"data!=null && data.data!=null && data.data[0]==null\">Details </h1>\n        <h1 mat-dialog-title *ngIf=\"data!=null  && data.data!=null &&  data.data.message!=null\">{{data.data.message}}\n        </h1>\n        <div mat-dialog-content>\n            <p *ngIf=\"data!=null && data.message!=null\">{{data.message}}</p>\n\n            <ng-container *ngIf=\"data.notes!=null && data.notes==true\">\n                <!-- <ng-container *ngFor=\"let note of data.listdata;\"> -->\n                <mat-list>\n                    <div mat-subheader>Notes for :\n                        <ng-container *ngIf=\"data.notedata.header!=null && data.rowdata[data.notedata.header]!=null\">\n                            <span class=\"notesheader\"> {{data.rowdata[data.notedata.header]}} </span>\n                        </ng-container>\n                    </div>\n                    <!-- <section class=\"example-section\">\n                        <mat-progress-bar class=\"example-margin\" [color]=\"data.color\" [mode]=\"data.mode\"\n                            [value]=\"data.loadervalue\" [bufferValue]=\"data.bufferValue\">\n                        </mat-progress-bar>\n                        <br />\n                        <br />\n                    </section> -->\n                    <mat-list-item *ngFor=\"let note of data.listdata;let notej=index;\">\n                        <!-- <p>{{note.notes | json}}</p> -->\n                        <span class=\"material-icons\">\n                            notes\n                        </span>\n                        <div mat-line>\n                            {{note.notes.note }}\n                        </div>\n                        <!-- <div mat-line class=\"line-user\"><span>By:</span>{{note.note.userid}}</div> -->\n                        <!-- <div mat-line class=\"line-user\"><span>This User:</span>{{data.notedata.user}}</div> -->\n                        <div mat-line class=\"line-user\"><span>By:</span>{{note.notes.user}}</div>\n                        <div mat-line class=\"line-datetime\"> <span>On:</span>\n                            {{note.notes.created_date | date:'medium' }}\n                        </div>\n                        <span *ngIf=\"note.notes.userid==data.notedata.user\" class=\"material-icons\"\n                            (click)=\"deletenote(notej)\">\n                            delete\n                        </span>\n                        <div mat-line *ngIf=\"data.loading1!=null && data.loading1== notej \">\n                            <section class=\"example-section\">\n                                <mat-progress-bar class=\"example-margin\" [color]=\"data.color\" [mode]=\"data.mode\"\n                                    [value]=\"data.loadervalue\" [bufferValue]=\"data.bufferValue\">\n                                </mat-progress-bar>\n                                <br />\n                                <br />\n                            </section>\n                        </div>\n                        <mat-divider></mat-divider>\n\n\n                    </mat-list-item>\n                    <mat-divider></mat-divider>\n                </mat-list>\n                <div>\n                    <textarea placeholder=\"Add Notes Here !! \" rows=\"5\" cols=\"25\" [(ngModel)]=\"data.notesval\">\n                    </textarea>\n                    <button mat-button (click)=\"addnotes()\">Add Note</button>\n\n                </div>\n                <section *ngIf=\"data.loading !=null && data.loading == true\" class=\"example-section\">\n                    <mat-progress-bar class=\"example-margin\" [color]=\"data.color\" [mode]=\"data.mode\"\n                        [value]=\"data.loadervalue\" [bufferValue]=\"data.bufferValue\">\n                    </mat-progress-bar>\n                    <br />\n                    <br />\n                </section>\n                <!-- </ng-container> -->\n            </ng-container>\n\n\n\n            <div *ngIf=\"data!=null && data.data!=null\">\n\n\n\n                <mat-card class=\"example-card\" *ngFor=\"let item of data.data;\">\n                    <mat-card-header id=\"dialogdata{{item[0]}}\">\n                        <!--<div mat-card-avatar class=\"example-header-image\"></div>-->\n                        <mat-card-title>{{item[0]}}</mat-card-title>\n                    </mat-card-header>\n                    <!--<img mat-card-image src=\"https://material.angular.io/assets/img/examples/shiba2.jpg\" alt=\"Photo of a Shiba Inu\">-->\n                    <mat-card-content id=\"dialogdata{{item[0]}}\">\n                        <!-- {{gettypeof(item[1])}} -->\n                        <p class=\"innerhtml-content\"\n                            *ngIf=\"(item[2]==null && gettypeof(item[1]) !='object' ) || ( item[2]!=null &&  !item[2].includes('date') && !item[2].includes('datetime') && gettypeof(item[1]) != 'object')\"\n                            [innerHtml]=\"item[1]\">\n                        </p>\n                        <p class=\"innerhtml-content-video\"\n                            *ngIf=\"(item[2]==null && gettypeof(item[1]) =='object' && item[0]!='image_array' ) || ( item[2]!=null &&  !item[2].includes('date') && !item[2].includes('datetime') && gettypeof(item[1]) == 'object' && (item[0]=='video' || item[0]='vd_array' )) \"\n                            [innerHtml]=\"item[1]\">\n\n                        </p>\n                        <p *ngIf=\"item[2]!=null && item[2].includes('date') && !item[2].includes('datetime') \">\n                            {{item[1] | date}}\n                        </p>\n                        <p *ngIf=\"item[2]!=null && item[2].includes('date') && item[2].includes('datetime') \">\n                            {{item[1] | date:'medium' }}\n                        </p>\n                        <!-- length : {{item[1].length}} {{gettypeof(item[1])}} -->\n                        <p\n                            *ngIf=\" gettypeof(item[1]) == 'object' && item[1].length>1 &&  item[0]!=='video' && !item[0].includes('vd')  \">\n                            <!-- in ng for .. -->\n                            <ng-container *ngFor=\"let arr of item[1]\">\n                                <span\n                                    *ngIf=\" !item[0].includes('image') &&  (item[2]!=null &&   !item[2].includes('image') ) && item[0] !='video_array'\"\n                                    [innerHtml]=\"arr\"></span>\n                                <span\n                                    *ngIf=\"item[0].includes('image') || (item[2]!=null && item[2].includes('image')) \">\n                                    <img [src]=\"arr\" [alt]=\"arr\">\n                                </span>\n                                <span\n                                    *ngIf=\"item[0].includes('video_array') || (item[2]!=null && item[2].includes('video_array'))\"\n                                    [innerHtml]=\"arr\">\n\n                                </span>\n\n                            </ng-container>\n                        </p>\n                    </mat-card-content>\n                </mat-card>\n\n            </div>\n\n            <!--for custom page in modal(mainly used for tree)-->\n            <div *ngIf=\"data!=null && data.data!=null  && data.data[0]!=null &&  data.data[0].customdata!=null\">\n\n                <iframe class=\"custom-datadiv\" height=\"auto\" [src]=\"data.data[0].customdata\"></iframe>\n\n            </div>\n\n        </div>\n    </div>\n\n\n    <div *ngIf=\"data.preview == true\">\n        <lib-singlepost [post1]=\"data.previewData.res[0].posts\" [user]=\"\"></lib-singlepost>\n    </div>\n\n\n\n\n\n    <div mat-dialog-actions *ngIf=\"data.preview != true\">\n        <button mat-button *ngIf=\"data.isconfirmation==null ||  data.isconfirmation!=false\" (click)=\"onNoClick()\">No\n            Thanks</button>\n        <button mat-button mat-dialog-close=\"yes\" cdkFocusInitial>Close</button>\n    </div>\n\n</div>"
             }] }
 ];
 /** @nocollapse */
@@ -2883,7 +3034,7 @@ class BottomSheet {
     constructor(bottomSheetRef, data) {
         this.bottomSheetRef = bottomSheetRef;
         this.data = data;
-        //console.warn("bottom-sheet",data);
+        // console.warn("bottom-sheet",data);
     }
     /**
      * @param {?} val
@@ -2915,7 +3066,7 @@ class VideoPlayer {
     constructor(dialogRef, data) {
         this.dialogRef = dialogRef;
         this.data = data;
-        //console.warn('videoplayerModal',data.previewData.video);
+        // console.warn('videoplayerModal',data.previewData.video);
     }
     /**
      * @return {?}
@@ -2981,7 +3132,7 @@ class SnackbarComponent {
     constructor(snackBarRef, data) {
         this.snackBarRef = snackBarRef;
         this.data = data;
-        //console.log('snack',this.data);
+        // console.log('snack',this.data);
     }
 }
 SnackbarComponent.decorators = [
@@ -3005,7 +3156,7 @@ SnackbarComponent.ctorParameters = () => [
  * @fileoverview added by tsickle
  * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
-//import {MatSnackBar} from "@angular/material/snack-bar";
+// import {MatSnackBar} from "@angular/material/snack-bar";
 class ShowformComponent {
     /**
      * @param {?} formBuilder
@@ -3069,9 +3220,15 @@ class ShowformComponent {
     /**
      * @return {?}
      */
+    get name() {
+        return (/** @type {?} */ (this.formGroup.get('name')));
+    }
+    /**
+     * @return {?}
+     */
     ngOnInit() {
         this.createForm(0);
-        //this.setChangeValidate()
+        // this.setChangeValidate()
     }
     /**
      * @return {?}
@@ -3090,7 +3247,7 @@ class ShowformComponent {
          */
         () => {
             // console.log('in after view init trigger');
-            for (let g in this.formdataval.fields) {
+            for (const g in this.formdataval.fields) {
                 if (this.formdataval.fields[g].type == 'file') {
                     this.elementRef.nativeElement.querySelector('#drop' + this.formdataval.fields[g].name).addEventListener('drop', this.handleDrop.bind(this));
                     this.elementRef.nativeElement.querySelector('#drop' + this.formdataval.fields[g].name).addEventListener('dragenter', this.cancel.bind(this));
@@ -3120,7 +3277,7 @@ class ShowformComponent {
      * @return {?}
      */
     cancel(e) {
-        //console.log('cancel',e);
+        // console.log('cancel',e);
         e.preventDefault();
         return false;
     }
@@ -3129,28 +3286,28 @@ class ShowformComponent {
      * @return {?}
      */
     handleDrop(e) {
-        //let apiBaseURL=""
+        // let apiBaseURL=""
         // this.imageChangedEvent = e;
         /** @type {?} */
-        var list = document.getElementById('list');
+        const list = document.getElementById('list');
         e.preventDefault();
         // console.log('handleDrop', e);
         /** @type {?} */
-        var dt = e.dataTransfer;
+        const dt = e.dataTransfer;
         /** @type {?} */
-        var files = dt.files;
-        for (var i = 0; i < files.length; i++) {
+        const files = dt.files;
+        for (let i = 0; i < files.length; i++) {
             /** @type {?} */
-            var file = files[i];
+            const file = files[i];
             // console.log(files, 'files', e.target.id);
             // console.log('farr', this.filearray);
-            for (let g in this.formdataval.fields) {
+            for (const g in this.formdataval.fields) {
                 if (this.formdataval.fields[g].type == 'file' && this.formdataval.fields[g].name == e.target.id.replace('drop', '')) {
                     console.log('file details', this.formdataval.fields[g]);
                     if (this.formdataval.fields[g].multiple == null) {
                         // this.deletefile(va)
                         if (this.filearray[e.target.id.replace('drop', '')] != null) {
-                            for (let n in this.formdataval.fields) {
+                            for (const n in this.formdataval.fields) {
                                 if (this.formdataval.fields[n].name == e.target.id.replace('drop', '')) {
                                     this.deletefile(this.formdataval.fields[n], 1);
                                     setTimeout((/**
@@ -3203,7 +3360,7 @@ class ShowformComponent {
             //     list.appendChild(uploadedFileNode);
             //   });
             // });
-            //reader.readAsArrayBuffer(file);
+            // reader.readAsArrayBuffer(file);
         }
         return false;
     }
@@ -3219,23 +3376,23 @@ class ShowformComponent {
     uploadfile(val) {
         // console.log('upppp', val);
         /** @type {?} */
-        var reader = new FileReader();
+        const reader = new FileReader();
         /** @type {?} */
-        let file = this.filearray[val.name];
+        const file = this.filearray[val.name];
         // console.log('file val', val);
-        file.uploaded = 2; // show progressbar 
-        // show progressbar 
+        file.uploaded = 2; // show progressbar
+        // show progressbar
         /** @type {?} */
         let temploader = this.fieldloading[val.name];
         temploader = val.name;
-        //reader.addEventListener('loadend', function (e) {
+        // reader.addEventListener('loadend', function (e) {
         reader.onloadend = (/**
          * @param {?} e
          * @return {?}
          */
         (e) => {
             fetch(val.apiurl, {
-                method: "POST",
+                method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
@@ -3260,7 +3417,7 @@ class ShowformComponent {
              */
             function (json) {
                 return fetch(json.uploadURL, {
-                    method: "PUT",
+                    method: 'PUT',
                     body: new Blob([reader.result], { type: file.type })
                 });
             }))
@@ -3268,7 +3425,7 @@ class ShowformComponent {
              * @return {?}
              */
             function () {
-                //return 'success';
+                // return 'success';
                 file.uploaded = 1;
                 file.fileservername = val.prefix + file.name;
                 // console.log(file.type, 'file.type');
@@ -3277,7 +3434,7 @@ class ShowformComponent {
                 // uploadedFileNode.innerHTML = '<a href="//s3.amazonaws.com/slsupload/'+ file.name +'">'+ file.name +'</a>';
                 // list.appendChild(uploadedFileNode);
             }));
-            //});
+            // });
         });
         reader.readAsArrayBuffer(file);
     }
@@ -3287,7 +3444,7 @@ class ShowformComponent {
      */
     uploadall(val) {
         // this.filearray[val.name].uploadall = 1;
-        for (let y in this.filearray[val.name]) {
+        for (const y in this.filearray[val.name]) {
             this.uploadfilemultiple(val, this.filearray[val.name][y], y);
         }
     }
@@ -3296,7 +3453,7 @@ class ShowformComponent {
      * @return {?}
      */
     deletefilemultipleall(val) {
-        for (let y in this.filearray[val.name]) {
+        for (const y in this.filearray[val.name]) {
             this.deletefilemultiple(val, this.filearray[val.name][y], y);
         }
         setTimeout((/**
@@ -3314,29 +3471,30 @@ class ShowformComponent {
      */
     uploadfilemultiple(val, f, indexf) {
         /** @type {?} */
-        var reader = new FileReader();
+        const reader = new FileReader();
         /** @type {?} */
-        let file = this.filearray[val.name][indexf];
+        const file = this.filearray[val.name][indexf];
         // console.log(file,'file');
         // console.log(val,'val');
         // console.log(f,'f');
-        if (this.filecount[val.name] == null)
+        if (this.filecount[val.name] == null) {
             this.filecount[val.name] = 0;
+        }
         this.filecount[val.name]++;
-        // console.log('file val in m 2', val, f, indexf, 'if',file); 
-        file.uploaded = 2; // show progressbar 
-        // show progressbar 
+        // console.log('file val in m 2', val, f, indexf, 'if',file);
+        file.uploaded = 2; // show progressbar
+        // show progressbar
         /** @type {?} */
         let temploader = this.fieldloading[val.name];
         temploader = val.name;
-        //reader.addEventListener('loadend', function (e) {
+        // reader.addEventListener('loadend', function (e) {
         reader.onloadend = (/**
          * @param {?} e
          * @return {?}
          */
         (e) => {
             fetch(val.apiurl, {
-                method: "POST",
+                method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
@@ -3361,7 +3519,7 @@ class ShowformComponent {
              */
             function (json) {
                 return fetch(json.uploadURL, {
-                    method: "PUT",
+                    method: 'PUT',
                     body: new Blob([reader.result], { type: file.type })
                 });
             }))
@@ -3369,7 +3527,7 @@ class ShowformComponent {
              * @return {?}
              */
             function () {
-                //return 'success';
+                // return 'success';
                 file.uploaded = 1;
                 file.fileservername = val.prefix + file.name;
                 // console.log(file.type,'file.type')
@@ -3378,7 +3536,7 @@ class ShowformComponent {
                 // uploadedFileNode.innerHTML = '<a href="//s3.amazonaws.com/slsupload/'+ file.name +'">'+ file.name +'</a>';
                 // list.appendChild(uploadedFileNode);
             }));
-            //});
+            // });
         });
         reader.readAsArrayBuffer(file);
     }
@@ -3392,12 +3550,12 @@ class ShowformComponent {
         // console.log('val',val);
         // console.log(val.name);
         /** @type {?} */
-        let source = {};
+        const source = {};
         /** @type {?} */
-        let file = this.filearray[val.name];
-        source['file'] = val.prefix + file.name;
-        source['path'] = val.path;
-        source['bucket'] = val.bucket;
+        const file = this.filearray[val.name];
+        source.file = val.prefix + file.name;
+        source.path = val.path;
+        source.bucket = val.bucket;
         this._apiService.postSearch(val.apideleteurl, this.formdataval.jwttoken, source).subscribe((/**
          * @param {?} res
          * @return {?}
@@ -3410,7 +3568,7 @@ class ShowformComponent {
                 // this.formGroup.reset();
                 this._snackBar.openFromComponent(SnackbarComponent, {
                     duration: 6000,
-                    data: { errormessage: "Deleted !!" }
+                    data: { errormessage: 'Deleted !!' }
                 });
                 this.filearray[val.name] = null;
             }
@@ -3425,7 +3583,7 @@ class ShowformComponent {
          * @return {?}
          */
         error => {
-            //console.log('Oooops!');
+            // console.log('Oooops!');
             this._snackBar.openFromComponent(SnackbarComponent, {
                 duration: 6000,
                 data: { errormessage: 'Something Went Wrong ,Try Again!!' }
@@ -3441,13 +3599,13 @@ class ShowformComponent {
      */
     deletefilemultiple(val, field = '', index) {
         /** @type {?} */
-        let source = {};
+        const source = {};
         /** @type {?} */
-        let file = this.filearray[val.name][index];
+        const file = this.filearray[val.name][index];
         this.filecount[val.name]--;
-        source['file'] = val.prefix + file.name;
-        source['path'] = val.path;
-        source['bucket'] = val.bucket;
+        source.file = val.prefix + file.name;
+        source.path = val.path;
+        source.bucket = val.bucket;
         this._apiService.postSearch(val.apideleteurl, this.formdataval.jwttoken, source).subscribe((/**
          * @param {?} res
          * @return {?}
@@ -3460,7 +3618,7 @@ class ShowformComponent {
                 // this.formGroup.reset();
                 this._snackBar.openFromComponent(SnackbarComponent, {
                     duration: 6000,
-                    data: { errormessage: "Deleted !!" }
+                    data: { errormessage: 'Deleted !!' }
                 });
                 this.filearray[val.name].splice(index, 1);
             }
@@ -3475,7 +3633,7 @@ class ShowformComponent {
          * @return {?}
          */
         error => {
-            //console.log('Oooops!');
+            // console.log('Oooops!');
             this._snackBar.openFromComponent(SnackbarComponent, {
                 duration: 6000,
                 data: { errormessage: 'Something Went Wrong ,Try Again!!' }
@@ -3488,30 +3646,31 @@ class ShowformComponent {
      * @return {?}
      */
     ngOnChanges(changes) {
-        //console.log('ngonchange in form !!!', changes, 'frv', this.formfieldrefreshdataval);
-        for (let v in changes) {
-            //console.log(v,changes[v],'vv');
+        // console.log('ngonchange in form !!!', changes, 'frv', this.formfieldrefreshdataval);
+        for (const v in changes) {
+            // console.log(v,changes[v],'vv');
             if (v == 'formfieldrefreshdata') {
                 setTimeout((/**
                  * @return {?}
                  */
                 () => {
-                    //console.log('fff in set tt');
+                    // console.log('fff in set tt');
                     if (this.formfieldrefreshdataval != null) {
-                        //console.log(this.formfieldrefreshdataval, 'm');
-                        //console.log(this.formfieldrefreshdataval.field);
-                        //console.log(this.formfieldrefreshdataval.value);
+                        // console.log(this.formfieldrefreshdataval, 'm');
+                        // console.log(this.formfieldrefreshdataval.field);
+                        // console.log(this.formfieldrefreshdataval.value);
                         if (this.formGroup != null && this.formfieldrefreshdataval.field != null && this.formGroup.controls[this.formfieldrefreshdataval.field] != null) {
                             this.formGroup.controls[this.formfieldrefreshdataval.field].patchValue(this.formfieldrefreshdataval.value);
                         }
                         if (this.formfieldrefreshdataval.field == null && this.formfieldrefreshdataval.formvaldata != null && typeof (this.formfieldrefreshdataval.formvaldata) == 'object') {
-                            for (let formkey in this.formfieldrefreshdataval.formvaldata) {
+                            for (const formkey in this.formfieldrefreshdataval.formvaldata) {
                                 // console.log('this.formfieldrefreshdataval.data[formkey]', this.formfieldrefreshdataval.formvaldata[formkey]);
-                                if (this.formGroup.controls[formkey] != null)
+                                if (this.formGroup.controls[formkey] != null) {
                                     this.formGroup.controls[formkey].patchValue(this.formfieldrefreshdataval.formvaldata[formkey]);
-                                for (let formdatavalkey in this.formdataval.fields) {
+                                }
+                                for (const formdatavalkey in this.formdataval.fields) {
                                     if (this.formdataval.fields[formdatavalkey].name == formkey && this.formdataval.fields[formdatavalkey].type == 'autocomplete' && (this.formdataval.fields[formdatavalkey].multiple != null && this.formdataval.fields[formdatavalkey].multiple != false)) {
-                                        for (let autoselval in this.formdataval.fields[formdatavalkey].val) {
+                                        for (const autoselval in this.formdataval.fields[formdatavalkey].val) {
                                             // console.log('this.formdataval.fields[formdatavalkey].val multiple ', this.formdataval.fields[formdatavalkey].val, autoselval);
                                             if (this.formfieldrefreshdataval.formvaldata[formkey].indexOf(this.formdataval.fields[formdatavalkey].val[autoselval].key) != -1) {
                                                 this.setautocompletevalue(this.formdataval.fields[formdatavalkey].val[autoselval], this.formdataval.fields[formdatavalkey]);
@@ -3520,7 +3679,7 @@ class ShowformComponent {
                                     }
                                     // end of if
                                     if (this.formdataval.fields[formdatavalkey].name == formkey && this.formdataval.fields[formdatavalkey].type == 'autocomplete' && (this.formdataval.fields[formdatavalkey].multiple == null || this.formdataval.fields[formdatavalkey].multiple == false)) {
-                                        for (let autoselval in this.formdataval.fields[formdatavalkey].val) {
+                                        for (const autoselval in this.formdataval.fields[formdatavalkey].val) {
                                             // console.log('this.formdataval.fields[formdatavalkey].val single', this.formdataval.fields[formdatavalkey].val, autoselval);
                                             if (this.formfieldrefreshdataval.formvaldata[formkey] == (this.formdataval.fields[formdatavalkey].val[autoselval].key)) {
                                                 this.setautocompletevalue(this.formdataval.fields[formdatavalkey].val[autoselval], this.formdataval.fields[formdatavalkey]);
@@ -3529,16 +3688,18 @@ class ShowformComponent {
                                     }
                                     // enf of if
                                     if (this.formdataval.fields[formdatavalkey].name == formkey && this.formdataval.fields[formdatavalkey].type == 'checkbox' && (this.formdataval.fields[formdatavalkey].multiple != null && this.formdataval.fields[formdatavalkey].multiple != false)) {
-                                        for (let autoselval in this.formdataval.fields[formdatavalkey].val) {
+                                        for (const autoselval in this.formdataval.fields[formdatavalkey].val) {
                                             // console.log('this.formdataval.fields[formdatavalkey].val check box multiple ', this.formdataval.fields[formdatavalkey].val, autoselval);
                                             // console.log('formkey +  + autoselval', formkey + '__' + autoselval);
                                             if (this.formfieldrefreshdataval.formvaldata[formkey].indexOf(this.formdataval.fields[formdatavalkey].val[autoselval].key) != -1) {
-                                                if (this.formGroup.controls[formkey + '__' + autoselval] != null)
+                                                if (this.formGroup.controls[formkey + '__' + autoselval] != null) {
                                                     this.formGroup.controls[formkey + '__' + autoselval].patchValue(true);
+                                                }
                                             }
                                             else {
-                                                if (this.formGroup.controls[formkey + '__' + autoselval] != null)
+                                                if (this.formGroup.controls[formkey + '__' + autoselval] != null) {
                                                     this.formGroup.controls[formkey + '__' + autoselval].patchValue(false);
+                                                }
                                             }
                                         }
                                     }
@@ -3565,7 +3726,7 @@ class ShowformComponent {
      * @return {?}
      */
     inputblur(val) {
-        //console.log('on blur .....');
+        // console.log('on blur .....');
         this.formGroup.controls[val].markAsUntouched();
     }
     /**
@@ -3577,18 +3738,18 @@ class ShowformComponent {
         this.inputblur(val);
         // console.log('cc', this.formGroup.controls[val].value, data.val);
         /** @type {?} */
-        let fieldval = this.formGroup.controls[val].value;
+        const fieldval = this.formGroup.controls[val].value;
         if (fieldval == '' || fieldval == null) {
             this.filerfielddata = [];
         }
         else {
             /** @type {?} */
-            let filterval = data.val.filter((/**
+            const filterval = data.val.filter((/**
              * @param {?} e
              * @return {?}
              */
             function (e) {
-                //console.log('e', e, fieldval)
+                // console.log('e', e, fieldval)
                 return e.val.includes(fieldval);
             }));
             this.filerfielddata = [];
@@ -3617,8 +3778,9 @@ class ShowformComponent {
      */
     removechipmultiple(val, index) {
         this.autocompletefiledvalue[val.name].splice(index, 1);
-        if (this.autocompletefiledvalue[val.name].length == 0)
+        if (this.autocompletefiledvalue[val.name].length == 0) {
             this.autocompletefiledvalue[val.name] = null;
+        }
     }
     /**
      * @param {?} val
@@ -3631,8 +3793,9 @@ class ShowformComponent {
             this.autocompletefiledvalue[field.name] = val.key;
         }
         else {
-            if (this.autocompletefiledvalue[field.name] == null)
+            if (this.autocompletefiledvalue[field.name] == null) {
                 this.autocompletefiledvalue[field.name] = [];
+            }
             this.autocompletefiledvalue[field.name].push(val.key);
         }
         if (this.formGroup.controls[field.name] != null) {
@@ -3646,20 +3809,20 @@ class ShowformComponent {
      * @return {?}
      */
     managefromcontrol(field, type) {
-        //console.log('manage control',field,type);
+        // console.log('manage control',field,type);
         if (type == 'remove') {
-            for (let y in this.formdataval.fields) {
+            for (const y in this.formdataval.fields) {
                 if (this.formdataval.fields[y].name == field.name) {
                     this.formdataval.fields.splice(parseInt(y), 1);
                     this.formGroup.removeControl(field.name);
-                    //console.log('removed',field['name'], 'c', y);
+                    // console.log('removed',field['name'], 'c', y);
                 }
             }
         }
         if (type == 'add') {
-            //console.log('in add form');
+            // console.log('in add form');
             if (field.after != null) {
-                for (let y in this.formdataval.fields) {
+                for (const y in this.formdataval.fields) {
                     if (this.formdataval.fields[y].name == field.after) {
                         this.formdataval.fields.splice(parseInt(y) + 1, 0, field);
                         this.createForm(1);
@@ -3670,9 +3833,9 @@ class ShowformComponent {
             else {
                 if (typeof (field) == 'object') {
                     // console.log('in array form  add');
-                    for (let v in field) {
-                        for (let y in this.formdataval.fields) {
-                            if (field[v] != null && field[v]['name'] != null && this.formdataval.fields[y].name == field[v].after) {
+                    for (const v in field) {
+                        for (const y in this.formdataval.fields) {
+                            if (field[v] != null && field[v].name != null && this.formdataval.fields[y].name == field[v].after) {
                                 this.formdataval.fields.splice(parseInt(y) + 1, 0, field[v]);
                                 this.createForm(1);
                                 // console.log('array field added ..', field[v]['name'], 'c', y);
@@ -3690,26 +3853,27 @@ class ShowformComponent {
      */
     checkchange(field, index) {
         console.log(field, 'change', index, 'index2');
-        if (this.formGroup.controls[field.name] != null)
-            this.onFormFieldChange.emit({ field: field, fieldval: this.formGroup.controls[field.name].value, fromval: this.formGroup.value });
+        if (this.formGroup.controls[field.name] != null) {
+            this.onFormFieldChange.emit({ field, fieldval: this.formGroup.controls[field.name].value, fromval: this.formGroup.value });
+        }
         if (field.dependent != null && field.dependent.length > 0) {
             /** @type {?} */
             let vc = 0;
-            for (let n in field.dependent) {
+            for (const n in field.dependent) {
                 if (field.dependent[n].condval.toString() == this.formGroup.controls[field.name].value.toString()) {
                     // let temvalidationrulet: any = [];
                     vc++;
-                    //this.formGroup.addControl(field.dependent[n].field.name, new FormControl(field.dependent[n].field.value, temvalidationrulet));
-                    //console.log('nnnnn', '--', parseInt(index + 1 + parseInt(vc)), '--', vc + index + 1, index, vc, field.dependent[n].field['name']);
+                    // this.formGroup.addControl(field.dependent[n].field.name, new FormControl(field.dependent[n].field.value, temvalidationrulet));
+                    // console.log('nnnnn', '--', parseInt(index + 1 + parseInt(vc)), '--', vc + index + 1, index, vc, field.dependent[n].field['name']);
                     this.formdataval.fields.splice(parseInt(index + parseInt(vc)), 0, field.dependent[n].field);
                     this.createForm(1);
                 }
                 else {
-                    for (let y in this.formdataval.fields) {
+                    for (const y in this.formdataval.fields) {
                         if (this.formdataval.fields[y].name == field.dependent[n].field.name) {
                             this.formdataval.fields.splice(parseInt(y), 1);
                             this.formGroup.removeControl(field.dependent[n].field.name);
-                            //console.log('removed', field.dependent[n].field['name'], 'c', y);
+                            // console.log('removed', field.dependent[n].field['name'], 'c', y);
                         }
                     }
                 }
@@ -3728,26 +3892,29 @@ class ShowformComponent {
           //'description': [null, [Validators.required, Validators.minLength(5), Validators.maxLength(10)]],
           //'validate': ''
         });*/
-        //let demoArray:any=[];
-        if (initialize == 0)
+        // let demoArray:any=[];
+        if (initialize == 0) {
             this.formGroup = this.formBuilder.group({});
-        //console.log(this.formGroup, 'fg')
-        for (let n in this.formdataval.fields) {
+        }
+        // console.log(this.formGroup, 'fg')
+        for (const n in this.formdataval.fields) {
             if (this.formGroup.controls[this.formdataval.fields[n]] == null) {
                 /** @type {?} */
-                let temcontrolarr = [];
+                const temcontrolarr = [];
                 /** @type {?} */
-                let temvalidationrule = [];
-                if (this.formdataval.fields[n].value != null)
+                const temvalidationrule = [];
+                if (this.formdataval.fields[n].value != null) {
                     temcontrolarr.push(this.formdataval.fields[n].value);
-                else
+                }
+                else {
                     temcontrolarr.push('');
+                }
                 if (this.formdataval.fields[n].type == 'file') {
                     this.filearray[this.formdataval.fields[n].name] = this.formdataval.fields[n].value;
                     // console.log('db', this.filearray[this.formdataval.fields[n].name], this.formdataval.fields[n].name);
                     if (this.formdataval.fields[n].multiple != null && this.formdataval.fields[n].multiple == true) {
-                        for (let fa in this.filearray[this.formdataval.fields[n].name]) {
-                            // console.log('fv', fa); 
+                        for (const fa in this.filearray[this.formdataval.fields[n].name]) {
+                            // console.log('fv', fa);
                             if (this.filearray[this.formdataval.fields[n].name][fa] != null) {
                                 // console.log('fr', this.filearray[this.formdataval.fields[n].name][fa]);
                                 this.filearray[this.formdataval.fields[n].name][fa].uploaded = 1;
@@ -3758,77 +3925,89 @@ class ShowformComponent {
                         }
                     }
                     else {
-                        if (this.filearray[this.formdataval.fields[n].name] != null)
+                        if (this.filearray[this.formdataval.fields[n].name] != null) {
                             this.filearray[this.formdataval.fields[n].name].uploaded = 1;
+                        }
                     }
                 }
                 if (this.formdataval.fields[n].type == 'checkbox' && this.formdataval.fields[n].multiple != null && this.formdataval.fields[n].multiple == true) {
-                    if (this.formdataval.fields[n].value == null)
+                    if (this.formdataval.fields[n].value == null) {
                         temcontrolarr.push([]);
+                    }
                     else {
                         if (this.formdataval.fields[n].val != null) {
                             /** @type {?} */
-                            let tcharr = [];
-                            for (let b in this.formdataval.fields[n].val) {
-                                //console.log('b', b, this.formdataval.fields[n].val[b]);
+                            const tcharr = [];
+                            for (const b in this.formdataval.fields[n].val) {
+                                // console.log('b', b, this.formdataval.fields[n].val[b]);
                                 if (this.formdataval.fields[n].value != null && this.formdataval.fields[n].value.includes(this.formdataval.fields[n].val[b].key)) {
                                     tcharr.push(true);
                                 }
-                                else
+                                else {
                                     tcharr.push(false);
+                                }
                             }
                             // push the val
                             temcontrolarr.push(tcharr);
-                            //console.log('tch', tcharr);
+                            // console.log('tch', tcharr);
                         }
                     }
                 }
                 if (this.formdataval.fields[n].validations != null && this.formdataval.fields[n].validations.length > 0) {
-                    for (let v in this.formdataval.fields[n].validations) {
+                    for (const v in this.formdataval.fields[n].validations) {
                         // setTimeout( ()=>{
-                        if (this.formdataval.fields[n].validations[v].message == null)
-                            this.formdataval.fields[n].validations[v].message = "Not Valid !!";
-                        if (this.formdataval.fields[n].validations[v].rule == 'required')
+                        if (this.formdataval.fields[n].validations[v].message == null) {
+                            this.formdataval.fields[n].validations[v].message = 'Not Valid !!';
+                        }
+                        if (this.formdataval.fields[n].validations[v].rule == 'required') {
                             temvalidationrule.push(Validators.required);
+                        }
                         if (this.formdataval.fields[n].validations[v].rule == 'match') {
                             this.formGroup.setValidators(this.checkPasswords);
                         }
                         if (this.formdataval.fields[n].validations[v].rule == 'autorequired') {
                             this.formGroup.setValidators(this.autorequired);
                         }
-                        if (this.formdataval.fields[n].validations[v].rule == 'pattern')
+                        if (this.formdataval.fields[n].validations[v].rule == 'pattern') {
                             temvalidationrule.push(Validators.pattern(this.formdataval.fields[n].validations[v].value));
-                        if (this.formdataval.fields[n].validations[v].rule == 'maxLength')
+                        }
+                        if (this.formdataval.fields[n].validations[v].rule == 'maxLength') {
                             temvalidationrule.push(Validators.maxLength(this.formdataval.fields[n].validations[v].value));
-                        if (this.formdataval.fields[n].validations[v].rule == 'min')
+                        }
+                        if (this.formdataval.fields[n].validations[v].rule == 'min') {
                             temvalidationrule.push(Validators.min(this.formdataval.fields[n].validations[v].value));
-                        if (this.formdataval.fields[n].validations[v].rule == 'max')
+                        }
+                        if (this.formdataval.fields[n].validations[v].rule == 'max') {
                             temvalidationrule.push(Validators.max(this.formdataval.fields[n].validations[v].value));
-                        if (this.formdataval.fields[n].validations[v].rule == 'minLength')
+                        }
+                        if (this.formdataval.fields[n].validations[v].rule == 'minLength') {
                             temvalidationrule.push(Validators.minLength(this.formdataval.fields[n].validations[v].value));
-                        //},0);
+                        }
+                        // },0);
                     }
                 }
                 // demoArray[this.formdataval.fields[n].name]=new FormControl('');
                 if (this.formdataval.fields[n].type == 'checkbox' && this.formdataval.fields[n].multiple != null && this.formdataval.fields[n].multiple == true) {
                     /** @type {?} */
                     let tchvar = false;
-                    //let
-                    //console.log('vv ??? ', this.formdataval.fields[n].value, this.formdataval.fields[n].name, this.formdataval.fields[n].multiple);
-                    //this.formGroup.addControl(this.formdataval.fields[n].name, new FormArray([]));
-                    for (let j in this.formdataval.fields[n].val) {
-                        if (this.formdataval.fields[n].value != null && this.formdataval.fields[n].value.includes(this.formdataval.fields[n].val[j].key))
+                    // let
+                    // console.log('vv ??? ', this.formdataval.fields[n].value, this.formdataval.fields[n].name, this.formdataval.fields[n].multiple);
+                    // this.formGroup.addControl(this.formdataval.fields[n].name, new FormArray([]));
+                    for (const j in this.formdataval.fields[n].val) {
+                        if (this.formdataval.fields[n].value != null && this.formdataval.fields[n].value.includes(this.formdataval.fields[n].val[j].key)) {
                             tchvar = true;
-                        else
+                        }
+                        else {
                             tchvar = false;
-                        //console.log('n', n, j, tchvar);
+                        }
+                        // console.log('n', n, j, tchvar);
                         this.formGroup.addControl(this.formdataval.fields[n].name + '__' + j, new FormControl(tchvar, temvalidationrule));
                         // if()
                         /*const control = new FormControl(tchvar); // if first item set to true, else false
                    (this.formGroup.controls[this.formdataval.fields[n].name] as FormArray).push(control);*/
-                        //this.formGroup.addControl(this.formdataval.fields[n].name,this.formBuilder.array([
-                        //this.formBuilder.control(tchvar)
-                        //]));
+                        // this.formGroup.addControl(this.formdataval.fields[n].name,this.formBuilder.array([
+                        // this.formBuilder.control(tchvar)
+                        // ]));
                     }
                     /*this.formGroup.addControl(this.formdataval.fields[n].name,this.formBuilder.array([
                   this.formBuilder.control(false),
@@ -3836,13 +4015,13 @@ class ShowformComponent {
                   this.formBuilder.control(true),
                   this.formBuilder.control(false),
                 ]));*/
-                    //this.formGroup.addControl(this.formdataval.fields[n].name, new FormControl(temcontrolarr[0], temvalidationrule));
+                    // this.formGroup.addControl(this.formdataval.fields[n].name, new FormControl(temcontrolarr[0], temvalidationrule));
                 }
                 else {
                     this.formGroup.addControl(this.formdataval.fields[n].name, new FormControl({ value: temcontrolarr[0], disabled: this.formdataval.fields[n].disabled }, temvalidationrule));
                 }
                 if (this.formdataval.fields[n].type == 'autocomplete' && this.formdataval.fields[n].multiple != null && this.formdataval.fields[n].multiple == true) {
-                    for (let at in this.formdataval.fields[n].val) {
+                    for (const at in this.formdataval.fields[n].val) {
                         // console.log('at ...', this.formdataval.fields[n].val[at], at, this.formdataval.fields[n].value, this.formdataval.fields[n].val[at].key);
                         if (this.formdataval.fields[n].value != null && typeof (this.formdataval.fields[n].value) == 'object' && this.formdataval.fields[n].value.indexOf(this.formdataval.fields[n].val[at].key) != -1) {
                             // console.log(this.formdataval.fields[n].val[at].key, 'multi autocomplete triggered  !! ');
@@ -3857,20 +4036,21 @@ class ShowformComponent {
                         this.setautocompletevalue(this.formdataval.fields[n].val[0], this.formdataval.fields[n]);
                     }
                 }
-                //'newControl', new FormControl('', Validators.required)
+                // 'newControl', new FormControl('', Validators.required)
             }
         }
-        //=this.checkPasswords(this.formGroup);
-        //this.formGroup = this.formBuilder.group(demoArray);
+        // =this.checkPasswords(this.formGroup);
+        // this.formGroup = this.formBuilder.group(demoArray);
         setTimeout((/**
          * @return {?}
          */
         () => {
-            //console.log(this.formGroup,'fg',demoArray);
+            // console.log(this.formGroup,'fg',demoArray);
             this.showform = true;
-            if (this.formdataval.submitactive == null)
+            if (this.formdataval.submitactive == null) {
                 this.formdataval.submitactive = true;
-            //console.log('grp', this.formGroup.controls);
+            }
+            // console.log('grp', this.formGroup.controls);
         }), 10);
     }
     /**
@@ -3884,7 +4064,7 @@ class ShowformComponent {
         (validate) => {
             if (validate == '1') {
                 this.formGroup.get('name').setValidators([Validators.required, Validators.minLength(3)]);
-                this.titleAlert = "You need to specify at least 3 characters";
+                this.titleAlert = 'You need to specify at least 3 characters';
             }
             else {
                 this.formGroup.get('name').setValidators(Validators.required);
@@ -3893,30 +4073,24 @@ class ShowformComponent {
         }));
     }
     /**
-     * @return {?}
-     */
-    get name() {
-        return (/** @type {?} */ (this.formGroup.get('name')));
-    }
-    /**
      * @param {?} group
      * @return {?}
      */
     checkPasswords(group) {
         // here we have the 'passwords' group
         /** @type {?} */
-        let pass = group.controls.password.value;
+        const pass = group.controls.password.value;
         /** @type {?} */
-        let confirmPass = group.controls.confirmpassword.value;
+        const confirmPass = group.controls.confirmpassword.value;
         if (confirmPass == null || confirmPass == '') {
             group.controls.confirmpassword.setErrors({ required: true });
             return { required: true };
         }
         if (pass != confirmPass) {
-            group.controls.confirmpassword.setErrors({ 'match': true });
+            group.controls.confirmpassword.setErrors({ match: true });
             return { match: true };
         }
-        //return pass === confirmPass ? null : { notSame: true }
+        // return pass === confirmPass ? null : { notSame: true }
     }
     /**
      * @param {?} control
@@ -3924,19 +4098,19 @@ class ShowformComponent {
      */
     checkPassword(control) {
         /** @type {?} */
-        let enteredPassword = control.value;
+        const enteredPassword = control.value;
         /** @type {?} */
-        let passwordCheck = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,})/;
-        return (!passwordCheck.test(enteredPassword) && enteredPassword) ? { 'requirements': true } : null;
+        const passwordCheck = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,})/;
+        return (!passwordCheck.test(enteredPassword) && enteredPassword) ? { requirements: true } : null;
     }
     /**
      * @param {?} group
      * @return {?}
      */
     autorequired(group) {
-        for (let b in group) {
+        for (const b in group) {
             if (group[b].type == 'autocomplete' && group[b].validations != null && group[b].validations[0] != null && group[b].validations[0].rule == 'autorequired' && this.autocompletefiledvalue[group[b].name] == null) {
-                this.formGroup.controls[group.name].setErrors({ 'autorequired': true });
+                this.formGroup.controls[group.name].setErrors({ autorequired: true });
                 return { autorequired: true };
             }
         }
@@ -3952,7 +4126,7 @@ class ShowformComponent {
         //   group.controls.confirmpassword.setErrors({'match':true});
         //   return {match:true};
         // }
-        //return pass === confirmPass ? null : { notSame: true }
+        // return pass === confirmPass ? null : { notSame: true }
     }
     /**
      * @param {?} control
@@ -3961,7 +4135,7 @@ class ShowformComponent {
     checkInUseEmail(control) {
         // mimic http database access
         /** @type {?} */
-        let db = ['tony@gmail.com'];
+        const db = ['tony@gmail.com'];
         return new Observable((/**
          * @param {?} observer
          * @return {?}
@@ -3972,7 +4146,7 @@ class ShowformComponent {
              */
             () => {
                 /** @type {?} */
-                let result = (db.indexOf(control.value) !== -1) ? { 'alreadyInUse': true } : null;
+                const result = (db.indexOf(control.value) !== -1) ? { alreadyInUse: true } : null;
                 observer.next(result);
                 observer.complete();
             }), 4000);
@@ -3983,7 +4157,7 @@ class ShowformComponent {
      * @return {?}
      */
     getError(data) {
-        //console.log('getError', data);
+        // console.log('getError', data);
         return this.formGroup.get('email').hasError('required') ? 'Field is required' :
             this.formGroup.get('email').hasError('pattern') ? 'Not a valid emailaddress' :
                 this.formGroup.get('email').hasError('alreadyInUse') ? 'This emailaddress is already in use' : '';
@@ -4002,16 +4176,16 @@ class ShowformComponent {
     onSubmit(post) {
         this.post = post;
         /** @type {?} */
-        let tempformval = {};
-        for (let x in this.formGroup.controls) {
+        const tempformval = {};
+        for (const x in this.formGroup.controls) {
             this.formGroup.controls[x].markAsTouched();
-            //console.log(this.formGroup.controls[x].errors, x, 'err');
-            //if(this.formGroup.controls[x].valid){
-            //console.log('x',x);
+            // console.log(this.formGroup.controls[x].errors, x, 'err');
+            // if(this.formGroup.controls[x].valid){
+            // console.log('x',x);
             /** @type {?} */
-            let b = x.split('__');
-            //console.log('b',b,b.length,b[0]);
-            for (let m in this.formdataval.fields) {
+            const b = x.split('__');
+            // console.log('b',b,b.length,b[0]);
+            for (const m in this.formdataval.fields) {
                 if (this.formdataval.fields[m].type == 'file' && this.formdataval.fields[m].multiple == null && this.filearray[this.formdataval.fields[m].name] != null) {
                     if (this.filearray[this.formdataval.fields[m].name] != null && this.filearray[this.formdataval.fields[m].name].uploaded == 1) {
                         // fileservername: "Test-1589216992392My Saved Schema.json"
@@ -4022,7 +4196,7 @@ class ShowformComponent {
                         // type: "application/json"
                         // uploaded: 1
                         /** @type {?} */
-                        let tfile = {};
+                        const tfile = {};
                         tfile.fileservername = this.filearray[this.formdataval.fields[m].name].fileservername;
                         tfile.name = this.filearray[this.formdataval.fields[m].name].name;
                         tfile.size = this.filearray[this.formdataval.fields[m].name].size;
@@ -4035,8 +4209,8 @@ class ShowformComponent {
                 }
                 if (this.formdataval.fields[m].type == 'file' && this.formdataval.fields[m].multiple != null && this.formdataval.fields[m].multiple == true) {
                     /** @type {?} */
-                    let tfilearr = [];
-                    for (let g in this.filearray[this.formdataval.fields[m].name]) {
+                    const tfilearr = [];
+                    for (const g in this.filearray[this.formdataval.fields[m].name]) {
                         if (this.filearray[this.formdataval.fields[m].name][g] != null && this.filearray[this.formdataval.fields[m].name][g].uploaded == 1) {
                             // fileservername: "Test-1589216992392My Saved Schema.json"
                             // lastModified: 1589174477504
@@ -4046,7 +4220,7 @@ class ShowformComponent {
                             // type: "application/json"
                             // uploaded: 1
                             /** @type {?} */
-                            let tfile = {};
+                            const tfile = {};
                             tfile.fileservername = this.filearray[this.formdataval.fields[m].name][g].fileservername;
                             tfile.name = this.filearray[this.formdataval.fields[m].name][g].name;
                             tfile.size = this.filearray[this.formdataval.fields[m].name][g].size;
@@ -4061,47 +4235,50 @@ class ShowformComponent {
                 }
                 if (this.formdataval.fields[m].type == 'autocomplete') {
                     if (this.autocompletefiledvalue != null && this.autocompletefiledvalue[this.formdataval.fields[m].name] != null && this.formdataval.fields[m].validations != null) {
-                        //console.log('autoerror', this.formGroup.controls[this.formdataval.fields[m].name].errors);
+                        // console.log('autoerror', this.formGroup.controls[this.formdataval.fields[m].name].errors);
                         this.formGroup.controls[this.formdataval.fields[m].name].setErrors({ required: null });
-                        //console.log('autoerror after ', this.formGroup.controls[this.formdataval.fields[m].name].errors);
+                        // console.log('autoerror after ', this.formGroup.controls[this.formdataval.fields[m].name].errors);
                     }
                     else {
-                        //console.log('autoerror set', this.formGroup.controls[this.formdataval.fields[m].name].errors);
+                        // console.log('autoerror set', this.formGroup.controls[this.formdataval.fields[m].name].errors);
                         this.formGroup.controls[this.formdataval.fields[m].name].setErrors({ required: true });
-                        //console.log('autoerror set after ', this.formGroup.controls[this.formdataval.fields[m].name].errors);
+                        // console.log('autoerror set after ', this.formGroup.controls[this.formdataval.fields[m].name].errors);
                     }
-                    if (x == this.formdataval.fields[m].name && tempformval[x] == null)
+                    if (x == this.formdataval.fields[m].name && tempformval[x] == null) {
                         tempformval[x] = this.autocompletefiledvalue[this.formdataval.fields[m].name];
+                    }
                 }
                 if (b.length > 1 && b[0] == this.formdataval.fields[m].name && this.formdataval.fields[m].name != x && this.formdataval.fields[m].type == 'checkbox' && this.formdataval.fields[m].multiple != null) {
-                    //console.log('aaaaff...');
+                    // console.log('aaaaff...');
                     if (this.formGroup.controls[x].value == true) {
-                        for (let k in this.formdataval.fields[m].val) {
-                            if (this.formdataval.fields[m].val[k]['key'] == b[1]) {
-                                if (tempformval[this.formdataval.fields[m].name] == null)
+                        for (const k in this.formdataval.fields[m].val) {
+                            if (this.formdataval.fields[m].val[k].key == b[1]) {
+                                if (tempformval[this.formdataval.fields[m].name] == null) {
                                     tempformval[this.formdataval.fields[m].name] = [];
+                                }
                                 tempformval[this.formdataval.fields[m].name].push(b[1]);
-                                //console.log('gv', b[1]);
+                                // console.log('gv', b[1]);
                             }
                         }
                     }
                 }
                 // else{
-                if (x == this.formdataval.fields[m].name && tempformval[x] == null)
+                if (x == this.formdataval.fields[m].name && tempformval[x] == null) {
                     tempformval[x] = this.formGroup.controls[x].value;
+                }
                 //  }
             }
-            //console.log(this.formGroup.controls[x].errors, x, 'err22');
-            //}
+            // console.log(this.formGroup.controls[x].errors, x, 'err22');
+            // }
         }
         // console.log(post, 'post', this.formGroup.valid, this.formdataval, this.formdataval.apiUrl, 'ffff', tempformval);
         if (this.formGroup.valid) {
             this.loading = true;
             /** @type {?} */
-            let link = this.formdataval.apiUrl + this.formdataval.endpoint;
+            const link = this.formdataval.apiUrl + this.formdataval.endpoint;
             /** @type {?} */
-            let source = {};
-            source['data'] = this.formGroup.value;
+            const source = {};
+            source.data = this.formGroup.value;
             this._apiService.postSearch(link, this.formdataval.jwttoken, source).subscribe((/**
              * @param {?} res
              * @return {?}
@@ -4117,8 +4294,8 @@ class ShowformComponent {
                         duration: 6000,
                         data: { errormessage: this.formdataval.successmessage }
                     });
-                    //console.log(result, 'red', this.formdataval.redirectpath);
-                    if (this.formdataval.redirectpath != null && this.formdataval.redirectpath != "" && this.formdataval.redirectpath != "/") {
+                    // console.log(result, 'red', this.formdataval.redirectpath);
+                    if (this.formdataval.redirectpath != null && this.formdataval.redirectpath != '' && this.formdataval.redirectpath != '/') {
                         this.router.navigate([this.formdataval.redirectpath]);
                     }
                     else {
@@ -4137,7 +4314,7 @@ class ShowformComponent {
              * @return {?}
              */
             error => {
-                //console.log('Oooops!');
+                // console.log('Oooops!');
                 this._snackBar.openFromComponent(SnackbarComponent, {
                     duration: 6000,
                     data: { errormessage: 'Something Went Wrong ,Try Again!!' }

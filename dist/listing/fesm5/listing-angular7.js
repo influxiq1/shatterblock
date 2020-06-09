@@ -1,10 +1,10 @@
 import { SelectionModel } from '@angular/cdk/collections';
 import { humanizeBytes } from 'ngx-uploader';
 import { CookieService } from 'ngx-cookie-service';
-import { map, catchError, startWith } from 'rxjs/operators';
+import { map, catchError, startWith, debounceTime } from 'rxjs/operators';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import * as momentImported from 'moment';
-import { throwError, Observable } from 'rxjs';
+import { throwError, Subject, Observable } from 'rxjs';
 import { MAT_SNACK_BAR_DATA, MatSnackBar, MatSnackBarRef } from '@angular/material/snack-bar';
 import { A11yModule } from '@angular/cdk/a11y';
 import { DragDropModule } from '@angular/cdk/drag-drop';
@@ -19,7 +19,7 @@ import { FormBuilder, FormControl, Validators, FormsModule, ReactiveFormsModule 
 import { CommonModule } from '@angular/common';
 import { MomentModule } from 'ngx-moment';
 import { NavigationCancel, NavigationEnd, NavigationError, NavigationStart, Router, RouterModule } from '@angular/router';
-import { Injectable, ElementRef, EventEmitter, ViewChild, Component, Input, Inject, ComponentFactoryResolver, ViewContainerRef, NgModule, CUSTOM_ELEMENTS_SCHEMA, Output, defineInjectable } from '@angular/core';
+import { Injectable, Component, Input, ElementRef, EventEmitter, ViewChild, NgModule, CUSTOM_ELEMENTS_SCHEMA, Inject, ComponentFactoryResolver, ViewContainerRef, Output, defineInjectable } from '@angular/core';
 import { DomSanitizer, BrowserModule } from '@angular/platform-browser';
 import { CKEditorModule } from 'ng2-ckeditor';
 import { ImageCropperModule } from 'ngx-image-cropper';
@@ -67,10 +67,11 @@ var ApiService = /** @class */ (function () {
         this.files = []; // local uploading files array
         this.uploadInput = new EventEmitter(); // input events, we use this to emit data to ngx-uploader
         this.humanizeBytes = humanizeBytes;
-        if (this.cookieService.check('secretkey'))
+        if (this.cookieService.check('secretkey')) {
             this.secretkey = this.cookieService.get('secretkey');
-        //console.log('this.domain');
-        //console.log(this.domain);
+        }
+        // console.log('this.domain');
+        // console.log(this.domain);
     }
     /**
      * @param {?} uploadOutput
@@ -117,8 +118,9 @@ var ApiService = /** @class */ (function () {
             function (file) { return typeof uploadOutput.file !== 'undefined' && file.id === uploadOutput.file.id; }));
             this.files[index] = uploadOutput.file;
             this.lengthis = this.files.length;
-            if (this.files[0] != null && this.files[0].progress != null)
+            if (this.files[0] != null && this.files[0].progress != null) {
                 this.percentageis = this.files[0].progress.data.percentage;
+            }
             console.log('this.files==================');
             console.log(this.files);
         }
@@ -141,8 +143,9 @@ var ApiService = /** @class */ (function () {
         console.log('files');
         console.log(this.files);
         if (this.files[0] != null && this.files[0].progress != null) {
-            if (this.progress[arrayvalue] == null)
+            if (this.progress[arrayvalue] == null) {
                 this.progress[arrayvalue] = 0;
+            }
             this.inprogress = true;
             console.log('file upload progressing');
             console.log(this.files[0].progress.data.percentage);
@@ -156,19 +159,22 @@ var ApiService = /** @class */ (function () {
         }
         if (uploadtypec == 'single') {
             // this.fileservername = [];
-            if (this.fileservername[arrayvalue] == null)
+            if (this.fileservername[arrayvalue] == null) {
                 this.fileservername[arrayvalue] = [];
+            }
             this.fileservername[arrayvalue] = [];
-            if (this.files[0].response != null)
+            if (this.files[0].response != null) {
                 this.fileservername[arrayvalue].push(this.files[0].response);
+            }
         }
         if (uploadtypec == 'multiple') {
             console.log('this.files[0].response');
             // console.log(this.files[0].response);
             console.log(this.files.length);
             console.log(this.files);
-            if (this.fileservername[arrayvalue] == null)
+            if (this.fileservername[arrayvalue] == null) {
                 this.fileservername[arrayvalue] = [];
+            }
             // if(this.files[0].response!=null){
             if (this.files.length == 1) {
                 if (this.files[0] && this.files[0].response != null && this.files[0].response.error_code == null) {
@@ -189,14 +195,14 @@ var ApiService = /** @class */ (function () {
                 }
                 this.files = [];
             }
-            //}
+            // }
         }
         console.log('this.fileservername');
         console.log(this.fileservername);
         console.log(this.uploaderror);
-        //this.uploaderservice.filenamevalc1=this.fileservername;
-        //UploaderComponent.filenamevalc1=87;
-        //console.log(classval);
+        // this.uploaderservice.filenamevalc1=this.fileservername;
+        // UploaderComponent.filenamevalc1=87;
+        // console.log(classval);
     };
     /**
      * @return {?}
@@ -223,7 +229,7 @@ var ApiService = /** @class */ (function () {
         console.log('endpoint');
         // this.isTokenExpired()
         /** @type {?} */
-        var result = this._http.get("http://ipinfo.io/?format=json&token=9797c42b93078a").pipe(map((/**
+        var result = this._http.get('http://ipinfo.io/?format=json&token=9797c42b93078a').pipe(map((/**
          * @param {?} res
          * @return {?}
          */
@@ -243,7 +249,7 @@ var ApiService = /** @class */ (function () {
         var httpOptions = {
             headers: new HttpHeaders({
                 'Content-Type': 'application/json',
-                'Authorization': ''
+                Authorization: ''
             })
         };
         console.log('endpoint');
@@ -273,7 +279,7 @@ var ApiService = /** @class */ (function () {
         var httpOptions = {
             headers: new HttpHeaders({
                 'Content-Type': 'application/json',
-                'Authorization': ''
+                Authorization: ''
             })
         };
         console.log('endpoint');
@@ -290,8 +296,8 @@ var ApiService = /** @class */ (function () {
         function (err) {
             console.log('error caught in service');
             console.error(err);
-            //Handle the error here
-            return throwError(err); //Rethrow it back to component
+            // Handle the error here
+            return throwError(err); // Rethrow it back to component
         })), map((/**
          * @param {?} res
          * @return {?}
@@ -318,7 +324,7 @@ var ApiService = /** @class */ (function () {
         var httpOptions = {
             headers: new HttpHeaders({
                 'Content-Type': 'application/json',
-                'Authorization': data.token
+                Authorization: data.token
             })
         };
         console.log('');
@@ -334,8 +340,8 @@ var ApiService = /** @class */ (function () {
         function (err) {
             console.log('error caught in service');
             console.error(err);
-            //Handle the error here
-            return throwError(err); //Rethrow it back to component
+            // Handle the error here
+            return throwError(err); // Rethrow it back to component
         })), map((/**
          * @param {?} res
          * @return {?}
@@ -371,8 +377,8 @@ var ApiService = /** @class */ (function () {
         function (err) {
             console.log('error caught in service');
             console.error(err);
-            //Handle the error here
-            return throwError(err); //Rethrow it back to component
+            // Handle the error here
+            return throwError(err); // Rethrow it back to component
         })), map((/**
          * @param {?} res
          * @return {?}
@@ -408,8 +414,8 @@ var ApiService = /** @class */ (function () {
         function (err) {
             console.log('error caught in service');
             console.error(err);
-            //Handle the error here
-            return throwError(err); //Rethrow it back to component
+            // Handle the error here
+            return throwError(err); // Rethrow it back to component
         })), map((/**
          * @param {?} res
          * @return {?}
@@ -437,7 +443,7 @@ var ApiService = /** @class */ (function () {
         var httpOptions = {
             headers: new HttpHeaders({
                 'Content-Type': 'application/json',
-                'Authorization': token
+                Authorization: token
             })
         };
         /*console.log('------ ');
@@ -453,8 +459,8 @@ var ApiService = /** @class */ (function () {
         function (err) {
             console.log('error caught in service');
             console.error(err);
-            //Handle the error here
-            return throwError(err); //Rethrow it back to component
+            // Handle the error here
+            return throwError(err); // Rethrow it back to component
         })), map((/**
          * @param {?} res
          * @return {?}
@@ -477,11 +483,11 @@ var ApiService = /** @class */ (function () {
         var httpOptions = {
             headers: new HttpHeaders({
                 'Content-Type': 'application/json',
-                'Authorization': source.token
+                Authorization: source.token
             })
         };
         console.log('------ ');
-        console.log("link");
+        console.log('link');
         console.log(link);
         /** @type {?} */
         var result = this._http.post(link, source).pipe(catchError((/**
@@ -491,8 +497,8 @@ var ApiService = /** @class */ (function () {
         function (err) {
             console.log('error caught in service');
             console.error(err);
-            //Handle the error here
-            return throwError(err); //Rethrow it back to component
+            // Handle the error here
+            return throwError(err); // Rethrow it back to component
         })), map((/**
          * @param {?} res
          * @return {?}
@@ -517,11 +523,11 @@ var ApiService = /** @class */ (function () {
         var httpOptions = {
             headers: new HttpHeaders({
                 'Content-Type': 'application/json',
-                'Authorization': ''
+                Authorization: ''
             })
         };
         console.log('');
-        console.log("endpoint");
+        console.log('endpoint');
         console.log(endpoint);
         /** @type {?} */
         var result = this._http.put(this.getEndpointUrl(endpoint) + '/' + id, JSON.stringify(data), httpOptions).pipe(map((/**
@@ -550,7 +556,7 @@ var ApiService = /** @class */ (function () {
         var httpOptions = {
             headers: new HttpHeaders({
                 'Content-Type': 'application/json',
-                'Authorization': token
+                Authorization: token
             })
         };
         /* console.log('------ ');
@@ -570,8 +576,8 @@ var ApiService = /** @class */ (function () {
         function (err) {
             console.log('error caught in service');
             console.error(err);
-            //Handle the error here
-            return throwError(err); //Rethrow it back to component
+            // Handle the error here
+            return throwError(err); // Rethrow it back to component
         })), map((/**
          * @param {?} res
          * @return {?}
@@ -606,7 +612,7 @@ var ApiService = /** @class */ (function () {
         var httpOptions = {
             headers: new HttpHeaders({
                 'Content-Type': 'application/json',
-                'Authorization': token
+                Authorization: token
             })
         };
         /*console.log('------ ');
@@ -625,8 +631,8 @@ var ApiService = /** @class */ (function () {
         function (err) {
             console.log('error caught in service');
             console.error(err);
-            //Handle the error here
-            return throwError(err); //Rethrow it back to component
+            // Handle the error here
+            return throwError(err); // Rethrow it back to component
         })), map((/**
          * @param {?} res
          * @return {?}
@@ -653,7 +659,7 @@ var ApiService = /** @class */ (function () {
         var httpOptions = {
             headers: new HttpHeaders({
                 'Content-Type': 'application/json',
-                'Authorization': token
+                Authorization: token
             })
         };
         /*console.log('------ ');
@@ -672,8 +678,8 @@ var ApiService = /** @class */ (function () {
         function (err) {
             console.log('error caught in service');
             console.error(err);
-            //Handle the error here
-            return throwError(err); //Rethrow it back to component
+            // Handle the error here
+            return throwError(err); // Rethrow it back to component
         })), map((/**
          * @param {?} res
          * @return {?}
@@ -702,7 +708,7 @@ var ApiService = /** @class */ (function () {
         var httpOptions = {
             headers: new HttpHeaders({
                 'Content-Type': 'application/json',
-                'Authorization': token
+                Authorization: token
             })
         };
         /*console.log('------ ');
@@ -721,8 +727,8 @@ var ApiService = /** @class */ (function () {
         function (err) {
             console.log('error caught in service');
             console.error(err);
-            //Handle the error here
-            return throwError(err); //Rethrow it back to component
+            // Handle the error here
+            return throwError(err); // Rethrow it back to component
         })), map((/**
          * @param {?} res
          * @return {?}
@@ -762,12 +768,12 @@ var ApiService = /** @class */ (function () {
  * @fileoverview added by tsickle
  * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
-//import {ProgressBarMode} from '@angular/material/progress-bar';
-//import  {BtnComponent} from './../../../../src/app/btn/btn.component'
+// import {ProgressBarMode} from '@angular/material/progress-bar';
+// import  {BtnComponent} from './../../../../src/app/btn/btn.component'
 /** @type {?} */
 var moment = momentImported;
 var ListingComponent = /** @class */ (function () {
-    // myForm:any;
+    // searchResult$: Observable<SearchResult[]>;
     function ListingComponent(_apiService, dialog, bottomSheet, fb, router, resolver, container, _http, sanitizer, _snackBar) {
         var _this = this;
         this._apiService = _apiService;
@@ -818,8 +824,13 @@ var ListingComponent = /** @class */ (function () {
         this.textSearch_condition = {};
         this.loading = false;
         this.preresult = {};
-        //dataSource = new MatTableDataSource(this.datasourceval);
+        // dataSource = new MatTableDataSource(this.datasourceval);
         this.dataSource = new MatTableDataSource;
+        // myForm:any;
+        this.modelChanged = new Subject();
+        this.modelChangedserver = new Subject();
+        this.subscriptions = [];
+        this.subscriptioncount = 0;
         this.router.events.subscribe((/**
          * @param {?} event
          * @return {?}
@@ -840,6 +851,73 @@ var ListingComponent = /** @class */ (function () {
                     break;
                 }
             }
+        }));
+        this.subscriptions[this.subscriptioncount++] = this.modelChanged
+            .pipe(debounceTime(1000))
+            .subscribe((/**
+         * @return {?}
+         */
+        function () {
+            // this.searchResult$ = this.api.search(this.model);
+            console.log('after debounce ', _this.autosearchinput, _this.currentautocompleteitem);
+            _this.filterautoval(_this.currentautocompleteitem);
+        }));
+        this.subscriptions[this.subscriptioncount++] = this.modelChangedserver
+            .pipe(debounceTime(1000))
+            .subscribe((/**
+         * @return {?}
+         */
+        function () {
+            // this.searchResult$ = this.api.search(this.model);
+            console.log('after debounce  server', _this.autosearchinput, _this.currentautocompleteitem);
+            // this.filterautoval(this.currentautocompleteitem);
+            /** @type {?} */
+            var link = _this.apiurlval + '' + _this.currentautocompleteitem.serversearchdata.endpoint;
+            /** @type {?} */
+            var source;
+            source = {
+                search_str: _this.autosearchinput[_this.currentautocompleteitem.field],
+                sort: {
+                    field: _this.sortdataval.field,
+                    type: _this.sortdataval.type
+                }
+            };
+            // console.log('con...',conditionobj,this.end_date);
+            // console.warn('cond',condition,this.dateSearch_condition,conditionobj,this.tsearch,textSearch);
+            // return;
+            _this.date_search_source_countval = 0;
+            _this.loading = true;
+            _this.subscriptions[_this.subscriptioncount++] = _this._apiService.postSearch(link, _this.jwttokenval, source).subscribe((/**
+             * @param {?} res
+             * @return {?}
+             */
+            function (res) {
+                /** @type {?} */
+                var result = {};
+                console.log(res, 'result');
+                _this.loading = false;
+                // return;
+                result = res;
+                // this.loading = false;
+                if (result.res != null && result.res.length > 0) {
+                    // this.dataSource = new MatTableDataSource(result.results.res);
+                    _this.currentautosearcharr = result.res;
+                    _this._snackBar.openFromComponent(SnackbarComponent, {
+                        duration: 2000,
+                        data: { errormessage: 'New Search of data loaded for AC' }
+                    });
+                }
+                else {
+                    _this.currentautosearcharr = [];
+                    _this._snackBar.openFromComponent(SnackbarComponent, {
+                        duration: 6000,
+                        data: { errormessage: 'No such search record found !!' }
+                    });
+                }
+                _this.loading = false;
+                // this.dataSource.paginator = this.paginator;
+                // this.dataSource.sort = this.sort;
+            }));
         }));
         /* this.myForm = this.fb.group({
            email: ['', Validators.compose([Validators.required, Validators.pattern(/^\s*[\w\-\+_]+(\.[\w\-\+_]+)*\@[\w\-\+_]+\.[\w\-\+_]+(\.[\w\-\+_]+)*\s*$/)])],
@@ -882,7 +960,7 @@ var ListingComponent = /** @class */ (function () {
          */
         function (limitcondval) {
             this.limitcondval = limitcondval;
-            //console.log('limitcondval',this.limitcondval);
+            // console.log('limitcondval',this.limitcondval);
         },
         enumerable: true,
         configurable: true
@@ -894,9 +972,10 @@ var ListingComponent = /** @class */ (function () {
          */
         function (date_search_source_countval) {
             this.date_search_source_countval = date_search_source_countval;
-            if (this.date_search_source_countval == 0)
+            if (this.date_search_source_countval == 0) {
                 this.limitcondval.pagecount = 1;
-            //console.log('date_search_source_count',this.date_search_source_countval);
+            }
+            // console.log('date_search_source_count',this.date_search_source_countval);
         },
         enumerable: true,
         configurable: true
@@ -942,7 +1021,7 @@ var ListingComponent = /** @class */ (function () {
          */
         function (sortdataval) {
             this.sortdataval = sortdataval;
-            //console.log(this.sortdataval,'sortdataval');
+            // console.log(this.sortdataval,'sortdataval');
         },
         enumerable: true,
         configurable: true
@@ -1009,7 +1088,7 @@ var ListingComponent = /** @class */ (function () {
          */
         function (libdataval) {
             this.libdataval = libdataval;
-            //console.log('libdataval',this.libdataval);
+            // console.log('libdataval',this.libdataval);
         },
         enumerable: true,
         configurable: true
@@ -1141,11 +1220,13 @@ var ListingComponent = /** @class */ (function () {
          * @return {?}
          */
         function (jwttoken) {
-            if (jwttoken != null)
+            if (jwttoken != null) {
                 this.jwttokenval = jwttoken;
-            else
+            }
+            else {
                 this.jwttokenval = '';
-            //console.log(this.jwttokenval,'token')
+            }
+            // console.log(this.jwttokenval,'token')
         },
         enumerable: true,
         configurable: true
@@ -1214,13 +1295,14 @@ var ListingComponent = /** @class */ (function () {
      * @return {?}
      */
     function (changes) {
-        //console.log('ngonchange ..',changes);
+        // console.log('ngonchange ..',changes);
         for (var v in changes) {
-            //console.log(v,changes[v],'vv');
+            // console.log(v,changes[v],'vv');
             if (v == 'updatetable') {
                 // console.log('updatetable');
-                if (changes[v].previousValue != null)
+                if (changes[v].previousValue != null) {
                     this.allSearch();
+                }
             }
         }
     };
@@ -1233,7 +1315,7 @@ var ListingComponent = /** @class */ (function () {
      * @return {?}
      */
     function (val) {
-        //console.log('on blur .....');
+        // console.log('on blur .....');
         this.myForm.controls[val].markAsUntouched();
     };
     /**
@@ -1257,7 +1339,7 @@ var ListingComponent = /** @class */ (function () {
         //     this.preresult = this.result.res;
         //   });
         // }
-        //not needed ,
+        // not needed ,
         // this._service.success(this.columns[0].date,'dndnnd',this.options);
         /* this.stateGroupOptions = this.myControl.valueChanges
              .pipe(
@@ -1291,13 +1373,14 @@ var ListingComponent = /** @class */ (function () {
         /** @type {?} */
         var header_list = [];
         for (var i = 0; i < temp.length; i++) {
-            coldef_list.push(temp[i].replace(/\s/g, "_")); /*to replace spaces in field name by "_", we use "replace(/\s/g, "_")"*/
+            coldef_list.push(temp[i].replace(/\s/g, '_')); /*to replace spaces in field name by "_", we use "replace(/\s/g, "_")"*/
             header_list.push(temp[i]);
         }
         var _loop_1 = function (i) {
             /** @type {?} */
             var ff = "row." + coldef_list[i];
-            tt = { columnDef: "" + coldef_list[i], header: "" + header_list[i], cell: (/**
+            /** @type {?} */
+            var tt = { columnDef: "" + coldef_list[i], header: "" + header_list[i], cell: (/**
                  * @param {?} row
                  * @return {?}
                  */
@@ -1306,15 +1389,17 @@ var ListingComponent = /** @class */ (function () {
             // console.log('tt.columnDef');
             // console.log(tt.columnDef);
             for (var b in this_1.modify_header_arrayval) {
-                if (b == tt.header)
+                if (b == tt.header) {
                     tt.header = this_1.modify_header_arrayval[b];
+                }
             }
-            if (this_1.skipval.indexOf(tt.columnDef) == -1)
+            if (this_1.skipval.indexOf(tt.columnDef) == -1) {
                 this_1.columns.push(tt);
+            }
         };
-        var this_1 = this, tt;
-        //coldef_list.push('Actions');
-        //header_list.push('Actions')
+        var this_1 = this;
+        // coldef_list.push('Actions');
+        // header_list.push('Actions')
         // console.log('coldef_list',coldef_list);
         // console.log('header_list',header_list);
         for (var i = 0; i < coldef_list.length; i++) {
@@ -1328,20 +1413,29 @@ var ListingComponent = /** @class */ (function () {
         function (x) { return x.columnDef; }));
         /** @type {?} */
         var customcols = [];
-        //console.log('displayedcols',displayedcols);
-        if (this.libdataval != null && this.libdataval.tableheaders != null)
+        // console.log('displayedcols',displayedcols);
+        if (this.libdataval != null && this.libdataval.tableheaders != null) {
             customcols = this.libdataval.tableheaders;
+        }
         if (customcols != null && customcols.length > 0) {
+            /** @type {?} */
+            var ccolval = '';
             for (var v in customcols) {
                 if (displayedcols.includes(customcols[v]) == false) {
-                    this.columns.push({ columnDef: customcols[v], header: customcols[v], cell: 'NA' });
+                    for (var b in this.modify_header_arrayval) {
+                        if (b == customcols[v]) {
+                            ccolval = this.modify_header_arrayval[b];
+                        }
+                    }
+                    this.columns.push({ columnDef: customcols[v], header: ccolval, cell: 'NA' });
                 }
             }
             displayedcols = customcols;
         }
-        //console.log('customcols',customcols,displayedcols,this.columns);
-        if (this.libdataval.hideaction == null || this.libdataval.hideaction == false)
+        // console.log('customcols',customcols,displayedcols,this.columns);
+        if (this.libdataval.hideaction == null || this.libdataval.hideaction == false) {
             displayedcols.push('Actions');
+        }
         this.displayedColumns = displayedcols;
         this.displayedColumns.unshift('#'); /*adds select column in table by unshift function*/
         if (this.libdataval.hidemultipleselectbutton != true) {
@@ -1355,9 +1449,9 @@ var ListingComponent = /** @class */ (function () {
         this.olddata = data_list;
         this.dataSource = new MatTableDataSource(data_list);
         this.selection = new SelectionModel(true, []);
-        //this.dataSource.paginator = this.paginator;
-        //this.dataSource.sort = this.sort;
-        //load search predefinded data
+        // this.dataSource.paginator = this.paginator;
+        // this.dataSource.sort = this.sort;
+        // load search predefinded data
         setTimeout((/**
          * @return {?}
          */
@@ -1368,8 +1462,9 @@ var ListingComponent = /** @class */ (function () {
                 console.log('s1', _this.search_settingsval.selectsearch);
                 for (var sl in _this.search_settingsval.selectsearch) {
                     if (_this.search_settingsval.selectsearch[sl].value != null) {
-                        _this.selectsearch[_this.search_settingsval.selectsearch[sl].field] = _this.search_settingsval.selectsearch[sl].value;
-                        console.log('s', _this.search_settingsval.selectsearch, '++++++', _this.selectsearch);
+                        _this.selectsearch[_this.search_settingsval.selectsearch[sl].field] =
+                            _this.search_settingsval.selectsearch[sl].value;
+                        // console.log('s', this.search_settingsval.selectsearch, '++++++', this.selectsearch);
                     }
                 }
             }
@@ -1377,8 +1472,9 @@ var ListingComponent = /** @class */ (function () {
                 console.log('t1', _this.search_settingsval.textsearch);
                 for (var sl in _this.search_settingsval.textsearch) {
                     if (_this.search_settingsval.textsearch[sl].value != null) {
-                        _this.tsearch[_this.search_settingsval.textsearch[sl].field] = _this.search_settingsval.textsearch[sl].value;
-                        console.log('t', _this.search_settingsval.textsearch);
+                        _this.tsearch[_this.search_settingsval.textsearch[sl].field] =
+                            _this.search_settingsval.textsearch[sl].value;
+                        // console.log('t', this.search_settingsval.textsearch);
                     }
                 }
             }
@@ -1396,7 +1492,7 @@ var ListingComponent = /** @class */ (function () {
      * @return {?}
      */
     function (img) {
-        //console.warn("img_modal_view",img)
+        // console.warn("img_modal_view",img)
         /** @type {?} */
         var dialogRef = this.dialog.open(ImageView, {
             panelClass: 'custom-modalbox-image-preview',
@@ -1430,7 +1526,7 @@ var ListingComponent = /** @class */ (function () {
      */
     function (val) {
         var _this = this;
-        //console.log("start date");
+        // console.log("start date");
         // console.log(this.start_date);
         // console.log(this.end_date);
         // let sd = moment(this.start_date).unix();
@@ -1475,21 +1571,22 @@ var ListingComponent = /** @class */ (function () {
             }
             /** @type {?} */
             var autosearch = {};
-            //this.autosearch;
+            // this.autosearch;
             for (var b in this.autosearch) {
                 for (var m in this.autosearch[b]) {
                     /** @type {?} */
                     var tv = {};
                     tv[b] = this.autosearch[b][m].val.toString().toLowerCase();
-                    if (autosearch['$or'] == null)
-                        autosearch['$or'] = [];
-                    autosearch['$or'].push(tv);
+                    if (autosearch.$or == null) {
+                        autosearch.$or = [];
+                    }
+                    autosearch.$or.push(tv);
                 }
             }
             /** @type {?} */
             var conditionobj = Object.assign({}, textSearch, this.dateSearch_condition, autosearch, this.selectSearch_condition, this.libdataval.basecondition);
             source = {
-                "condition": {
+                condition: {
                     limit: this.limitcondval.limit,
                     skip: 0
                 },
@@ -1500,11 +1597,11 @@ var ListingComponent = /** @class */ (function () {
                 searchcondition: conditionobj,
             };
             // console.log('con...',conditionobj,this.end_date);
-            //console.warn('cond',condition,this.dateSearch_condition,conditionobj,this.tsearch,textSearch);
-            //return;
+            // console.warn('cond',condition,this.dateSearch_condition,conditionobj,this.tsearch,textSearch);
+            // return;
             this.date_search_source_countval = 0;
             this.loading = true;
-            this._apiService.postSearch(link, this.jwttokenval, source).subscribe((/**
+            this.subscriptions[this.subscriptioncount++] = this._apiService.postSearch(link, this.jwttokenval, source).subscribe((/**
              * @param {?} res
              * @return {?}
              */
@@ -1516,20 +1613,20 @@ var ListingComponent = /** @class */ (function () {
                     _this.dataSource = new MatTableDataSource(result.results.res);
                     _this._snackBar.openFromComponent(SnackbarComponent, {
                         duration: 2000,
-                        data: { errormessage: "New Search of data loaded" }
+                        data: { errormessage: 'New Search of data loaded' }
                     });
                 }
                 else {
                     _this._snackBar.openFromComponent(SnackbarComponent, {
                         duration: 6000,
-                        data: { errormessage: "No such search record found !!" }
+                        data: { errormessage: 'No such search record found !!' }
                     });
                 }
                 _this.loading = false;
                 // this.dataSource.paginator = this.paginator;
-                //this.dataSource.sort = this.sort;
+                // this.dataSource.sort = this.sort;
             }));
-            this._apiService.postSearch(link1, this.jwttokenval, source).subscribe((/**
+            this.subscriptions[this.subscriptioncount++] = this._apiService.postSearch(link1, this.jwttokenval, source).subscribe((/**
              * @param {?} res
              * @return {?}
              */
@@ -1538,13 +1635,15 @@ var ListingComponent = /** @class */ (function () {
                 var result = {};
                 result = res;
                 _this.date_search_source_countval = (result.count);
-                if (result.count == 0)
+                if (result.count == 0) {
                     _this.tableflag = 1;
-                else
+                }
+                else {
                     _this.tableflag = 0;
-                //console.log('count',result);
+                }
+                // console.log('count',result);
                 // this.dataSource.paginator = this.paginator;
-                //this.dataSource.sort = this.sort;
+                // this.dataSource.sort = this.sort;
             }));
             /*this._http.post(link, {source:this.date_search_sourceval,
               condition: {
@@ -1565,8 +1664,9 @@ var ListingComponent = /** @class */ (function () {
               this.dataSource.sort = this.sort;
             })*/
         }
-        else
-            console.log("error");
+        else {
+            console.log('error');
+        }
     };
     /**
      * @param {?} value
@@ -1627,14 +1727,14 @@ var ListingComponent = /** @class */ (function () {
         // }
         // console.log("error");
     };
-    //for managing pagination 
-    //for managing pagination 
+    // for managing pagination
+    // for managing pagination
     /**
      * @param {?} val
      * @return {?}
      */
     ListingComponent.prototype.paging = 
-    //for managing pagination 
+    // for managing pagination
     /**
      * @param {?} val
      * @return {?}
@@ -1645,32 +1745,36 @@ var ListingComponent = /** @class */ (function () {
             this.limitcondval.skip = (this.limitcondval.pagecount) * this.limitcondval.limit;
             this.limitcondval.pagecount++;
         }
-        if (val == -1 && this.limitcondval.skip < this.limitcondval.limit)
+        if (val == -1 && this.limitcondval.skip < this.limitcondval.limit) {
             return;
+        }
         if (val == -1 && this.limitcondval.skip >= this.limitcondval.limit) {
             console.log('in skip block');
             this.limitcondval.skip = (this.limitcondval.pagecount - 2) * this.limitcondval.limit;
             this.limitcondval.pagecount--;
         }
         if (val > 1) {
-            if (this.limitcondval.pagecount == 1)
+            if (this.limitcondval.pagecount == 1) {
                 this.limitcondval.skip = 0;
-            else
+            }
+            else {
                 this.limitcondval.skip = (this.limitcondval.pagecount - 1) * this.limitcondval.limit;
-            //this.limitcondval.pagecount--;
+            }
+            // this.limitcondval.pagecount--;
         }
-        //console.log(val,'ss',this.datacollectionval,this.limitcondval);
+        // console.log(val,'ss',this.datacollectionval,this.limitcondval);
         /** @type {?} */
         var textSearch = {};
         for (var i in this.tsearch) {
-            if (this.tsearch[i].toString().toLowerCase() != null && this.tsearch[i].toString().toLowerCase() != '')
+            if (this.tsearch[i].toString().toLowerCase() != null && this.tsearch[i].toString().toLowerCase() != '') {
                 textSearch[i] = { $regex: this.tsearch[i].toString().toLowerCase() };
+            }
         }
         /** @type {?} */
         var conditionobj = Object.assign({}, textSearch, this.dateSearch_condition, this.autosearch, this.selectSearch_condition, this.libdataval.basecondition);
         /** @type {?} */
         var source = {
-            "condition": {
+            condition: {
                 limit: this.limitcondval.limit,
                 skip: this.limitcondval.skip
             },
@@ -1690,18 +1794,18 @@ var ListingComponent = /** @class */ (function () {
     
         }*/
         this.loading = true;
-        this._apiService.postSearch(link, this.jwttokenval, source).subscribe((/**
+        this.subscriptions[this.subscriptioncount++] = this._apiService.postSearch(link, this.jwttokenval, source).subscribe((/**
          * @param {?} res
          * @return {?}
          */
         function (res) {
             _this.result = res;
-            //console.log(this.result,'res');
+            // console.log(this.result,'res');
             if (_this.result.results.res != null && _this.result.results.res.length > 0) {
                 _this.dataSource = new MatTableDataSource(_this.result.results.res);
                 _this._snackBar.openFromComponent(SnackbarComponent, {
                     duration: 2000,
-                    data: { errormessage: "New range of data loaded" }
+                    data: { errormessage: 'New range of data loaded' }
                 });
             }
             else {
@@ -1713,12 +1817,12 @@ var ListingComponent = /** @class */ (function () {
                 }
                 _this._snackBar.openFromComponent(SnackbarComponent, {
                     duration: 6000,
-                    data: { errormessage: "No Data Found in this range !!" }
+                    data: { errormessage: 'No Data Found in this range !!' }
                 });
             }
             _this.loading = false;
-            //this.dataSource.paginator = this.paginator;
-            //this.dataSource.sort = this.sort;
+            // this.dataSource.paginator = this.paginator;
+            // this.dataSource.sort = this.sort;
         }));
         this.selection.clear();
     };
@@ -1731,7 +1835,7 @@ var ListingComponent = /** @class */ (function () {
      * @return {?}
      */
     function (val) {
-        //console.log('v',val);
+        // console.log('v',val);
     };
     /**
      * @param {?} val
@@ -1746,8 +1850,28 @@ var ListingComponent = /** @class */ (function () {
      * @return {?}
      */
     function (val, i, field) {
-        if (this.autosearch[field] != null)
+        if (this.autosearch[field] != null) {
             this.autosearch[field].splice(i, 1);
+        }
+    };
+    /**
+     * @param {?} item
+     * @return {?}
+     */
+    ListingComponent.prototype.autocompletechangedetected = /**
+     * @param {?} item
+     * @return {?}
+     */
+    function (item) {
+        this.currentautocompleteitem = item;
+        this.currentautosearcharr = [];
+        console.log('autocompletechangedetected', this.currentautocompleteitem);
+        if (this.currentautocompleteitem.serversearchdata == null)
+            this.modelChanged.next();
+        else {
+            console.log('in else block of autocompletechangedetected');
+            this.modelChangedserver.next();
+        }
     };
     /**
      * @param {?} data
@@ -1769,7 +1893,7 @@ var ListingComponent = /** @class */ (function () {
              * @return {?}
              */
             function (e) {
-                //console.log('e', e, fieldval)
+                // console.log('e', e, fieldval)
                 return e.name.toString().toLowerCase().includes(autoselval.toLowerCase());
             }));
             this.currentautosearcharr = filterval;
@@ -1787,7 +1911,7 @@ var ListingComponent = /** @class */ (function () {
      */
     function (value, data) {
         // this.autosearchinput[value] = '';
-        //console.log(this.autosearchinput,'asi');
+        // console.log(this.autosearchinput,'asi');
         if (this.autosearch[value] == null) {
             this.autosearch[value] = [];
         }
@@ -1798,7 +1922,7 @@ var ListingComponent = /** @class */ (function () {
         console.log(value, 'selected auto', this.autosearchinput[value], this.autosearchinput[value]);
         // reset auto search data !
         // console.log(value, 'selected auto', this.autosearchinput[value]);
-        //console.log(value,data,'ss',this.autosearch);
+        // console.log(value,data,'ss',this.autosearch);
         /*let val: any = this.autosearch[value];
         let source: any;
         let condition: any = {};
@@ -1838,18 +1962,19 @@ var ListingComponent = /** @class */ (function () {
         if (this.tsearch != null && this.tsearch[value] != null) {
             val = this.tsearch[value].toString().toLowerCase();
         }
-        if (this.tsearch[value] != null && this.tsearch[value].length > 1 && { $or: [this.tsearch[value].toString().toLowerCase(), this.tsearch[value].toUpperCase()] })
+        if (this.tsearch[value] != null && this.tsearch[value].length > 1 && { $or: [this.tsearch[value].toString().toLowerCase(), this.tsearch[value].toUpperCase()] }) {
             condition[value + '_regex'] = val;
+        }
         this.textSearch_condition = {};
         this.textSearch_condition = condition;
-        //console.warn(this.tsearch);
+        // console.warn(this.tsearch);
         /** @type {?} */
         var conditionobj = Object.assign({}, this.textSearch_condition, this.dateSearch_condition, this.autoSearch_condition, this.selectSearch_condition);
         source = {
             source: this.date_search_sourceval,
             condition: conditionobj
         };
-        //add loader
+        // add loader
         // this.loading = true;
         // if (value != null) {
         //   this._apiService.postSearch(link, this.jwttokenval, source).subscribe(res => {
@@ -1895,8 +2020,8 @@ var ListingComponent = /** @class */ (function () {
     function (val) {
         this.dataSource = new MatTableDataSource(this.olddata);
         this.selection = new SelectionModel(true, []);
-        //this.dataSource.paginator = this.paginator;
-        //this.dataSource.sort = this.sort;
+        // this.dataSource.paginator = this.paginator;
+        // this.dataSource.sort = this.sort;
         if (val.filteredData != null && val.filteredData.length < this.olddata.length) {
             /** @type {?} */
             var dialogRef = this.dialog.open(Confirmdialog, {
@@ -1943,11 +2068,12 @@ var ListingComponent = /** @class */ (function () {
         // console.log('val');
         // console.log(val);
         for (var b in this.statusarrval) {
-            if (this.statusarrval[b].val == val)
+            if (this.statusarrval[b].val == val) {
                 return this.statusarrval[b].name;
+            }
             // console.log(this.statusarrval[b].name);
         }
-        return "N/A";
+        return 'N/A';
     };
     /**
      * @param {?} val
@@ -2062,11 +2188,11 @@ var ListingComponent = /** @class */ (function () {
      * @return {?}
      */
     function (val, data) {
-        //console.log('opencustombuttonactionlocaldata',val,data);
+        // console.log('opencustombuttonactionlocaldata',val,data);
         /** @type {?} */
         var dataarr = [];
-        //dataarr.push(['name','debasis']);
-        //dataarr.push(['desc','test']);
+        // dataarr.push(['name','debasis']);
+        // dataarr.push(['desc','test']);
         if (val.refreshdata != null && val.refreshdata == true) {
             this.allSearch();
         }
@@ -2075,28 +2201,30 @@ var ListingComponent = /** @class */ (function () {
             var temparr = [];
             temparr.push(val.datafields[v]);
             if (val.datafields[v] != 'image' && val.datafields[v] != 'video') {
-                //console.log('ss',val.datafields[v]);
+                // console.log('ss',val.datafields[v]);
                 if (data[val.datafields[v]] != null && typeof (data[val.datafields[v]]) != 'object') {
                     // console.log('df', data[val.datafields[v]].toString());
                     if (data[val.datafields[v]] != null && data[val.datafields[v]].toString().includes('iframe')) {
                         // console.log('in safe', data[val.datafields[v]]);
                         temparr.push(this.sanitizer.bypassSecurityTrustHtml(data[val.datafields[v]]));
                     }
-                    else
+                    else {
                         temparr.push((data[val.datafields[v]]));
+                    }
                 }
                 else {
-                    //console.log('ss22',val.datafields[v]);
-                    //else  
+                    // console.log('ss22',val.datafields[v]);
+                    // else
                     temparr.push(data[val.datafields[v]]);
                 }
             }
-            if (val.datafields[v] == 'image')
-                temparr.push("<img mat-card-image src=" + data[val.datafields[v]] + " > <br/>");
+            if (val.datafields[v] == 'image') {
+                temparr.push('<img mat-card-image src=' + data[val.datafields[v]] + ' > <br/>');
+            }
             if (val.datafields[v] == 'video') {
                 if (data[val.datafields[v]] != null && data[val.datafields[v]] != '') {
                     /** @type {?} */
-                    var temphtml = ("<iframe width=560 height=315 src=https://www.youtube.com/embed/" + data[val.datafields[v]] + " frameborder=0 allow=accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture allowfullscreen></iframe> <br/>");
+                    var temphtml = ('<iframe width=560 height=315 src=https://www.youtube.com/embed/' + data[val.datafields[v]] + ' frameborder=0 allow=accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture allowfullscreen></iframe> <br/>');
                     temphtml = this.sanitizer.bypassSecurityTrustHtml(temphtml);
                     temparr.push(temphtml);
                     // console.log('thtml', temphtml, data[val.datafields], data[val.datafields[v]]);
@@ -2105,10 +2233,10 @@ var ListingComponent = /** @class */ (function () {
                     temparr.push('N/A');
                 }
             }
-            //if(val.datafields[v]=='video') temparr.push("<img mat-card-image src=" + data[val.datafields[v]] + " > <br/>")
+            // if(val.datafields[v]=='video') temparr.push("<img mat-card-image src=" + data[val.datafields[v]] + " > <br/>")
             dataarr.push(temparr);
         }
-        //console.log('local data m', dataarr);
+        // console.log('local data m', dataarr);
         /** @type {?} */
         var res = dataarr;
         if (this.libdataval.detailview_override != null && this.libdataval.detailview_override.length > 0) {
@@ -2116,20 +2244,21 @@ var ListingComponent = /** @class */ (function () {
             var resdata = [];
             for (var b in res) {
                 for (var c in this.libdataval.detailview_override) {
-                    //console.log('hww',c,this.libdataval.detailview_override[c].key,res[b],res[b][0],res[b][1]);
+                    // console.log('hww',c,this.libdataval.detailview_override[c].key,res[b],res[b][0],res[b][1]);
                     if (this.libdataval.detailview_override[c].key == res[b][0]) {
-                        //console.log('h', c, this.libdataval.detailview_override[c]);
+                        // console.log('h', c, this.libdataval.detailview_override[c]);
                         resdata[b] = [this.libdataval.detailview_override[c].val, res[b][1], res[b][0]];
                     }
                 }
-                if (resdata[b] == null)
+                if (resdata[b] == null) {
                     resdata[b] = res[b];
+                }
             }
-            //console.log('c',res,resdata);
+            // console.log('c',res,resdata);
             res = resdata;
-            //console.log('c',res,resdata);
+            // console.log('c',res,resdata);
         }
-        //console.log('dataarr',dataarr);
+        // console.log('dataarr',dataarr);
         if (val.refreshdata != null && val.refreshdata == true) {
             this.allSearch();
         }
@@ -2153,7 +2282,7 @@ var ListingComponent = /** @class */ (function () {
      */
     function (val, data) {
         var _this = this;
-        //console.log('opencustombuttonactionapidata',val,data);
+        // console.log('opencustombuttonactionapidata',val,data);
         this.loading = true;
         /** @type {?} */
         var link = this.apiurlval + val.endpoint;
@@ -2166,7 +2295,7 @@ var ListingComponent = /** @class */ (function () {
             }
         }
         this.loaderrow = data._id;
-        this._apiService.postSearch(link, this.jwttokenval, source).subscribe((/**
+        this.subscriptions[this.subscriptioncount++] = this._apiService.postSearch(link, this.jwttokenval, source).subscribe((/**
          * @param {?} res
          * @return {?}
          */
@@ -2175,7 +2304,7 @@ var ListingComponent = /** @class */ (function () {
             var result = {};
             result = res;
             if (result.status == 'success') {
-                //console.log('res',result);
+                // console.log('res',result);
                 /** @type {?} */
                 var resdata = {};
                 _this.loaderrow = null;
@@ -2192,7 +2321,7 @@ var ListingComponent = /** @class */ (function () {
                 if (val.datafields != null) {
                     for (var b1 in val.datafields) {
                         console.log('val.datafields', val.datafields[b1]);
-                        //for (let b2 in dataarr) {
+                        // for (let b2 in dataarr) {
                         // console.log('b2',b2,data[b2],dataarr[b2][0]);
                         // if (dataarr[b2][0] == val.datafields[b1]) resdataformodal[b1] = [dataarr[b2][0], dataarr[b2][1]];
                         temprdata[val.datafields[b1]] = resdata[val.datafields[b1]];
@@ -2202,8 +2331,8 @@ var ListingComponent = /** @class */ (function () {
                 }
                 /** @type {?} */
                 var dataarr = [];
-                //dataarr.push(['name','debasis']);
-                //dataarr.push(['desc','test']);
+                // dataarr.push(['name','debasis']);
+                // dataarr.push(['desc','test']);
                 for (var v in resdata) {
                     /** @type {?} */
                     var temparr = [];
@@ -2211,23 +2340,27 @@ var ListingComponent = /** @class */ (function () {
                     if (v != 'image' && v != 'video') {
                         if (resdata[v] != null && typeof (resdata[v]) != 'object') {
                             // console.log('resv', resdata[v]);
-                            if (resdata[v].toString().includes("iframe"))
+                            if (resdata[v].toString().includes('iframe')) {
                                 temparr.push(_this.sanitizer.bypassSecurityTrustHtml(resdata[v]));
-                            else
+                            }
+                            else {
                                 temparr.push(resdata[v]);
+                            }
                         }
-                        else
+                        else {
                             temparr.push(resdata[v]);
+                        }
                     }
-                    if (v == 'image')
-                        temparr.push("<img mat-card-image src=" + resdata[v] + " > <br/>");
+                    if (v == 'image') {
+                        temparr.push('<img mat-card-image src=' + resdata[v] + ' > <br/>');
+                    }
                     if (v == 'video') {
                         /** @type {?} */
-                        var temphtml = ("<iframe width=560 height=315 src=https://www.youtube.com/embed/" + resdata[v] + " frameborder=0 allow=accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture allowfullscreen></iframe> <br/>");
+                        var temphtml = ('<iframe width=560 height=315 src=https://www.youtube.com/embed/' + resdata[v] + ' frameborder=0 allow=accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture allowfullscreen></iframe> <br/>');
                         temphtml = _this.sanitizer.bypassSecurityTrustHtml(temphtml);
                         temparr.push(temphtml);
                     }
-                    //if(val.datafields[v]=='video') temparr.push("<img mat-card-image src=" + data[val.datafields[v]] + " > <br/>")
+                    // if(val.datafields[v]=='video') temparr.push("<img mat-card-image src=" + data[val.datafields[v]] + " > <br/>")
                     dataarr.push(temparr);
                 }
                 if (_this.libdataval.detailview_override != null && _this.libdataval.detailview_override.length > 0) {
@@ -2235,16 +2368,17 @@ var ListingComponent = /** @class */ (function () {
                     var resdata_1 = [];
                     for (var b in dataarr) {
                         for (var c in _this.libdataval.detailview_override) {
-                            //console.log('hww',c,this.libdataval.detailview_override[c].key,res[b],res[b][0],res[b][1]);
+                            // console.log('hww',c,this.libdataval.detailview_override[c].key,res[b],res[b][0],res[b][1]);
                             if (_this.libdataval.detailview_override[c].key == dataarr[b][0]) {
-                                //console.log('h', c, this.libdataval.detailview_override[c]);
+                                // console.log('h', c, this.libdataval.detailview_override[c]);
                                 resdata_1[b] = [_this.libdataval.detailview_override[c].val, dataarr[b][1], dataarr[b][0]];
                             }
                         }
-                        if (resdata_1[b] == null)
+                        if (resdata_1[b] == null) {
                             resdata_1[b] = dataarr[b];
+                        }
                     }
-                    //console.log('c',res,resdata);
+                    // console.log('c',res,resdata);
                     dataarr = resdata_1;
                 }
                 // console.log('c api data ', resdata);
@@ -2272,7 +2406,7 @@ var ListingComponent = /** @class */ (function () {
          * @return {?}
          */
         function (error) {
-            //console.log('Oooops!');
+            // console.log('Oooops!');
             _this._snackBar.openFromComponent(SnackbarComponent, {
                 duration: 6000,
                 data: { errormessage: 'Something Went Wrong ,Try Again!!' }
@@ -2292,7 +2426,7 @@ var ListingComponent = /** @class */ (function () {
      * @return {?}
      */
     function (val, data) {
-        //console.log('val',val,data);
+        // console.log('val',val,data);
         /** @type {?} */
         var qtext = '';
         /** @type {?} */
@@ -2300,31 +2434,33 @@ var ListingComponent = /** @class */ (function () {
         fulllink = val.link;
         if (val.paramtype == null) {
             for (var v in val.param) {
-                qtext = val.param[v].q + "=" + encodeURI(data[val.param[v].key]);
-                //console.log('qtext',qtext);
-                if (parseInt(v) == 0)
+                qtext = val.param[v].q + '=' + encodeURI(data[val.param[v].key]);
+                // console.log('qtext',qtext);
+                if (parseInt(v) == 0) {
                     fulllink = fulllink + '?' + qtext;
-                if (parseInt(v) != 0)
+                }
+                if (parseInt(v) != 0) {
                     fulllink = fulllink + '&' + qtext;
+                }
             }
-            //val.link=fulllink;
+            // val.link=fulllink;
         }
         if (val.paramtype != null && val.paramtype == 'angular') {
             for (var v in val.param) {
-                //qtext = val.param[v].q + "=" + encodeURI(data[val.param[v].key]);
-                //console.log('qtext',qtext);
+                // qtext = val.param[v].q + "=" + encodeURI(data[val.param[v].key]);
+                // console.log('qtext',qtext);
                 fulllink = fulllink + '/' + encodeURI(data[val.param[v]]);
             }
-            //val.link=fulllink;
+            // val.link=fulllink;
         }
         setTimeout((/**
          * @return {?}
          */
         function () {
-            //console.log("Hello from setTimeout");
-            //console.log('link',fulllink,data,qtext);
+            // console.log("Hello from setTimeout");
+            // console.log('link',fulllink,data,qtext);
         }), 10);
-        window.open(fulllink, "_blank");
+        window.open(fulllink, '_blank');
     };
     /**
      * @param {?} val
@@ -2339,7 +2475,7 @@ var ListingComponent = /** @class */ (function () {
     function (val, url) {
         /** @type {?} */
         var link = url + '' + val._id + '' + this.pdf_link_val;
-        window.open(link, "_blank");
+        window.open(link, '_blank');
     };
     /** Whether the number of selected elements matches the total number of rows. */
     /**
@@ -2351,9 +2487,9 @@ var ListingComponent = /** @class */ (function () {
      * @return {?}
      */
     function () {
-        console.log("isAllSelected");
+        console.log('isAllSelected');
         if (this.selection != null && this.selection.select) {
-            console.log("isAllSelected", this.dataSource.data.length, this.selection.selected.length);
+            console.log('isAllSelected', this.dataSource.data.length, this.selection.selected.length);
             /** @type {?} */
             var numSelected = this.selection.selected.length;
             /** @type {?} */
@@ -2413,7 +2549,7 @@ var ListingComponent = /** @class */ (function () {
          * @return {?}
          */
         function (key) {
-            data[key.replace(/\s/g, "_")] = point[key];
+            data[key.replace(/\s/g, '_')] = point[key];
         }));
         return data;
     };
@@ -2505,7 +2641,7 @@ var ListingComponent = /** @class */ (function () {
      * @return {?}
      */
     function (videodata) {
-        //console.warn('videodata',videodata);
+        // console.warn('videodata',videodata);
         /** @type {?} */
         var dialogRef = this.dialog.open(VideoPlayer, {
             panelClass: 'custom-modalbox-videoplayer-preview',
@@ -2538,15 +2674,28 @@ var ListingComponent = /** @class */ (function () {
             _this.loaderrow = null;
             // console.log('count',result);
             // this.dataSource.paginator = this.paginator;
-            //this.dataSource.sort = this.sort;
+            // this.dataSource.sort = this.sort;
             // this.data.notesval = '';
             // console.log('notes', val);
             /** @type {?} */
             var dialogRef = _this.dialog.open(Confirmdialog, {
                 height: 'auto',
                 panelClass: 'custom-modalbox',
-                data: { isconfirmation: false, notes: true, apiurl: _this.apiurlval, notedata: _this.libdataval.notes, rowdata: val, jwttokenval: _this.jwttokenval, listdata: result.res }
+                data: {
+                    isconfirmation: false,
+                    notes: true, apiurl: _this.apiurlval,
+                    notedata: _this.libdataval.notes, rowdata: val,
+                    jwttokenval: _this.jwttokenval,
+                    listdata: result.res
+                }
             });
+            dialogRef.afterClosed().subscribe((/**
+             * @param {?} result
+             * @return {?}
+             */
+            function (result) {
+                _this.allSearch();
+            }));
         }));
     };
     /**
@@ -2566,13 +2715,15 @@ var ListingComponent = /** @class */ (function () {
         for (var key in data) {
             if (data.hasOwnProperty(key)) {
                 if (typeof (data[key]) == 'boolean') {
-                    if (data[key] == true)
+                    if (data[key] == true) {
                         data[key] = 'Yes';
-                    if (data[key] == false)
+                    }
+                    if (data[key] == false) {
                         data[key] = 'No';
+                    }
                 }
                 if (key == 'image') {
-                    data[key + ':'] = "<img mat-card-image src=" + data[key] + "><br/>";
+                    data[key + ':'] = '<img mat-card-image src=' + data[key] + '><br/>';
                 }
                 if (typeof (data[key]) == 'object') ;
                 if (typeof (data[key]) == 'object') {
@@ -2584,20 +2735,20 @@ var ListingComponent = /** @class */ (function () {
                                 // let imgval:any=this.detail_datatypeval[p].fileurl+data[key][k];
                                 // console.log('imgval');
                                 // console.log('imgval');
-                                // console.log(imgval);
-                                //console.log(data[key][k].replace(/'/g, ''));
-                                tempdata.push("<img mat-card-image src=" + data[key][k] + "><br/>");
+                                // console.log(imgval);="+
+                                // console.log(data[key][k].replace(/'/g, ''));
+                                tempdata.push('<img mat-card-image src=' + data[key][k] + '><br/>');
                                 // tempdata.push("<span>"+data[key][k]+"</span><br/>")
                             }
                             if (this.detail_datatypeval[p].key == key && this.detail_datatypeval[p].value != 'image') {
-                                //tempdata.push("<img mat-card-image src="+data[key][k]+"><br/>")
-                                tempdata.push("<span>" + data[key][k] + "</span><br/>");
+                                // tempdata.push("<img mat-card-image src="+data[key][k]+"><br/>")
+                                tempdata.push('<span>' + data[key][k] + '</span><br/>');
                             }
                             if (this.detail_datatypeval[p].key != key) {
-                                //tempdata.push("<img mat-card-image src="+data[key][k]+"><br/>")
+                                // tempdata.push("<img mat-card-image src="+data[key][k]+"><br/>")
                                 if (typeof (data[key][k]) == 'object') {
                                     for (var objk in data[key][k]) {
-                                        tempdata.push("<span>" + objk + " : " + data[key][k][objk] + "</span><br/>");
+                                        tempdata.push('<span>' + objk + ' : ' + data[key][k][objk] + '</span><br/>');
                                     }
                                 }
                             }
@@ -2613,29 +2764,30 @@ var ListingComponent = /** @class */ (function () {
             }
         }
         for (var v in this.detail_skip_arrayval) {
-            //data2[this.detail_skip_arrayval[v]]='';
+            // data2[this.detail_skip_arrayval[v]]='';
             delete data2[this.detail_skip_arrayval[v]];
         }
         /** @type {?} */
         var res = Object.entries(data2);
-        //console.log('view data',res);
+        // console.log('view data',res);
         if (this.libdataval.detailview_override != null && this.libdataval.detailview_override.length > 0) {
             /** @type {?} */
             var resdata = [];
             for (var b in res) {
                 for (var c in this.libdataval.detailview_override) {
-                    //console.log('hww',c,this.libdataval.detailview_override[c].key,res[b],res[b][0],res[b][1]);
+                    // console.log('hww',c,this.libdataval.detailview_override[c].key,res[b],res[b][0],res[b][1]);
                     if (this.libdataval.detailview_override[c].key == res[b][0]) {
-                        //console.log('h', c, this.libdataval.detailview_override[c]);
+                        // console.log('h', c, this.libdataval.detailview_override[c]);
                         resdata[b] = [this.libdataval.detailview_override[c].val, res[b][1], res[b][0]];
                     }
                 }
-                if (resdata[b] == null)
+                if (resdata[b] == null) {
                     resdata[b] = res[b];
+                }
             }
-            //console.log('c',res,resdata);
+            // console.log('c',res,resdata);
             res = resdata;
-            //console.log('c',res,resdata);
+            // console.log('c',res,resdata);
         }
         /** @type {?} */
         var dialogRef = this.dialog.open(Confirmdialog, {
@@ -2656,7 +2808,7 @@ var ListingComponent = /** @class */ (function () {
         var _this = this;
         /** @type {?} */
         var bs = this.bottomSheet.open(BottomSheet, { panelClass: 'custom-bottomsheet', data: { items: this.statusarrval } });
-        bs.afterDismissed().subscribe((/**
+        this.subscriptions[this.subscriptioncount++] = bs.afterDismissed().subscribe((/**
          * @param {?} result
          * @return {?}
          */
@@ -2664,7 +2816,7 @@ var ListingComponent = /** @class */ (function () {
             if (result != null) {
                 data.status = result.val;
                 data.id = data._id;
-                _this._apiService.togglestatus(_this.apiurlval + _this.libdataval.updateendpoint, data, _this.jwttokenval, _this.sourcedataval).subscribe((/**
+                _this.subscriptions[_this.subscriptioncount++] = _this._apiService.togglestatus(_this.apiurlval + _this.libdataval.updateendpoint, data, _this.jwttokenval, _this.sourcedataval).subscribe((/**
                  * @param {?} res
                  * @return {?}
                  */
@@ -2674,7 +2826,7 @@ var ListingComponent = /** @class */ (function () {
                     result = res;
                     if (result.status == 'success') {
                         for (var c in _this.olddata) {
-                            //this.olddata = this.olddata.filter(olddata => olddata._id != ids[c]);
+                            // this.olddata = this.olddata.filter(olddata => olddata._id != ids[c]);
                             if (_this.olddata[c]._id == data._id) {
                                 _this.olddata[c].status = data.status;
                             }
@@ -2683,7 +2835,7 @@ var ListingComponent = /** @class */ (function () {
                         _this.selection = new SelectionModel(true, []);
                         _this.dataSource.paginator = _this.paginator;
                         _this.dataSource.sort = _this.sort;
-                        //this.allSearch();
+                        // this.allSearch();
                         /** @type {?} */
                         var dialogRef = _this.dialog.open(Confirmdialog, {
                             panelClass: 'custom-modalbox',
@@ -2701,14 +2853,14 @@ var ListingComponent = /** @class */ (function () {
                  * @return {?}
                  */
                 function (error) {
-                    //console.log('Oooops!');
+                    // console.log('Oooops!');
                     _this._snackBar.openFromComponent(SnackbarComponent, {
                         duration: 6000,
                         data: { errormessage: 'Something Went Wrong ,Try Again!!' }
                     });
                 }));
             }
-            //this.animal = result;
+            // this.animal = result;
         }));
     };
     // for tree view in modal
@@ -2732,8 +2884,8 @@ var ListingComponent = /** @class */ (function () {
         for (var b in this.custombuttonval.fields) {
             unsafeurl = unsafeurl + '/' + data[this.custombuttonval.fields[b]];
         }
-        unsafeurl = this.sanitizer.bypassSecurityTrustResourceUrl(unsafeurl); //for sanitizing the url for security, otherwise it won't be able to show the page in iframe, hence modal
-        //for sanitizing the url for security, otherwise it won't be able to show the page in iframe, hence modal
+        unsafeurl = this.sanitizer.bypassSecurityTrustResourceUrl(unsafeurl); // for sanitizing the url for security, otherwise it won't be able to show the page in iframe, hence modal
+        // for sanitizing the url for security, otherwise it won't be able to show the page in iframe, hence modal
         /** @type {?} */
         var dialogRef = this.dialog.open(Confirmdialog, {
             // for opening the modal
@@ -2757,21 +2909,21 @@ var ListingComponent = /** @class */ (function () {
         for (c in this.selection.selected) {
             ids.push(this.selection.selected[c]._id);
         }
-        //console.log('data');
-        //console.log(data);
+        // console.log('data');
+        // console.log(data);
         /** @type {?} */
         var bs = this.bottomSheet.open(BottomSheet, { data: { items: this.statusarrval } });
-        bs.afterDismissed().subscribe((/**
+        this.subscriptions[this.subscriptioncount++] = bs.afterDismissed().subscribe((/**
          * @param {?} result
          * @return {?}
          */
         function (result) {
             if (result != null) {
-                //data.status = result.val;
-                //data.id = data._id;
+                // data.status = result.val;
+                // data.id = data._id;
                 /** @type {?} */
                 var newstatus_1 = result.val;
-                _this._apiService.togglestatusmany(_this.apiurlval + _this.libdataval.updateendpointmany, ids, result.val, _this.jwttokenval, _this.sourcedataval).subscribe((/**
+                _this.subscriptions[_this.subscriptioncount++] = _this._apiService.togglestatusmany(_this.apiurlval + _this.libdataval.updateendpointmany, ids, result.val, _this.jwttokenval, _this.sourcedataval).subscribe((/**
                  * @param {?} res
                  * @return {?}
                  */
@@ -2781,7 +2933,7 @@ var ListingComponent = /** @class */ (function () {
                     result = res;
                     if (result.status == 'success') {
                         for (var c_1 in _this.olddata) {
-                            //this.olddata = this.olddata.filter(olddata => olddata._id != ids[c]);
+                            // this.olddata = this.olddata.filter(olddata => olddata._id != ids[c]);
                             if (ids.indexOf(_this.olddata[c_1]._id) > -1) {
                                 _this.olddata[c_1].status = newstatus_1;
                             }
@@ -2790,7 +2942,7 @@ var ListingComponent = /** @class */ (function () {
                         _this.selection = new SelectionModel(true, []);
                         _this.dataSource.paginator = _this.paginator;
                         _this.dataSource.sort = _this.sort;
-                        //this.allSearch();
+                        // this.allSearch();
                         /** @type {?} */
                         var dialogRef = _this.dialog.open(Confirmdialog, {
                             panelClass: 'custom-modalbox',
@@ -2802,14 +2954,14 @@ var ListingComponent = /** @class */ (function () {
                  * @return {?}
                  */
                 function (error) {
-                    //console.log('Oooops!');
+                    // console.log('Oooops!');
                     _this._snackBar.openFromComponent(SnackbarComponent, {
                         duration: 6000,
                         data: { errormessage: 'Something Went Wrong ,Try Again!!' }
                     });
                 }));
             }
-            //this.animal = result;
+            // this.animal = result;
         }));
     };
     /**
@@ -2838,7 +2990,7 @@ var ListingComponent = /** @class */ (function () {
          */
         function (result) {
             if (result == 'yes') {
-                _this._apiService.deteManyData(_this.apiurlval + _this.libdataval.deleteendpointmany, ids, _this.jwttokenval, _this.sourcedataval).subscribe((/**
+                _this.subscriptions[_this.subscriptioncount++] = _this._apiService.deteManyData(_this.apiurlval + _this.libdataval.deleteendpointmany, ids, _this.jwttokenval, _this.sourcedataval).subscribe((/**
                  * @param {?} res
                  * @return {?}
                  */
@@ -2879,14 +3031,14 @@ var ListingComponent = /** @class */ (function () {
                  * @return {?}
                  */
                 function (error) {
-                    //console.log('Oooops!');
+                    // console.log('Oooops!');
                     _this._snackBar.openFromComponent(SnackbarComponent, {
                         duration: 6000,
                         data: { errormessage: 'Something Went Wrong ,Try Again!!' }
                     });
                 }));
             }
-            //this.animal = result;
+            // this.animal = result;
         }));
     };
     /**
@@ -2898,17 +3050,17 @@ var ListingComponent = /** @class */ (function () {
      * @return {?}
      */
     function (data) {
-        //console.log(data);
-        //alert(5);
-        //this._apiService.deteOneData(this.apiurlval+this.deleteendpointval,data,this.jwttokenval);
+        // console.log(data);
+        // alert(5);
+        // this._apiService.deteOneData(this.apiurlval+this.deleteendpointval,data,this.jwttokenval);
         // console.log('data 889 ---');
         // console.log(data);
         // console.log('jwttokenval');
         // console.log(this.jwttokenval);
         var _this = this;
-        //console.log(data);
-        //alert(5);
-        //this._apiService.deteOneData(this.apiurlval+this.deleteendpointval,data,this.jwttokenval);
+        // console.log(data);
+        // alert(5);
+        // this._apiService.deteOneData(this.apiurlval+this.deleteendpointval,data,this.jwttokenval);
         // console.log('data 889 ---');
         // console.log(data);
         // console.log('jwttokenval');
@@ -2925,7 +3077,7 @@ var ListingComponent = /** @class */ (function () {
          */
         function (result) {
             if (result == 'yes') {
-                _this._apiService.deteOneData(_this.apiurlval + _this.deleteendpointval, data, _this.jwttokenval, _this.sourcedataval).subscribe((/**
+                _this.subscriptions[_this.subscriptioncount++] = _this._apiService.deteOneData(_this.apiurlval + _this.deleteendpointval, data, _this.jwttokenval, _this.sourcedataval).subscribe((/**
                  * @param {?} res
                  * @return {?}
                  */
@@ -2961,14 +3113,14 @@ var ListingComponent = /** @class */ (function () {
                  * @return {?}
                  */
                 function (error) {
-                    //console.log('Oooops!');
+                    // console.log('Oooops!');
                     _this._snackBar.openFromComponent(SnackbarComponent, {
                         duration: 6000,
                         data: { errormessage: 'Something Went Wrong ,Try Again!!' }
                     });
                 }));
             }
-            //this.animal = result;
+            // this.animal = result;
         }));
     };
     /**
@@ -3004,9 +3156,9 @@ var ListingComponent = /** @class */ (function () {
      * @return {?}
      */
     function () {
-        //console.log("hit");
+        // console.log("hit");
         var _this = this;
-        //console.log("hit");
+        // console.log("hit");
         /** @type {?} */
         var link = this.apiurlval + '' + this.datacollectionval;
         /** @type {?} */
@@ -3024,24 +3176,25 @@ var ListingComponent = /** @class */ (function () {
         }
         /** @type {?} */
         var autosearch = {};
-        //this.autosearch;
+        // this.autosearch;
         for (var b in this.autosearch) {
             for (var m in this.autosearch[b]) {
                 /** @type {?} */
                 var tv = {};
                 tv[b] = this.autosearch[b][m].val.toString().toLowerCase();
-                if (autosearch['$or'] == null)
-                    autosearch['$or'] = [];
-                autosearch['$or'].push(tv);
+                if (autosearch.$or == null) {
+                    autosearch.$or = [];
+                }
+                autosearch.$or.push(tv);
             }
         }
-        //console.log('autos',autosearch);
+        // console.log('autos',autosearch);
         this.limitcondval.pagecount = 1;
         this.limitcondval.skip = 0;
         /** @type {?} */
         var conditionobj = Object.assign({}, textSearch, this.dateSearch_condition, autosearch, this.selectSearch_condition, this.libdataval.basecondition);
         source = {
-            "condition": {
+            condition: {
                 limit: this.limitcondval.limit,
                 skip: 0
             },
@@ -3051,12 +3204,12 @@ var ListingComponent = /** @class */ (function () {
             },
             searchcondition: conditionobj,
         };
-        //console.log('con...',conditionobj,this.end_date);
-        //console.warn('cond',condition,this.dateSearch_condition,conditionobj,this.tsearch,textSearch);
-        //return;
+        // console.log('con...',conditionobj,this.end_date);
+        // console.warn('cond',condition,this.dateSearch_condition,conditionobj,this.tsearch,textSearch);
+        // return;
         this.date_search_source_countval = 0;
         this.loading = true;
-        this._apiService.postSearch(link, this.jwttokenval, source).subscribe((/**
+        this.subscriptions[this.subscriptioncount++] = this._apiService.postSearch(link, this.jwttokenval, source).subscribe((/**
          * @param {?} res
          * @return {?}
          */
@@ -3068,20 +3221,20 @@ var ListingComponent = /** @class */ (function () {
                 _this.dataSource = new MatTableDataSource(result.results.res);
                 _this._snackBar.openFromComponent(SnackbarComponent, {
                     duration: 2000,
-                    data: { errormessage: "New Search of data loaded" }
+                    data: { errormessage: 'New Search of data loaded' }
                 });
             }
             else {
                 _this._snackBar.openFromComponent(SnackbarComponent, {
                     duration: 6000,
-                    data: { errormessage: "No such search record found !!" }
+                    data: { errormessage: 'No such search record found !!' }
                 });
             }
             _this.loading = false;
             // this.dataSource.paginator = this.paginator;
-            //this.dataSource.sort = this.sort;
+            // this.dataSource.sort = this.sort;
         }));
-        this._apiService.postSearch(link1, this.jwttokenval, source).subscribe((/**
+        this.subscriptions[this.subscriptioncount++] = this._apiService.postSearch(link1, this.jwttokenval, source).subscribe((/**
          * @param {?} res
          * @return {?}
          */
@@ -3090,13 +3243,15 @@ var ListingComponent = /** @class */ (function () {
             var result = {};
             result = res;
             _this.date_search_source_countval = (result.count);
-            if (result.count == 0)
+            if (result.count == 0) {
                 _this.tableflag = 1;
-            else
+            }
+            else {
                 _this.tableflag = 0;
+            }
             // console.log('count',result);
             // this.dataSource.paginator = this.paginator;
-            //this.dataSource.sort = this.sort;
+            // this.dataSource.sort = this.sort;
         }));
     };
     /**
@@ -3129,9 +3284,9 @@ var ListingComponent = /** @class */ (function () {
          * **** not completed *****
          * @type {?}
          */
-        var data = { "source": "blockchainuser_view", "condition": { "posts_id_object": singleData._id }, "token": this.jwttokenval };
+        var data = { source: 'blockchainuser_view', condition: { posts_id_object: singleData._id }, token: this.jwttokenval };
         /******** not completed *****/
-        this._apiService.postData(link, data).subscribe((/**
+        this.subscriptions[this.subscriptioncount++] = this._apiService.postData(link, data).subscribe((/**
          * @param {?} response
          * @return {?}
          */
@@ -3150,7 +3305,7 @@ var ListingComponent = /** @class */ (function () {
     ListingComponent.decorators = [
         { type: Component, args: [{
                     selector: 'lib-listing',
-                    template: "<div class=\"container\">\n    <mat-card>\n        <mat-toolbar-row class=\"searchbar\">\n            <ng-container class=\"inputfilterForloop\"\n                *ngIf=\"search_settingsval !=null && search_settingsval.textsearch != null \">\n                <ng-container *ngFor=\"let item of search_settingsval.textsearch\">\n                    <mat-form-field class=\"searchdiv pad-gap\">\n\n                        <input class=\"filterForText\" matInput (change)=\"textsearchfunction(item.field)\"\n                            (keyup)=\"textsearchfunction(item.field)\" [(ngModel)]='tsearch[item.field]'\n                            placeholder=\"{{item.label}}\">\n                        <span class=\"filterForTexticon\" matPrefix><i class=\"material-icons searchicon\">\n                                search\n                            </i> &nbsp;</span>\n                    </mat-form-field>\n                </ng-container>\n\n            </ng-container>\n\n            <ng-container class=\"inputfilterForAuto\"\n                *ngIf=\"search_settingsval !=null && search_settingsval.search != null \">\n                <mat-form-field class=\"filterForAuto searchdiv\" *ngFor=\"let item of search_settingsval.search\">\n\n\n                    <mat-chip-list #chipList aria-label=\"Fruit selection\">\n                        <mat-chip *ngFor=\"let v of autosearch[item.field]; let i=index;\" [selectable]=\"true\"\n                            [removable]=\"true\" (removed)=\"remove(v,i,item.field)\">\n                            {{v.name}}\n                            <mat-icon matChipRemove>cancel</mat-icon>\n                        </mat-chip>\n                        <input placeholder=\"{{item.label}} \" [matAutocomplete]=\"auto\" [matChipInputFor]=\"chipList\"\n                            [(ngModel)]=\"autosearchinput[item.field]\" (keyup)=\"filterautoval(item)\">\n                    </mat-chip-list>\n\n                    <!--[matChipInputSeparatorKeyCodes]=\"[ENTER, COMMA]\"-->\n                    <!--(matChipInputTokenEnd)=\"addautosearchdata($event)\"-->\n\n\n                    <!--<input class=\"filterForAutoInput\"  type=\"text\" placeholder=\"{{item.label}}\" matInput [(ngModel)]=\"autosearch[item.field]\" [matAutocomplete]=\"auto\">-->\n                    <mat-autocomplete #auto=\"matAutocomplete\">\n                        <!--<mat-option *ngFor=\"let option of item.values | async\" [value]=\"option[item.field]\" (click)=\"autosearchfunction(item.field)\">\n                            {{option[item.field]}}\n                        </mat-option>-->\n\n                        <mat-option *ngFor=\"let statusval of currentautosearcharr\" [value]=\"statusval.val\"\n                            (click)=\"autosearchfunction(item.field,statusval)\">\n                            {{statusval.name}}\n                        </mat-option>\n                    </mat-autocomplete>\n                </mat-form-field>\n            </ng-container>\n\n\n\n            <!--      <span *ngIf=\"search_settingsval !=null && search_settingsval != null \">\n\n      <mat-form-field *ngFor=\"let item of search_settingsval.search\">\n        <mat-label>{{item.label}}</mat-label>\n        <mat-select>\n          <mat-option *ngFor=\"let status of preresult\" [value]=\"status\" (click)=\"autosearchfunction(status.email)\">\n            {{status.email}}\n          </mat-option>\n        </mat-select>\n      </mat-form-field>\n\n      </span>-->\n            <!--  <ng-container  *ngIf=\"search_settingsval !=null && search_settingsval.textsearch != null \">\n&lt;!&ndash;        <span *ngFor=\"let status of this.search_settingsval.textsearch\">&ndash;&gt;\n&lt;!&ndash;        <mat-form-field *ngFor=\"let statusval of status.value\">&ndash;&gt;\n        <mat-form-field *ngFor=\"let status of this.search_settingsval.textsearch\">\n              <input matInput (keyup)=\"applyFilter1($event.target.value, status)\" placeholder=\"{{status.label}}\">\n        </mat-form-field>\n&lt;!&ndash;              </span>&ndash;&gt;\n      </ng-container>-->\n\n\n            <ng-container class=\"filterForTexticon\"\n                *ngIf=\"search_settingsval !=null && search_settingsval.selectsearch != null \">\n                <!-- <span>dddddd</span> -->\n                <mat-form-field class=\"searchdiv\" *ngFor=\"let status of search_settingsval.selectsearch\">\n                    <mat-label>{{status.label}}</mat-label>\n                    <!-- <mat-select [(ngModel)]=\"selectsearch[status.field]\" [(value)]=\"selectsearch[status.field]\"> -->\n                    <mat-select [(ngModel)]=\"selectsearch[status.field]\" [(value)]=\"status.value\"\n                        [(ngModel)]='tsearch[status.field]'>\n                        <mat-option *ngFor=\"let statusval of status.values\" [value]=\"statusval.val\"\n                            (click)=\"selectSearch(statusval.val, status)\">\n                            {{statusval.name}}\n                        </mat-option>\n                    </mat-select>\n                </mat-form-field>\n            </ng-container>\n\n\n            <ng-container *ngIf=\" search_settingsval != null && search_settingsval.datesearch != null \">\n                <!-- <span>D search !!</span> -->\n                <ng-container class=\"filterFordatesearch\" *ngFor=\"let status of this.search_settingsval.datesearch\">\n                    <mat-form-field class=\"filterFordatesearchformfield searchdiv\">\n                        <input class=\"filterFordatesearchinput\" matInput [matDatepicker]=\"picker\" autocomplete=\"off\"\n                            placeholder=\"{{status.startdatelabel}}\" [(ngModel)]=\"start_date\">\n                        <mat-datepicker-toggle matSuffix [for]=\"picker\"></mat-datepicker-toggle>\n                        <mat-datepicker #picker></mat-datepicker>\n                    </mat-form-field>\n                    <mat-form-field class=\"filterFordatesearchend\">\n                        <input class=\"filterFordatesearchinput\" matInput [matDatepicker]=\"picker1\" autocomplete=\"off\"\n                            placeholder=\"{{status.enddatelabel}}\" [(ngModel)]=\"end_date\">\n                        <mat-datepicker-toggle matSuffix [for]=\"picker1\"></mat-datepicker-toggle>\n                        <mat-datepicker #picker1></mat-datepicker>\n                    </mat-form-field>\n\n\n\n                    <!-- <span class=\"search_class\">\n                        <button mat-raised-button color=\"primary\" class=\"add_button\"\n                            (click)=\"dateSearch(status.field)\">{{status.submit}}</button>\n                    </span> -->\n\n\n\n                </ng-container>\n            </ng-container>\n\n\n            <!-- use for refresh all data -->\n            <span class=\"search_class\">\n                <ng-container class=\"refresh\">\n                    <i (click)=\"refreshdata()\" class=\"material-icons cursor\">\n                        autorenew\n                    </i>\n                </ng-container>\n                <!-- *ngIf=\"date_search_endpointval ==null || date_search_sourceval == null || search_settingsval.datesearch == null \" -->\n                <ng-container class=\"refresh\">\n                    <button mat-raised-button color=\"primary\" class=\"add_button\" (click)=\"allSearch()\">Search</button>\n                </ng-container>\n\n            </span>\n\n\n\n            <span *ngIf=\"click_to_add_ananother_pageval !=null\">\n                <button mat-raised-button color=\"primary\" class=\"add_button\"\n                    [routerLink]=\"click_to_add_ananother_pageval\">Add</button>\n            </span>\n        </mat-toolbar-row>\n\n\n\n        <ng-container\n            *ngIf=\"selection.selected !=null && selection.selected.length!=null && selection.selected.length>0\">\n            <span class=\"multipledeleteandupdatebuttan\">\n\n                <button *ngIf=\"libdataval.hidedeletemany==null || libdataval.hidedeletemany==false\" mat-raised-button\n                    (click)=\"deletemultiple()\"> Delete </button>\n                <button *ngIf=\"libdataval.hideupdatemany==null || libdataval.hideupdatemany==false\" mat-raised-button\n                    (click)=\"managestatusmultiple()\"> Update Status </button>\n\n            </span>\n        </ng-container>\n\n        <section *ngIf=\"loading == true\" class=\"example-section\">\n            <mat-progress-bar class=\"example-margin\" [color]=\"color\" [mode]=\"mode\" [value]=\"value\"\n                [bufferValue]=\"bufferValue\">\n            </mat-progress-bar>\n            <br />\n            <br />\n        </section>\n\n        <ng-container *ngIf=\"tableflag==0\">\n            <section class=\"lib-pager-class\">\n                <mat-label>\n                    Showing\n                    {{(limitcondval.pagecount-1)*limitcondval.limit}}\n                    To\n\n                    <ng-container\n                        *ngIf=\"date_search_source_countval > ((limitcondval.pagecount)*limitcondval.limit) || date_search_source_countval==0\">\n                        {{(limitcondval.pagecount)*limitcondval.limit}}\n                    </ng-container>\n                    <ng-container\n                        *ngIf=\"date_search_source_countval!=0 && date_search_source_countval <= ((limitcondval.pagecount)*limitcondval.limit)\">\n                        {{date_search_source_countval}}\n                    </ng-container>\n\n\n\n                    of\n                    <span *ngIf=\"date_search_source_countval!=0 \"> {{date_search_source_countval}} </span>\n                    <span *ngIf=\"date_search_source_countval==0 \"> Many </span>\n\n                </mat-label>\n                <span class=\"=pageformfield\">\n                    <mat-form-field>\n                        <mat-label>Page Size</mat-label>\n                        <input matInput [(ngModel)]=\"limitcondval.limit\" type=\"number\" (keyup)=\"paging(10)\">\n                    </mat-form-field>\n\n                    <mat-form-field>\n                        <mat-label>Page No</mat-label>\n                        <input matInput [(ngModel)]=\"limitcondval.pagecount\" type=\"number\" (keyup)=\"paging(10)\">\n                    </mat-form-field>\n                </span>\n                <span>\n\n\n                    <span class=\"material-icons cursor\" (click)=\"paging(-1)\">\n                        skip_previous\n                    </span>\n\n                    <span class=\"material-icons cursor\" (click)=\"paging(1)\">\n                        skip_next\n                    </span>\n                </span>\n            </section>\n\n\n        </ng-container>\n\n        <div class=\"tablewrapper\" *ngIf=\"tableflag==0\">\n\n            <table mat-table [dataSource]=\"dataSource\" class=\"mat-elevation-z8\">\n\n                <ng-container matColumnDef=\"select\">\n                    <th mat-header-cell *matHeaderCellDef>\n                        <mat-checkbox (change)=\"$event ? masterToggle() : null\"\n                            [checked]=\"selection.hasValue() && isAllSelected()\"\n                            [indeterminate]=\"selection.hasValue() && !isAllSelected()\">\n                        </mat-checkbox>\n                    </th>\n                    <td mat-cell *matCellDef=\"let row\" data-label=\"select\">\n                        <mat-checkbox (click)=\"$event.stopPropagation()\"\n                            (change)=\"$event ? selection.toggle(row) : null\" [checked]=\"selection.isSelected(row)\">\n                        </mat-checkbox>\n                    </td>\n                </ng-container>\n                <ng-container matColumnDef=\"#\">\n                    <th mat-header-cell *matHeaderCellDef>\n                        #\n                    </th>\n                    <td mat-cell *matCellDef=\"let element; let i = index\">{{limitcondval.skip+(i+1)}}</td>\n                </ng-container>\n\n                <ng-container *ngFor=\"let column of columns\" [matColumnDef]=\"column.columnDef\">\n                    <th mat-header-cell *matHeaderCellDef class=\"th-header-center\">\n                        <span>\n                            {{column.header}}\n                            <span *ngIf=\"column.columnDef==sortdataval.field && sortdataval.type=='desc'\"\n                                class=\"material-icons cursor float-right\" (click)=\"sorttable(column.columnDef,'asc')\">\n                                arrow_downward\n                            </span>\n                            <span class=\"material-icons cursor float-right\"\n                                *ngIf=\"column.columnDef==sortdataval.field && sortdataval.type=='asc'\"\n                                (click)=\"sorttable(column.columnDef,'desc')\">arrow_upward\n                            </span>\n\n                            <span class=\"material-icons cursor\"\n                                *ngIf=\"sortdataval!=null && sortdataval.options !=null && sortdataval.options.indexOf(column.columnDef) >-1  && column.columnDef!=sortdataval.field\"\n                                (click)=\"sorttable(column.columnDef,'desc')\">\n                                unfold_more\n                            </span>\n\n                        </span>\n\n                    </th>\n                    <td mat-cell *matCellDef=\"let row\" [ngStyle]=\"styleCell(column,row)\" data-title=\"{{column.header}}\"\n                        class=\"td-cell-center\">\n\n                        <span *ngIf=\"column.columnDef=='status' \">{{ getstatus([column.cell(row)]) }}\n                            {{pdfFlag(row)}}</span>\n                        <span\n                            *ngIf=\"column.columnDef!='status' &&  column.columnDef!='image' && column.columnDef!='video' \">\n                            <ng-container\n                                *ngIf=\"column!=null && row[column.columnDef]!=null && !column.columnDef.includes('date') && !column.columnDef.includes('datetime')\">\n                                <span [innerHTML]=\"row[column.columnDef]\"></span>\n                            </ng-container>\n                            <ng-container\n                                *ngIf=\"column!=null && row[column.columnDef]!=null && column.columnDef.includes('date') && !column.columnDef.includes('datetime')\">\n                                {{row[column.columnDef] | date}}\n                            </ng-container>\n                            <ng-container\n                                *ngIf=\"column!=null && row[column.columnDef]!=null && column.columnDef.includes('date') && column.columnDef.includes('datetime')\">\n                                {{row[column.columnDef] | date:'medium'}}\n                            </ng-container>\n                            <ng-container *ngIf=\"column!=null && row[column.columnDef]==null\">\n                                NA\n                            </ng-container>\n\n                        </span>\n                        <!-- for image view  -->\n                        <span\n                            *ngIf=\"column.columnDef=='image' && row[column.columnDef] !=null && row[column.columnDef] !='' \"\n                            (click)=\"img_modal_view(row[column.columnDef])\"> <span class=\"module_imgblock\">\n                                <img src=\"{{row[column.columnDef]}}\" alt=\"{{row[column.columnDef]}}\">\n                            </span></span>\n                        <!-- for video view -->\n                        <span\n                            *ngIf=\"column.columnDef=='video' && row[column.columnDef] !=null && row[column.columnDef] !='' \"><span\n                                class=\"module_videoblock\" (click)=\"fetchvideo(row)\">\n                                <img src=\"https://img.youtube.com/vi/{{row[column.columnDef]}}/sddefault.jpg\"\n                                    alt=\"{{row[column.columnDef]}}\" (click)=\"fetchvideo(row)\"></span>\n                        </span>\n\n                        <span\n                            *ngIf=\"column.columnDef=='grab_url && grab_linkval!=null && grab_linkval[0]!=null' \">{{grapurl(row[this.grab_linkval[0].field_name])}}</span>\n\n\n                        <!--          <span *ngIf=\"sh==true\">-->\n                        <span *ngIf=\"column.columnDef=='contractssigned' && sh==true && urlval !=null\" class=\"cursor\">\n                            <i title=\"{{urlval[0].label}}\" (click)=\"clickurl(row,urlval[0].url)\"\n                                class=\"material-icons\">cloud_download</i>\n                        </span>\n                        <!--          </span>-->\n                        <!--          <span *ngIf=\"aud==true\">-->\n                        <span *ngIf=\"column.columnDef=='contractssigned' && aud==true  && urlval !=null\">\n                            <i title=\"{{urlval[1].label}}\" (click)=\"clickurl(row,urlval[1].url)\"\n                                class=\"material-icons\">cloud_download</i>\n                        </span>\n\n\n                        <!--// for grap url//-->\n\n                        <span *ngIf=\" grab_linkval!=null && column.columnDef==[grab_linkval.colom_name[0].col_name]\"\n                            class=\"cursor\">\n                            <ng-container *ngFor=\"let item of grab_linkval.field\">\n                                <!-- <p>{{item | json}}</p> -->\n                                <button mat-button\n                                    (click)=\"copyText(row[grab_linkval.colom_name[0].field_name],item.url)\">{{item.label}}</button>\n                            </ng-container>\n                        </span>\n\n                        <!-- <span\n                            *ngIf=\" grab_linkval!=null && grab_linkval[0]!=null && column.columnDef==[grab_linkval[0].col_name]\"\n                            class=\"cursor\">\n                            <button mat-button\n                                (click)=\"copyText(row[grab_linkval[0].field_name],grab_linkval[1].url)\">{{grab_linkval[1].label}}</button>\n                        </span>\n                        <span\n                            *ngIf=\"grab_linkval!=null && grab_linkval[0]!=null &&column.columnDef== [grab_linkval[0].col_name]\">\n                            <button mat-button\n                                (click)=\"copyText(row[grab_linkval[0].field_name],grab_linkval[2].url)\">{{grab_linkval[2].label}}</button>\n                        </span> -->\n\n                        <!--          //grap url end//-->\n\n\n                        <!--          </span>-->\n                        <!-- <span *ngIf=\"column.columnDef=='contractssigned' \">\n            <span *ngFor=\"let item of urlval\" class=\"cursor\">\n            <i title=\"{{item.label}}\" (click)=\"clickurl(row,item.url)\" class=\"material-icons\">cloud_download</i>\n          </span>\n          </span>-->\n                    </td>\n                </ng-container>\n\n\n\n                <ng-container matColumnDef=\"Actions\"\n                    *ngIf=\"libdataval.hideaction==null || libdataval.hideaction==false\">\n                    <th mat-header-cell *matHeaderCellDef class=\"th-header-center\">Actions</th>\n                    <td (click)=\"$event.stopPropagation()\" mat-cell *matCellDef=\"let row\" data-label=\"Actions\"\n                        class=\"td-cell-center\">\n                        <!-- loader -->\n                        <section class=\"example-section\">\n                            <mat-progress-bar *ngIf=\"loaderrow!=null && loaderrow==row._id \" class=\"example-margin\"\n                                [color]=\"color\" [mode]=\"mode\" [value]=\"value\" [bufferValue]=\"bufferValue\">\n                            </mat-progress-bar>\n                        </section>\n                        <!-- note block -->\n                        <ng-container *ngIf=\"libdataval.notes!=null\">\n                            <button mat-raised-button color=\"primary\"\n                                (click)=\"opennotes(row)\">{{libdataval.notes.label}}({{row.notescount}})</button>\n                        </ng-container>\n                        <!--custom buttions block -->\n                        <ng-container\n                            *ngIf=\"libdataval !=null && libdataval.custombuttons !=null && libdataval.custombuttons.length >0 \">\n                            <ng-container *ngFor=\"let custombutton of libdataval.custombuttons; let cb=index\">\n                                <section class=\"custombutton{{cb}}\">\n                                    <ng-container *ngIf=\"custombutton.type=='externallink'\">\n                                        <ng-container\n                                            *ngIf=\"custombutton.param==null && (custombutton.cond==null || row[custombutton.cond]==custombutton.condval )\">\n                                            <a target=\"_blank\" href=\"{{custombutton.link}}\">\n                                                <button mat-raised-button\n                                                    color=\"primary\">{{custombutton.label}}</button>\n                                            </a>\n                                        </ng-container>\n\n                                        <ng-container\n                                            *ngIf=\"custombutton.param!=null && (custombutton.cond==null || row[custombutton.cond]==custombutton.condval )\">\n\n                                            <button mat-raised-button color=\"primary\"\n                                                (click)=\"openextlinkwithparam(custombutton,row)\">{{custombutton.label}}</button>\n\n                                        </ng-container>\n\n                                    </ng-container>\n                                    <ng-container *ngIf=\"custombutton.type=='internallink'\">\n                                        <ng-container\n                                            *ngIf=\"custombutton.toggle == null && custombutton.param==null && (custombutton.cond==null || row[custombutton.cond]==custombutton.condval )\">\n                                            <button mat-raised-button color=\"primary\"\n                                                (click)=\"openinternallink(custombutton)\">{{custombutton.label}}</button>\n                                        </ng-container>\n                                        <ng-container\n                                            *ngIf=\"custombutton.toggle != null && custombutton.toggle == 'delete' && custombutton.toggle!=null && (custombutton.cond==null || row[custombutton.cond]==custombutton.condval )\">\n                                            <button mat-raised-button color=\"primary\"\n                                                (click)=\"deletedata(row)\">{{custombutton.label}}</button>\n                                        </ng-container>\n\n                                        <ng-container\n                                            *ngIf=\"custombutton.param!=null && (custombutton.cond==null || row[custombutton.cond]==custombutton.condval )\">\n\n                                            <button mat-raised-button color=\"primary\"\n                                                (click)=\"openinternallinkwithparam(custombutton,row)\">{{custombutton.label}}</button>\n\n                                        </ng-container>\n\n                                    </ng-container>\n                                    <ng-container *ngIf=\"custombutton.type=='action'\">\n                                        <ng-container\n                                            *ngIf=\"custombutton.datatype=='local' && custombutton != null && (custombutton.cond==null || row[custombutton.cond]==custombutton.condval )\">\n                                            <button mat-raised-button color=\"primary\"\n                                                (click)=\"opencustombuttonactionlocaldata(custombutton,row)\">{{custombutton.label}}</button>\n                                        </ng-container>\n                                        <ng-container\n                                            *ngIf=\"custombutton.datatype=='api' && (custombutton.cond==null || row[custombutton.cond]==custombutton.condval )\">\n                                            <button mat-raised-button color=\"primary\"\n                                                (click)=\"opencustombuttonactionapidata(custombutton,row)\">{{custombutton.label}}</button>\n                                        </ng-container>\n\n                                    </ng-container>\n                                </section>\n\n                            </ng-container>\n                        </ng-container>\n                        <span *ngIf=\"selection.selected.length==null || selection.selected.length==0\">\n                            <span *ngIf=\"libdataval.hideeditbutton==null || libdataval.hideeditbutton==false\"\n                                class=\"cursor\" (click)=\"editdata(row)\">\n                                <i class=\"material-icons\">\n                                    edit\n                                </i>\n                            </span>\n\n                            <!--For modern browsers-->\n                            <span *ngIf=\"libdataval.hidedeletebutton==null || libdataval.hidedeletebutton==false\"\n                                class=\"cursor\" (click)=\"deletedata(row)\">\n                                <i class=\"material-icons\">\n                                    delete_outline\n                                </i>\n                            </span>\n\n                            <!--For modern browsers-->\n                            <span *ngIf=\"libdataval.hideviewbutton==null || libdataval.hideviewbutton==false\"\n                                class=\"cursor\" (click)=\"viewdata(row)\">\n                                <i class=\"material-icons\">\n                                    remove_red_eye\n                                </i>\n                            </span>\n\n                            <!--For modern browsers-->\n                            <span class=\"cursor\"\n                                *ngIf=\"libdataval.hidestatustogglebutton==null || libdataval.hidestatustogglebutton==false\"\n                                (click)=\"managestatus(row)\">\n                                <i class=\"material-icons\">\n                                    toggle_off\n                                </i>\n                            </span>\n                            <span *ngIf=\"custombuttonval!=null\" class=\"cursor treeclass\"\n                                (click)=\"custombuttonfunc(row)\">\n                                <i class=\"material-icons treeclass\">\n                                    toggle_off\n                                </i>\n                            </span>\n\n                            <!-- artistxp preview start -->\n                            <span *ngIf=\"previewFlug==true\" class=\"cursor treeclass\" (click)=\"artistxpPreview(row)\">\n                                <i class=\"material-icons\">perm_media</i>\n                            </span>\n                            <!-- artistxp preview end -->\n\n                        </span>\n\n                    </td>\n                </ng-container>\n\n\n\n\n\n\n                <tr mat-header-row *matHeaderRowDef=\"displayedColumns\"></tr>\n                <tr mat-row *matRowDef=\"let row; columns: displayedColumns;\"></tr>\n\n            </table>\n\n        </div>\n\n        <!--for pagination -->\n\n        <mat-card *ngIf=\"tableflag!=0\">No Records Exists !!!</mat-card>\n        <ng-container *ngIf=\"tableflag==0\">\n            <section class=\"lib-pager-class\">\n                <mat-label>\n                    Showing\n                    {{(limitcondval.pagecount-1)*limitcondval.limit}}\n                    To\n\n                    <ng-container\n                        *ngIf=\"date_search_source_countval > ((limitcondval.pagecount)*limitcondval.limit) ||  date_search_source_countval==0\">\n                        {{(limitcondval.pagecount)*limitcondval.limit}}\n                    </ng-container>\n                    <ng-container\n                        *ngIf=\"date_search_source_countval!=0 && date_search_source_countval <= ((limitcondval.pagecount)*limitcondval.limit)\">\n                        {{date_search_source_countval}}\n                    </ng-container>\n\n\n\n                    of\n                    <span *ngIf=\"date_search_source_countval!=0 \"> {{date_search_source_countval}} </span>\n                    <span *ngIf=\"date_search_source_countval==0 \"> Many </span>\n\n                </mat-label>\n                <span class=\"=pageformfield\">\n                    <mat-form-field>\n                        <mat-label>Page Size</mat-label>\n                        <input matInput [(ngModel)]=\"limitcondval.limit\" type=\"number\" (keyup)=\"paging(10)\">\n                    </mat-form-field>\n\n                    <mat-form-field>\n                        <mat-label>Page No</mat-label>\n                        <input matInput [(ngModel)]=\"limitcondval.pagecount\" type=\"number\" (keyup)=\"paging(10)\">\n                    </mat-form-field>\n                </span>\n                <span>\n\n\n                    <span class=\"material-icons cursor\" (click)=\"paging(-1)\">\n                        skip_previous\n                    </span>\n\n                    <span class=\"material-icons cursor\" (click)=\"paging(1)\">\n                        skip_next\n                    </span>\n                </span>\n            </section>\n\n\n        </ng-container>\n        <section *ngIf=\"loading == true\" class=\"example-section\">\n            <mat-progress-bar class=\"example-margin\" [color]=\"color\" [mode]=\"mode\" [value]=\"value\"\n                [bufferValue]=\"bufferValue\">\n            </mat-progress-bar>\n            <br />\n            <br />\n        </section>\n\n\n\n        <!-- <mat-paginator class=\"paginator\" [pageSizeOptions]=\"[5,10, 20, 50,100]\" showFirstLastButtons></mat-paginator>-->\n        <!--<mat-spinner *ngIf=\"loading == true\" ></mat-spinner>-->\n\n\n\n        <!-- <form [formGroup]=\"stateForm\">\n      <mat-form-field>\n        <input type=\"text\" matInput placeholder=\"States Group\" formControlName=\"stateGroup\" required [matAutocomplete]=\"autoGroup\">\n        <mat-autocomplete #autoGroup=\"matAutocomplete\">\n          <mat-optgroup *ngFor=\"let group of stateGroupOptions | async\" [label]=\"group.letter\">\n            <mat-option *ngFor=\"let name of group.names\" [value]=\"name\">\n              {{name}}\n            </mat-option>\n          </mat-optgroup>\n        </mat-autocomplete>\n      </mat-form-field>\n    </form>-->\n\n        <!--<form class=\"example-form\">\n      <mat-form-field class=\"example-full-width\">\n        <input type=\"text\" placeholder=\"Select state\" aria-label=\"Number\" matInput [formControl]=\"myControl\" [matAutocomplete]=\"auto\">\n        <mat-autocomplete #auto=\"matAutocomplete\">\n          <mat-option *ngFor=\"let option of stateGroup | async\" [value]=\"option\">\n            {{option}}\n          </mat-option>\n        </mat-autocomplete>\n      </mat-form-field>\n    </form>\n-->\n\n    </mat-card>\n\n    <!--\n  <mat-card>\n\n    <div class=\"example-container\">\n\n\n      <mat-card-content >\n        <mat-form-field class=\"form-group\">\n            <input (blur)=\"inputblur('email')\" matInput placeholder=\"email\" type=\"email\" [formControl]=\"myForm.controls['email']\" >\n            <mat-error  *ngIf=\"!myForm.controls['email'].valid && myForm.controls['email'].touched && issubmit==1\">email field can not be blank</mat-error>\n        </mat-form-field>\n\n        <mat-form-field class=\"form-group\">\n            <input (blur)=\"inputblur('password')\" matInput placeholder=\"Password\" type=\"password\" [formControl]=\"myForm.controls['password']\" >\n            <mat-error  *ngIf=\"!myForm.controls['password'].valid && myForm.controls['password'].touched && issubmit==1\">Password field can not be blank</mat-error>\n        </mat-form-field>\n\n            <button mat-button  (click)=\"onSubmit()\" class=\"s_getmyoffer_login_button\"  >Login</button>\n        </mat-card-content>\n\n\n    </div>\n\n  </mat-card>-->\n\n\n\n</div>",
+                    template: "<div class=\"container\">\n    <mat-card>\n        <mat-toolbar-row class=\"searchbar\">\n            <ng-container class=\"inputfilterForloop\"\n                *ngIf=\"search_settingsval !=null && search_settingsval.textsearch != null \">\n                <ng-container *ngFor=\"let item of search_settingsval.textsearch\">\n                    <mat-form-field class=\"searchdiv pad-gap\">\n\n                        <input class=\"filterForText\" matInput (change)=\"textsearchfunction(item.field)\"\n                            (keyup)=\"textsearchfunction(item.field)\" [(ngModel)]='tsearch[item.field]'\n                            placeholder=\"{{item.label}}\">\n                        <span class=\"filterForTexticon\" matPrefix><i class=\"material-icons searchicon\">\n                                search\n                            </i> &nbsp;</span>\n                    </mat-form-field>\n                </ng-container>\n\n            </ng-container>\n\n            <ng-container class=\"inputfilterForAuto\"\n                *ngIf=\"search_settingsval !=null && search_settingsval.search != null \">\n                <mat-form-field class=\"filterForAuto searchdiv\" *ngFor=\"let item of search_settingsval.search\">\n\n\n                    <mat-chip-list #chipList aria-label=\"Fruit selection\">\n                        <mat-chip *ngFor=\"let v of autosearch[item.field]; let i=index;\" [selectable]=\"true\"\n                            [removable]=\"true\" (removed)=\"remove(v,i,item.field)\">\n                            {{v.name}}\n                            <mat-icon matChipRemove>cancel</mat-icon>\n                        </mat-chip>\n                        <input placeholder=\"{{item.label}} \" [matAutocomplete]=\"auto\" [matChipInputFor]=\"chipList\"\n                            [(ngModel)]=\"autosearchinput[item.field]\" (keyup)=\"autocompletechangedetected(item);\">\n                    </mat-chip-list>\n\n                    <!--[matChipInputSeparatorKeyCodes]=\"[ENTER, COMMA]\"-->\n                    <!--(matChipInputTokenEnd)=\"addautosearchdata($event)\"-->\n\n\n                    <!--<input class=\"filterForAutoInput\"  type=\"text\" placeholder=\"{{item.label}}\" matInput [(ngModel)]=\"autosearch[item.field]\" [matAutocomplete]=\"auto\">-->\n                    <mat-autocomplete #auto=\"matAutocomplete\">\n                        <!--<mat-option *ngFor=\"let option of item.values | async\" [value]=\"option[item.field]\" (click)=\"autosearchfunction(item.field)\">\n                            {{option[item.field]}}\n                        </mat-option>-->\n\n                        <mat-option *ngFor=\"let statusval of currentautosearcharr\" [value]=\"statusval.val\"\n                            (click)=\"autosearchfunction(item.field,statusval)\">\n                            {{statusval.name}}\n                        </mat-option>\n                    </mat-autocomplete>\n                </mat-form-field>\n            </ng-container>\n\n\n\n            <!--      <span *ngIf=\"search_settingsval !=null && search_settingsval != null \">\n\n      <mat-form-field *ngFor=\"let item of search_settingsval.search\">\n        <mat-label>{{item.label}}</mat-label>\n        <mat-select>\n          <mat-option *ngFor=\"let status of preresult\" [value]=\"status\" (click)=\"autosearchfunction(status.email)\">\n            {{status.email}}\n          </mat-option>\n        </mat-select>\n      </mat-form-field>\n\n      </span>-->\n            <!--  <ng-container  *ngIf=\"search_settingsval !=null && search_settingsval.textsearch != null \">\n&lt;!&ndash;        <span *ngFor=\"let status of this.search_settingsval.textsearch\">&ndash;&gt;\n&lt;!&ndash;        <mat-form-field *ngFor=\"let statusval of status.value\">&ndash;&gt;\n        <mat-form-field *ngFor=\"let status of this.search_settingsval.textsearch\">\n              <input matInput (keyup)=\"applyFilter1($event.target.value, status)\" placeholder=\"{{status.label}}\">\n        </mat-form-field>\n&lt;!&ndash;              </span>&ndash;&gt;\n      </ng-container>-->\n\n\n            <ng-container class=\"filterForTexticon\"\n                *ngIf=\"search_settingsval !=null && search_settingsval.selectsearch != null \">\n                <!-- <span>dddddd</span> -->\n                <mat-form-field class=\"searchdiv\" *ngFor=\"let status of search_settingsval.selectsearch\">\n                    <mat-label>{{status.label}}</mat-label>\n                    <!-- <mat-select [(ngModel)]=\"selectsearch[status.field]\" [(value)]=\"selectsearch[status.field]\"> -->\n                    <mat-select [(ngModel)]=\"selectsearch[status.field]\" [(value)]=\"status.value\"\n                        [(ngModel)]='tsearch[status.field]'>\n                        <mat-option *ngFor=\"let statusval of status.values\" [value]=\"statusval.val\"\n                            (click)=\"selectSearch(statusval.val, status)\">\n                            {{statusval.name}}\n                        </mat-option>\n                    </mat-select>\n                </mat-form-field>\n            </ng-container>\n\n\n            <ng-container *ngIf=\" search_settingsval != null && search_settingsval.datesearch != null \">\n                <!-- <span>D search !!</span> -->\n                <ng-container class=\"filterFordatesearch\" *ngFor=\"let status of this.search_settingsval.datesearch\">\n                    <mat-form-field class=\"filterFordatesearchformfield searchdiv\">\n                        <input class=\"filterFordatesearchinput\" matInput [matDatepicker]=\"picker\" autocomplete=\"off\"\n                            placeholder=\"{{status.startdatelabel}}\" [(ngModel)]=\"start_date\">\n                        <mat-datepicker-toggle matSuffix [for]=\"picker\"></mat-datepicker-toggle>\n                        <mat-datepicker #picker></mat-datepicker>\n                    </mat-form-field>\n                    <mat-form-field class=\"filterFordatesearchend\">\n                        <input class=\"filterFordatesearchinput\" matInput [matDatepicker]=\"picker1\" autocomplete=\"off\"\n                            placeholder=\"{{status.enddatelabel}}\" [(ngModel)]=\"end_date\">\n                        <mat-datepicker-toggle matSuffix [for]=\"picker1\"></mat-datepicker-toggle>\n                        <mat-datepicker #picker1></mat-datepicker>\n                    </mat-form-field>\n\n\n\n                    <!-- <span class=\"search_class\">\n                        <button mat-raised-button color=\"primary\" class=\"add_button\"\n                            (click)=\"dateSearch(status.field)\">{{status.submit}}</button>\n                    </span> -->\n\n\n\n                </ng-container>\n            </ng-container>\n\n\n            <!-- use for refresh all data -->\n            <span class=\"search_class\">\n                <ng-container class=\"refresh\">\n                    <i (click)=\"refreshdata()\" class=\"material-icons cursor\">\n                        autorenew\n                    </i>\n                </ng-container>\n                <!-- *ngIf=\"date_search_endpointval ==null || date_search_sourceval == null || search_settingsval.datesearch == null \" -->\n                <ng-container class=\"refresh\">\n                    <button mat-raised-button color=\"primary\" class=\"add_button\" (click)=\"allSearch()\">Search</button>\n                </ng-container>\n\n            </span>\n\n\n\n            <span *ngIf=\"click_to_add_ananother_pageval !=null\">\n                <button mat-raised-button color=\"primary\" class=\"add_button\"\n                    [routerLink]=\"click_to_add_ananother_pageval\">Add</button>\n            </span>\n        </mat-toolbar-row>\n\n\n\n        <ng-container\n            *ngIf=\"selection.selected !=null && selection.selected.length!=null && selection.selected.length>0\">\n            <span class=\"multipledeleteandupdatebuttan\">\n\n                <button *ngIf=\"libdataval.hidedeletemany==null || libdataval.hidedeletemany==false\" mat-raised-button\n                    (click)=\"deletemultiple()\"> Delete </button>\n                <button *ngIf=\"libdataval.hideupdatemany==null || libdataval.hideupdatemany==false\" mat-raised-button\n                    (click)=\"managestatusmultiple()\"> Update Status </button>\n\n            </span>\n        </ng-container>\n\n        <section *ngIf=\"loading == true\" class=\"example-section\">\n            <mat-progress-bar class=\"example-margin\" [color]=\"color\" [mode]=\"mode\" [value]=\"value\"\n                [bufferValue]=\"bufferValue\">\n            </mat-progress-bar>\n            <br />\n            <br />\n        </section>\n\n        <ng-container *ngIf=\"tableflag==0\">\n            <section class=\"lib-pager-class\">\n                <mat-label>\n                    Showing\n                    {{(limitcondval.pagecount-1)*limitcondval.limit}}\n                    To\n\n                    <ng-container\n                        *ngIf=\"date_search_source_countval > ((limitcondval.pagecount)*limitcondval.limit) || date_search_source_countval==0\">\n                        {{(limitcondval.pagecount)*limitcondval.limit}}\n                    </ng-container>\n                    <ng-container\n                        *ngIf=\"date_search_source_countval!=0 && date_search_source_countval <= ((limitcondval.pagecount)*limitcondval.limit)\">\n                        {{date_search_source_countval}}\n                    </ng-container>\n\n\n\n                    of\n                    <span *ngIf=\"date_search_source_countval!=0 \"> {{date_search_source_countval}} </span>\n                    <span *ngIf=\"date_search_source_countval==0 \"> Many </span>\n\n                </mat-label>\n                <span class=\"=pageformfield\">\n                    <mat-form-field>\n                        <mat-label>Page Size</mat-label>\n                        <input matInput [(ngModel)]=\"limitcondval.limit\" type=\"number\" (keyup)=\"paging(10)\">\n                    </mat-form-field>\n\n                    <mat-form-field>\n                        <mat-label>Page No</mat-label>\n                        <input matInput [(ngModel)]=\"limitcondval.pagecount\" type=\"number\" (keyup)=\"paging(10)\">\n                    </mat-form-field>\n                </span>\n                <span>\n\n\n                    <span class=\"material-icons cursor\" (click)=\"paging(-1)\">\n                        skip_previous\n                    </span>\n\n                    <span class=\"material-icons cursor\" (click)=\"paging(1)\">\n                        skip_next\n                    </span>\n                </span>\n            </section>\n\n\n        </ng-container>\n\n        <div class=\"tablewrapper\" *ngIf=\"tableflag==0\">\n\n            <table mat-table [dataSource]=\"dataSource\" class=\"mat-elevation-z8\">\n\n                <ng-container matColumnDef=\"select\">\n                    <th mat-header-cell *matHeaderCellDef>\n                        <mat-checkbox (change)=\"$event ? masterToggle() : null\"\n                            [checked]=\"selection.hasValue() && isAllSelected()\"\n                            [indeterminate]=\"selection.hasValue() && !isAllSelected()\">\n                        </mat-checkbox>\n                    </th>\n                    <td mat-cell *matCellDef=\"let row\" data-label=\"select\">\n                        <mat-checkbox (click)=\"$event.stopPropagation()\"\n                            (change)=\"$event ? selection.toggle(row) : null\" [checked]=\"selection.isSelected(row)\">\n                        </mat-checkbox>\n                    </td>\n                </ng-container>\n                <ng-container matColumnDef=\"#\">\n                    <th mat-header-cell *matHeaderCellDef>\n                        #\n                    </th>\n                    <td mat-cell *matCellDef=\"let element; let i = index\">{{limitcondval.skip+(i+1)}}</td>\n                </ng-container>\n\n                <ng-container *ngFor=\"let column of columns\" [matColumnDef]=\"column.columnDef\">\n                    <th mat-header-cell *matHeaderCellDef class=\"th-header-center\">\n                        <span>\n                            {{column.header}}\n                            <span *ngIf=\"column.columnDef==sortdataval.field && sortdataval.type=='desc'\"\n                                class=\"material-icons cursor float-right\" (click)=\"sorttable(column.columnDef,'asc')\">\n                                arrow_downward\n                            </span>\n                            <span class=\"material-icons cursor float-right\"\n                                *ngIf=\"column.columnDef==sortdataval.field && sortdataval.type=='asc'\"\n                                (click)=\"sorttable(column.columnDef,'desc')\">arrow_upward\n                            </span>\n\n                            <span class=\"material-icons cursor\"\n                                *ngIf=\"sortdataval!=null && sortdataval.options !=null && sortdataval.options.indexOf(column.columnDef) >-1  && column.columnDef!=sortdataval.field\"\n                                (click)=\"sorttable(column.columnDef,'desc')\">\n                                unfold_more\n                            </span>\n\n                        </span>\n\n                    </th>\n                    <td mat-cell *matCellDef=\"let row\" [ngStyle]=\"styleCell(column,row)\" data-title=\"{{column.header}}\"\n                        class=\"td-cell-center\">\n\n                        <span *ngIf=\"column.columnDef=='status' \">{{ getstatus([column.cell(row)]) }}\n                            {{pdfFlag(row)}}</span>\n                        <span\n                            *ngIf=\"column.columnDef!='status' &&  column.columnDef!='image' && column.columnDef!='video' \">\n                            <ng-container\n                                *ngIf=\"column!=null && row[column.columnDef]!=null && !column.columnDef.includes('date') && !column.columnDef.includes('datetime')\">\n                                <span [innerHTML]=\"row[column.columnDef]\"></span>\n                            </ng-container>\n                            <ng-container\n                                *ngIf=\"column!=null && row[column.columnDef]!=null && column.columnDef.includes('date') && !column.columnDef.includes('datetime') && (row[column.columnDef] !=0 && row[column.columnDef] != 'na' && row[column.columnDef] !='NA')\">\n                                {{row[column.columnDef] | date}}\n                            </ng-container>\n                            <ng-container\n                                *ngIf=\"column!=null && row[column.columnDef]!=null && column.columnDef.includes('date') && column.columnDef.includes('datetime') && (row[column.columnDef] !=0 && row[column.columnDef] != 'na' && row[column.columnDef] !='NA') \">\n                                {{row[column.columnDef] | date:'medium'}}\n                            </ng-container>\n                            <ng-container\n                                *ngIf=\"column!=null && row[column.columnDef]!=null && (column.columnDef.includes('date') || column.columnDef.includes('datetime') )&& (row[column.columnDef] ==0 || row[column.columnDef] == 'na' || row[column.columnDef] =='NA') \">\n                                NA\n                            </ng-container>\n                            <ng-container *ngIf=\"column!=null && row[column.columnDef]==null\">\n                                NA\n                            </ng-container>\n\n                        </span>\n                        <!-- for image view  -->\n                        <span\n                            *ngIf=\"column.columnDef=='image' && row[column.columnDef] !=null && row[column.columnDef] !='' \"\n                            (click)=\"img_modal_view(row[column.columnDef])\"> <span class=\"module_imgblock\">\n                                <img src=\"{{row[column.columnDef]}}\" alt=\"{{row[column.columnDef]}}\">\n                            </span></span>\n                        <!-- for video view -->\n                        <span\n                            *ngIf=\"column.columnDef=='video' && row[column.columnDef] !=null && row[column.columnDef] !='' \"><span\n                                class=\"module_videoblock\" (click)=\"fetchvideo(row)\">\n                                <img src=\"https://img.youtube.com/vi/{{row[column.columnDef]}}/sddefault.jpg\"\n                                    alt=\"{{row[column.columnDef]}}\" (click)=\"fetchvideo(row)\"></span>\n                        </span>\n\n                        <span\n                            *ngIf=\"column.columnDef=='grab_url && grab_linkval!=null && grab_linkval[0]!=null' \">{{grapurl(row[this.grab_linkval[0].field_name])}}</span>\n\n\n                        <!--          <span *ngIf=\"sh==true\">-->\n                        <span *ngIf=\"column.columnDef=='contractssigned' && sh==true && urlval !=null\" class=\"cursor\">\n                            <i title=\"{{urlval[0].label}}\" (click)=\"clickurl(row,urlval[0].url)\"\n                                class=\"material-icons\">cloud_download</i>\n                        </span>\n                        <!--          </span>-->\n                        <!--          <span *ngIf=\"aud==true\">-->\n                        <span *ngIf=\"column.columnDef=='contractssigned' && aud==true  && urlval !=null\">\n                            <i title=\"{{urlval[1].label}}\" (click)=\"clickurl(row,urlval[1].url)\"\n                                class=\"material-icons\">cloud_download</i>\n                        </span>\n\n\n                        <!--// for grap url//-->\n\n                        <span *ngIf=\" grab_linkval!=null && column.columnDef==[grab_linkval.colom_name[0].col_name]\"\n                            class=\"cursor\">\n                            <ng-container *ngFor=\"let item of grab_linkval.field\">\n                                <!-- <p>{{item | json}}</p> -->\n                                <button mat-button\n                                    (click)=\"copyText(row[grab_linkval.colom_name[0].field_name],item.url)\">{{item.label}}</button>\n                            </ng-container>\n                        </span>\n\n                        <!-- <span\n                            *ngIf=\" grab_linkval!=null && grab_linkval[0]!=null && column.columnDef==[grab_linkval[0].col_name]\"\n                            class=\"cursor\">\n                            <button mat-button\n                                (click)=\"copyText(row[grab_linkval[0].field_name],grab_linkval[1].url)\">{{grab_linkval[1].label}}</button>\n                        </span>\n                        <span\n                            *ngIf=\"grab_linkval!=null && grab_linkval[0]!=null &&column.columnDef== [grab_linkval[0].col_name]\">\n                            <button mat-button\n                                (click)=\"copyText(row[grab_linkval[0].field_name],grab_linkval[2].url)\">{{grab_linkval[2].label}}</button>\n                        </span> -->\n\n                        <!--          //grap url end//-->\n\n\n                        <!--          </span>-->\n                        <!-- <span *ngIf=\"column.columnDef=='contractssigned' \">\n            <span *ngFor=\"let item of urlval\" class=\"cursor\">\n            <i title=\"{{item.label}}\" (click)=\"clickurl(row,item.url)\" class=\"material-icons\">cloud_download</i>\n          </span>\n          </span>-->\n                    </td>\n                </ng-container>\n\n\n\n                <ng-container matColumnDef=\"Actions\"\n                    *ngIf=\"libdataval.hideaction==null || libdataval.hideaction==false\">\n                    <th mat-header-cell *matHeaderCellDef class=\"th-header-center\">Actions</th>\n                    <td (click)=\"$event.stopPropagation()\" mat-cell *matCellDef=\"let row\" data-label=\"Actions\"\n                        class=\"td-cell-center\">\n                        <!-- loader -->\n                        <section class=\"example-section\">\n                            <mat-progress-bar *ngIf=\"loaderrow!=null && loaderrow==row._id \" class=\"example-margin\"\n                                [color]=\"color\" [mode]=\"mode\" [value]=\"value\" [bufferValue]=\"bufferValue\">\n                            </mat-progress-bar>\n                        </section>\n                        <!-- note block -->\n                        <ng-container *ngIf=\"libdataval.notes!=null\">\n                            <button mat-raised-button color=\"primary\"\n                                (click)=\"opennotes(row)\">{{libdataval.notes.label}}({{row.notescount}})</button>\n                        </ng-container>\n                        <!--custom buttions block -->\n                        <ng-container\n                            *ngIf=\"libdataval !=null && libdataval.custombuttons !=null && libdataval.custombuttons.length >0 \">\n                            <ng-container *ngFor=\"let custombutton of libdataval.custombuttons; let cb=index\">\n                                <section class=\"custombutton{{cb}}\">\n                                    <ng-container *ngIf=\"custombutton.type=='externallink'\">\n                                        <ng-container\n                                            *ngIf=\"custombutton.param==null && (custombutton.cond==null || row[custombutton.cond]==custombutton.condval )\">\n                                            <a target=\"_blank\" href=\"{{custombutton.link}}\">\n                                                <button mat-raised-button\n                                                    color=\"primary\">{{custombutton.label}}</button>\n                                            </a>\n                                        </ng-container>\n\n                                        <ng-container\n                                            *ngIf=\"custombutton.param!=null && (custombutton.cond==null || row[custombutton.cond]==custombutton.condval )\">\n\n                                            <button mat-raised-button color=\"primary\"\n                                                (click)=\"openextlinkwithparam(custombutton,row)\">{{custombutton.label}}</button>\n\n                                        </ng-container>\n\n                                    </ng-container>\n                                    <ng-container *ngIf=\"custombutton.type=='internallink'\">\n                                        <ng-container\n                                            *ngIf=\"custombutton.toggle == null && custombutton.param==null && (custombutton.cond==null || row[custombutton.cond]==custombutton.condval )\">\n                                            <button mat-raised-button color=\"primary\"\n                                                (click)=\"openinternallink(custombutton)\">{{custombutton.label}}</button>\n                                        </ng-container>\n                                        <ng-container\n                                            *ngIf=\"custombutton.toggle != null && custombutton.toggle == 'delete' && custombutton.toggle!=null && (custombutton.cond==null || row[custombutton.cond]==custombutton.condval )\">\n                                            <button mat-raised-button color=\"primary\"\n                                                (click)=\"deletedata(row)\">{{custombutton.label}}</button>\n                                        </ng-container>\n\n                                        <ng-container\n                                            *ngIf=\"custombutton.param!=null && (custombutton.cond==null || row[custombutton.cond]==custombutton.condval )\">\n\n                                            <button mat-raised-button color=\"primary\"\n                                                (click)=\"openinternallinkwithparam(custombutton,row)\">{{custombutton.label}}</button>\n\n                                        </ng-container>\n\n                                    </ng-container>\n                                    <ng-container *ngIf=\"custombutton.type=='action'\">\n                                        <ng-container\n                                            *ngIf=\"custombutton.datatype=='local' && custombutton != null && (custombutton.cond==null || row[custombutton.cond]==custombutton.condval )\">\n                                            <button mat-raised-button color=\"primary\"\n                                                (click)=\"opencustombuttonactionlocaldata(custombutton,row)\">{{custombutton.label}}</button>\n                                        </ng-container>\n                                        <ng-container\n                                            *ngIf=\"custombutton.datatype=='api' && (custombutton.cond==null || row[custombutton.cond]==custombutton.condval )\">\n                                            <button mat-raised-button color=\"primary\"\n                                                (click)=\"opencustombuttonactionapidata(custombutton,row)\">{{custombutton.label}}</button>\n                                        </ng-container>\n\n                                    </ng-container>\n                                </section>\n\n                            </ng-container>\n                        </ng-container>\n                        <span *ngIf=\"selection.selected.length==null || selection.selected.length==0\">\n                            <span *ngIf=\"libdataval.hideeditbutton==null || libdataval.hideeditbutton==false\"\n                                class=\"cursor\" (click)=\"editdata(row)\">\n                                <i class=\"material-icons\">\n                                    edit\n                                </i>\n                            </span>\n\n                            <!--For modern browsers-->\n                            <span *ngIf=\"libdataval.hidedeletebutton==null || libdataval.hidedeletebutton==false\"\n                                class=\"cursor\" (click)=\"deletedata(row)\">\n                                <i class=\"material-icons\">\n                                    delete_outline\n                                </i>\n                            </span>\n\n                            <!--For modern browsers-->\n                            <span *ngIf=\"libdataval.hideviewbutton==null || libdataval.hideviewbutton==false\"\n                                class=\"cursor\" (click)=\"viewdata(row)\">\n                                <i class=\"material-icons\">\n                                    remove_red_eye\n                                </i>\n                            </span>\n\n                            <!--For modern browsers-->\n                            <span class=\"cursor\"\n                                *ngIf=\"libdataval.hidestatustogglebutton==null || libdataval.hidestatustogglebutton==false\"\n                                (click)=\"managestatus(row)\">\n                                <i class=\"material-icons\">\n                                    toggle_off\n                                </i>\n                            </span>\n                            <span *ngIf=\"custombuttonval!=null\" class=\"cursor treeclass\"\n                                (click)=\"custombuttonfunc(row)\">\n                                <i class=\"material-icons treeclass\">\n                                    toggle_off\n                                </i>\n                            </span>\n\n                            <!-- artistxp preview start -->\n                            <span *ngIf=\"previewFlug==true\" class=\"cursor treeclass\" (click)=\"artistxpPreview(row)\">\n                                <i class=\"material-icons\">perm_media</i>\n                            </span>\n                            <!-- artistxp preview end -->\n\n                        </span>\n\n                    </td>\n                </ng-container>\n\n\n\n\n\n\n                <tr mat-header-row *matHeaderRowDef=\"displayedColumns\"></tr>\n                <tr mat-row *matRowDef=\"let row; columns: displayedColumns;\"></tr>\n\n            </table>\n\n        </div>\n\n        <!--for pagination -->\n\n        <mat-card *ngIf=\"tableflag!=0\">No Records Exists !!!</mat-card>\n        <ng-container *ngIf=\"tableflag==0\">\n            <section class=\"lib-pager-class\">\n                <mat-label>\n                    Showing\n                    {{(limitcondval.pagecount-1)*limitcondval.limit}}\n                    To\n\n                    <ng-container\n                        *ngIf=\"date_search_source_countval > ((limitcondval.pagecount)*limitcondval.limit) ||  date_search_source_countval==0\">\n                        {{(limitcondval.pagecount)*limitcondval.limit}}\n                    </ng-container>\n                    <ng-container\n                        *ngIf=\"date_search_source_countval!=0 && date_search_source_countval <= ((limitcondval.pagecount)*limitcondval.limit)\">\n                        {{date_search_source_countval}}\n                    </ng-container>\n\n\n\n                    of\n                    <span *ngIf=\"date_search_source_countval!=0 \"> {{date_search_source_countval}} </span>\n                    <span *ngIf=\"date_search_source_countval==0 \"> Many </span>\n\n                </mat-label>\n                <span class=\"=pageformfield\">\n                    <mat-form-field>\n                        <mat-label>Page Size</mat-label>\n                        <input matInput [(ngModel)]=\"limitcondval.limit\" type=\"number\" (keyup)=\"paging(10)\">\n                    </mat-form-field>\n\n                    <mat-form-field>\n                        <mat-label>Page No</mat-label>\n                        <input matInput [(ngModel)]=\"limitcondval.pagecount\" type=\"number\" (keyup)=\"paging(10)\">\n                    </mat-form-field>\n                </span>\n                <span>\n\n\n                    <span class=\"material-icons cursor\" (click)=\"paging(-1)\">\n                        skip_previous\n                    </span>\n\n                    <span class=\"material-icons cursor\" (click)=\"paging(1)\">\n                        skip_next\n                    </span>\n                </span>\n            </section>\n\n\n        </ng-container>\n        <section *ngIf=\"loading == true\" class=\"example-section\">\n            <mat-progress-bar class=\"example-margin\" [color]=\"color\" [mode]=\"mode\" [value]=\"value\"\n                [bufferValue]=\"bufferValue\">\n            </mat-progress-bar>\n            <br />\n            <br />\n        </section>\n\n\n\n        <!-- <mat-paginator class=\"paginator\" [pageSizeOptions]=\"[5,10, 20, 50,100]\" showFirstLastButtons></mat-paginator>-->\n        <!--<mat-spinner *ngIf=\"loading == true\" ></mat-spinner>-->\n\n\n\n        <!-- <form [formGroup]=\"stateForm\">\n      <mat-form-field>\n        <input type=\"text\" matInput placeholder=\"States Group\" formControlName=\"stateGroup\" required [matAutocomplete]=\"autoGroup\">\n        <mat-autocomplete #autoGroup=\"matAutocomplete\">\n          <mat-optgroup *ngFor=\"let group of stateGroupOptions | async\" [label]=\"group.letter\">\n            <mat-option *ngFor=\"let name of group.names\" [value]=\"name\">\n              {{name}}\n            </mat-option>\n          </mat-optgroup>\n        </mat-autocomplete>\n      </mat-form-field>\n    </form>-->\n\n        <!--<form class=\"example-form\">\n      <mat-form-field class=\"example-full-width\">\n        <input type=\"text\" placeholder=\"Select state\" aria-label=\"Number\" matInput [formControl]=\"myControl\" [matAutocomplete]=\"auto\">\n        <mat-autocomplete #auto=\"matAutocomplete\">\n          <mat-option *ngFor=\"let option of stateGroup | async\" [value]=\"option\">\n            {{option}}\n          </mat-option>\n        </mat-autocomplete>\n      </mat-form-field>\n    </form>\n-->\n\n    </mat-card>\n\n    <!--\n  <mat-card>\n\n    <div class=\"example-container\">\n\n\n      <mat-card-content >\n        <mat-form-field class=\"form-group\">\n            <input (blur)=\"inputblur('email')\" matInput placeholder=\"email\" type=\"email\" [formControl]=\"myForm.controls['email']\" >\n            <mat-error  *ngIf=\"!myForm.controls['email'].valid && myForm.controls['email'].touched && issubmit==1\">email field can not be blank</mat-error>\n        </mat-form-field>\n\n        <mat-form-field class=\"form-group\">\n            <input (blur)=\"inputblur('password')\" matInput placeholder=\"Password\" type=\"password\" [formControl]=\"myForm.controls['password']\" >\n            <mat-error  *ngIf=\"!myForm.controls['password'].valid && myForm.controls['password'].touched && issubmit==1\">Password field can not be blank</mat-error>\n        </mat-form-field>\n\n            <button mat-button  (click)=\"onSubmit()\" class=\"s_getmyoffer_login_button\"  >Login</button>\n        </mat-card-content>\n\n\n    </div>\n\n  </mat-card>-->\n\n\n\n</div>",
                     styles: [".container{background:#fff}.lib-pager-class{display:block;clear:both;float:right}body{font-family:Roboto,Arial,sans-serif;margin:0;display:none!important}.clear{clear:both;display:block}.float-right{float:right;display:inline;clear:none}.pad-gap{margin-left:18px}.basic-container{padding:30px}.version-info{font-size:8pt;float:right}table{width:100%}th.mat-sort-header-sorted{color:#000}.cursor{cursor:pointer!important}.custom-modalbox{display:none}.module_imgblock{display:block;width:100px;overflow:hidden;text-align:center;vertical-align:middle;background:#111}.module_imgblock img{width:100%;height:auto}.module_videoblock{display:block;width:100px;position:relative;overflow:hidden;text-align:center;vertical-align:middle;background:#111}.module_videoblock img{width:100%;height:auto}.module_videoblock::after{content:'';display:block;width:30%;height:38%;background:url(image/video-play-arrow-png.png) 0 0/cover no-repeat;position:absolute;left:31%;top:30%}.tablewrapper tr td,.tablewrapper tr th{padding:5px}"]
                 }] }
     ];
@@ -3209,7 +3364,7 @@ var Confirmdialog = /** @class */ (function () {
         this.dialogRef = dialogRef;
         this.data = data;
         this.sanitizer = sanitizer;
-        // console.log('lib data in modal ', this.data, this.data.data.message);
+        // console.log('lib data in modal ', this.data, this.data, this.data.rowdata, this.data.rowdata.blogtitle);
         this.data.color = 'primary';
         this.data.mode = 'indeterminate';
         this.data.loadervalue = 50;
@@ -3261,7 +3416,7 @@ var Confirmdialog = /** @class */ (function () {
             }
             // console.log('count',result);
             // this.dataSource.paginator = this.paginator;
-            //this.dataSource.sort = this.sort;
+            // this.dataSource.sort = this.sort;
         }));
         // }
     };
@@ -3292,15 +3447,16 @@ var Confirmdialog = /** @class */ (function () {
                 result = res;
                 // console.log(result, 'add notes');
                 if (result.status == 'success') {
-                    if (_this.data.listdata == null)
+                    if (_this.data.listdata == null) {
                         _this.data.listdata = [];
+                    }
                     _this.data.listdata.unshift({ _id: _this.data.rowdata._id, notes: { userid: _this.data.notedata.user, note: _this.data.notesval, user: _this.data.notedata.currentuserfullname, created_date: Date.now() } });
                     _this.data.notesval = '';
                     _this.data.loading = null;
                 }
                 // console.log('count',this.data.listdata);
                 // this.dataSource.paginator = this.paginator;
-                //this.dataSource.sort = this.sort;
+                // this.dataSource.sort = this.sort;
             }));
         }
     };
@@ -3336,7 +3492,7 @@ var Confirmdialog = /** @class */ (function () {
     Confirmdialog.decorators = [
         { type: Component, args: [{
                     selector: 'confirmdialog',
-                    template: "<div class=\"maindialog maindialognew\">\n\n    <div class=\"dialoghead\" *ngIf=\"data.preview != true\">\n        <h1 mat-dialog-title *ngIf=\"data!=null && data.message!=null\">Hey !</h1>\n        <h1 mat-dialog-title *ngIf=\"data!=null && data.data!=null && data.data[0]==null\">Details </h1>\n        <h1 mat-dialog-title *ngIf=\"data!=null  && data.data!=null &&  data.data.message!=null\">{{data.data.message}}\n        </h1>\n        <div mat-dialog-content>\n            <p *ngIf=\"data!=null && data.message!=null\">{{data.message}}</p>\n\n            <ng-container *ngIf=\"data.notes!=null && data.notes==true\">\n                <!-- <ng-container *ngFor=\"let note of data.listdata;\"> -->\n                <mat-list>\n                    <div mat-subheader>Notes</div>\n                    <!-- <section class=\"example-section\">\n                        <mat-progress-bar class=\"example-margin\" [color]=\"data.color\" [mode]=\"data.mode\"\n                            [value]=\"data.loadervalue\" [bufferValue]=\"data.bufferValue\">\n                        </mat-progress-bar>\n                        <br />\n                        <br />\n                    </section> -->\n                    <mat-list-item *ngFor=\"let note of data.listdata;let notej=index;\">\n                        <!-- <p>{{note.notes | json}}</p> -->\n                        <span class=\"material-icons\">\n                            notes\n                        </span>\n                        <div mat-line>\n                            {{note.notes.note }}\n                        </div>\n                        <!-- <div mat-line class=\"line-user\"><span>By:</span>{{note.note.userid}}</div> -->\n                        <!-- <div mat-line class=\"line-user\"><span>This User:</span>{{data.notedata.user}}</div> -->\n                        <div mat-line class=\"line-user\"><span>By:</span>{{note.notes.user}}</div>\n                        <div mat-line class=\"line-datetime\"> <span>On:</span>\n                            {{note.notes.created_date | date:'medium' }}\n                        </div>\n                        <span *ngIf=\"note.notes.userid==data.notedata.user\" class=\"material-icons\"\n                            (click)=\"deletenote(notej)\">\n                            delete\n                        </span>\n                        <div mat-line *ngIf=\"data.loading1!=null && data.loading1== notej \">\n                            <section class=\"example-section\">\n                                <mat-progress-bar class=\"example-margin\" [color]=\"data.color\" [mode]=\"data.mode\"\n                                    [value]=\"data.loadervalue\" [bufferValue]=\"data.bufferValue\">\n                                </mat-progress-bar>\n                                <br />\n                                <br />\n                            </section>\n                        </div>\n\n\n                    </mat-list-item>\n                    <mat-divider></mat-divider>\n                </mat-list>\n                <div>\n                    <textarea rows=\"5\" cols=\"25\" [(ngModel)]=\"data.notesval\">\n                    </textarea>\n                    <button mat-button (click)=\"addnotes()\">Add Note</button>\n\n                </div>\n                <section *ngIf=\"data.loading !=null && data.loading == true\" class=\"example-section\">\n                    <mat-progress-bar class=\"example-margin\" [color]=\"data.color\" [mode]=\"data.mode\"\n                        [value]=\"data.loadervalue\" [bufferValue]=\"data.bufferValue\">\n                    </mat-progress-bar>\n                    <br />\n                    <br />\n                </section>\n                <!-- </ng-container> -->\n            </ng-container>\n\n\n\n            <div *ngIf=\"data!=null && data.data!=null\">\n\n\n\n                <mat-card class=\"example-card\" *ngFor=\"let item of data.data;\">\n                    <mat-card-header id=\"dialogdata{{item[0]}}\">\n                        <!--<div mat-card-avatar class=\"example-header-image\"></div>-->\n                        <mat-card-title>{{item[0]}}</mat-card-title>\n                    </mat-card-header>\n                    <!--<img mat-card-image src=\"https://material.angular.io/assets/img/examples/shiba2.jpg\" alt=\"Photo of a Shiba Inu\">-->\n                    <mat-card-content id=\"dialogdata{{item[0]}}\">\n                        <!-- {{gettypeof(item[1])}} -->\n                        <p class=\"innerhtml-content\"\n                            *ngIf=\"(item[2]==null && gettypeof(item[1]) !='object' ) || ( item[2]!=null &&  !item[2].includes('date') && !item[2].includes('datetime') && gettypeof(item[1]) != 'object')\"\n                            [innerHtml]=\"item[1]\">\n                        </p>\n                        <p class=\"innerhtml-content-video\"\n                            *ngIf=\"(item[2]==null && gettypeof(item[1]) =='object' && item[0]!='image_array' ) || ( item[2]!=null &&  !item[2].includes('date') && !item[2].includes('datetime') && gettypeof(item[1]) == 'object' && (item[0]=='video' || item[0]='vd_array' )) \"\n                            [innerHtml]=\"item[1]\">\n\n                        </p>\n                        <p *ngIf=\"item[2]!=null && item[2].includes('date') && !item[2].includes('datetime') \">\n                            {{item[1] | date}}\n                        </p>\n                        <p *ngIf=\"item[2]!=null && item[2].includes('date') && item[2].includes('datetime') \">\n                            {{item[1] | date:'medium' }}\n                        </p>\n                        <!-- length : {{item[1].length}} {{gettypeof(item[1])}} -->\n                        <p\n                            *ngIf=\" gettypeof(item[1]) == 'object' && item[1].length>1 &&  item[0]!=='video' && !item[0].includes('vd')  \">\n                            <!-- in ng for .. -->\n                            <ng-container *ngFor=\"let arr of item[1]\">\n                                <span\n                                    *ngIf=\" !item[0].includes('image') &&  (item[2]!=null &&   !item[2].includes('image') ) && item[0] !='video_array'\"\n                                    [innerHtml]=\"arr\"></span>\n                                <span\n                                    *ngIf=\"item[0].includes('image') || (item[2]!=null && item[2].includes('image')) \">\n                                    <img [src]=\"arr\" [alt]=\"arr\">\n                                </span>\n                                <span\n                                    *ngIf=\"item[0].includes('video_array') || (item[2]!=null && item[2].includes('video_array'))\"\n                                    [innerHtml]=\"arr\">\n\n                                </span>\n\n                            </ng-container>\n                        </p>\n                    </mat-card-content>\n                </mat-card>\n\n            </div>\n\n            <!--for custom page in modal(mainly used for tree)-->\n            <div *ngIf=\"data!=null && data.data!=null  && data.data[0]!=null &&  data.data[0].customdata!=null\">\n\n                <iframe class=\"custom-datadiv\" height=\"auto\" [src]=\"data.data[0].customdata\"></iframe>\n\n            </div>\n\n        </div>\n    </div>\n\n\n    <div *ngIf=\"data.preview == true\">\n        <lib-singlepost [post1]=\"data.previewData.res[0].posts\" [user]=\"\"></lib-singlepost>\n    </div>\n\n\n\n\n\n    <div mat-dialog-actions *ngIf=\"data.preview != true\">\n        <button mat-button *ngIf=\"data.isconfirmation==null ||  data.isconfirmation!=false\" (click)=\"onNoClick()\">No\n            Thanks</button>\n        <button mat-button mat-dialog-close=\"yes\" cdkFocusInitial>Ok</button>\n    </div>\n\n</div>"
+                    template: "<div class=\"maindialog maindialognew\">\n\n    <div class=\"dialoghead\" *ngIf=\"data.preview != true\">\n        <h1 mat-dialog-title *ngIf=\"data!=null && data.message!=null\">Hey !</h1>\n        <h1 mat-dialog-title *ngIf=\"data!=null && data.data!=null && data.data[0]==null\">Details </h1>\n        <h1 mat-dialog-title *ngIf=\"data!=null  && data.data!=null &&  data.data.message!=null\">{{data.data.message}}\n        </h1>\n        <div mat-dialog-content>\n            <p *ngIf=\"data!=null && data.message!=null\">{{data.message}}</p>\n\n            <ng-container *ngIf=\"data.notes!=null && data.notes==true\">\n                <!-- <ng-container *ngFor=\"let note of data.listdata;\"> -->\n                <mat-list>\n                    <div mat-subheader>Notes for :\n                        <ng-container *ngIf=\"data.notedata.header!=null && data.rowdata[data.notedata.header]!=null\">\n                            <span class=\"notesheader\"> {{data.rowdata[data.notedata.header]}} </span>\n                        </ng-container>\n                    </div>\n                    <!-- <section class=\"example-section\">\n                        <mat-progress-bar class=\"example-margin\" [color]=\"data.color\" [mode]=\"data.mode\"\n                            [value]=\"data.loadervalue\" [bufferValue]=\"data.bufferValue\">\n                        </mat-progress-bar>\n                        <br />\n                        <br />\n                    </section> -->\n                    <mat-list-item *ngFor=\"let note of data.listdata;let notej=index;\">\n                        <!-- <p>{{note.notes | json}}</p> -->\n                        <span class=\"material-icons\">\n                            notes\n                        </span>\n                        <div mat-line>\n                            {{note.notes.note }}\n                        </div>\n                        <!-- <div mat-line class=\"line-user\"><span>By:</span>{{note.note.userid}}</div> -->\n                        <!-- <div mat-line class=\"line-user\"><span>This User:</span>{{data.notedata.user}}</div> -->\n                        <div mat-line class=\"line-user\"><span>By:</span>{{note.notes.user}}</div>\n                        <div mat-line class=\"line-datetime\"> <span>On:</span>\n                            {{note.notes.created_date | date:'medium' }}\n                        </div>\n                        <span *ngIf=\"note.notes.userid==data.notedata.user\" class=\"material-icons\"\n                            (click)=\"deletenote(notej)\">\n                            delete\n                        </span>\n                        <div mat-line *ngIf=\"data.loading1!=null && data.loading1== notej \">\n                            <section class=\"example-section\">\n                                <mat-progress-bar class=\"example-margin\" [color]=\"data.color\" [mode]=\"data.mode\"\n                                    [value]=\"data.loadervalue\" [bufferValue]=\"data.bufferValue\">\n                                </mat-progress-bar>\n                                <br />\n                                <br />\n                            </section>\n                        </div>\n                        <mat-divider></mat-divider>\n\n\n                    </mat-list-item>\n                    <mat-divider></mat-divider>\n                </mat-list>\n                <div>\n                    <textarea placeholder=\"Add Notes Here !! \" rows=\"5\" cols=\"25\" [(ngModel)]=\"data.notesval\">\n                    </textarea>\n                    <button mat-button (click)=\"addnotes()\">Add Note</button>\n\n                </div>\n                <section *ngIf=\"data.loading !=null && data.loading == true\" class=\"example-section\">\n                    <mat-progress-bar class=\"example-margin\" [color]=\"data.color\" [mode]=\"data.mode\"\n                        [value]=\"data.loadervalue\" [bufferValue]=\"data.bufferValue\">\n                    </mat-progress-bar>\n                    <br />\n                    <br />\n                </section>\n                <!-- </ng-container> -->\n            </ng-container>\n\n\n\n            <div *ngIf=\"data!=null && data.data!=null\">\n\n\n\n                <mat-card class=\"example-card\" *ngFor=\"let item of data.data;\">\n                    <mat-card-header id=\"dialogdata{{item[0]}}\">\n                        <!--<div mat-card-avatar class=\"example-header-image\"></div>-->\n                        <mat-card-title>{{item[0]}}</mat-card-title>\n                    </mat-card-header>\n                    <!--<img mat-card-image src=\"https://material.angular.io/assets/img/examples/shiba2.jpg\" alt=\"Photo of a Shiba Inu\">-->\n                    <mat-card-content id=\"dialogdata{{item[0]}}\">\n                        <!-- {{gettypeof(item[1])}} -->\n                        <p class=\"innerhtml-content\"\n                            *ngIf=\"(item[2]==null && gettypeof(item[1]) !='object' ) || ( item[2]!=null &&  !item[2].includes('date') && !item[2].includes('datetime') && gettypeof(item[1]) != 'object')\"\n                            [innerHtml]=\"item[1]\">\n                        </p>\n                        <p class=\"innerhtml-content-video\"\n                            *ngIf=\"(item[2]==null && gettypeof(item[1]) =='object' && item[0]!='image_array' ) || ( item[2]!=null &&  !item[2].includes('date') && !item[2].includes('datetime') && gettypeof(item[1]) == 'object' && (item[0]=='video' || item[0]='vd_array' )) \"\n                            [innerHtml]=\"item[1]\">\n\n                        </p>\n                        <p *ngIf=\"item[2]!=null && item[2].includes('date') && !item[2].includes('datetime') \">\n                            {{item[1] | date}}\n                        </p>\n                        <p *ngIf=\"item[2]!=null && item[2].includes('date') && item[2].includes('datetime') \">\n                            {{item[1] | date:'medium' }}\n                        </p>\n                        <!-- length : {{item[1].length}} {{gettypeof(item[1])}} -->\n                        <p\n                            *ngIf=\" gettypeof(item[1]) == 'object' && item[1].length>1 &&  item[0]!=='video' && !item[0].includes('vd')  \">\n                            <!-- in ng for .. -->\n                            <ng-container *ngFor=\"let arr of item[1]\">\n                                <span\n                                    *ngIf=\" !item[0].includes('image') &&  (item[2]!=null &&   !item[2].includes('image') ) && item[0] !='video_array'\"\n                                    [innerHtml]=\"arr\"></span>\n                                <span\n                                    *ngIf=\"item[0].includes('image') || (item[2]!=null && item[2].includes('image')) \">\n                                    <img [src]=\"arr\" [alt]=\"arr\">\n                                </span>\n                                <span\n                                    *ngIf=\"item[0].includes('video_array') || (item[2]!=null && item[2].includes('video_array'))\"\n                                    [innerHtml]=\"arr\">\n\n                                </span>\n\n                            </ng-container>\n                        </p>\n                    </mat-card-content>\n                </mat-card>\n\n            </div>\n\n            <!--for custom page in modal(mainly used for tree)-->\n            <div *ngIf=\"data!=null && data.data!=null  && data.data[0]!=null &&  data.data[0].customdata!=null\">\n\n                <iframe class=\"custom-datadiv\" height=\"auto\" [src]=\"data.data[0].customdata\"></iframe>\n\n            </div>\n\n        </div>\n    </div>\n\n\n    <div *ngIf=\"data.preview == true\">\n        <lib-singlepost [post1]=\"data.previewData.res[0].posts\" [user]=\"\"></lib-singlepost>\n    </div>\n\n\n\n\n\n    <div mat-dialog-actions *ngIf=\"data.preview != true\">\n        <button mat-button *ngIf=\"data.isconfirmation==null ||  data.isconfirmation!=false\" (click)=\"onNoClick()\">No\n            Thanks</button>\n        <button mat-button mat-dialog-close=\"yes\" cdkFocusInitial>Close</button>\n    </div>\n\n</div>"
                 }] }
     ];
     /** @nocollapse */
@@ -3352,7 +3508,7 @@ var BottomSheet = /** @class */ (function () {
     function BottomSheet(bottomSheetRef, data) {
         this.bottomSheetRef = bottomSheetRef;
         this.data = data;
-        //console.warn("bottom-sheet",data);
+        // console.warn("bottom-sheet",data);
     }
     /**
      * @param {?} val
@@ -3385,7 +3541,7 @@ var VideoPlayer = /** @class */ (function () {
     function VideoPlayer(dialogRef, data) {
         this.dialogRef = dialogRef;
         this.data = data;
-        //console.warn('videoplayerModal',data.previewData.video);
+        // console.warn('videoplayerModal',data.previewData.video);
     }
     /**
      * @return {?}
@@ -3454,7 +3610,7 @@ var SnackbarComponent = /** @class */ (function () {
     function SnackbarComponent(snackBarRef, data) {
         this.snackBarRef = snackBarRef;
         this.data = data;
-        //console.log('snack',this.data);
+        // console.log('snack',this.data);
     }
     SnackbarComponent.decorators = [
         { type: Component, args: [{
@@ -3475,7 +3631,7 @@ var SnackbarComponent = /** @class */ (function () {
  * @fileoverview added by tsickle
  * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
-//import {MatSnackBar} from "@angular/material/snack-bar";
+// import {MatSnackBar} from "@angular/material/snack-bar";
 var ShowformComponent = /** @class */ (function () {
     function ShowformComponent(formBuilder, _apiService, _snackBar, router, elementRef) {
         this.formBuilder = formBuilder;
@@ -3541,6 +3697,16 @@ var ShowformComponent = /** @class */ (function () {
         enumerable: true,
         configurable: true
     });
+    Object.defineProperty(ShowformComponent.prototype, "name", {
+        get: /**
+         * @return {?}
+         */
+        function () {
+            return (/** @type {?} */ (this.formGroup.get('name')));
+        },
+        enumerable: true,
+        configurable: true
+    });
     /**
      * @return {?}
      */
@@ -3549,7 +3715,7 @@ var ShowformComponent = /** @class */ (function () {
      */
     function () {
         this.createForm(0);
-        //this.setChangeValidate()
+        // this.setChangeValidate()
     };
     /**
      * @return {?}
@@ -3614,7 +3780,7 @@ var ShowformComponent = /** @class */ (function () {
      * @return {?}
      */
     function (e) {
-        //console.log('cancel',e);
+        // console.log('cancel',e);
         e.preventDefault();
         return false;
     };
@@ -3628,7 +3794,7 @@ var ShowformComponent = /** @class */ (function () {
      */
     function (e) {
         var _this = this;
-        //let apiBaseURL=""
+        // let apiBaseURL=""
         // this.imageChangedEvent = e;
         /** @type {?} */
         var list = document.getElementById('list');
@@ -3702,7 +3868,7 @@ var ShowformComponent = /** @class */ (function () {
             //     list.appendChild(uploadedFileNode);
             //   });
             // });
-            //reader.readAsArrayBuffer(file);
+            // reader.readAsArrayBuffer(file);
         }
         return false;
     };
@@ -3737,19 +3903,19 @@ var ShowformComponent = /** @class */ (function () {
         /** @type {?} */
         var file = this.filearray[val.name];
         // console.log('file val', val);
-        file.uploaded = 2; // show progressbar 
-        // show progressbar 
+        file.uploaded = 2; // show progressbar
+        // show progressbar
         /** @type {?} */
         var temploader = this.fieldloading[val.name];
         temploader = val.name;
-        //reader.addEventListener('loadend', function (e) {
+        // reader.addEventListener('loadend', function (e) {
         reader.onloadend = (/**
          * @param {?} e
          * @return {?}
          */
         function (e) {
             fetch(val.apiurl, {
-                method: "POST",
+                method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
@@ -3774,7 +3940,7 @@ var ShowformComponent = /** @class */ (function () {
              */
             function (json) {
                 return fetch(json.uploadURL, {
-                    method: "PUT",
+                    method: 'PUT',
                     body: new Blob([reader.result], { type: file.type })
                 });
             }))
@@ -3782,7 +3948,7 @@ var ShowformComponent = /** @class */ (function () {
              * @return {?}
              */
             function () {
-                //return 'success';
+                // return 'success';
                 file.uploaded = 1;
                 file.fileservername = val.prefix + file.name;
                 // console.log(file.type, 'file.type');
@@ -3791,7 +3957,7 @@ var ShowformComponent = /** @class */ (function () {
                 // uploadedFileNode.innerHTML = '<a href="//s3.amazonaws.com/slsupload/'+ file.name +'">'+ file.name +'</a>';
                 // list.appendChild(uploadedFileNode);
             }));
-            //});
+            // });
         });
         reader.readAsArrayBuffer(file);
     };
@@ -3849,23 +4015,24 @@ var ShowformComponent = /** @class */ (function () {
         // console.log(file,'file');
         // console.log(val,'val');
         // console.log(f,'f');
-        if (this.filecount[val.name] == null)
+        if (this.filecount[val.name] == null) {
             this.filecount[val.name] = 0;
+        }
         this.filecount[val.name]++;
-        // console.log('file val in m 2', val, f, indexf, 'if',file); 
-        file.uploaded = 2; // show progressbar 
-        // show progressbar 
+        // console.log('file val in m 2', val, f, indexf, 'if',file);
+        file.uploaded = 2; // show progressbar
+        // show progressbar
         /** @type {?} */
         var temploader = this.fieldloading[val.name];
         temploader = val.name;
-        //reader.addEventListener('loadend', function (e) {
+        // reader.addEventListener('loadend', function (e) {
         reader.onloadend = (/**
          * @param {?} e
          * @return {?}
          */
         function (e) {
             fetch(val.apiurl, {
-                method: "POST",
+                method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
@@ -3890,7 +4057,7 @@ var ShowformComponent = /** @class */ (function () {
              */
             function (json) {
                 return fetch(json.uploadURL, {
-                    method: "PUT",
+                    method: 'PUT',
                     body: new Blob([reader.result], { type: file.type })
                 });
             }))
@@ -3898,7 +4065,7 @@ var ShowformComponent = /** @class */ (function () {
              * @return {?}
              */
             function () {
-                //return 'success';
+                // return 'success';
                 file.uploaded = 1;
                 file.fileservername = val.prefix + file.name;
                 // console.log(file.type,'file.type')
@@ -3907,7 +4074,7 @@ var ShowformComponent = /** @class */ (function () {
                 // uploadedFileNode.innerHTML = '<a href="//s3.amazonaws.com/slsupload/'+ file.name +'">'+ file.name +'</a>';
                 // list.appendChild(uploadedFileNode);
             }));
-            //});
+            // });
         });
         reader.readAsArrayBuffer(file);
     };
@@ -3931,9 +4098,9 @@ var ShowformComponent = /** @class */ (function () {
         var source = {};
         /** @type {?} */
         var file = this.filearray[val.name];
-        source['file'] = val.prefix + file.name;
-        source['path'] = val.path;
-        source['bucket'] = val.bucket;
+        source.file = val.prefix + file.name;
+        source.path = val.path;
+        source.bucket = val.bucket;
         this._apiService.postSearch(val.apideleteurl, this.formdataval.jwttoken, source).subscribe((/**
          * @param {?} res
          * @return {?}
@@ -3946,7 +4113,7 @@ var ShowformComponent = /** @class */ (function () {
                 // this.formGroup.reset();
                 _this._snackBar.openFromComponent(SnackbarComponent, {
                     duration: 6000,
-                    data: { errormessage: "Deleted !!" }
+                    data: { errormessage: 'Deleted !!' }
                 });
                 _this.filearray[val.name] = null;
             }
@@ -3961,7 +4128,7 @@ var ShowformComponent = /** @class */ (function () {
          * @return {?}
          */
         function (error) {
-            //console.log('Oooops!');
+            // console.log('Oooops!');
             _this._snackBar.openFromComponent(SnackbarComponent, {
                 duration: 6000,
                 data: { errormessage: 'Something Went Wrong ,Try Again!!' }
@@ -3989,9 +4156,9 @@ var ShowformComponent = /** @class */ (function () {
         /** @type {?} */
         var file = this.filearray[val.name][index];
         this.filecount[val.name]--;
-        source['file'] = val.prefix + file.name;
-        source['path'] = val.path;
-        source['bucket'] = val.bucket;
+        source.file = val.prefix + file.name;
+        source.path = val.path;
+        source.bucket = val.bucket;
         this._apiService.postSearch(val.apideleteurl, this.formdataval.jwttoken, source).subscribe((/**
          * @param {?} res
          * @return {?}
@@ -4004,7 +4171,7 @@ var ShowformComponent = /** @class */ (function () {
                 // this.formGroup.reset();
                 _this._snackBar.openFromComponent(SnackbarComponent, {
                     duration: 6000,
-                    data: { errormessage: "Deleted !!" }
+                    data: { errormessage: 'Deleted !!' }
                 });
                 _this.filearray[val.name].splice(index, 1);
             }
@@ -4019,7 +4186,7 @@ var ShowformComponent = /** @class */ (function () {
          * @return {?}
          */
         function (error) {
-            //console.log('Oooops!');
+            // console.log('Oooops!');
             _this._snackBar.openFromComponent(SnackbarComponent, {
                 duration: 6000,
                 data: { errormessage: 'Something Went Wrong ,Try Again!!' }
@@ -4037,27 +4204,28 @@ var ShowformComponent = /** @class */ (function () {
      */
     function (changes) {
         var _this = this;
-        //console.log('ngonchange in form !!!', changes, 'frv', this.formfieldrefreshdataval);
+        // console.log('ngonchange in form !!!', changes, 'frv', this.formfieldrefreshdataval);
         for (var v in changes) {
-            //console.log(v,changes[v],'vv');
+            // console.log(v,changes[v],'vv');
             if (v == 'formfieldrefreshdata') {
                 setTimeout((/**
                  * @return {?}
                  */
                 function () {
-                    //console.log('fff in set tt');
+                    // console.log('fff in set tt');
                     if (_this.formfieldrefreshdataval != null) {
-                        //console.log(this.formfieldrefreshdataval, 'm');
-                        //console.log(this.formfieldrefreshdataval.field);
-                        //console.log(this.formfieldrefreshdataval.value);
+                        // console.log(this.formfieldrefreshdataval, 'm');
+                        // console.log(this.formfieldrefreshdataval.field);
+                        // console.log(this.formfieldrefreshdataval.value);
                         if (_this.formGroup != null && _this.formfieldrefreshdataval.field != null && _this.formGroup.controls[_this.formfieldrefreshdataval.field] != null) {
                             _this.formGroup.controls[_this.formfieldrefreshdataval.field].patchValue(_this.formfieldrefreshdataval.value);
                         }
                         if (_this.formfieldrefreshdataval.field == null && _this.formfieldrefreshdataval.formvaldata != null && typeof (_this.formfieldrefreshdataval.formvaldata) == 'object') {
                             for (var formkey in _this.formfieldrefreshdataval.formvaldata) {
                                 // console.log('this.formfieldrefreshdataval.data[formkey]', this.formfieldrefreshdataval.formvaldata[formkey]);
-                                if (_this.formGroup.controls[formkey] != null)
+                                if (_this.formGroup.controls[formkey] != null) {
                                     _this.formGroup.controls[formkey].patchValue(_this.formfieldrefreshdataval.formvaldata[formkey]);
+                                }
                                 for (var formdatavalkey in _this.formdataval.fields) {
                                     if (_this.formdataval.fields[formdatavalkey].name == formkey && _this.formdataval.fields[formdatavalkey].type == 'autocomplete' && (_this.formdataval.fields[formdatavalkey].multiple != null && _this.formdataval.fields[formdatavalkey].multiple != false)) {
                                         for (var autoselval in _this.formdataval.fields[formdatavalkey].val) {
@@ -4082,12 +4250,14 @@ var ShowformComponent = /** @class */ (function () {
                                             // console.log('this.formdataval.fields[formdatavalkey].val check box multiple ', this.formdataval.fields[formdatavalkey].val, autoselval);
                                             // console.log('formkey +  + autoselval', formkey + '__' + autoselval);
                                             if (_this.formfieldrefreshdataval.formvaldata[formkey].indexOf(_this.formdataval.fields[formdatavalkey].val[autoselval].key) != -1) {
-                                                if (_this.formGroup.controls[formkey + '__' + autoselval] != null)
+                                                if (_this.formGroup.controls[formkey + '__' + autoselval] != null) {
                                                     _this.formGroup.controls[formkey + '__' + autoselval].patchValue(true);
+                                                }
                                             }
                                             else {
-                                                if (_this.formGroup.controls[formkey + '__' + autoselval] != null)
+                                                if (_this.formGroup.controls[formkey + '__' + autoselval] != null) {
                                                     _this.formGroup.controls[formkey + '__' + autoselval].patchValue(false);
+                                                }
                                             }
                                         }
                                     }
@@ -4118,7 +4288,7 @@ var ShowformComponent = /** @class */ (function () {
      * @return {?}
      */
     function (val) {
-        //console.log('on blur .....');
+        // console.log('on blur .....');
         this.formGroup.controls[val].markAsUntouched();
     };
     /**
@@ -4146,7 +4316,7 @@ var ShowformComponent = /** @class */ (function () {
              * @return {?}
              */
             function (e) {
-                //console.log('e', e, fieldval)
+                // console.log('e', e, fieldval)
                 return e.val.includes(fieldval);
             }));
             this.filerfielddata = [];
@@ -4188,8 +4358,9 @@ var ShowformComponent = /** @class */ (function () {
      */
     function (val, index) {
         this.autocompletefiledvalue[val.name].splice(index, 1);
-        if (this.autocompletefiledvalue[val.name].length == 0)
+        if (this.autocompletefiledvalue[val.name].length == 0) {
             this.autocompletefiledvalue[val.name] = null;
+        }
     };
     /**
      * @param {?} val
@@ -4207,8 +4378,9 @@ var ShowformComponent = /** @class */ (function () {
             this.autocompletefiledvalue[field.name] = val.key;
         }
         else {
-            if (this.autocompletefiledvalue[field.name] == null)
+            if (this.autocompletefiledvalue[field.name] == null) {
                 this.autocompletefiledvalue[field.name] = [];
+            }
             this.autocompletefiledvalue[field.name].push(val.key);
         }
         if (this.formGroup.controls[field.name] != null) {
@@ -4227,18 +4399,18 @@ var ShowformComponent = /** @class */ (function () {
      * @return {?}
      */
     function (field, type) {
-        //console.log('manage control',field,type);
+        // console.log('manage control',field,type);
         if (type == 'remove') {
             for (var y in this.formdataval.fields) {
                 if (this.formdataval.fields[y].name == field.name) {
                     this.formdataval.fields.splice(parseInt(y), 1);
                     this.formGroup.removeControl(field.name);
-                    //console.log('removed',field['name'], 'c', y);
+                    // console.log('removed',field['name'], 'c', y);
                 }
             }
         }
         if (type == 'add') {
-            //console.log('in add form');
+            // console.log('in add form');
             if (field.after != null) {
                 for (var y in this.formdataval.fields) {
                     if (this.formdataval.fields[y].name == field.after) {
@@ -4253,7 +4425,7 @@ var ShowformComponent = /** @class */ (function () {
                     // console.log('in array form  add');
                     for (var v in field) {
                         for (var y in this.formdataval.fields) {
-                            if (field[v] != null && field[v]['name'] != null && this.formdataval.fields[y].name == field[v].after) {
+                            if (field[v] != null && field[v].name != null && this.formdataval.fields[y].name == field[v].after) {
                                 this.formdataval.fields.splice(parseInt(y) + 1, 0, field[v]);
                                 this.createForm(1);
                                 // console.log('array field added ..', field[v]['name'], 'c', y);
@@ -4276,8 +4448,9 @@ var ShowformComponent = /** @class */ (function () {
      */
     function (field, index) {
         console.log(field, 'change', index, 'index2');
-        if (this.formGroup.controls[field.name] != null)
+        if (this.formGroup.controls[field.name] != null) {
             this.onFormFieldChange.emit({ field: field, fieldval: this.formGroup.controls[field.name].value, fromval: this.formGroup.value });
+        }
         if (field.dependent != null && field.dependent.length > 0) {
             /** @type {?} */
             var vc = 0;
@@ -4285,8 +4458,8 @@ var ShowformComponent = /** @class */ (function () {
                 if (field.dependent[n].condval.toString() == this.formGroup.controls[field.name].value.toString()) {
                     // let temvalidationrulet: any = [];
                     vc++;
-                    //this.formGroup.addControl(field.dependent[n].field.name, new FormControl(field.dependent[n].field.value, temvalidationrulet));
-                    //console.log('nnnnn', '--', parseInt(index + 1 + parseInt(vc)), '--', vc + index + 1, index, vc, field.dependent[n].field['name']);
+                    // this.formGroup.addControl(field.dependent[n].field.name, new FormControl(field.dependent[n].field.value, temvalidationrulet));
+                    // console.log('nnnnn', '--', parseInt(index + 1 + parseInt(vc)), '--', vc + index + 1, index, vc, field.dependent[n].field['name']);
                     this.formdataval.fields.splice(parseInt(index + parseInt(vc)), 0, field.dependent[n].field);
                     this.createForm(1);
                 }
@@ -4295,7 +4468,7 @@ var ShowformComponent = /** @class */ (function () {
                         if (this.formdataval.fields[y].name == field.dependent[n].field.name) {
                             this.formdataval.fields.splice(parseInt(y), 1);
                             this.formGroup.removeControl(field.dependent[n].field.name);
-                            //console.log('removed', field.dependent[n].field['name'], 'c', y);
+                            // console.log('removed', field.dependent[n].field['name'], 'c', y);
                         }
                     }
                 }
@@ -4320,26 +4493,29 @@ var ShowformComponent = /** @class */ (function () {
           //'description': [null, [Validators.required, Validators.minLength(5), Validators.maxLength(10)]],
           //'validate': ''
         });*/
-        //let demoArray:any=[];
-        if (initialize == 0)
+        // let demoArray:any=[];
+        if (initialize == 0) {
             this.formGroup = this.formBuilder.group({});
-        //console.log(this.formGroup, 'fg')
+        }
+        // console.log(this.formGroup, 'fg')
         for (var n in this.formdataval.fields) {
             if (this.formGroup.controls[this.formdataval.fields[n]] == null) {
                 /** @type {?} */
                 var temcontrolarr = [];
                 /** @type {?} */
                 var temvalidationrule = [];
-                if (this.formdataval.fields[n].value != null)
+                if (this.formdataval.fields[n].value != null) {
                     temcontrolarr.push(this.formdataval.fields[n].value);
-                else
+                }
+                else {
                     temcontrolarr.push('');
+                }
                 if (this.formdataval.fields[n].type == 'file') {
                     this.filearray[this.formdataval.fields[n].name] = this.formdataval.fields[n].value;
                     // console.log('db', this.filearray[this.formdataval.fields[n].name], this.formdataval.fields[n].name);
                     if (this.formdataval.fields[n].multiple != null && this.formdataval.fields[n].multiple == true) {
                         for (var fa in this.filearray[this.formdataval.fields[n].name]) {
-                            // console.log('fv', fa); 
+                            // console.log('fv', fa);
                             if (this.filearray[this.formdataval.fields[n].name][fa] != null) {
                                 // console.log('fr', this.filearray[this.formdataval.fields[n].name][fa]);
                                 this.filearray[this.formdataval.fields[n].name][fa].uploaded = 1;
@@ -4350,77 +4526,89 @@ var ShowformComponent = /** @class */ (function () {
                         }
                     }
                     else {
-                        if (this.filearray[this.formdataval.fields[n].name] != null)
+                        if (this.filearray[this.formdataval.fields[n].name] != null) {
                             this.filearray[this.formdataval.fields[n].name].uploaded = 1;
+                        }
                     }
                 }
                 if (this.formdataval.fields[n].type == 'checkbox' && this.formdataval.fields[n].multiple != null && this.formdataval.fields[n].multiple == true) {
-                    if (this.formdataval.fields[n].value == null)
+                    if (this.formdataval.fields[n].value == null) {
                         temcontrolarr.push([]);
+                    }
                     else {
                         if (this.formdataval.fields[n].val != null) {
                             /** @type {?} */
                             var tcharr = [];
                             for (var b in this.formdataval.fields[n].val) {
-                                //console.log('b', b, this.formdataval.fields[n].val[b]);
+                                // console.log('b', b, this.formdataval.fields[n].val[b]);
                                 if (this.formdataval.fields[n].value != null && this.formdataval.fields[n].value.includes(this.formdataval.fields[n].val[b].key)) {
                                     tcharr.push(true);
                                 }
-                                else
+                                else {
                                     tcharr.push(false);
+                                }
                             }
                             // push the val
                             temcontrolarr.push(tcharr);
-                            //console.log('tch', tcharr);
+                            // console.log('tch', tcharr);
                         }
                     }
                 }
                 if (this.formdataval.fields[n].validations != null && this.formdataval.fields[n].validations.length > 0) {
                     for (var v in this.formdataval.fields[n].validations) {
                         // setTimeout( ()=>{
-                        if (this.formdataval.fields[n].validations[v].message == null)
-                            this.formdataval.fields[n].validations[v].message = "Not Valid !!";
-                        if (this.formdataval.fields[n].validations[v].rule == 'required')
+                        if (this.formdataval.fields[n].validations[v].message == null) {
+                            this.formdataval.fields[n].validations[v].message = 'Not Valid !!';
+                        }
+                        if (this.formdataval.fields[n].validations[v].rule == 'required') {
                             temvalidationrule.push(Validators.required);
+                        }
                         if (this.formdataval.fields[n].validations[v].rule == 'match') {
                             this.formGroup.setValidators(this.checkPasswords);
                         }
                         if (this.formdataval.fields[n].validations[v].rule == 'autorequired') {
                             this.formGroup.setValidators(this.autorequired);
                         }
-                        if (this.formdataval.fields[n].validations[v].rule == 'pattern')
+                        if (this.formdataval.fields[n].validations[v].rule == 'pattern') {
                             temvalidationrule.push(Validators.pattern(this.formdataval.fields[n].validations[v].value));
-                        if (this.formdataval.fields[n].validations[v].rule == 'maxLength')
+                        }
+                        if (this.formdataval.fields[n].validations[v].rule == 'maxLength') {
                             temvalidationrule.push(Validators.maxLength(this.formdataval.fields[n].validations[v].value));
-                        if (this.formdataval.fields[n].validations[v].rule == 'min')
+                        }
+                        if (this.formdataval.fields[n].validations[v].rule == 'min') {
                             temvalidationrule.push(Validators.min(this.formdataval.fields[n].validations[v].value));
-                        if (this.formdataval.fields[n].validations[v].rule == 'max')
+                        }
+                        if (this.formdataval.fields[n].validations[v].rule == 'max') {
                             temvalidationrule.push(Validators.max(this.formdataval.fields[n].validations[v].value));
-                        if (this.formdataval.fields[n].validations[v].rule == 'minLength')
+                        }
+                        if (this.formdataval.fields[n].validations[v].rule == 'minLength') {
                             temvalidationrule.push(Validators.minLength(this.formdataval.fields[n].validations[v].value));
-                        //},0);
+                        }
+                        // },0);
                     }
                 }
                 // demoArray[this.formdataval.fields[n].name]=new FormControl('');
                 if (this.formdataval.fields[n].type == 'checkbox' && this.formdataval.fields[n].multiple != null && this.formdataval.fields[n].multiple == true) {
                     /** @type {?} */
                     var tchvar = false;
-                    //let
-                    //console.log('vv ??? ', this.formdataval.fields[n].value, this.formdataval.fields[n].name, this.formdataval.fields[n].multiple);
-                    //this.formGroup.addControl(this.formdataval.fields[n].name, new FormArray([]));
+                    // let
+                    // console.log('vv ??? ', this.formdataval.fields[n].value, this.formdataval.fields[n].name, this.formdataval.fields[n].multiple);
+                    // this.formGroup.addControl(this.formdataval.fields[n].name, new FormArray([]));
                     for (var j in this.formdataval.fields[n].val) {
-                        if (this.formdataval.fields[n].value != null && this.formdataval.fields[n].value.includes(this.formdataval.fields[n].val[j].key))
+                        if (this.formdataval.fields[n].value != null && this.formdataval.fields[n].value.includes(this.formdataval.fields[n].val[j].key)) {
                             tchvar = true;
-                        else
+                        }
+                        else {
                             tchvar = false;
-                        //console.log('n', n, j, tchvar);
+                        }
+                        // console.log('n', n, j, tchvar);
                         this.formGroup.addControl(this.formdataval.fields[n].name + '__' + j, new FormControl(tchvar, temvalidationrule));
                         // if()
                         /*const control = new FormControl(tchvar); // if first item set to true, else false
                    (this.formGroup.controls[this.formdataval.fields[n].name] as FormArray).push(control);*/
-                        //this.formGroup.addControl(this.formdataval.fields[n].name,this.formBuilder.array([
-                        //this.formBuilder.control(tchvar)
-                        //]));
+                        // this.formGroup.addControl(this.formdataval.fields[n].name,this.formBuilder.array([
+                        // this.formBuilder.control(tchvar)
+                        // ]));
                     }
                     /*this.formGroup.addControl(this.formdataval.fields[n].name,this.formBuilder.array([
                   this.formBuilder.control(false),
@@ -4428,7 +4616,7 @@ var ShowformComponent = /** @class */ (function () {
                   this.formBuilder.control(true),
                   this.formBuilder.control(false),
                 ]));*/
-                    //this.formGroup.addControl(this.formdataval.fields[n].name, new FormControl(temcontrolarr[0], temvalidationrule));
+                    // this.formGroup.addControl(this.formdataval.fields[n].name, new FormControl(temcontrolarr[0], temvalidationrule));
                 }
                 else {
                     this.formGroup.addControl(this.formdataval.fields[n].name, new FormControl({ value: temcontrolarr[0], disabled: this.formdataval.fields[n].disabled }, temvalidationrule));
@@ -4449,20 +4637,21 @@ var ShowformComponent = /** @class */ (function () {
                         this.setautocompletevalue(this.formdataval.fields[n].val[0], this.formdataval.fields[n]);
                     }
                 }
-                //'newControl', new FormControl('', Validators.required)
+                // 'newControl', new FormControl('', Validators.required)
             }
         }
-        //=this.checkPasswords(this.formGroup);
-        //this.formGroup = this.formBuilder.group(demoArray);
+        // =this.checkPasswords(this.formGroup);
+        // this.formGroup = this.formBuilder.group(demoArray);
         setTimeout((/**
          * @return {?}
          */
         function () {
-            //console.log(this.formGroup,'fg',demoArray);
+            // console.log(this.formGroup,'fg',demoArray);
             _this.showform = true;
-            if (_this.formdataval.submitactive == null)
+            if (_this.formdataval.submitactive == null) {
                 _this.formdataval.submitactive = true;
-            //console.log('grp', this.formGroup.controls);
+            }
+            // console.log('grp', this.formGroup.controls);
         }), 10);
     };
     /**
@@ -4480,7 +4669,7 @@ var ShowformComponent = /** @class */ (function () {
         function (validate) {
             if (validate == '1') {
                 _this.formGroup.get('name').setValidators([Validators.required, Validators.minLength(3)]);
-                _this.titleAlert = "You need to specify at least 3 characters";
+                _this.titleAlert = 'You need to specify at least 3 characters';
             }
             else {
                 _this.formGroup.get('name').setValidators(Validators.required);
@@ -4488,16 +4677,6 @@ var ShowformComponent = /** @class */ (function () {
             _this.formGroup.get('name').updateValueAndValidity();
         }));
     };
-    Object.defineProperty(ShowformComponent.prototype, "name", {
-        get: /**
-         * @return {?}
-         */
-        function () {
-            return (/** @type {?} */ (this.formGroup.get('name')));
-        },
-        enumerable: true,
-        configurable: true
-    });
     /**
      * @param {?} group
      * @return {?}
@@ -4517,10 +4696,10 @@ var ShowformComponent = /** @class */ (function () {
             return { required: true };
         }
         if (pass != confirmPass) {
-            group.controls.confirmpassword.setErrors({ 'match': true });
+            group.controls.confirmpassword.setErrors({ match: true });
             return { match: true };
         }
-        //return pass === confirmPass ? null : { notSame: true }
+        // return pass === confirmPass ? null : { notSame: true }
     };
     /**
      * @param {?} control
@@ -4535,7 +4714,7 @@ var ShowformComponent = /** @class */ (function () {
         var enteredPassword = control.value;
         /** @type {?} */
         var passwordCheck = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,})/;
-        return (!passwordCheck.test(enteredPassword) && enteredPassword) ? { 'requirements': true } : null;
+        return (!passwordCheck.test(enteredPassword) && enteredPassword) ? { requirements: true } : null;
     };
     /**
      * @param {?} group
@@ -4548,7 +4727,7 @@ var ShowformComponent = /** @class */ (function () {
     function (group) {
         for (var b in group) {
             if (group[b].type == 'autocomplete' && group[b].validations != null && group[b].validations[0] != null && group[b].validations[0].rule == 'autorequired' && this.autocompletefiledvalue[group[b].name] == null) {
-                this.formGroup.controls[group.name].setErrors({ 'autorequired': true });
+                this.formGroup.controls[group.name].setErrors({ autorequired: true });
                 return { autorequired: true };
             }
         }
@@ -4564,7 +4743,7 @@ var ShowformComponent = /** @class */ (function () {
         //   group.controls.confirmpassword.setErrors({'match':true});
         //   return {match:true};
         // }
-        //return pass === confirmPass ? null : { notSame: true }
+        // return pass === confirmPass ? null : { notSame: true }
     };
     /**
      * @param {?} control
@@ -4588,7 +4767,7 @@ var ShowformComponent = /** @class */ (function () {
              */
             function () {
                 /** @type {?} */
-                var result = (db.indexOf(control.value) !== -1) ? { 'alreadyInUse': true } : null;
+                var result = (db.indexOf(control.value) !== -1) ? { alreadyInUse: true } : null;
                 observer.next(result);
                 observer.complete();
             }), 4000);
@@ -4603,7 +4782,7 @@ var ShowformComponent = /** @class */ (function () {
      * @return {?}
      */
     function (data) {
-        //console.log('getError', data);
+        // console.log('getError', data);
         return this.formGroup.get('email').hasError('required') ? 'Field is required' :
             this.formGroup.get('email').hasError('pattern') ? 'Not a valid emailaddress' :
                 this.formGroup.get('email').hasError('alreadyInUse') ? 'This emailaddress is already in use' : '';
@@ -4633,12 +4812,12 @@ var ShowformComponent = /** @class */ (function () {
         var tempformval = {};
         for (var x in this.formGroup.controls) {
             this.formGroup.controls[x].markAsTouched();
-            //console.log(this.formGroup.controls[x].errors, x, 'err');
-            //if(this.formGroup.controls[x].valid){
-            //console.log('x',x);
+            // console.log(this.formGroup.controls[x].errors, x, 'err');
+            // if(this.formGroup.controls[x].valid){
+            // console.log('x',x);
             /** @type {?} */
             var b = x.split('__');
-            //console.log('b',b,b.length,b[0]);
+            // console.log('b',b,b.length,b[0]);
             for (var m in this.formdataval.fields) {
                 if (this.formdataval.fields[m].type == 'file' && this.formdataval.fields[m].multiple == null && this.filearray[this.formdataval.fields[m].name] != null) {
                     if (this.filearray[this.formdataval.fields[m].name] != null && this.filearray[this.formdataval.fields[m].name].uploaded == 1) {
@@ -4689,38 +4868,41 @@ var ShowformComponent = /** @class */ (function () {
                 }
                 if (this.formdataval.fields[m].type == 'autocomplete') {
                     if (this.autocompletefiledvalue != null && this.autocompletefiledvalue[this.formdataval.fields[m].name] != null && this.formdataval.fields[m].validations != null) {
-                        //console.log('autoerror', this.formGroup.controls[this.formdataval.fields[m].name].errors);
+                        // console.log('autoerror', this.formGroup.controls[this.formdataval.fields[m].name].errors);
                         this.formGroup.controls[this.formdataval.fields[m].name].setErrors({ required: null });
-                        //console.log('autoerror after ', this.formGroup.controls[this.formdataval.fields[m].name].errors);
+                        // console.log('autoerror after ', this.formGroup.controls[this.formdataval.fields[m].name].errors);
                     }
                     else {
-                        //console.log('autoerror set', this.formGroup.controls[this.formdataval.fields[m].name].errors);
+                        // console.log('autoerror set', this.formGroup.controls[this.formdataval.fields[m].name].errors);
                         this.formGroup.controls[this.formdataval.fields[m].name].setErrors({ required: true });
-                        //console.log('autoerror set after ', this.formGroup.controls[this.formdataval.fields[m].name].errors);
+                        // console.log('autoerror set after ', this.formGroup.controls[this.formdataval.fields[m].name].errors);
                     }
-                    if (x == this.formdataval.fields[m].name && tempformval[x] == null)
+                    if (x == this.formdataval.fields[m].name && tempformval[x] == null) {
                         tempformval[x] = this.autocompletefiledvalue[this.formdataval.fields[m].name];
+                    }
                 }
                 if (b.length > 1 && b[0] == this.formdataval.fields[m].name && this.formdataval.fields[m].name != x && this.formdataval.fields[m].type == 'checkbox' && this.formdataval.fields[m].multiple != null) {
-                    //console.log('aaaaff...');
+                    // console.log('aaaaff...');
                     if (this.formGroup.controls[x].value == true) {
                         for (var k in this.formdataval.fields[m].val) {
-                            if (this.formdataval.fields[m].val[k]['key'] == b[1]) {
-                                if (tempformval[this.formdataval.fields[m].name] == null)
+                            if (this.formdataval.fields[m].val[k].key == b[1]) {
+                                if (tempformval[this.formdataval.fields[m].name] == null) {
                                     tempformval[this.formdataval.fields[m].name] = [];
+                                }
                                 tempformval[this.formdataval.fields[m].name].push(b[1]);
-                                //console.log('gv', b[1]);
+                                // console.log('gv', b[1]);
                             }
                         }
                     }
                 }
                 // else{
-                if (x == this.formdataval.fields[m].name && tempformval[x] == null)
+                if (x == this.formdataval.fields[m].name && tempformval[x] == null) {
                     tempformval[x] = this.formGroup.controls[x].value;
+                }
                 //  }
             }
-            //console.log(this.formGroup.controls[x].errors, x, 'err22');
-            //}
+            // console.log(this.formGroup.controls[x].errors, x, 'err22');
+            // }
         }
         // console.log(post, 'post', this.formGroup.valid, this.formdataval, this.formdataval.apiUrl, 'ffff', tempformval);
         if (this.formGroup.valid) {
@@ -4729,7 +4911,7 @@ var ShowformComponent = /** @class */ (function () {
             var link = this.formdataval.apiUrl + this.formdataval.endpoint;
             /** @type {?} */
             var source = {};
-            source['data'] = this.formGroup.value;
+            source.data = this.formGroup.value;
             this._apiService.postSearch(link, this.formdataval.jwttoken, source).subscribe((/**
              * @param {?} res
              * @return {?}
@@ -4745,8 +4927,8 @@ var ShowformComponent = /** @class */ (function () {
                         duration: 6000,
                         data: { errormessage: _this.formdataval.successmessage }
                     });
-                    //console.log(result, 'red', this.formdataval.redirectpath);
-                    if (_this.formdataval.redirectpath != null && _this.formdataval.redirectpath != "" && _this.formdataval.redirectpath != "/") {
+                    // console.log(result, 'red', this.formdataval.redirectpath);
+                    if (_this.formdataval.redirectpath != null && _this.formdataval.redirectpath != '' && _this.formdataval.redirectpath != '/') {
                         _this.router.navigate([_this.formdataval.redirectpath]);
                     }
                     else {
@@ -4765,7 +4947,7 @@ var ShowformComponent = /** @class */ (function () {
              * @return {?}
              */
             function (error) {
-                //console.log('Oooops!');
+                // console.log('Oooops!');
                 _this._snackBar.openFromComponent(SnackbarComponent, {
                     duration: 6000,
                     data: { errormessage: 'Something Went Wrong ,Try Again!!' }
