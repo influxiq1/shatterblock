@@ -305,7 +305,7 @@ export class ListingComponent implements OnInit {
 
     this.subscriptions[this.subscriptioncount++] = this.modelChanged
       .pipe(
-        debounceTime(1000))
+        debounceTime(500))
       .subscribe(() => {
         // this.searchResult$ = this.api.search(this.model);
         console.log('after debounce ', this.autosearchinput, this.currentautocompleteitem);
@@ -314,7 +314,7 @@ export class ListingComponent implements OnInit {
 
     this.subscriptions[this.subscriptioncount++] = this.modelChangedserver
       .pipe(
-        debounceTime(1000),
+        debounceTime(500),
         // distinctUntilChanged() 
       )
       .subscribe(() => {
@@ -844,11 +844,11 @@ export class ListingComponent implements OnInit {
   autocompletechangedetected(item) {
     this.currentautocompleteitem = item;
     this.currentautosearcharr = [];
-    console.log('autocompletechangedetected', this.currentautocompleteitem);
+    // console.log('autocompletechangedetected', this.currentautocompleteitem);
     if (this.currentautocompleteitem.serversearchdata == null)
       this.modelChanged.next();
     else {
-      console.log('in else block of autocompletechangedetected');
+      // console.log('in else block of autocompletechangedetected');
       this.modelChangedserver.next();
     }
 
@@ -1373,7 +1373,8 @@ export class ListingComponent implements OnInit {
           notes: true, apiurl: this.apiurlval,
           notedata: this.libdataval.notes, rowdata: val,
           jwttokenval: this.jwttokenval,
-          listdata: result.res
+          listdata: result.res,
+          _snackBar: this._snackBar
         }
       });
       dialogRef.afterClosed().subscribe(result => {
@@ -1917,6 +1918,12 @@ export class Confirmdialog {
         // this.dataSource.paginator = this.paginator;
         // this.dataSource.sort = this.sort;
 
+      });
+    } else {
+      console.log('blank notes');
+      this.data._snackBar.openFromComponent(SnackbarComponent, {
+        duration: 2000,
+        data: { errormessage: 'Notes can\'t be blank !! ' }
       });
     }
   }

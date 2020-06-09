@@ -132,12 +132,12 @@ export class AdmindashbordComponent implements OnInit {
     limitcond: any = {
         "limit": 10,
         "skip": 0,
-        "AUth": 1
+        // "AUth": 1
     };
 
     // other data
     libdata: any = {
-        basecondition: { status: 1 },
+        // basecondition: { status: 1 },
         detailview_override: [
             { key: "tags_array", val: "Tags" },
             { key: "author", val: "Written By" },
